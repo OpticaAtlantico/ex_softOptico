@@ -243,7 +243,7 @@ Utiliza ADO.NET (SqlConnection, SqlCommand, SqlDataAdapter, etc.) o, si se desea
 
 Contiene clases de "Repositorio" para cada entidad (ej. ClienteRepository, ProductoRepository, VentaRepository, InventarioRepository, UbicacionRepository).
 
-Métodos CRUD básicos para cada entidad.
+Métodos CRUD básicos para cada entidad...
 
 Manejo de transacciones de base de datos (SqlTransaction).
 
