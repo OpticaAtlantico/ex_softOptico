@@ -1,3 +1,16 @@
+IF NOT EXISTS (
+    SELECT * FROM SYS.databases 
+    WHERE name = 'BD_OPTICA'
+    )
+BEGIN
+    CREATE DATABASE BD_OPTICA
+END
+
+GO
+
+USE BD_OPTICA
+GO
+
 -- *** 1. Tablas Maestras ***
 
 -- Tabla: Ubicaciones (Almacenes y Sucursales)
