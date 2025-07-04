@@ -13,8 +13,42 @@ GO
 
 -- *** 1. Tablas Maestras ***
 
+-- Tabla: Rol -- Ej: 'Administrador', 'Vendedor', 'Almacén', 'Gerente'
+CREATE TABLE TRol (
+    RolID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(250) NOT NULL
+    )
+
+-- Tabla: Permiso para los menu del formulario
+CREATE TABLE TPermisos (
+    PermisosID INT IDENTITY(1,1) PRIMARY KEY,
+    RolID INT NOT NULL,
+    NombreMenu NVARCHAR(100) NOT NULL,
+    FechaRegistro DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (RolID) REFERENCES TRol(RolID)
+    )
+
+-- Tabla: TCargoEmpleado -- Asesor, Gerente, Optometrista, Marketing etc...
+CREATE TABLE TCargoEmpleado (
+    CargoEmpleadoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(250) NOT NULL
+    )
+
+-- Tabla: TSucursal indica el los datos principales de la empresa o sucursal
+CREATE table tab_TSucursal(
+    SucursalID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(60) NOT NULL, 
+    Rif NVARCHAR(15) NOT NULL,
+    Direccion NVARCHAR(MAX),
+    Sucursal NVARCHAR(50) NOT NULL,
+    Telefono NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(50),
+    Estado BIT,
+    FechaRegistro DATETIME DEFAULT GETDATE()
+    )
+
 -- Tabla: Ubicaciones (Almacenes y Sucursales)
-CREATE TABLE Ubicaciones (
+CREATE TABLE TUbicaciones (
     UbicacionID INT IDENTITY(1,1) PRIMARY KEY,
     NombreUbicacion NVARCHAR(100) NOT NULL UNIQUE,
     TipoUbicacion NVARCHAR(50) NOT NULL, -- Ej: 'Almacén Principal', 'Sucursal', 'Punto de Venta'
@@ -24,22 +58,40 @@ CREATE TABLE Ubicaciones (
 );
 
 -- Tabla: Clientes
-CREATE TABLE Clientes (
+CREATE TABLE TClientes (
     ClienteID INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(100) NOT NULL,
     Apellido NVARCHAR(100) NOT NULL,
     Direccion NVARCHAR(255),
     Telefono NVARCHAR(20),
     Email NVARCHAR(100),
-    RUC_CI NVARCHAR(20) UNIQUE
+    RUC_CI NVARCHAR(20) UNIQUE,
+    Rif NVARCHAR(60)
+);
+
+-- Tabla: TEmpresaCliente para almacenar información de las empresas de clientes  
+CREATE TABLE TEmpresaCliente (
+    EmpresaClienteID INT IDENTITY(1,1) PRIMARY KEY,
+    ClienteID INT, 
+    Nombre NVARCHAR(100) NOT NULL,
+    Descripcion NVARCHAR(250) NOT NULL,
+    Direccion NVARCHAR(255),
+    Zona NVARCHAR(30),
+    Telefono NVARCHAR(20),
+    Email NVARCHAR(100),
+    Rif NVARCHAR(60),
+    FechaRegistro DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (ClienteID) REFERENCES TClientes(ClienteID)
 );
 
 -- Tabla: Proveedores
 CREATE TABLE Proveedores (
     ProveedorID INT IDENTITY(1,1) PRIMARY KEY,
     NombreEmpresa NVARCHAR(100) NOT NULL,
+    RazonSocial NVARCHAR(250), 
     Contacto NVARCHAR(100),
     Telefono NVARCHAR(20),
+    Rif NVARCHAR(30),
     Email NVARCHAR(100),
     Direccion NVARCHAR(255),
     RUC NVARCHAR(20) UNIQUE
@@ -55,7 +107,6 @@ CREATE TABLE Categorias (
 CREATE TABLE Productos (
     ProductoID INT IDENTITY(1,1) PRIMARY KEY,
     CodigoProducto NVARCHAR(50) UNIQUE NOT NULL,
-    NombreProducto NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(255),
     CategoriaID INT,
     PrecioVenta DECIMAL(18, 2) NOT NULL,
@@ -66,15 +117,32 @@ CREATE TABLE Productos (
 );
 
 -- Tabla: Empleados (Usuarios del Sistema)
-CREATE TABLE Empleados (
+CREATE TABLE TEmpleados (
     EmpleadoID INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(100) NOT NULL,
     Apellido NVARCHAR(100) NOT NULL,
-    Usuario NVARCHAR(50) UNIQUE NOT NULL,
-    ContrasenaHash NVARCHAR(255) NOT NULL, -- Almacenar hash seguro (SHA256, BCrypt)
-    Rol NVARCHAR(50) NOT NULL, -- Ej: 'Administrador', 'Vendedor', 'Almacén', 'Gerente'
-    UbicacionID INT, -- Ubicación principal del empleado
-    FOREIGN KEY (UbicacionID) REFERENCES Ubicaciones(UbicacionID)
+    Edad INT,
+    Nacionalidad CHAR(1),
+    EstadoCivil CHAR(1),
+    Sexo CHAR(1),
+    FechaNacimiento DATE,
+    Direccion NVARCHAR(MAX),
+    CargoEmpleadoID INT,
+    Estado BIT, -- PARA SABER EL ESTADO DE USUARIO
+    FOREIGN KEY (CargoEmpleadoID) REFERENCES TCargoEmpleado(CargoEmpleadoID)
+);
+
+-- Tabla: TLogin Inicio de secion al sistema
+CREATE TABLE TLogin (
+    LoginID INT IDENTITY(1,1) PRIMARY KEY,
+    ClienteEmpleadoID INT NOT NULL,
+    UbicacionID INT NOT NULL,
+    RolID INT NOT NULL DEFAULT 0,
+    Email NVARCHAR(90), 
+    Clave NVARCHAR(255) NOT NULL, -- Almacenar hash seguro (SHA256, BCrypt),
+    FOREIGN KEY (ClienteEmpleadoID) REFERENCES TClientes(ClienteID),
+    FOREIGN KEY (RolID) REFERENCES TRol(RolID),
+    FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
 
 -- *** 2. Tablas de Inventario Multi-Ubicación ***
@@ -88,7 +156,7 @@ CREATE TABLE StockPorUbicacion (
     StockMinimo INT NOT NULL DEFAULT 0, -- Stock mínimo por ubicación
     UNIQUE (ProductoID, UbicacionID), -- Un producto solo puede tener un registro de stock por ubicación
     FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID),
-    FOREIGN KEY (UbicacionID) REFERENCES Ubicaciones(UbicacionID)
+    FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
 
 -- Tabla: MovimientosInventario (Registro detallado de todo movimiento de stock)
@@ -104,9 +172,9 @@ CREATE TABLE MovimientosInventario (
     EmpleadoID INT, -- Quién realizó el movimiento
     Notas NVARCHAR(MAX),
     FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID),
-    FOREIGN KEY (UbicacionOrigenID) REFERENCES Ubicaciones(UbicacionID),
-    FOREIGN KEY (UbicacionDestinoID) REFERENCES Ubicaciones(UbicacionID),
-    FOREIGN KEY (EmpleadoID) REFERENCES Empleados(EmpleadoID)
+    FOREIGN KEY (UbicacionOrigenID) REFERENCES TUbicaciones(UbicacionID),
+    FOREIGN KEY (UbicacionDestinoID) REFERENCES TUbicaciones(UbicacionID),
+    FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID)
 );
 
 -- Tabla: TrasladosInventario (Encabezado para movimientos entre ubicaciones)
@@ -120,10 +188,10 @@ CREATE TABLE TrasladosInventario (
     Estado NVARCHAR(50) NOT NULL DEFAULT 'Pendiente', -- Ej: 'Pendiente', 'En Tránsito', 'Recibido', 'Cancelado'
     FechaRecepcion DATETIME,
     Notas NVARCHAR(MAX),
-    FOREIGN KEY (UbicacionOrigenID) REFERENCES Ubicaciones(UbicacionID),
-    FOREIGN KEY (UbicacionDestinoID) REFERENCES Ubicaciones(UbicacionID),
-    FOREIGN KEY (EmpleadoOrigenID) REFERENCES Empleados(EmpleadoID),
-    FOREIGN KEY (EmpleadoDestinoID) REFERENCES Empleados(EmpleadoID)
+    FOREIGN KEY (UbicacionOrigenID) REFERENCES TUbicaciones(UbicacionID),
+    FOREIGN KEY (UbicacionDestinoID) REFERENCES TUbicaciones(UbicacionID),
+    FOREIGN KEY (EmpleadoOrigenID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (EmpleadoDestinoID) REFERENCES TEmpleados(EmpleadoID)
 );
 
 -- Tabla: DetalleTraslado (Productos en cada traslado)
@@ -139,20 +207,48 @@ CREATE TABLE DetalleTraslado (
     FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID)
 );
 
+--Tabla: TAlicuota para registrar los porcentajes de iva
+CREATE TABLE TAlicuota (
+    AlicuotaID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(12) NOT NULL,
+    Alicuota INT NOT NULL
+);
+
+--Tabla: TTipoPago para registrar los tipos de pagos
+CREATE TABLE TTipoPago (
+    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+);
+
+--Tabla: TFormaPago para registrar los tipos de pagos
+CREATE TABLE TFormaPago (
+    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+);
+
+
+
 -- *** 3. Tablas de Operaciones ***
 
 -- Tabla: Compras (Encabezado de la compra)
 CREATE TABLE Compras (
     CompraID INT IDENTITY(1,1) PRIMARY KEY,
     FechaCompra DATETIME NOT NULL DEFAULT GETDATE(),
+    NumeroControl NVARCHAR(30) NOT NULL,
+    NumeroFactura NVARCHAR(30) NOT NULL,
+    TipoPagoID INT,
+    AlicuotaID INT,
     ProveedorID INT,
     EmpleadoID INT, -- Quien registra la compra
     UbicacionDestinoID INT NOT NULL, -- A qué almacén/sucursal ingresa la compra
     TotalCompra DECIMAL(18, 2) NOT NULL,
     Estado NVARCHAR(50) NOT NULL DEFAULT 'Completada', -- Ej: 'Pendiente', 'Completada', 'Anulada'
+    Observacion NVARCHAR(MAX),
     FOREIGN KEY (ProveedorID) REFERENCES Proveedores(ProveedorID),
-    FOREIGN KEY (EmpleadoID) REFERENCES Empleados(EmpleadoID),
-    FOREIGN KEY (UbicacionDestinoID) REFERENCES Ubicaciones(UbicacionID)
+    FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (AlicuotaID) REFERENCES TAlicuota(AlicuotaID),
+    FOREIGN KEY (TipoPagoID) REFERENCES TTipoPago(TipoPagoID),
+    FOREIGN KEY (UbicacionDestinoID) REFERENCES TUbicaciones(UbicacionID) 
 );
 
 -- Tabla: DetalleCompra
@@ -163,27 +259,35 @@ CREATE TABLE DetalleCompra (
     Cantidad INT NOT NULL,
     CostoUnitario DECIMAL(18, 2) NOT NULL,
     Subtotal DECIMAL(18, 2) NOT NULL,
+    ModoCargo CHAR(2) NOT NULL,
     FOREIGN KEY (CompraID) REFERENCES Compras(CompraID),
     FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID)
 );
 
--- Tabla: Ventas (Encabezado de la venta)
-CREATE TABLE Ventas (
+-- Tabla: TVenta (Encabezado de la venta)
+CREATE TABLE TVenta (
     VentaID BIGINT IDENTITY(1,1) PRIMARY KEY,
     FechaVenta DATETIME NOT NULL DEFAULT GETDATE(),
     ClienteID INT,
-    EmpleadoID INT, -- Quien realiza la venta
+    AsesorID INT, -- Quien realiza la venta
+    GerenteID INT, -- Quien realiza la venta
+    OptometristaID INT, -- Quien realiza la venta
+    MarketingID INT, -- Quien realiza la venta
     UbicacionVentaID INT NOT NULL, -- Desde qué sucursal/ubicación se realiza la venta
-    TotalVenta DECIMAL(18, 2) NOT NULL,
+    SubTotalVenta DECIMAL(18, 2) NOT NULL,
     DescuentoTotal DECIMAL(18, 2) DEFAULT 0,
     ImpuestoTotal DECIMAL(18, 2) DEFAULT 0,
-    TipoPago NVARCHAR(50), -- Ej: 'Efectivo', 'Tarjeta', 'Crédito'
+    TotalVenta DECIMAL(18, 2) NOT NULL,
+    Jornada NVARCHAR(250),
     Estado NVARCHAR(50) NOT NULL DEFAULT 'Completada', -- Ej: 'Completada', 'Anulada', 'Pendiente'
     EsNotaEntrega BIT NOT NULL DEFAULT 0, -- Indica si esta venta se emite como Nota de Entrega
     NumeroDocumento NVARCHAR(50) UNIQUE, -- Número de factura o nota de entrega
-    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
-    FOREIGN KEY (EmpleadoID) REFERENCES Empleados(EmpleadoID),
-    FOREIGN KEY (UbicacionVentaID) REFERENCES Ubicaciones(UbicacionID)
+    FOREIGN KEY (ClienteID) REFERENCES TClientes(ClienteID),
+    FOREIGN KEY (AsesorID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (GerenteID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (OptometristaID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (MarketingID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (UbicacionVentaID) REFERENCES TUbicaciones(UbicacionID)
 );
 
 -- Tabla: DetalleVenta
@@ -195,6 +299,49 @@ CREATE TABLE DetalleVenta (
     PrecioUnitario DECIMAL(18, 2) NOT NULL,
     DescuentoUnitario DECIMAL(18, 2) DEFAULT 0,
     Subtotal DECIMAL(18, 2) NOT NULL,
-    FOREIGN KEY (VentaID) REFERENCES Ventas(VentaID),
+    Observacion NVARCHAR(250),
+    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
     FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID)
 );
+
+-- Tabla: TFormaDePago Tabla donde se almacena los pagos de la venta
+CREATE TABLE TFormaDePago (
+    FormaPagoID INT IDENTITY(1,1) PRIMARY KEY,
+    VentaID BIGINT NOT NULL,
+    TipoPagoID INT NOT NULL,
+    FechaPago DATETIME NOT NULL,
+    MontoPago DECIMAL(18,2) NOT NULL,
+    Observacion NVARCHAR(250),
+    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
+    FOREIGN KEY (TipoPagoID) REFERENCES TTipoPago(TipoPagoID)
+);
+
+
+--Tabla: TFormula para registrar 
+CREATE table TFormula (
+    FormulaId INT IDENTITY(1,1) PRIMARY KEY,
+    VentaID BIGINT NOT NULL,
+    EsferaDerecha NVARCHAR(5),
+    EsferaIzquierda NVARCHAR(5),
+    CilinfroDerecho NVARCHAR(5),
+    CilindroIzquierdo NVARCHAR(5),
+    EjeDerecho NVARCHAR(5),
+    EjeIzquierdo NVARCHAR(5),
+    AdicionDerecha NVARCHAR(5),
+    AdicionIzquierda NVARCHAR(5),
+    H NVARCHAR(5),
+    V NVARCHAR(5),
+    D NVARCHAR(5),
+    P NVARCHAR(5),
+    DP NVARCHAR(5),
+    ALT NVARCHAR(5),
+    Maxi NVARCHAR(5),
+    FormulaExterna BIT,
+    NombreDoctor NVARCHAR(50),
+    FechaRegistro DATETIME DEFAULT GETDATE(),
+    Observacion NVARCHAR(MAX),
+    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID)
+);
+
+
+
