@@ -40,20 +40,6 @@ CREATE TABLE TCargoEmpleado (
     Descripcion NVARCHAR(250) NOT NULL
 );
 
--- Tabla: TSucursal indica el los datos principales de la empresa o sucursal
-CREATE table TSucursal(
-    SucursalID INT IDENTITY(1,1) PRIMARY KEY, --id
-    Nombre NVARCHAR(60) NOT NULL, 
-    Rif NVARCHAR(15) NOT NULL UNIQUE,
-    Direccion NVARCHAR(MAX),
-    Sucursal NVARCHAR(50) NOT NULL, --Ej: Atlantico I, etc...
-    Telefono NVARCHAR(50) NOT NULL,
-    Email NVARCHAR(50) NULL,
-    Estado BIT NOT NULL,
-    Porcentaje BIT NOT NULL, --Para el calculo de las ventas 0 o 20% movil y 1 o 40% para las opticas
-    FechaRegistro DATETIME DEFAULT GETDATE()
-);
-
 -- Tabla: Ubicaciones (Almacenes y Sucursales)
 CREATE TABLE TUbicaciones (
     UbicacionID INT IDENTITY(1,1) PRIMARY KEY,
@@ -61,7 +47,10 @@ CREATE TABLE TUbicaciones (
     TipoUbicacion NVARCHAR(50) NOT NULL, -- Ej: 'Almacén Principal', 'Sucursal', 'Punto de Venta'
     Direccion NVARCHAR(255) NULL,
     Telefono NVARCHAR(20) NULL,
-    Activa BIT NOT NULL DEFAULT 1 -- Para habilitar/deshabilitar ubicaciones
+    Email NVARCHAR(50) NULL,
+    Activa BIT NOT NULL DEFAULT 1, -- Para habilitar/deshabilitar ubicaciones
+    Porcentaje BIT NOT NULL,
+    FechaRegistro DATETIME DEFAULT GETDATE()
 );
 
 -- Tabla: Clientes
@@ -241,12 +230,6 @@ CREATE TABLE TTipoPago (
     Nombre NVARCHAR(50) NOT NULL,
 );
 
---Tabla: TFormaPago para registrar la forma de pagos
-CREATE TABLE TFormaPago (
-    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(50) NOT NULL,
-);
-
 -- *** 3. Tablas de Operaciones ***
 
 -- Tabla: Compras (Encabezado de la compra)
@@ -391,6 +374,18 @@ CREATE TABLE TPagosConConceptoMaterializado (
 	FechaActualizacion DATETIME DEFAULT GETDATE()
     FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID)
 );
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----   VISTAS 
+
+
+-----   PROCEDIMIENTOS
+
+
+-----   FUNCIONES
+
 
 
 
