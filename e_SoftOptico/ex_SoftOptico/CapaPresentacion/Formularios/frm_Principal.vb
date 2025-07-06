@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.Windows
 Imports System.Windows.Forms
-Imports CapaEntidad
+Imports CapaDatos
 
 Public Class frm_principal
 

@@ -54,6 +54,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -80,6 +81,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuracion\ThemeColors.vb" />
     <Compile Include="Formularios\frmPerfilUsuario.Designer.vb">
       <DependentUpon>frmPerfilUsuario.vb</DependentUpon>
     </Compile>
@@ -173,7 +175,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Configuracion\" />
+    <Content Include="Resources\1.jpg" />
+    <Content Include="Resources\alarm %281%29.png" />
+    <Content Include="Resources\bar-chart.png" />
+    <Content Include="Resources\cross-out.png" />
+    <Content Include="Resources\cross-out2.png" />
+    <Content Include="Resources\settings.png" />
+    <Content Include="Resources\shopping-cart %281%29.png" />
+    <Content Include="Resources\shopping-list.png" />
+    <Content Include="Resources\value %281%29.png" />
+    <Content Include="Resources\value.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

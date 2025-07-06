@@ -456,7 +456,7 @@ Partial Class frm_Inicio
         btnCloseChildForm.Dock = DockStyle.Left
         btnCloseChildForm.FlatAppearance.BorderSize = 0
         btnCloseChildForm.FlatStyle = FlatStyle.Flat
-        btnCloseChildForm.Image = My.Resources.Resources.cross_out__2_
+        'btnCloseChildForm.Image = My.Resources.Resources.crossout
         btnCloseChildForm.Location = New Point(0, 0)
         btnCloseChildForm.Name = "btnCloseChildForm"
         btnCloseChildForm.Size = New Size(75, 67)
@@ -476,7 +476,7 @@ Partial Class frm_Inicio
         ' PictureBox1
         ' 
         PictureBox1.Anchor = AnchorStyles.None
-        PictureBox1.Image = My.Resources.Resources._1
+        'PictureBox1.Image = My.Resources.Resources.1
         PictureBox1.Location = New Point(287, 100)
         PictureBox1.Name = "PictureBox1"
         PictureBox1.Size = New Size(553, 357)
