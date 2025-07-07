@@ -3,5 +3,5 @@
     Function Add(entity As Entity) As Integer  'Para insertar un nuevo registro
     Function Edit(entity As Entity) As Integer 'Para actualizar un registro existente 
     Function Remove(id As Integer) As Integer 'Para eliminar un registro por su ID    
-    Function GetAllUserPass(usuario As String, password As String) As Entity 'Para buscar un registro por usuario y contraseña
+    Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of Entity)   'Para buscar un registro por usuario y contraseña
 End Interface
