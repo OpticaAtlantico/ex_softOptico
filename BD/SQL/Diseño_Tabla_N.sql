@@ -148,8 +148,10 @@ CREATE TABLE TLogin (
     EmpleadoID INT NOT NULL,
     UbicacionID INT NOT NULL, --Para saber la ubicaciòn del empleado al momento de ingresar al sistema
     RolID INT NOT NULL,
-    Username NVARCHAR(90) NOT NULL, 
+    Usuario NVARCHAR(90) NOT NULL, 
     Clave NVARCHAR(255) NOT NULL, -- Almacenar hash seguro (SHA256, BCrypt),
+    Estado BIT DEFAULT 1,
+    FechaRegitro DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (EmpleadoID) REFERENCES TClientes(ClienteID),
     FOREIGN KEY (RolID) REFERENCES TRol(RolID),
     FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
