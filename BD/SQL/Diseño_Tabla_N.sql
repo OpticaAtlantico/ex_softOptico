@@ -380,7 +380,7 @@ CREATE TABLE TPagosConConceptoMaterializado (
 );
 
 
-
+GO
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----   VISTAS 
 CREATE OR ALTER VIEW VLogin AS
@@ -398,7 +398,7 @@ CREATE OR ALTER VIEW VLogin AS
         INNER JOIN TUbicaciones U ON L.UbicacionID = U.UbicacionID 
         INNER JOIN TRol R ON L.RolID = R.RolID;
 
-
+GO
 -----   PROCEDIMIENTOS
 
 
