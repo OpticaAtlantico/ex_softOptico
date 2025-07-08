@@ -323,7 +323,8 @@ Partial Class frm_Inicio
         ' pnlMenu
         ' 
         pnlMenu.AutoScroll = True
-        pnlMenu.BackColor = Color.WhiteSmoke
+        pnlMenu.BackColor = Color.White
+        pnlMenu.BorderStyle = BorderStyle.FixedSingle
         pnlMenu.Controls.Add(btn11)
         pnlMenu.Controls.Add(btn10)
         pnlMenu.Controls.Add(btn9)
@@ -351,7 +352,7 @@ Partial Class frm_Inicio
         btn11.Location = New Point(0, 450)
         btn11.Name = "btn11"
         btn11.Padding = New Padding(20, 0, 0, 0)
-        btn11.Size = New Size(225, 45)
+        btn11.Size = New Size(223, 45)
         btn11.TabIndex = 10
         btn11.Tag = "11"
         btn11.Text = "Button10"
@@ -369,7 +370,7 @@ Partial Class frm_Inicio
         btn10.Location = New Point(0, 405)
         btn10.Name = "btn10"
         btn10.Padding = New Padding(20, 0, 0, 0)
-        btn10.Size = New Size(225, 45)
+        btn10.Size = New Size(223, 45)
         btn10.TabIndex = 9
         btn10.Tag = "10"
         btn10.Text = "Button9"
@@ -387,7 +388,7 @@ Partial Class frm_Inicio
         btn9.Location = New Point(0, 360)
         btn9.Name = "btn9"
         btn9.Padding = New Padding(20, 0, 0, 0)
-        btn9.Size = New Size(225, 45)
+        btn9.Size = New Size(223, 45)
         btn9.TabIndex = 8
         btn9.Tag = "9"
         btn9.Text = "Button8"
@@ -405,7 +406,7 @@ Partial Class frm_Inicio
         btn8.Location = New Point(0, 315)
         btn8.Name = "btn8"
         btn8.Padding = New Padding(20, 0, 0, 0)
-        btn8.Size = New Size(225, 45)
+        btn8.Size = New Size(223, 45)
         btn8.TabIndex = 7
         btn8.Tag = "8"
         btn8.Text = "Button7"
@@ -423,7 +424,7 @@ Partial Class frm_Inicio
         btn7.Location = New Point(0, 270)
         btn7.Name = "btn7"
         btn7.Padding = New Padding(20, 0, 0, 0)
-        btn7.Size = New Size(225, 45)
+        btn7.Size = New Size(223, 45)
         btn7.TabIndex = 6
         btn7.Tag = "7"
         btn7.Text = "Button6"
@@ -441,7 +442,7 @@ Partial Class frm_Inicio
         btn6.Location = New Point(0, 225)
         btn6.Name = "btn6"
         btn6.Padding = New Padding(20, 0, 0, 0)
-        btn6.Size = New Size(225, 45)
+        btn6.Size = New Size(223, 45)
         btn6.TabIndex = 5
         btn6.Tag = "6"
         btn6.Text = "Button5"
@@ -459,7 +460,7 @@ Partial Class frm_Inicio
         btn5.Location = New Point(0, 180)
         btn5.Name = "btn5"
         btn5.Padding = New Padding(20, 0, 0, 0)
-        btn5.Size = New Size(225, 45)
+        btn5.Size = New Size(223, 45)
         btn5.TabIndex = 4
         btn5.Tag = "5"
         btn5.Text = "Button4"
@@ -477,7 +478,7 @@ Partial Class frm_Inicio
         btn4.Location = New Point(0, 135)
         btn4.Name = "btn4"
         btn4.Padding = New Padding(20, 0, 0, 0)
-        btn4.Size = New Size(225, 45)
+        btn4.Size = New Size(223, 45)
         btn4.TabIndex = 3
         btn4.Tag = "4"
         btn4.Text = "Button3"
@@ -495,7 +496,7 @@ Partial Class frm_Inicio
         btn3.Location = New Point(0, 90)
         btn3.Name = "btn3"
         btn3.Padding = New Padding(20, 0, 0, 0)
-        btn3.Size = New Size(225, 45)
+        btn3.Size = New Size(223, 45)
         btn3.TabIndex = 2
         btn3.Tag = "3"
         btn3.Text = "Button2"
@@ -513,7 +514,7 @@ Partial Class frm_Inicio
         btn2.Location = New Point(0, 45)
         btn2.Name = "btn2"
         btn2.Padding = New Padding(20, 0, 0, 0)
-        btn2.Size = New Size(225, 45)
+        btn2.Size = New Size(223, 45)
         btn2.TabIndex = 1
         btn2.Tag = "2"
         btn2.Text = "Button1"
@@ -531,7 +532,7 @@ Partial Class frm_Inicio
         btn1.Location = New Point(0, 0)
         btn1.Name = "btn1"
         btn1.Padding = New Padding(20, 0, 0, 0)
-        btn1.Size = New Size(225, 45)
+        btn1.Size = New Size(223, 45)
         btn1.TabIndex = 0
         btn1.Tag = "1"
         btn1.Text = "btn1"

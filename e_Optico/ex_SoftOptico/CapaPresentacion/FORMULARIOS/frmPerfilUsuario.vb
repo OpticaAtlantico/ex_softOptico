@@ -79,6 +79,7 @@ Public Class frmPerfilUsuario
 
     Private Sub btn_Cancelar_Click(sender As Object, e As EventArgs) Handles btn_Cancelar.Click
         pnlEditarDatos.Enabled = False
+        Me.Close()
     End Sub
 
 #End Region

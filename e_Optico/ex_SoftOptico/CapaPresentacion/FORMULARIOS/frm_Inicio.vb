@@ -21,13 +21,17 @@ Public Class frm_Inicio
         ' Esta llamada es exigida por el diseñador.
 
         InitializeComponent()
+        With Me
+            .btnCloseChildForm.Visible = False
+            .Text = String.Empty
+            .ControlBox = False
+            .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
+            .pnlMenu.Visible = False
 
+        End With
         random = New Random()
         currentButton = New Button()
-        Me.btnCloseChildForm.Visible = False
-        Me.Text = String.Empty
-        Me.ControlBox = False
-        Me.MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
+
     End Sub
 
 #End Region
@@ -77,14 +81,14 @@ Public Class frm_Inicio
             If previousBtn.[GetType]() = GetType(IconButton) Then
                 previousBtn.BackColor = Color.FromArgb(51, 51, 76)
                 previousBtn.ForeColor = Color.Gainsboro
-                previousBtn.Font = New System.Drawing.Font("Century Gothic", 12.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
+                'previousBtn.Font = New System.Drawing.Font("Century Gothic", 12.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
             End If
         Next
         For Each previousBtn As Control In pnlMenu.Controls
             If previousBtn.[GetType]() = GetType(IconButton) Then
                 previousBtn.BackColor = Color.FromArgb(39, 39, 58)
                 previousBtn.ForeColor = Color.WhiteSmoke
-                previousBtn.Font = New System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
+                'previousBtn.Font = New System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
             End If
         Next
     End Sub
@@ -186,7 +190,6 @@ Public Class frm_Inicio
         If btnEditarPerfil.Visible = False Then
             OpenChildForm(New frm_Usuario, sender)
         End If
-
     End Sub
     Private Sub btnEditarPerfil_Click(sender As Object, e As EventArgs) Handles btnEditarPerfil.Click
         OpenChildForm(New frmPerfilUsuario, sender)
@@ -202,7 +205,7 @@ Public Class frm_Inicio
     End Sub
 
     Private Sub btn_1_Click(sender As Object, e As EventArgs) Handles btn_1.Click
-        MessageBox.Show("Hola")
+        OpenChildForm(New frm_Usuario, sender)
     End Sub
 
 End Class
