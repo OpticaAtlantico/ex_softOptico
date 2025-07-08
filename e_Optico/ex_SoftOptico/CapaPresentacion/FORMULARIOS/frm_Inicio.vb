@@ -6,7 +6,6 @@ Imports FontAwesome.Sharp
 
 Public Class frm_Inicio
 
-
     Private currentButton As Button
     Private random As Random
     Private tempIndex As Integer
@@ -61,7 +60,7 @@ Public Class frm_Inicio
                 btn_Maximizar.BackColor = color
                 btnCerrar.BackColor = color
                 pnl_Encabezado.BackColor = color
-                pnl_Logo.BackColor = themeColor.ChangeColorBrightness(color, -0.3)
+                pnlMenu.BackColor = themeColor.ChangeColorBrightness(color, -0.3)
                 themeColor.PrimaryColor = color
                 themeColor.SecondaryColor = themeColor.ChangeColorBrightness(color, -0.3)
                 icoMenu.BackColor = themeColor.ChangeColorBrightness(color, -0.3)
@@ -74,14 +73,14 @@ Public Class frm_Inicio
         btn_Maximizar.BackColor = Color.FromArgb(0, 150, 136)
         btn_Minimizar.BackColor = Color.FromArgb(0, 150, 136)
         btnCerrar.BackColor = Color.FromArgb(0, 150, 136)
-        For Each previousBtn As Control In pnl_Menu.Controls
+        For Each previousBtn As Control In pnlMenuOpciones.Controls
             If previousBtn.[GetType]() = GetType(IconButton) Then
                 previousBtn.BackColor = Color.FromArgb(51, 51, 76)
                 previousBtn.ForeColor = Color.Gainsboro
                 previousBtn.Font = New System.Drawing.Font("Century Gothic", 12.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
             End If
         Next
-        For Each previousBtn As Control In pnl_Logo.Controls
+        For Each previousBtn As Control In pnlMenu.Controls
             If previousBtn.[GetType]() = GetType(IconButton) Then
                 previousBtn.BackColor = Color.FromArgb(39, 39, 58)
                 previousBtn.ForeColor = Color.WhiteSmoke
@@ -107,7 +106,7 @@ Public Class frm_Inicio
         DisableButton()
         lbl_Titulo.Text = "HOME"
         pnl_Encabezado.BackColor = Color.FromArgb(0, 150, 136)
-        pnl_Logo.BackColor = Color.FromArgb(39, 39, 58)
+        pnlMenu.BackColor = Color.FromArgb(39, 39, 58)
         currentButton = New Button()
         btnCloseChildForm.Visible = False
     End Sub
@@ -156,29 +155,29 @@ Public Class frm_Inicio
         Me.Close()
     End Sub
     Private Sub tmr_OcultarMenu_Tick(sender As Object, e As EventArgs) Handles tmr_OcultarMenu.Tick
-        If pnl_Menu.Width <= 60 Then
+        If pnlMenuOpciones.Width <= 60 Then
             Me.tmr_OcultarMenu.Enabled = False
         Else
-            Me.pnl_Menu.Width = pnl_Menu.Width - 40
+            Me.pnlMenuOpciones.Width = pnlMenuOpciones.Width - 40
             imgLogo.Width = 55
             btnEditarPerfil.Visible = False
         End If
     End Sub
 
     Private Sub tmr_MostrarMenu_Tick(sender As Object, e As EventArgs) Handles tmr_MostrarMenu.Tick
-        If pnl_Menu.Width >= 220 Then
+        If pnlMenuOpciones.Width >= 220 Then
             Me.tmr_MostrarMenu.Enabled = False
         Else
-            Me.pnl_Menu.Width = pnl_Menu.Width + 40
+            Me.pnlMenuOpciones.Width = pnlMenuOpciones.Width + 40
             imgLogo.Width = 87
             btnEditarPerfil.Visible = True
         End If
     End Sub
 
     Private Sub icoMenu_Click(sender As Object, e As EventArgs)
-        If pnl_Menu.Width = 220 Then
+        If pnlMenuOpciones.Width = 220 Then
             tmr_OcultarMenu.Enabled = True
-        ElseIf pnl_Menu.Width = 60 Then
+        ElseIf pnlMenuOpciones.Width = 60 Then
             tmr_MostrarMenu.Enabled = True
         End If
     End Sub
@@ -198,11 +197,12 @@ Public Class frm_Inicio
 
     Private Sub frm_Inicio_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WindowState = FormWindowState.Maximized
-        lblUsuario.Text = listLogin.item(0).Nombre.ToString()
-        lblCargo.Text = listLogin.item(0).Posicion.ToString()
+        'lblUsuario.Text = listLogin.item(0).Nombre.ToString()
+        'lblCargo.Text = listLogin.item(0).Posicion.ToString()
     End Sub
 
     Private Sub btn_1_Click(sender As Object, e As EventArgs) Handles btn_1.Click
         MessageBox.Show("Hola")
     End Sub
+
 End Class

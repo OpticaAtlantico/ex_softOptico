@@ -45,11 +45,12 @@ CREATE TABLE TUbicaciones (
     UbicacionID INT IDENTITY(1,1) PRIMARY KEY,
     NombreUbicacion NVARCHAR(100) NOT NULL UNIQUE,
     TipoUbicacion NVARCHAR(50) NOT NULL, -- Ej: 'Almacén Principal', 'Sucursal', 'Punto de Venta'
-    Direccion NVARCHAR(255) NULL,
-    Telefono NVARCHAR(20) NULL,
-    Email NVARCHAR(50) NULL,
+    Direccion NVARCHAR(255) NOT NULL,
+    Rif NVARCHAR(50) NOT NULL,
+    Telefono NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(50) NOT NULL,
     Activa BIT NOT NULL DEFAULT 1, -- Para habilitar/deshabilitar ubicaciones
-    Porcentaje BIT NOT NULL,
+    Porcentaje INT NOT NULL,
     FechaRegistro DATETIME DEFAULT GETDATE()
 );
 
@@ -104,7 +105,7 @@ CREATE TABLE TSubCategorias (
     SubCategoriaID INT IDENTITY(1,1) PRIMARY KEY,
     CategoriaID INT NOT NULL,
     NombreSubCategoria NVARCHAR(50) NOT NULL,
-    FOREIGN KEY (SubCategoriaID) REFERENCES TCategorias(CategoriaID)
+    FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
 );
 
 -- Tabla: Productos
@@ -133,6 +134,7 @@ CREATE TABLE TEmpleados (
     FechaNacimiento DATE NULL,
     Direccion NVARCHAR(MAX) NULL,
     CargoEmpleadoID INT NOT NULL,
+    Email NVARCHAR(100) NULL,
     Asesor BIT NOT NULL DEFAULT 0,
     Gerente BIT NOT NULL DEFAULT 0,
     Optometrista BIT NOT NULL DEFAULT 0,
@@ -381,13 +383,111 @@ CREATE TABLE TPagosConConceptoMaterializado (
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----   VISTAS 
+CREATE OR ALTER VIEW VLogin AS
+    SELECT E.Cedula
+            , E.Nombre
+            , E.Apellido
+            , C.Descripcion
+            , E.Email
+            , R.Descripcion AS Posicion
+            , U.NombreUbicacion AS Central
+            , U.TipoUbicacion AS Clasificación
+    FROM dbo.TEmpleados E
+        INNER JOIN TLogin L ON E.EmpleadoID = L.EmpleadoID 
+        INNER JOIN TCargoEmpleado C ON E.CargoEmpleadoID = C.CargoEmpleadoID 
+        INNER JOIN TUbicaciones U ON L.UbicacionID = U.UbicacionID 
+        INNER JOIN TRol R ON L.RolID = R.RolID;
 
 
 -----   PROCEDIMIENTOS
 
 
+
 -----   FUNCIONES
 
+
+
+
+---DATOS PARA LA TABLA ROL 
+INSERT INTO TRol (Descripcion) VALUES ('Administrador')
+INSERT INTO TRol (Descripcion) VALUES ('Asesor')
+INSERT INTO TRol (Descripcion) VALUES ('Gerente Comercial')
+INSERT INTO TRol (Descripcion) VALUES ('Gerente Sucursal')
+INSERT INTO TRol (Descripcion) VALUES ('Montador')
+INSERT INTO TRol (Descripcion) VALUES ('ROOT')
+INSERT INTO TRol (Descripcion) VALUES ('Contador')
+
+
+--DATOS PARA LA TABLA CARGOS DEL EMPLEADO
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('JEFE')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Administrador')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Contador')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Asesor')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Gerente Sucursal')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Gerente Comercial')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Marketing')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Cobranza')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Montador')
+INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Laboratorista')
+INSERT INTO TCargoEmpleado (Descripcion) VALUEs ('Empleado')
+
+
+--DATOS PARA LA TABLA ESTADO DE LAS ORDENES DESDE QUE SE REALIZA LA VENTA DEL PRODUCTO
+INSERT INTO TEstado (Descripcion) VALUES ('Pedido generado')
+INSERT INTO TEstado (Descripcion) VALUES ('Pendiente de envío a laboratorio')
+INSERT INTO TEstado (Descripcion) VALUES ('Pedido verificado')
+INSERT INTO TEstado (Descripcion) VALUES ('Pedido por enviar')
+INSERT INTO TEstado (Descripcion) VALUES ('Listo para enviar a laboratorio')
+INSERT INTO TEstado (Descripcion) VALUES ('Pedido Recibido en laboratorio')
+INSERT INTO TEstado (Descripcion) VALUES ('Valija enviada')
+INSERT INTO TEstado (Descripcion) VALUES ('Producto en oficinas ZOOM')
+INSERT INTO TEstado (Descripcion) VALUES ('Producto por montar')
+INSERT INTO TEstado (Descripcion) VALUES ('Producto en montaje')
+INSERT INTO TEstado (Descripcion) VALUES ('Producto en tienda')
+INSERT INTO TEstado (Descripcion) VALUES ('Producto entregado')
+
+
+--DATOS PARA LA TABLA TEMPRESA O SUCURSAL
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico I', 'Sucursal', 'C.C. Plaza Mall, Local 47-A, Planta Baja, Estado Bolivar', 'J-41324802-6', '0414-9864196', 'opticaatlantico@gmail.com', '40')
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico II', 'Sucursal', 'C.C Ciudad Altavista I, local 112, Planta Baja, Ciudad Guayana Estado Bolivar', 'J-50101192-3', '0412-1155609', 'opticaatlantico@gmail.com', '40')
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico III', 'Sucursal', 'C.C. Biblos Center, Local 9-A, Planta Baja, Unare Ciudad Guayana, Estado Bolivar', 'J-50198691-6', '0414-8604432 / 0414-8605625', 'opticaatlantico@gmail.com', '40')
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico IV', 'Sucursal', 'C.C. Ciudad AltaVista II, Local 67, Planta Baja, Ciudad Guayana Estado Bolivar', 'J-50439445-9', '0414-8605625', 'opticaatlantico@gmail.com', '40')
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico V', 'Sucursal', 'C.C. Anakaro, Local 2, Planta Baja, Upata, Estado Bolivar', 'J-50582413-9', '0412-9226338', 'opticaatlantico@gmail.com', '40')
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico VI', 'Sucursal', 'San Felix Ciudad Guayana Estado Bolivar', '0', '0414-9864196', 'opticaatlantico@gmail.com', '40')
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Almacen Central', 'Almacen', 'Alta Vista', '0', '0', 'opticaatlantico@gmail.com', '40')
+
+
+---DATOAS PARA LA TABLA TCategoria
+INSERT INTO TCategorias (NombreCategoria) VALUES ('Cristales')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('Monturas')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Contactos')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Sol')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('Accesorios')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('Otros')
+
+
+---DATOAS PARA LA TABLA TSubCategoria
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('1', 'Monofocal')
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('1', 'Bifocal')
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('1', 'Multifocal')
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('2', 'Monturas')
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('5', 'Accesorios')
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('3', 'Lentes de Contactos')
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('4', 'Lentes de Sol')
+INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('6', 'Otros')
+
+
+--DATOS PARA LA TABLA TTipoPago 
+INSERT INTO TTipoPago (Nombre) VALUES ('Divisas')
+INSERT INTO TTipoPago (Nombre) VALUES ('Efectivo')
+INSERT INTO TTipoPago (Nombre) VALUES ('Punto de Venta')
+INSERT INTO TTipoPago (Nombre) VALUES ('Pago Móvil')
+INSERT INTO TTipoPago (Nombre) VALUES ('Zelle')
+INSERT INTO TTipoPago (Nombre) VALUES ('BioPago')
+INSERT INTO TTipoPago (Nombre) VALUES ('Intercambio Comercial')
+INSERT INTO TTipoPago (Nombre) VALUES ('Cashea')
+INSERT INTO TTipoPago (Nombre) VALUES ('Garantia')
+INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
 
 
 

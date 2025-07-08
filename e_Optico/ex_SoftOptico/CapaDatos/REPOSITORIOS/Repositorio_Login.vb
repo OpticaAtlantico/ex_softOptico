@@ -41,7 +41,7 @@ Public Class Repositorio_Login
         Throw New NotImplementedException()
     End Function
 
-    Public Function BuscarTodosUsuarioPassord(usuario As String, password As String) As TLogin Implements IRepositorio_Generico(Of TLogin).GetAllUserPass
+    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TLogin) Implements IRepositorio_Generico(Of TLogin).GetAllUserPass
         Throw New NotImplementedException()
     End Function
 
