@@ -58,7 +58,6 @@ Partial Class frm_Inicio
         btnCerrar = New FontAwesome.Sharp.IconButton()
         btnCloseChildForm = New Button()
         pnl_Contenedor = New Panel()
-        PictureBox1 = New PictureBox()
         tmr_OcultarMenu = New Timer(components)
         tmr_MostrarMenu = New Timer(components)
         tol_Mensajes = New ToolTip(components)
@@ -67,7 +66,6 @@ Partial Class frm_Inicio
         CType(imgLogo, ComponentModel.ISupportInitialize).BeginInit()
         pnl_Encabezado.SuspendLayout()
         pnl_Contenedor.SuspendLayout()
-        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' pnlMenuOpciones
@@ -96,7 +94,7 @@ Partial Class frm_Inicio
         icoMenu.Cursor = Cursors.Hand
         icoMenu.FlatAppearance.BorderSize = 0
         icoMenu.FlatStyle = FlatStyle.Flat
-        icoMenu.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        icoMenu.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         icoMenu.ForeColor = Color.White
         icoMenu.IconChar = FontAwesome.Sharp.IconChar.Bars
         icoMenu.IconColor = Color.White
@@ -116,7 +114,7 @@ Partial Class frm_Inicio
         IconButton9.FlatAppearance.BorderSize = 0
         IconButton9.FlatStyle = FlatStyle.Flat
         IconButton9.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton9.Font = New Font("Century Gothic", 6.0F)
+        IconButton9.Font = New Font("Century Gothic", 6F)
         IconButton9.ForeColor = Color.White
         IconButton9.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton9.IconColor = Color.White
@@ -137,7 +135,7 @@ Partial Class frm_Inicio
         IconButton3.FlatAppearance.BorderSize = 0
         IconButton3.FlatStyle = FlatStyle.Flat
         IconButton3.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton3.Font = New Font("Century Gothic", 6.0F)
+        IconButton3.Font = New Font("Century Gothic", 6F)
         IconButton3.ForeColor = Color.White
         IconButton3.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton3.IconColor = Color.White
@@ -158,7 +156,7 @@ Partial Class frm_Inicio
         IconButton1.FlatAppearance.BorderSize = 0
         IconButton1.FlatStyle = FlatStyle.Flat
         IconButton1.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton1.Font = New Font("Century Gothic", 6.0F)
+        IconButton1.Font = New Font("Century Gothic", 6F)
         IconButton1.ForeColor = Color.White
         IconButton1.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton1.IconColor = Color.White
@@ -179,7 +177,7 @@ Partial Class frm_Inicio
         btn_1.FlatAppearance.BorderSize = 0
         btn_1.FlatStyle = FlatStyle.Flat
         btn_1.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        btn_1.Font = New Font("Century Gothic", 6.0F)
+        btn_1.Font = New Font("Century Gothic", 6F)
         btn_1.ForeColor = Color.White
         btn_1.IconChar = FontAwesome.Sharp.IconChar.Tools
         btn_1.IconColor = Color.White
@@ -199,7 +197,7 @@ Partial Class frm_Inicio
         IconButton8.FlatAppearance.BorderSize = 0
         IconButton8.FlatStyle = FlatStyle.Flat
         IconButton8.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton8.Font = New Font("Century Gothic", 6.0F)
+        IconButton8.Font = New Font("Century Gothic", 6F)
         IconButton8.ForeColor = Color.White
         IconButton8.IconChar = FontAwesome.Sharp.IconChar.BarChart
         IconButton8.IconColor = Color.White
@@ -220,7 +218,7 @@ Partial Class frm_Inicio
         IconButton7.FlatAppearance.BorderSize = 0
         IconButton7.FlatStyle = FlatStyle.Flat
         IconButton7.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton7.Font = New Font("Century Gothic", 6.0F)
+        IconButton7.Font = New Font("Century Gothic", 6F)
         IconButton7.ForeColor = Color.White
         IconButton7.IconChar = FontAwesome.Sharp.IconChar.Vcard
         IconButton7.IconColor = Color.White
@@ -241,7 +239,7 @@ Partial Class frm_Inicio
         IconButton6.FlatAppearance.BorderSize = 0
         IconButton6.FlatStyle = FlatStyle.Flat
         IconButton6.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton6.Font = New Font("Century Gothic", 6.0F)
+        IconButton6.Font = New Font("Century Gothic", 6F)
         IconButton6.ForeColor = Color.White
         IconButton6.IconChar = FontAwesome.Sharp.IconChar.UserFriends
         IconButton6.IconColor = Color.White
@@ -262,7 +260,7 @@ Partial Class frm_Inicio
         IconButton5.FlatAppearance.BorderSize = 0
         IconButton5.FlatStyle = FlatStyle.Flat
         IconButton5.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton5.Font = New Font("Century Gothic", 6.0F)
+        IconButton5.Font = New Font("Century Gothic", 6F)
         IconButton5.ForeColor = Color.White
         IconButton5.IconChar = FontAwesome.Sharp.IconChar.CartFlatbed
         IconButton5.IconColor = Color.White
@@ -284,7 +282,7 @@ Partial Class frm_Inicio
         IconButton4.FlatAppearance.BorderSize = 0
         IconButton4.FlatStyle = FlatStyle.Flat
         IconButton4.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton4.Font = New Font("Century Gothic", 6.0F)
+        IconButton4.Font = New Font("Century Gothic", 6F)
         IconButton4.ForeColor = Color.White
         IconButton4.IconChar = FontAwesome.Sharp.IconChar.Tags
         IconButton4.IconColor = Color.White
@@ -306,7 +304,7 @@ Partial Class frm_Inicio
         btnMantenedor.FlatAppearance.BorderSize = 0
         btnMantenedor.FlatStyle = FlatStyle.Flat
         btnMantenedor.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        btnMantenedor.Font = New Font("Century Gothic", 6.0F)
+        btnMantenedor.Font = New Font("Century Gothic", 6F)
         btnMantenedor.ForeColor = Color.White
         btnMantenedor.IconChar = FontAwesome.Sharp.IconChar.Tools
         btnMantenedor.IconColor = Color.White
@@ -571,7 +569,7 @@ Partial Class frm_Inicio
         ' lblUsuario
         ' 
         lblUsuario.AutoSize = True
-        lblUsuario.Font = New Font("Century Gothic", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblUsuario.Font = New Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblUsuario.ForeColor = Color.WhiteSmoke
         lblUsuario.Location = New Point(696, 15)
         lblUsuario.Name = "lblUsuario"
@@ -687,23 +685,12 @@ Partial Class frm_Inicio
         ' 
         ' pnl_Contenedor
         ' 
-        pnl_Contenedor.Controls.Add(PictureBox1)
         pnl_Contenedor.Controls.Add(pnlMenu)
         pnl_Contenedor.Dock = DockStyle.Fill
         pnl_Contenedor.Location = New Point(57, 67)
         pnl_Contenedor.Name = "pnl_Contenedor"
         pnl_Contenedor.Size = New Size(1083, 616)
         pnl_Contenedor.TabIndex = 2
-        ' 
-        ' PictureBox1
-        ' 
-        PictureBox1.Anchor = AnchorStyles.None
-        PictureBox1.Location = New Point(287, 100)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(553, 357)
-        PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
-        PictureBox1.TabIndex = 0
-        PictureBox1.TabStop = False
         ' 
         ' tmr_OcultarMenu
         ' 
@@ -723,7 +710,7 @@ Partial Class frm_Inicio
         ' 
         ' frm_Inicio
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1140, 683)
         Controls.Add(pnl_Contenedor)
@@ -737,7 +724,6 @@ Partial Class frm_Inicio
         pnl_Encabezado.ResumeLayout(False)
         pnl_Encabezado.PerformLayout()
         pnl_Contenedor.ResumeLayout(False)
-        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -746,7 +732,6 @@ Partial Class frm_Inicio
     Friend WithEvents pnl_Encabezado As Panel
     Friend WithEvents pnl_Contenedor As Panel
     Friend WithEvents btnCloseChildForm As Button
-    Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents btnClose As Button
     Friend WithEvents bntMinimize As Button
     Friend WithEvents btnMaximize As Button
