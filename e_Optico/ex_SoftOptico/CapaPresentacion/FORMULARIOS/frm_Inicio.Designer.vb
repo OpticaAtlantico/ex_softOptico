@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frm_Inicio
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frm_Inicio
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
         pnlMenuOpciones = New Panel()
@@ -52,7 +52,6 @@ Partial Class frm_Inicio
         lblUsuario = New Label()
         imgLogo = New FontAwesome.Sharp.IconPictureBox()
         pnl_Encabezado = New Panel()
-        MaterialDrawer1 = New MaterialSkin.Controls.MaterialDrawer()
         lbl_Titulo = New Label()
         btn_Maximizar = New FontAwesome.Sharp.IconButton()
         btn_Minimizar = New FontAwesome.Sharp.IconButton()
@@ -95,7 +94,7 @@ Partial Class frm_Inicio
         icoMenu.Cursor = Cursors.Hand
         icoMenu.FlatAppearance.BorderSize = 0
         icoMenu.FlatStyle = FlatStyle.Flat
-        icoMenu.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        icoMenu.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         icoMenu.ForeColor = Color.White
         icoMenu.IconChar = FontAwesome.Sharp.IconChar.Bars
         icoMenu.IconColor = Color.White
@@ -115,7 +114,7 @@ Partial Class frm_Inicio
         IconButton9.FlatAppearance.BorderSize = 0
         IconButton9.FlatStyle = FlatStyle.Flat
         IconButton9.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton9.Font = New Font("Century Gothic", 6F)
+        IconButton9.Font = New Font("Century Gothic", 6.0F)
         IconButton9.ForeColor = Color.White
         IconButton9.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton9.IconColor = Color.White
@@ -136,7 +135,7 @@ Partial Class frm_Inicio
         IconButton3.FlatAppearance.BorderSize = 0
         IconButton3.FlatStyle = FlatStyle.Flat
         IconButton3.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton3.Font = New Font("Century Gothic", 6F)
+        IconButton3.Font = New Font("Century Gothic", 6.0F)
         IconButton3.ForeColor = Color.White
         IconButton3.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton3.IconColor = Color.White
@@ -157,7 +156,7 @@ Partial Class frm_Inicio
         IconButton1.FlatAppearance.BorderSize = 0
         IconButton1.FlatStyle = FlatStyle.Flat
         IconButton1.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton1.Font = New Font("Century Gothic", 6F)
+        IconButton1.Font = New Font("Century Gothic", 6.0F)
         IconButton1.ForeColor = Color.White
         IconButton1.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton1.IconColor = Color.White
@@ -178,7 +177,7 @@ Partial Class frm_Inicio
         btn_1.FlatAppearance.BorderSize = 0
         btn_1.FlatStyle = FlatStyle.Flat
         btn_1.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        btn_1.Font = New Font("Century Gothic", 6F)
+        btn_1.Font = New Font("Century Gothic", 6.0F)
         btn_1.ForeColor = Color.White
         btn_1.IconChar = FontAwesome.Sharp.IconChar.Tools
         btn_1.IconColor = Color.White
@@ -198,7 +197,7 @@ Partial Class frm_Inicio
         IconButton8.FlatAppearance.BorderSize = 0
         IconButton8.FlatStyle = FlatStyle.Flat
         IconButton8.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton8.Font = New Font("Century Gothic", 6F)
+        IconButton8.Font = New Font("Century Gothic", 6.0F)
         IconButton8.ForeColor = Color.White
         IconButton8.IconChar = FontAwesome.Sharp.IconChar.BarChart
         IconButton8.IconColor = Color.White
@@ -219,7 +218,7 @@ Partial Class frm_Inicio
         IconButton7.FlatAppearance.BorderSize = 0
         IconButton7.FlatStyle = FlatStyle.Flat
         IconButton7.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton7.Font = New Font("Century Gothic", 6F)
+        IconButton7.Font = New Font("Century Gothic", 6.0F)
         IconButton7.ForeColor = Color.White
         IconButton7.IconChar = FontAwesome.Sharp.IconChar.Vcard
         IconButton7.IconColor = Color.White
@@ -240,7 +239,7 @@ Partial Class frm_Inicio
         IconButton6.FlatAppearance.BorderSize = 0
         IconButton6.FlatStyle = FlatStyle.Flat
         IconButton6.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton6.Font = New Font("Century Gothic", 6F)
+        IconButton6.Font = New Font("Century Gothic", 6.0F)
         IconButton6.ForeColor = Color.White
         IconButton6.IconChar = FontAwesome.Sharp.IconChar.UserFriends
         IconButton6.IconColor = Color.White
@@ -261,7 +260,7 @@ Partial Class frm_Inicio
         IconButton5.FlatAppearance.BorderSize = 0
         IconButton5.FlatStyle = FlatStyle.Flat
         IconButton5.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton5.Font = New Font("Century Gothic", 6F)
+        IconButton5.Font = New Font("Century Gothic", 6.0F)
         IconButton5.ForeColor = Color.White
         IconButton5.IconChar = FontAwesome.Sharp.IconChar.CartFlatbed
         IconButton5.IconColor = Color.White
@@ -283,7 +282,7 @@ Partial Class frm_Inicio
         IconButton4.FlatAppearance.BorderSize = 0
         IconButton4.FlatStyle = FlatStyle.Flat
         IconButton4.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton4.Font = New Font("Century Gothic", 6F)
+        IconButton4.Font = New Font("Century Gothic", 6.0F)
         IconButton4.ForeColor = Color.White
         IconButton4.IconChar = FontAwesome.Sharp.IconChar.Tags
         IconButton4.IconColor = Color.White
@@ -305,7 +304,7 @@ Partial Class frm_Inicio
         btnMantenedor.FlatAppearance.BorderSize = 0
         btnMantenedor.FlatStyle = FlatStyle.Flat
         btnMantenedor.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        btnMantenedor.Font = New Font("Century Gothic", 6F)
+        btnMantenedor.Font = New Font("Century Gothic", 6.0F)
         btnMantenedor.ForeColor = Color.White
         btnMantenedor.IconChar = FontAwesome.Sharp.IconChar.Tools
         btnMantenedor.IconColor = Color.White
@@ -570,7 +569,7 @@ Partial Class frm_Inicio
         ' lblUsuario
         ' 
         lblUsuario.AutoSize = True
-        lblUsuario.Font = New Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblUsuario.Font = New Font("Century Gothic", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblUsuario.ForeColor = Color.WhiteSmoke
         lblUsuario.Location = New Point(696, 15)
         lblUsuario.Name = "lblUsuario"
@@ -595,7 +594,6 @@ Partial Class frm_Inicio
         ' pnl_Encabezado
         ' 
         pnl_Encabezado.BackColor = Color.FromArgb(CByte(0), CByte(150), CByte(136))
-        pnl_Encabezado.Controls.Add(MaterialDrawer1)
         pnl_Encabezado.Controls.Add(lbl_Titulo)
         pnl_Encabezado.Controls.Add(btnEditarPerfil)
         pnl_Encabezado.Controls.Add(btn_Maximizar)
@@ -610,26 +608,6 @@ Partial Class frm_Inicio
         pnl_Encabezado.Name = "pnl_Encabezado"
         pnl_Encabezado.Size = New Size(1083, 67)
         pnl_Encabezado.TabIndex = 1
-        ' 
-        ' MaterialDrawer1
-        ' 
-        MaterialDrawer1.AutoHide = False
-        MaterialDrawer1.AutoShow = False
-        MaterialDrawer1.BackColor = SystemColors.AppWorkspace
-        MaterialDrawer1.BackgroundWithAccent = False
-        MaterialDrawer1.BaseTabControl = Nothing
-        MaterialDrawer1.Depth = 0
-        MaterialDrawer1.HighlightWithAccent = True
-        MaterialDrawer1.IndicatorWidth = 0
-        MaterialDrawer1.IsOpen = False
-        MaterialDrawer1.Location = New Point(6, 0)
-        MaterialDrawer1.MouseState = MaterialSkin.MouseState.HOVER
-        MaterialDrawer1.Name = "MaterialDrawer1"
-        MaterialDrawer1.ShowIconsWhenHidden = False
-        MaterialDrawer1.Size = New Size(54, 62)
-        MaterialDrawer1.TabIndex = 2
-        MaterialDrawer1.Text = "MaterialDrawer1"
-        MaterialDrawer1.UseColors = False
         ' 
         ' lbl_Titulo
         ' 
@@ -732,7 +710,7 @@ Partial Class frm_Inicio
         ' 
         ' frm_Inicio
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1140, 683)
         Controls.Add(pnl_Contenedor)
@@ -792,5 +770,4 @@ Partial Class frm_Inicio
     Friend WithEvents btn4 As Button
     Friend WithEvents btn3 As Button
     Friend WithEvents btn2 As Button
-    Friend WithEvents MaterialDrawer1 As MaterialSkin.Controls.MaterialDrawer
 End Class

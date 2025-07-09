@@ -76,7 +76,7 @@ Partial Class frmPerfilUsuario
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(0, 0)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1015, 609)
+        pnlContenedor.Size = New Size(1174, 609)
         pnlContenedor.TabIndex = 3
         ' 
         ' pnlEditarDatos
@@ -95,10 +95,10 @@ Partial Class frmPerfilUsuario
         pnlEditarDatos.Controls.Add(Label7)
         pnlEditarDatos.Controls.Add(Panel2)
         pnlEditarDatos.Controls.Add(Label5)
-        pnlEditarDatos.Dock = DockStyle.Right
-        pnlEditarDatos.Location = New Point(581, 0)
+        pnlEditarDatos.Dock = DockStyle.Fill
+        pnlEditarDatos.Location = New Point(575, 0)
         pnlEditarDatos.Name = "pnlEditarDatos"
-        pnlEditarDatos.Size = New Size(434, 609)
+        pnlEditarDatos.Size = New Size(599, 609)
         pnlEditarDatos.TabIndex = 3
         ' 
         ' lnk_EditarPass
@@ -425,7 +425,7 @@ Partial Class frmPerfilUsuario
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1015, 609)
+        ClientSize = New Size(1174, 609)
         Controls.Add(pnlContenedor)
         Name = "frmPerfilUsuario"
         StartPosition = FormStartPosition.CenterScreen

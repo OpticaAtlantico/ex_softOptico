@@ -1,6 +1,5 @@
 ﻿Imports System.ComponentModel
 Imports System.Drawing.Drawing2D
-Imports MaterialSkin3.Controls.MaterialExpansionPanel
 
 Public Class PanelRedondo
     'Inherits Panel

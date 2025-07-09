@@ -1,9 +1,7 @@
-﻿Imports MaterialSkin
-
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frm_Principal
-    'Inherits System.Windows.Forms.Form
-    Inherits MaterialSkin.Controls.MaterialForm
+    Inherits System.Windows.Forms.Form
+
     'Form reemplaza a Dispose para limpiar la lista de componentes.
     <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -38,7 +36,7 @@ Partial Class frm_Principal
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1191, 559)
+        ClientSize = New Size(1132, 559)
         Name = "frm_Principal"
         Text = "frm_Principal"
         ResumeLayout(False)

@@ -26,7 +26,7 @@ Public Class frm_Inicio
             .Text = String.Empty
             .ControlBox = False
             .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
-            .pnlMenu.Visible = True
+            .pnlMenu.Visible = False
 
         End With
         random = New Random()
@@ -188,14 +188,14 @@ Public Class frm_Inicio
 
     Private Sub imgLogo_Click(sender As Object, e As EventArgs) Handles imgLogo.Click
         If btnEditarPerfil.Visible = False Then
-            OpenChildForm(New frm_Usuario, sender)
+            OpenChildForm(New frm_Empleado, sender)
         End If
     End Sub
     Private Sub btnEditarPerfil_Click(sender As Object, e As EventArgs) Handles btnEditarPerfil.Click
         OpenChildForm(New frmPerfilUsuario, sender)
     End Sub
     Private Sub btnUsuarios_Click(sender As Object, e As EventArgs)
-        OpenChildForm(New frm_Usuario, sender)
+        OpenChildForm(New frm_Empleado, sender)
     End Sub
 
     Private Sub frm_Inicio_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -205,10 +205,8 @@ Public Class frm_Inicio
     End Sub
 
     Private Sub btn_1_Click(sender As Object, e As EventArgs) Handles btn_1.Click
-        OpenChildForm(New frm_Usuario, sender)
+        OpenChildForm(New frm_Empleado, sender)
     End Sub
 
-    Private Sub MaterialDrawer1_Click(sender As Object, e As EventArgs) Handles MaterialDrawer1.Click
-        Me.pnlMenu.Visible = True
-    End Sub
+
 End Class
