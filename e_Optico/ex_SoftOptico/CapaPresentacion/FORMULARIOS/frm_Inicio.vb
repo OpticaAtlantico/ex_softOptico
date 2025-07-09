@@ -26,7 +26,7 @@ Public Class frm_Inicio
             .Text = String.Empty
             .ControlBox = False
             .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
-            .pnlMenu.Visible = False
+            .pnlMenu.Visible = True
 
         End With
         random = New Random()
@@ -208,4 +208,7 @@ Public Class frm_Inicio
         OpenChildForm(New frm_Usuario, sender)
     End Sub
 
+    Private Sub MaterialDrawer1_Click(sender As Object, e As EventArgs) Handles MaterialDrawer1.Click
+        Me.pnlMenu.Visible = True
+    End Sub
 End Class

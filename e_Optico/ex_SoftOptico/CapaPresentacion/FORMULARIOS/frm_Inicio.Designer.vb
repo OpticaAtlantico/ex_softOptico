@@ -52,6 +52,7 @@ Partial Class frm_Inicio
         lblUsuario = New Label()
         imgLogo = New FontAwesome.Sharp.IconPictureBox()
         pnl_Encabezado = New Panel()
+        MaterialDrawer1 = New MaterialSkin.Controls.MaterialDrawer()
         lbl_Titulo = New Label()
         btn_Maximizar = New FontAwesome.Sharp.IconButton()
         btn_Minimizar = New FontAwesome.Sharp.IconButton()
@@ -594,6 +595,7 @@ Partial Class frm_Inicio
         ' pnl_Encabezado
         ' 
         pnl_Encabezado.BackColor = Color.FromArgb(CByte(0), CByte(150), CByte(136))
+        pnl_Encabezado.Controls.Add(MaterialDrawer1)
         pnl_Encabezado.Controls.Add(lbl_Titulo)
         pnl_Encabezado.Controls.Add(btnEditarPerfil)
         pnl_Encabezado.Controls.Add(btn_Maximizar)
@@ -608,6 +610,26 @@ Partial Class frm_Inicio
         pnl_Encabezado.Name = "pnl_Encabezado"
         pnl_Encabezado.Size = New Size(1083, 67)
         pnl_Encabezado.TabIndex = 1
+        ' 
+        ' MaterialDrawer1
+        ' 
+        MaterialDrawer1.AutoHide = False
+        MaterialDrawer1.AutoShow = False
+        MaterialDrawer1.BackColor = SystemColors.AppWorkspace
+        MaterialDrawer1.BackgroundWithAccent = False
+        MaterialDrawer1.BaseTabControl = Nothing
+        MaterialDrawer1.Depth = 0
+        MaterialDrawer1.HighlightWithAccent = True
+        MaterialDrawer1.IndicatorWidth = 0
+        MaterialDrawer1.IsOpen = False
+        MaterialDrawer1.Location = New Point(6, 0)
+        MaterialDrawer1.MouseState = MaterialSkin.MouseState.HOVER
+        MaterialDrawer1.Name = "MaterialDrawer1"
+        MaterialDrawer1.ShowIconsWhenHidden = False
+        MaterialDrawer1.Size = New Size(54, 62)
+        MaterialDrawer1.TabIndex = 2
+        MaterialDrawer1.Text = "MaterialDrawer1"
+        MaterialDrawer1.UseColors = False
         ' 
         ' lbl_Titulo
         ' 
@@ -770,4 +792,5 @@ Partial Class frm_Inicio
     Friend WithEvents btn4 As Button
     Friend WithEvents btn3 As Button
     Friend WithEvents btn2 As Button
+    Friend WithEvents MaterialDrawer1 As MaterialSkin.Controls.MaterialDrawer
 End Class
