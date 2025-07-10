@@ -75,17 +75,7 @@ Public Class frm_Empleado
         txt_Telefono.AutoSize = False
         txt_Telefono.Size = New Size(297, 35)
 
-        cmb_Nacionalidad.AutoSize = False
-        cmb_Nacionalidad.Size = New Size(297, 35)
-        cmb_Nacionalidad.DropDownStyle = ComboBoxStyle.DropDownList
 
-        cmb_Cargo.AutoSize = False
-        cmb_Cargo.Size = New Size(297, 35)
-        cmb_Cargo.DropDownStyle = ComboBoxStyle.DropDownList
-
-        cmb_Sexo.AutoSize = False
-        cmb_Sexo.Size = New Size(297, 35)
-        cmb_Sexo.DropDownStyle = ComboBoxStyle.DropDownList
 
 
 

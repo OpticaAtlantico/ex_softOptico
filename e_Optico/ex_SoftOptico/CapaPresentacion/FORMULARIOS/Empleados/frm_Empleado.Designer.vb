@@ -63,10 +63,6 @@ Partial Class frm_Empleado
         Panel1 = New Panel()
         Panel2 = New Panel()
         pnlEditarDatos = New Panel()
-        cmb_Sexo = New ComboBox()
-        cmb_Cargo = New ComboBox()
-        cmb_Nacionalidad = New ComboBox()
-        cmb_EstadoCivil = New ComboBox()
         btn_Cancelar = New Button()
         btn_Aceptar = New Button()
         txt_Direccion = New TextBox()
@@ -91,7 +87,10 @@ Partial Class frm_Empleado
         Label21 = New Label()
         pnl_Titulo = New Panel()
         Label17 = New Label()
-        ComboBoxModerno1 = New ComboBoxModerno()
+        ComboBoxui1 = New ComboBoxUI()
+        ComboBoxui2 = New ComboBoxUI()
+        ComboBoxui3 = New ComboBoxUI()
+        ComboBoxui4 = New ComboBoxUI()
         pnlPrincipal.SuspendLayout()
         pnlDatos.SuspendLayout()
         Panel4.SuspendLayout()
@@ -563,11 +562,10 @@ Partial Class frm_Empleado
         ' pnlEditarDatos
         ' 
         pnlEditarDatos.BackColor = Color.FromArgb(CByte(51), CByte(51), CByte(80))
-        pnlEditarDatos.Controls.Add(ComboBoxModerno1)
-        pnlEditarDatos.Controls.Add(cmb_Sexo)
-        pnlEditarDatos.Controls.Add(cmb_Cargo)
-        pnlEditarDatos.Controls.Add(cmb_Nacionalidad)
-        pnlEditarDatos.Controls.Add(cmb_EstadoCivil)
+        pnlEditarDatos.Controls.Add(ComboBoxui3)
+        pnlEditarDatos.Controls.Add(ComboBoxui2)
+        pnlEditarDatos.Controls.Add(ComboBoxui4)
+        pnlEditarDatos.Controls.Add(ComboBoxui1)
         pnlEditarDatos.Controls.Add(btn_Cancelar)
         pnlEditarDatos.Controls.Add(btn_Aceptar)
         pnlEditarDatos.Controls.Add(txt_Direccion)
@@ -595,46 +593,6 @@ Partial Class frm_Empleado
         pnlEditarDatos.Name = "pnlEditarDatos"
         pnlEditarDatos.Size = New Size(696, 649)
         pnlEditarDatos.TabIndex = 4
-        ' 
-        ' cmb_Sexo
-        ' 
-        cmb_Sexo.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        cmb_Sexo.FlatStyle = FlatStyle.Flat
-        cmb_Sexo.FormattingEnabled = True
-        cmb_Sexo.Location = New Point(23, 493)
-        cmb_Sexo.Name = "cmb_Sexo"
-        cmb_Sexo.Size = New Size(297, 23)
-        cmb_Sexo.TabIndex = 25
-        ' 
-        ' cmb_Cargo
-        ' 
-        cmb_Cargo.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        cmb_Cargo.FlatStyle = FlatStyle.Flat
-        cmb_Cargo.FormattingEnabled = True
-        cmb_Cargo.Location = New Point(360, 125)
-        cmb_Cargo.Name = "cmb_Cargo"
-        cmb_Cargo.Size = New Size(297, 23)
-        cmb_Cargo.TabIndex = 25
-        ' 
-        ' cmb_Nacionalidad
-        ' 
-        cmb_Nacionalidad.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        cmb_Nacionalidad.FlatStyle = FlatStyle.Flat
-        cmb_Nacionalidad.FormattingEnabled = True
-        cmb_Nacionalidad.Location = New Point(23, 347)
-        cmb_Nacionalidad.Name = "cmb_Nacionalidad"
-        cmb_Nacionalidad.Size = New Size(297, 23)
-        cmb_Nacionalidad.TabIndex = 25
-        ' 
-        ' cmb_EstadoCivil
-        ' 
-        cmb_EstadoCivil.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        cmb_EstadoCivil.FlatStyle = FlatStyle.Flat
-        cmb_EstadoCivil.FormattingEnabled = True
-        cmb_EstadoCivil.Location = New Point(23, 420)
-        cmb_EstadoCivil.Name = "cmb_EstadoCivil"
-        cmb_EstadoCivil.Size = New Size(297, 23)
-        cmb_EstadoCivil.TabIndex = 25
         ' 
         ' btn_Cancelar
         ' 
@@ -672,7 +630,7 @@ Partial Class frm_Empleado
         txt_Direccion.BorderStyle = BorderStyle.None
         txt_Direccion.Font = New Font("Century Gothic", 12F)
         txt_Direccion.ForeColor = Color.White
-        txt_Direccion.Location = New Point(360, 271)
+        txt_Direccion.Location = New Point(360, 268)
         txt_Direccion.Multiline = True
         txt_Direccion.Name = "txt_Direccion"
         txt_Direccion.Size = New Size(297, 99)
@@ -684,7 +642,7 @@ Partial Class frm_Empleado
         txt_Telefono.BorderStyle = BorderStyle.None
         txt_Telefono.Font = New Font("Century Gothic", 12F)
         txt_Telefono.ForeColor = Color.White
-        txt_Telefono.Location = New Point(360, 420)
+        txt_Telefono.Location = New Point(360, 417)
         txt_Telefono.Name = "txt_Telefono"
         txt_Telefono.Size = New Size(297, 20)
         txt_Telefono.TabIndex = 22
@@ -695,7 +653,7 @@ Partial Class frm_Empleado
         txt_Edad.BorderStyle = BorderStyle.None
         txt_Edad.Font = New Font("Century Gothic", 12F)
         txt_Edad.ForeColor = Color.White
-        txt_Edad.Location = New Point(23, 271)
+        txt_Edad.Location = New Point(23, 268)
         txt_Edad.Name = "txt_Edad"
         txt_Edad.Size = New Size(297, 20)
         txt_Edad.TabIndex = 22
@@ -706,7 +664,7 @@ Partial Class frm_Empleado
         txt_Correo.BorderStyle = BorderStyle.None
         txt_Correo.Font = New Font("Century Gothic", 12F)
         txt_Correo.ForeColor = Color.White
-        txt_Correo.Location = New Point(360, 198)
+        txt_Correo.Location = New Point(360, 195)
         txt_Correo.Name = "txt_Correo"
         txt_Correo.Size = New Size(297, 20)
         txt_Correo.TabIndex = 21
@@ -717,7 +675,7 @@ Partial Class frm_Empleado
         txt_Apellidos.BorderStyle = BorderStyle.None
         txt_Apellidos.Font = New Font("Century Gothic", 12F)
         txt_Apellidos.ForeColor = Color.White
-        txt_Apellidos.Location = New Point(23, 198)
+        txt_Apellidos.Location = New Point(23, 195)
         txt_Apellidos.Name = "txt_Apellidos"
         txt_Apellidos.Size = New Size(297, 20)
         txt_Apellidos.TabIndex = 21
@@ -728,7 +686,7 @@ Partial Class frm_Empleado
         txt_Nombres.BorderStyle = BorderStyle.None
         txt_Nombres.Font = New Font("Century Gothic", 12F)
         txt_Nombres.ForeColor = Color.White
-        txt_Nombres.Location = New Point(23, 125)
+        txt_Nombres.Location = New Point(23, 122)
         txt_Nombres.Name = "txt_Nombres"
         txt_Nombres.Size = New Size(297, 20)
         txt_Nombres.TabIndex = 20
@@ -739,7 +697,7 @@ Partial Class frm_Empleado
         txt_FechaNacimiento.BorderStyle = BorderStyle.None
         txt_FechaNacimiento.Font = New Font("Century Gothic", 12F)
         txt_FechaNacimiento.ForeColor = Color.White
-        txt_FechaNacimiento.Location = New Point(360, 52)
+        txt_FechaNacimiento.Location = New Point(360, 49)
         txt_FechaNacimiento.Name = "txt_FechaNacimiento"
         txt_FechaNacimiento.Size = New Size(297, 20)
         txt_FechaNacimiento.TabIndex = 19
@@ -750,7 +708,7 @@ Partial Class frm_Empleado
         txtCedula.BorderStyle = BorderStyle.None
         txtCedula.Font = New Font("Century Gothic", 12F)
         txtCedula.ForeColor = Color.White
-        txtCedula.Location = New Point(23, 52)
+        txtCedula.Location = New Point(23, 49)
         txtCedula.Margin = New Padding(10, 5, 3, 3)
         txtCedula.Name = "txtCedula"
         txtCedula.Size = New Size(297, 20)
@@ -909,25 +867,93 @@ Partial Class frm_Empleado
         Label17.TabIndex = 30
         Label17.Text = "Editar..."
         ' 
-        ' ComboBoxModerno1
+        ' ComboBoxui1
         ' 
-        ComboBoxModerno1.AutoScaleDimensions = New SizeF(0F, 0F)
-        ComboBoxModerno1.BackgroundColor = Color.White
-        ComboBoxModerno1.BorderColor = Color.Gray
-        ComboBoxModerno1.BorderRadius = 6
-        ComboBoxModerno1.DrawMode = DrawMode.OwnerDrawFixed
-        ComboBoxModerno1.DropDownStyle = ComboBoxStyle.DropDownList
-        ComboBoxModerno1.FlatStyle = FlatStyle.Flat
-        ComboBoxModerno1.FocusBorderColor = Color.DeepSkyBlue
-        ComboBoxModerno1.Font = New Font("Segoe UI", 10F)
-        ComboBoxModerno1.ForeColor = Color.Black
-        ComboBoxModerno1.FormattingEnabled = True
-        ComboBoxModerno1.ItemHeight = 30
-        ComboBoxModerno1.Location = New Point(360, 478)
-        ComboBoxModerno1.Name = "ComboBoxModerno1"
-        ComboBoxModerno1.Size = New Size(272, 36)
-        ComboBoxModerno1.TabIndex = 26
-        ComboBoxModerno1.TextColor = Color.Black
+        ComboBoxui1.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui1.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui1.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui1.BorderColor = Color.Empty
+        ComboBoxui1.BorderRadius = 6
+        ComboBoxui1.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui1.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui1.FlatStyle = FlatStyle.Flat
+        ComboBoxui1.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui1.Font = New Font("Segoe UI", 10F)
+        ComboBoxui1.ForeColor = Color.Black
+        ComboBoxui1.FormattingEnabled = True
+        ComboBoxui1.ItemHeight = 30
+        ComboBoxui1.Location = New Point(23, 344)
+        ComboBoxui1.Name = "ComboBoxui1"
+        ComboBoxui1.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui1.Size = New Size(297, 36)
+        ComboBoxui1.TabIndex = 25
+        ComboBoxui1.TextColor = Color.Black
+        ' 
+        ' ComboBoxui2
+        ' 
+        ComboBoxui2.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui2.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui2.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui2.BorderColor = Color.Empty
+        ComboBoxui2.BorderRadius = 6
+        ComboBoxui2.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui2.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui2.FlatStyle = FlatStyle.Flat
+        ComboBoxui2.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui2.Font = New Font("Segoe UI", 10F)
+        ComboBoxui2.ForeColor = Color.Black
+        ComboBoxui2.FormattingEnabled = True
+        ComboBoxui2.ItemHeight = 30
+        ComboBoxui2.Location = New Point(23, 417)
+        ComboBoxui2.Name = "ComboBoxui2"
+        ComboBoxui2.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui2.Size = New Size(297, 36)
+        ComboBoxui2.TabIndex = 25
+        ComboBoxui2.TextColor = Color.Black
+        ' 
+        ' ComboBoxui3
+        ' 
+        ComboBoxui3.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui3.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui3.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui3.BorderColor = Color.Empty
+        ComboBoxui3.BorderRadius = 6
+        ComboBoxui3.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui3.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui3.FlatStyle = FlatStyle.Flat
+        ComboBoxui3.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui3.Font = New Font("Segoe UI", 10F)
+        ComboBoxui3.ForeColor = Color.Black
+        ComboBoxui3.FormattingEnabled = True
+        ComboBoxui3.ItemHeight = 30
+        ComboBoxui3.Location = New Point(23, 490)
+        ComboBoxui3.Name = "ComboBoxui3"
+        ComboBoxui3.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui3.Size = New Size(297, 36)
+        ComboBoxui3.TabIndex = 25
+        ComboBoxui3.TextColor = Color.Black
+        ' 
+        ' ComboBoxui4
+        ' 
+        ComboBoxui4.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui4.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui4.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui4.BorderColor = Color.Empty
+        ComboBoxui4.BorderRadius = 6
+        ComboBoxui4.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui4.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui4.FlatStyle = FlatStyle.Flat
+        ComboBoxui4.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui4.Font = New Font("Segoe UI", 10F)
+        ComboBoxui4.ForeColor = Color.Black
+        ComboBoxui4.FormattingEnabled = True
+        ComboBoxui4.ItemHeight = 30
+        ComboBoxui4.Location = New Point(360, 122)
+        ComboBoxui4.Name = "ComboBoxui4"
+        ComboBoxui4.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui4.Size = New Size(297, 36)
+        ComboBoxui4.TabIndex = 25
+        ComboBoxui4.TextColor = Color.Black
         ' 
         ' frm_Empleado
         ' 
@@ -1001,7 +1027,6 @@ Partial Class frm_Empleado
     Friend WithEvents Label20 As Label
     Friend WithEvents Label21 As Label
     Friend WithEvents txt_Direccion As TextBox
-    Friend WithEvents txt_Correo As TextBox
     Friend WithEvents txt_FechaNacimiento As TextBox
     Friend WithEvents Label25 As Label
     Friend WithEvents Label30 As Label
@@ -1020,11 +1045,11 @@ Partial Class frm_Empleado
     Friend WithEvents Label29 As Label
     Friend WithEvents lbl_Cargo As Label
     Friend WithEvents Label35 As Label
-    Friend WithEvents cmb_EstadoCivil As ComboBox
-    Friend WithEvents cmb_Sexo As ComboBox
-    Friend WithEvents cmb_Cargo As ComboBox
-    Friend WithEvents cmb_Nacionalidad As ComboBox
     Friend WithEvents txt_Telefono As TextBox
     Friend WithEvents Label8 As Label
-    Friend WithEvents ComboBoxModerno1 As ComboBoxModerno
+    Friend WithEvents txt_Correo As TextBox
+    Friend WithEvents ComboBoxui1 As ComboBoxUI
+    Friend WithEvents ComboBoxui3 As ComboBoxUI
+    Friend WithEvents ComboBoxui2 As ComboBoxUI
+    Friend WithEvents ComboBoxui4 As ComboBoxUI
 End Class

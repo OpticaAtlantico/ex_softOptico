@@ -1,5 +1,5 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class ComboBoxModerno
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class ComboBoxUI
     Inherits System.Windows.Forms.ComboBox
 
     'UserControl reemplaza a Dispose para limpiar la lista de componentes.
@@ -16,21 +16,15 @@ Partial Class ComboBoxModerno
 
     'Requerido por el Diseñador de Windows Forms
     Private components As System.ComponentModel.IContainer
-    Public Property AutoScaleDimensions As SizeF
+    Public Property AutoScaleMode As AutoScaleMode
 
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()>
-    Private Sub InitializeComponent(AutoScaleMode As AutoScaleMode)
-        SuspendLayout()
-        ' 
-        ' ComboBoxModerno
-        ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
-        AutoScaleMode = AutoScaleMode.Font
-        Name = "ComboBoxModerno"
-        ResumeLayout(False)
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        components = New System.ComponentModel.Container()
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     End Sub
 
 End Class
