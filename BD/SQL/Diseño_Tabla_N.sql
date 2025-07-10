@@ -135,6 +135,7 @@ CREATE TABLE TEmpleados (
     Direccion NVARCHAR(MAX) NULL,
     CargoEmpleadoID INT NOT NULL,
     Email NVARCHAR(100) NULL,
+    Telefono NVARCHAR(60) NULL,
     Asesor BIT NOT NULL DEFAULT 0,
     Gerente BIT NOT NULL DEFAULT 0,
     Optometrista BIT NOT NULL DEFAULT 0,

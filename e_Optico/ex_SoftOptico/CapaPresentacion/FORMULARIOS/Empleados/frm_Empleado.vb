@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.VisualStyles
+Imports CapaPresentacion.TexboxConPlaceholder
 
 Public Class frm_Empleado
     Public Sub New()
@@ -52,12 +53,53 @@ Public Class frm_Empleado
         'txt_User
         txtCedula.AutoSize = False
         txtCedula.Size = New Size(297, 35)
-        txtCedula.Margin = New Padding(10, 5, 10, 5)
+
+        txt_Nombres.AutoSize = False
+        txt_Nombres.Size = New Size(297, 35)
+
+        txt_Apellidos.AutoSize = False
+        txt_Apellidos.Size = New Size(297, 35)
+
+        txt_Correo.AutoSize = False
+        txt_Correo.Size = New Size(297, 35)
+
+        txt_Direccion.AutoSize = False
+        txt_Direccion.Size = New Size(297, 35)
+
+        txt_Edad.AutoSize = False
+        txt_Edad.Size = New Size(297, 35)
+
+        txt_FechaNacimiento.AutoSize = False
+        txt_FechaNacimiento.Size = New Size(297, 35)
+
+        txt_Telefono.AutoSize = False
+        txt_Telefono.Size = New Size(297, 35)
+
+        cmb_Nacionalidad.AutoSize = False
+        cmb_Nacionalidad.Size = New Size(297, 35)
+        cmb_Nacionalidad.DropDownStyle = ComboBoxStyle.DropDownList
+
+        cmb_Cargo.AutoSize = False
+        cmb_Cargo.Size = New Size(297, 35)
+        cmb_Cargo.DropDownStyle = ComboBoxStyle.DropDownList
+
+        cmb_Sexo.AutoSize = False
+        cmb_Sexo.Size = New Size(297, 35)
+        cmb_Sexo.DropDownStyle = ComboBoxStyle.DropDownList
 
 
 
 
     End Sub
+
+    Private Sub frm_Empleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        With Me
+
+
+
+        End With
+    End Sub
+
 
 
 #End Region
