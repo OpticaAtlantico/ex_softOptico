@@ -14,6 +14,16 @@ GO
 -- *** 1. Tablas Maestras ***
 
 -- Tabla: Rol -- Ej: 'Administrador', 'Vendedor', 'Almacén', 'Gerente'
+CREATE TABLE TMenuOpciones (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    TextoBoton NVARCHAR(50) NOT NULL,
+    IconUnicode NVARCHAR(10),
+    Categoria INT,
+    Activo BIT
+);
+
+
+-- Tabla: Rol -- Ej: 'Administrador', 'Vendedor', 'Almacén', 'Gerente'
 CREATE TABLE TRol (
     RolID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(250) NOT NULL
@@ -491,4 +501,26 @@ INSERT INTO TTipoPago (Nombre) VALUES ('Garantia')
 INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
 
 
+--Para incorporarlo al sistema
+
+--Imports System.Data.SqlClient
+
+--Public Class MenuDrawerSQL
+--    Public Shared Function CargarOpcionesDesdeSQL(cadenaConexion As String) As (List(Of String), List(Of String))
+--        Dim textos As New List(Of String)
+--        Dim iconos As New List(Of String)
+
+--        Using conn As New SqlConnection(cadenaConexion)
+--            conn.Open()
+--            Dim cmd As New SqlCommand("SELECT TextoBoton, IconoUnicode FROM OpcionesMenuDrawer WHERE Activo = 1", conn)
+--            Dim reader = cmd.ExecuteReader()
+--            While reader.Read()
+--                textos.Add(reader("TextoBoton").ToString())
+--                iconos.Add(reader("IconoUnicode").ToString())
+--            End While
+--        End Using
+
+--        Return (textos, iconos)
+--    End Function
+--End Class
 

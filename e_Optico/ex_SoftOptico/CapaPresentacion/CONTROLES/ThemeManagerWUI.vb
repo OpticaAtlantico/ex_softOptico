@@ -1,7 +1,13 @@
 ﻿Imports System.Drawing
 Imports System.Windows.Forms
 
+Public Enum TemaVisual
+    Claro
+    Oscuro
+End Enum
+
 Module ThemeManagerWUI
+    Public Shared Property TemaActual As TemaVisual = TemaVisual.Claro
     Public Sub ApplyLightTheme(formulario As Form)
         formulario.BackColor = Color.White
 
@@ -13,7 +19,7 @@ Module ThemeManagerWUI
                     .BorderColor = Color.Gray
                     .FocusBorderColor = Color.DeepSkyBlue
                 End With
-            ElseIf TypeOf ctrl Is ComboBoxwUI Then
+            ElseIf TypeOf ctrl Is ComboBoxWUI Then
                 With CType(ctrl, ComboBoxWUI)
                     .BackgroundColorCustom = Color.White
                     .TextColor = Color.Black
@@ -86,7 +92,7 @@ Module ThemeManagerWUI
                     .TextColor = Color.White
                     .RippleColor = Color.FromArgb(120, Color.White)
                 End With
-            ElseIf TypeOf ctrl Is TextBoxIconwUI Then
+            ElseIf TypeOf ctrl Is TextBoxIconWUI Then
                 With CType(ctrl, TextBoxIconWUI)
                     .BackgroundColorCustom = Color.FromArgb(45, 45, 45)
                     .TextBoxRef.ForeColor = Color.White

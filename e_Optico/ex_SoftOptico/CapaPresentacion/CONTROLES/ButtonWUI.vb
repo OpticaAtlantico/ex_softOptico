@@ -12,6 +12,7 @@ Public Class ButtonWUI
     Private _rippleOrigin As Point
     Private _isRippling As Boolean = False
     Private _borderRadius As Integer = 6
+    Private _flatStyle As Integer
 
     Public Sub New()
         Me.Size = New Size(120, 35)
@@ -67,6 +68,16 @@ Public Class ButtonWUI
         End Get
         Set(value As Integer)
             _borderRadius = value
+            Me.Invalidate()
+        End Set
+    End Property
+
+    Public Property FlatStyle As Integer
+        Get
+            Return _flatStyle
+        End Get
+        Set(value As Integer)
+            _flatStyle = value
             Me.Invalidate()
         End Set
     End Property
