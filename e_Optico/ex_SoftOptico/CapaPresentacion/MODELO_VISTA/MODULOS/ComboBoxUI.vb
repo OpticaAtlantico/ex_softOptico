@@ -23,7 +23,7 @@ Public Class ComboBoxUI
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
         Me.ForeColor = _textColor
-        Me.BackColor = Color.FromArgb(80, 94, 129)
+        Me.BackColor = Color.White
     End Sub
 
     <Category("Material Estilo")>

@@ -1,42 +1,33 @@
-﻿Imports System.Drawing.Drawing2D
-Imports System.Drawing
-Imports System.Windows.Forms
+﻿Imports System.ComponentModel
+Imports System.Drawing.Drawing2D
+
 Public Class TextBoxWUI
     Inherits UserControl
 
-    Private _textBox As New TextBox()
-    Private _borderColor As Color = Color.Gray
+    Private WithEvents innerText As New TextBox()
+    Private _borderColor As Color = Color.LightGray
     Private _focusBorderColor As Color = Color.DeepSkyBlue
     Private _borderRadius As Integer = 6
-    Private _shadowColor As Color = Color.FromArgb(40, Color.Black)
+    Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
     Private _backgroundColor As Color = Color.White
+    Private _textColor As Color = Color.Black
+    Private _tituloSuperior As String = ""
     Private _hasFocus As Boolean = False
 
     Public Sub New()
-        Me.Size = New Size(297, 35)
-        Me.BackColor = Color.Transparent
+        Me.Size = New Size(300, 40)
+        Me.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         Me.DoubleBuffered = True
-
-        _textBox.BorderStyle = BorderStyle.None
-        _textBox.Font = New Font("Segoe UI", 10)
-        _textBox.ForeColor = Color.Black
-        _textBox.BackColor = Color.White
-        _textBox.Location = New Point(10, 8)
-        _textBox.Width = Me.Width - 20
-        Me.Controls.Add(_textBox)
-
-        AddHandler _textBox.GotFocus, Sub()
-                                          _hasFocus = True
-                                          Me.Invalidate()
-                                      End Sub
-        AddHandler _textBox.LostFocus, Sub()
-                                           _hasFocus = False
-                                           Me.Invalidate()
-                                       End Sub
+        innerText.BorderStyle = BorderStyle.None
+        innerText.BackColor = _backgroundColor
+        innerText.ForeColor = _textColor
+        innerText.Location = New Point(10, (Me.Height - innerText.Height) \ 2)
+        innerText.Width = Me.Width - 20
+        Me.Controls.Add(innerText)
     End Sub
 
-    ' 📎 Propiedades públicas
-
+    ' 🧠 Propiedades públicas
+    <Category("WilmerUI Estilo")>
     Public Property BorderColor As Color
         Get
             Return _borderColor
@@ -47,6 +38,7 @@ Public Class TextBoxWUI
         End Set
     End Property
 
+    <Category("WilmerUI Estilo")>
     Public Property FocusBorderColor As Color
         Get
             Return _focusBorderColor
@@ -57,6 +49,7 @@ Public Class TextBoxWUI
         End Set
     End Property
 
+    <Category("WilmerUI Estilo")>
     Public Property BorderRadius As Integer
         Get
             Return _borderRadius
@@ -67,17 +60,7 @@ Public Class TextBoxWUI
         End Set
     End Property
 
-    Public Property BackgroundColorCustom As Color
-        Get
-            Return _backgroundColor
-        End Get
-        Set(value As Color)
-            _backgroundColor = value
-            _textBox.BackColor = value
-            Me.Invalidate()
-        End Set
-    End Property
-
+    <Category("WilmerUI Estilo")>
     Public Property ShadowColor As Color
         Get
             Return _shadowColor
@@ -88,56 +71,104 @@ Public Class TextBoxWUI
         End Set
     End Property
 
-    Public Property WilmerText As String
+    <Category("WilmerUI Estilo")>
+    Public Property BackgroundColor As Color
         Get
-            Return _textBox.Text
+            Return _backgroundColor
         End Get
-        Set(value As String)
-            _textBox.Text = value
+        Set(value As Color)
+            _backgroundColor = value
+            innerText.BackColor = value
+            Me.Invalidate()
         End Set
     End Property
 
-    Public ReadOnly Property TextBoxRef As TextBox
+    <Category("WilmerUI Estilo")>
+    Public Property TextColor As Color
         Get
-            Return _textBox
+            Return _textColor
         End Get
+        Set(value As Color)
+            _textColor = value
+            innerText.ForeColor = value
+            Me.Invalidate()
+        End Set
     End Property
 
-    ' 🎨 Render personalizado
+    <Category("WilmerUI Estilo")>
+    Public Property TituloSuperior As String
+        Get
+            Return _tituloSuperior
+        End Get
+        Set(value As String)
+            _tituloSuperior = value
+            Me.Invalidate()
+        End Set
+    End Property
 
-    Protected Overrides Sub OnPaint(pe As PaintEventArgs)
-        Dim g = pe.Graphics
-        g.SmoothingMode = SmoothingMode.AntiAlias
+    ' ✨ Propiedad de texto accesible desde fuera
+    Public Property Texto As String
+        Get
+            Return innerText.Text
+        End Get
+        Set(value As String)
+            innerText.Text = value
+        End Set
+    End Property
 
-        Dim rect = New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
+    Public Property TextBox As Object
 
-        ' Sombra
-        Dim shadowRect = New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
-        g.FillRectangle(New SolidBrush(_shadowColor), shadowRect)
-
-        ' Borde redondeado
-        Dim path = New GraphicsPath()
-        path.AddArc(rect.X, rect.Y, _borderRadius, _borderRadius, 180, 90)
-        path.AddArc(rect.Right - _borderRadius, rect.Y, _borderRadius, _borderRadius, 270, 90)
-        path.AddArc(rect.Right - _borderRadius, rect.Bottom - _borderRadius, _borderRadius, _borderRadius, 0, 90)
-        path.AddArc(rect.X, rect.Bottom - _borderRadius, _borderRadius, _borderRadius, 90, 90)
-        path.CloseAllFigures()
-
-        g.FillPath(New SolidBrush(_backgroundColor), path)
-        Dim penColor = If(_hasFocus, _focusBorderColor, _borderColor)
-        Using pen As New Pen(penColor, 1.5F)
-            g.DrawPath(pen, path)
-        End Using
+    ' 🔁 Foco visual
+    Private Sub innerText_GotFocus(sender As Object, e As EventArgs) Handles innerText.GotFocus
+        _hasFocus = True
+        Me.Invalidate()
     End Sub
 
-    'COMO SE USA
+    Private Sub innerText_LostFocus(sender As Object, e As EventArgs) Handles innerText.LostFocus
+        _hasFocus = False
+        Me.Invalidate()
+    End Sub
 
-    'Dim txtNombre As New TextBoxUI()
-    'txtNombre.Location = New Point(20, 40)
-    'txtNombre.BorderColor = Color.Gray
-    'txtNombre.FocusBorderColor = Color.DeepSkyBlue
-    'txtNombre.BackgroundColorCustom = Color.White
-    'txtNombre.WilmerText = "Wilmer Dev"
-    'Me.Controls.Add(txtNombre)
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+        MyBase.OnPaint(e)
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
+        Dim rect = New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
+        Dim path = RoundedPath(rect, _borderRadius)
+
+        ' Sombra
+        Dim sombraRect = New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
+        Using sombraBrush As New SolidBrush(_shadowColor)
+            e.Graphics.FillRectangle(sombraBrush, sombraRect)
+        End Using
+
+        ' Fondo principal
+        Using fondoBrush As New SolidBrush(_backgroundColor)
+            e.Graphics.FillPath(fondoBrush, path)
+        End Using
+
+        ' Borde
+        Using pen As New Pen(If(_hasFocus, _focusBorderColor, _borderColor), 1.5F)
+            e.Graphics.DrawPath(pen, path)
+        End Using
+
+        ' Etiqueta superior
+        If Not String.IsNullOrWhiteSpace(_tituloSuperior) Then
+            Dim fuenteTitulo As New Font("Century Gothic", 12, FontStyle.Regular)
+            Using brush As New SolidBrush(Color.Gray)
+                e.Graphics.DrawString(_tituloSuperior, fuenteTitulo, brush, New Point(10, 4))
+            End Using
+        End If
+    End Sub
+
+    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.StartFigure()
+        path.AddArc(rect.X, rect.Y, radius, radius, 180, 90)
+        path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90)
+        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
 End Class

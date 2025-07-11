@@ -6,117 +6,105 @@ Public Enum TemaVisual
     Oscuro
 End Enum
 
-Module ThemeManagerWUI
+Public Class ThemeManagerWUI
+
     Public Shared Property TemaActual As TemaVisual = TemaVisual.Claro
-    Public Sub ApplyLightTheme(formulario As Form)
-        formulario.BackColor = Color.White
+    Public Shared Property ColorBorde As Color = Color.Silver
+    Public Shared Property ColorPrimario As Color = Color.DeepSkyBlue
 
+
+    Public Shared Event TemaCambiado()
+
+    Public Shared Sub CambiarTema(nuevoTema As TemaVisual)
+        TemaActual = nuevoTema
+        RaiseEvent TemaCambiado()
+    End Sub
+
+    Public Shared ReadOnly Property ColorFondoBase As Color
+        Get
+            Return If(TemaActual = TemaVisual.Claro, Color.White, Color.FromArgb(30, 30, 30))
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property ColorTextoBase As Color
+        Get
+            Return If(TemaActual = TemaVisual.Claro, Color.Black, Color.White)
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property ColorAcento As Color
+        Get
+            Return If(TemaActual = TemaVisual.Claro, Color.DeepSkyBlue, Color.MediumPurple)
+        End Get
+    End Property
+
+    Public Shared Sub AplicarEstiloAControl(ctrl As Control)
+        If TypeOf ctrl Is TextBoxWUI Then
+            With CType(ctrl, TextBoxWUI)
+                .BackgroundColor = If(TemaActual = TemaVisual.Claro, Color.White, Color.FromArgb(45, 45, 45))
+                .TextBox.ForeColor = ColorTextoBase
+                .BorderColor = If(TemaActual = TemaVisual.Claro, Color.Gray, ColorAcento)
+                .FocusBorderColor = ColorAcento
+            End With
+        ElseIf TypeOf ctrl Is ComboBoxWUI Then
+            With CType(ctrl, ComboBoxWUI)
+                .BackgroundColorCustom = If(TemaActual = TemaVisual.Claro, Color.White, Color.FromArgb(45, 45, 45))
+                .TextColor = ColorTextoBase
+                .BorderColor = ColorAcento
+                .FocusColor = ColorAcento
+            End With
+        ElseIf TypeOf ctrl Is OptionButtonWUI Then
+            With CType(ctrl, OptionButtonWUI)
+                .TextColor = ColorTextoBase
+                .CheckedColor = ColorAcento
+            End With
+        ElseIf TypeOf ctrl Is CommandButtonWUI Then
+            With CType(ctrl, CommandButtonWUI)
+                .BaseColor = ColorAcento
+                .TextColor = Color.White
+            End With
+        ElseIf TypeOf ctrl Is ButtonWUI Then
+            With CType(ctrl, ButtonWUI)
+                .BaseColor = ColorAcento
+                .TextColor = Color.White
+                .RippleColor = Color.FromArgb(120, Color.White)
+            End With
+        ElseIf TypeOf ctrl Is TextBoxIconWUI Then
+            With CType(ctrl, TextBoxIconWUI)
+                .BackgroundColorCustom = If(TemaActual = TemaVisual.Claro, Color.White, Color.FromArgb(45, 45, 45))
+                .TextBoxRef.ForeColor = ColorTextoBase
+                .FocusColor = ColorAcento
+            End With
+        ElseIf TypeOf ctrl Is MaskedTextBoxFechaWUI Then
+            With CType(ctrl, MaskedTextBoxFechaWUI)
+                .BackgroundColorCustom = If(TemaActual = TemaVisual.Claro, Color.White, Color.FromArgb(45, 45, 45))
+                .MaskedRef.ForeColor = ColorTextoBase
+                .FocusColor = ColorAcento
+            End With
+        End If
+    End Sub
+
+    Public Shared Sub ActualizarControles(formulario As Control)
+        formulario.BackColor = ColorFondoBase
         For Each ctrl In formulario.Controls
-            If TypeOf ctrl Is TextBoxWUI Then
-                With CType(ctrl, TextBoxWUI)
-                    .BackgroundColorCustom = Color.White
-                    .TextBoxRef.ForeColor = Color.Black
-                    .BorderColor = Color.Gray
-                    .FocusBorderColor = Color.DeepSkyBlue
-                End With
-            ElseIf TypeOf ctrl Is ComboBoxWUI Then
-                With CType(ctrl, ComboBoxWUI)
-                    .BackgroundColorCustom = Color.White
-                    .TextColor = Color.Black
-                    .BorderColor = Color.Gray
-                    .FocusColor = Color.DeepSkyBlue
-                End With
-            ElseIf TypeOf ctrl Is OptionButtonWUI Then
-                With CType(ctrl, OptionButtonWUI)
-                    .TextColor = Color.Black
-                    .CheckedColor = Color.DeepSkyBlue
-                End With
-            ElseIf TypeOf ctrl Is CommandButtonWUI Then
-                With CType(ctrl, CommandButtonWUI)
-                    .BaseColor = Color.SteelBlue
-                    .TextColor = Color.White
-                End With
-            ElseIf TypeOf ctrl Is ButtonWUI Then
-                With CType(ctrl, ButtonWUI)
-                    .BaseColor = Color.SteelBlue
-                    .TextColor = Color.White
-                    .RippleColor = Color.FromArgb(120, Color.White)
-                End With
-            ElseIf TypeOf ctrl Is TextBoxIconWUI Then
-                With CType(ctrl, TextBoxIconWUI)
-                    .BackgroundColorCustom = Color.White
-                    .TextBoxRef.ForeColor = Color.Black
-                    .FocusColor = Color.DeepSkyBlue
-                End With
-            ElseIf TypeOf ctrl Is MaskedTextBoxFechaWUI Then
-                With CType(ctrl, MaskedTextBoxFechaWUI)
-                    .BackgroundColorCustom = Color.White
-                    .MaskedRef.ForeColor = Color.Black
-                    .FocusColor = Color.DeepSkyBlue
-                End With
-            End If
+            AplicarEstiloAControl(ctrl)
+            If ctrl.HasChildren Then ActualizarControles(ctrl) ' Recurse for nested containers
         Next
     End Sub
 
-    Public Sub ApplyDarkTheme(formulario As Form)
-        formulario.BackColor = Color.FromArgb(30, 30, 30)
-
-        For Each ctrl In formulario.Controls
-            If TypeOf ctrl Is TextBoxWUI Then
-                With CType(ctrl, TextBoxWUI)
-                    .BackgroundColorCustom = Color.FromArgb(45, 45, 45)
-                    .TextBoxRef.ForeColor = Color.White
-                    .BorderColor = Color.MediumPurple
-                    .FocusBorderColor = Color.MediumPurple
-                End With
-            ElseIf TypeOf ctrl Is ComboBoxWUI Then
-                With CType(ctrl, ComboBoxWUI)
-                    .BackgroundColorCustom = Color.FromArgb(45, 45, 45)
-                    .TextColor = Color.White
-                    .BorderColor = Color.MediumPurple
-                    .FocusColor = Color.MediumPurple
-                End With
-            ElseIf TypeOf ctrl Is OptionButtonWUI Then
-                With CType(ctrl, OptionButtonWUI)
-                    .TextColor = Color.White
-                    .CheckedColor = Color.MediumPurple
-                End With
-            ElseIf TypeOf ctrl Is CommandButtonWUI Then
-                With CType(ctrl, CommandButtonWUI)
-                    .BaseColor = Color.MediumPurple
-                    .TextColor = Color.White
-                End With
-            ElseIf TypeOf ctrl Is ButtonWUI Then
-                With CType(ctrl, ButtonWUI)
-                    .BaseColor = Color.MediumPurple
-                    .TextColor = Color.White
-                    .RippleColor = Color.FromArgb(120, Color.White)
-                End With
-            ElseIf TypeOf ctrl Is TextBoxIconWUI Then
-                With CType(ctrl, TextBoxIconWUI)
-                    .BackgroundColorCustom = Color.FromArgb(45, 45, 45)
-                    .TextBoxRef.ForeColor = Color.White
-                    .FocusColor = Color.MediumPurple
-                End With
-            ElseIf TypeOf ctrl Is MaskedTextBoxFechaWUI Then
-                With CType(ctrl, MaskedTextBoxFechaWUI)
-                    .BackgroundColorCustom = Color.FromArgb(45, 45, 45)
-                    .MaskedRef.ForeColor = Color.White
-                    .FocusColor = Color.MediumPurple
-                End With
-            End If
-        Next
-    End Sub
-
-    'Como usarlo
+    'Como usarlo en el formulario principal
 
 
-    'AddHandler toggleTema.TemaCambiado, Sub(s, isDark)
-    'If isDark Then
-    '    ThemeManagerWilmerUI.ApplyDarkTheme(Me)
-    'Else
-    '    ThemeManagerWilmerUI.ApplyLightTheme(Me)
-    'End If
+    'Private Sub FormLoadHandler() Handles Me.Load
+    '    ThemeManagerWilmerUI.ActualizarControles(Me)
+
+    '    AddHandler ThemeManagerWilmerUI.TemaCambiado, Sub()
+    '                                                      ThemeManagerWilmerUI.ActualizarControles(Me)
+    '                                                  End Sub
     'End Sub
 
-End Module
+End Class
+
+
+
+

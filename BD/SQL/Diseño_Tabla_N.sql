@@ -1,3 +1,5 @@
+-- Actualizado el dia: 11/07/2025
+
 IF NOT EXISTS (
     SELECT * FROM SYS.databases 
     WHERE name = 'BD_OPTICA'
@@ -13,7 +15,7 @@ GO
 
 -- *** 1. Tablas Maestras ***
 
--- Tabla: Rol -- Ej: 'Administrador', 'Vendedor', 'Almacén', 'Gerente'
+-- Tabla: TMenuOpciones para almacenar los controles que van a aparecer en el menu de opcionesd del menu principal
 CREATE TABLE TMenuOpciones (
     id INT IDENTITY(1,1) PRIMARY KEY,
     TextoBoton NVARCHAR(50) NOT NULL,

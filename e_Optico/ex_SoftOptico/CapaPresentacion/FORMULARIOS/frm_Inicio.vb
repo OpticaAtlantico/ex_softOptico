@@ -205,6 +205,10 @@ Public Class frm_Inicio
     End Sub
 
     Private Sub btn_1_Click(sender As Object, e As EventArgs) Handles btn_1.Click
+        'GestorPreferencias.AplicarTemaGuardado() ' Aplica tema guardado al iniciar
+        'Dim centroTemas As New frm_Visual()
+        'centroTemas.Show()
+
         OpenChildForm(New frm_Empleado, sender)
     End Sub
 

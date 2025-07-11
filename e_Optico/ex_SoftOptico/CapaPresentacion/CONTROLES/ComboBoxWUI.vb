@@ -1,44 +1,42 @@
 ﻿Imports System.Drawing.Drawing2D
-Imports System.Drawing
-Imports System.Windows.Forms
+Imports System.ComponentModel
+
 Public Class ComboBoxWUI
     Inherits UserControl
 
-    Private _combo As New ComboBox()
-    Private _borderColor As Color = Color.Gray
+    Private WithEvents cboInterno As New ComboBox()
+
+    Private _borderColor As Color = Color.Silver
     Private _focusColor As Color = Color.DeepSkyBlue
     Private _borderRadius As Integer = 6
-    Private _shadowColor As Color = Color.FromArgb(40, Color.Black)
-    Private _backgroundColor As Color = Color.White
-    Private _textColor As Color = Color.Black
     Private _hasFocus As Boolean = False
+    Private _backgroundColorCustom As Color = Color.White
+    Private _textColor As Color = Color.Black
+    Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
 
     Public Sub New()
-        Me.Size = New Size(297, 35)
-        Me.BackColor = Color.Transparent
         Me.DoubleBuffered = True
+        Me.Size = New Size(300, 40)
+        Me.Font = New Font("Century Gothic", 12, FontStyle.Regular)
 
-        _combo.DropDownStyle = ComboBoxStyle.DropDownList
-        _combo.FlatStyle = FlatStyle.Flat
-        _combo.Font = New Font("Segoe UI", 10)
-        _combo.ForeColor = _textColor
-        _combo.BackColor = _backgroundColor
-        _combo.Width = Me.Width - 20
-        _combo.Location = New Point(10, 8)
-        Me.Controls.Add(_combo)
+        cboInterno.DropDownStyle = ComboBoxStyle.DropDownList
+        cboInterno.FlatStyle = FlatStyle.Flat
+        cboInterno.Font = Me.Font
+        cboInterno.BackColor = _backgroundColorCustom
+        cboInterno.ForeColor = _textColor
+        cboInterno.Location = New Point(10, (Me.Height - cboInterno.Height) \ 2)
+        cboInterno.Width = Me.Width - 30
 
-        AddHandler _combo.GotFocus, Sub()
-                                        _hasFocus = True
-                                        Me.Invalidate()
-                                    End Sub
-        AddHandler _combo.LostFocus, Sub()
-                                         _hasFocus = False
-                                         Me.Invalidate()
-                                     End Sub
+        Me.Controls.Add(cboInterno)
+        AddHandler Me.Resize, AddressOf AjustarAltura
     End Sub
 
-    ' 🎛 Propiedades públicas
+    Private Sub AjustarAltura(sender As Object, e As EventArgs)
+        cboInterno.Location = New Point(10, (Me.Height - cboInterno.Height) \ 2)
+    End Sub
 
+    ' 📦 Propiedades visuales
+    <Category("WilmerUI Estilo")>
     Public Property BorderColor As Color
         Get
             Return _borderColor
@@ -49,6 +47,7 @@ Public Class ComboBoxWUI
         End Set
     End Property
 
+    <Category("WilmerUI Estilo")>
     Public Property FocusColor As Color
         Get
             Return _focusColor
@@ -59,6 +58,7 @@ Public Class ComboBoxWUI
         End Set
     End Property
 
+    <Category("WilmerUI Estilo")>
     Public Property BorderRadius As Integer
         Get
             Return _borderRadius
@@ -69,66 +69,145 @@ Public Class ComboBoxWUI
         End Set
     End Property
 
+    <Category("WilmerUI Estilo")>
     Public Property BackgroundColorCustom As Color
         Get
-            Return _backgroundColor
+            Return _backgroundColorCustom
         End Get
         Set(value As Color)
-            _backgroundColor = value
-            _combo.BackColor = value
+            _backgroundColorCustom = value
+            cboInterno.BackColor = value
             Me.Invalidate()
         End Set
     End Property
 
+    <Category("WilmerUI Estilo")>
     Public Property TextColor As Color
         Get
             Return _textColor
         End Get
         Set(value As Color)
             _textColor = value
-            _combo.ForeColor = value
+            cboInterno.ForeColor = value
             Me.Invalidate()
         End Set
     End Property
 
-    Public ReadOnly Property ComboRef As ComboBox
+    <Category("WilmerUI Estilo")>
+    Public Property ShadowColor As Color
         Get
-            Return _combo
+            Return _shadowColor
+        End Get
+        Set(value As Color)
+            _shadowColor = value
+            Me.Invalidate()
+        End Set
+    End Property
+
+    ' 🎯 Accesos extendidos
+    <Category("WilmerUI Acceso")>
+    Public ReadOnly Property Items As ComboBox.ObjectCollection
+        Get
+            Return cboInterno.Items
         End Get
     End Property
 
-    ' 🎨 Render personalizado
+    <Category("WilmerUI Acceso")>
+    Public Property SelectedIndex As Integer
+        Get
+            Return cboInterno.SelectedIndex
+        End Get
+        Set(value As Integer)
+            cboInterno.SelectedIndex = value
+        End Set
+    End Property
 
-    Protected Overrides Sub OnPaint(pe As PaintEventArgs)
-        Dim g = pe.Graphics
-        g.SmoothingMode = SmoothingMode.AntiAlias
+    <Category("WilmerUI Acceso")>
+    Public ReadOnly Property SelectedItem As Object
+        Get
+            Return cboInterno.SelectedItem
+        End Get
+    End Property
+
+    <Category("WilmerUI Acceso")>
+    Public ReadOnly Property SelectedValue As Object
+        Get
+            Return cboInterno.SelectedItem
+        End Get
+    End Property
+
+    <Category("WilmerUI Acceso")>
+    Public ReadOnly Property ComboBoxRef As ComboBox
+        Get
+            Return cboInterno
+        End Get
+    End Property
+
+    ' 🔁 Foco visual
+    Private Sub cboInterno_GotFocus(sender As Object, e As EventArgs) Handles cboInterno.GotFocus
+        _hasFocus = True
+        Me.Invalidate()
+    End Sub
+
+    Private Sub cboInterno_LostFocus(sender As Object, e As EventArgs) Handles cboInterno.LostFocus
+        _hasFocus = False
+        Me.Invalidate()
+    End Sub
+
+    ' 🎨 Redibujado orbital
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+        MyBase.OnPaint(e)
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
         Dim rect = New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
+        Dim path = RoundedPath(rect, _borderRadius)
 
         ' Sombra
-        Dim shadowRect = New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
-        g.FillRectangle(New SolidBrush(_shadowColor), shadowRect)
+        Dim sombraRect = New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
+        Using sombraBrush As New SolidBrush(_shadowColor)
+            e.Graphics.FillRectangle(sombraBrush, sombraRect)
+        End Using
 
-        ' Borde redondeado
-        Dim path = New GraphicsPath()
-        path.AddArc(rect.X, rect.Y, _borderRadius, _borderRadius, 180, 90)
-        path.AddArc(rect.Right - _borderRadius, rect.Y, _borderRadius, _borderRadius, 270, 90)
-        path.AddArc(rect.Right - _borderRadius, rect.Bottom - _borderRadius, _borderRadius, _borderRadius, 0, 90)
-        path.AddArc(rect.X, rect.Bottom - _borderRadius, _borderRadius, _borderRadius, 90, 90)
-        path.CloseAllFigures()
+        ' Fondo
+        Using fondoBrush As New SolidBrush(_backgroundColorCustom)
+            e.Graphics.FillPath(fondoBrush, path)
+        End Using
 
-        g.FillPath(New SolidBrush(_backgroundColor), path)
-        Dim penColor = If(_hasFocus, _focusColor, _borderColor)
-        Using pen As New Pen(penColor, 1.5F)
-            g.DrawPath(pen, path)
+        ' Borde
+        Using pen As New Pen(If(_hasFocus, _focusColor, _borderColor), 1.5F)
+            e.Graphics.DrawPath(pen, path)
+        End Using
+
+        ' Flechita limpia
+        Dim centerY = Me.Height \ 2
+        Dim flechaPath As New GraphicsPath()
+        flechaPath.AddPolygon({
+            New Point(Me.Width - 18, centerY - 4),
+            New Point(Me.Width - 10, centerY - 4),
+            New Point(Me.Width - 14, centerY + 2)
+        })
+        Using flechaBrush As New SolidBrush(_textColor)
+            e.Graphics.FillPath(flechaBrush, flechaPath)
         End Using
     End Sub
 
-    'Dim cmbEstado As New ComboBoxUI()
-    'cmbEstado.Location = New Point(20, 100)
-    'cmbEstado.ComboRef.Items.AddRange({"Soltero", "Casado", "Viudo"})
-    'cmbEstado.ComboRef.SelectedIndex = 0
-    'cmbEstado.FocusColor = Color.DeepSkyBlue
-    'Me.Controls.Add(cmbEstado)
+    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.StartFigure()
+        path.AddArc(rect.X, rect.Y, radius, radius, 180, 90)
+        path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90)
+        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
 
+    ' 📡 Integración con tema
+    Public Sub AplicarEstiloDesdeTema()
+        Me.BackgroundColorCustom = ThemeManagerWUI.ColorFondoBase
+        Me.BorderColor = ThemeManagerWUI.ColorBorde
+        Me.FocusColor = ThemeManagerWUI.ColorPrimario
+        Me.TextColor = ThemeManagerWUI.ColorTextoBase
+        Me.Invalidate()
+    End Sub
 End Class

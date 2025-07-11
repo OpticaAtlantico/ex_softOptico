@@ -63,6 +63,12 @@ Partial Class frm_Empleado
         Panel1 = New Panel()
         Panel2 = New Panel()
         pnlEditarDatos = New Panel()
+        ComboBoxui5 = New ComboBoxUI()
+        ComboBoxwui1 = New ComboBoxWUI()
+        ComboBoxui3 = New ComboBoxUI()
+        ComboBoxui2 = New ComboBoxUI()
+        ComboBoxui4 = New ComboBoxUI()
+        ComboBoxui1 = New ComboBoxUI()
         btn_Cancelar = New Button()
         btn_Aceptar = New Button()
         txt_Direccion = New TextBox()
@@ -87,10 +93,6 @@ Partial Class frm_Empleado
         Label21 = New Label()
         pnl_Titulo = New Panel()
         Label17 = New Label()
-        ComboBoxui1 = New ComboBoxUI()
-        ComboBoxui2 = New ComboBoxUI()
-        ComboBoxui3 = New ComboBoxUI()
-        ComboBoxui4 = New ComboBoxUI()
         pnlPrincipal.SuspendLayout()
         pnlDatos.SuspendLayout()
         Panel4.SuspendLayout()
@@ -562,6 +564,8 @@ Partial Class frm_Empleado
         ' pnlEditarDatos
         ' 
         pnlEditarDatos.BackColor = Color.FromArgb(CByte(51), CByte(51), CByte(80))
+        pnlEditarDatos.Controls.Add(ComboBoxui5)
+        pnlEditarDatos.Controls.Add(ComboBoxwui1)
         pnlEditarDatos.Controls.Add(ComboBoxui3)
         pnlEditarDatos.Controls.Add(ComboBoxui2)
         pnlEditarDatos.Controls.Add(ComboBoxui4)
@@ -593,6 +597,131 @@ Partial Class frm_Empleado
         pnlEditarDatos.Name = "pnlEditarDatos"
         pnlEditarDatos.Size = New Size(696, 649)
         pnlEditarDatos.TabIndex = 4
+        ' 
+        ' ComboBoxui5
+        ' 
+        ComboBoxui5.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui5.BackColor = Color.White
+        ComboBoxui5.BackgroundColor = Color.White
+        ComboBoxui5.BorderColor = Color.LightGray
+        ComboBoxui5.BorderRadius = 6
+        ComboBoxui5.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui5.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui5.FlatStyle = FlatStyle.Flat
+        ComboBoxui5.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui5.Font = New Font("Segoe UI", 10F)
+        ComboBoxui5.ForeColor = Color.Black
+        ComboBoxui5.FormattingEnabled = True
+        ComboBoxui5.ItemHeight = 30
+        ComboBoxui5.Location = New Point(360, 451)
+        ComboBoxui5.Name = "ComboBoxui5"
+        ComboBoxui5.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui5.Size = New Size(297, 36)
+        ComboBoxui5.TabIndex = 27
+        ComboBoxui5.TextColor = Color.Black
+        ' 
+        ' ComboBoxwui1
+        ' 
+        ComboBoxwui1.BackgroundColorCustom = Color.White
+        ComboBoxwui1.BorderColor = Color.LightGray
+        ComboBoxwui1.BorderRadius = 6
+        ComboBoxwui1.FocusColor = Color.DeepSkyBlue
+        ComboBoxwui1.Font = New Font("Century Gothic", 12F)
+        ComboBoxwui1.Location = New Point(360, 507)
+        ComboBoxwui1.Name = "ComboBoxwui1"
+        ComboBoxwui1.SelectedIndex = -1
+        ComboBoxwui1.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxwui1.Size = New Size(297, 36)
+        ComboBoxwui1.TabIndex = 26
+        ComboBoxwui1.TextColor = Color.Black
+        ' 
+        ' ComboBoxui3
+        ' 
+        ComboBoxui3.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui3.BackColor = Color.White
+        ComboBoxui3.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui3.BorderColor = Color.Empty
+        ComboBoxui3.BorderRadius = 6
+        ComboBoxui3.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui3.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui3.FlatStyle = FlatStyle.Flat
+        ComboBoxui3.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui3.Font = New Font("Segoe UI", 10F)
+        ComboBoxui3.ForeColor = Color.Black
+        ComboBoxui3.FormattingEnabled = True
+        ComboBoxui3.ItemHeight = 30
+        ComboBoxui3.Location = New Point(23, 490)
+        ComboBoxui3.Name = "ComboBoxui3"
+        ComboBoxui3.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui3.Size = New Size(297, 36)
+        ComboBoxui3.TabIndex = 25
+        ComboBoxui3.TextColor = Color.Black
+        ' 
+        ' ComboBoxui2
+        ' 
+        ComboBoxui2.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui2.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui2.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui2.BorderColor = Color.Empty
+        ComboBoxui2.BorderRadius = 6
+        ComboBoxui2.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui2.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui2.FlatStyle = FlatStyle.Flat
+        ComboBoxui2.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui2.Font = New Font("Segoe UI", 10F)
+        ComboBoxui2.ForeColor = Color.Black
+        ComboBoxui2.FormattingEnabled = True
+        ComboBoxui2.ItemHeight = 30
+        ComboBoxui2.Location = New Point(23, 417)
+        ComboBoxui2.Name = "ComboBoxui2"
+        ComboBoxui2.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui2.Size = New Size(297, 36)
+        ComboBoxui2.TabIndex = 25
+        ComboBoxui2.TextColor = Color.Black
+        ' 
+        ' ComboBoxui4
+        ' 
+        ComboBoxui4.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui4.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui4.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui4.BorderColor = Color.Empty
+        ComboBoxui4.BorderRadius = 6
+        ComboBoxui4.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui4.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui4.FlatStyle = FlatStyle.Flat
+        ComboBoxui4.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui4.Font = New Font("Segoe UI", 10F)
+        ComboBoxui4.ForeColor = Color.Black
+        ComboBoxui4.FormattingEnabled = True
+        ComboBoxui4.ItemHeight = 30
+        ComboBoxui4.Location = New Point(360, 122)
+        ComboBoxui4.Name = "ComboBoxui4"
+        ComboBoxui4.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui4.Size = New Size(297, 36)
+        ComboBoxui4.TabIndex = 25
+        ComboBoxui4.TextColor = Color.Black
+        ' 
+        ' ComboBoxui1
+        ' 
+        ComboBoxui1.AutoScaleMode = AutoScaleMode.None
+        ComboBoxui1.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui1.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        ComboBoxui1.BorderColor = Color.Empty
+        ComboBoxui1.BorderRadius = 6
+        ComboBoxui1.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBoxui1.DropDownStyle = ComboBoxStyle.DropDownList
+        ComboBoxui1.FlatStyle = FlatStyle.Flat
+        ComboBoxui1.FocusBorderColor = Color.DeepSkyBlue
+        ComboBoxui1.Font = New Font("Segoe UI", 10F)
+        ComboBoxui1.ForeColor = Color.Black
+        ComboBoxui1.FormattingEnabled = True
+        ComboBoxui1.ItemHeight = 30
+        ComboBoxui1.Location = New Point(23, 344)
+        ComboBoxui1.Name = "ComboBoxui1"
+        ComboBoxui1.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
+        ComboBoxui1.Size = New Size(297, 36)
+        ComboBoxui1.TabIndex = 25
+        ComboBoxui1.TextColor = Color.Black
         ' 
         ' btn_Cancelar
         ' 
@@ -867,94 +996,6 @@ Partial Class frm_Empleado
         Label17.TabIndex = 30
         Label17.Text = "Editar..."
         ' 
-        ' ComboBoxui1
-        ' 
-        ComboBoxui1.AutoScaleMode = AutoScaleMode.None
-        ComboBoxui1.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui1.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui1.BorderColor = Color.Empty
-        ComboBoxui1.BorderRadius = 6
-        ComboBoxui1.DrawMode = DrawMode.OwnerDrawFixed
-        ComboBoxui1.DropDownStyle = ComboBoxStyle.DropDownList
-        ComboBoxui1.FlatStyle = FlatStyle.Flat
-        ComboBoxui1.FocusBorderColor = Color.DeepSkyBlue
-        ComboBoxui1.Font = New Font("Segoe UI", 10F)
-        ComboBoxui1.ForeColor = Color.Black
-        ComboBoxui1.FormattingEnabled = True
-        ComboBoxui1.ItemHeight = 30
-        ComboBoxui1.Location = New Point(23, 344)
-        ComboBoxui1.Name = "ComboBoxui1"
-        ComboBoxui1.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
-        ComboBoxui1.Size = New Size(297, 36)
-        ComboBoxui1.TabIndex = 25
-        ComboBoxui1.TextColor = Color.Black
-        ' 
-        ' ComboBoxui2
-        ' 
-        ComboBoxui2.AutoScaleMode = AutoScaleMode.None
-        ComboBoxui2.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui2.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui2.BorderColor = Color.Empty
-        ComboBoxui2.BorderRadius = 6
-        ComboBoxui2.DrawMode = DrawMode.OwnerDrawFixed
-        ComboBoxui2.DropDownStyle = ComboBoxStyle.DropDownList
-        ComboBoxui2.FlatStyle = FlatStyle.Flat
-        ComboBoxui2.FocusBorderColor = Color.DeepSkyBlue
-        ComboBoxui2.Font = New Font("Segoe UI", 10F)
-        ComboBoxui2.ForeColor = Color.Black
-        ComboBoxui2.FormattingEnabled = True
-        ComboBoxui2.ItemHeight = 30
-        ComboBoxui2.Location = New Point(23, 417)
-        ComboBoxui2.Name = "ComboBoxui2"
-        ComboBoxui2.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
-        ComboBoxui2.Size = New Size(297, 36)
-        ComboBoxui2.TabIndex = 25
-        ComboBoxui2.TextColor = Color.Black
-        ' 
-        ' ComboBoxui3
-        ' 
-        ComboBoxui3.AutoScaleMode = AutoScaleMode.None
-        ComboBoxui3.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui3.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui3.BorderColor = Color.Empty
-        ComboBoxui3.BorderRadius = 6
-        ComboBoxui3.DrawMode = DrawMode.OwnerDrawFixed
-        ComboBoxui3.DropDownStyle = ComboBoxStyle.DropDownList
-        ComboBoxui3.FlatStyle = FlatStyle.Flat
-        ComboBoxui3.FocusBorderColor = Color.DeepSkyBlue
-        ComboBoxui3.Font = New Font("Segoe UI", 10F)
-        ComboBoxui3.ForeColor = Color.Black
-        ComboBoxui3.FormattingEnabled = True
-        ComboBoxui3.ItemHeight = 30
-        ComboBoxui3.Location = New Point(23, 490)
-        ComboBoxui3.Name = "ComboBoxui3"
-        ComboBoxui3.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
-        ComboBoxui3.Size = New Size(297, 36)
-        ComboBoxui3.TabIndex = 25
-        ComboBoxui3.TextColor = Color.Black
-        ' 
-        ' ComboBoxui4
-        ' 
-        ComboBoxui4.AutoScaleMode = AutoScaleMode.None
-        ComboBoxui4.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui4.BackgroundColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        ComboBoxui4.BorderColor = Color.Empty
-        ComboBoxui4.BorderRadius = 6
-        ComboBoxui4.DrawMode = DrawMode.OwnerDrawFixed
-        ComboBoxui4.DropDownStyle = ComboBoxStyle.DropDownList
-        ComboBoxui4.FlatStyle = FlatStyle.Flat
-        ComboBoxui4.FocusBorderColor = Color.DeepSkyBlue
-        ComboBoxui4.Font = New Font("Segoe UI", 10F)
-        ComboBoxui4.ForeColor = Color.Black
-        ComboBoxui4.FormattingEnabled = True
-        ComboBoxui4.ItemHeight = 30
-        ComboBoxui4.Location = New Point(360, 122)
-        ComboBoxui4.Name = "ComboBoxui4"
-        ComboBoxui4.ShadowColor = Color.FromArgb(CByte(40), CByte(0), CByte(0), CByte(0))
-        ComboBoxui4.Size = New Size(297, 36)
-        ComboBoxui4.TabIndex = 25
-        ComboBoxui4.TextColor = Color.Black
-        ' 
         ' frm_Empleado
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -1052,4 +1093,6 @@ Partial Class frm_Empleado
     Friend WithEvents ComboBoxui3 As ComboBoxUI
     Friend WithEvents ComboBoxui2 As ComboBoxUI
     Friend WithEvents ComboBoxui4 As ComboBoxUI
+    Friend WithEvents ComboBoxui5 As ComboBoxUI
+    Friend WithEvents ComboBoxwui1 As ComboBoxWUI
 End Class

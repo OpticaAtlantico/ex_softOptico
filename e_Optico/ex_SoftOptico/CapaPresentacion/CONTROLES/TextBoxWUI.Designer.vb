@@ -26,7 +26,7 @@ Partial Class TextBoxWUI
         ' 
         ' TextBoxWUI
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         Name = "TextBoxWUI"
         ResumeLayout(False)
