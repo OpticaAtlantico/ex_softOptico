@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ComboBoxUI
+Partial Class ComboBoxUIs
     Inherits System.Windows.Forms.ComboBox
 
     'UserControl reemplaza a Dispose para limpiar la lista de componentes.

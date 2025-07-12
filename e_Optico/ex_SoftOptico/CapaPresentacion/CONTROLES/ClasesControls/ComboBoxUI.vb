@@ -1,32 +1,33 @@
 ﻿Imports System.ComponentModel
-Imports System.Drawing.Drawing2D
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 
 Public Class ComboBoxUI
     Inherits ComboBox
 
-    Private _borderColor As Color = Color.LightGray
-    Private _focusBorderColor As Color = Color.DeepSkyBlue
+    Private _borderColor As Color = Color.Silver
+    Private _focusColor As Color = Color.DeepSkyBlue
     Private _borderRadius As Integer = 6
     Private _hasFocus As Boolean = False
-    Private _backColorCustom As Color = Color.White
+    Private _backgroundColor As Color = Color.White
     Private _textColor As Color = Color.Black
-    Private _shadowColor As Color = Color.FromArgb(40, Color.Black)
+    Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
 
     Public Sub New()
         Me.SetStyle(ControlStyles.UserPaint Or ControlStyles.ResizeRedraw Or ControlStyles.OptimizedDoubleBuffer, True)
         Me.DrawMode = DrawMode.OwnerDrawFixed
         Me.DropDownStyle = ComboBoxStyle.DropDownList
-        Me.Font = New Font("Segoe UI", 10, FontStyle.Regular)
-        Me.Size = New Size(297, 35)
+        Me.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
         Me.ForeColor = _textColor
-        Me.BackColor = Color.White
+        Me.BackColor = _backgroundColor
+        Me.Size = New Size(300, 40)
     End Sub
 
-    <Category("Material Estilo")>
+    ' Propiedades orbitales
+    <Category("UI Estilo")>
     Public Property BorderColor As Color
         Get
             Return _borderColor
@@ -37,18 +38,18 @@ Public Class ComboBoxUI
         End Set
     End Property
 
-    <Category("Material Estilo")>
-    Public Property FocusBorderColor As Color
+    <Category("UI Estilo")>
+    Public Property FocusColor As Color
         Get
-            Return _focusBorderColor
+            Return _focusColor
         End Get
         Set(value As Color)
-            _focusBorderColor = value
+            _focusColor = value
             Me.Invalidate()
         End Set
     End Property
 
-    <Category("Material Estilo")>
+    <Category("UI Estilo")>
     Public Property BorderRadius As Integer
         Get
             Return _borderRadius
@@ -59,18 +60,18 @@ Public Class ComboBoxUI
         End Set
     End Property
 
-    <Category("Material Estilo")>
+    <Category("UI Estilo")>
     Public Property BackgroundColor As Color
         Get
-            Return _backColorCustom
+            Return _backgroundColor
         End Get
         Set(value As Color)
-            _backColorCustom = value
+            _backgroundColor = value
             Me.Invalidate()
         End Set
     End Property
 
-    <Category("Material Estilo")>
+    <Category("UI Estilo")>
     Public Property TextColor As Color
         Get
             Return _textColor
@@ -82,7 +83,7 @@ Public Class ComboBoxUI
         End Set
     End Property
 
-    <Category("Material Estilo")>
+    <Category("UI Estilo")>
     Public Property ShadowColor As Color
         Get
             Return _shadowColor
@@ -108,47 +109,46 @@ Public Class ComboBoxUI
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
-        Dim rect = New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
-
-        ' Sombra suave exterior
+        Dim rect As New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
+        Dim shadowRect As New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
         Using shadowBrush As New SolidBrush(_shadowColor)
-            Dim shadowRect = New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
             pe.Graphics.FillRectangle(shadowBrush, shadowRect)
         End Using
 
-        ' Bordes redondeados
         Dim path = RoundedRectanglePath(rect, _borderRadius)
 
-        ' Fondo principal
-        pe.Graphics.FillPath(New SolidBrush(_backColorCustom), path)
+        Using fondoBrush As New SolidBrush(_backgroundColor)
+            pe.Graphics.FillPath(fondoBrush, path)
+        End Using
 
-        ' Borde color según foco
-        Dim penColor = If(_hasFocus, _focusBorderColor, _borderColor)
+        Dim penColor = If(_hasFocus, _focusColor, _borderColor)
         Using pen As New Pen(penColor, 1.5F)
             pe.Graphics.DrawPath(pen, path)
         End Using
 
-        ' Texto seleccionado
+        ' Texto del ítem seleccionado
         If Me.SelectedIndex >= 0 Then
-            Dim textRect = New Rectangle(10, 0, Me.Width - 30, Me.Height)
-            TextRenderer.DrawText(pe.Graphics, Me.GetItemText(Me.Items(Me.SelectedIndex)), Me.Font, textRect, _textColor, TextFormatFlags.VerticalCenter)
+            Dim textRect As New Rectangle(10, 0, Me.Width - 30, Me.Height)
+            TextRenderer.DrawText(pe.Graphics, Me.GetItemText(Me.SelectedItem), Me.Font, textRect, _textColor, TextFormatFlags.VerticalCenter)
         End If
 
-        ' Flechita elegante
-        Dim centerY = Me.Height \ 2
-        Dim triangle As Point() = {
-                New Point(Me.Width - 18, centerY - 4),
-                New Point(Me.Width - 10, centerY - 4),
-                New Point(Me.Width - 14, centerY + 2)
-            }
-        pe.Graphics.FillPolygon(New SolidBrush(Color.WhiteSmoke), triangle)
+        ' Flecha orbital dibujada manualmente
+        Dim cy = Me.Height \ 2
+        Dim flecha() As Point = {
+            New Point(Me.Width - 18, cy - 4),
+            New Point(Me.Width - 10, cy - 4),
+            New Point(Me.Width - 14, cy + 2)
+        }
+        Using brush As New SolidBrush(_textColor)
+            pe.Graphics.FillPolygon(brush, flecha)
+        End Using
     End Sub
 
     Protected Overrides Sub OnDrawItem(e As DrawItemEventArgs)
-        If e.Index < 0 Then Return
+        If e.Index < 0 Then Exit Sub
 
         Dim itemText = Me.Items(e.Index).ToString()
-        Dim bgColor = If((e.State And DrawItemState.Selected) = DrawItemState.Selected, Color.LightSkyBlue, _backColorCustom)
+        Dim bgColor = If((e.State And DrawItemState.Selected) = DrawItemState.Selected, Color.LightSkyBlue, _backgroundColor)
 
         e.Graphics.FillRectangle(New SolidBrush(bgColor), e.Bounds)
         TextRenderer.DrawText(e.Graphics, itemText, Me.Font, e.Bounds, _textColor, TextFormatFlags.Left Or TextFormatFlags.VerticalCenter)
@@ -165,4 +165,13 @@ Public Class ComboBoxUI
         Return path
     End Function
 
+    ' Aplicar tema visual orbital
+    Public Sub AplicarEstiloDesdeTema()
+        Me.BackgroundColor = ThemeManagerUI.ColorFondoBase
+        Me.BorderColor = ThemeManagerUI.ColorBorde
+        Me.FocusColor = ThemeManagerUI.ColorPrimario
+        Me.TextColor = ThemeManagerUI.ColorTextoBase
+        Me.ShadowColor = ThemeManagerUI.ColorSombra
+        Me.Invalidate()
+    End Sub
 End Class
