@@ -27,7 +27,6 @@ Partial Class frm_Principal
         pnlEditarDatos = New Panel()
         ComboBoxLabelui1 = New ComboBoxLabelUI()
         TextBoxLabelui1 = New TextBoxLabelUI()
-        MaterialButton1 = New MaterialSkin.Controls.MaterialButton()
         pnlEditarDatos.SuspendLayout()
         SuspendLayout()
         ' 
@@ -40,7 +39,6 @@ Partial Class frm_Principal
         ' pnlEditarDatos
         ' 
         pnlEditarDatos.BackColor = Color.FromArgb(CByte(51), CByte(51), CByte(80))
-        pnlEditarDatos.Controls.Add(MaterialButton1)
         pnlEditarDatos.Controls.Add(ComboBoxLabelui1)
         pnlEditarDatos.Controls.Add(TextBoxLabelui1)
         pnlEditarDatos.Dock = DockStyle.Fill
@@ -84,25 +82,6 @@ Partial Class frm_Principal
         TextBoxLabelui1.TabIndex = 0
         TextBoxLabelui1.TextColor = Color.WhiteSmoke
         ' 
-        ' MaterialButton1
-        ' 
-        MaterialButton1.AutoSizeMode = AutoSizeMode.GrowAndShrink
-        MaterialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default
-        MaterialButton1.Depth = 0
-        MaterialButton1.HighEmphasis = True
-        MaterialButton1.Icon = Nothing
-        MaterialButton1.Location = New Point(67, 124)
-        MaterialButton1.Margin = New Padding(4, 6, 4, 6)
-        MaterialButton1.MouseState = MaterialSkin.MouseState.HOVER
-        MaterialButton1.Name = "MaterialButton1"
-        MaterialButton1.NoAccentTextColor = Color.Empty
-        MaterialButton1.Size = New Size(158, 36)
-        MaterialButton1.TabIndex = 5
-        MaterialButton1.Text = "MaterialButton1"
-        MaterialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
-        MaterialButton1.UseAccentColor = False
-        MaterialButton1.UseVisualStyleBackColor = True
-        ' 
         ' frm_Principal
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -112,7 +91,6 @@ Partial Class frm_Principal
         Name = "frm_Principal"
         Text = "frm_Principal"
         pnlEditarDatos.ResumeLayout(False)
-        pnlEditarDatos.PerformLayout()
         ResumeLayout(False)
     End Sub
 
@@ -120,5 +98,5 @@ Partial Class frm_Principal
     Friend WithEvents pnlEditarDatos As Panel
     Friend WithEvents TextBoxLabelui1 As TextBoxLabelUI
     Friend WithEvents ComboBoxLabelui1 As ComboBoxLabelUI
-    Friend WithEvents MaterialButton1 As MaterialSkin.Controls.MaterialButton
+    Friend WithEvents btnAceptar As MaterialSkin.Controls.MaterialButton
 End Class
