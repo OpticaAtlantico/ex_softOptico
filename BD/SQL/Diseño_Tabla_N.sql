@@ -1,4 +1,4 @@
--- Actualizado el dia: 11/07/2025
+-- Actualizado el dia: 14/07/2025
 
 IF NOT EXISTS (
     SELECT * FROM SYS.databases 
@@ -142,7 +142,7 @@ CREATE TABLE TEmpleados (
     Edad INT NULL,
     Nacionalidad CHAR(1) NULL,
     EstadoCivil CHAR(1) NULL,
-    Sexo CHAR(1) NULL,
+    Sexo NVARCHAR(10) NULL,
     FechaNacimiento DATE NULL,
     Direccion NVARCHAR(MAX) NULL,
     CargoEmpleadoID INT NOT NULL,
@@ -412,6 +412,23 @@ CREATE OR ALTER VIEW VLogin AS
         INNER JOIN TRol R ON L.RolID = R.RolID;
 
 GO
+
+CREATE OR ALTER VIEW VCategorias AS
+    SELECT C.Categoriaid
+         , C.NombreCategoria
+    FROM TCategorias C
+        
+-- SELECT * FROM VCategorias;
+
+
+--VISTA VCargoEmpleado , para visualizar todos los datos del cargos para los empleados
+CREATE OR ALTER VIEW VCargoEmpleado AS
+    SELECT C.CargoEmpleadoID
+         , C.Descripcion
+    FROM TCargoEmpleado C
+
+-- SELECT * FROM VCargoEmpleado;
+
 -----   PROCEDIMIENTOS
 
 

@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.VisualStyles
 Imports CapaPresentacion.TexboxConPlaceholder
+Imports Microsoft.Data
 
 Public Class frm_Empleado
     Public Sub New()
@@ -50,47 +51,28 @@ Public Class frm_Empleado
 #Region "Customicer Control"
     Private Sub CustomizeComponent()
 
-        'txt_User
-        txtCedula.AutoSize = False
-        txtCedula.Size = New Size(297, 35)
+        Dim manager As New LlenarComboBox()
+        Dim sql As String = "SELECT CargoEmpleadoID, Descripcion FROM VCargoEmpleado"
+        manager.Cargar(cmbCargo, sql, "Descripcion", "CargoEmpleadoID")
 
-        txt_Nombres.AutoSize = False
-        txt_Nombres.Size = New Size(297, 35)
-
-        txt_Apellidos.AutoSize = False
-        txt_Apellidos.Size = New Size(297, 35)
-
-        txt_Correo.AutoSize = False
-        txt_Correo.Size = New Size(297, 35)
-
-        txt_Direccion.AutoSize = False
-        txt_Direccion.Size = New Size(297, 35)
-
-        txt_Edad.AutoSize = False
-        txt_Edad.Size = New Size(297, 35)
-
-        txt_FechaNacimiento.AutoSize = False
-        txt_FechaNacimiento.Size = New Size(297, 35)
-
-        txt_Telefono.AutoSize = False
-        txt_Telefono.Size = New Size(297, 35)
-
-
-
-
-
+        pnlEntrada.Enabled = False
 
     End Sub
 
     Private Sub frm_Empleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        With Me
-
-
-
-        End With
+        CustomizeComponent()
     End Sub
 
-
+    Private Sub lnk_EditarUsuario_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnk_EditarUsuario.LinkClicked
+        With Me
+            If .pnlEntrada.Enabled Then
+                .txtCedula.Focus()
+            Else
+                .pnlEntrada.Enabled = True
+                .txtCedula.Focus()
+            End If
+        End With
+    End Sub
 
 
 #End Region

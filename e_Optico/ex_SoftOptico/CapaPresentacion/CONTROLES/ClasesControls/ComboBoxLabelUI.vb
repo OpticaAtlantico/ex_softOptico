@@ -24,9 +24,10 @@ Public Class ComboBoxLabelUI
     Private _radiusBorde As Integer = 5
     Private _borderColorNormal As Color = Color.WhiteSmoke
 
+    Private _items As New List(Of Object)
 
     Public Sub New()
-        Me.Size = New Size(700, 100)
+    Me.Size = New Size(700, 100)
         Me.DoubleBuffered = True
         Me.BackColor = Color.Transparent
 
@@ -190,6 +191,12 @@ Public Class ComboBoxLabelUI
     Public ReadOnly Property SelectedValue As Object
         Get
             Return cmbCampo.SelectedValue
+        End Get
+    End Property
+
+    Public ReadOnly Property Items As List(Of Object)
+        Get
+            Return _items
         End Get
     End Property
 
