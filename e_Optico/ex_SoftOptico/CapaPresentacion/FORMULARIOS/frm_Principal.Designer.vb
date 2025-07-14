@@ -25,8 +25,9 @@ Partial Class frm_Principal
         components = New ComponentModel.Container()
         menuIconList = New ImageList(components)
         pnlEditarDatos = New Panel()
-        TextBoxLabel2ui1 = New TextBoxLabel2UI()
-        TextBoxLabel2ui2 = New TextBoxLabel2UI()
+        ComboBoxLabelui1 = New ComboBoxLabelUI()
+        TextBoxLabelui1 = New TextBoxLabelUI()
+        MaterialButton1 = New MaterialSkin.Controls.MaterialButton()
         pnlEditarDatos.SuspendLayout()
         SuspendLayout()
         ' 
@@ -39,57 +40,68 @@ Partial Class frm_Principal
         ' pnlEditarDatos
         ' 
         pnlEditarDatos.BackColor = Color.FromArgb(CByte(51), CByte(51), CByte(80))
-        pnlEditarDatos.Controls.Add(TextBoxLabel2ui2)
-        pnlEditarDatos.Controls.Add(TextBoxLabel2ui1)
+        pnlEditarDatos.Controls.Add(MaterialButton1)
+        pnlEditarDatos.Controls.Add(ComboBoxLabelui1)
+        pnlEditarDatos.Controls.Add(TextBoxLabelui1)
         pnlEditarDatos.Dock = DockStyle.Fill
         pnlEditarDatos.Location = New Point(0, 0)
         pnlEditarDatos.Name = "pnlEditarDatos"
         pnlEditarDatos.Size = New Size(1132, 559)
         pnlEditarDatos.TabIndex = 5
         ' 
-        ' TextBoxLabel2ui1
+        ' ComboBoxLabelui1
         ' 
-        TextBoxLabel2ui1.BackColor = Color.Transparent
-        TextBoxLabel2ui1.BorderFlat = True
-        TextBoxLabel2ui1.BorderRadius = 10
-        TextBoxLabel2ui1.CampoRequerido = True
-        TextBoxLabel2ui1.ColorError = Color.Firebrick
-        TextBoxLabel2ui1.FontField = New Font("Segoe UI", 10F)
-        TextBoxLabel2ui1.ForeColor = Color.White
-        TextBoxLabel2ui1.LabelText = "Texto:"
-        TextBoxLabel2ui1.Location = New Point(32, 45)
-        TextBoxLabel2ui1.MensajeError = "Este campo no puede quedar vacío."
-        TextBoxLabel2ui1.Name = "TextBoxLabel2ui1"
-        TextBoxLabel2ui1.PaddingAll = 15
-        TextBoxLabel2ui1.PanelBackColor = Color.DimGray
-        TextBoxLabel2ui1.PlaceholderColor = Color.White
-        TextBoxLabel2ui1.PlaceholderFont = New Font("Segoe UI", 10F, FontStyle.Italic)
-        TextBoxLabel2ui1.PlaceholderText = "Escribe algo..."
-        TextBoxLabel2ui1.Size = New Size(306, 89)
-        TextBoxLabel2ui1.TabIndex = 0
-        TextBoxLabel2ui1.TextColor = Color.Blue
+        ComboBoxLabelui1.BackColor = Color.Transparent
+        ComboBoxLabelui1.BorderRadius = 5
+        ComboBoxLabelui1.CampoRequerido = True
+        ComboBoxLabelui1.ColorError = Color.Firebrick
+        ComboBoxLabelui1.FontField = New Font("Century Gothic", 12F)
+        ComboBoxLabelui1.LabelText = "Selecciona una opción:"
+        ComboBoxLabelui1.Location = New Point(34, 24)
+        ComboBoxLabelui1.MensajeError = "Este campo es obligatorio."
+        ComboBoxLabelui1.Name = "ComboBoxLabelui1"
+        ComboBoxLabelui1.Size = New Size(291, 76)
+        ComboBoxLabelui1.TabIndex = 4
         ' 
-        ' TextBoxLabel2ui2
+        ' TextBoxLabelui1
         ' 
-        TextBoxLabel2ui2.BackColor = Color.Transparent
-        TextBoxLabel2ui2.BorderFlat = True
-        TextBoxLabel2ui2.BorderRadius = 10
-        TextBoxLabel2ui2.CampoRequerido = True
-        TextBoxLabel2ui2.ColorError = Color.Firebrick
-        TextBoxLabel2ui2.FontField = New Font("Segoe UI", 10F)
-        TextBoxLabel2ui2.ForeColor = Color.White
-        TextBoxLabel2ui2.LabelText = "Texto:"
-        TextBoxLabel2ui2.Location = New Point(394, 45)
-        TextBoxLabel2ui2.MensajeError = "Este campo no puede quedar vacío."
-        TextBoxLabel2ui2.Name = "TextBoxLabel2ui2"
-        TextBoxLabel2ui2.PaddingAll = 15
-        TextBoxLabel2ui2.PanelBackColor = Color.DimGray
-        TextBoxLabel2ui2.PlaceholderColor = Color.White
-        TextBoxLabel2ui2.PlaceholderFont = New Font("Segoe UI", 10F, FontStyle.Italic)
-        TextBoxLabel2ui2.PlaceholderText = "Escribe algo..."
-        TextBoxLabel2ui2.Size = New Size(306, 89)
-        TextBoxLabel2ui2.TabIndex = 0
-        TextBoxLabel2ui2.TextColor = Color.Blue
+        TextBoxLabelui1.BackColor = Color.Transparent
+        TextBoxLabelui1.BorderFlat = True
+        TextBoxLabelui1.BorderRadius = 5
+        TextBoxLabelui1.CampoRequerido = True
+        TextBoxLabelui1.ColorError = Color.Firebrick
+        TextBoxLabelui1.FontField = New Font("Century Gothic", 12F)
+        TextBoxLabelui1.LabelText = "Texto:"
+        TextBoxLabelui1.Location = New Point(331, 24)
+        TextBoxLabelui1.MensajeError = "Este campo no puede quedar vacío."
+        TextBoxLabelui1.Name = "TextBoxLabelui1"
+        TextBoxLabelui1.PaddingAll = 15
+        TextBoxLabelui1.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        TextBoxLabelui1.PlaceholderColor = Color.Gray
+        TextBoxLabelui1.PlaceholderFont = New Font("Century Gothic", 12F, FontStyle.Italic)
+        TextBoxLabelui1.PlaceholderText = "Escribe algo..."
+        TextBoxLabelui1.Size = New Size(414, 82)
+        TextBoxLabelui1.TabIndex = 0
+        TextBoxLabelui1.TextColor = Color.WhiteSmoke
+        ' 
+        ' MaterialButton1
+        ' 
+        MaterialButton1.AutoSizeMode = AutoSizeMode.GrowAndShrink
+        MaterialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default
+        MaterialButton1.Depth = 0
+        MaterialButton1.HighEmphasis = True
+        MaterialButton1.Icon = Nothing
+        MaterialButton1.Location = New Point(67, 124)
+        MaterialButton1.Margin = New Padding(4, 6, 4, 6)
+        MaterialButton1.MouseState = MaterialSkin.MouseState.HOVER
+        MaterialButton1.Name = "MaterialButton1"
+        MaterialButton1.NoAccentTextColor = Color.Empty
+        MaterialButton1.Size = New Size(158, 36)
+        MaterialButton1.TabIndex = 5
+        MaterialButton1.Text = "MaterialButton1"
+        MaterialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained
+        MaterialButton1.UseAccentColor = False
+        MaterialButton1.UseVisualStyleBackColor = True
         ' 
         ' frm_Principal
         ' 
@@ -100,11 +112,13 @@ Partial Class frm_Principal
         Name = "frm_Principal"
         Text = "frm_Principal"
         pnlEditarDatos.ResumeLayout(False)
+        pnlEditarDatos.PerformLayout()
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents menuIconList As ImageList
     Friend WithEvents pnlEditarDatos As Panel
-    Friend WithEvents TextBoxLabel2ui1 As TextBoxLabel2UI
-    Friend WithEvents TextBoxLabel2ui2 As TextBoxLabel2UI
+    Friend WithEvents TextBoxLabelui1 As TextBoxLabelUI
+    Friend WithEvents ComboBoxLabelui1 As ComboBoxLabelUI
+    Friend WithEvents MaterialButton1 As MaterialSkin.Controls.MaterialButton
 End Class

@@ -1,7 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
-Imports System.Windows
 Imports System.Windows.Forms
 
 Public Class TextBoxLabelUI
@@ -10,112 +9,134 @@ Public Class TextBoxLabelUI
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
     Private txtCampo As New TextBox()
+    Private lblError As New Label()
 
+    ' Estilo general
     Private _labelText As String = "Texto:"
-    Private _panelBackColor As Color = Color.LightGray
-    Private _textColor As Color = Color.Black
+    Private _panelBackColor As Color = Color.FromArgb(80, 94, 129) ' Color de fondo del panel
+    Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
-    Private _paddingAll As Integer = 15
-
-    'Border Redondo
-    Private _borderColor As Color = Color.LightGray
-    Private _borderRadius As Integer = 10
-    Private _borderWidth As Integer = 2
-    Private _borderFlat As Boolean = True
+    Private _paddingAll As Integer = 10
 
     ' Placeholder
-    Private _placeholderText As String = ""
-    Private _placeholderColor As Color = Color.DarkGray
-    Private _placeholderFont As Font = New Font("Century Gothic", 12, Drawing.FontStyle.Italic)
+    Private _placeholderText As String = "Escribe algo..."
+    Private _placeholderColor As Color = Color.Gray
+    Private _placeholderFont As Font = New Font("Century Gothic", 12, FontStyle.Italic)
+
+    ' Validación
+    Private _campoRequerido As Boolean = True
+    Private _colorError As Color = Color.Firebrick
+    Private _mensajeError As String = "Este campo es obligatorio."
+
+    ' Borde visual
+    Private _borderRadius As Integer = 5
+    Private _borderFlat As Boolean = True
+    Private _borderColorNormal As Color = Color.LightGray
 
     Public Sub New()
-        Me.Size = New Drawing.Size(300, 75)
+        Me.Size = New Size(300, 100)
         Me.DoubleBuffered = True
         Me.BackColor = Color.Transparent
 
-        ' Label superior
+        ' === Etiqueta principal (título) ===
         lblTitulo.Text = _labelText
-        lblTitulo.Font = _fontField
-        lblTitulo.ForeColor = Color.White
-        lblTitulo.Dock = DockStyle.Top
+        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size + 1, FontStyle.Regular, unit:=GraphicsUnit.Point)
+        lblTitulo.ForeColor = Color.WhiteSmoke
         lblTitulo.Height = 20
-        lblTitulo.BackColor = Color.Transparent
-        Me.Controls.Add(lblTitulo)
+        lblTitulo.Dock = DockStyle.Top
 
-        ' Panel de fondo
-        pnlFondo.Dock = DockStyle.Fill
+        ' === Panel contenedor del TextBox ===
+        pnlFondo.Height = 40
+        pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(_paddingAll)
-        'Bordes Redondo
-        AddHandler pnlFondo.Paint, AddressOf DibujarBordeRedondeado
-        Me.Controls.Add(pnlFondo)
+        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
 
-        ' TextBox centrado
+        ' === TextBox central ===
         txtCampo.BorderStyle = BorderStyle.None
         txtCampo.Font = _fontField
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
         txtCampo.Multiline = False
         txtCampo.Anchor = AnchorStyles.None
-        txtCampo.TextAlign = System.Windows.HorizontalAlignment.Left
+        txtCampo.TextAlign = HorizontalAlignment.Left
         pnlFondo.Controls.Add(txtCampo)
 
-        ' Placeholder eventos
-        AddHandler txtCampo.Paint, AddressOf DibujarPlaceholder
-        AddHandler txtCampo.TextChanged, AddressOf ActualizarPlaceholder
-        AddHandler txtCampo.GotFocus, AddressOf ActualizarPlaceholder
-        AddHandler txtCampo.LostFocus, AddressOf ActualizarPlaceholder
+        ' === Etiqueta de error ===
+        lblError.Text = ""
+        lblError.ForeColor = _colorError
+        lblError.Height = 20
+        lblError.Dock = DockStyle.Top
+        lblError.Visible = False
 
-        ' Centrado orbital
+        ' === Agrega controles en el orden correcto ===
+        Me.Controls.Add(lblError)    ' Abajo
+        Me.Controls.Add(pnlFondo)    ' Centro
+        Me.Controls.Add(lblTitulo)   ' Arriba
+
+        ' === Eventos ===
+        AddHandler txtCampo.Paint, AddressOf DibujarPlaceholder
+        AddHandler txtCampo.TextChanged, AddressOf ActualizarEstado
+        AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
         AddHandler Me.Resize, AddressOf CentrarTextBox
         AddHandler pnlFondo.Resize, AddressOf CentrarTextBox
+        AddHandler pnlFondo.Resize, Sub(sender, e)
+                                        pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+                                    End Sub
+
         CentrarTextBox(Nothing, Nothing)
-
-
     End Sub
 
     Private Sub CentrarTextBox(sender As Object, e As EventArgs)
-        Dim ancho = Me.Width - (_paddingAll * 2)
-        Dim alto = 35
-        txtCampo.Size = New Drawing.Size(ancho, alto)
+        Dim ancho = pnlFondo.ClientSize.Width - (_paddingAll * 2)
+        Dim alto = 30
+        txtCampo.Size = New Size(ancho, alto)
 
-        Dim posX = (Me.Width - txtCampo.Width) \ 2
-        Dim espacioVertical = Me.Height - lblTitulo.Height
-        Dim posY = lblTitulo.Height + ((espacioVertical - txtCampo.Height) \ 2)
-
-        txtCampo.Location = New Drawing.Point(posX, posY)
+        Dim posX = (pnlFondo.ClientSize.Width - txtCampo.Width) \ 2
+        Dim posY = (pnlFondo.ClientSize.Height - txtCampo.Height) \ 2
+        txtCampo.Location = New Point(posX, posY)
     End Sub
 
-    Private Sub DibujarPlaceholder(sender As Object, e As PaintEventArgs)
-        If String.IsNullOrEmpty(txtCampo.Text) AndAlso Not txtCampo.Focused AndAlso Not String.IsNullOrEmpty(_placeholderText) Then
-            Using brush As New SolidBrush(_placeholderColor)
-                Dim yOffset = (txtCampo.Height - _placeholderFont.Height) \ 2
-                e.Graphics.DrawString(_placeholderText, _placeholderFont, brush, New PointF(4, yOffset))
-            End Using
+    Private Sub ValidarCampo(sender As Object, e As EventArgs)
+        If _campoRequerido Then
+            If String.IsNullOrWhiteSpace(txtCampo.Text) Then
+                lblError.Text = _mensajeError
+                lblError.Visible = True
+                _borderColorNormal = _colorError
+            Else
+                lblError.Visible = False
+                _borderColorNormal = Color.LightGray
+            End If
+            pnlFondo.Invalidate()
         End If
     End Sub
 
-    Private Sub ActualizarPlaceholder(sender As Object, e As EventArgs)
-        txtCampo.Invalidate()
+    Private Sub ActualizarEstado(sender As Object, e As EventArgs)
+        If lblError.Visible AndAlso Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            lblError.Visible = False
+            _borderColorNormal = Color.LightGray
+            pnlFondo.Invalidate()
+        End If
+        txtCampo.Invalidate() ' Actualiza placeholder si necesario
     End Sub
 
-    'Dibuja el borde reondo en el panelcon el evento paint
-    Private Sub DibujarBordeRedondeado(sender As Object, e As PaintEventArgs)
-        If _borderFlat Then
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
+        'If _borderFlat Then
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
             Dim rect = pnlFondo.ClientRectangle
-            'rect.Inflate(-1, -1) ' Margen visual
-            rect.Inflate(-_borderWidth \ 2, -_borderWidth \ 2)
-            Dim colorBorde = If(_borderFlat, pnlFondo.BackColor, _borderColor)
+            rect.Inflate(-1, -1)
 
-            Using path As GraphicsPath = RoundedPath(rect, _borderRadius),
-              pen As New Pen(colorBorde, _borderWidth)
-                e.Graphics.DrawPath(pen, path)
+            Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
+                Using brush As New SolidBrush(pnlFondo.BackColor)
+                    e.Graphics.FillPath(brush, path)
+                End Using
+                Using pen As New Pen(_borderColorNormal, 1)
+                    e.Graphics.DrawPath(pen, path)
+                End Using
             End Using
-        End If
+        'End If
     End Sub
 
-    'El Helper
     Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
         path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
@@ -126,7 +147,14 @@ Public Class TextBoxLabelUI
         Return path
     End Function
 
-    ' === Propiedades públicas ===
+    Private Sub DibujarPlaceholder(sender As Object, e As PaintEventArgs)
+        If String.IsNullOrEmpty(txtCampo.Text) AndAlso Not txtCampo.Focused AndAlso Not String.IsNullOrEmpty(_placeholderText) Then
+            Dim formato As New StringFormat With {.Alignment = StringAlignment.Near, .LineAlignment = StringAlignment.Center}
+            Using pincel As New SolidBrush(_placeholderColor)
+                e.Graphics.DrawString(_placeholderText, _placeholderFont, pincel, txtCampo.ClientRectangle, formato)
+            End Using
+        End If
+    End Sub
 
     <Category("UI Estilo")>
     Public Property LabelText As String
@@ -171,6 +199,7 @@ Public Class TextBoxLabelUI
             _fontField = value
             txtCampo.Font = value
             lblTitulo.Font = value
+            lblError.Font = New Font(value.FontFamily, value.Size - 3)
         End Set
     End Property
 
@@ -181,6 +210,7 @@ Public Class TextBoxLabelUI
         End Get
         Set(value As Integer)
             _paddingAll = value
+            pnlFondo.Padding = New Padding(_paddingAll)
             CentrarTextBox(Nothing, Nothing)
         End Set
     End Property
@@ -218,6 +248,38 @@ Public Class TextBoxLabelUI
         End Set
     End Property
 
+    <Category("Validación")>
+    Public Property CampoRequerido As Boolean
+        Get
+            Return _campoRequerido
+        End Get
+        Set(value As Boolean)
+            _campoRequerido = value
+        End Set
+    End Property
+
+    <Category("Validación")>
+    Public Property ColorError As Color
+        Get
+            Return _colorError
+        End Get
+        Set(value As Color)
+            _colorError = value
+            lblError.ForeColor = value
+        End Set
+    End Property
+
+    <Category("Validación")>
+    Public Property MensajeError As String
+        Get
+            Return _mensajeError
+        End Get
+        Set(value As String)
+            _mensajeError = value
+            lblError.Text = value
+        End Set
+    End Property
+
     <Category("UI Estilo")>
     Public Property BorderRadius As Integer
         Get
@@ -226,6 +288,7 @@ Public Class TextBoxLabelUI
         Set(value As Integer)
             _borderRadius = value
             pnlFondo.Invalidate()
+            pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
         End Set
     End Property
 
@@ -240,31 +303,10 @@ Public Class TextBoxLabelUI
         End Set
     End Property
 
-    <Category("UI Estilo")>
-    Public Property BorderWidth As Boolean
-        Get
-            Return _borderWidth
-        End Get
-        Set(value As Boolean)
-            _borderWidth = value
-            pnlFondo.Invalidate()
-        End Set
-    End Property
-
-    <Category("UI Estilo")>
-    Public Property BorderColor As Color
-        Get
-            Return _borderColor
-        End Get
-        Set(value As Color)
-            _borderColor = value
-            pnlFondo.Invalidate()
-        End Set
-    End Property
-
     Public ReadOnly Property TextValue As String
         Get
             Return txtCampo.Text
         End Get
     End Property
+
 End Class

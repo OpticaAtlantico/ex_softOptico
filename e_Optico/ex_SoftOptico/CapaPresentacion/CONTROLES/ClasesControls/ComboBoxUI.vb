@@ -10,7 +10,7 @@ Public Class ComboBoxUI
     Private _focusColor As Color = Color.DeepSkyBlue
     Private _borderRadius As Integer = 6
     Private _hasFocus As Boolean = False
-    Private _backgroundColor As Color = Color.White
+    Private _backgroundColor As Color = Color.FromArgb(80, 94, 129)
     Private _textColor As Color = Color.Black
     Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
 
@@ -23,7 +23,7 @@ Public Class ComboBoxUI
         Me.FlatStyle = FlatStyle.Flat
         Me.ForeColor = _textColor
         Me.BackColor = _backgroundColor
-        Me.Size = New Size(300, 40)
+        Me.Size = New Size(300, 30)
     End Sub
 
     ' Propiedades orbitales

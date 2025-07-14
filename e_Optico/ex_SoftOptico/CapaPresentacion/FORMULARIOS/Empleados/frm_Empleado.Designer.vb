@@ -162,7 +162,7 @@ Partial Class frm_Empleado
         ' Label11
         ' 
         Label11.AutoSize = True
-        Label11.Font = New Font("Copperplate Gothic Light", 20.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label11.Font = New Font("Copperplate Gothic Light", 20F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label11.ForeColor = Color.White
         Label11.Location = New Point(3, 12)
         Label11.Name = "Label11"
@@ -223,7 +223,7 @@ Partial Class frm_Empleado
         ' Label33
         ' 
         Label33.AutoSize = True
-        Label33.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label33.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label33.Location = New Point(18, 443)
         Label33.Name = "Label33"
         Label33.Size = New Size(83, 19)
@@ -233,7 +233,7 @@ Partial Class frm_Empleado
         ' Label29
         ' 
         Label29.AutoSize = True
-        Label29.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label29.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label29.Location = New Point(18, 555)
         Label29.Name = "Label29"
         Label29.Size = New Size(65, 19)
@@ -243,7 +243,7 @@ Partial Class frm_Empleado
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label7.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label7.Location = New Point(278, 592)
         Label7.Name = "Label7"
         Label7.Size = New Size(111, 19)
@@ -324,7 +324,7 @@ Partial Class frm_Empleado
         ' lbl_Apellidos
         ' 
         lbl_Apellidos.AutoSize = True
-        lbl_Apellidos.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lbl_Apellidos.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lbl_Apellidos.Location = New Point(18, 500)
         lbl_Apellidos.Name = "lbl_Apellidos"
         lbl_Apellidos.Size = New Size(85, 19)
@@ -334,7 +334,7 @@ Partial Class frm_Empleado
         ' Label13
         ' 
         Label13.AutoSize = True
-        Label13.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label13.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label13.Location = New Point(278, 649)
         Label13.Name = "Label13"
         Label13.Size = New Size(91, 19)
@@ -344,7 +344,7 @@ Partial Class frm_Empleado
         ' Label27
         ' 
         Label27.AutoSize = True
-        Label27.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label27.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label27.Location = New Point(18, 386)
         Label27.Name = "Label27"
         Label27.Size = New Size(71, 19)
@@ -354,7 +354,7 @@ Partial Class frm_Empleado
         ' Label14
         ' 
         Label14.AutoSize = True
-        Label14.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label14.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label14.Location = New Point(278, 535)
         Label14.Name = "Label14"
         Label14.Size = New Size(75, 19)
@@ -364,7 +364,7 @@ Partial Class frm_Empleado
         ' Label15
         ' 
         Label15.AutoSize = True
-        Label15.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label15.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label15.Location = New Point(278, 478)
         Label15.Name = "Label15"
         Label15.Size = New Size(62, 19)
@@ -374,7 +374,7 @@ Partial Class frm_Empleado
         ' Label16
         ' 
         Label16.AutoSize = True
-        Label16.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label16.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label16.Location = New Point(278, 370)
         Label16.Name = "Label16"
         Label16.Size = New Size(87, 19)
@@ -404,7 +404,7 @@ Partial Class frm_Empleado
         ' Label6
         ' 
         Label6.AutoSize = True
-        Label6.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label6.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label6.Location = New Point(278, 84)
         Label6.Name = "Label6"
         Label6.Size = New Size(182, 19)
@@ -474,7 +474,7 @@ Partial Class frm_Empleado
         ' Label35
         ' 
         Label35.AutoSize = True
-        Label35.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label35.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label35.Location = New Point(18, 614)
         Label35.Name = "Label35"
         Label35.Size = New Size(76, 19)
@@ -484,7 +484,7 @@ Partial Class frm_Empleado
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label4.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label4.Location = New Point(278, 312)
         Label4.Name = "Label4"
         Label4.Size = New Size(122, 19)
@@ -494,7 +494,7 @@ Partial Class frm_Empleado
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.Location = New Point(278, 258)
         Label3.Name = "Label3"
         Label3.Size = New Size(50, 19)
@@ -504,7 +504,7 @@ Partial Class frm_Empleado
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.Location = New Point(278, 201)
         Label2.Name = "Label2"
         Label2.Size = New Size(100, 19)
@@ -514,7 +514,7 @@ Partial Class frm_Empleado
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.Location = New Point(278, 144)
         Label1.Name = "Label1"
         Label1.Size = New Size(54, 19)
@@ -592,7 +592,7 @@ Partial Class frm_Empleado
         btn_Cancelar.Cursor = Cursors.Hand
         btn_Cancelar.FlatAppearance.BorderSize = 0
         btn_Cancelar.FlatStyle = FlatStyle.Flat
-        btn_Cancelar.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btn_Cancelar.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btn_Cancelar.ForeColor = Color.White
         btn_Cancelar.Location = New Point(54, 573)
         btn_Cancelar.Name = "btn_Cancelar"
@@ -607,7 +607,7 @@ Partial Class frm_Empleado
         btn_Aceptar.Cursor = Cursors.Hand
         btn_Aceptar.FlatAppearance.BorderSize = 0
         btn_Aceptar.FlatStyle = FlatStyle.Flat
-        btn_Aceptar.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btn_Aceptar.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btn_Aceptar.ForeColor = Color.White
         btn_Aceptar.Location = New Point(331, 573)
         btn_Aceptar.Name = "btn_Aceptar"
@@ -620,7 +620,7 @@ Partial Class frm_Empleado
         ' 
         txt_Direccion.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txt_Direccion.BorderStyle = BorderStyle.None
-        txt_Direccion.Font = New Font("Century Gothic", 12.0F)
+        txt_Direccion.Font = New Font("Century Gothic", 12F)
         txt_Direccion.ForeColor = Color.White
         txt_Direccion.Location = New Point(360, 268)
         txt_Direccion.Multiline = True
@@ -632,7 +632,7 @@ Partial Class frm_Empleado
         ' 
         txt_Telefono.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txt_Telefono.BorderStyle = BorderStyle.None
-        txt_Telefono.Font = New Font("Century Gothic", 12.0F)
+        txt_Telefono.Font = New Font("Century Gothic", 12F)
         txt_Telefono.ForeColor = Color.White
         txt_Telefono.Location = New Point(360, 417)
         txt_Telefono.Name = "txt_Telefono"
@@ -643,7 +643,7 @@ Partial Class frm_Empleado
         ' 
         txt_Edad.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txt_Edad.BorderStyle = BorderStyle.None
-        txt_Edad.Font = New Font("Century Gothic", 12.0F)
+        txt_Edad.Font = New Font("Century Gothic", 12F)
         txt_Edad.ForeColor = Color.White
         txt_Edad.Location = New Point(23, 268)
         txt_Edad.Name = "txt_Edad"
@@ -654,7 +654,7 @@ Partial Class frm_Empleado
         ' 
         txt_Correo.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txt_Correo.BorderStyle = BorderStyle.None
-        txt_Correo.Font = New Font("Century Gothic", 12.0F)
+        txt_Correo.Font = New Font("Century Gothic", 12F)
         txt_Correo.ForeColor = Color.White
         txt_Correo.Location = New Point(360, 195)
         txt_Correo.Name = "txt_Correo"
@@ -665,7 +665,7 @@ Partial Class frm_Empleado
         ' 
         txt_Apellidos.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txt_Apellidos.BorderStyle = BorderStyle.None
-        txt_Apellidos.Font = New Font("Century Gothic", 12.0F)
+        txt_Apellidos.Font = New Font("Century Gothic", 12F)
         txt_Apellidos.ForeColor = Color.White
         txt_Apellidos.Location = New Point(23, 195)
         txt_Apellidos.Name = "txt_Apellidos"
@@ -676,7 +676,7 @@ Partial Class frm_Empleado
         ' 
         txt_Nombres.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txt_Nombres.BorderStyle = BorderStyle.None
-        txt_Nombres.Font = New Font("Century Gothic", 12.0F)
+        txt_Nombres.Font = New Font("Century Gothic", 12F)
         txt_Nombres.ForeColor = Color.White
         txt_Nombres.Location = New Point(23, 122)
         txt_Nombres.Name = "txt_Nombres"
@@ -687,7 +687,7 @@ Partial Class frm_Empleado
         ' 
         txt_FechaNacimiento.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txt_FechaNacimiento.BorderStyle = BorderStyle.None
-        txt_FechaNacimiento.Font = New Font("Century Gothic", 12.0F)
+        txt_FechaNacimiento.Font = New Font("Century Gothic", 12F)
         txt_FechaNacimiento.ForeColor = Color.White
         txt_FechaNacimiento.Location = New Point(360, 49)
         txt_FechaNacimiento.Name = "txt_FechaNacimiento"
@@ -698,7 +698,7 @@ Partial Class frm_Empleado
         ' 
         txtCedula.BackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txtCedula.BorderStyle = BorderStyle.None
-        txtCedula.Font = New Font("Century Gothic", 12.0F)
+        txtCedula.Font = New Font("Century Gothic", 12F)
         txtCedula.ForeColor = Color.White
         txtCedula.Location = New Point(23, 49)
         txtCedula.Margin = New Padding(10, 5, 3, 3)
@@ -709,7 +709,7 @@ Partial Class frm_Empleado
         ' Label25
         ' 
         Label25.AutoSize = True
-        Label25.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label25.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label25.ForeColor = Color.WhiteSmoke
         Label25.Location = New Point(23, 393)
         Label25.Name = "Label25"
@@ -720,7 +720,7 @@ Partial Class frm_Empleado
         ' Label30
         ' 
         Label30.AutoSize = True
-        Label30.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label30.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label30.ForeColor = Color.WhiteSmoke
         Label30.Location = New Point(360, 98)
         Label30.Name = "Label30"
@@ -731,7 +731,7 @@ Partial Class frm_Empleado
         ' Label18
         ' 
         Label18.AutoSize = True
-        Label18.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label18.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label18.ForeColor = Color.WhiteSmoke
         Label18.Location = New Point(23, 98)
         Label18.Name = "Label18"
@@ -742,7 +742,7 @@ Partial Class frm_Empleado
         ' Label23
         ' 
         Label23.AutoSize = True
-        Label23.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label23.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label23.ForeColor = Color.WhiteSmoke
         Label23.Location = New Point(23, 466)
         Label23.Name = "Label23"
@@ -753,7 +753,7 @@ Partial Class frm_Empleado
         ' Label28
         ' 
         Label28.AutoSize = True
-        Label28.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label28.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label28.ForeColor = Color.WhiteSmoke
         Label28.Location = New Point(360, 244)
         Label28.Name = "Label28"
@@ -764,7 +764,7 @@ Partial Class frm_Empleado
         ' Label8
         ' 
         Label8.AutoSize = True
-        Label8.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label8.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label8.ForeColor = Color.WhiteSmoke
         Label8.Location = New Point(360, 393)
         Label8.Name = "Label8"
@@ -775,7 +775,7 @@ Partial Class frm_Empleado
         ' Label19
         ' 
         Label19.AutoSize = True
-        Label19.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label19.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label19.ForeColor = Color.WhiteSmoke
         Label19.Location = New Point(23, 244)
         Label19.Name = "Label19"
@@ -786,7 +786,7 @@ Partial Class frm_Empleado
         ' Label22
         ' 
         Label22.AutoSize = True
-        Label22.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label22.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label22.ForeColor = Color.WhiteSmoke
         Label22.Location = New Point(23, 320)
         Label22.Name = "Label22"
@@ -797,7 +797,7 @@ Partial Class frm_Empleado
         ' Label26
         ' 
         Label26.AutoSize = True
-        Label26.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label26.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label26.ForeColor = Color.WhiteSmoke
         Label26.Location = New Point(360, 171)
         Label26.Name = "Label26"
@@ -808,7 +808,7 @@ Partial Class frm_Empleado
         ' Label20
         ' 
         Label20.AutoSize = True
-        Label20.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label20.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label20.ForeColor = Color.WhiteSmoke
         Label20.Location = New Point(23, 171)
         Label20.Name = "Label20"
@@ -819,7 +819,7 @@ Partial Class frm_Empleado
         ' Label24
         ' 
         Label24.AutoSize = True
-        Label24.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label24.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label24.ForeColor = Color.WhiteSmoke
         Label24.Location = New Point(360, 23)
         Label24.Name = "Label24"
@@ -830,7 +830,7 @@ Partial Class frm_Empleado
         ' Label21
         ' 
         Label21.AutoSize = True
-        Label21.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label21.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label21.ForeColor = Color.WhiteSmoke
         Label21.Location = New Point(23, 23)
         Label21.Name = "Label21"
@@ -851,7 +851,7 @@ Partial Class frm_Empleado
         ' Label17
         ' 
         Label17.AutoSize = True
-        Label17.Font = New Font("Copperplate Gothic Light", 20.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label17.Font = New Font("Copperplate Gothic Light", 20F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         Label17.ForeColor = Color.White
         Label17.Location = New Point(3, 12)
         Label17.Name = "Label17"
@@ -861,7 +861,7 @@ Partial Class frm_Empleado
         ' 
         ' frm_Empleado
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1306, 749)
