@@ -78,6 +78,7 @@ Partial Class frm_Empleado
         btn_Cancelar = New Button()
         btn_Aceptar = New Button()
         pnl_Titulo = New Panel()
+        MaterialComboBox1 = New MaterialSkin3.Controls.MaterialComboBox()
         Label17 = New Label()
         pnlPrincipal.SuspendLayout()
         pnlDatos.SuspendLayout()
@@ -827,12 +828,36 @@ Partial Class frm_Empleado
         ' pnl_Titulo
         ' 
         pnl_Titulo.BackColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
+        pnl_Titulo.Controls.Add(MaterialComboBox1)
         pnl_Titulo.Controls.Add(Label17)
         pnl_Titulo.Dock = DockStyle.Top
         pnl_Titulo.Location = New Point(0, 0)
         pnl_Titulo.Name = "pnl_Titulo"
         pnl_Titulo.Size = New Size(696, 57)
         pnl_Titulo.TabIndex = 0
+        ' 
+        ' MaterialComboBox1
+        ' 
+        MaterialComboBox1.AutoResize = False
+        MaterialComboBox1.BackColor = Color.FromArgb(CByte(255), CByte(255), CByte(255))
+        MaterialComboBox1.Depth = 0
+        MaterialComboBox1.DrawMode = DrawMode.OwnerDrawVariable
+        MaterialComboBox1.DropDownHeight = 174
+        MaterialComboBox1.DropDownStyle = ComboBoxStyle.DropDownList
+        MaterialComboBox1.DropDownWidth = 121
+        MaterialComboBox1.Font = New Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Pixel)
+        MaterialComboBox1.ForeColor = Color.White
+        MaterialComboBox1.FormattingEnabled = True
+        MaterialComboBox1.IntegralHeight = False
+        MaterialComboBox1.ItemHeight = 43
+        MaterialComboBox1.Items.AddRange(New Object() {"Uno", "Dos", "Tres", "Cuatro", "Cinco"})
+        MaterialComboBox1.Location = New Point(216, 8)
+        MaterialComboBox1.MaxDropDownItems = 4
+        MaterialComboBox1.MouseState = MaterialSkin3.MouseState.OUT
+        MaterialComboBox1.Name = "MaterialComboBox1"
+        MaterialComboBox1.Size = New Size(358, 49)
+        MaterialComboBox1.StartIndex = 0
+        MaterialComboBox1.TabIndex = 31
         ' 
         ' Label17
         ' 
@@ -929,4 +954,5 @@ Partial Class frm_Empleado
     Friend WithEvents cmbSexo As ComboBoxLabelUI
     Friend WithEvents txtDireccion As TextBoxLabelUI
     Friend WithEvents txtFechaNac As TextBoxLabelUI
+    Friend WithEvents MaterialComboBox1 As MaterialSkin3.Controls.MaterialComboBox
 End Class
