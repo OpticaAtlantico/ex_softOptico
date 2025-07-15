@@ -51,11 +51,15 @@ Public Class frm_Empleado
 #Region "Customicer Control"
     Private Sub CustomizeComponent()
 
+        'cmbUno.AddItems("", "Caracas", "Puerto Ordaz", "Maracaibo", "Valencia")
+
         Dim manager As New LlenarComboBox()
         Dim sql As String = "SELECT CargoEmpleadoID, Descripcion FROM VCargoEmpleado"
         manager.Cargar(cmbCargo, sql, "Descripcion", "CargoEmpleadoID")
+        'cmbUno.OrbitalCombo.SelectedIndex = -1
 
-        pnlEntrada.Enabled = False
+
+        'pnlEntrada.Enabled = False
 
     End Sub
 
@@ -73,6 +77,8 @@ Public Class frm_Empleado
             End If
         End With
     End Sub
+
+
 
 
 #End Region

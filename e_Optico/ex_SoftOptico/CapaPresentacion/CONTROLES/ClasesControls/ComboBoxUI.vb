@@ -21,7 +21,7 @@ Public Class ComboBoxUI
         Me.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
-        Me.ForeColor = _textColor
+        Me.ForeColor = Color.WhiteSmoke
         Me.BackColor = _backgroundColor
         Me.Size = New Size(300, 30)
     End Sub
@@ -129,7 +129,7 @@ Public Class ComboBoxUI
         ' Texto del ítem seleccionado
         If Me.SelectedIndex >= 0 Then
             Dim textRect As New Rectangle(10, 0, Me.Width - 30, Me.Height)
-            TextRenderer.DrawText(pe.Graphics, Me.GetItemText(Me.SelectedItem), Me.Font, textRect, _textColor, TextFormatFlags.VerticalCenter)
+            TextRenderer.DrawText(pe.Graphics, Me.GetItemText(Me.SelectedItem), Me.Font, textRect, Color.WhiteSmoke, TextFormatFlags.VerticalCenter)
         End If
 
         ' Flecha orbital dibujada manualmente
@@ -139,7 +139,7 @@ Public Class ComboBoxUI
             New Point(Me.Width - 10, cy - 4),
             New Point(Me.Width - 14, cy + 2)
         }
-        Using brush As New SolidBrush(_textColor)
+        Using brush As New SolidBrush(Color.WhiteSmoke)
             pe.Graphics.FillPolygon(brush, flecha)
         End Using
     End Sub
@@ -148,10 +148,23 @@ Public Class ComboBoxUI
         If e.Index < 0 Then Exit Sub
 
         Dim itemText = Me.Items(e.Index).ToString()
-        Dim bgColor = If((e.State And DrawItemState.Selected) = DrawItemState.Selected, Color.LightSkyBlue, _backgroundColor)
+        Dim seleccionado = (e.State And DrawItemState.Selected) = DrawItemState.Selected
 
+        ' Fondo blanco si no está seleccionado, celeste si lo está
+        Dim bgColor As Color = If(seleccionado, Color.LightSkyBlue, Color.White)
+
+        ' Pintar fondo del ítem
         e.Graphics.FillRectangle(New SolidBrush(bgColor), e.Bounds)
+
+        ' Texto orbital
         TextRenderer.DrawText(e.Graphics, itemText, Me.Font, e.Bounds, _textColor, TextFormatFlags.Left Or TextFormatFlags.VerticalCenter)
+
+        ' Opcional: borde inferior orbital entre ítems
+        Using bordePen As New Pen(Color.LightGray)
+            e.Graphics.DrawLine(bordePen, e.Bounds.Left, e.Bounds.Bottom - 1, e.Bounds.Right, e.Bounds.Bottom - 1)
+        End Using
+
+        e.DrawFocusRectangle() ' Mantiene el efecto visual si lo deseas
     End Sub
 
     Private Function RoundedRectanglePath(rect As Rectangle, radius As Integer) As GraphicsPath

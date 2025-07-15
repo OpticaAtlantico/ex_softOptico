@@ -17,6 +17,7 @@ Public Class TextBoxLabelUI
     Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
     Private _paddingAll As Integer = 10
+    Private _alturaMultilinea As Integer = 80
 
     ' Placeholder
     Private _placeholderText As String = "Escribe algo..."
@@ -46,7 +47,7 @@ Public Class TextBoxLabelUI
         lblTitulo.Dock = DockStyle.Top
 
         ' === Panel contenedor del TextBox ===
-        pnlFondo.Height = 40
+        pnlFondo.Height = 37
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(_paddingAll)
@@ -75,7 +76,7 @@ Public Class TextBoxLabelUI
         Me.Controls.Add(lblTitulo)   ' Arriba
 
         ' === Eventos ===
-        AddHandler txtCampo.Paint, AddressOf DibujarPlaceholder
+        AddHandler pnlFondo.Paint, AddressOf DibujarPlaceholder
         AddHandler txtCampo.TextChanged, AddressOf ActualizarEstado
         AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
         AddHandler Me.Resize, AddressOf CentrarTextBox
@@ -147,11 +148,29 @@ Public Class TextBoxLabelUI
         Return path
     End Function
 
+    Private Sub AjustarAlturaCampo()
+        If txtCampo.Multiline Then
+            pnlFondo.Height = AlturaMultilinea ' Puedes ajustar esta altura orbital según estilo
+            txtCampo.TextAlign = HorizontalAlignment.Left
+            txtCampo.ScrollBars = ScrollBars.Vertical 'Opcional
+        Else
+            pnlFondo.Height = 37
+            txtCampo.TextAlign = HorizontalAlignment.Left
+            txtCampo.ScrollBars = ScrollBars.None 'Opcional
+        End If
+    End Sub
+
     Private Sub DibujarPlaceholder(sender As Object, e As PaintEventArgs)
         If String.IsNullOrEmpty(txtCampo.Text) AndAlso Not txtCampo.Focused AndAlso Not String.IsNullOrEmpty(_placeholderText) Then
-            Dim formato As New StringFormat With {.Alignment = StringAlignment.Near, .LineAlignment = StringAlignment.Center}
+            Dim rectTexto As New Rectangle(txtCampo.Location, txtCampo.Size)
+
+            Dim formato As New StringFormat With {
+            .Alignment = StringAlignment.Near,
+            .LineAlignment = StringAlignment.Center
+        }
+
             Using pincel As New SolidBrush(_placeholderColor)
-                e.Graphics.DrawString(_placeholderText, _placeholderFont, pincel, txtCampo.ClientRectangle, formato)
+                e.Graphics.DrawString(_placeholderText, _placeholderFont, pincel, rectTexto, formato)
             End Using
         End If
     End Sub
@@ -300,6 +319,32 @@ Public Class TextBoxLabelUI
         Set(value As Boolean)
             _borderFlat = value
             pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    <Category("UI Estilo")>
+    Public Property Multilinea As Boolean
+        Get
+            Return txtCampo.Multiline
+        End Get
+        Set(value As Boolean)
+            txtCampo.Multiline = value
+            AjustarAlturaCampo()
+            CentrarTextBox(Nothing, Nothing)
+            txtCampo.Invalidate()
+        End Set
+    End Property
+
+    <Category("UI Estilo")>
+    Public Property AlturaMultilinea As Integer
+        Get
+            Return _alturaMultilinea
+        End Get
+        Set(value As Integer)
+            _alturaMultilinea = value
+            AjustarAlturaCampo()
+            pnlFondo.Invalidate()
+            Me.Invalidate()
         End Set
     End Property
 

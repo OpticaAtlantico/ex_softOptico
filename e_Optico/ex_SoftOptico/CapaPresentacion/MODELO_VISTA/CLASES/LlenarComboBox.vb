@@ -21,7 +21,7 @@ Public Class LlenarComboBox
         End Function
     End Class
 
-    Public Sub Cargar(combo As ComboBoxLabelUI, sql As String, textField As String, valueField As String)
+    Public Sub Cargar(combo As cl_ComboBoxLabelUI, sql As String, textField As String, valueField As String)
         If combo Is Nothing Then
             Throw New ArgumentNullException(NameOf(combo), "El control ComboBoxUI no está inicializado")
         End If
@@ -29,11 +29,11 @@ Public Class LlenarComboBox
         ' Si tu Items no está instanciado, inicialízalo aquí:
         ' If combo.Items Is Nothing Then combo.Items = New List(Of Object)
 
-        combo.Items.Clear()
+        combo.OrbitalCombo.Items.Clear()
 
         Dim items As List(Of ComboItem) = ObtenerItems(sql, textField, valueField)
         For Each item In items
-            combo.Items.Add(item)
+            combo.OrbitalCombo.Items.Add(item.ToString())
         Next
     End Sub
 
