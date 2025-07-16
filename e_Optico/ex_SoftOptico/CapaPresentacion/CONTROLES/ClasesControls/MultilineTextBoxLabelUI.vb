@@ -41,74 +41,58 @@ Public Class MultilineTextBoxLabelUI
     ' === Constructor ===
     Public Sub New()
         Me.Size = New Size(300, 100)
-        Me.DoubleBuffered = True
         Me.BackColor = Color.Transparent
+        Me.DoubleBuffered = True
 
+        ' === Label título ===
         lblTitulo.Text = _labelText
-        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size)
-        lblTitulo.ForeColor = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
+        lblTitulo.ForeColor = _textColor
+        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size + 1)
 
+
+        ' === Panel contenedor ===
         pnlFondo.Dock = DockStyle.Top
+        pnlFondo.Height = _alturaMultilinea ' usa respaldo privado
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(_paddingAll)
-        pnlFondo.Height = 40
-        pnlFondo.Margin = Padding.Empty
+        pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
 
+        ' === Campo de texto ===
         txtCampo.BorderStyle = BorderStyle.None
         txtCampo.Font = _fontField
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
-        txtCampo.TextAlign = HorizontalAlignment.Left
-        txtCampo.Multiline = True
-        txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
-        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
-        txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
+        txtCampo.Multiline = True ' listo para expansión vertical
         pnlFondo.Controls.Add(txtCampo)
 
+        ' === Ícono a la derecha ===
+        iconoDerecho.IconChar = IconChar.None
+        iconoDerecho.IconColor = _textColor
+        iconoDerecho.Size = New Size(24, 24)
+        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
+        iconoDerecho.BackColor = Color.Transparent
+        iconoDerecho.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        iconoDerecho.Visible = False
+        pnlFondo.Controls.Add(iconoDerecho)
+
+        ' === Label de error ===
         lblError.Text = ""
         lblError.ForeColor = _colorError
         lblError.Dock = DockStyle.Top
         lblError.Height = 20
         lblError.Visible = False
-        lblError.Margin = Padding.Empty
-
-        iconoDerecho.IconChar = IconChar.InfoCircle
-        iconoDerecho.IconColor = Color.White
-        iconoDerecho.Size = New Size(24, 24)
-
-        iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
-        iconoDerecho.BackColor = Color.Transparent
-        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
-        pnlFondo.Controls.Add(iconoDerecho)
-
-        AddHandler txtCampo.TextChanged, AddressOf ActualizarEstado
-        AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
-        AddHandler pnlFondo.Resize, Sub()
-                                        Dim tieneIcono As Boolean = iconoDerecho.Visible
-
-                                        Dim margenIcono = If(tieneIcono, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
-                                        txtCampo.Size = New Size(pnlFondo.Width - margenIcono - _paddingAll, 30)
-                                        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
-
-                                        If tieneIcono Then
-                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, _paddingAll)
-                                        End If
-                                    End Sub
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
 
-        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
-        AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
-        ' APLICAR valor predeterminado a AlturaMultilinea
-        ' Evento Resize para posicionamiento dinámico
+        ' === Eventos ===
+        AddHandler txtCampo.TextChanged, AddressOf ValidarCampo
+        AddHandler txtCampo.Leave, AddressOf ValidarCampo
         AddHandler pnlFondo.Resize, AddressOf RecalcularAlineacion
-
-        ' APLICAR valor predeterminado a AlturaMultilinea
-        AlturaMultilinea = _alturaMultilinea
     End Sub
 
     'Private Sub animadorAltura_Tick(sender As Object, e As EventArgs) Handles animadorAltura.Tick
