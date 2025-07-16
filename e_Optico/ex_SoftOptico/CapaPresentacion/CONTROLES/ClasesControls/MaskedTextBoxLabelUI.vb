@@ -4,7 +4,7 @@ Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 Imports FontAwesome.Sharp
 
-Public Class TextBoxLabelUI
+Public Class MaskedTextBoxLabelUI
     Inherits UserControl
 
     ' === Controles ===
@@ -14,7 +14,7 @@ Public Class TextBoxLabelUI
     Private lblError As New Label()
 
     ' === Estilos ===
-    Private _labelText As String = "Texto:"
+    Private _labelText As String = "Campo numérico:"
     Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
     Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
@@ -22,6 +22,14 @@ Public Class TextBoxLabelUI
 
     Private iconoDerecho As New IconPictureBox()
 
+    ' === Validación ===
+    Public Enum TipoEntradaNumerica
+        Ninguno
+        Entero
+        Decimals
+    End Enum
+
+    Private _tipoNumerico As TipoEntradaNumerica = TipoEntradaNumerica.Ninguno
     Private _campoRequerido As Boolean = True
     Private _mensajeError As String = "Este campo es obligatorio."
     Private _colorError As Color = Color.Firebrick
@@ -74,8 +82,6 @@ Public Class TextBoxLabelUI
         iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
         pnlFondo.Controls.Add(iconoDerecho)
 
-        AddHandler txtCampo.TextChanged, AddressOf ActualizarEstado
-        AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
         AddHandler pnlFondo.Resize, Sub()
                                         Dim tieneIcono As Boolean = iconoDerecho.Visible
 
@@ -92,31 +98,31 @@ Public Class TextBoxLabelUI
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
 
+        AddHandler txtCampo.TextChanged, AddressOf ValidarNumerico
+        AddHandler txtCampo.Leave, AddressOf ValidarNumerico
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
     End Sub
 
-    Private Sub ValidarCampo(sender As Object, e As EventArgs)
-        If _campoRequerido Then
-            If String.IsNullOrWhiteSpace(txtCampo.Text) Then
-                lblError.Text = _mensajeError
-                lblError.Visible = True
-                _borderColorNormal = _colorError
-            Else
-                lblError.Visible = False
-                _borderColorNormal = Color.LightGray
-            End If
-            pnlFondo.Invalidate()
-        End If
-    End Sub
-
-    Private Sub ActualizarEstado(sender As Object, e As EventArgs)
-        If lblError.Visible AndAlso Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+    ' === Validación automática orbital ===
+    Private Sub ValidarNumerico(sender As Object, e As EventArgs)
+        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            lblError.Text = _mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+        ElseIf _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(txtCampo.Text, Nothing) Then
+            lblError.Text = "Solo se permiten números enteros."
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+        ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(txtCampo.Text, Nothing) Then
+            lblError.Text = "Solo se permiten números decimales."
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+        Else
             lblError.Visible = False
             _borderColorNormal = Color.LightGray
-            pnlFondo.Invalidate()
         End If
-        txtCampo.Invalidate() ' Actualiza placeholder si necesario
+        pnlFondo.Invalidate()
     End Sub
 
     ' === Fondo redondeado orbital ===
@@ -234,6 +240,26 @@ Public Class TextBoxLabelUI
         Set(value As Color)
             _colorError = value
             lblError.ForeColor = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property TipoNumerico As TipoEntradaNumerica
+        Get
+            Return _tipoNumerico
+        End Get
+        Set(value As TipoEntradaNumerica)
+            _tipoNumerico = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property MascaraPersonalizada As String
+        Get
+            Return txtCampo.Mask
+        End Get
+        Set(value As String)
+            txtCampo.Mask = value
         End Set
     End Property
 

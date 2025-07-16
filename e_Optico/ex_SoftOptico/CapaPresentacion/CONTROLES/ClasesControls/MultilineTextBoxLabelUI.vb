@@ -1,10 +1,13 @@
-﻿Imports System.ComponentModel
+﻿Option Explicit On
+Option Strict On
+
+Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 Imports FontAwesome.Sharp
 
-Public Class TextBoxLabelUI
+Public Class MultilineTextBoxLabelUI
     Inherits UserControl
 
     ' === Controles ===
@@ -29,6 +32,11 @@ Public Class TextBoxLabelUI
     ' === Visual orbital ===
     Private _borderRadius As Integer = 5
     Private _borderColorNormal As Color = Color.LightGray
+    Private _alturaMultilinea As Integer = 40
+
+    Private alturaObjetivo As Integer = 80
+    Private alturaAnimadaActual As Integer = 40
+    'Private WithEvents animadorAltura As New Timer() With {.Interval = 15}
 
     ' === Constructor ===
     Public Sub New()
@@ -45,7 +53,7 @@ Public Class TextBoxLabelUI
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(_paddingAll)
-        pnlFondo.Height = 37
+        pnlFondo.Height = 40
         pnlFondo.Margin = Padding.Empty
 
         txtCampo.BorderStyle = BorderStyle.None
@@ -53,6 +61,7 @@ Public Class TextBoxLabelUI
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
         txtCampo.TextAlign = HorizontalAlignment.Left
+        txtCampo.Multiline = True
         txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
         txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
         txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
@@ -68,7 +77,7 @@ Public Class TextBoxLabelUI
         iconoDerecho.IconChar = IconChar.InfoCircle
         iconoDerecho.IconColor = Color.White
         iconoDerecho.Size = New Size(24, 24)
-        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+
         iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
         iconoDerecho.BackColor = Color.Transparent
         iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
@@ -84,7 +93,7 @@ Public Class TextBoxLabelUI
                                         txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
 
                                         If tieneIcono Then
-                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, _paddingAll)
                                         End If
                                     End Sub
 
@@ -94,6 +103,48 @@ Public Class TextBoxLabelUI
 
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+        ' APLICAR valor predeterminado a AlturaMultilinea
+        ' Evento Resize para posicionamiento dinámico
+        AddHandler pnlFondo.Resize, AddressOf RecalcularAlineacion
+
+        ' APLICAR valor predeterminado a AlturaMultilinea
+        AlturaMultilinea = _alturaMultilinea
+    End Sub
+
+    'Private Sub animadorAltura_Tick(sender As Object, e As EventArgs) Handles animadorAltura.Tick
+    '    If pnlFondo.Height <> alturaObjetivo Then
+    '        Dim diferencia = alturaObjetivo - pnlFondo.Height
+    '        Dim paso = Math.Sign(diferencia) * Math.Max(1, Math.Abs(diferencia) \ 5)
+    '        pnlFondo.Height += paso
+    '        pnlFondo.Invalidate()
+    '    Else
+    '        animadorAltura.Stop()
+    '    End If
+    'End Sub
+
+    Private Sub AjustarAlturaCampo()
+        If txtCampo.Multiline Then
+            pnlFondo.Height = 80 ' Puedes ajustar esta altura orbital según estilo
+            txtCampo.TextAlign = HorizontalAlignment.Left
+        Else
+            pnlFondo.Height = 40
+            txtCampo.TextAlign = HorizontalAlignment.Left
+        End If
+    End Sub
+
+    Private Sub RecalcularAlineacion(sender As Object, e As EventArgs)
+        Dim espacioIcono = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), 0)
+
+        txtCampo.Size = New Size(pnlFondo.Width - espacioIcono - (_paddingAll * 2), txtCampo.Height)
+        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+
+        If iconoDerecho.Visible Then
+            iconoDerecho.Location = New Point(
+                                                pnlFondo.Width - iconoDerecho.Width - _paddingAll,
+                                                _paddingAll
+                                            )
+            iconoDerecho.BringToFront()
+        End If
     End Sub
 
     Private Sub ValidarCampo(sender As Object, e As EventArgs)
@@ -189,7 +240,7 @@ Public Class TextBoxLabelUI
         Set(value As Font)
             _fontField = value
             txtCampo.Font = value
-            lblTitulo.Font = New Font(value.FontFamily, value.Size + 1)
+            lblTitulo.Font = New Font(value.FontFamily, value.Size)
             lblError.Font = New Font(value.FontFamily, value.Size - 3)
         End Set
     End Property
@@ -274,14 +325,40 @@ Public Class TextBoxLabelUI
         End Set
     End Property
 
+    <Category("WilmerUI")>
+    Public Property Multilinea As Boolean
+        Get
+            Return txtCampo.Multiline
+        End Get
+        Set(value As Boolean)
+            txtCampo.Multiline = value
+            AjustarAlturaCampo()
+            txtCampo.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property AlturaMultilinea As Integer
+        Get
+            Return _alturaMultilinea
+        End Get
+        Set(value As Integer)
+            _alturaMultilinea = value
+            pnlFondo.Height = value
+            txtCampo.Multiline = True
+            txtCampo.Height = value - (_paddingAll * 2)
+            RecalcularAlineacion(Nothing, Nothing)
+            pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
+
     Public ReadOnly Property TextValue As String
         Get
             Return txtCampo.Text
         End Get
     End Property
 
-    'Como cambio el icono dse la derecha
-
-    'MaskedTextBoxLabelUI1.IconoDerechoChar = IconChar.ExclamationT
-
 End Class
+
