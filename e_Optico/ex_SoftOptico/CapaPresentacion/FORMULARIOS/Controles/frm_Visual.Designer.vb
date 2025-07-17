@@ -22,28 +22,12 @@ Partial Class frm_Visual
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        CLabelui1 = New cLabelUI()
         SuspendLayout()
-        ' 
-        ' CLabelui1
-        ' 
-        CLabelui1.BackColor = Color.Red
-        CLabelui1.BaseColor = Color.White
-        CLabelui1.BorderRadius = 15
-        CLabelui1.HoverColor = Color.RoyalBlue
-        CLabelui1.IconChar = FontAwesome.Sharp.IconChar.Circle
-        CLabelui1.Location = New Point(101, 125)
-        CLabelui1.MinimumSize = New Size(100, 30)
-        CLabelui1.Name = "CLabelui1"
-        CLabelui1.Size = New Size(203, 59)
-        CLabelui1.TabIndex = 0
-        CLabelui1.Text = "CLabelui1"
         ' 
         ' frm_Visual
         ' 
-        BackColor = SystemColors.WindowFrame
+        BackColor = SystemColors.MenuHighlight
         ClientSize = New Size(758, 438)
-        Controls.Add(CLabelui1)
         Name = "frm_Visual"
         Text = "Coliflor"
         ResumeLayout(False)
