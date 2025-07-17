@@ -10,6 +10,12 @@ Public Class frm_Visual
     Private btnGuardarTema As New ButtonWUI()
     Private tabControles As New TabControl()
 
+    Private Sub frm_Visual_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+
+    End Sub
+
+
     'Public Sub New()
     '    Me.Text = "Centro de Tema WilmerUI"
     '    Me.Size = New Size(800, 500)

@@ -70,10 +70,10 @@ Public Class frm_Empleado
     Private Sub lnk_EditarUsuario_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnk_EditarUsuario.LinkClicked
         With Me
             If .pnlEntrada.Enabled Then
-                .txtCedula.Focus()
+
             Else
                 .pnlEntrada.Enabled = True
-                .txtCedula.Focus()
+
             End If
         End With
     End Sub

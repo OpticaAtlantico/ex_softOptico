@@ -72,6 +72,7 @@ Public Class MaskedTextBoxLabelUI
         lblError.Height = 20
         lblError.Visible = False
         lblError.Margin = Padding.Empty
+        lblError.TextAlign = ContentAlignment.MiddleRight
 
         iconoDerecho.IconChar = IconChar.InfoCircle
         iconoDerecho.IconColor = Color.White
@@ -107,9 +108,11 @@ Public Class MaskedTextBoxLabelUI
     ' === Validación automática orbital ===
     Private Sub ValidarNumerico(sender As Object, e As EventArgs)
         If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
-            lblError.Text = _mensajeError
-            lblError.Visible = True
-            _borderColorNormal = _colorError
+            'lblError.Text = _mensajeError
+            'lblError.Visible = True
+            '_borderColorNormal = _colorError
+            lblError.Visible = False
+            _borderColorNormal = Color.LightGray
         ElseIf _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(txtCampo.Text, Nothing) Then
             lblError.Text = "Solo se permiten números enteros."
             lblError.Visible = True

@@ -63,7 +63,6 @@ Partial Class frm_Empleado
         pnlEntrada = New Panel()
         Panel2 = New Panel()
         pnlEditarDatos = New Panel()
-        MultilineTextBoxLabelui1 = New MultilineTextBoxLabelUI()
         MaskedTextBoxLabelui1 = New MaskedTextBoxLabelUI()
         cmbSexo = New cl_ComboBoxLabelUI()
         cmbNacionalidad = New cl_ComboBoxLabelUI()
@@ -75,11 +74,11 @@ Partial Class frm_Empleado
         txtFechaNac = New TextBoxLabelUI()
         txtTelefonos = New TextBoxLabelUI()
         txtCorreo = New TextBoxLabelUI()
-        txtCedula = New TextBoxLabelUI()
         btn_Cancelar = New Button()
         btn_Aceptar = New Button()
         pnl_Titulo = New Panel()
         Label17 = New Label()
+        MaskedTextBoxLabelui2 = New MaskedTextBoxLabelUI()
         pnlPrincipal.SuspendLayout()
         pnlDatos.SuspendLayout()
         Panel4.SuspendLayout()
@@ -551,7 +550,7 @@ Partial Class frm_Empleado
         ' pnlEditarDatos
         ' 
         pnlEditarDatos.BackColor = Color.FromArgb(CByte(51), CByte(51), CByte(80))
-        pnlEditarDatos.Controls.Add(MultilineTextBoxLabelui1)
+        pnlEditarDatos.Controls.Add(MaskedTextBoxLabelui2)
         pnlEditarDatos.Controls.Add(MaskedTextBoxLabelui1)
         pnlEditarDatos.Controls.Add(cmbSexo)
         pnlEditarDatos.Controls.Add(cmbNacionalidad)
@@ -563,7 +562,6 @@ Partial Class frm_Empleado
         pnlEditarDatos.Controls.Add(txtFechaNac)
         pnlEditarDatos.Controls.Add(txtTelefonos)
         pnlEditarDatos.Controls.Add(txtCorreo)
-        pnlEditarDatos.Controls.Add(txtCedula)
         pnlEditarDatos.Controls.Add(btn_Cancelar)
         pnlEditarDatos.Controls.Add(btn_Aceptar)
         pnlEditarDatos.Dock = DockStyle.Fill
@@ -571,27 +569,6 @@ Partial Class frm_Empleado
         pnlEditarDatos.Name = "pnlEditarDatos"
         pnlEditarDatos.Size = New Size(696, 649)
         pnlEditarDatos.TabIndex = 4
-        ' 
-        ' MultilineTextBoxLabelui1
-        ' 
-        MultilineTextBoxLabelui1.AlturaMultilinea = 120
-        MultilineTextBoxLabelui1.BackColor = Color.Transparent
-        MultilineTextBoxLabelui1.BorderRadius = 5
-        MultilineTextBoxLabelui1.CampoRequerido = True
-        MultilineTextBoxLabelui1.ColorError = Color.Firebrick
-        MultilineTextBoxLabelui1.FontField = New Font("Century Gothic", 12F)
-        MultilineTextBoxLabelui1.IconoColor = Color.White
-        MultilineTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
-        MultilineTextBoxLabelui1.LabelText = "Texto:"
-        MultilineTextBoxLabelui1.Location = New Point(359, 336)
-        MultilineTextBoxLabelui1.MensajeError = "Este campo es obligatorio."
-        MultilineTextBoxLabelui1.Multilinea = False
-        MultilineTextBoxLabelui1.Name = "MultilineTextBoxLabelui1"
-        MultilineTextBoxLabelui1.PaddingAll = 10
-        MultilineTextBoxLabelui1.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        MultilineTextBoxLabelui1.Size = New Size(283, 151)
-        MultilineTextBoxLabelui1.TabIndex = 29
-        MultilineTextBoxLabelui1.TextColor = Color.WhiteSmoke
         ' 
         ' MaskedTextBoxLabelui1
         ' 
@@ -784,25 +761,6 @@ Partial Class frm_Empleado
         txtCorreo.TabIndex = 25
         txtCorreo.TextColor = Color.WhiteSmoke
         ' 
-        ' txtCedula
-        ' 
-        txtCedula.BackColor = Color.Transparent
-        txtCedula.BorderRadius = 5
-        txtCedula.CampoRequerido = True
-        txtCedula.ColorError = Color.Firebrick
-        txtCedula.FontField = New Font("Century Gothic", 12F)
-        txtCedula.IconoColor = Color.White
-        txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Clover
-        txtCedula.LabelText = "#Cédula:"
-        txtCedula.Location = New Point(23, 23)
-        txtCedula.MensajeError = "Este campo es obligatorio."
-        txtCedula.Name = "txtCedula"
-        txtCedula.PaddingAll = 10
-        txtCedula.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        txtCedula.Size = New Size(300, 72)
-        txtCedula.TabIndex = 25
-        txtCedula.TextColor = Color.WhiteSmoke
-        ' 
         ' btn_Cancelar
         ' 
         btn_Cancelar.BackColor = Color.IndianRed
@@ -853,6 +811,27 @@ Partial Class frm_Empleado
         Label17.Size = New Size(130, 30)
         Label17.TabIndex = 30
         Label17.Text = "Editar..."
+        ' 
+        ' MaskedTextBoxLabelui2
+        ' 
+        MaskedTextBoxLabelui2.BackColor = Color.Transparent
+        MaskedTextBoxLabelui2.BorderRadius = 5
+        MaskedTextBoxLabelui2.CampoRequerido = True
+        MaskedTextBoxLabelui2.ColorError = Color.Firebrick
+        MaskedTextBoxLabelui2.FontField = New Font("Century Gothic", 12F)
+        MaskedTextBoxLabelui2.IconoColor = Color.White
+        MaskedTextBoxLabelui2.IconoDerechoChar = FontAwesome.Sharp.IconChar.HomeLg
+        MaskedTextBoxLabelui2.LabelText = "Cédula:"
+        MaskedTextBoxLabelui2.Location = New Point(17, 22)
+        MaskedTextBoxLabelui2.MascaraPersonalizada = ""
+        MaskedTextBoxLabelui2.MensajeError = "Este campo es obligatorio."
+        MaskedTextBoxLabelui2.Name = "MaskedTextBoxLabelui2"
+        MaskedTextBoxLabelui2.PaddingAll = 10
+        MaskedTextBoxLabelui2.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        MaskedTextBoxLabelui2.Size = New Size(303, 72)
+        MaskedTextBoxLabelui2.TabIndex = 29
+        MaskedTextBoxLabelui2.TextColor = Color.WhiteSmoke
+        MaskedTextBoxLabelui2.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
         ' 
         ' frm_Empleado
         ' 
@@ -931,12 +910,11 @@ Partial Class frm_Empleado
     Friend WithEvents txtNombre As TextBoxLabelUI
     Friend WithEvents txtTelefonos As TextBoxLabelUI
     Friend WithEvents txtCorreo As TextBoxLabelUI
-    Friend WithEvents txtCedula As TextBoxLabelUI
     Friend WithEvents txtFechaNac As TextBoxLabelUI
     Friend WithEvents cmbCargo As cl_ComboBoxLabelUI
     Friend WithEvents cmbSexo As cl_ComboBoxLabelUI
     Friend WithEvents cmbNacionalidad As cl_ComboBoxLabelUI
     Friend WithEvents cmbEdoCivil As cl_ComboBoxLabelUI
     Friend WithEvents MaskedTextBoxLabelui1 As MaskedTextBoxLabelUI
-    Friend WithEvents MultilineTextBoxLabelui1 As MultilineTextBoxLabelUI
+    Friend WithEvents MaskedTextBoxLabelui2 As MaskedTextBoxLabelUI
 End Class

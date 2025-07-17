@@ -10,7 +10,7 @@ Public Class TextBoxLabelUI
     ' === Controles ===
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
-    Private txtCampo As New MaskedTextBox()
+    Private txtCampo As New TextBox()
     Private lblError As New Label()
 
     ' === Estilos ===
@@ -64,6 +64,7 @@ Public Class TextBoxLabelUI
         lblError.Height = 20
         lblError.Visible = False
         lblError.Margin = Padding.Empty
+        lblError.TextAlign = ContentAlignment.MiddleRight
 
         iconoDerecho.IconChar = IconChar.InfoCircle
         iconoDerecho.IconColor = Color.White

@@ -1,6 +1,4 @@
-﻿Option Explicit On
-Option Strict On
-
+﻿
 Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
@@ -13,7 +11,7 @@ Public Class MultilineTextBoxLabelUI
     ' === Controles ===
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
-    Private txtCampo As New MaskedTextBox()
+    Private txtCampo As New TextBox()
     Private lblError As New Label()
 
     ' === Estilos ===
@@ -34,7 +32,7 @@ Public Class MultilineTextBoxLabelUI
     Private _borderColorNormal As Color = Color.LightGray
     Private _alturaMultilinea As Integer = 40
 
-    Private alturaObjetivo As Integer = 80
+    Private alturaObjetivo As Integer = 100
     Private alturaAnimadaActual As Integer = 40
     'Private WithEvents animadorAltura As New Timer() With {.Interval = 15}
 
@@ -49,7 +47,7 @@ Public Class MultilineTextBoxLabelUI
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
         lblTitulo.ForeColor = _textColor
-        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size + 1)
+        lblTitulo.Font = _fontField
 
 
         ' === Panel contenedor ===
@@ -57,8 +55,8 @@ Public Class MultilineTextBoxLabelUI
         pnlFondo.Height = _alturaMultilinea ' usa respaldo privado
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(_paddingAll)
-        pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
-        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
+        pnlFondo.Margin = Padding.Empty
+        'pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
 
         ' === Campo de texto ===
         txtCampo.BorderStyle = BorderStyle.None
@@ -66,16 +64,20 @@ Public Class MultilineTextBoxLabelUI
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
         txtCampo.Multiline = True ' listo para expansión vertical
+        txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
+        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+        txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
         pnlFondo.Controls.Add(txtCampo)
 
         ' === Ícono a la derecha ===
-        iconoDerecho.IconChar = IconChar.None
-        iconoDerecho.IconColor = _textColor
+        iconoDerecho.IconChar = IconChar.InfoCircle
+        iconoDerecho.IconColor = Color.White
         iconoDerecho.Size = New Size(24, 24)
-        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
+        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+        iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
         iconoDerecho.BackColor = Color.Transparent
-        iconoDerecho.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        iconoDerecho.Visible = False
+        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
+        pnlFondo.Controls.Add(iconoDerecho)
         pnlFondo.Controls.Add(iconoDerecho)
 
         ' === Label de error ===
@@ -84,15 +86,21 @@ Public Class MultilineTextBoxLabelUI
         lblError.Dock = DockStyle.Top
         lblError.Height = 20
         lblError.Visible = False
+        lblError.TextAlign = ContentAlignment.MiddleRight
+
+        AddHandler pnlFondo.Resize, Sub()
+                                        pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+                                    End Sub
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
 
         ' === Eventos ===
-        AddHandler txtCampo.TextChanged, AddressOf ValidarCampo
-        AddHandler txtCampo.Leave, AddressOf ValidarCampo
+        AddHandler txtCampo.TextChanged, AddressOf ActualizarEstado
+        AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
         AddHandler pnlFondo.Resize, AddressOf RecalcularAlineacion
+        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
     End Sub
 
     'Private Sub animadorAltura_Tick(sender As Object, e As EventArgs) Handles animadorAltura.Tick
@@ -108,10 +116,10 @@ Public Class MultilineTextBoxLabelUI
 
     Private Sub AjustarAlturaCampo()
         If txtCampo.Multiline Then
-            pnlFondo.Height = 80 ' Puedes ajustar esta altura orbital según estilo
+            pnlFondo.Height = alturaObjetivo  ' Puedes ajustar esta altura orbital según estilo
             txtCampo.TextAlign = HorizontalAlignment.Left
         Else
-            pnlFondo.Height = 40
+            pnlFondo.Height = alturaAnimadaActual
             txtCampo.TextAlign = HorizontalAlignment.Left
         End If
     End Sub
@@ -336,7 +344,6 @@ Public Class MultilineTextBoxLabelUI
             pnlFondo.Invalidate()
         End Set
     End Property
-
 
     Public ReadOnly Property TextValue As String
         Get
