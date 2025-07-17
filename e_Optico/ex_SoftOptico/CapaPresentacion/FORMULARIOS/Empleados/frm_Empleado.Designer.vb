@@ -63,6 +63,7 @@ Partial Class frm_Empleado
         pnlEntrada = New Panel()
         Panel2 = New Panel()
         pnlEditarDatos = New Panel()
+        MaskedTextBoxLabelui2 = New MaskedTextBoxLabelUI()
         MaskedTextBoxLabelui1 = New MaskedTextBoxLabelUI()
         cmbSexo = New cl_ComboBoxLabelUI()
         cmbNacionalidad = New cl_ComboBoxLabelUI()
@@ -78,7 +79,6 @@ Partial Class frm_Empleado
         btn_Aceptar = New Button()
         pnl_Titulo = New Panel()
         Label17 = New Label()
-        MaskedTextBoxLabelui2 = New MaskedTextBoxLabelUI()
         pnlPrincipal.SuspendLayout()
         pnlDatos.SuspendLayout()
         Panel4.SuspendLayout()
@@ -570,6 +570,27 @@ Partial Class frm_Empleado
         pnlEditarDatos.Size = New Size(696, 649)
         pnlEditarDatos.TabIndex = 4
         ' 
+        ' MaskedTextBoxLabelui2
+        ' 
+        MaskedTextBoxLabelui2.BackColor = Color.Transparent
+        MaskedTextBoxLabelui2.BorderRadius = 5
+        MaskedTextBoxLabelui2.CampoRequerido = True
+        MaskedTextBoxLabelui2.ColorError = Color.Firebrick
+        MaskedTextBoxLabelui2.FontField = New Font("Century Gothic", 12F)
+        MaskedTextBoxLabelui2.IconoColor = Color.White
+        MaskedTextBoxLabelui2.IconoDerechoChar = FontAwesome.Sharp.IconChar.HomeLg
+        MaskedTextBoxLabelui2.LabelText = "Cédula:"
+        MaskedTextBoxLabelui2.Location = New Point(17, 22)
+        MaskedTextBoxLabelui2.MascaraPersonalizada = ""
+        MaskedTextBoxLabelui2.MensajeError = "Este campo es obligatorio."
+        MaskedTextBoxLabelui2.Name = "MaskedTextBoxLabelui2"
+        MaskedTextBoxLabelui2.PaddingAll = 10
+        MaskedTextBoxLabelui2.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
+        MaskedTextBoxLabelui2.Size = New Size(303, 72)
+        MaskedTextBoxLabelui2.TabIndex = 29
+        MaskedTextBoxLabelui2.TextColor = Color.WhiteSmoke
+        MaskedTextBoxLabelui2.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
+        ' 
         ' MaskedTextBoxLabelui1
         ' 
         MaskedTextBoxLabelui1.BackColor = Color.Transparent
@@ -769,7 +790,7 @@ Partial Class frm_Empleado
         btn_Cancelar.FlatStyle = FlatStyle.Flat
         btn_Cancelar.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btn_Cancelar.ForeColor = Color.White
-        btn_Cancelar.Location = New Point(23, 574)
+        btn_Cancelar.Location = New Point(28, 574)
         btn_Cancelar.Name = "btn_Cancelar"
         btn_Cancelar.Size = New Size(162, 54)
         btn_Cancelar.TabIndex = 24
@@ -784,7 +805,7 @@ Partial Class frm_Empleado
         btn_Aceptar.FlatStyle = FlatStyle.Flat
         btn_Aceptar.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btn_Aceptar.ForeColor = Color.White
-        btn_Aceptar.Location = New Point(475, 592)
+        btn_Aceptar.Location = New Point(475, 577)
         btn_Aceptar.Name = "btn_Aceptar"
         btn_Aceptar.Size = New Size(162, 54)
         btn_Aceptar.TabIndex = 23
@@ -811,27 +832,6 @@ Partial Class frm_Empleado
         Label17.Size = New Size(130, 30)
         Label17.TabIndex = 30
         Label17.Text = "Editar..."
-        ' 
-        ' MaskedTextBoxLabelui2
-        ' 
-        MaskedTextBoxLabelui2.BackColor = Color.Transparent
-        MaskedTextBoxLabelui2.BorderRadius = 5
-        MaskedTextBoxLabelui2.CampoRequerido = True
-        MaskedTextBoxLabelui2.ColorError = Color.Firebrick
-        MaskedTextBoxLabelui2.FontField = New Font("Century Gothic", 12F)
-        MaskedTextBoxLabelui2.IconoColor = Color.White
-        MaskedTextBoxLabelui2.IconoDerechoChar = FontAwesome.Sharp.IconChar.HomeLg
-        MaskedTextBoxLabelui2.LabelText = "Cédula:"
-        MaskedTextBoxLabelui2.Location = New Point(17, 22)
-        MaskedTextBoxLabelui2.MascaraPersonalizada = ""
-        MaskedTextBoxLabelui2.MensajeError = "Este campo es obligatorio."
-        MaskedTextBoxLabelui2.Name = "MaskedTextBoxLabelui2"
-        MaskedTextBoxLabelui2.PaddingAll = 10
-        MaskedTextBoxLabelui2.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        MaskedTextBoxLabelui2.Size = New Size(303, 72)
-        MaskedTextBoxLabelui2.TabIndex = 29
-        MaskedTextBoxLabelui2.TextColor = Color.WhiteSmoke
-        MaskedTextBoxLabelui2.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
         ' 
         ' frm_Empleado
         ' 
