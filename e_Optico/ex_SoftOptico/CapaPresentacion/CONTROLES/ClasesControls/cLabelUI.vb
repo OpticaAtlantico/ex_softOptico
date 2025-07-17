@@ -1,105 +1,118 @@
-﻿Imports System.Drawing.Drawing2D
+﻿Imports System.Drawing
+Imports System.Windows.Forms
 Imports FontAwesome.Sharp
 
 Public Class cLabelUI
     Inherits UserControl
 
-    Private _texto As String = "Etiqueta"
-    Private _textoColor As Color = Color.Black
-    Private _fondoColor As Color = Color.LightGray
-    Private _borderRadius As Integer = 10
-    Private _icono As IconChar = IconChar.InfoCircle
-    Private _iconoColor As Color = Color.Black
-    Private _hoverColor As Color = Color.DodgerBlue
-    Private iconoControl As IconPictureBox
-    Private lblTexto As Label
+    Private innerLabel As New Label()
+    Private orbitalIcon As New IconPictureBox()
 
-    Private _hovered As Boolean = False
-    Private animationTimer As Timer
-    Private fadeValue As Integer = 255
+    Private _borderRadius As Integer = 10
+    Private _colorBase As Color = Color.Gray
+    Private _colorHover As Color = Color.RoyalBlue
+    Private _factorTransicion As Single = 0.0F
+    Private WithEvents hoverTimer As New Timer() With {.Interval = 25}
 
     Public Sub New()
         Me.DoubleBuffered = True
-        Me.Size = New Size(200, 32)
         Me.BackColor = Color.Transparent
+        Me.MinimumSize = New Size(100, 30)
 
-        lblTexto = New Label With {
-            .Text = _texto,
-            .ForeColor = _textoColor,
-            .Font = New Font("Century Gotic", 12),
-            .AutoSize = False,
-            .TextAlign = ContentAlignment.MiddleLeft,
-            .Padding = New Padding(8, 0, 0, 0),
-            .Dock = DockStyle.Fill
-        }
-        Me.Controls.Add(lblTexto)
+        ' 🏷 Label orbital
+        innerLabel.Location = New Point(5, 5)
+        innerLabel.Size = New Size(Me.Width - 35, Me.Height - 10)
+        innerLabel.ForeColor = _colorBase
+        innerLabel.BackColor = Color.Transparent
+        innerLabel.TextAlign = ContentAlignment.MiddleLeft
+        innerLabel.Font = Me.Font
+        Me.Controls.Add(innerLabel)
 
-        iconoControl = New IconPictureBox With {
-            .IconChar = _icono,
-            .IconColor = _iconoColor,
-            .Size = New Size(24, 24),
-            .BackColor = Color.Transparent,
-            .Location = New Point(Me.Width - 28, 4),
-            .Cursor = Cursors.Hand
-        }
-        Me.Controls.Add(iconoControl)
-        AddHandler Me.Resize, AddressOf AjustarIcono
+        ' 🧿 Ícono orbital
+        orbitalIcon.Size = New Size(20, 20)
+        orbitalIcon.IconChar = IconChar.Circle
+        orbitalIcon.IconColor = _colorBase
+        orbitalIcon.BackColor = Color.Transparent
+        orbitalIcon.Location = New Point(Me.Width - 25, (Me.Height - 20) \ 2)
+        Me.Controls.Add(orbitalIcon)
 
-        animationTimer = New Timer With {.Interval = 25}
-        AddHandler animationTimer.Tick, AddressOf AnimarOpacidad
-
-        AddHandler Me.MouseEnter, Sub()
-                                      _hovered = True
-                                      animationTimer.Start()
-                                  End Sub
-
-        AddHandler Me.MouseLeave, Sub()
-                                      _hovered = False
-                                      animationTimer.Start()
-                                  End Sub
+        ' 🔧 Ajuste al cambiar tamaño
+        AddHandler Me.Resize, Sub()
+                                  innerLabel.Size = New Size(Me.Width - 35, Me.Height - 10)
+                                  orbitalIcon.Location = New Point(Me.Width - 25, (Me.Height - 20) \ 2)
+                              End Sub
     End Sub
 
-    ' ➤ Propiedades públicas
-    Public Property Texto As String
-        Get
-            Return _texto
-        End Get
-        Set(value As String)
-            _texto = value
-            lblTexto.Text = value
+    ' 🌈 Interpolación segura
+    Private Function InterpolateColor(baseColor As Color, targetColor As Color, factor As Single) As Color
+        factor = Math.Max(0.0F, Math.Min(1.0F, factor))
+        Dim r = CInt(Math.Round(baseColor.R + (targetColor.R - baseColor.R) * factor))
+        Dim g = CInt(Math.Round(baseColor.G + (targetColor.G - baseColor.G) * factor))
+        Dim b = CInt(Math.Round(baseColor.B + (targetColor.B - baseColor.B) * factor))
+        Dim a = CInt(Math.Round(baseColor.A + (targetColor.A - baseColor.A) * factor))
+        Return Color.FromArgb(a, Math.Min(255, Math.Max(0, r)),
+                                 Math.Min(255, Math.Max(0, g)),
+                                 Math.Min(255, Math.Max(0, b)))
+    End Function
+
+    Private Function GetRoundedPath(bounds As Rectangle, radius As Integer) As Drawing2D.GraphicsPath
+        Dim path As New Drawing2D.GraphicsPath()
+        path.AddArc(bounds.X, bounds.Y, radius, radius, 180, 90)
+        path.AddArc(bounds.Right - radius, bounds.Y, radius, radius, 270, 90)
+        path.AddArc(bounds.Right - radius, bounds.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(bounds.X, bounds.Bottom - radius, radius, radius, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
+
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+        MyBase.OnPaint(e)
+
+        Dim radius As Integer = 10 ' 🎨 radio de borde redondeado
+        Dim path = GetRoundedPath(Me.ClientRectangle, _borderRadius)
+
+        ' Establece la región para aplicar clipping visual
+        Me.Region = New Region(path)
+
+        ' Opcional: dibujar borde si lo deseas
+        Using pen As New Pen(_colorBase, 1)
+            e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+            e.Graphics.DrawPath(pen, path)
+        End Using
+    End Sub
+
+    Private Sub IniciarHover()
+        _factorTransicion = 0.0F
+        hoverTimer.Start()
+    End Sub
+
+    Private Sub hoverTimer_Tick(sender As Object, e As EventArgs) Handles hoverTimer.Tick
+        If _factorTransicion < 1.0F Then
+            _factorTransicion += 0.05F
+            Dim colorActual = InterpolateColor(_colorBase, _colorHover, _factorTransicion)
+            innerLabel.ForeColor = colorActual
+            orbitalIcon.IconColor = colorActual
             Me.Invalidate()
-        End Set
-    End Property
+        Else
+            hoverTimer.Stop()
+        End If
+    End Sub
 
-    Public Property TextoColor As Color
-        Get
-            Return _textoColor
-        End Get
-        Set(value As Color)
-            _textoColor = value
-            lblTexto.ForeColor = value
-        End Set
-    End Property
+    Protected Overrides Sub OnMouseEnter(e As EventArgs)
+        MyBase.OnMouseEnter(e)
+        IniciarHover()
+    End Sub
 
-    Public Property FondoColor As Color
-        Get
-            Return _fondoColor
-        End Get
-        Set(value As Color)
-            _fondoColor = value
-            Me.Invalidate()
-        End Set
-    End Property
+    Protected Overrides Sub OnMouseLeave(e As EventArgs)
+        MyBase.OnMouseLeave(e)
+        hoverTimer.Stop()
+        _factorTransicion = 0.0F
+        innerLabel.ForeColor = _colorBase
+        orbitalIcon.IconColor = _colorBase
+        Me.Invalidate()
+    End Sub
 
-    Public Property HoverColor As Color
-        Get
-            Return _hoverColor
-        End Get
-        Set(value As Color)
-            _hoverColor = value
-        End Set
-    End Property
-
+    <System.ComponentModel.Browsable(True)>
     Public Property BorderRadius As Integer
         Get
             Return _borderRadius
@@ -110,65 +123,54 @@ Public Class cLabelUI
         End Set
     End Property
 
-    Public Property Icono As IconChar
+    ' 🔧 Propiedades navegables
+    Public Property HoverColor As Color
         Get
-            Return _icono
-        End Get
-        Set(value As IconChar)
-            _icono = value
-            iconoControl.IconChar = value
-        End Set
-    End Property
-
-    Public Property IconoColor As Color
-        Get
-            Return _iconoColor
+            Return _colorHover
         End Get
         Set(value As Color)
-            _iconoColor = value
-            iconoControl.IconColor = value
+            _colorHover = value
         End Set
     End Property
 
-    Private Sub AjustarIcono()
-        If iconoControl IsNot Nothing Then
-            iconoControl.Location = New Point(Me.Width - iconoControl.Width - 6, (Me.Height - iconoControl.Height) \ 2)
-        End If
-    End Sub
+    Public Property BaseColor As Color
+        Get
+            Return _colorBase
+        End Get
+        Set(value As Color)
+            _colorBase = value
+            innerLabel.ForeColor = value
+            orbitalIcon.IconColor = value
+        End Set
+    End Property
 
-    ' ➤ Animación suave de fondo
-    Private Sub AnimarOpacidad(sender As Object, e As EventArgs)
-        Dim targetColor = If(_hovered, _hoverColor, _fondoColor)
-        Dim blend = If(_hovered, 0.2F, 0.1F)
+    Public Shadows Property Font As Font
+        Get
+            Return innerLabel.Font
+        End Get
+        Set(value As Font)
+            innerLabel.Font = value
+        End Set
+    End Property
 
-        _fondoColor = MezclarColor(_fondoColor, targetColor, blend)
-        iconoControl.IconColor = MezclarColor(_iconoColor, targetColor, blend)
-        Me.Invalidate()
+    Public Property IconChar As IconChar
+        Get
+            Return orbitalIcon.IconChar
+        End Get
+        Set(value As IconChar)
+            orbitalIcon.IconChar = value
+        End Set
+    End Property
 
-        fadeValue = If(_hovered, Math.Min(fadeValue + 15, 255), Math.Max(fadeValue - 15, 180))
-        If fadeValue = 255 OrElse fadeValue = 180 Then animationTimer.Stop()
-    End Sub
-
-    Private Function MezclarColor(base As Color, target As Color, factor As Single) As Color
-        Dim r = base.R + (target.R - base.R) * factor
-        Dim g = base.G + (target.G - base.G) * factor
-        Dim b = base.B + (target.B - base.B) * factor
-        Return Color.FromArgb(CInt(r), CInt(g), CInt(b))
-    End Function
-
-    Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        Dim g = e.Graphics
-        g.SmoothingMode = SmoothingMode.AntiAlias
-
-        Dim path = New GraphicsPath()
-        path.AddArc(0, 0, _borderRadius, _borderRadius, 180, 90)
-        path.AddArc(Me.Width - _borderRadius, 0, _borderRadius, _borderRadius, 270, 90)
-        path.AddArc(Me.Width - _borderRadius, Me.Height - _borderRadius, _borderRadius, _borderRadius, 0, 90)
-        path.AddArc(0, Me.Height - _borderRadius, _borderRadius, _borderRadius, 90, 90)
-        path.CloseFigure()
-
-        Using brush As New SolidBrush(Color.FromArgb(fadeValue, _fondoColor))
-            g.FillPath(brush, path)
-        End Using
-    End Sub
+    <System.ComponentModel.Browsable(True)>
+    <System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)>
+    Public Overrides Property Text As String
+        Get
+            Return innerLabel.Text
+        End Get
+        Set(value As String)
+            innerLabel.Text = value
+            innerLabel.Invalidate()
+        End Set
+    End Property
 End Class
