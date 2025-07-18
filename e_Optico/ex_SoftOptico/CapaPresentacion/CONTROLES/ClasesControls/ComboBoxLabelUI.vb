@@ -3,7 +3,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 
-Public Class cl_ComboBoxLabelUI
+Public Class ComboBoxLabelUI
     Inherits UserControl
 
     Private lblTitulo As New Label()
@@ -15,7 +15,7 @@ Public Class cl_ComboBoxLabelUI
     Private _mensajeError As String = "Este campo es obligatorio."
     Private _mostrarError As Boolean = False
     Private _radiusPanel As Integer = 6
-    Private _fontField As Font = New Font("Century Gothic", 12)
+    Private _fontField As Font = New Font("Century Gothic", 10)
     Private _fontFields As Font = New Font("Century Gothic", 9)
 
     Private _campoRequerido As Boolean = True

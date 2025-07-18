@@ -21,7 +21,7 @@ Public Class LlenarComboBox
         End Function
     End Class
 
-    Public Sub Cargar(combo As cl_ComboBoxLabelUI, sql As String, textField As String, valueField As String)
+    Public Sub Cargar(combo As ComboBoxLabelUI, sql As String, textField As String, valueField As String)
         If combo Is Nothing Then
             Throw New ArgumentNullException(NameOf(combo), "El control ComboBoxUI no está inicializado")
         End If

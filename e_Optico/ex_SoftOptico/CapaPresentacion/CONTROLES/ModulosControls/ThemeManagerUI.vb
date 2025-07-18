@@ -41,7 +41,7 @@ Public Module ThemeManagerUI
     ' Aplicar estilo orbital a todos los controles del formulario
     Public Sub ActualizarControles(container As Control)
         For Each ctrl As Control In container.Controls
-            If TypeOf ctrl Is TextBoxUI Then CType(ctrl, TextBoxUI).AplicarEstiloDesdeTema()
+            'If TypeOf ctrl Is TextBoxUI Then CType(ctrl, TextBoxUI).AplicarEstiloDesdeTema()
             If TypeOf ctrl Is ComboBoxUI Then CType(ctrl, ComboBoxUI).AplicarEstiloDesdeTema()
             If TypeOf ctrl Is LabelUI Then CType(ctrl, LabelUI).AplicarEstiloDesdeTema()
             If ctrl.HasChildren Then ActualizarControles(ctrl)

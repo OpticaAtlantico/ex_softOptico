@@ -72,7 +72,7 @@
             .Text = _Texto,
             .Location = New Point(28, 4),
             .AutoSize = True,
-            .Font = New Font("Century Gothic", 12),
+            .Font = New Font("Century Gothic", 10),
             .Cursor = Cursors.Hand
         }
         AddHandler lblTexto.Click, Sub() Me.Checked = True

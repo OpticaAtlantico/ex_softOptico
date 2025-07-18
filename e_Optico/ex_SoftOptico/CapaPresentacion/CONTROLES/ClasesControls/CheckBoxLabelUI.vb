@@ -70,7 +70,7 @@
         lblTexto.Location = New Point(chk.Right + 8, 4)
         lblTexto.AutoSize = True
         lblTexto.Text = _Texto
-        lblTexto.Font = New Font("Century Gothic", 12)
+        lblTexto.Font = New Font("Century Gothic", 10)
         lblTexto.ForeColor = Color.Black
         lblTexto.Cursor = Cursors.Hand
 

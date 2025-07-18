@@ -65,10 +65,10 @@ Partial Class frm_Empleado
         pnlEditarDatos = New Panel()
         txtCedula = New MaskedTextBoxLabelUI()
         MaskedTextBoxLabelui1 = New MaskedTextBoxLabelUI()
-        cmbSexo = New cl_ComboBoxLabelUI()
-        cmbNacionalidad = New cl_ComboBoxLabelUI()
-        cmbEdoCivil = New cl_ComboBoxLabelUI()
-        cmbCargo = New cl_ComboBoxLabelUI()
+        cmbSexo = New ComboBoxLabelUI()
+        cmbNacionalidad = New ComboBoxLabelUI()
+        cmbEdoCivil = New ComboBoxLabelUI()
+        cmbCargo = New ComboBoxLabelUI()
         txtEdad = New TextBoxLabelUI()
         txtApellido = New TextBoxLabelUI()
         txtNombre = New TextBoxLabelUI()
@@ -876,10 +876,10 @@ Partial Class frm_Empleado
     Friend WithEvents txtTelefonos As TextBoxLabelUI
     Friend WithEvents txtCorreo As TextBoxLabelUI
     Friend WithEvents txtFechaNac As TextBoxLabelUI
-    Friend WithEvents cmbCargo As cl_ComboBoxLabelUI
-    Friend WithEvents cmbSexo As cl_ComboBoxLabelUI
-    Friend WithEvents cmbNacionalidad As cl_ComboBoxLabelUI
-    Friend WithEvents cmbEdoCivil As cl_ComboBoxLabelUI
+    Friend WithEvents cmbCargo As ComboBoxLabelUI
+    Friend WithEvents cmbSexo As ComboBoxLabelUI
+    Friend WithEvents cmbNacionalidad As ComboBoxLabelUI
+    Friend WithEvents cmbEdoCivil As ComboBoxLabelUI
     Friend WithEvents MaskedTextBoxLabelui1 As MaskedTextBoxLabelUI
     Friend WithEvents txtCedula As MaskedTextBoxLabelUI
 End Class

@@ -37,7 +37,7 @@ Public Class TextBoxLabelUI
         Me.BackColor = Color.Transparent
 
         lblTitulo.Text = _labelText
-        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size)
+        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
         lblTitulo.ForeColor = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
@@ -190,7 +190,7 @@ Public Class TextBoxLabelUI
         Set(value As Font)
             _fontField = value
             txtCampo.Font = value
-            lblTitulo.Font = New Font(value.FontFamily, value.Size + 1)
+            lblTitulo.Font = New Font(value.FontFamily, value.Size)
             lblError.Font = New Font(value.FontFamily, value.Size - 3)
         End Set
     End Property
