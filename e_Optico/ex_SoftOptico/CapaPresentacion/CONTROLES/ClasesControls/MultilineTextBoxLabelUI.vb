@@ -47,7 +47,7 @@ Public Class MultilineTextBoxLabelUI
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
         lblTitulo.ForeColor = _textColor
-        lblTitulo.Font = _fontField
+        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
 
 
         ' === Panel contenedor ===

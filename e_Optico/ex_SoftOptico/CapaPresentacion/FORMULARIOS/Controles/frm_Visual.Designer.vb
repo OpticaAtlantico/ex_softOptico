@@ -34,7 +34,4 @@ Partial Class frm_Visual
 
     End Sub
 
-    Friend WithEvents CLabelui1 As cLabelUI
-
-
 End Class

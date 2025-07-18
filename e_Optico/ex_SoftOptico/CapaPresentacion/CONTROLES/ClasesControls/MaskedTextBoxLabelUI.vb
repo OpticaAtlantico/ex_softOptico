@@ -45,7 +45,7 @@ Public Class MaskedTextBoxLabelUI
         Me.BackColor = Color.Transparent
 
         lblTitulo.Text = _labelText
-        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size)
+        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
         lblTitulo.ForeColor = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20

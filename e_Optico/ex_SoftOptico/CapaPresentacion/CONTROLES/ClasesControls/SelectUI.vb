@@ -21,7 +21,7 @@ Public Class SelectUI
         Me.DoubleBuffered = True
         Me.Size = New Size(250, 36)
         Me.Font = New Font("Century Gothic", 11)
-        Me.BackColor = Color.Transparent
+        'Me.BackColor = Color.Transparent
 
         listaVisual.Font = Me.Font
         listaVisual.BorderStyle = BorderStyle.None
