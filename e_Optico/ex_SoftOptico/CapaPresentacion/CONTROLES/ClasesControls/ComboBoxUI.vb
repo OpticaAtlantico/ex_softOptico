@@ -178,13 +178,4 @@ Public Class ComboBoxUI
         Return path
     End Function
 
-    ' Aplicar tema visual orbital
-    Public Sub AplicarEstiloDesdeTema()
-        Me.BackgroundColor = ThemeManagerUI.ColorFondoBase
-        Me.BorderColor = ThemeManagerUI.ColorBorde
-        Me.FocusColor = ThemeManagerUI.ColorPrimario
-        Me.TextColor = ThemeManagerUI.ColorTextoBase
-        Me.ShadowColor = ThemeManagerUI.ColorSombra
-        Me.Invalidate()
-    End Sub
 End Class

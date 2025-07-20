@@ -1,139 +1,71 @@
-﻿Imports System.Drawing
+﻿Imports System.ComponentModel
 Imports System.Drawing.Drawing2D
-Imports System.ComponentModel
+Imports FontAwesome.Sharp
 
 Public Class HeaderUI
     Inherits Control
 
-    Private _headerText As String = "Encabezado"
-    Private _headerIcon As String = ChrW(&HF007) ' Ícono decorativo (ej: usuario)
-    Private _textColor As Color = Color.Black
-    Private _backgroundColor As Color = Color.WhiteSmoke
-    Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
-    Private _borderRadius As Integer = 8
+    <Category("Contenido UI")>
+    Public Property Titulo As String = "Título Principal"
+
+    <Category("Contenido UI")>
+    Public Property Subtitulo As String = "Subtítulo opcional"
+
+    <Category("Contenido UI")>
+    Public Property Icono As IconChar = IconChar.InfoCircle
+
+    <Category("Estilo UI")>
+    Public Property ColorFondo As Color = Color.FromArgb(240, 240, 240)
+
+    <Category("Estilo UI")>
+    Public Property ColorTexto As Color = Color.FromArgb(45, 45, 45)
+
+    <Category("Estilo UI")>
+    Public Property MostrarSeparador As Boolean = True
+
+    Private iconControl As New IconPictureBox()
 
     Public Sub New()
+        Me.Size = New Size(300, 60)
         Me.DoubleBuffered = True
-        Me.Font = New Font("Century Gothic", 12, FontStyle.Bold)
-        Me.Size = New Size(300, 50)
-    End Sub
+        Me.Font = New Font("Segoe UI", 10, FontStyle.Bold)
 
-    <Category("UI Estilo")>
-    Public Property HeaderText As String
-        Get
-            Return _headerText
-        End Get
-        Set(value As String)
-            _headerText = value
-            Me.Invalidate()
-        End Set
-    End Property
-
-    <Category("UI Estilo")>
-    Public Property HeaderIcon As String
-        Get
-            Return _headerIcon
-        End Get
-        Set(value As String)
-            _headerIcon = value
-            Me.Invalidate()
-        End Set
-    End Property
-
-    <Category("UI Estilo")>
-    Public Property TextColor As Color
-        Get
-            Return _textColor
-        End Get
-        Set(value As Color)
-            _textColor = value
-            Me.Invalidate()
-        End Set
-    End Property
-
-    <Category("UI Estilo")>
-    Public Property BackgroundColor As Color
-        Get
-            Return _backgroundColor
-        End Get
-        Set(value As Color)
-            _backgroundColor = value
-            Me.Invalidate()
-        End Set
-    End Property
-
-    <Category("UI Estilo")>
-    Public Property ShadowColor As Color
-        Get
-            Return _shadowColor
-        End Get
-        Set(value As Color)
-            _shadowColor = value
-            Me.Invalidate()
-        End Set
-    End Property
-
-    <Category("UI Estilo")>
-    Public Property BorderRadius As Integer
-        Get
-            Return _borderRadius
-        End Get
-        Set(value As Integer)
-            _borderRadius = value
-            Me.Invalidate()
-        End Set
-    End Property
-
-    Public Sub AplicarEstiloDesdeTema()
-        Me.BackgroundColor = ThemeManagerUI.ColorFondoBase
-        Me.TextColor = ThemeManagerUI.ColorTextoBase
-        Me.ShadowColor = ThemeManagerUI.ColorSombra
-        Me.Invalidate()
+        iconControl.IconChar = Icono
+        iconControl.IconColor = ColorTexto
+        iconControl.BackColor = Color.Transparent
+        iconControl.SizeMode = PictureBoxSizeMode.CenterImage
+        iconControl.Size = New Size(28, 28)
+        iconControl.Enabled = False
+        Me.Controls.Add(iconControl)
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        MyBase.OnPaint(e)
-        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+        Dim g = e.Graphics
+        g.SmoothingMode = SmoothingMode.AntiAlias
+        g.Clear(ColorFondo)
 
-        Dim rect = New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
-        Dim path = RoundedPath(rect, _borderRadius)
-
-        ' Sombra
-        Dim sombraRect = New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
-        Using sombraBrush As New SolidBrush(_shadowColor)
-            e.Graphics.FillRectangle(sombraBrush, sombraRect)
+        ' 🟪 Título
+        Dim tituloFont = New Font(Me.Font.FontFamily, 11, FontStyle.Bold)
+        Using brush As New SolidBrush(ColorTexto)
+            g.DrawString(Titulo, tituloFont, brush, 45, 8)
         End Using
 
-        ' Fondo
-        Using fondoBrush As New SolidBrush(_backgroundColor)
-            e.Graphics.FillPath(fondoBrush, path)
+        ' 🔹 Subtítulo
+        Dim subtituloFont = New Font(Me.Font.FontFamily, 9, FontStyle.Regular)
+        Using brush As New SolidBrush(ColorTexto)
+            g.DrawString(Subtitulo, subtituloFont, brush, 45, 28)
         End Using
 
-        ' Icono decorativo
-        Dim iconRect As New Rectangle(12, 0, 32, Me.Height)
-        TextRenderer.DrawText(e.Graphics, _headerIcon, Me.Font, iconRect, _textColor, TextFormatFlags.VerticalCenter Or TextFormatFlags.Left)
+        ' ⚡ Separador
+        If MostrarSeparador Then
+            Using p As New Pen(ColorTexto, 1)
+                g.DrawLine(p, 0, Me.Height - 2, Me.Width, Me.Height - 2)
+            End Using
+        End If
 
-        ' Texto
-        Dim textRect As New Rectangle(48, 0, Me.Width - 50, Me.Height)
-        TextRenderer.DrawText(e.Graphics, _headerText, Me.Font, textRect, _textColor, TextFormatFlags.VerticalCenter Or TextFormatFlags.Left)
+        ' 🎯 Posición del ícono
+        iconControl.IconChar = Icono
+        iconControl.IconColor = ColorTexto
+        iconControl.Location = New Point(10, (Me.Height - iconControl.Height) \ 2)
     End Sub
-
-    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
-        Dim path As New GraphicsPath()
-        path.StartFigure()
-        path.AddArc(rect.X, rect.Y, radius, radius, 180, 90)
-        path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90)
-        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
-        path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90)
-        path.CloseFigure()
-        Return path
-    End Function
-
-    'Como lo usas
-
-    'Dim encabezado As New HeaderUI()
-    'encabezado.HeaderText = "Datos del Sistema"
-    'encabezado.HeaderIcon = ChrW(&HF085) ' Ej: engranaje FontAwesome
-    'Me.Controls.Add(encabezado)
-
 End Class

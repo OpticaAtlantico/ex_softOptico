@@ -110,11 +110,11 @@ Public Class ToggleSwitchUI
         RaiseEvent CheckedChanged(Me, e)
     End Sub
 
-    Public Sub AplicarEstiloDesdeTema()
-        Me.BackgroundOn = ThemeManagerUI.ColorPrimario
-        Me.TextColor = ThemeManagerUI.ColorTextoBase
-        Me.Invalidate()
-    End Sub
+    'Public Sub AplicarEstiloDesdeTema()
+    '    Me.BackgroundOn = ThemeManagerUI.ColorPrimario
+    '    Me.TextColor = ThemeManagerUI.ColorTextoBase
+    '    Me.Invalidate()
+    'End Sub
 
     Protected Overrides Sub OnClick(e As EventArgs)
         MyBase.OnClick(e)

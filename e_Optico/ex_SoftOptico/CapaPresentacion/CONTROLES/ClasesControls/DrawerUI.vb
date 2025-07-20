@@ -66,11 +66,7 @@ Public Class DrawerUI
     End Function
 
     ' 🎨 Tema orbital
-    Public Sub AplicarEstiloDesdeTema()
-        BackgroundColor = ThemeManagerUI.ColorFondoBase
-        ShadowColor = ThemeManagerUI.ColorSombra
-        Me.Invalidate()
-    End Sub
+
 
     'Dim drawer As New DrawerUI()
     'drawer.MostrarDesdeDerecha(Me)

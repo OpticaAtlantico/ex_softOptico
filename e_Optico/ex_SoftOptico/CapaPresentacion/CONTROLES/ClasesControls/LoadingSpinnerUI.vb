@@ -1,78 +1,166 @@
 ﻿Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
-Imports System.Windows.Forms
 
 Public Class LoadingSpinnerUI
     Inherits Control
 
-    Private _colorSpinner As Color = ThemeManagerUI.ColorPrimario
-    Private _sizeSpinner As Integer = 36
-    Private contadorAngulo As Integer = 0
-    Private WithEvents timerAnimacion As New Timer()
+    ' ✨ Propiedades orbitales
+    <Category("Apariencia Orbital")> Public Property SpinnerColor As Color = Color.FromArgb(33, 150, 243)
+    <Category("Apariencia Orbital")> Public Property LineWidth As Integer = 4
+    <Category("Apariencia Orbital")> Public Property Segments As Integer = 12
+    <Category("Apariencia Orbital")> Public Property Speed As Integer = 80
+    <Category("Apariencia Orbital")> Public Property TextoCentral As String = ""
+    <Category("Apariencia Orbital")>
+    Public Property TextoColor As Color = Color.Black
+
+    <Category("Apariencia Orbital")>
+    Public Property TextoFont As Font = New Font("Century Gothic", 9, FontStyle.Bold)
+
+    Private angle As Integer = 0
+    Private WithEvents spinTimer As New Timer()
 
     Public Sub New()
         Me.DoubleBuffered = True
-        Me.Size = New Size(_sizeSpinner + 10, _sizeSpinner + 10)
+        Me.Size = New Size(50, 50)
+
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
         Me.BackColor = Color.Transparent
-        timerAnimacion.Interval = 50
-        timerAnimacion.Start()
+
+        spinTimer.Interval = Speed
+        spinTimer.Start()
     End Sub
 
-    <Category("UI Estilo")>
-    Public Property ColorSpinner As Color
-        Get
-            Return _colorSpinner
-        End Get
-        Set(value As Color)
-            _colorSpinner = value
-            Me.Invalidate()
-        End Set
-    End Property
-
-    <Category("UI Estilo")>
-    Public Property SizeSpinner As Integer
-        Get
-            Return _sizeSpinner
-        End Get
-        Set(value As Integer)
-            _sizeSpinner = value
-            Me.Size = New Size(value + 10, value + 10)
-            Me.Invalidate()
-        End Set
-    End Property
-
-    Public Sub AplicarEstiloDesdeTema()
-        Me.ColorSpinner = ThemeManagerUI.ColorPrimario
-        Me.Invalidate()
-    End Sub
-
-    Private Sub timerAnimacion_Tick(sender As Object, e As EventArgs) Handles timerAnimacion.Tick
-        contadorAngulo += 15
-        If contadorAngulo >= 360 Then contadorAngulo = 0
-        Me.Invalidate()
+    Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
+        If Me.Parent IsNot Nothing Then
+            Using b As New SolidBrush(Me.Parent.BackColor)
+                e.Graphics.FillRectangle(b, Me.ClientRectangle)
+            End Using
+        Else
+            MyBase.OnPaintBackground(e)
+        End If
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        MyBase.OnPaint(e)
-        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+        Dim g = e.Graphics
+        g.SmoothingMode = SmoothingMode.AntiAlias
 
-        Dim centro = New Point(Me.Width \ 2, Me.Height \ 2)
-        Dim radioExterno = _sizeSpinner \ 2
-        Dim radioInterno = radioExterno \ 2
+        Dim center As Point = New Point(Me.Width \ 2, Me.Height \ 2)
+        Dim radius As Integer = Math.Min(Me.Width, Me.Height) \ 2 - LineWidth
+        Dim alphaStep As Integer = 255 \ Segments
 
-        Dim pathSpinner As New GraphicsPath()
-        pathSpinner.AddArc(centro.X - radioExterno, centro.Y - radioExterno, radioExterno * 2, radioExterno * 2, contadorAngulo, 270)
+        For i As Integer = 0 To Segments - 1
+            Dim currentAngle = (angle + i * 360 \ Segments) Mod 360
+            Dim alpha = Math.Max(30, 255 - i * alphaStep)
+            Dim penColor = Color.FromArgb(alpha, SpinnerColor)
 
-        Using penSpinner As New Pen(_colorSpinner, 4)
-            e.Graphics.DrawPath(penSpinner, pathSpinner)
-        End Using
+            Using p As New Pen(penColor, LineWidth)
+                Dim rad = currentAngle * Math.PI / 180
+                Dim x1 = center.X + radius * Math.Cos(rad)
+                Dim y1 = center.Y + radius * Math.Sin(rad)
+                Dim x2 = center.X + (radius - 6) * Math.Cos(rad)
+                Dim y2 = center.Y + (radius - 6) * Math.Sin(rad)
+                g.DrawLine(p, CSng(x1), CSng(y1), CSng(x2), CSng(y2))
+            End Using
+        Next
+
+        If Not String.IsNullOrWhiteSpace(TextoCentral) Then
+            Dim txtSize = TextRenderer.MeasureText(TextoCentral, Me.Font)
+            Dim x = (Me.Width - txtSize.Width) \ 2
+            Dim y = (Me.Height - txtSize.Height) \ 2
+
+            Using txtBrush As New SolidBrush(Me.ForeColor)
+                TextRenderer.DrawText(g, TextoCentral, Me.Font, New Point(x, y), txtBrush.Color)
+            End Using
+        End If
     End Sub
 
-    'Como lo usas
+    Private Sub spinTimer_Tick(sender As Object, e As EventArgs) Handles spinTimer.Tick
+        angle = (angle + 30) Mod 360
+        Me.Invalidate()
+    End Sub
 
-    'Dim spinner As New LoadingSpinnerUI()
-    'spinner.Location = New Point(300, 200)
-    'Me.Controls.Add(spinner)
-
+    Protected Overrides Sub OnVisibleChanged(e As EventArgs)
+        MyBase.OnVisibleChanged(e)
+        If Me.Visible Then
+            spinTimer.Start()
+        Else
+            spinTimer.Stop()
+        End If
+    End Sub
 End Class
+
+
+'Imports System.ComponentModel
+'Imports System.Drawing.Drawing2D
+
+'Public Class LoadingSpinnerUI
+'    Inherits Control
+
+'    ' ✨ Propiedades configurables
+'    <Category("Apariencia Orbital")>
+'    Public Property SpinnerColor As Color = Color.FromArgb(33, 150, 243)
+
+'    <Category("Apariencia Orbital")>
+'    Public Property LineWidth As Integer = 4
+
+'    <Category("Apariencia Orbital")>
+'    Public Property Segments As Integer = 12
+
+'    <Category("Apariencia Orbital")>
+'    Public Property Speed As Integer = 80
+
+'    Private angle As Integer = 0
+'    Private WithEvents spinTimer As New Timer()
+
+'    Public Sub New()
+'        Me.DoubleBuffered = True
+'        Me.Size = New Size(50, 50)
+'        Me.BackColor = Color.White
+
+'        spinTimer.Interval = Speed
+'        spinTimer.Start()
+'    End Sub
+
+'    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+'        Dim g = e.Graphics
+'        g.SmoothingMode = SmoothingMode.AntiAlias
+'        g.Clear(Me.BackColor)
+
+'        Dim center As Point = New Point(Me.Width \ 2, Me.Height \ 2)
+'        Dim radius As Integer = Math.Min(Me.Width, Me.Height) \ 2 - LineWidth
+'        Dim alphaStep As Integer = 255 \ Segments
+
+'        For i As Integer = 0 To Segments - 1
+'            Dim currentAngle = (angle + i * 360 \ Segments) Mod 360
+'            Dim alpha = Math.Max(30, 255 - i * alphaStep)
+'            Dim penColor = Color.FromArgb(alpha, SpinnerColor)
+
+'            Using p As New Pen(penColor, LineWidth)
+'                Dim rad = currentAngle * Math.PI / 180
+'                Dim x1 = center.X + radius * Math.Cos(rad)
+'                Dim y1 = center.Y + radius * Math.Sin(rad)
+'                Dim x2 = center.X + (radius - 6) * Math.Cos(rad)
+'                Dim y2 = center.Y + (radius - 6) * Math.Sin(rad)
+'                g.DrawLine(p, CSng(x1), CSng(y1), CSng(x2), CSng(y2))
+'            End Using
+'        Next
+'    End Sub
+
+'    Private Sub spinTimer_Tick(sender As Object, e As EventArgs) Handles spinTimer.Tick
+'        angle = (angle + 30) Mod 360
+'        Me.Invalidate()
+'    End Sub
+
+'    Protected Overrides Sub OnVisibleChanged(e As EventArgs)
+'        MyBase.OnVisibleChanged(e)
+'        If Me.Visible Then
+'            spinTimer.Start()
+'        Else
+'            spinTimer.Stop()
+'        End If
+'    End Sub
+'End Class
