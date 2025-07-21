@@ -3,79 +3,89 @@ Imports System.Windows.Controls.Primitives
 Imports System.Windows.Forms
 Imports FontAwesome.Sharp
 Public Class frm_Visual
-    Inherits Form
-
+    'Inherits Form
+    Private tabPanel As TabPanelUI
+    Private WithEvents gridUI As New DataGridViewUI()
     Private Sub frm_Visual_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        '
+
+        Me.Controls.Add(gridUI)
+
+        ' Cargar registros simulados
+        Dim dt As New DataTable()
+        dt.Columns.Add("ID", GetType(Integer))
+        dt.Columns.Add("Nombre")
+        dt.Columns.Add("Correo")
+
+        dt.Rows.Add(1, "Wilmer Duarte", "wilmer@empresa.com")
+        dt.Rows.Add(2, "Sofía Ramos", "sofia@empresa.com")
+        dt.Rows.Add(3, "Carlos López", "carlos@empresa.com")
+
+        'Asi se cambia los datos de los controles de la UI
+        gridUI.lblTitulo.Titulo = "Wilmer Flores"
+        gridUI.lblTitulo.Subtitulo = "Gestión de usuarios"
+        gridUI.lblTitulo.Icono = IconChar.User
 
 
 
-        '        Dim moduloGeneral As New ModuloGeneralUI()
+        gridUI.CargarDatos(dt)
 
-        '        TabPanel.AddTab(New TabItemOrbitalAdv With {
-        '    .Titulo = "General",
-        '    .Icono = IconChar.Home,
-        '    .Tooltip = "Parámetros generales",
-        '    .Contenido = moduloGeneral,
-        '    .Estilo = TabItemOrbitalAdv.EstiloBootstrap.Primary,
-        '    .EstadoValidacion = TabItemOrbitalAdv.EstadoOrbital.Correcto
+
+
+
+        'tabPanel = New TabPanelUI() With {
+        '    .Dock = DockStyle.Fill,
+        '    .TabHeight = 44
+        '}
+
+        'Me.Controls.Add(tabPanel)
+
+        'Dim contenido As New moduloProductos()
+        'tabPanel.AddTab(New TabItemOrbitalAdv With {
+        '        .Titulo = "Auditoría",
+        '        .Icono = IconChar.A,
+        '        .Estilo = TabItemOrbitalAdv.EstiloBootstrap.Success,
+        '        .Tooltip = "Registros y seguimiento del sistema",
+        '        .Contenido = contenido,
+        '        .EstadoValidacion = TabItemOrbitalAdv.EstadoOrbital.Pendiente
+        '})
+
+        'tabPanel.AddTab(New TabItemOrbitalAdv With {
+        '        .Titulo = "Control",
+        '        .Icono = IconChar.ClinicMedical,
+        '        .Estilo = TabItemOrbitalAdv.EstiloBootstrap.Info,
+        '        .Tooltip = "Registros y seguimiento del sistema",
+        '        .Contenido = contenido,
+        '        .EstadoValidacion = TabItemOrbitalAdv.EstadoOrbital.Ninguno
+        '})
+
+        'tabPanel.AddTab(New TabItemOrbitalAdv With {
+        '        .Titulo = "Productos",
+        '        .Icono = IconChar.Procedures,
+        '        .Estilo = TabItemOrbitalAdv.EstiloBootstrap.Dark,
+        '        .Tooltip = "Registros y seguimiento del sistema",
+        '        .Contenido = contenido,
+        '        .EstadoValidacion = TabItemOrbitalAdv.EstadoOrbital.Correcto
         '})
 
 
+
     End Sub
 
-    Public Sub InicializarTabPanelAvanzado(ByVal contenedor As System.Windows.Forms.Control)
-        Dim tabPanel As New TabPanelUI() With {
-            .Dock = DockStyle.Fill,
-            .TabHeight = 44,
-            .BackColor = Color.Transparent
-        }
-
-        ' ✅ Pestaña de Inicio
-        tabPanel.AddTab(New TabItemOrbitalAdv With {
-            .Titulo = "Inicio",
-            .Icono = IconChar.Home,
-            .Tooltip = "Bienvenido al sistema",
-            .BadgeTexto = "1",
-            .EstadoValidacion = TabItemOrbitalAdv.EstadoOrbital.Correcto,
-            .Estilo = TabItemOrbitalAdv.EstiloBootstrap.Primary,
-            .Contenido = New System.Windows.Forms.Label() With {
-                                                                    .Text = "Módulo cargado",
-                                                                    .AutoSize = True,
-                                                                    .Location = New Point(30, 30)
-                                                                }
-        })
-
-        ' ⚙️ Pestaña de Configuración
-        tabPanel.AddTab(New TabItemOrbitalAdv With {
-            .Titulo = "Configuración",
-            .Icono = IconChar.Cogs,
-            .Tooltip = "Opciones del sistema",
-            .EstadoValidacion = TabItemOrbitalAdv.EstadoOrbital.Pendiente,
-            .Estilo = TabItemOrbitalAdv.EstiloBootstrap.Warning,
-            .Contenido = New System.Windows.Forms.Label() With {
-                                                                    .Text = "Módulo cargado",
-                                                                    .AutoSize = True,
-                                                                    .Location = New Point(30, 30)
-                                                                }
-        })
-
-        ' 🔐 Pestaña de Seguridad
-        tabPanel.AddTab(New TabItemOrbitalAdv With {
-            .Titulo = "Seguridad",
-            .Icono = IconChar.ShieldAlt,
-            .Tooltip = "Roles y permisos",
-            .EstadoValidacion = TabItemOrbitalAdv.EstadoOrbital.Errores,
-            .Estilo = TabItemOrbitalAdv.EstiloBootstrap.Danger,
-            .Contenido = New System.Windows.Forms.Label() With {
-                                                                    .Text = "Módulo cargado",
-                                                                    .AutoSize = True,
-                                                                    .Location = New Point(30, 30)
-                                                                }
-        })
-
-        ' Agregar el TabPanel orbital al contenedor visual
-        contenedor.Controls.Add(tabPanel)
+    ' Eventos públicos orbitando 🚀
+    Private Sub gridUI_EditarRegistro(id As Integer) Handles gridUI.EditarRegistro
+        MessageBox.Show($"Editar: {id}")
     End Sub
+
+    Private Sub gridUI_EliminarRegistro(id As Integer) Handles gridUI.EliminarRegistro
+        MessageBox.Show($"Eliminar: {id}")
+    End Sub
+
+    Private Sub gridUI_AgregarRegistro() Handles gridUI.AgregarRegistro
+        MessageBox.Show("Agregar nuevo registro")
+    End Sub
+
+
+
 End Class
 
-'.Contenido = New System.Windows.Forms.Panel() With {.BackColor = Color.Gainsboro, .Dock = DockStyle.Fill}

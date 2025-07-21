@@ -25,18 +25,10 @@ Partial Class moduloProductos
         Panel1 = New Panel()
         Headerui1 = New HeaderUI()
         Panel2 = New Panel()
-        MultilineTextBoxLabelui1 = New MultilineTextBoxLabelUI()
         Panel3 = New Panel()
-        IconButton8 = New FontAwesome.Sharp.IconButton()
-        IconButton7 = New FontAwesome.Sharp.IconButton()
-        IconButton6 = New FontAwesome.Sharp.IconButton()
-        IconButton5 = New FontAwesome.Sharp.IconButton()
-        IconButton4 = New FontAwesome.Sharp.IconButton()
-        IconButton3 = New FontAwesome.Sharp.IconButton()
-        IconButton2 = New FontAwesome.Sharp.IconButton()
-        IconButton1 = New FontAwesome.Sharp.IconButton()
+        CommandButtonui2 = New CommandButtonUI()
+        CommandButtonui1 = New CommandButtonUI()
         Panel1.SuspendLayout()
-        Panel2.SuspendLayout()
         Panel3.SuspendLayout()
         SuspendLayout()
         ' 
@@ -46,7 +38,7 @@ Partial Class moduloProductos
         Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(828, 62)
+        Panel1.Size = New Size(828, 59)
         Panel1.TabIndex = 0
         ' 
         ' Headerui1
@@ -59,7 +51,7 @@ Partial Class moduloProductos
         Headerui1.Location = New Point(0, 0)
         Headerui1.MostrarSeparador = True
         Headerui1.Name = "Headerui1"
-        Headerui1.Size = New Size(828, 62)
+        Headerui1.Size = New Size(828, 59)
         Headerui1.Subtitulo = "Subtítulo opcional"
         Headerui1.TabIndex = 0
         Headerui1.Text = "Headerui1"
@@ -67,186 +59,62 @@ Partial Class moduloProductos
         ' 
         ' Panel2
         ' 
-        Panel2.BackColor = Color.FromArgb(CByte(135), CByte(165), CByte(192))
-        Panel2.Controls.Add(MultilineTextBoxLabelui1)
+        Panel2.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(192))
         Panel2.Dock = DockStyle.Fill
-        Panel2.Location = New Point(0, 62)
+        Panel2.Location = New Point(0, 59)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(828, 465)
+        Panel2.Size = New Size(828, 389)
         Panel2.TabIndex = 0
-        ' 
-        ' MultilineTextBoxLabelui1
-        ' 
-        MultilineTextBoxLabelui1.AlturaMultilinea = 80
-        MultilineTextBoxLabelui1.BackColor = Color.Transparent
-        MultilineTextBoxLabelui1.BorderRadius = 5
-        MultilineTextBoxLabelui1.CampoRequerido = True
-        MultilineTextBoxLabelui1.ColorError = Color.Firebrick
-        MultilineTextBoxLabelui1.FontField = New Font("Century Gothic", 12F)
-        MultilineTextBoxLabelui1.IconoColor = Color.White
-        MultilineTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
-        MultilineTextBoxLabelui1.LabelText = "Texto:"
-        MultilineTextBoxLabelui1.Location = New Point(239, 89)
-        MultilineTextBoxLabelui1.MensajeError = "Este campo es obligatorio."
-        MultilineTextBoxLabelui1.Multilinea = True
-        MultilineTextBoxLabelui1.Name = "MultilineTextBoxLabelui1"
-        MultilineTextBoxLabelui1.PaddingAll = 10
-        MultilineTextBoxLabelui1.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        MultilineTextBoxLabelui1.Size = New Size(283, 116)
-        MultilineTextBoxLabelui1.TabIndex = 0
-        MultilineTextBoxLabelui1.TextColor = Color.WhiteSmoke
         ' 
         ' Panel3
         ' 
-        Panel3.Controls.Add(IconButton8)
-        Panel3.Controls.Add(IconButton7)
-        Panel3.Controls.Add(IconButton6)
-        Panel3.Controls.Add(IconButton5)
-        Panel3.Controls.Add(IconButton4)
-        Panel3.Controls.Add(IconButton3)
-        Panel3.Controls.Add(IconButton2)
-        Panel3.Controls.Add(IconButton1)
+        Panel3.Controls.Add(CommandButtonui2)
+        Panel3.Controls.Add(CommandButtonui1)
         Panel3.Dock = DockStyle.Bottom
-        Panel3.Location = New Point(0, 459)
+        Panel3.Location = New Point(0, 371)
         Panel3.Name = "Panel3"
-        Panel3.Size = New Size(828, 68)
+        Panel3.Size = New Size(828, 77)
         Panel3.TabIndex = 0
         ' 
-        ' IconButton8
+        ' CommandButtonui2
         ' 
-        IconButton8.BackColor = Color.Transparent
-        IconButton8.Cursor = Cursors.Hand
-        IconButton8.Dock = DockStyle.Right
-        IconButton8.FlatAppearance.BorderSize = 0
-        IconButton8.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton8.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton8.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton8.IconSize = 60
-        IconButton8.Location = New Point(292, 0)
-        IconButton8.Name = "IconButton8"
-        IconButton8.Size = New Size(67, 68)
-        IconButton8.TabIndex = 7
-        IconButton8.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton8.UseVisualStyleBackColor = False
+        CommandButtonui2.AnimarHover = True
+        CommandButtonui2.BackColor = Color.Transparent
+        CommandButtonui2.ColorBase = Color.FromArgb(CByte(76), CByte(175), CByte(80))
+        CommandButtonui2.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
+        CommandButtonui2.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
+        CommandButtonui2.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
+        CommandButtonui2.ColorTexto = Color.White
+        CommandButtonui2.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
+        CommandButtonui2.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        CommandButtonui2.Icono = FontAwesome.Sharp.IconChar.CheckCircle
+        CommandButtonui2.Location = New Point(380, 17)
+        CommandButtonui2.Name = "CommandButtonui2"
+        CommandButtonui2.RadioBorde = 8
+        CommandButtonui2.Size = New Size(153, 46)
+        CommandButtonui2.TabIndex = 0
+        CommandButtonui2.Text = "CommandButtonui1"
+        CommandButtonui2.Texto = "Aceptar"
         ' 
-        ' IconButton7
+        ' CommandButtonui1
         ' 
-        IconButton7.BackColor = Color.Transparent
-        IconButton7.Cursor = Cursors.Hand
-        IconButton7.Dock = DockStyle.Right
-        IconButton7.FlatAppearance.BorderSize = 0
-        IconButton7.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton7.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton7.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton7.IconSize = 60
-        IconButton7.Location = New Point(359, 0)
-        IconButton7.Name = "IconButton7"
-        IconButton7.Size = New Size(67, 68)
-        IconButton7.TabIndex = 6
-        IconButton7.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton7.UseVisualStyleBackColor = False
-        ' 
-        ' IconButton6
-        ' 
-        IconButton6.BackColor = Color.Transparent
-        IconButton6.Cursor = Cursors.Hand
-        IconButton6.Dock = DockStyle.Right
-        IconButton6.FlatAppearance.BorderSize = 0
-        IconButton6.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton6.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton6.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton6.IconSize = 60
-        IconButton6.Location = New Point(426, 0)
-        IconButton6.Name = "IconButton6"
-        IconButton6.Size = New Size(67, 68)
-        IconButton6.TabIndex = 5
-        IconButton6.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton6.UseVisualStyleBackColor = False
-        ' 
-        ' IconButton5
-        ' 
-        IconButton5.BackColor = Color.Transparent
-        IconButton5.Cursor = Cursors.Hand
-        IconButton5.Dock = DockStyle.Right
-        IconButton5.FlatAppearance.BorderSize = 0
-        IconButton5.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton5.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton5.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton5.IconSize = 60
-        IconButton5.Location = New Point(493, 0)
-        IconButton5.Name = "IconButton5"
-        IconButton5.Size = New Size(67, 68)
-        IconButton5.TabIndex = 4
-        IconButton5.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton5.UseVisualStyleBackColor = False
-        ' 
-        ' IconButton4
-        ' 
-        IconButton4.BackColor = Color.Transparent
-        IconButton4.Cursor = Cursors.Hand
-        IconButton4.Dock = DockStyle.Right
-        IconButton4.FlatAppearance.BorderSize = 0
-        IconButton4.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton4.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton4.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton4.IconSize = 60
-        IconButton4.Location = New Point(560, 0)
-        IconButton4.Name = "IconButton4"
-        IconButton4.Size = New Size(67, 68)
-        IconButton4.TabIndex = 3
-        IconButton4.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton4.UseVisualStyleBackColor = False
-        ' 
-        ' IconButton3
-        ' 
-        IconButton3.BackColor = Color.Transparent
-        IconButton3.Cursor = Cursors.Hand
-        IconButton3.Dock = DockStyle.Right
-        IconButton3.FlatAppearance.BorderSize = 0
-        IconButton3.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton3.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton3.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton3.IconSize = 60
-        IconButton3.Location = New Point(627, 0)
-        IconButton3.Name = "IconButton3"
-        IconButton3.Size = New Size(67, 68)
-        IconButton3.TabIndex = 2
-        IconButton3.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton3.UseVisualStyleBackColor = False
-        ' 
-        ' IconButton2
-        ' 
-        IconButton2.BackColor = Color.Transparent
-        IconButton2.Cursor = Cursors.Hand
-        IconButton2.Dock = DockStyle.Right
-        IconButton2.FlatAppearance.BorderSize = 0
-        IconButton2.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton2.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton2.IconSize = 60
-        IconButton2.Location = New Point(694, 0)
-        IconButton2.Name = "IconButton2"
-        IconButton2.Size = New Size(67, 68)
-        IconButton2.TabIndex = 1
-        IconButton2.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton2.UseVisualStyleBackColor = False
-        ' 
-        ' IconButton1
-        ' 
-        IconButton1.BackColor = Color.Transparent
-        IconButton1.Cursor = Cursors.Hand
-        IconButton1.Dock = DockStyle.Right
-        IconButton1.FlatAppearance.BorderSize = 0
-        IconButton1.IconChar = FontAwesome.Sharp.IconChar.Node
-        IconButton1.IconColor = Color.FromArgb(CByte(0), CByte(192), CByte(0))
-        IconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconButton1.IconSize = 60
-        IconButton1.Location = New Point(761, 0)
-        IconButton1.Name = "IconButton1"
-        IconButton1.Size = New Size(67, 68)
-        IconButton1.TabIndex = 0
-        IconButton1.TextImageRelation = TextImageRelation.TextAboveImage
-        IconButton1.UseVisualStyleBackColor = False
+        CommandButtonui1.AnimarHover = True
+        CommandButtonui1.BackColor = Color.Transparent
+        CommandButtonui1.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        CommandButtonui1.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
+        CommandButtonui1.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        CommandButtonui1.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
+        CommandButtonui1.ColorTexto = Color.White
+        CommandButtonui1.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
+        CommandButtonui1.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        CommandButtonui1.Icono = FontAwesome.Sharp.IconChar.Bolt
+        CommandButtonui1.Location = New Point(550, 17)
+        CommandButtonui1.Name = "CommandButtonui1"
+        CommandButtonui1.RadioBorde = 8
+        CommandButtonui1.Size = New Size(153, 46)
+        CommandButtonui1.TabIndex = 0
+        CommandButtonui1.Text = "CommandButtonui1"
+        CommandButtonui1.Texto = "Aceptar"
         ' 
         ' moduloProductos
         ' 
@@ -256,9 +124,8 @@ Partial Class moduloProductos
         Controls.Add(Panel2)
         Controls.Add(Panel1)
         Name = "moduloProductos"
-        Size = New Size(828, 527)
+        Size = New Size(828, 448)
         Panel1.ResumeLayout(False)
-        Panel2.ResumeLayout(False)
         Panel3.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
@@ -267,14 +134,7 @@ Partial Class moduloProductos
     Friend WithEvents Headerui1 As HeaderUI
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Panel3 As Panel
-    Friend WithEvents IconButton1 As FontAwesome.Sharp.IconButton
-    Friend WithEvents MultilineTextBoxLabelui1 As MultilineTextBoxLabelUI
-    Friend WithEvents IconButton8 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton7 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton6 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton5 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton4 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton3 As FontAwesome.Sharp.IconButton
-    Friend WithEvents IconButton2 As FontAwesome.Sharp.IconButton
+    Friend WithEvents CommandButtonui2 As CommandButtonUI
+    Friend WithEvents CommandButtonui1 As CommandButtonUI
 
 End Class

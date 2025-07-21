@@ -4,7 +4,7 @@
     Public Sub New()
         InitializeComponent()
         Me.Dock = DockStyle.Fill
-        Me.BackColor = Color.FromArgb(135, 165, 192)
+        Me.BackColor = Color.WhiteSmoke
     End Sub
 
 End Class
