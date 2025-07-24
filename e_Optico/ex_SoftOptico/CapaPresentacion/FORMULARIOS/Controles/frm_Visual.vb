@@ -21,17 +21,18 @@ Public Class frm_Visual
         dt.Rows.Add(2, "Sofía Ramos", "sofia@empresa.com")
         dt.Rows.Add(3, "Carlos López", "carlos@empresa.com")
 
-        'Asi se cambia los datos de los controles de la UI
+        ' Cargar al Grid principal
+        gridUI.CargarDatos(dt)
+
+        ' Actualizar el encabezado visual
         gridUI.lblTitulo.Titulo = "Wilmer Flores"
         gridUI.lblTitulo.Subtitulo = "Gestión de usuarios"
         gridUI.lblTitulo.Icono = IconChar.User
 
 
-
-        gridUI.CargarDatos(dt)
-
-
-
+        AddHandler gridUI.Filtros.TextChanged, Sub()
+                                                   Debug.Print("Filtro activado: " & gridUI.Filtros.TextoFiltrado)
+                                               End Sub
 
         'tabPanel = New TabPanelUI() With {
         '    .Dock = DockStyle.Fill,

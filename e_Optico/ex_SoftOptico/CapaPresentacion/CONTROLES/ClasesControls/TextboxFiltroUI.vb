@@ -6,6 +6,7 @@ Public Class TextboxFiltroUI
 
     Private _iconBox As IconPictureBox
     Private _textInput As TextBox
+    Public Event TextChanged As EventHandler
 
     <Category("Orbital"), Description("Texto de sugerencia")>
     Public Property PlaceholderText As String
@@ -78,6 +79,11 @@ Public Class TextboxFiltroUI
 
         AddHandler _textInput.GotFocus, Sub() Me.BackColor = Color.FromArgb(230, 244, 255)
         AddHandler _textInput.LostFocus, Sub() Me.BackColor = Color.White
+
+        AddHandler _textInput.TextChanged, Sub(sender, e)
+                                               RaiseEvent TextChanged(Me, e)
+                                           End Sub
+
     End Sub
 
 
