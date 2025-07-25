@@ -45,46 +45,55 @@ Public Class TextboxFiltroUI
     End Property
 
     Public Sub New()
-        Me.Height = 32
+        Me.Height = 30
         Me.Width = 240
-        Me.BackColor = Color.White
-        Me.Padding = New Padding(6)
+        Me.BackColor = Color.Transparent
         Me.DoubleBuffered = True
+        Me.Padding = New Padding(0)
 
+        ' 🔍 Icono de búsqueda
         _iconBox = New IconPictureBox() With {
-            .IconChar = IconChar.Search,
-            .IconColor = Color.Gray,
-            .Size = New Size(20, 20),
-            .Dock = DockStyle.Left,
-            .Padding = New Padding(2),
-            .BackColor = Color.Transparent
-        }
+        .IconChar = IconChar.Search,
+        .IconColor = Color.Gray,
+        .Size = New Size(20, 20),
+        .BackColor = Color.Transparent
+    }
 
+        ' Posicionamiento manual para centrar verticalmente
+        _iconBox.Location = New Point(8, CInt((Me.Height - _iconBox.Size.Height) / 2))
+        _iconBox.Anchor = AnchorStyles.Left Or AnchorStyles.Top
+
+        ' 🧠 Cuadro de texto
         _textInput = New TextBox() With {
             .BorderStyle = BorderStyle.None,
-            .Font = New Font("Segoe UI", 10),
-            .Dock = DockStyle.Fill,
+            .Font = New Font("Century Gothic", 10),
+            .Width = 350,
+            .AutoSize = False,
+            .Dock = DockStyle.Left,
+            .Margin = New Padding(0, 4, 0, 2),
+            .Padding = New Padding(0, 4, 0, 2), ' ⬇ espacio vertical
             .PlaceholderText = "Buscar...",
             .BackColor = Color.White
         }
 
+        ' 🧩 Panel interno que aloja ícono + texto
         Dim innerPanel As New Panel With {
-            .Dock = DockStyle.Fill,
-            .BackColor = Color.White,
-            .Padding = New Padding(4)
-        }
+        .Dock = DockStyle.Fill,
+        .BackColor = Color.White,
+        .Padding = New Padding(_iconBox.Width + 10, 6, 0, 4) ' ⬅ separa el texto del ícono
+    }
 
         innerPanel.Controls.AddRange({_textInput, _iconBox})
         Me.Controls.Add(innerPanel)
 
+        ' 🔄 Eventos visuales al enfocar
         AddHandler _textInput.GotFocus, Sub() Me.BackColor = Color.FromArgb(230, 244, 255)
         AddHandler _textInput.LostFocus, Sub() Me.BackColor = Color.White
 
+        ' 🔁 Relay del evento TextChanged hacia el control principal
         AddHandler _textInput.TextChanged, Sub(sender, e)
                                                RaiseEvent TextChanged(Me, e)
                                            End Sub
-
     End Sub
-
 
 End Class

@@ -1,6 +1,9 @@
 ﻿Imports System.ComponentModel
-Imports FontAwesome.Sharp
+Imports System.Data
+Imports System.IO
+Imports System.Text
 Imports ClosedXML.Excel
+Imports FontAwesome.Sharp
 Public Class DataGridViewUI
     Inherits UserControl
 
@@ -8,13 +11,17 @@ Public Class DataGridViewUI
     Public Event EditarRegistro(id As Integer)
     Public Event EliminarRegistro(id As Integer)
     Public Event AgregarRegistro()
+    Public Event ExportarExcelN()
+
+    Private _dataCompleta As DataTable
+    Public Event ExportarExcelSolicitado()
 
     ' 🧩 Componentes visuales
     Private dgvOrbital As DataGridView
     Private filtro As TextboxFiltroUI
     Private paginador As FlowLayoutPanel
     Private lblPaginaInfo As Label
-    Private btnPrev, btnNext As Button
+    Private btnPrev, btnNext As CommandButtonUI
     Private spinner As OverlayDataGridSpinnerUI
     Private panelBotonesUI As FlowLayoutPanel
 
@@ -37,6 +44,7 @@ Public Class DataGridViewUI
         .Texto = "Exportar",
         .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info
     }
+
     Private headerUI As New HeaderUI() With {
         .Dock = DockStyle.Fill,
         .ColorFondo = Color.White,
@@ -54,7 +62,6 @@ Public Class DataGridViewUI
         Me.BackColor = Color.WhiteSmoke
 
         PrepararLayout()
-        PrepararColumnas()
         PrepararEstiloVisualOrbital()
 
         spinner = New OverlayDataGridSpinnerUI()
@@ -79,13 +86,15 @@ Public Class DataGridViewUI
 
         AddHandler BNuevo.Click, Sub() RaiseEvent AgregarRegistro()
         'AddHandler btnRefrescar.Click, Sub() RefrescarGrid()
-        'AddHandler BExportar.Click, Sub() ExportarExcel()
+        AddHandler btnExportar.Click, Sub() RaiseEvent ExportarExcelSolicitado()
         'AddHandler BRefrescar.Click, Sub() RestablecerVista()
 
         ' 🔁 Conexión del filtro reactivo
         If filtro IsNot Nothing Then
             AddHandler filtro.TextChanged, AddressOf FiltrarRegistros
         End If
+
+
     End Sub
 
     ' 🧩 Layout visual
@@ -101,7 +110,7 @@ Public Class DataGridViewUI
             .Dock = DockStyle.Fill,
             .BackgroundColor = Color.White,
             .BorderStyle = BorderStyle.None,
-            .Font = New Font("Segoe UI", 10),
+            .Font = New Font("Century Gothic", 10),
             .AllowUserToAddRows = False,
             .RowHeadersVisible = False,
             .SelectionMode = DataGridViewSelectionMode.FullRowSelect,
@@ -111,75 +120,125 @@ Public Class DataGridViewUI
 
         paginador = New FlowLayoutPanel() With {
             .Dock = DockStyle.Bottom,
-            .Height = 45,
+            .Height = 55,
             .FlowDirection = FlowDirection.LeftToRight,
             .BackColor = Color.WhiteSmoke,
-            .Padding = New Padding(10)
+            .Padding = New Padding(10, 0, 10, 10)
         }
 
-        btnPrev = CrearBoton("‹ Anterior", Color.DodgerBlue)
-        btnNext = CrearBoton("Siguiente ›", Color.DodgerBlue)
+        btnPrev = CrearBotonPaginadorUI("Anterior")
+        btnNext = CrearBotonPaginadorUI("Siguiente")
         AddHandler btnPrev.Click, AddressOf IrPaginaAnterior
         AddHandler btnNext.Click, AddressOf IrPaginaSiguiente
 
         lblPaginaInfo = New Label With {
             .Text = "Página 1 de 1",
-            .Font = New Font("Segoe UI", 9, FontStyle.Italic),
+            .Font = New Font("Century Gothic", 9, FontStyle.Italic),
             .AutoSize = True,
             .Margin = New Padding(12, 12, 0, 0)
         }
 
         paginador.Controls.AddRange({btnPrev, btnNext, lblPaginaInfo})
         Me.Controls.AddRange({dgvOrbital, paginador, filtro})
+
     End Sub
+
+    Private Function CrearBotonPaginadorUI(texto As String) As CommandButtonUI
+        Dim btn As New CommandButtonUI() With {
+                .Texto = texto,
+                .EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary,
+                .Width = 110
+            }
+
+        ' Establecer el ícono según el texto
+        Select Case texto.ToLower()
+            Case "anterior"
+                btn.Icono = FontAwesome.Sharp.IconChar.AngleLeft
+            Case "siguiente"
+                btn.Icono = FontAwesome.Sharp.IconChar.AngleRight
+            Case "primero"
+                btn.Icono = FontAwesome.Sharp.IconChar.AngleDoubleLeft
+            Case "ultimo"
+                btn.Icono = FontAwesome.Sharp.IconChar.AngleDoubleRight
+            Case Else
+                btn.Icono = FontAwesome.Sharp.IconChar.Circle
+        End Select
+
+        Return btn
+    End Function
 
     Private Sub PrepararEstiloVisualOrbital()
         dgvOrbital.EnableHeadersVisualStyles = False
         dgvOrbital.ColumnHeadersDefaultCellStyle = New DataGridViewCellStyle With {
-        .BackColor = Color.FromArgb(220, 240, 255),
-        .ForeColor = Color.FromArgb(45, 45, 45),
-        .Font = New Font("Segoe UI", 10, FontStyle.Bold),
-        .Alignment = DataGridViewContentAlignment.MiddleLeft,
-        .Padding = New Padding(4)
-    }
+            .Font = New Font("Century Gothic", 10, FontStyle.Bold),
+            .Alignment = DataGridViewContentAlignment.MiddleLeft,
+            .Padding = New Padding(6, 10, 6, 10), ' 🧼 más espacio arriba y abajo
+            .BackColor = Color.FromArgb(220, 240, 255),
+            .ForeColor = Color.FromArgb(45, 45, 45)
+        }
 
         dgvOrbital.DefaultCellStyle = New DataGridViewCellStyle With {
-        .Font = New Font("Segoe UI", 10),
-        .ForeColor = Color.Black,
-        .BackColor = Color.White,
-        .SelectionBackColor = Color.LightSteelBlue,
-        .SelectionForeColor = Color.Black,
-        .Padding = New Padding(3)
-    }
+            .Font = New Font("Century Gothic", 10),
+            .ForeColor = Color.Black,
+            .BackColor = Color.White,
+            .SelectionBackColor = Color.LightSteelBlue,
+            .SelectionForeColor = Color.Black,
+            .Padding = New Padding(3)
+        }
 
-        dgvOrbital.RowTemplate.Height = 32
-        dgvOrbital.GridColor = Color.LightGray
+        dgvOrbital.RowTemplate.Height = 29
+        dgvOrbital.GridColor = Color.LightBlue
+        dgvOrbital.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing
+        dgvOrbital.ColumnHeadersHeight = 38
     End Sub
 
-    ' 🎨 Columnas orbitales
-    Private Sub PrepararColumnas()
-        dgvOrbital.Columns.Clear()
+    Public Sub ConfigurarColumnasVisualesPorTipo(tabla As DataTable,
+                                             columnasVisibles As String(),
+                                             anchosDefinidos As Dictionary(Of String, Integer),
+                                             nombresVisuales As Dictionary(Of String, String))
+
+        'dgvOrbital.Columns.Clear()
         dgvOrbital.AutoGenerateColumns = False
 
-        dgvOrbital.Columns.Add(New DataGridViewImageColumn() With {
-            .Image = IconChar.Plus.ToBitmapPaint(Color.SeaGreen, 18),
-            .Width = 20,
-            .HeaderText = ""
-        })
-        dgvOrbital.Columns.Add(New DataGridViewImageColumn() With {
-            .Image = IconChar.Pen.ToBitmapPaint(Color.SteelBlue, 18),
-            .Width = 20,
-            .HeaderText = ""
-        })
-        dgvOrbital.Columns.Add(New DataGridViewImageColumn() With {
-            .Image = IconChar.TrashAlt.ToBitmapPaint(Color.Firebrick, 18),
-            .Width = 20,
-            .HeaderText = ""
-        })
+        For Each col As DataColumn In tabla.Columns
+            If columnasVisibles Is Nothing OrElse columnasVisibles.Contains(col.ColumnName) Then
+                Dim ancho = If(anchosDefinidos IsNot Nothing AndAlso anchosDefinidos.ContainsKey(col.ColumnName),
+                           anchosDefinidos(col.ColumnName), 120)
 
-        dgvOrbital.Columns.Add("ID", "ID")
-        dgvOrbital.Columns.Add("Nombre", "Nombre completo")
-        dgvOrbital.Columns.Add("Correo", "Correo electrónico")
+                Dim header = If(nombresVisuales IsNot Nothing AndAlso nombresVisuales.ContainsKey(col.ColumnName),
+                            nombresVisuales(col.ColumnName), col.ColumnName)
+
+                Dim estilo = New DataGridViewCellStyle()
+
+                Select Case col.DataType
+                    Case GetType(String)
+                        estilo.Alignment = DataGridViewContentAlignment.MiddleLeft
+                    Case GetType(Integer), GetType(Long), GetType(Decimal), GetType(Double)
+                        estilo.Alignment = DataGridViewContentAlignment.MiddleRight
+                        estilo.Format = "N0"
+                    Case GetType(DateTime)
+                        estilo.Alignment = DataGridViewContentAlignment.MiddleCenter
+                        estilo.Format = "dd/MM/yyyy"
+                    Case GetType(Boolean)
+                        estilo.Alignment = DataGridViewContentAlignment.MiddleCenter
+                End Select
+
+                Dim columnaVisual As New DataGridViewTextBoxColumn() With {
+                        .Name = col.ColumnName,
+                        .HeaderText = header,
+                        .Width = ancho,
+                        .AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                        .DefaultCellStyle = estilo,
+                        .Resizable = DataGridViewTriState.True
+                    }
+
+                dgvOrbital.Columns.Add(columnaVisual)
+            End If
+        Next
+
+        dgvOrbital.ScrollBars = ScrollBars.Both
+        dgvOrbital.AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.None
+        dgvOrbital.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None
     End Sub
 
     Private Sub dgvOrbital_CellClick(sender As Object, e As DataGridViewCellEventArgs)
@@ -197,20 +256,6 @@ Public Class DataGridViewUI
                 RaiseEvent EliminarRegistro(id)
         End Select
     End Sub
-
-    ' 🔘 Botones Bootstrap
-    Private Function CrearBoton(texto As String, color As Color) As Button
-        Return New Button With {
-            .Text = texto,
-            .BackColor = color,
-            .ForeColor = Color.White,
-            .FlatStyle = FlatStyle.Flat,
-            .Font = New Font("Segoe UI", 9),
-            .Width = 110,
-            .Height = 40,
-            .Margin = New Padding(8)
-        }
-    End Function
 
     ' 📦 Cargar datos orbitales
     Public Sub CargarDatos(datos As DataTable)
@@ -233,8 +278,7 @@ Public Class DataGridViewUI
         RefrescarPaginacion(fuenteFiltrado)
     End Sub
 
-    ' 🧩 Paginación
-    Private Sub RefrescarPaginacion(tablaBase As DataTable)
+    Public Sub RefrescarPaginacion(tablaBase As DataTable)
         Dim inicio = (paginaActual - 1) * registrosPorPagina
         Dim subTabla = tablaBase.Clone()
 
@@ -244,15 +288,40 @@ Public Class DataGridViewUI
 
         dgvOrbital.Rows.Clear()
         For Each row As DataRow In subTabla.Rows
-            dgvOrbital.Rows.Add(
-                IconChar.Plus.ToBitmapPaint(Color.SeaGreen, 18),
-                IconChar.Pen.ToBitmapPaint(Color.SteelBlue, 18),
-                IconChar.TrashAlt.ToBitmapPaint(Color.Firebrick, 18),
-                row("ID"), row("Nombre"), row("Correo")
-            )
+            CrearFilaDesdeRow(row)
         Next
 
         lblPaginaInfo.Text = $"Página {paginaActual} de {totalPaginas}"
+    End Sub
+
+    Public Sub CrearFilaDesdeRow(row As DataRow)
+        Dim nuevaFila As DataGridViewRow = CType(dgvOrbital.RowTemplate.Clone(), DataGridViewRow)
+        nuevaFila.CreateCells(dgvOrbital)
+
+        ' Iconos orbitales (si existen las columnas)
+        If dgvOrbital.Columns.Contains("Agregar") Then
+            nuevaFila.Cells(dgvOrbital.Columns("Agregar").Index).Value =
+            IconChar.Plus.ToBitmapPaint(Color.SeaGreen, 18)
+        End If
+
+        If dgvOrbital.Columns.Contains("Editar") Then
+            nuevaFila.Cells(dgvOrbital.Columns("Editar").Index).Value =
+            IconChar.Pen.ToBitmapPaint(Color.SteelBlue, 18)
+        End If
+
+        If dgvOrbital.Columns.Contains("Eliminar") Then
+            nuevaFila.Cells(dgvOrbital.Columns("Eliminar").Index).Value =
+            IconChar.TrashAlt.ToBitmapPaint(Color.Firebrick, 18)
+        End If
+
+        ' Datos dinámicos por columna
+        For Each col As DataColumn In row.Table.Columns
+            If dgvOrbital.Columns.Contains(col.ColumnName) Then
+                nuevaFila.Cells(dgvOrbital.Columns(col.ColumnName).Index).Value = row(col.ColumnName)
+            End If
+        Next
+
+        dgvOrbital.Rows.Add(nuevaFila)
     End Sub
 
     Private Sub IrPaginaAnterior(sender As Object, e As EventArgs)
@@ -288,6 +357,105 @@ Public Class DataGridViewUI
 
         Return If(vista.Any(), vista.CopyToDataTable(), dt.Clone())
     End Function
+
+    'Public Sub ExportarExcel(Optional nombreArchivo As String = "ExportGenerico")
+    '    If dgvOrbital Is Nothing OrElse Not GridTieneDatos(dgvOrbital) Then
+    '        MostrarToast("No hay datos para exportar", TipoToastUI.Warning)
+    '        Exit Sub
+    '    End If
+
+    '    Using sfd As New SaveFileDialog() With {
+    '    .Filter = "Archivo CSV (*.csv)|*.csv",
+    '    .FileName = $"{nombreArchivo}_{Now:yyyyMMdd_HHmm}.csv"
+    '}
+    '        If sfd.ShowDialog() = DialogResult.OK Then
+    '            Try
+    '                Using sw As New StreamWriter(sfd.FileName, False, Encoding.UTF8)
+    '                    ' Encabezados
+    '                    Dim headers = String.Join(",", dgvOrbital.Columns.Cast(Of DataGridViewColumn).
+    '                    Select(Function(c) EscaparCSV(c.HeaderText)))
+    '                    sw.WriteLine(headers)
+
+    '                    ' Filas
+    '                    For Each row As DataGridViewRow In dgvOrbital.Rows
+    '                        If Not row.IsNewRow Then
+    '                            Dim valores = String.Join(",", row.Cells.Cast(Of DataGridViewCell).
+    '                            Select(Function(cell) EscaparCSV(cell.Value?.ToString())))
+    '                            sw.WriteLine(valores)
+    '                        End If
+    '                    Next
+    '                End Using
+
+    '                MostrarToast("Exportación completada con éxito", TipoToastUI.Success)
+    '            Catch ex As Exception
+    '                MostrarToast("Error al exportar: " & ex.Message, TipoToastUI.Errores)
+    '            End Try
+    '        End If
+    '    End Using
+    'End Sub
+
+    Public Sub ExportarConEstiloExcel(Optional nombreArchivo As String = "ExportEstilizado")
+        If dgvOrbital Is Nothing OrElse dgvOrbital.Rows.Count = 0 Then
+            MostrarToast("No hay datos para exportar", TipoToastUI.Warning)
+            Exit Sub
+        End If
+
+        Using sfd As New SaveFileDialog With {
+        .Filter = "Archivo Excel (*.xlsx)|*.xlsx",
+        .FileName = $"{nombreArchivo}_{Now:yyyyMMdd_HHmm}.xlsx"
+    }
+            If sfd.ShowDialog() = DialogResult.OK Then
+                Dim tabla = ObtenerTablaDesdeGrid(dgvOrbital, excluirPrimeras:=3)
+                ExcelExporterUI.ExportarToExcelStyle(tabla, sfd.FileName)
+                MostrarToast("Exportación completada con éxito", TipoToastUI.Success)
+            End If
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Convierte el contenido del DataGridView a DataTable excluyendo columnas iniciales.
+    ''' </summary>
+    Private Function ObtenerTablaDesdeGrid(grid As DataGridView, Optional excluirPrimeras As Integer = 0) As DataTable
+        Dim tabla As New DataTable()
+        Dim columnas = grid.Columns.Cast(Of DataGridViewColumn)().
+        Where(Function(c) c.Visible AndAlso c.Index >= excluirPrimeras).ToList()
+
+        For Each col In columnas
+            Dim tipoDato = If(col.ValueType, GetType(String))
+            tabla.Columns.Add(col.HeaderText, tipoDato)
+        Next
+
+        For Each fila As DataGridViewRow In grid.Rows
+            If Not fila.IsNewRow Then
+                Dim valores = columnas.Select(Function(c) fila.Cells(c.Index).Value).ToArray()
+                tabla.Rows.Add(valores)
+            End If
+        Next
+
+        Return tabla
+    End Function
+
+    'Private Function GridTieneDatos(grid As DataGridView) As Boolean
+    '    Dim filasValidas = grid.Rows.Cast(Of DataGridViewRow).
+    '    Where(Function(r) Not r.IsNewRow).
+    '    Where(Function(r) r.Cells.Cast(Of DataGridViewCell).
+    '        Any(Function(c) c.Value IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(c.Value.ToString())))
+    '    Return filasValidas.Any()
+    'End Function
+
+    'Private Function EscaparCSV(texto As String) As String
+    '    If String.IsNullOrWhiteSpace(texto) Then Return ""
+    '    If texto.Contains(",") OrElse texto.Contains("""") Then
+    '        texto = texto.Replace("""", """""")
+    '        Return $"""{texto}"""
+    '    End If
+    '    Return texto
+    'End Function
+
+    Private Sub MostrarToast(mensaje As String, tipo As TipoToastUI)
+        Dim toast As New ToastUI()
+        toast.MostrarToast(mensaje, tipo)
+    End Sub
 
     Public Property DataOriginal As DataTable
         Get
@@ -339,513 +507,28 @@ Public Class DataGridViewUI
             Return filtro
         End Get
     End Property
+    Public ReadOnly Property GrvOrbital As DataGridView
+        Get
+            Return Me.dgvOrbital
+        End Get
+    End Property
+
+    ' Acceso al grid real
+    Public ReadOnly Property Grid As DataGridView
+        Get
+            Return dgvOrbital
+        End Get
+    End Property
+
+    ' Fuente completa de datos (por si usas paginación)
+    Public Property DataCompleta As DataTable
+        Get
+            Return _dataCompleta
+        End Get
+        Set(value As DataTable)
+            _dataCompleta = value
+            dgvOrbital.DataSource = value
+        End Set
+    End Property
+
 End Class
-
-'Imports System.ComponentModel
-'Imports FontAwesome.Sharp
-'Imports ClosedXML.Excel
-
-'Public Class DataGridViewUI
-'    Inherits UserControl
-
-'    Public Event EditarRegistro(id As Integer)
-'    Public Event EliminarRegistro(id As Integer)
-'    Public Event AgregarRegistro()
-
-'    Private dgvOrbital As DataGridView
-'    Private filtro As TextboxFiltroUI
-'    Private paginador As FlowLayoutPanel
-'    Private lblPaginaInfo As Label
-'    Private btnPrev, btnNext As Button
-
-'    Private dataTableOriginal As DataTable    ' respaldo maestro, NO tocar al filtrar
-'    Private dataTableVista As DataTable    ' para mostrar en el grid
-'    Private paginaActual As Integer = 1
-'    Private registrosPorPagina As Integer = 10
-'    Private totalPaginas As Integer = 1
-
-'    Private spinner As OverlayDataGridSpinnerUI
-'    Private panelBotonesUI As FlowLayoutPanel
-
-'    Public Sub New()
-'        Me.Dock = DockStyle.Fill
-'        Me.BackColor = Color.WhiteSmoke
-'        PrepararLayout()
-'        PrepararColumnas()
-'        PrepararEstiloVisualOrbital()
-
-'        spinner = New OverlayDataGridSpinnerUI()
-'        Me.Controls.Add(spinner)
-
-'        'Panel Contenedor
-'        Dim PanelContenedorBotonesUI As New Panel With {
-'            .Dock = DockStyle.Top,
-'            .Height = 68
-'        }
-
-'        '🔵 Panel izquierdo con botones externos Nuevo Refrescar y exportar
-'        Dim PanelIzquierdo As New Panel With {
-'            .Dock = DockStyle.Left,
-'            .Width = 600,
-'            .BackColor = Color.Green
-'        }
-
-'        Dim PanelDerecho As New FlowLayoutPanel() With {
-'            .Dock = DockStyle.Fill,
-'            .FlowDirection = FlowDirection.RightToLeft,
-'            .WrapContents = False,
-'            .Padding = New Padding(12, 8, 12, 8),
-'            .BackColor = Color.White
-'        }
-
-'        'Hace la llamada a la propiedad lblTitulo
-'        PanelIzquierdo.Controls.Add(lblTitulo)
-
-'        'Insertar panel izquierdo con botones
-'        PanelDerecho.Controls.AddRange({btnNuevo, BRefrescar, BExportar})
-
-'        ' 🧱 Integración completa
-'        PanelContenedorBotonesUI.Controls.AddRange({PanelDerecho, PanelIzquierdo})
-'        Me.Controls.Add(PanelContenedorBotonesUI)
-
-'        AddHandler BNuevo.Click, Sub() RaiseEvent AgregarRegistro()
-'        AddHandler btnRefrescar.Click, Sub() RefrescarGrid()
-'        AddHandler BExportar.Click, Sub() ExportarExcel()
-'        AddHandler BRefrescar.Click, Sub() RestablecerVista()
-
-'        If filtro IsNot Nothing Then
-'            AddHandler filtro.TextChanged, AddressOf FiltrarRegistros
-'            Debug.Print("Evento conectado al filtro orbital correctamente")
-'        End If
-
-'    End Sub
-'    Public Property DataOriginal As DataTable
-'        Get
-'            Return dataTableOriginal
-'        End Get
-'        Set(value As DataTable)
-'            dataTableOriginal = value
-'        End Set
-'    End Property
-
-'    Public Property lblTitulo As HeaderUI
-'        Get
-'            Return headerUI
-'        End Get
-'        Set(value As HeaderUI)
-'            headerUI = value
-'        End Set
-'    End Property
-
-'    Public Property BNuevo As CommandButtonUI
-'        Get
-'            Return btnNuevo
-'        End Get
-'        Set(value As CommandButtonUI)
-'            btnNuevo = value
-'        End Set
-'    End Property
-
-'    Public Property BRefrescar As CommandButtonUI
-'        Get
-'            Return btnRefrescar
-'        End Get
-'        Set(value As CommandButtonUI)
-'            btnRefrescar = value
-'        End Set
-'    End Property
-
-'    Public Property BExportar As CommandButtonUI
-'        Get
-'            Return btnExportar
-'        End Get
-'        Set(value As CommandButtonUI)
-'            btnExportar = value
-'        End Set
-'    End Property
-'    Public ReadOnly Property Filtros As TextboxFiltroUI
-'        Get
-'            Return filtro
-'        End Get
-'    End Property
-
-
-'    Private btnNuevo As New CommandButtonUI() With {
-'        .Texto = "Nuevo",
-'        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-'    }
-'    Private btnRefrescar As New CommandButtonUI() With {
-'        .Texto = "Refrescar",
-'        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-'    }
-'    Private btnExportar As New CommandButtonUI() With {
-'        .Texto = "Exportar",
-'        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info
-'    }
-
-'    Private headerUI As New HeaderUI() With {
-'        .Dock = DockStyle.Fill,
-'        .ColorFondo = Color.White,
-'        .ColorTexto = Color.FromArgb(45, 45, 45),
-'        .Font = New Font("Century Gothic", 10, FontStyle.Bold),
-'        .Icono = IconChar.CircleInfo,
-'        .Titulo = "Registros Orbitales",
-'        .Subtitulo = "Gestión de registros con paginación y filtros",
-'        .MostrarSeparador = False
-'    }
-
-'    '2. Método PrepararLayout con diseño Bootstrap orbita
-
-'    Private Sub PrepararLayout()
-'        ' 🔍 TextBox de búsqueda
-'        filtro = New TextboxFiltroUI() With {
-'                                                    .Dock = DockStyle.Top,
-'                                                    .PlaceholderText = "Buscar registros...",
-'                                                    .Icono = IconChar.Search,
-'                                                    .IconColor = Color.DarkGray
-'                                                }
-
-'        ' 📋 DataGridView visual
-'        dgvOrbital = New DataGridView() With {
-'            .Dock = DockStyle.Fill,
-'            .BackgroundColor = Color.White,
-'            .BorderStyle = BorderStyle.None,
-'            .Font = New Font("Segoe UI", 10),
-'            .AllowUserToAddRows = False,
-'            .RowHeadersVisible = False,
-'            .SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-'            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-'        }
-'        AddHandler dgvOrbital.CellClick, AddressOf dgvOrbital_CellClick
-
-'        ' 📄 Paginador visual tipo Bootstrap
-'        paginador = New FlowLayoutPanel() With {
-'            .Dock = DockStyle.Bottom,
-'            .Height = 45,
-'            .FlowDirection = FlowDirection.LeftToRight,
-'            .BackColor = Color.WhiteSmoke,
-'            .Padding = New Padding(10)
-'        }
-
-'        btnPrev = CrearBoton("‹ Anterior", Color.DodgerBlue)
-'        btnNext = CrearBoton("Siguiente ›", Color.DodgerBlue)
-'        AddHandler btnPrev.Click, AddressOf IrPaginaAnterior
-'        AddHandler btnNext.Click, AddressOf IrPaginaSiguiente
-
-'        lblPaginaInfo = New Label With {
-'            .Text = "Página 1 de 1",
-'            .Font = New Font("Segoe UI", 9, FontStyle.Italic),
-'            .AutoSize = True,
-'            .Margin = New Padding(12, 12, 0, 0)
-'        }
-
-'        panelBotonesUI = New FlowLayoutPanel() With {
-'            .Dock = DockStyle.Top,
-'            .Height = 64,
-'            .FlowDirection = FlowDirection.LeftToRight,
-'            .Padding = New Padding(5),
-'            .BackColor = Color.WhiteSmoke
-'        }
-
-'        paginador.Controls.AddRange({btnPrev, btnNext, lblPaginaInfo})
-'        Me.Controls.AddRange({dgvOrbital, paginador, filtro})
-'        'AddHandler filtro.TextChanged, AddressOf FiltrarRegistros
-
-
-'    End Sub
-
-'    '🧰 5. Botón orbital tipo Bootstrap
-
-'    Private Function CrearBoton(texto As String, color As Color) As Button
-'        Return New Button With {
-'            .Text = texto,
-'            .BackColor = color,
-'            .ForeColor = Color.White,
-'            .FlatStyle = FlatStyle.Flat,
-'            .Font = New Font("Segoe UI", 9),
-'            .Width = 110,
-'            .Height = 40,
-'            .Margin = New Padding(8)
-'        }
-'    End Function
-
-'    '🎨 3. Columnas con íconos orbitales por fil
-
-'    Private Sub PrepararColumnas()
-'        dgvOrbital.Columns.Clear()
-
-'        ' 🔘 Botones por fila con íconos orbitales
-'        dgvOrbital.Columns.Add(New DataGridViewImageColumn() With {
-'        .Image = IconChar.Plus.ToBitmapPaint(Color.SeaGreen, 18),
-'        .Width = 15,
-'        .HeaderText = ""
-'    })
-
-'        dgvOrbital.Columns.Add(New DataGridViewImageColumn() With {
-'        .Image = IconChar.Pen.ToBitmapPaint(Color.SteelBlue, 18),
-'        .Width = 15,
-'        .HeaderText = ""
-'    })
-
-'        dgvOrbital.Columns.Add(New DataGridViewImageColumn() With {
-'        .Image = IconChar.TrashAlt.ToBitmapPaint(Color.Firebrick, 18),
-'        .Width = 15,
-'        .HeaderText = ""
-'    })
-
-'        ' 🧩 Columnas de datos
-'        dgvOrbital.Columns.Add("ID", "ID")
-'        dgvOrbital.Columns.Add("Nombre", "Nombre completo")
-'        dgvOrbital.Columns.Add("Correo", "Correo electrónico")
-'    End Sub
-
-'    Public Sub CargarDatos(datos As DataTable)
-'        If dataTableOriginal Is Nothing OrElse dataTableOriginal.Rows.Count = 0 Then
-'            dataTableOriginal = datos.Copy() ' solo la primera vez
-'        End If
-
-'        dataTableVista = datos.Copy()
-'        dgvOrbital.DataSource = dataTableVista
-'        paginaActual = 1
-'        totalPaginas = Math.Max(1, Math.Ceiling(dataTableVista.Rows.Count / registrosPorPagina))
-'        RefrescarPaginacion()
-'    End Sub
-
-'    Private Sub FiltrarRegistros(sender As Object, e As EventArgs)
-'        Dim texto = filtro.TextoFiltrado.Trim().ToLower()
-
-'        Dim fuenteFiltrado As DataTable =
-'        If(String.IsNullOrEmpty(texto), dataTableOriginal,
-'           CargarDatos(dataTableOriginal, texto))
-
-'        paginaActual = 1
-'        totalPaginas = Math.Max(1, Math.Ceiling(fuenteFiltrado.Rows.Count / registrosPorPagina))
-'        RefrescarPaginacion(fuenteFiltrado)
-'    End Sub
-
-'    Private Sub RefrescarPaginacion(tablaBase As DataTable)
-'        Dim inicio = (paginaActual - 1) * registrosPorPagina
-'        Dim subTabla = tablaBase.Clone()
-
-'        For i = inicio To Math.Min(inicio + registrosPorPagina - 1, tablaBase.Rows.Count - 1)
-'            subTabla.ImportRow(tablaBase.Rows(i))
-'        Next
-
-'        dgvOrbital.Rows.Clear()
-'        For Each row As DataRow In subTabla.Rows
-'            dgvOrbital.Rows.Add(... valores ...)
-'        Next
-
-'        lblPaginaInfo.Text = $"Página {paginaActual} de {totalPaginas}"
-'    End Sub
-
-'    Private Sub IrPaginaAnterior(sender As Object, e As EventArgs)
-'        If paginaActual > 1 Then
-'            paginaActual -= 1
-'            RefrescarPaginacion()
-'        End If
-'    End Sub
-
-'    Private Sub IrPaginaSiguiente(sender As Object, e As EventArgs)
-'        If paginaActual < totalPaginas Then
-'            paginaActual += 1
-'            RefrescarPaginacion()
-'        End If
-'    End Sub
-
-'    'Private Sub FiltrarRegistros(sender As Object, e As EventArgs)
-'    '    Dim texto = filtro.TextoFiltrado.Trim().ToLower()
-
-'    '    If String.IsNullOrEmpty(texto) Then
-'    '        CargarDatos(dataTableOriginal) ' 🛠 restaura original
-'    '        Return
-'    '    End If
-
-'    '    Dim vistaFiltrada = dataTableOriginal.AsEnumerable().
-'    '        Where(Function(row)
-'    '                  Return row("Nombre").ToString().ToLower().Contains(texto) _
-'    '                  OrElse row("Correo").ToString().ToLower().Contains(texto)
-'    '              End Function)
-
-'    '    If vistaFiltrada.Any() Then
-'    '        CargarDatos(vistaFiltrada.CopyToDataTable())
-'    '    Else
-'    '        CargarDatos(New DataTable()) ' 🧼 tabla vacía
-'    '    End If
-'    'End Sub
-
-
-'    Private Sub dgvOrbital_CellClick(sender As Object, e As DataGridViewCellEventArgs)
-'        If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Exit Sub
-
-'        Dim id = CInt(dgvOrbital.Rows(e.RowIndex).Cells("ID").Value)
-
-'        Select Case e.ColumnIndex
-'            Case 0 : RaiseEvent AgregarRegistro()
-'            Case 1 : RaiseEvent EditarRegistro(id)
-'            Case 2 : RaiseEvent EliminarRegistro(id)
-'        End Select
-'    End Sub
-
-'    Private Function CrearBotonBootstrap(texto As String, icono As IconChar, colorFondo As Color) As Button
-'        Dim btn = New Button With {
-'            .Text = $"  {texto}",
-'            .FlatStyle = FlatStyle.Flat,
-'            .ForeColor = Color.White,
-'            .BackColor = colorFondo,
-'            .Font = New Font("Segoe UI", 9),
-'            .Height = 32,
-'            .Width = 120,
-'            .Margin = New Padding(6),
-'            .TextAlign = ContentAlignment.MiddleLeft,
-'            .ImageAlign = ContentAlignment.MiddleLeft
-'        }
-
-'        Dim bmp = icono.ToBitmapPaint(Color.White, 18)
-'        btn.Image = bmp
-'        Return btn
-'    End Function
-
-'    Private Sub ExportarExcel()
-'        If dgvOrbital.Rows.Count = 0 Then
-'            MessageBox.Show("No hay registros para exportar.", "Exportación", MessageBoxButtons.OK, MessageBoxIcon.Information)
-'            Exit Sub
-'        End If
-
-'        Dim wb = New XLWorkbook()
-'        Dim ws = wb.Worksheets.Add("Registros")
-
-'        ' 📝 Escribir encabezados
-'        Dim colOffset = 3 ' Saltar columnas de íconos
-'        For col = colOffset To dgvOrbital.Columns.Count - 1
-'            ws.Cell(1, col - colOffset + 1).Value = dgvOrbital.Columns(col).HeaderText
-'            ws.Cell(1, col - colOffset + 1).Style.Font.Bold = True
-'            ws.Cell(1, col - colOffset + 1).Style.Fill.BackgroundColor = XLColor.LightSteelBlue
-'            ws.Cell(1, col - colOffset + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center
-'            ws.Cell(1, col - colOffset + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin
-'        Next
-
-'        ' 📋 Escribir filas
-'        For i = 0 To dgvOrbital.Rows.Count - 1
-'            For j = colOffset To dgvOrbital.Columns.Count - 1
-'                ws.Cell(i + 2, j - colOffset + 1).Value = dgvOrbital.Rows(i).Cells(j).Value?.ToString()
-'            Next
-'        Next
-
-'        ws.Columns().AdjustToContents()
-
-'        ' 📄 Guardar archivo
-'        Dim dlg As New SaveFileDialog() With {
-'        .Filter = "Archivo Excel (*.xlsx)|*.xlsx",
-'        .FileName = $"RegistrosOrbital_{Now:yyyyMMdd_HHmm}.xlsx"
-'    }
-
-'        If dlg.ShowDialog() = DialogResult.OK Then
-'            wb.SaveAs(dlg.FileName)
-'            MessageBox.Show("Exportación completada correctamente.", "Excel orbital", MessageBoxButtons.OK, MessageBoxIcon.Information)
-'        End If
-'    End Sub
-
-'    Private Sub RefrescarGrid()
-'        If dataTableOriginal IsNot Nothing Then
-'            CargarDatos(dataTableOriginal)
-'        End If
-'    End Sub
-
-'    Public Sub RestablecerVista()
-'        ' 🗘 Borrar filtro visual si usas TextboxFiltroUI integrado
-'        For Each ctrl In Me.Controls
-'            If TypeOf ctrl Is TextboxFiltroUI Then
-'                DirectCast(ctrl, TextboxFiltroUI).PlaceholderText = "Buscar..."
-'                DirectCast(ctrl, TextboxFiltroUI).Text = ""
-'            End If
-'        Next
-
-'        ' 🧹 Reiniciar datos si hay tabla original
-'        If dataTableOriginal IsNot Nothing Then
-'            CargarDatos(dataTableOriginal)
-'        End If
-
-'        ' ⏮ Volver a primera página orbital
-'        paginaActual = 1
-'        totalPaginas = Math.Max(1, Math.Ceiling(dataTableOriginal.Rows.Count / registrosPorPagina))
-'        RefrescarPaginacion()
-'    End Sub
-
-'    Private Sub PrepararEstiloVisualOrbital()
-'        With dgvOrbital
-'            ' 🔷 General visual
-'            .RowTemplate.Height = 34
-'            .Font = New Font("Segoe UI", 10)
-'            .DefaultCellStyle.Font = New Font("Segoe UI", 10)
-'            .DefaultCellStyle.Padding = New Padding(4)
-'            .DefaultCellStyle.SelectionBackColor = Color.FromArgb(210, 230, 255)
-
-'            ' 🧾 Bordes tipo Bootstrap
-'            .GridColor = Color.Silver
-'            .CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
-'            .BorderStyle = BorderStyle.None
-
-'            ' 🎨 Encabezado visual
-'            .EnableHeadersVisualStyles = False
-'            .ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(235, 240, 255)
-'            .ColumnHeadersDefaultCellStyle.ForeColor = Color.Black
-'            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-'            .ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
-'            .ColumnHeadersHeight = 25
-'            .ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-'        End With
-
-'        ' 🔘 Eventos de hover orbital
-'        AddHandler dgvOrbital.CellMouseEnter, AddressOf dgvOrbital_CellMouseEnter
-'        AddHandler dgvOrbital.CellMouseLeave, AddressOf dgvOrbital_CellMouseLeave
-'    End Sub
-
-'    Private Sub dgvOrbital_CellMouseEnter(sender As Object, e As DataGridViewCellEventArgs)
-'        If e.RowIndex >= 0 Then
-'            dgvOrbital.Rows(e.RowIndex).DefaultCellStyle.BackColor = Color.FromArgb(240, 248, 255)
-'        End If
-'    End Sub
-
-'    Private Sub dgvOrbital_CellMouseLeave(sender As Object, e As DataGridViewCellEventArgs)
-'        If e.RowIndex >= 0 Then
-'            dgvOrbital.Rows(e.RowIndex).DefaultCellStyle.BackColor = Color.White
-'        End If
-'    End Sub
-
-
-
-'    'Como usarlo en el formulario:
-
-'    'Private WithEvents gridUI As New GridModuloUI()
-
-'    'Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-'    '    Me.Controls.Add(gridUI)
-
-'    '    ' Cargar registros simulados
-'    '    Dim dt As New DataTable()
-'    '    dt.Columns.Add("ID", GetType(Integer))
-'    '    dt.Columns.Add("Nombre")
-'    '    dt.Columns.Add("Correo")
-
-'    '    dt.Rows.Add(1, "Wilmer Duarte", "wilmer@empresa.com")
-'    '    dt.Rows.Add(2, "Sofía Ramos", "sofia@empresa.com")
-'    '    dt.Rows.Add(3, "Carlos López", "carlos@empresa.com")
-
-'    '    gridUI.CargarDatos(dt)
-'    'End Sub
-
-'    '' Eventos públicos orbitando 🚀
-'    'Private Sub gridUI_EditarRegistro(id As Integer) Handles gridUI.EditarRegistro
-'    '    MessageBox.Show($"Editar: {id}")
-'    'End Sub
-
-'    'Private Sub gridUI_EliminarRegistro(id As Integer) Handles gridUI.EliminarRegistro
-'    '    MessageBox.Show($"Eliminar: {id}")
-'    'End Sub
-
-'    'Private Sub gridUI_AgregarRegistro() Handles gridUI.AgregarRegistro
-'    '    MessageBox.Show("Agregar nuevo registro")
-'    'End Sub
-
-'End Class

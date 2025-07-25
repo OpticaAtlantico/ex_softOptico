@@ -26,11 +26,12 @@ Partial Class frm_Visual
         ' 
         ' frm_Visual
         ' 
-        BackColor = Color.IndianRed
+        BackColor = Color.LightBlue
         ClientSize = New Size(1179, 511)
         Name = "frm_Visual"
         Text = "Coliflor"
         ResumeLayout(False)
 
     End Sub
+
 End Class

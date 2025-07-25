@@ -29,7 +29,7 @@ Public Class AlertPanelUI
         Me.DoubleBuffered = True
 
         _btnCerrar.Text = "✖"
-        _btnCerrar.Font = New Font("Segoe UI", 9, FontStyle.Bold)
+        _btnCerrar.Font = New Font("Century Gothic", 10, FontStyle.Bold)
         _btnCerrar.ForeColor = Color.White
         _btnCerrar.AutoSize = False
         _btnCerrar.TextAlign = ContentAlignment.MiddleCenter
@@ -118,6 +118,6 @@ Public Class AlertPanelUI
         TextRenderer.DrawText(g, _iconoUnicode, _fontAwesome, New Point(10, 12), iconColorFade)
 
         ' Mensaje
-        TextRenderer.DrawText(g, _mensaje, New Font("Segoe UI", 10), New Rectangle(40, 10, Me.Width - 60, 25), textoColorFade)
+        TextRenderer.DrawText(g, _mensaje, New Font("Century Gothic", 10), New Rectangle(40, 10, Me.Width - 60, 25), textoColorFade)
     End Sub
 End Class

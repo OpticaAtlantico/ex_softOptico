@@ -1,6 +1,6 @@
 ﻿Imports System.Windows.Forms
 Imports System.Drawing
-Public Module AlertManagerWUI
+Public Module AlertManagerUI
 
     Private alertStack As New List(Of AlertPanelUI)
 
