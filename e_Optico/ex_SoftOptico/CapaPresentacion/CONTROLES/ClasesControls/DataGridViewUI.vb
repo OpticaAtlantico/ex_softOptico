@@ -21,7 +21,7 @@ Public Class DataGridViewUI
     Private filtro As TextboxFiltroUI
     Private paginador As FlowLayoutPanel
     Private lblPaginaInfo As Label
-    Private btnPrev, btnNext As CommandButtonUI
+    Private btnPrev, btnNext, btnInicio, btnFin As CommandButtonUI
     Private spinner As OverlayDataGridSpinnerUI
     Private panelBotonesUI As FlowLayoutPanel
 
@@ -34,15 +34,18 @@ Public Class DataGridViewUI
     ' 🎨 Botones y encabezado
     Private btnNuevo As New CommandButtonUI() With {
         .Texto = "Nuevo",
-        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
+        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary,
+        .Icono = IconChar.Plus
     }
     Private btnRefrescar As New CommandButtonUI() With {
         .Texto = "Refrescar",
-        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
+        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Success,
+        .Icono = IconChar.SyncAlt
     }
     Private btnExportar As New CommandButtonUI() With {
         .Texto = "Exportar",
-        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info
+        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info,
+        .Icono = IconChar.FileExcel
     }
 
     Private headerUI As New HeaderUI() With {
@@ -128,17 +131,28 @@ Public Class DataGridViewUI
 
         btnPrev = CrearBotonPaginadorUI("Anterior")
         btnNext = CrearBotonPaginadorUI("Siguiente")
+        btnInicio = CrearBotonPaginadorUI("Primero")
+        btnFin = CrearBotonPaginadorUI("Último")
         AddHandler btnPrev.Click, AddressOf IrPaginaAnterior
         AddHandler btnNext.Click, AddressOf IrPaginaSiguiente
+        AddHandler btnInicio.Click, Sub()
+                                        paginaActual = 1
+                                        RefrescarPaginacion(FuenteActual())
+                                    End Sub
+
+        AddHandler btnFin.Click, Sub()
+                                     paginaActual = totalPaginas
+                                     RefrescarPaginacion(FuenteActual())
+                                 End Sub
 
         lblPaginaInfo = New Label With {
             .Text = "Página 1 de 1",
             .Font = New Font("Century Gothic", 9, FontStyle.Italic),
             .AutoSize = True,
-            .Margin = New Padding(12, 12, 0, 0)
+            .Margin = New Padding(12, 19, 0, 0)
         }
 
-        paginador.Controls.AddRange({btnPrev, btnNext, lblPaginaInfo})
+        paginador.Controls.AddRange({btnInicio, btnPrev, btnNext, btnFin, lblPaginaInfo})
         Me.Controls.AddRange({dgvOrbital, paginador, filtro})
 
     End Sub
@@ -158,7 +172,7 @@ Public Class DataGridViewUI
                 btn.Icono = FontAwesome.Sharp.IconChar.AngleRight
             Case "primero"
                 btn.Icono = FontAwesome.Sharp.IconChar.AngleDoubleLeft
-            Case "ultimo"
+            Case "último"
                 btn.Icono = FontAwesome.Sharp.IconChar.AngleDoubleRight
             Case Else
                 btn.Icono = FontAwesome.Sharp.IconChar.Circle
@@ -322,6 +336,15 @@ Public Class DataGridViewUI
         Next
 
         dgvOrbital.Rows.Add(nuevaFila)
+        NeutralizarFondoIconos(dgvOrbital)
+    End Sub
+    Public Sub NeutralizarFondoIconos(grid As DataGridView)
+        For Each col In grid.Columns
+            If TypeOf col Is DataGridViewImageColumn Then
+                col.DefaultCellStyle.BackColor = Color.Transparent
+                col.DefaultCellStyle.SelectionBackColor = Color.Transparent
+            End If
+        Next
     End Sub
 
     Private Sub IrPaginaAnterior(sender As Object, e As EventArgs)
@@ -357,42 +380,6 @@ Public Class DataGridViewUI
 
         Return If(vista.Any(), vista.CopyToDataTable(), dt.Clone())
     End Function
-
-    'Public Sub ExportarExcel(Optional nombreArchivo As String = "ExportGenerico")
-    '    If dgvOrbital Is Nothing OrElse Not GridTieneDatos(dgvOrbital) Then
-    '        MostrarToast("No hay datos para exportar", TipoToastUI.Warning)
-    '        Exit Sub
-    '    End If
-
-    '    Using sfd As New SaveFileDialog() With {
-    '    .Filter = "Archivo CSV (*.csv)|*.csv",
-    '    .FileName = $"{nombreArchivo}_{Now:yyyyMMdd_HHmm}.csv"
-    '}
-    '        If sfd.ShowDialog() = DialogResult.OK Then
-    '            Try
-    '                Using sw As New StreamWriter(sfd.FileName, False, Encoding.UTF8)
-    '                    ' Encabezados
-    '                    Dim headers = String.Join(",", dgvOrbital.Columns.Cast(Of DataGridViewColumn).
-    '                    Select(Function(c) EscaparCSV(c.HeaderText)))
-    '                    sw.WriteLine(headers)
-
-    '                    ' Filas
-    '                    For Each row As DataGridViewRow In dgvOrbital.Rows
-    '                        If Not row.IsNewRow Then
-    '                            Dim valores = String.Join(",", row.Cells.Cast(Of DataGridViewCell).
-    '                            Select(Function(cell) EscaparCSV(cell.Value?.ToString())))
-    '                            sw.WriteLine(valores)
-    '                        End If
-    '                    Next
-    '                End Using
-
-    '                MostrarToast("Exportación completada con éxito", TipoToastUI.Success)
-    '            Catch ex As Exception
-    '                MostrarToast("Error al exportar: " & ex.Message, TipoToastUI.Errores)
-    '            End Try
-    '        End If
-    '    End Using
-    'End Sub
 
     Public Sub ExportarConEstiloExcel(Optional nombreArchivo As String = "ExportEstilizado")
         If dgvOrbital Is Nothing OrElse dgvOrbital.Rows.Count = 0 Then
@@ -434,23 +421,6 @@ Public Class DataGridViewUI
 
         Return tabla
     End Function
-
-    'Private Function GridTieneDatos(grid As DataGridView) As Boolean
-    '    Dim filasValidas = grid.Rows.Cast(Of DataGridViewRow).
-    '    Where(Function(r) Not r.IsNewRow).
-    '    Where(Function(r) r.Cells.Cast(Of DataGridViewCell).
-    '        Any(Function(c) c.Value IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(c.Value.ToString())))
-    '    Return filasValidas.Any()
-    'End Function
-
-    'Private Function EscaparCSV(texto As String) As String
-    '    If String.IsNullOrWhiteSpace(texto) Then Return ""
-    '    If texto.Contains(",") OrElse texto.Contains("""") Then
-    '        texto = texto.Replace("""", """""")
-    '        Return $"""{texto}"""
-    '    End If
-    '    Return texto
-    'End Function
 
     Private Sub MostrarToast(mensaje As String, tipo As TipoToastUI)
         Dim toast As New ToastUI()

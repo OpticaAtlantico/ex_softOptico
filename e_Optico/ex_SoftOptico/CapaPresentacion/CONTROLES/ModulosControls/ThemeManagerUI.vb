@@ -1,4 +1,38 @@
-﻿'Imports System.Drawing
+﻿Imports System.Drawing
+
+' Define los temas disponibles
+Public Enum AppTheme
+    Light
+    Dark
+End Enum
+
+' Provee colores según el tema activo
+Public Class ThemeManagerUI
+    Public Shared Property CurrentTheme As AppTheme = AppTheme.Dark
+
+    Public Shared ReadOnly Property BackColor As Color
+        Get
+            Return If(CurrentTheme = AppTheme.Dark, Color.FromArgb(30, 30, 30), Color.FromArgb(245, 245, 245))
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property ForeColor As Color
+        Get
+            Return If(CurrentTheme = AppTheme.Dark, Color.White, Color.Black)
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property AccentColor As Color
+        Get
+            Return Color.FromArgb(0, 120, 215)
+        End Get
+    End Property
+End Class
+
+
+
+
+'Imports System.Drawing
 
 'Public Enum TemaVisuales
 '    Claro
