@@ -20,7 +20,6 @@ Partial Class frm_Visual
 
     ' Panel de contenido principal
     Private panelContent As Panel
-
     Private Sub InitializeComponent()
         panelTop = New Panel()
         btnHamburger = New IconButton()
@@ -28,7 +27,6 @@ Partial Class frm_Visual
         btnCompras = New IconButton()
         btnVentas = New IconButton()
         panelDrawer = New Panel()
-        panelContent = New Panel()
         panelTop.SuspendLayout()
         panelSide.SuspendLayout()
         SuspendLayout()
@@ -62,7 +60,6 @@ Partial Class frm_Visual
         panelSide.BackColor = Color.FromArgb(CByte(45), CByte(45), CByte(45))
         panelSide.Controls.Add(btnCompras)
         panelSide.Controls.Add(btnVentas)
-        panelSide.Dock = DockStyle.Left
         panelSide.Location = New Point(0, 50)
         panelSide.Name = "panelSide"
         panelSide.Size = New Size(50, 400)
@@ -77,9 +74,9 @@ Partial Class frm_Visual
         btnCompras.IconColor = Color.White
         btnCompras.IconFont = IconFont.Auto
         btnCompras.IconSize = 32
-        btnCompras.Location = New Point(0, 49)
+        btnCompras.Location = New Point(0, 80)
         btnCompras.Name = "btnCompras"
-        btnCompras.Size = New Size(50, 49)
+        btnCompras.Size = New Size(50, 80)
         btnCompras.TabIndex = 0
         ' 
         ' btnVentas
@@ -93,41 +90,29 @@ Partial Class frm_Visual
         btnVentas.IconSize = 32
         btnVentas.Location = New Point(0, 0)
         btnVentas.Name = "btnVentas"
-        btnVentas.Size = New Size(50, 49)
+        btnVentas.Size = New Size(50, 80)
         btnVentas.TabIndex = 1
         ' 
         ' panelDrawer
         ' 
-        panelDrawer.AutoSize = True
-        panelDrawer.BackColor = Color.FromArgb(CByte(60), CByte(60), CByte(60))
-        panelDrawer.Dock = DockStyle.Left
-        panelDrawer.Location = New Point(50, 50)
+        panelDrawer.AutoScroll = True
+        panelDrawer.BackColor = Color.Red
+        panelDrawer.Dock = DockStyle.Right
+        panelDrawer.Location = New Point(800, 50)
         panelDrawer.Name = "panelDrawer"
         panelDrawer.Size = New Size(0, 400)
         panelDrawer.TabIndex = 1
         ' 
-        ' panelContent
-        ' 
-        panelContent.BackColor = Color.FromArgb(CByte(240), CByte(240), CByte(240))
-        panelContent.Dock = DockStyle.Fill
-        panelContent.Location = New Point(50, 50)
-        panelContent.Name = "panelContent"
-        panelContent.Size = New Size(750, 400)
-        panelContent.TabIndex = 0
-        ' 
         ' frm_Visual
         ' 
         ClientSize = New Size(800, 450)
-        Controls.Add(panelContent)
         Controls.Add(panelDrawer)
-        Controls.Add(panelSide)
         Controls.Add(panelTop)
+        Controls.Add(panelSide)
         Name = "frm_Visual"
         Text = "Mi App con Drawer"
         panelTop.ResumeLayout(False)
         panelSide.ResumeLayout(False)
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 End Class
-

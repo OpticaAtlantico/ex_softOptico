@@ -36,8 +36,7 @@ Public Class DrawerManagerOrbital
         drawerPanel.Controls.Clear()
 
         Dim container As New FlowLayoutPanel() With {
-            .Dock = DockStyle.None,
-            .Width = 600,
+            .Dock = DockStyle.Fill,
             .AutoScroll = True,
             .FlowDirection = FlowDirection.TopDown,
             .WrapContents = False,
@@ -89,7 +88,9 @@ Public Class DrawerManagerOrbital
     Public Sub Toggle()
         animator.Toggle()
     End Sub
+
 End Class
+
 
 
 

@@ -16,7 +16,7 @@
         group.Left = triggerButton.Left + 20
 
         _groups(triggerButton) = group
-        AddHandler triggerButton.Click, Sub() ToggleGroup(triggerButton)
+        AddHandler triggerButton.Click, Sub(s, e) ToggleGroup(triggerButton)
     End Sub
 
     Private Sub ToggleGroup(trigger As Button)
@@ -29,4 +29,3 @@
         Next
     End Sub
 End Class
-

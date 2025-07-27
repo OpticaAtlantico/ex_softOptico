@@ -22,7 +22,6 @@
         For Each item As ButtonGroupItem In items
             Dim btn As New Button() With {
                 .Text = item.Text,
-                .Image = item.Icon,
                 .TextImageRelation = TextImageRelation.ImageBeforeText,
                 .Dock = DockStyle.Top,
                 .Height = 30,
@@ -36,4 +35,5 @@
         Next
     End Sub
 End Class
+
 

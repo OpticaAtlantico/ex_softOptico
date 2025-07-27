@@ -1,58 +1,74 @@
-﻿Imports System.Collections.Generic
-Imports FontAwesome.Sharp
-
+﻿Imports FontAwesome.Sharp
 Public Class frm_Visual
+    Inherits Form
 
-    Private manager As DrawerManagerOrbital
     Private groupConfigs As Dictionary(Of DrawerGroup, List(Of DrawerItem))
+    Private groupBuilder As DrawerPanelBuilder
 
     Public Sub New()
         InitializeComponent()
 
-        ' 1. Define tus ítems por grupo
-        groupConfigs = New Dictionary(Of DrawerGroup, List(Of DrawerItem)) From {
-            {
-                DrawerGroup.Ventas,
-                New List(Of DrawerItem) From {
-                    New DrawerItem With {.Text = "Facturación", .Icon = IconChar.FileInvoiceDollar, .CallBack = Sub() MessageBox.Show("Facturación")},
-                    New DrawerItem With {.Text = "Reportes", .Icon = IconChar.ChartLine, .CallBack = Sub() MessageBox.Show("Reportes")}
-                }
-            },
-            {
-                DrawerGroup.Compras,
-                New List(Of DrawerItem) From {
-                    New DrawerItem With {.Text = "Proveedores", .Icon = IconChar.Truck, .CallBack = Sub() MessageBox.Show("Proveedores")},
-                    New DrawerItem With {.Text = "Órdenes", .Icon = IconChar.ClipboardList, .CallBack = Sub() MessageBox.Show("Órdenes")}
-                }
-            }
-        }
+        DrawerGroup.Compras.TriggerButton = btnCompras
+        DrawerGroup.Ventas.TriggerButton = btnVentas
 
-        ' 2. Crea el manager pasándole solo el panelDrawer
-        manager = New DrawerManagerOrbital(
-            panel:=panelDrawer,
-            trigger:=btnHamburger,
-            groupConfigs:=groupConfigs,
-            finalWidth:=250
-            )
-
-        ' 3. Al hacer click en cada botón lateral: seleccionas grupo y abres el drawer
-        AddHandler btnVentas.Click, Sub()
-                                        manager.PendingGroup = DrawerGroup.Ventas
-                                        manager.Show()
-                                    End Sub
-
-        AddHandler btnCompras.Click, Sub()
-                                         manager.PendingGroup = DrawerGroup.Compras
-                                         manager.Show()
-                                     End Sub
-
-        ' 4. (Opcional) hamburguesa para cerrar/abrir sin cambiar grupo
-        AddHandler btnHamburger.Click, Sub()
-                                           manager.Toggle()
-                                       End Sub
+        InitializeGroupConfigs()
+        groupBuilder = New DrawerPanelBuilder(panelSide, groupConfigs)
     End Sub
 
+    Private Sub InitializeGroupConfigs()
+        groupConfigs = New Dictionary(Of DrawerGroup, List(Of DrawerItem)) From {
+              {
+                DrawerGroup.Compras,
+                New List(Of DrawerItem) From {
+                  New DrawerItem() With {
+                    .Text = "Nuevo cliente",
+                    .Icon = IconChar.UserPlus,
+                    .ClickHandler = AddressOf OnAddClient
+                  },
+                  New DrawerItem() With {
+                    .Text = "Buscar cliente",
+                    .Icon = IconChar.Search,
+                    .CallBack = Sub() MessageBox.Show("Buscar cliente")
+                  }
+                }
+              },
+              {
+                DrawerGroup.Ventas,
+                New List(Of DrawerItem) From {
+                  New DrawerItem() With {
+                    .Text = "Facturación",
+                    .Icon = IconChar.FileInvoiceDollar,
+                    .ClickHandler = AddressOf OnFacturacion
+                  },
+                  New DrawerItem() With {
+                    .Text = "Reportes",
+                    .Icon = IconChar.ChartLine,
+                    .CallBack = Sub() MessageBox.Show("Reportes")
+                  }
+                }
+              }
+            }
+    End Sub
+
+    ' Handlers de ejemplo
+    Private Sub OnAddClient(sender As Object, e As EventArgs)
+        MessageBox.Show("Agregar cliente")
+    End Sub
+    Private Sub OnSearchClient(sender As Object, e As EventArgs)
+        MessageBox.Show("Buscar cliente")
+    End Sub
+    Private Sub OnFacturacion(sender As Object, e As EventArgs)
+        MessageBox.Show("Facturación")
+    End Sub
+    Private Sub OnReportes(sender As Object, e As EventArgs)
+        MessageBox.Show("Reportes")
+    End Sub
 End Class
+
+
+
+
+
 
 
 
