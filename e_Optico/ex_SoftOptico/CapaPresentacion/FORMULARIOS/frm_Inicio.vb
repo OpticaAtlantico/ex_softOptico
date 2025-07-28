@@ -26,7 +26,7 @@ Public Class frm_Inicio
             .Text = String.Empty
             .ControlBox = False
             .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
-            .pnlMenu.Visible = False
+            '.pnlMenu.Visible = False
 
         End With
         random = New Random()
@@ -64,7 +64,7 @@ Public Class frm_Inicio
                 btn_Maximizar.BackColor = color
                 btnCerrar.BackColor = color
                 pnl_Encabezado.BackColor = color
-                pnlMenu.BackColor = themeColor.ChangeColorBrightness(color, -0.3)
+                'pnlMenu.BackColor = themeColor.ChangeColorBrightness(color, -0.3)
                 themeColor.PrimaryColor = color
                 themeColor.SecondaryColor = themeColor.ChangeColorBrightness(color, -0.3)
                 icoMenu.BackColor = themeColor.ChangeColorBrightness(color, -0.3)
@@ -84,13 +84,13 @@ Public Class frm_Inicio
                 'previousBtn.Font = New System.Drawing.Font("Century Gothic", 12.0F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
             End If
         Next
-        For Each previousBtn As Control In pnlMenu.Controls
-            If previousBtn.[GetType]() = GetType(IconButton) Then
-                previousBtn.BackColor = Color.FromArgb(39, 39, 58)
-                previousBtn.ForeColor = Color.WhiteSmoke
-                'previousBtn.Font = New System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
-            End If
-        Next
+        'For Each previousBtn As Control In pnlMenu.Controls
+        '    If previousBtn.[GetType]() = GetType(IconButton) Then
+        '        previousBtn.BackColor = Color.FromArgb(39, 39, 58)
+        '        previousBtn.ForeColor = Color.WhiteSmoke
+        '        'previousBtn.Font = New System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte((0))))
+        '    End If
+        'Next
     End Sub
     Private Sub OpenChildForm(childForm As Form, btnSender As Object)
         If activeForms IsNot Nothing Then activeForms.Close()
@@ -110,7 +110,7 @@ Public Class frm_Inicio
         DisableButton()
         lbl_Titulo.Text = "HOME"
         pnl_Encabezado.BackColor = Color.FromArgb(0, 150, 136)
-        pnlMenu.BackColor = Color.FromArgb(39, 39, 58)
+        'pnlMenu.BackColor = Color.FromArgb(39, 39, 58)
         currentButton = New Button()
         btnCloseChildForm.Visible = False
     End Sub

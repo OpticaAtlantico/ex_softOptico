@@ -35,18 +35,6 @@ Partial Class frm_Inicio
         IconButton5 = New FontAwesome.Sharp.IconButton()
         IconButton4 = New FontAwesome.Sharp.IconButton()
         btnMantenedor = New FontAwesome.Sharp.IconButton()
-        pnlMenu = New Panel()
-        btn11 = New Button()
-        btn10 = New Button()
-        btn9 = New Button()
-        btn8 = New Button()
-        btn7 = New Button()
-        btn6 = New Button()
-        btn5 = New Button()
-        btn4 = New Button()
-        btn3 = New Button()
-        btn2 = New Button()
-        btn1 = New Button()
         btnEditarPerfil = New FontAwesome.Sharp.IconButton()
         lblCargo = New Label()
         lblUsuario = New Label()
@@ -62,10 +50,8 @@ Partial Class frm_Inicio
         tmr_MostrarMenu = New Timer(components)
         tol_Mensajes = New ToolTip(components)
         pnlMenuOpciones.SuspendLayout()
-        pnlMenu.SuspendLayout()
         CType(imgLogo, ComponentModel.ISupportInitialize).BeginInit()
         pnl_Encabezado.SuspendLayout()
-        pnl_Contenedor.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlMenuOpciones
@@ -94,7 +80,7 @@ Partial Class frm_Inicio
         icoMenu.Cursor = Cursors.Hand
         icoMenu.FlatAppearance.BorderSize = 0
         icoMenu.FlatStyle = FlatStyle.Flat
-        icoMenu.Font = New Font("Century Gothic", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        icoMenu.Font = New Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         icoMenu.ForeColor = Color.White
         icoMenu.IconChar = FontAwesome.Sharp.IconChar.Bars
         icoMenu.IconColor = Color.White
@@ -114,7 +100,7 @@ Partial Class frm_Inicio
         IconButton9.FlatAppearance.BorderSize = 0
         IconButton9.FlatStyle = FlatStyle.Flat
         IconButton9.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton9.Font = New Font("Century Gothic", 6.0F)
+        IconButton9.Font = New Font("Century Gothic", 6F)
         IconButton9.ForeColor = Color.White
         IconButton9.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton9.IconColor = Color.White
@@ -135,7 +121,7 @@ Partial Class frm_Inicio
         IconButton3.FlatAppearance.BorderSize = 0
         IconButton3.FlatStyle = FlatStyle.Flat
         IconButton3.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton3.Font = New Font("Century Gothic", 6.0F)
+        IconButton3.Font = New Font("Century Gothic", 6F)
         IconButton3.ForeColor = Color.White
         IconButton3.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton3.IconColor = Color.White
@@ -156,7 +142,7 @@ Partial Class frm_Inicio
         IconButton1.FlatAppearance.BorderSize = 0
         IconButton1.FlatStyle = FlatStyle.Flat
         IconButton1.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton1.Font = New Font("Century Gothic", 6.0F)
+        IconButton1.Font = New Font("Century Gothic", 6F)
         IconButton1.ForeColor = Color.White
         IconButton1.IconChar = FontAwesome.Sharp.IconChar.Tools
         IconButton1.IconColor = Color.White
@@ -177,7 +163,7 @@ Partial Class frm_Inicio
         btn_1.FlatAppearance.BorderSize = 0
         btn_1.FlatStyle = FlatStyle.Flat
         btn_1.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        btn_1.Font = New Font("Century Gothic", 6.0F)
+        btn_1.Font = New Font("Century Gothic", 6F)
         btn_1.ForeColor = Color.White
         btn_1.IconChar = FontAwesome.Sharp.IconChar.Tools
         btn_1.IconColor = Color.White
@@ -197,7 +183,7 @@ Partial Class frm_Inicio
         IconButton8.FlatAppearance.BorderSize = 0
         IconButton8.FlatStyle = FlatStyle.Flat
         IconButton8.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton8.Font = New Font("Century Gothic", 6.0F)
+        IconButton8.Font = New Font("Century Gothic", 6F)
         IconButton8.ForeColor = Color.White
         IconButton8.IconChar = FontAwesome.Sharp.IconChar.BarChart
         IconButton8.IconColor = Color.White
@@ -218,7 +204,7 @@ Partial Class frm_Inicio
         IconButton7.FlatAppearance.BorderSize = 0
         IconButton7.FlatStyle = FlatStyle.Flat
         IconButton7.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton7.Font = New Font("Century Gothic", 6.0F)
+        IconButton7.Font = New Font("Century Gothic", 6F)
         IconButton7.ForeColor = Color.White
         IconButton7.IconChar = FontAwesome.Sharp.IconChar.Vcard
         IconButton7.IconColor = Color.White
@@ -239,7 +225,7 @@ Partial Class frm_Inicio
         IconButton6.FlatAppearance.BorderSize = 0
         IconButton6.FlatStyle = FlatStyle.Flat
         IconButton6.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton6.Font = New Font("Century Gothic", 6.0F)
+        IconButton6.Font = New Font("Century Gothic", 6F)
         IconButton6.ForeColor = Color.White
         IconButton6.IconChar = FontAwesome.Sharp.IconChar.UserFriends
         IconButton6.IconColor = Color.White
@@ -260,7 +246,7 @@ Partial Class frm_Inicio
         IconButton5.FlatAppearance.BorderSize = 0
         IconButton5.FlatStyle = FlatStyle.Flat
         IconButton5.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton5.Font = New Font("Century Gothic", 6.0F)
+        IconButton5.Font = New Font("Century Gothic", 6F)
         IconButton5.ForeColor = Color.White
         IconButton5.IconChar = FontAwesome.Sharp.IconChar.CartFlatbed
         IconButton5.IconColor = Color.White
@@ -282,7 +268,7 @@ Partial Class frm_Inicio
         IconButton4.FlatAppearance.BorderSize = 0
         IconButton4.FlatStyle = FlatStyle.Flat
         IconButton4.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        IconButton4.Font = New Font("Century Gothic", 6.0F)
+        IconButton4.Font = New Font("Century Gothic", 6F)
         IconButton4.ForeColor = Color.White
         IconButton4.IconChar = FontAwesome.Sharp.IconChar.Tags
         IconButton4.IconColor = Color.White
@@ -304,7 +290,7 @@ Partial Class frm_Inicio
         btnMantenedor.FlatAppearance.BorderSize = 0
         btnMantenedor.FlatStyle = FlatStyle.Flat
         btnMantenedor.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal
-        btnMantenedor.Font = New Font("Century Gothic", 6.0F)
+        btnMantenedor.Font = New Font("Century Gothic", 6F)
         btnMantenedor.ForeColor = Color.White
         btnMantenedor.IconChar = FontAwesome.Sharp.IconChar.Tools
         btnMantenedor.IconColor = Color.White
@@ -317,226 +303,6 @@ Partial Class frm_Inicio
         btnMantenedor.Text = "Productos"
         btnMantenedor.TextImageRelation = TextImageRelation.ImageAboveText
         btnMantenedor.UseVisualStyleBackColor = True
-        ' 
-        ' pnlMenu
-        ' 
-        pnlMenu.AutoScroll = True
-        pnlMenu.BackColor = Color.White
-        pnlMenu.BorderStyle = BorderStyle.FixedSingle
-        pnlMenu.Controls.Add(btn11)
-        pnlMenu.Controls.Add(btn10)
-        pnlMenu.Controls.Add(btn9)
-        pnlMenu.Controls.Add(btn8)
-        pnlMenu.Controls.Add(btn7)
-        pnlMenu.Controls.Add(btn6)
-        pnlMenu.Controls.Add(btn5)
-        pnlMenu.Controls.Add(btn4)
-        pnlMenu.Controls.Add(btn3)
-        pnlMenu.Controls.Add(btn2)
-        pnlMenu.Controls.Add(btn1)
-        pnlMenu.Dock = DockStyle.Left
-        pnlMenu.Location = New Point(0, 0)
-        pnlMenu.Name = "pnlMenu"
-        pnlMenu.Size = New Size(225, 616)
-        pnlMenu.TabIndex = 1
-        ' 
-        ' btn11
-        ' 
-        btn11.Dock = DockStyle.Top
-        btn11.FlatAppearance.BorderSize = 0
-        btn11.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn11.FlatStyle = FlatStyle.Flat
-        btn11.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn11.Location = New Point(0, 450)
-        btn11.Name = "btn11"
-        btn11.Padding = New Padding(20, 0, 0, 0)
-        btn11.Size = New Size(223, 45)
-        btn11.TabIndex = 10
-        btn11.Tag = "11"
-        btn11.Text = "Button10"
-        btn11.TextAlign = ContentAlignment.MiddleLeft
-        btn11.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn11.UseVisualStyleBackColor = True
-        ' 
-        ' btn10
-        ' 
-        btn10.Dock = DockStyle.Top
-        btn10.FlatAppearance.BorderSize = 0
-        btn10.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn10.FlatStyle = FlatStyle.Flat
-        btn10.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn10.Location = New Point(0, 405)
-        btn10.Name = "btn10"
-        btn10.Padding = New Padding(20, 0, 0, 0)
-        btn10.Size = New Size(223, 45)
-        btn10.TabIndex = 9
-        btn10.Tag = "10"
-        btn10.Text = "Button9"
-        btn10.TextAlign = ContentAlignment.MiddleLeft
-        btn10.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn10.UseVisualStyleBackColor = True
-        ' 
-        ' btn9
-        ' 
-        btn9.Dock = DockStyle.Top
-        btn9.FlatAppearance.BorderSize = 0
-        btn9.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn9.FlatStyle = FlatStyle.Flat
-        btn9.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn9.Location = New Point(0, 360)
-        btn9.Name = "btn9"
-        btn9.Padding = New Padding(20, 0, 0, 0)
-        btn9.Size = New Size(223, 45)
-        btn9.TabIndex = 8
-        btn9.Tag = "9"
-        btn9.Text = "Button8"
-        btn9.TextAlign = ContentAlignment.MiddleLeft
-        btn9.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn9.UseVisualStyleBackColor = True
-        ' 
-        ' btn8
-        ' 
-        btn8.Dock = DockStyle.Top
-        btn8.FlatAppearance.BorderSize = 0
-        btn8.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn8.FlatStyle = FlatStyle.Flat
-        btn8.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn8.Location = New Point(0, 315)
-        btn8.Name = "btn8"
-        btn8.Padding = New Padding(20, 0, 0, 0)
-        btn8.Size = New Size(223, 45)
-        btn8.TabIndex = 7
-        btn8.Tag = "8"
-        btn8.Text = "Button7"
-        btn8.TextAlign = ContentAlignment.MiddleLeft
-        btn8.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn8.UseVisualStyleBackColor = True
-        ' 
-        ' btn7
-        ' 
-        btn7.Dock = DockStyle.Top
-        btn7.FlatAppearance.BorderSize = 0
-        btn7.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn7.FlatStyle = FlatStyle.Flat
-        btn7.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn7.Location = New Point(0, 270)
-        btn7.Name = "btn7"
-        btn7.Padding = New Padding(20, 0, 0, 0)
-        btn7.Size = New Size(223, 45)
-        btn7.TabIndex = 6
-        btn7.Tag = "7"
-        btn7.Text = "Button6"
-        btn7.TextAlign = ContentAlignment.MiddleLeft
-        btn7.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn7.UseVisualStyleBackColor = True
-        ' 
-        ' btn6
-        ' 
-        btn6.Dock = DockStyle.Top
-        btn6.FlatAppearance.BorderSize = 0
-        btn6.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn6.FlatStyle = FlatStyle.Flat
-        btn6.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn6.Location = New Point(0, 225)
-        btn6.Name = "btn6"
-        btn6.Padding = New Padding(20, 0, 0, 0)
-        btn6.Size = New Size(223, 45)
-        btn6.TabIndex = 5
-        btn6.Tag = "6"
-        btn6.Text = "Button5"
-        btn6.TextAlign = ContentAlignment.MiddleLeft
-        btn6.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn6.UseVisualStyleBackColor = True
-        ' 
-        ' btn5
-        ' 
-        btn5.Dock = DockStyle.Top
-        btn5.FlatAppearance.BorderSize = 0
-        btn5.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn5.FlatStyle = FlatStyle.Flat
-        btn5.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn5.Location = New Point(0, 180)
-        btn5.Name = "btn5"
-        btn5.Padding = New Padding(20, 0, 0, 0)
-        btn5.Size = New Size(223, 45)
-        btn5.TabIndex = 4
-        btn5.Tag = "5"
-        btn5.Text = "Button4"
-        btn5.TextAlign = ContentAlignment.MiddleLeft
-        btn5.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn5.UseVisualStyleBackColor = True
-        ' 
-        ' btn4
-        ' 
-        btn4.Dock = DockStyle.Top
-        btn4.FlatAppearance.BorderSize = 0
-        btn4.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn4.FlatStyle = FlatStyle.Flat
-        btn4.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn4.Location = New Point(0, 135)
-        btn4.Name = "btn4"
-        btn4.Padding = New Padding(20, 0, 0, 0)
-        btn4.Size = New Size(223, 45)
-        btn4.TabIndex = 3
-        btn4.Tag = "4"
-        btn4.Text = "Button3"
-        btn4.TextAlign = ContentAlignment.MiddleLeft
-        btn4.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn4.UseVisualStyleBackColor = True
-        ' 
-        ' btn3
-        ' 
-        btn3.Dock = DockStyle.Top
-        btn3.FlatAppearance.BorderSize = 0
-        btn3.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn3.FlatStyle = FlatStyle.Flat
-        btn3.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn3.Location = New Point(0, 90)
-        btn3.Name = "btn3"
-        btn3.Padding = New Padding(20, 0, 0, 0)
-        btn3.Size = New Size(223, 45)
-        btn3.TabIndex = 2
-        btn3.Tag = "3"
-        btn3.Text = "Button2"
-        btn3.TextAlign = ContentAlignment.MiddleLeft
-        btn3.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn3.UseVisualStyleBackColor = True
-        ' 
-        ' btn2
-        ' 
-        btn2.Dock = DockStyle.Top
-        btn2.FlatAppearance.BorderSize = 0
-        btn2.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn2.FlatStyle = FlatStyle.Flat
-        btn2.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn2.Location = New Point(0, 45)
-        btn2.Name = "btn2"
-        btn2.Padding = New Padding(20, 0, 0, 0)
-        btn2.Size = New Size(223, 45)
-        btn2.TabIndex = 1
-        btn2.Tag = "2"
-        btn2.Text = "Button1"
-        btn2.TextAlign = ContentAlignment.MiddleLeft
-        btn2.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn2.UseVisualStyleBackColor = True
-        ' 
-        ' btn1
-        ' 
-        btn1.Dock = DockStyle.Top
-        btn1.FlatAppearance.BorderSize = 0
-        btn1.FlatAppearance.MouseDownBackColor = Color.FromArgb(CByte(192), CByte(255), CByte(255))
-        btn1.FlatStyle = FlatStyle.Flat
-        btn1.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btn1.Location = New Point(0, 0)
-        btn1.Name = "btn1"
-        btn1.Padding = New Padding(20, 0, 0, 0)
-        btn1.Size = New Size(223, 45)
-        btn1.TabIndex = 0
-        btn1.Tag = "1"
-        btn1.Text = "btn1"
-        btn1.TextAlign = ContentAlignment.MiddleLeft
-        btn1.TextImageRelation = TextImageRelation.ImageBeforeText
-        btn1.UseVisualStyleBackColor = True
         ' 
         ' btnEditarPerfil
         ' 
@@ -569,7 +335,7 @@ Partial Class frm_Inicio
         ' lblUsuario
         ' 
         lblUsuario.AutoSize = True
-        lblUsuario.Font = New Font("Century Gothic", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblUsuario.Font = New Font("Century Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblUsuario.ForeColor = Color.WhiteSmoke
         lblUsuario.Location = New Point(696, 15)
         lblUsuario.Name = "lblUsuario"
@@ -685,7 +451,6 @@ Partial Class frm_Inicio
         ' 
         ' pnl_Contenedor
         ' 
-        pnl_Contenedor.Controls.Add(pnlMenu)
         pnl_Contenedor.Dock = DockStyle.Fill
         pnl_Contenedor.Location = New Point(57, 67)
         pnl_Contenedor.Name = "pnl_Contenedor"
@@ -710,7 +475,7 @@ Partial Class frm_Inicio
         ' 
         ' frm_Inicio
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1140, 683)
         Controls.Add(pnl_Contenedor)
@@ -719,16 +484,13 @@ Partial Class frm_Inicio
         Name = "frm_Inicio"
         Text = "frm_Inicio"
         pnlMenuOpciones.ResumeLayout(False)
-        pnlMenu.ResumeLayout(False)
         CType(imgLogo, ComponentModel.ISupportInitialize).EndInit()
         pnl_Encabezado.ResumeLayout(False)
         pnl_Encabezado.PerformLayout()
-        pnl_Contenedor.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
     Friend WithEvents pnlMenuOpciones As Panel
-    Friend WithEvents pnlMenu As Panel
     Friend WithEvents pnl_Encabezado As Panel
     Friend WithEvents pnl_Contenedor As Panel
     Friend WithEvents btnCloseChildForm As Button
@@ -757,17 +519,6 @@ Partial Class frm_Inicio
     Friend WithEvents IconButton9 As FontAwesome.Sharp.IconButton
     Friend WithEvents lbl_Titulo As Label
     Friend WithEvents icoMenu As FontAwesome.Sharp.IconButton
-    Friend WithEvents btn1 As Button
     Friend WithEvents Button12 As Button
     Friend WithEvents Button11 As Button
-    Friend WithEvents btn11 As Button
-    Friend WithEvents btn10 As Button
-    Friend WithEvents btn9 As Button
-    Friend WithEvents btn8 As Button
-    Friend WithEvents btn7 As Button
-    Friend WithEvents btn6 As Button
-    Friend WithEvents btn5 As Button
-    Friend WithEvents btn4 As Button
-    Friend WithEvents btn3 As Button
-    Friend WithEvents btn2 As Button
 End Class

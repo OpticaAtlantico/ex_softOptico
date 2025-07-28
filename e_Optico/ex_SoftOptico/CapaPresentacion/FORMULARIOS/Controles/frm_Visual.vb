@@ -1,69 +1,221 @@
-﻿Imports FontAwesome.Sharp
+﻿
+Imports FontAwesome.Sharp
+
 Public Class frm_Visual
-    Inherits Form
 
-    Private groupConfigs As Dictionary(Of DrawerGroup, List(Of DrawerItem))
-    Private groupBuilder As DrawerPanelBuilder
+    Private drawerAbierto As Boolean = False
+    Private drawerControl As New DrawerControl()
 
-    Public Sub New()
-        InitializeComponent()
+    Private DrawerExpandido As Boolean = False
+    Private DrawerObjetivoWidth As Integer = 250
+    Private DrawerVelocidad As Integer = 20
 
-        DrawerGroup.Compras.TriggerButton = btnCompras
-        DrawerGroup.Ventas.TriggerButton = btnVentas
+    Private Sub frm_Visual_Load(sender As Object, e As EventArgs) Handles Me.Load
+        pnlDrawer.Controls.Add(drawerControl)
+        pnlDrawer.Width = 250
+        pnlDrawer.Visible = False
 
-        InitializeGroupConfigs()
-        groupBuilder = New DrawerPanelBuilder(panelSide, groupConfigs)
+        ' Ejemplo: Agregar botones de menú
+        AgregarBotonMenu("Archivo", IconChar.File, AddressOf BotonMenuArchivo_Click)
+        AgregarBotonMenu("Editar", IconChar.Edit, AddressOf BotonMenuEditar_Click)
     End Sub
 
-    Private Sub InitializeGroupConfigs()
-        groupConfigs = New Dictionary(Of DrawerGroup, List(Of DrawerItem)) From {
-              {
-                DrawerGroup.Compras,
-                New List(Of DrawerItem) From {
-                  New DrawerItem() With {
-                    .Text = "Nuevo cliente",
-                    .Icon = IconChar.UserPlus,
-                    .ClickHandler = AddressOf OnAddClient
-                  },
-                  New DrawerItem() With {
-                    .Text = "Buscar cliente",
-                    .Icon = IconChar.Search,
-                    .CallBack = Sub() MessageBox.Show("Buscar cliente")
-                  }
-                }
-              },
-              {
-                DrawerGroup.Ventas,
-                New List(Of DrawerItem) From {
-                  New DrawerItem() With {
-                    .Text = "Facturación",
-                    .Icon = IconChar.FileInvoiceDollar,
-                    .ClickHandler = AddressOf OnFacturacion
-                  },
-                  New DrawerItem() With {
-                    .Text = "Reportes",
-                    .Icon = IconChar.ChartLine,
-                    .CallBack = Sub() MessageBox.Show("Reportes")
-                  }
-                }
-              }
-            }
+    Private Sub AgregarBotonMenu(nombre As String, icono As IconChar, evento As EventHandler)
+        Dim btn As New IconButton With {
+            .Text = nombre,
+            .IconChar = icono,
+            .IconColor = Color.WhiteSmoke,
+            .Dock = DockStyle.Top,
+            .Height = 45,
+            .FlatStyle = FlatStyle.Flat,
+            .TextImageRelation = TextImageRelation.ImageAboveText,
+            .IconSize = 25,
+            .ForeColor = Color.WhiteSmoke
+        }
+        btn.FlatAppearance.BorderSize = 0
+        AddHandler btn.Click, evento
+        pnlMenu.Controls.Add(btn)
+
     End Sub
 
-    ' Handlers de ejemplo
-    Private Sub OnAddClient(sender As Object, e As EventArgs)
-        MessageBox.Show("Agregar cliente")
+    Private Sub btnHamburguesa_Click(sender As Object, e As EventArgs) Handles btnHamburguesa.Click
+        DrawerTimer.Start()
     End Sub
-    Private Sub OnSearchClient(sender As Object, e As EventArgs)
-        MessageBox.Show("Buscar cliente")
+
+    Private Sub DrawerTimer_Tick(sender As Object, e As EventArgs) Handles DrawerTimer.Tick
+        If Not DrawerExpandido Then
+            ' Expandiendo
+            If pnlDrawer.Width < DrawerObjetivoWidth Then
+                pnlDrawer.Visible = True
+                pnlDrawer.Width += DrawerVelocidad
+            Else
+                DrawerTimer.Stop()
+                DrawerExpandido = True
+            End If
+        Else
+            ' Contrayendo
+            If pnlDrawer.Width > 0 Then
+                pnlDrawer.Width -= DrawerVelocidad
+            Else
+                DrawerTimer.Stop()
+                pnlDrawer.Visible = False
+                DrawerExpandido = False
+            End If
+        End If
     End Sub
-    Private Sub OnFacturacion(sender As Object, e As EventArgs)
-        MessageBox.Show("Facturación")
+
+
+    Private Sub MostrarContenido(control As UserControl)
+        pnlContenedor.Controls.Clear()
+        control.Dock = DockStyle.Fill
+        pnlContenedor.Controls.Add(control)
     End Sub
-    Private Sub OnReportes(sender As Object, e As EventArgs)
-        MessageBox.Show("Reportes")
+
+    Private Sub BotonMenuArchivo_Click(sender As Object, e As EventArgs)
+        ' Crear las opciones de manera clara, evitando CType de lambdas
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
+
+        ' Opción: Nuevo
+        Dim handlerNuevo As New EventHandler(AddressOf SubNuevo_Click)
+        opciones.Add(Tuple.Create("Nuevo", IconChar.Plus, handlerNuevo))
+
+        ' Opción: Abrir
+        Dim handlerAbrir As New EventHandler(AddressOf SubAbrir_Click)
+        opciones.Add(Tuple.Create("Abrir", IconChar.FolderOpen, handlerAbrir))
+
+        ' Opción: Guardar
+        Dim handlerGuardar As New EventHandler(AddressOf SubGuardar_Click)
+        opciones.Add(Tuple.Create("Guardar", IconChar.Save, handlerGuardar))
+
+        ' Cargar en Drawer
+        drawerControl.CargarOpciones(opciones)
+        pnlDrawer.Visible = True
+        If pnlDrawer.Width <= 0 Then
+            DrawerTimer.Start()
+        End If
+        drawerAbierto = True
     End Sub
+
+    Private Sub BotonMenuEditar_Click(sender As Object, e As EventArgs)
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
+
+        ' Opción: Copiar
+        Dim handlerCopiar As New EventHandler(AddressOf SubCopiar_Click)
+        opciones.Add(Tuple.Create("Copiar", IconChar.Copy, handlerCopiar))
+
+        ' Opción: Pegar
+        Dim handlerPegar As New EventHandler(AddressOf SubPegar_Click)
+        opciones.Add(Tuple.Create("Pegar", IconChar.Paste, handlerPegar))
+
+        drawerControl.CargarOpciones(opciones)
+        pnlDrawer.Visible = True
+        If pnlDrawer.Width <= 0 Then
+            DrawerTimer.Start()
+        End If
+        drawerAbierto = True
+    End Sub
+
+    Private Sub SubNuevo_Click(sender As Object, e As EventArgs)
+        MostrarContenido(New NuevoControl())
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubAbrir_Click(sender As Object, e As EventArgs)
+        MostrarContenido(New AbrirControl())
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubGuardar_Click(sender As Object, e As EventArgs)
+        MostrarContenido(New GuardarControl())
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubCopiar_Click(sender As Object, e As EventArgs)
+        MostrarContenido(New CopiarControl())
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubPegar_Click(sender As Object, e As EventArgs)
+        MostrarContenido(New PegarControl())
+        DrawerTimer.Start()
+    End Sub
+
+
+
 End Class
+
+
+
+
+
+
+'Imports FontAwesome.Sharp
+'Public Class frm_Visual
+'    Inherits Form
+
+'    Private groupConfigs As Dictionary(Of DrawerGroup, List(Of DrawerItem))
+'    Private groupBuilder As DrawerPanelBuilder
+
+'    Public Sub New()
+'        InitializeComponent()
+
+'        DrawerGroup.Compras.TriggerButton = btnCompras
+'        DrawerGroup.Ventas.TriggerButton = btnVentas
+
+'        InitializeGroupConfigs()
+'        groupBuilder = New DrawerPanelBuilder(panelSide, groupConfigs)
+'    End Sub
+
+'    Private Sub InitializeGroupConfigs()
+'        groupConfigs = New Dictionary(Of DrawerGroup, List(Of DrawerItem)) From {
+'              {
+'                DrawerGroup.Compras,
+'                New List(Of DrawerItem) From {
+'                  New DrawerItem() With {
+'                    .Text = "Nuevo cliente",
+'                    .Icon = IconChar.UserPlus,
+'                    .ClickHandler = AddressOf OnAddClient
+'                  },
+'                  New DrawerItem() With {
+'                    .Text = "Buscar cliente",
+'                    .Icon = IconChar.Search,
+'                    .CallBack = Sub() MessageBox.Show("Buscar cliente")
+'                  }
+'                }
+'              },
+'              {
+'                DrawerGroup.Ventas,
+'                New List(Of DrawerItem) From {
+'                  New DrawerItem() With {
+'                    .Text = "Facturación",
+'                    .Icon = IconChar.FileInvoiceDollar,
+'                    .ClickHandler = AddressOf OnFacturacion
+'                  },
+'                  New DrawerItem() With {
+'                    .Text = "Reportes",
+'                    .Icon = IconChar.ChartLine,
+'                    .CallBack = Sub() MessageBox.Show("Reportes")
+'                  }
+'                }
+'              }
+'            }
+'    End Sub
+
+'    ' Handlers de ejemplo
+'    Private Sub OnAddClient(sender As Object, e As EventArgs)
+'        MessageBox.Show("Agregar cliente")
+'    End Sub
+'    Private Sub OnSearchClient(sender As Object, e As EventArgs)
+'        MessageBox.Show("Buscar cliente")
+'    End Sub
+'    Private Sub OnFacturacion(sender As Object, e As EventArgs)
+'        MessageBox.Show("Facturación")
+'    End Sub
+'    Private Sub OnReportes(sender As Object, e As EventArgs)
+'        MessageBox.Show("Reportes")
+'    End Sub
+
+'End Class
 
 
 
