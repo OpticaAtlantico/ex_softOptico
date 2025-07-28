@@ -166,8 +166,8 @@ CREATE TABLE TLogin (
     Usuario NVARCHAR(90) NOT NULL, 
     Clave NVARCHAR(255) NOT NULL, -- Almacenar hash seguro (SHA256, BCrypt),
     Estado BIT DEFAULT 1,
-    FechaRegitro DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (EmpleadoID) REFERENCES TClientes(ClienteID),
+    FechaRegistro DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (RolID) REFERENCES TRol(RolID),
     FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
@@ -460,6 +460,7 @@ INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Cobranza')
 INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Montador')
 INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Laboratorista')
 INSERT INTO TCargoEmpleado (Descripcion) VALUEs ('Empleado')
+INSERT INTO TCargoEmpleado (Descripcion) VALUEs ('Root')
 
 
 --DATOS PARA LA TABLA ESTADO DE LAS ORDENES DESDE QUE SE REALIZA LA VENTA DEL PRODUCTO

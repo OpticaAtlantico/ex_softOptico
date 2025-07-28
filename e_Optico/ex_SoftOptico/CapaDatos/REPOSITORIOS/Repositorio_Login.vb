@@ -9,6 +9,7 @@ Public Class Repositorio_Login
     Private Insertar As String
     Private Actualizar As String
     Private Eliminar As String
+    Private repositorio As IRepositorio_Login
 
     Public Sub New()
         SeleccionarTodos = "SELECT * FROM TLogin"
@@ -16,6 +17,7 @@ Public Class Repositorio_Login
         Insertar = "INSERT INTO TLogin (Usuario, Pass) VALUES (@Usuario, @Pass)"
         Actualizar = "UPDATE TLogin SET Usuario = @Usuario, Pass = @Pass WHERE Id = @Id"
         Eliminar = "DELETE FROM TLogin WHERE Id = @Id"
+
     End Sub
 
     Public Function ObtenerTodos() As IEnumerable(Of TLogin) Implements IRepositorio_Generico(Of TLogin).GetAll
@@ -37,12 +39,35 @@ Public Class Repositorio_Login
         Return lista
     End Function
 
+    Public Function ObtenerPorUsuarioYClave(usuario As String, clave As String) As IEnumerable(Of TLogin) Implements IRepositorio_Login.GetUserPass
+        parameter = New List(Of SqlParameter) From {
+            New SqlParameter("@Usuario", usuario),
+            New SqlParameter("@Pass", clave)
+        }
+        Dim resultadoTable As DataTable = ExcecuteReaderUserPass(SeleccionarUserPass, usuario, clave)
+        Dim lista = New List(Of TLogin)
+        For Each row As DataRow In resultadoTable.Rows
+            Dim login As New TLogin With {
+                .LoginID = Convert.ToInt32(row("LoginID")),
+                .EmpleadoID = Convert.ToString(row("EmpleadoID")),
+                .UbicacionID = Convert.ToString(row("UbicacionID")),
+                .RolID = Convert.ToString(row("RolID")),
+                .Usuario = Convert.ToString(row("Usuario")),
+                .Clave = Convert.ToString(row("Clave")),
+                .Estado = Convert.ToBoolean(row("Estado")),
+                .FechaRegistro = Convert.ToDateTime(row("FechaRegistro"))
+            }
+            lista.Add(login)
+        Next
+        Return lista
+    End Function
+
     Public Function ObtenerTodosLosUsuarios() As IEnumerable(Of TLogin) Implements IRepositorio_Login.GetAllUser
-        Throw New NotImplementedException()
+        Return ObtenerTodos().Where(Function(x) x.Estado = True)
     End Function
 
     Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TLogin) Implements IRepositorio_Generico(Of TLogin).GetAllUserPass
-        Throw New NotImplementedException()
+        Return ObtenerPorUsuarioYClave(usuario, password)
     End Function
 
     Private Function IRepositorio_Generico_Insertar(entity As TLogin) As Integer Implements IRepositorio_Generico(Of TLogin).Add
@@ -77,4 +102,20 @@ Public Class Repositorio_Login
         }
         Return ExecuteNonQuery(Eliminar)
     End Function
+
+
+
+    '''''''''''''''''''''''''
+    '''
+
+
+
+
+
+
+
+
+
+
+
 End Class

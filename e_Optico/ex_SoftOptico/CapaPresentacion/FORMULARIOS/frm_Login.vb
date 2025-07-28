@@ -1,18 +1,26 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.Windows.Navigation
+Imports CapaDatos
 Imports CapaNegocio
 Imports FontAwesome.Sharp
 Imports Microsoft.IdentityModel.Tokens
 Public Class frm_Login
 
+    Private animacionTimer As Timer
+    Private tamanoInicial As Size
+    Private ubicacionFinal As Point
+    Private pasoActual As Integer = 0
+    Private pasosTotales As Integer = 20
+
 #Region "Form Behaviors"
-    Private Sub btn_Close_Click(sender As Object, e As EventArgs) Handles btn_Close.Click
-        Application.Exit()
+    Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+        'Application.Exit()
+        Me.Close()
+    End Sub
+    Private Sub btnMinimizar_Click_1(sender As Object, e As EventArgs) Handles btnMinimizar.Click
+        WindowState = FormWindowState.Minimized
     End Sub
 
-    Private Sub btn_Minimizar_Click(sender As Object, e As EventArgs) Handles btn_Minimizar.Click
-        Me.WindowState = FormWindowState.Minimized
-    End Sub
 #End Region
 
 #Region "Drag Form"
@@ -23,9 +31,9 @@ Public Class frm_Login
     Private Shared Sub SendMessage(hWnd As IntPtr, wMsg As Integer, wParam As Integer, lParam As Integer)
     End Sub
 
-    Private Sub pnl_Titulo_MouseMove(sender As Object, e As MouseEventArgs) Handles pnl_Titulo.MouseMove
+    Private Sub pnlContenido_MouseMove(sender As Object, e As MouseEventArgs) Handles pnlContenido.MouseMove
         ReleaseCapture()
-        SendMessage(Me.Handle, &H112&, &HF012&, 0)
+        SendMessage(Handle, &H112&, &HF012&, 0)
     End Sub
 
     Private Sub frm_Login_MouseMove(sender As Object, e As MouseEventArgs) Handles MyBase.MouseMove
@@ -36,23 +44,34 @@ Public Class frm_Login
 
 #Region "Customicer Control"
     Private Sub CustomizeComponent()
-        'txt_User
-        txt_Usuario.AutoSize = False
-        txt_Usuario.Size = New Size(350, 35)
+        With Me
+            .FormBorderStyle = FormBorderStyle.None
+            StartPosition = FormStartPosition.CenterScreen
+        End With
 
-        'txt_Pass
-        txt_Password.AutoSize = False
-        txt_Password.Size = New Size(350, 35)
-        txt_Password.UseSystemPasswordChar = True
     End Sub
 
-    'Aplicar forma redonda a los bordes del boton
-    Private Sub btn_Aceptar_Paint(sender As Object, e As PaintEventArgs)
-        Dim buttonPath = New Drawing2D.GraphicsPath
-        Dim myRectangle = btn_Aceptar.ClientRectangle
-        myRectangle.Inflate(0, 10)
-        buttonPath.AddEllipse(myRectangle)
-        btn_Aceptar.Region = New Region(buttonPath)
+    Private Sub fadeTimer_Tick(sender As Object, e As EventArgs) Handles fadeTimer.Tick
+        If Me.Opacity < 1.0 Then
+            Me.Opacity += 0.05
+        Else
+            fadeTimer.Stop()
+        End If
+    End Sub
+
+    Private Sub CerrarConFade()
+        Dim cerrarTimer As New Timer()
+        cerrarTimer.Interval = 20
+        AddHandler cerrarTimer.Tick, Sub()
+                                         If Me.Opacity > 0 Then
+                                             Me.Opacity -= 0.05
+                                         Else
+                                             cerrarTimer.Stop()
+                                             cerrarTimer.Dispose()
+                                             Me.Close()
+                                         End If
+                                     End Sub
+        cerrarTimer.Start()
     End Sub
 
 #End Region
@@ -66,59 +85,97 @@ Public Class frm_Login
         CustomizeComponent()
     End Sub
 
-    Private Sub btn_Aceptar_Click(sender As Object, e As EventArgs) Handles btn_Aceptar.Click
-
-        Dim ValidarDatos As Boolean = ValidarCampos()
-
-        If ValidarDatos = True Then
-            Dim userModel As New LoginModel
-            Dim validUser = userModel.FindByUserPass(txt_Usuario.Text, txt_Password.Text)
-            If validUser.IsNullOrEmpty Then
-                MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente")
-                ClearControls()
-                txt_Usuario.Focus()
-            Else
-                Dim frm As New frm_Inicio
-                frm.Show()
-                AddHandler frm.FormClosed, AddressOf Logout
-                Hide()
-            End If
-        Else
-            MessageBox.Show("Por favor no debe dejar campos vacios" + vbCrLf + "intente nuevamente")
-            ClearControls()
-        End If
-    End Sub
-
-    Private Sub Logout(sender As Object, e As FormClosedEventArgs)
-        txt_Usuario.Clear()
-        txt_Password.Clear()
-        cmb_Sucursal.Text = ""
-        Me.Show()
-        txt_Usuario.Focus()
-    End Sub
-
     Private Sub frm_Login_Load(sender As Object, e As EventArgs) Handles Me.Load
-        txt_Usuario.Focus()
-        cmb_Sucursal.Items.Add("Atlantico I")
-        cmb_Sucursal.Items.Add("Atlantico II")
-        cmb_Sucursal.Items.Add("Atlantico III")
-        cmb_Sucursal.Items.Add("Atlantico IV")
-        cmb_Sucursal.Items.Add("Atlantico V")
-        cmb_Sucursal.Items.Add("Atlantico Móvil")
+        Me.Opacity = 0
+        fadeTimer.Start()
     End Sub
 
-    Private Function ValidarCampos() As Boolean
-        Dim CampoVacio As Boolean = IIf(txt_Usuario.Text = "" Or txt_Password.Text = "", False, True)
-        Return CampoVacio
-    End Function
+    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+        ' Validar todos los campos requeridos
+        Dim primerInvalido As TextBoxLabelUI = Nothing
+        Dim esFormularioValido As Boolean = True
 
-    Private Sub ClearControls()
-        For Each control As Control In pnl_Controles.Controls
-            If control.[GetType]() = GetType(TextBox) Then
-                control.Text = ""
+        For Each ctrl As Control In pnlContenido.Controls
+            If TypeOf ctrl Is TextBoxLabelUI Then
+                Dim campo As TextBoxLabelUI = CType(ctrl, TextBoxLabelUI)
+                If Not campo.EsValido() Then
+                    esFormularioValido = False
+                    If primerInvalido Is Nothing Then primerInvalido = campo
+                End If
             End If
         Next
+
+        If Not esFormularioValido Then
+            MessageBox.Show("Hay campos obligatorios sin completar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            primerInvalido?.Focus()
+            Exit Sub
+        End If
+
+        'VALIDA LOS USUARIOS Y CONTRASEÑAS
+        Dim userModel As New LoginModel
+        Dim validUser = userModel.FindByUserPass(txtUsuario.TextValue, txtPass.TextValue)
+        If validUser.IsNullOrEmpty Then
+            MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente", "Error de Inicio de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            txtUsuario.Text = vbEmpty
+            txtPass.Text = vbEmpty
+            txtUsuario.Focus()
+            Exit Sub
+        End If
+
+        Dim Usuario = validUser.FirstOrDefault()
+        'Dim datosEmpleado = If(Usuario IsNot Nothing, userModel.FindById(Usuario.EmpleadoID), Nothing)
+
+        Dim frm As New frm_Principal
+        'With {
+        '    .lblUsuario = Usuario.Usuario
+        '}
+        frm.Show()
+        AddHandler frm.FormClosed, AddressOf Logout
+        Hide()
+
+
     End Sub
 
-    
+
+    'Private Sub btn_Aceptar_Click(sender As Object, e As EventArgs)
+
+    '    Dim ValidarDatos = ValidarCampos
+
+    '    If ValidarDatos = True Then
+    '        Dim userModel As New LoginModel
+    '        Dim validUser = userModel.FindByUserPass(txt_Usuario.Text, txt_Password.Text)
+    '        If validUser.IsNullOrEmpty Then
+    '            MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente")
+    '            ClearControls
+    '            txt_Usuario.Focus
+    '        Else
+    '            Dim frm As New frm_Inicio
+    '            frm.Show
+    '            AddHandler frm.FormClosed, AddressOf Logout
+    '            Hide
+    '        End If
+    '    Else
+    '        MessageBox.Show("Por favor no debe dejar campos vacios" + vbCrLf + "intente nuevamente")
+    '        ClearControls
+    '    End If
+    'End Sub
+
+    Private Sub Logout(sender As Object, e As FormClosedEventArgs)
+        txtUsuario.Text = vbEmpty
+        txtPass.Text = vbEmpty
+        Me.Show()
+        txtUsuario.Focus()
+    End Sub
+
+
+    'Private Function ValidarCampos() As Boolean
+    '    Dim CampoVacio As Boolean = IIf(txt_Usuario.Text = "" Or txt_Password.Text = "", False, True)
+    '    Return CampoVacio
+    'End Function
+
+
+    'End Sub
+
+
+
 End Class

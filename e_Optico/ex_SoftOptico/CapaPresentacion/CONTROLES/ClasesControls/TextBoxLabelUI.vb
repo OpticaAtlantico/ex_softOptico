@@ -30,6 +30,10 @@ Public Class TextBoxLabelUI
     Private _borderRadius As Integer = 5
     Private _borderColorNormal As Color = Color.LightGray
 
+    ' === Contraseña orbital ===
+    Private _usarContraseña As Boolean = False
+    Private _caracterContraseña As Char = "*"c
+
     ' === Constructor ===
     Public Sub New()
         Me.Size = New Size(300, 100)
@@ -145,6 +149,23 @@ Public Class TextBoxLabelUI
         path.CloseFigure()
         Return path
     End Function
+
+    ' === Campo requerido orbital ===
+    Public Function EsValido() As Boolean
+        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            lblError.Text = _mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+            pnlFondo.Invalidate()
+            Return False
+        Else
+            lblError.Visible = False
+            _borderColorNormal = Color.LightGray
+            pnlFondo.Invalidate()
+            Return True
+        End If
+    End Function
+
 
     ' === Propiedades orbitales ===
 
@@ -280,6 +301,32 @@ Public Class TextBoxLabelUI
             Return txtCampo.Text
         End Get
     End Property
+
+    <Category("WilmerUI")>
+    Public Property UsarModoContraseña As Boolean
+        Get
+            Return _usarContraseña
+        End Get
+        Set(value As Boolean)
+            _usarContraseña = value
+            txtCampo.UseSystemPasswordChar = False
+            txtCampo.PasswordChar = If(_usarContraseña, _caracterContraseña, ControlChars.NullChar)
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property CaracterContraseña As Char
+        Get
+            Return _caracterContraseña
+        End Get
+        Set(value As Char)
+            _caracterContraseña = value
+            If _usarContraseña Then
+                txtCampo.PasswordChar = _caracterContraseña
+            End If
+        End Set
+    End Property
+
 
     'Como cambio el icono dse la derecha
 
