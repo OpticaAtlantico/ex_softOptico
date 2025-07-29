@@ -26,7 +26,7 @@ Public Class Repositorio_Empleados
     End Sub
 
     Public Function ObtenerTodos() As IEnumerable(Of TEmpleados) Implements IRepositorio_Generico(Of TEmpleados).GetAll
-        Dim resultadoTable As DataTable = ExcecuteReader(SeleccionarTodos)
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarTodos)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -113,7 +113,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@EmpleadoID", empleadoID)
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(SeleccionarPorID)
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarPorID)
         If resultadoTable.Rows.Count > 0 Then
             Dim row As DataRow = resultadoTable.Rows(0)
             Return New TEmpleados With {
@@ -162,7 +162,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@CargoID", cargoID)
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -193,7 +193,7 @@ Public Class Repositorio_Empleados
 
     Public Function ObtenerEmpleadosActivos() As IEnumerable(Of TEmpleados) Implements IRepositorio_Empleados.GetActiveEmpleados
         Dim query As String = "SELECT * FROM VEmpleados WHERE Estado = 1"
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -224,7 +224,7 @@ Public Class Repositorio_Empleados
 
     Public Function ObtenerEmpleadosInactivos() As IEnumerable(Of TEmpleados) Implements IRepositorio_Empleados.GetInactiveEmpleados
         Dim query As String = "SELECT * FROM VEmpleados WHERE Estado = 0"
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -258,7 +258,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Nombre", "%" & nombre & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -292,7 +292,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Cedula", "%" & cedula & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -326,7 +326,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Apellido", "%" & apellido & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -360,7 +360,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Telefono", "%" & telefono & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -394,7 +394,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Correo", "%" & correo & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -428,7 +428,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@FechaNacimiento", fechaNacimiento)
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -462,7 +462,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Direccion", "%" & direccion & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -496,7 +496,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@EstadoCivil", "%" & estadoCivil & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -530,7 +530,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Sexo", "%" & sexo & "%")
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {
@@ -564,7 +564,7 @@ Public Class Repositorio_Empleados
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Edad", edad)
         }
-        Dim resultadoTable As DataTable = ExcecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
         For Each row As DataRow In resultadoTable.Rows
             Dim empleado As New TEmpleados With {

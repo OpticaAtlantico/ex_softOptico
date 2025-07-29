@@ -127,7 +127,7 @@ Public Class frm_Login
 
         Dim frm As New frm_Principal
         'With {
-        '    .lblUsuario = Usuario.Usuario
+        '    .lblUsuario = "Algo"
         '}
         frm.Show()
         AddHandler frm.FormClosed, AddressOf Logout
@@ -136,46 +136,11 @@ Public Class frm_Login
 
     End Sub
 
-
-    'Private Sub btn_Aceptar_Click(sender As Object, e As EventArgs)
-
-    '    Dim ValidarDatos = ValidarCampos
-
-    '    If ValidarDatos = True Then
-    '        Dim userModel As New LoginModel
-    '        Dim validUser = userModel.FindByUserPass(txt_Usuario.Text, txt_Password.Text)
-    '        If validUser.IsNullOrEmpty Then
-    '            MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente")
-    '            ClearControls
-    '            txt_Usuario.Focus
-    '        Else
-    '            Dim frm As New frm_Inicio
-    '            frm.Show
-    '            AddHandler frm.FormClosed, AddressOf Logout
-    '            Hide
-    '        End If
-    '    Else
-    '        MessageBox.Show("Por favor no debe dejar campos vacios" + vbCrLf + "intente nuevamente")
-    '        ClearControls
-    '    End If
-    'End Sub
-
     Private Sub Logout(sender As Object, e As FormClosedEventArgs)
         txtUsuario.Text = vbEmpty
         txtPass.Text = vbEmpty
         Me.Show()
         txtUsuario.Focus()
     End Sub
-
-
-    'Private Function ValidarCampos() As Boolean
-    '    Dim CampoVacio As Boolean = IIf(txt_Usuario.Text = "" Or txt_Password.Text = "", False, True)
-    '    Return CampoVacio
-    'End Function
-
-
-    'End Sub
-
-
 
 End Class

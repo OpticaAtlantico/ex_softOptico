@@ -34,6 +34,9 @@ Public Class TextBoxLabelUI
     Private _usarContraseña As Boolean = False
     Private _caracterContraseña As Char = "*"c
 
+    Private _borderColorPersonalizado As Color = Color.LightGray
+    Private _borderSize As Integer = 1
+
     ' === Constructor ===
     Public Sub New()
         Me.Size = New Size(300, 100)
@@ -134,7 +137,8 @@ Public Class TextBoxLabelUI
             Using brush As New SolidBrush(pnlFondo.BackColor)
                 e.Graphics.FillPath(brush, path)
             End Using
-            Using pen As New Pen(_borderColorNormal, 1)
+            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorPersonalizado)
+            Using pen As New Pen(colorBorde, _borderSize)
                 e.Graphics.DrawPath(pen, path)
             End Using
         End Using
@@ -327,6 +331,27 @@ Public Class TextBoxLabelUI
         End Set
     End Property
 
+    <Category("WilmerUI")>
+    Public Property BorderColor As Color
+        Get
+            Return _borderColorPersonalizado
+        End Get
+        Set(value As Color)
+            _borderColorPersonalizado = value
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BorderSize As Integer
+        Get
+            Return _borderSize
+        End Get
+        Set(value As Integer)
+            _borderSize = value
+            pnlFondo.Invalidate()
+        End Set
+    End Property
 
     'Como cambio el icono dse la derecha
 

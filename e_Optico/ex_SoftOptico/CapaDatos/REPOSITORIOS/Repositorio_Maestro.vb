@@ -7,74 +7,78 @@ Public Class Repositorio_Maestro
 
     'lista para agregar, modificar y eliminar datos
     Protected Function ExecuteNonQuery(transacSql As String) As Integer
-        Using coneccion = ObtenerConexion() 'Solicitud de conexión a la base de datos en Repositorio
-            coneccion.Open()
-            Using command = New SqlCommand()
-                command.Connection = coneccion
-                command.CommandText = transacSql
-                command.CommandType = CommandType.Text
-                For Each item As SqlParameter In parameter
-                    command.Parameters.Add(item)
-                Next
-                Dim resultado = command.ExecuteNonQuery()
-                parameter.Clear()
-                Return resultado
-            End Using
-        End Using
-    End Function
+        If String.IsNullOrWhiteSpace(transacSql) Then
+            Throw New ArgumentException("El comando SQL no puede estar vacío.", NameOf(transacSql))
+        End If
 
-    'Lista para solo consultar datos
-    Protected Function ExcecuteReader(transacSql As String) As DataTable
-        Using coneccion = ObtenerConexion() 'Solicitud de conexión a la base de datos en Repositorio
-            coneccion.Open()
-            Using command = New SqlCommand()
-                command.Connection = coneccion
-                command.CommandText = transacSql
-                command.CommandType = CommandType.Text
-                Dim reader = command.ExecuteReader()
-                Using table = New DataTable()
-                    table.Load(reader)
-                    reader.Dispose()
-                    Return table
-                End Using
-            End Using
-        End Using
-    End Function
+        Try
+            Using conexion = ObtenerConexion()
+                conexion.Open()
 
-    Protected Function ExcecuteReaderUserPass(transacSql As String, user As String, pass As String) As DataTable
-        Using conexion = ObtenerConexion()
-            conexion.Open()
-            Using command = New SqlCommand()
-                command.Connection = conexion
-                command.CommandText = transacSql
-                command.CommandType = CommandType.Text
+                Using comando As New SqlCommand(transacSql, conexion)
+                    comando.CommandType = CommandType.Text
 
-                ' Limpia por seguridad
-                command.Parameters.Clear()
-
-                ' Agrega parámetros pasados
-                For Each item As SqlParameter In parameter
-                    If Not command.Parameters.Contains(item.ParameterName) Then
-                        command.Parameters.Add(item)
+                    ' Validación defensiva de parámetros
+                    If parameter IsNot Nothing AndAlso parameter.Count > 0 Then
+                        For Each param As SqlParameter In parameter
+                            comando.Parameters.Add(param)
+                        Next
                     End If
-                Next
 
-                ' Agrega los parámetros adicionales si no están
-                If Not command.Parameters.Contains("@Usuario") Then
-                    command.Parameters.AddWithValue("@Usuario", user)
-                End If
+                    Dim resultado As Integer = comando.ExecuteNonQuery()
+                    parameter?.Clear()
 
-                If Not command.Parameters.Contains("@Pass") Then
-                    command.Parameters.AddWithValue("@Pass", pass)
-                End If
-
-                ' Ejecutar y cargar los resultados
-                Using reader = command.ExecuteReader()
-                    Dim table As New DataTable()
-                    table.Load(reader)
-                    Return table
+                    Return resultado
                 End Using
             End Using
-        End Using
+
+        Catch ex As SqlException
+            ' Logging profesional podría integrarse aquí
+            Throw New ApplicationException("Error al ejecutar la transacción SQL.", ex)
+
+        Catch ex As Exception
+            Throw
+        End Try
     End Function
+
+    Protected Function ExecuteReader(transacSql As String) As DataTable
+        If String.IsNullOrWhiteSpace(transacSql) Then
+            Throw New ArgumentException("La consulta SQL no puede estar vacía.", NameOf(transacSql))
+        End If
+
+        Try
+            Using conexion = ObtenerConexion()
+                conexion.Open()
+
+                Using comando As New SqlCommand(transacSql, conexion)
+                    comando.CommandType = CommandType.Text
+
+                    ' Limpieza defensiva
+                    comando.Parameters.Clear()
+
+                    ' Carga de parámetros, evitando duplicados
+                    If parameter IsNot Nothing AndAlso parameter.Count > 0 Then
+                        For Each item As SqlParameter In parameter
+                            If Not comando.Parameters.Contains(item.ParameterName) Then
+                                comando.Parameters.Add(item)
+                            End If
+                        Next
+                    End If
+
+                    Using reader = comando.ExecuteReader()
+                        Dim tablaResultado As New DataTable()
+                        tablaResultado.Load(reader)
+                        Return tablaResultado
+                    End Using
+                End Using
+            End Using
+
+        Catch ex As SqlException
+            Throw New ApplicationException("Error al ejecutar la consulta SQL.", ex)
+
+        Catch ex As Exception
+            Throw
+        End Try
+    End Function
+
 End Class

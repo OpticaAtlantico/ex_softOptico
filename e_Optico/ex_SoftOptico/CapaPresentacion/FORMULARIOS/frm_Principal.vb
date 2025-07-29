@@ -109,6 +109,34 @@ Public Class frm_Principal
         drawerAbierto = True
     End Sub
 
+    Private Sub BotonMenuEmpleados()
+        ' Crear las opciones de manera clara, evitando CType de lambdas
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
+
+        Dim handlerReporte As New EventHandler(AddressOf SubNuevo_Click)
+        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
+
+        Dim handlerConsultar As New EventHandler(AddressOf SubNuevo_Click)
+        opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
+
+        Dim handlerEliminar As New EventHandler(AddressOf SubNuevo_Click)
+        opciones.Add(Tuple.Create("Eliminar Empleado", IconChar.TrashArrowUp, handlerEliminar))
+
+        Dim handlerEditar As New EventHandler(AddressOf SubAbrir_Click)
+        opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
+
+        Dim handlerNuevo As New EventHandler(AddressOf SubGuardar_Click)
+        opciones.Add(Tuple.Create("Nuevo Empleado", IconChar.Save, handlerNuevo))
+
+        ' Cargar en Drawer
+        drawerControl.CargarOpciones(opciones)
+        pnlDrawer.Visible = True
+        If pnlDrawer.Width <= 0 Then
+            DrawerTimer.Start()
+        End If
+        drawerAbierto = True
+    End Sub
+
     Private Sub BotonMenuEditar_Click(sender As Object, e As EventArgs)
         Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
 
@@ -296,7 +324,7 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnEmpleado_Click(sender As Object, e As EventArgs) Handles btnEmpleado.Click
-        BotonMenuInventario()
+        BotonMenuEmpleados()
         EfectoBotonActivo(sender)
     End Sub
 

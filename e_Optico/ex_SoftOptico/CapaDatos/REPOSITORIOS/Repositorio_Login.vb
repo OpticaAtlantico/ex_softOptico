@@ -9,7 +9,6 @@ Public Class Repositorio_Login
     Private Insertar As String
     Private Actualizar As String
     Private Eliminar As String
-    Private repositorio As IRepositorio_Login
 
     Public Sub New()
         SeleccionarTodos = "SELECT * FROM TLogin"
@@ -21,7 +20,7 @@ Public Class Repositorio_Login
     End Sub
 
     Public Function ObtenerTodos() As IEnumerable(Of TLogin) Implements IRepositorio_Generico(Of TLogin).GetAll
-        Dim resultadoTable As DataTable = ExcecuteReader(SeleccionarTodos)
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarTodos)
         Dim lista = New List(Of TLogin)
         For Each row As DataRow In resultadoTable.Rows
             Dim login As New TLogin With {
@@ -44,7 +43,7 @@ Public Class Repositorio_Login
             New SqlParameter("@Usuario", usuario),
             New SqlParameter("@Pass", clave)
         }
-        Dim resultadoTable As DataTable = ExcecuteReaderUserPass(SeleccionarUserPass, usuario, clave)
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarUserPass)
         Dim lista = New List(Of TLogin)
         For Each row As DataRow In resultadoTable.Rows
             Dim login As New TLogin With {
