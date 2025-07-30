@@ -15,6 +15,7 @@ Public Class TextBoxLabelUI
 
     ' === Estilos ===
     Private _labelText As String = "Texto:"
+    Private _labelColor As Color = Color.WhiteSmoke
     Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
     Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
@@ -215,7 +216,7 @@ Public Class TextBoxLabelUI
         Set(value As Font)
             _fontField = value
             txtCampo.Font = value
-            lblTitulo.Font = New Font(value.FontFamily, value.Size)
+            lblTitulo.Font = New Font(value.FontFamily, value.Size - 2)
             lblError.Font = New Font(value.FontFamily, value.Size - 3)
         End Set
     End Property
@@ -328,6 +329,17 @@ Public Class TextBoxLabelUI
             If _usarContraseña Then
                 txtCampo.PasswordChar = _caracterContraseña
             End If
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property LabelColor As Color
+        Get
+            Return _labelColor
+        End Get
+        Set(value As Color)
+            _labelColor = value
+            lblTitulo.ForeColor = value
         End Set
     End Property
 

@@ -6,11 +6,11 @@ Imports System.Windows.Forms
 Public Class ComboBoxUI
     Inherits ComboBox
 
-    Private _borderColor As Color = Color.Silver
+    Private _borderColor As Color = Color.FromArgb(57, 103, 208)
     Private _focusColor As Color = Color.DeepSkyBlue
     Private _borderRadius As Integer = 6
     Private _hasFocus As Boolean = False
-    Private _backgroundColor As Color = Color.FromArgb(80, 94, 129)
+    Private _backgroundColor As Color = Color.White
     Private _textColor As Color = Color.Black
     Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
 
@@ -22,7 +22,6 @@ Public Class ComboBoxUI
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
         Me.ForeColor = Color.WhiteSmoke
-        Me.BackColor = _backgroundColor
         Me.Size = New Size(300, 30)
     End Sub
 
@@ -139,7 +138,7 @@ Public Class ComboBoxUI
             New Point(Me.Width - 10, cy - 4),
             New Point(Me.Width - 14, cy + 2)
         }
-        Using brush As New SolidBrush(Color.WhiteSmoke)
+        Using brush As New SolidBrush(Color.FromArgb(57, 103, 208))
             pe.Graphics.FillPolygon(brush, flecha)
         End Using
     End Sub

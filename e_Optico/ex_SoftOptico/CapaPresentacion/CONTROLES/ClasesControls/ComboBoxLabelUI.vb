@@ -12,6 +12,7 @@ Public Class ComboBoxLabelUI
     Private lblError As New Label()
 
     Private _tituloText As String = "Selecciona una opción:"
+    Private _labelColor As Color = Color.WhiteSmoke
     Private _mensajeError As String = "Este campo es obligatorio."
     Private _mostrarError As Boolean = False
     Private _radiusPanel As Integer = 6
@@ -19,6 +20,11 @@ Public Class ComboBoxLabelUI
     Private _fontFields As Font = New Font("Century Gothic", 9)
 
     Private _campoRequerido As Boolean = True
+
+    Private _borderColorPersonalizado As Color = Color.LightGray
+    Private _borderSize As Integer = 1
+    Private _backColorx As Color = Color.WhiteSmoke
+
 
     Public Sub New()
         Me.DoubleBuffered = True
@@ -36,7 +42,7 @@ Public Class ComboBoxLabelUI
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.Height = comboOrbital.Height + 6
         pnlFondo.Padding = New Padding(2)
-        pnlFondo.BackColor = Color.FromArgb(51, 51, 80)
+        pnlFondo.BackColor = _backColorx
         pnlFondo.Controls.Add(comboOrbital)
         AddHandler pnlFondo.Resize, Sub()
                                         pnlFondo.Region = New Region(RoundedRectanglePath(pnlFondo.ClientRectangle, _radiusPanel))
@@ -64,11 +70,11 @@ Public Class ComboBoxLabelUI
         ' -- ComboBox orbital --
         comboOrbital.Dock = DockStyle.Fill
 
-
         ' -- Mensaje de error --
         lblError.Text = ""
         lblError.ForeColor = Color.Firebrick
         lblError.Dock = DockStyle.Top
+        lblError.TextAlign = ContentAlignment.MiddleRight
         lblError.Height = 20
         lblError.Visible = _mostrarError
 
@@ -171,6 +177,50 @@ Public Class ComboBoxLabelUI
         End Get
     End Property
 
+    <Category("WilmerUI")>
+    Public Property LabelColor As Color
+        Get
+            Return _labelColor
+        End Get
+        Set(value As Color)
+            _labelColor = value
+            lblTitulo.ForeColor = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BackColorPnl As Color
+        Get
+            Return _backColorx
+        End Get
+        Set(value As Color)
+            _backColorx = value
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BorderColor As Color
+        Get
+            Return _borderColorPersonalizado
+        End Get
+        Set(value As Color)
+            _borderColorPersonalizado = value
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BorderSize As Integer
+        Get
+            Return _borderSize
+        End Get
+        Set(value As Integer)
+            _borderSize = value
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
     ' -- Path para redondear el panel --
     Private Function RoundedRectanglePath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
@@ -197,6 +247,7 @@ Public Class ComboBoxLabelUI
 
         Return esValido
     End Function
+
 
     ''''''''''''''COMO USARLO en caso de error 
 

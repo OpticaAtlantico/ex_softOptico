@@ -9,9 +9,9 @@ Public Class frm_Principal
     Private drawerAbierto As Boolean = False
     Private drawerControl As New DrawerControl()
 
-    Private DrawerExpandido As Boolean = False
-    Private DrawerObjetivoWidth As Integer = 250
-    Private DrawerVelocidad As Integer = 20
+    Private DrawerExpandido As Boolean = True
+    Private DrawerObjetivoWidth As Integer = 152
+    Private DrawerVelocidad As Integer = 30
 
     'Para procedimeintos de botones 
     Private currentButton As Button
@@ -28,12 +28,12 @@ Public Class frm_Principal
         Me.DoubleBuffered = True
 
         pnlDrawer.Controls.Add(drawerControl)
-        pnlDrawer.Width = 250
+        pnlDrawer.Width = 160
+        pnlDrawer.BackColor = Color.Azure
         pnlDrawer.Visible = False
 
         With Me
             btnSalirFrmHijo.Visible = False
-            pnlDrawer.Visible = False
             .Text = String.Empty
             .ControlBox = False
             .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
@@ -84,48 +84,24 @@ Public Class frm_Principal
         pnlMenu.Controls.Add(btn)
 
     End Sub
-    Private Sub BotonMenuInventario()
-        ' Crear las opciones de manera clara, evitando CType de lambdas
-        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
-
-        ' Opción: Nuevo
-        Dim handlerNuevo As New EventHandler(AddressOf SubNuevo_Click)
-        opciones.Add(Tuple.Create("Nuevo", IconChar.Plus, handlerNuevo))
-
-        ' Opción: Abrir
-        Dim handlerAbrir As New EventHandler(AddressOf SubAbrir_Click)
-        opciones.Add(Tuple.Create("Abrir", IconChar.FolderOpen, handlerAbrir))
-
-        ' Opción: Guardar
-        Dim handlerGuardar As New EventHandler(AddressOf SubGuardar_Click)
-        opciones.Add(Tuple.Create("Guardar", IconChar.Save, handlerGuardar))
-
-        ' Cargar en Drawer
-        drawerControl.CargarOpciones(opciones)
-        pnlDrawer.Visible = True
-        If pnlDrawer.Width <= 0 Then
-            DrawerTimer.Start()
-        End If
-        drawerAbierto = True
-    End Sub
 
     Private Sub BotonMenuEmpleados()
         ' Crear las opciones de manera clara, evitando CType de lambdas
         Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
 
-        Dim handlerReporte As New EventHandler(AddressOf SubNuevo_Click)
+        Dim handlerReporte As New EventHandler(AddressOf SubReportes_Click)
         opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
 
-        Dim handlerConsultar As New EventHandler(AddressOf SubNuevo_Click)
+        Dim handlerConsultar As New EventHandler(AddressOf SubConsultar_Click)
         opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
 
-        Dim handlerEliminar As New EventHandler(AddressOf SubNuevo_Click)
+        Dim handlerEliminar As New EventHandler(AddressOf SubEliminar_Click)
         opciones.Add(Tuple.Create("Eliminar Empleado", IconChar.TrashArrowUp, handlerEliminar))
 
-        Dim handlerEditar As New EventHandler(AddressOf SubAbrir_Click)
+        Dim handlerEditar As New EventHandler(AddressOf SubEditar_Click)
         opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
 
-        Dim handlerNuevo As New EventHandler(AddressOf SubGuardar_Click)
+        Dim handlerNuevo As New EventHandler(AddressOf SubNuevo_Click)
         opciones.Add(Tuple.Create("Nuevo Empleado", IconChar.Save, handlerNuevo))
 
         ' Cargar en Drawer
@@ -137,55 +113,37 @@ Public Class frm_Principal
         drawerAbierto = True
     End Sub
 
-    Private Sub BotonMenuEditar_Click(sender As Object, e As EventArgs)
-        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
-
-        ' Opción: Copiar
-        Dim handlerCopiar As New EventHandler(AddressOf SubCopiar_Click)
-        opciones.Add(Tuple.Create("Copiar", IconChar.Copy, handlerCopiar))
-
-        ' Opción: Pegar
-        Dim handlerPegar As New EventHandler(AddressOf SubPegar_Click)
-        opciones.Add(Tuple.Create("Pegar", IconChar.Paste, handlerPegar))
-
-        drawerControl.CargarOpciones(opciones)
-        pnlDrawer.Visible = True
-        If pnlDrawer.Width <= 0 Then
-            DrawerTimer.Start()
-        End If
-        drawerAbierto = True
-    End Sub
-
-
-
-
-
 #End Region
 
 #Region "EVENTOS"
 
     Private Sub SubNuevo_Click(sender As Object, e As EventArgs)
-        MostrarContenido(New NuevoControl())
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
+
+        If Not abierto Then
+            OpenChildForm(New frmNuevoEmpleado, sender)
+            EfectoBotonInActivo()
+        End If
+
+    End Sub
+
+    Private Sub SubEditar_Click(sender As Object, e As EventArgs)
+        'MostrarContenido(New AbrirControl())
         DrawerTimer.Start()
     End Sub
 
-    Private Sub SubAbrir_Click(sender As Object, e As EventArgs)
-        MostrarContenido(New AbrirControl())
+    Private Sub SubEliminar_Click(sender As Object, e As EventArgs)
+        'MostrarContenido(frm)
         DrawerTimer.Start()
     End Sub
 
-    Private Sub SubGuardar_Click(sender As Object, e As EventArgs)
-        MostrarContenido(New GuardarControl())
+    Private Sub SubConsultar_Click(sender As Object, e As EventArgs)
+        'ostrarContenido(New CopiarControl())
         DrawerTimer.Start()
     End Sub
 
-    Private Sub SubCopiar_Click(sender As Object, e As EventArgs)
-        MostrarContenido(New CopiarControl())
-        DrawerTimer.Start()
-    End Sub
-
-    Private Sub SubPegar_Click(sender As Object, e As EventArgs)
-        MostrarContenido(New PegarControl())
+    Private Sub SubReportes_Click(sender As Object, e As EventArgs)
+        'MostrarContenido(New PegarControl())
         DrawerTimer.Start()
     End Sub
 
@@ -284,19 +242,21 @@ Public Class frm_Principal
         childForm.Dock = DockStyle.Fill
         Me.pnlContenedor.Controls.Add(childForm)
         Me.pnlContenedor.Tag = childForm
-        'childForm.BringToFront()
+        childForm.BringToFront()
+        DrawerExpandido = True
+        DrawerTimer.Start()
         childForm.Show()
+
     End Sub
     Private Sub Reset()
-        pnlEncabezado.BackColor = Color.FromArgb(0, 150, 136)
         currentButton = New Button()
         DisableButton()
     End Sub
 
-    Private Sub MostrarContenido(control As UserControl)
-        pnlContenedor.Controls.Clear()
-        control.Dock = DockStyle.Fill
-        pnlContenedor.Controls.Add(control)
+    Private Sub MostrarContenido(frm As Form)
+        'pnlContenedor.Controls.Clear()
+        'control.Dock = DockStyle.Fill
+        'pnlContenedor.Controls.Add(control)
     End Sub
 
 
@@ -304,22 +264,22 @@ Public Class frm_Principal
 
 
     Private Sub btnInventario_Click(sender As Object, e As EventArgs) Handles btnInventario.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
     Private Sub btnVenta_Click(sender As Object, e As EventArgs) Handles btnVenta.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
     Private Sub btnCompra_Click(sender As Object, e As EventArgs) Handles btnCompra.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
     Private Sub btnProveedor_Click(sender As Object, e As EventArgs) Handles btnProveedor.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
@@ -329,27 +289,27 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnComision_Click(sender As Object, e As EventArgs) Handles btnComision.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
     Private Sub btnNomina_Click(sender As Object, e As EventArgs) Handles btnNomina.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
     Private Sub btnReporte_Click(sender As Object, e As EventArgs) Handles btnReporte.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
     Private Sub btnAnalisis_Click(sender As Object, e As EventArgs) Handles btnAnalisis.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 
     Private Sub btnAjustes_Click(sender As Object, e As EventArgs) Handles btnAjustes.Click
-        BotonMenuInventario()
+        'BotonMenuInventario()
         EfectoBotonActivo(sender)
     End Sub
 End Class

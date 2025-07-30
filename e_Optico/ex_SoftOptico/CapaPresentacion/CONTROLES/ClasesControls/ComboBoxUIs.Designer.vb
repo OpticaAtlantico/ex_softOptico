@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class DrawerControl
+Partial Class ComboBoxUIs
     Inherits System.Windows.Forms.UserControl
 
     'UserControl reemplaza a Dispose para limpiar la lista de componentes.
@@ -22,28 +22,8 @@ Partial Class DrawerControl
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        pnlOpciones = New Panel()
-        SuspendLayout()
-        ' 
-        ' pnlOpciones
-        ' 
-        pnlOpciones.BackColor = Color.White
-        pnlOpciones.Dock = DockStyle.Fill
-        pnlOpciones.Location = New Point(0, 0)
-        pnlOpciones.Name = "pnlOpciones"
-        pnlOpciones.Size = New Size(152, 543)
-        pnlOpciones.TabIndex = 0
-        ' 
-        ' DrawerControl
-        ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
-        AutoScaleMode = AutoScaleMode.Font
-        Controls.Add(pnlOpciones)
-        Name = "DrawerControl"
-        Size = New Size(152, 543)
-        ResumeLayout(False)
+        components = New System.ComponentModel.Container()
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     End Sub
-
-    Friend WithEvents pnlOpciones As Panel
 
 End Class

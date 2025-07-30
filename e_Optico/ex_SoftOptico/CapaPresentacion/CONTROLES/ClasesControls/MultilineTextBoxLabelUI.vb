@@ -16,6 +16,7 @@ Public Class MultilineTextBoxLabelUI
 
     ' === Estilos ===
     Private _labelText As String = "Texto:"
+    Private _labelColor As Color = Color.WhiteSmoke
     Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
     Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
@@ -34,6 +35,10 @@ Public Class MultilineTextBoxLabelUI
 
     Private alturaObjetivo As Integer = 100
     Private alturaAnimadaActual As Integer = 40
+
+    Private _borderColorPersonalizado As Color = Color.LightGray
+    Private _borderSize As Integer = 1
+
     'Private WithEvents animadorAltura As New Timer() With {.Interval = 15}
 
     ' === Constructor ===
@@ -63,9 +68,8 @@ Public Class MultilineTextBoxLabelUI
         txtCampo.Font = _fontField
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
-        txtCampo.Multiline = True ' listo para expansión vertical
-        txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
-        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+        txtCampo.Multiline = True ' listo para expansión vertica
+        txtCampo.Location = New Point(_paddingAll, _paddingAll)
         txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
         pnlFondo.Controls.Add(txtCampo)
 
@@ -92,6 +96,25 @@ Public Class MultilineTextBoxLabelUI
                                         pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
                                     End Sub
 
+        AddHandler pnlFondo.Resize, Sub()
+                                        Dim margenDerecho As Integer = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
+
+                                        ' Si el TextBox es multilinea, usa todo el alto disponible menos padding
+                                        If txtCampo.Multiline Then
+                                            txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, pnlFondo.Height - (_paddingAll * 2))
+                                            txtCampo.Location = New Point(_paddingAll, _paddingAll)
+                                        Else
+                                            ' Si no es multilinea, mantener altura fija y centrar verticalmente
+                                            txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, 30)
+                                            txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+                                        End If
+
+                                        ' Alinear el ícono a la derecha si está visible
+                                        If iconoDerecho.Visible Then
+                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+                                        End If
+                                    End Sub
+
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
@@ -102,17 +125,6 @@ Public Class MultilineTextBoxLabelUI
         AddHandler pnlFondo.Resize, AddressOf RecalcularAlineacion
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
     End Sub
-
-    'Private Sub animadorAltura_Tick(sender As Object, e As EventArgs) Handles animadorAltura.Tick
-    '    If pnlFondo.Height <> alturaObjetivo Then
-    '        Dim diferencia = alturaObjetivo - pnlFondo.Height
-    '        Dim paso = Math.Sign(diferencia) * Math.Max(1, Math.Abs(diferencia) \ 5)
-    '        pnlFondo.Height += paso
-    '        pnlFondo.Invalidate()
-    '    Else
-    '        animadorAltura.Stop()
-    '    End If
-    'End Sub
 
     Private Sub AjustarAlturaCampo()
         If txtCampo.Multiline Then
@@ -172,7 +184,8 @@ Public Class MultilineTextBoxLabelUI
             Using brush As New SolidBrush(pnlFondo.BackColor)
                 e.Graphics.FillPath(brush, path)
             End Using
-            Using pen As New Pen(_borderColorNormal, 1)
+            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorPersonalizado)
+            Using pen As New Pen(colorBorde, _borderSize)
                 e.Graphics.DrawPath(pen, path)
             End Using
         End Using
@@ -186,6 +199,21 @@ Public Class MultilineTextBoxLabelUI
         path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
         path.CloseFigure()
         Return path
+    End Function
+
+    Public Function EsValido() As Boolean
+        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            lblError.Text = _mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+            pnlFondo.Invalidate()
+            Return False
+        Else
+            lblError.Visible = False
+            _borderColorNormal = Color.LightGray
+            pnlFondo.Invalidate()
+            Return True
+        End If
     End Function
 
     ' === Propiedades orbitales ===
@@ -232,7 +260,7 @@ Public Class MultilineTextBoxLabelUI
         Set(value As Font)
             _fontField = value
             txtCampo.Font = value
-            lblTitulo.Font = New Font(value.FontFamily, value.Size)
+            lblTitulo.Font = New Font(value.FontFamily, value.Size - 2)
             lblError.Font = New Font(value.FontFamily, value.Size - 3)
         End Set
     End Property
@@ -349,6 +377,39 @@ Public Class MultilineTextBoxLabelUI
         Get
             Return txtCampo.Text
         End Get
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property LabelColor As Color
+        Get
+            Return _labelColor
+        End Get
+        Set(value As Color)
+            _labelColor = value
+            lblTitulo.ForeColor = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BorderColor As Color
+        Get
+            Return _borderColorPersonalizado
+        End Get
+        Set(value As Color)
+            _borderColorPersonalizado = value
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BorderSize As Integer
+        Get
+            Return _borderSize
+        End Get
+        Set(value As Integer)
+            _borderSize = value
+            pnlFondo.Invalidate()
+        End Set
     End Property
 
 End Class

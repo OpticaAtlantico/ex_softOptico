@@ -21,6 +21,9 @@ Public Class MaskedTextBoxLabelUI
     Private _paddingAll As Integer = 10
 
     Private iconoDerecho As New IconPictureBox()
+    Private _borderColorPersonalizado As Color = Color.LightGray
+    Private _borderSize As Integer = 1
+    Private _labelColor As Color = Color.WhiteSmoke
 
     ' === Validación ===
     Public Enum TipoEntradaNumerica
@@ -138,7 +141,8 @@ Public Class MaskedTextBoxLabelUI
             Using brush As New SolidBrush(pnlFondo.BackColor)
                 e.Graphics.FillPath(brush, path)
             End Using
-            Using pen As New Pen(_borderColorNormal, 1)
+            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorPersonalizado)
+            Using pen As New Pen(colorBorde, _borderSize)
                 e.Graphics.DrawPath(pen, path)
             End Using
         End Using
@@ -152,6 +156,21 @@ Public Class MaskedTextBoxLabelUI
         path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
         path.CloseFigure()
         Return path
+    End Function
+
+    Public Function EsValido() As Boolean
+        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            lblError.Text = _mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+            pnlFondo.Invalidate()
+            Return False
+        Else
+            lblError.Visible = False
+            _borderColorNormal = Color.LightGray
+            pnlFondo.Invalidate()
+            Return True
+        End If
     End Function
 
     ' === Propiedades orbitales ===
@@ -198,7 +217,7 @@ Public Class MaskedTextBoxLabelUI
         Set(value As Font)
             _fontField = value
             txtCampo.Font = value
-            lblTitulo.Font = New Font(value.FontFamily, value.Size + 1)
+            lblTitulo.Font = New Font(value.FontFamily, value.Size - 2)
             lblError.Font = New Font(value.FontFamily, value.Size - 3)
         End Set
     End Property
@@ -307,6 +326,39 @@ Public Class MaskedTextBoxLabelUI
         Get
             Return txtCampo.Text
         End Get
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property LabelColor As Color
+        Get
+            Return _labelColor
+        End Get
+        Set(value As Color)
+            _labelColor = value
+            lblTitulo.ForeColor = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BorderColor As Color
+        Get
+            Return _borderColorPersonalizado
+        End Get
+        Set(value As Color)
+            _borderColorPersonalizado = value
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property BorderSize As Integer
+        Get
+            Return _borderSize
+        End Get
+        Set(value As Integer)
+            _borderSize = value
+            pnlFondo.Invalidate()
+        End Set
     End Property
 
     'Como cambio el icono dse la derecha
