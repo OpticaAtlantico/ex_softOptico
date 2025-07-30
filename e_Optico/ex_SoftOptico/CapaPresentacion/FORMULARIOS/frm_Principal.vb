@@ -18,6 +18,9 @@ Public Class frm_Principal
     Private activeForms As Form ' Formulario activo
     Dim loginmodelo = listLogin
 
+    Private fadeTimer As New Timer()
+    Private fadeStep As Double = 0.1
+
 #Region "CONSTRUCTOR"
 
     Public Sub New()
@@ -26,22 +29,26 @@ Public Class frm_Principal
 
         InitializeComponent()
         Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
 
-        pnlDrawer.Controls.Add(drawerControl)
-        pnlDrawer.Width = 160
-        pnlDrawer.BackColor = Color.Azure
-        pnlDrawer.Visible = False
+        ' Oculta al inicio para cargar limpio
+        Me.Opacity = 0
+        Me.Visible = False
 
-        With Me
-            btnSalirFrmHijo.Visible = False
-            .Text = String.Empty
-            .ControlBox = False
-            .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
-        End With
-        WindowState = FormWindowState.Maximized
+        ' Timer para fade-in
+        AddHandler fadeTimer.Tick, AddressOf FadeIn
+        fadeTimer.Interval = 30
+
     End Sub
 
-
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp As CreateParams = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000 ' WS_EX_COMPOSITED
+            Return cp
+        End Get
+    End Property
 
 #End Region
 
@@ -259,6 +266,30 @@ Public Class frm_Principal
         'pnlContenedor.Controls.Add(control)
     End Sub
 
+    Private Sub FadeIn(sender As Object, e As EventArgs)
+        If Me.Opacity < 1 Then
+            Me.Opacity += fadeStep
+        Else
+            fadeTimer.Stop()
+        End If
+    End Sub
+
+    ' Aquí configuras tus controles, layout, etc.
+    Private Sub PrepararUI()
+        pnlDrawer.Controls.Add(drawerControl)
+        pnlDrawer.Width = 160
+        pnlDrawer.BackColor = Color.Azure
+        pnlDrawer.Visible = False
+
+        With Me
+            btnSalirFrmHijo.Visible = False
+            .Text = String.Empty
+            .ControlBox = False
+            .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
+        End With
+        WindowState = FormWindowState.Maximized
+    End Sub
+
 
 #End Region
 
@@ -311,5 +342,14 @@ Public Class frm_Principal
     Private Sub btnAjustes_Click(sender As Object, e As EventArgs) Handles btnAjustes.Click
         'BotonMenuInventario()
         EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub frm_Principal_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Me.SuspendLayout()
+        PrepararUI()
+        Me.ResumeLayout()
+
+        Me.Visible = True
+        fadeTimer.Start()
     End Sub
 End Class

@@ -1,30 +1,27 @@
-﻿Imports DocumentFormat.OpenXml.Office2010.Excel
+﻿Imports System.Windows.Forms
 
-Public Class frmNuevoEmpleado
+Public Class FormConCorteSuave
+    Inherits Form
 
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.1
 
     Public Sub New()
-        ' This call is required by the designer.
-        InitializeComponent()
-
+        ' Doble buffer para reducir flickering
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
 
-        ' Oculta al inicio para cargar limpio
+        ' Formato visual suave
         Me.Opacity = 0
         Me.Visible = False
 
-        ' Timer para fade-in
+        ' Configuración del timer para la transición suave
         AddHandler fadeTimer.Tick, AddressOf FadeIn
         fadeTimer.Interval = 30
-
-        ' Add any initialization after the InitializeComponent() call.
     End Sub
 
-    ' Aplica WS_EX_COMPOSITED para suavizar repintado de todo el formulario
+    ' Usamos WS_EX_COMPOSITED para evitar parpadeos fuertes
     Protected Overrides ReadOnly Property CreateParams As CreateParams
         Get
             Dim cp As CreateParams = MyBase.CreateParams
@@ -32,8 +29,11 @@ Public Class frmNuevoEmpleado
             Return cp
         End Get
     End Property
-    Private Sub frmNuevoEmpleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Initialize form components or load data if necessary
+
+    Protected Overrides Sub OnLoad(e As EventArgs)
+        MyBase.OnLoad(e)
+
+        ' Permite a clases hijas preparar su contenido antes de mostrar
         Me.SuspendLayout()
         PrepararUI()
         Me.ResumeLayout()
@@ -42,6 +42,7 @@ Public Class frmNuevoEmpleado
         fadeTimer.Start()
     End Sub
 
+    ' Transición de aparición suave
     Private Sub FadeIn(sender As Object, e As EventArgs)
         If Me.Opacity < 1 Then
             Me.Opacity += fadeStep
@@ -50,18 +51,9 @@ Public Class frmNuevoEmpleado
         End If
     End Sub
 
-    ' Aquí configuras tus controles, layout, etc.
-    Private Sub PrepararUI()
-        ' Este es solo un ejemplo de carga limpia
-        Dim lblTitulo As New Label With {
-            .Text = "Bienvenido sin parpadeos",
-            .Font = New Font("Segoe UI", 18),
-            .Dock = DockStyle.Fill,
-            .TextAlign = ContentAlignment.MiddleCenter
-        }
-        Me.Controls.Add(lblTitulo)
-
-        ' Aquí podrías agregar tu Drawer, UserControls, etc.
+    ' Método opcional que puedes sobrescribir desde tus formularios
+    Protected Overridable Sub PrepararUI()
+        ' Ejemplo: se puede sobrescribir para inicializar controles antes de que el formulario aparezca
     End Sub
-
 End Class
+

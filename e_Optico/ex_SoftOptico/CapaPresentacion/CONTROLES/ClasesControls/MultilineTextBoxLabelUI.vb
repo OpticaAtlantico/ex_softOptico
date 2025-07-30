@@ -124,6 +124,8 @@ Public Class MultilineTextBoxLabelUI
         AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
         AddHandler pnlFondo.Resize, AddressOf RecalcularAlineacion
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
+        AddHandler txtCampo.Leave, AddressOf CapitalizarSiEsNecesario
+
     End Sub
 
     Private Sub AjustarAlturaCampo()
@@ -216,7 +218,53 @@ Public Class MultilineTextBoxLabelUI
         End If
     End Function
 
+    Private Sub CapitalizarSiEsNecesario(sender As Object, e As EventArgs)
+        If Not CapitalizarTexto Then Exit Sub
+
+        Dim textoOriginal As String = txtCampo.Text.Trim()
+
+        If CapitalizarTodasLasPalabras Then
+            ' Capitalizar cada palabra
+            Dim palabras As String() = textoOriginal.Split(" "c)
+            For i As Integer = 0 To palabras.Length - 1
+                If palabras(i).Length > 0 Then
+                    palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
+                End If
+            Next
+            txtCampo.Text = String.Join(" ", palabras)
+        Else
+            ' Solo la primera letra de todo
+            If textoOriginal.Length > 0 Then
+                txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
+            End If
+        End If
+    End Sub
+
+
     ' === Propiedades orbitales ===
+
+    ' Capitaliza al perder el foco
+    Private _capitalizarTexto As Boolean = False
+    Public Property CapitalizarTexto As Boolean
+        Get
+            Return _capitalizarTexto
+        End Get
+        Set(value As Boolean)
+            _capitalizarTexto = value
+        End Set
+    End Property
+
+    ' Capitalizar todas las palabras o solo la primera
+    Private _capitalizarTodasLasPalabras As Boolean = True
+    Public Property CapitalizarTodasLasPalabras As Boolean
+        Get
+            Return _capitalizarTodasLasPalabras
+        End Get
+        Set(value As Boolean)
+            _capitalizarTodasLasPalabras = value
+        End Set
+    End Property
+
 
     <Category("WilmerUI")>
     Public Property LabelText As String
