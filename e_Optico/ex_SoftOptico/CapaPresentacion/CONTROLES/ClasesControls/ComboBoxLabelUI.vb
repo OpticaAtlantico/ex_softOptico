@@ -69,6 +69,7 @@ Public Class ComboBoxLabelUI
 
         ' -- ComboBox orbital --
         comboOrbital.Dock = DockStyle.Fill
+        comboOrbital.ForeColor = Color.Black
 
         ' -- Mensaje de error --
         lblError.Text = ""

@@ -13,11 +13,11 @@ Public Class Repositorio_Empleados
     Public Sub New()
         SeleccionarTodos = "SELECT * FROM VEmpleados"
         SeleccionarPorID = "SELECT * FROM VEmpleados WHERE EmpleadoID = @EmpleadoID"
-        Insertar = "INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, _
-                    Sexo, FechaNacimiento, Direccion, Cargo, Correo, Asesor, Gerente, Optometrista, Marketing, _
-                    Cobranza, Estado, Telefono) VALUES (@Cedula, @Nombre, @Apellido, @Edad, @Nacionalidad, _
-                    @EstadoCivil, @Sexo, @FechaNacimiento, @Direccion, @Cargo, @Correo, @Asesor, @Gerente, _
-                    @Optometrista, @Marketing, @Cobranza, @Estado, @Telefono)"
+        Insertar = "INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, 
+                    Sexo, FechaNacimiento, Direccion, CargoEmpleadoID, Correo, Asesor, Gerente, Optometrista, Marketing, 
+                    Cobranza, Estado, Telefono, Zona) VALUES (@Cedula, @Nombre, @Apellido, @Edad, @Nacionalidad, 
+                    @EstadoCivil, @Sexo, @FechaNacimiento, @Direccion, @Cargo, @Correo, @Asesor, @Gerente, 
+                    @Optometrista, @Marketing, @Cobranza, @Estado, @Telefono, @Zona)"
         Actualizar = "UPDATE TEmpleados SET Cedula = @Cedula, Nombre = @Nombre, Apellido = @Apellido, Edad = @Edad, _
                     Nacionalidad = @Nacionalidad, EstadoCivil = @EstadoCivil, Sexo = @Sexo, FechaNacimiento = @FechaNacimiento, _
                     Direccion = @Direccion, Cargo = @Cargo, Correo = @Correo, Asesor = @Asesor, Gerente = @Gerente, _
@@ -40,7 +40,7 @@ Public Class Repositorio_Empleados
                 .Sexo = Convert.ToString(row("Sexo")),
                 .FechaNacimiento = Convert.ToDateTime(row("FechaNacimiento")),
                 .Direccion = Convert.ToString(row("Direccion")),
-                .Cargo = Convert.ToInt32(row("Cargo")),
+                .Cargo = Convert.ToInt32(row("CargoEmpleadoID")),
                 .Correo = Convert.ToString(row("Correo")),
                 .Asesor = Convert.ToByte(row("Asesor")),
                 .Gerente = Convert.ToByte(row("Gerente")),
@@ -48,7 +48,8 @@ Public Class Repositorio_Empleados
                 .Marketing = Convert.ToByte(row("Marketing")),
                 .Cobranza = Convert.ToByte(row("Cobranza")),
                 .Estado = Convert.ToByte(row("Estado")),
-                .Telefono = Convert.ToString(row("Telefono"))
+                .Telefono = Convert.ToString(row("Telefono")),
+                .Zona = Convert.ToString(row("Zona"))
             }
             lista.Add(empleado)
         Next
@@ -74,7 +75,8 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Marketing", entity.Marketing),
             New SqlParameter("@Cobranza", entity.Cobranza),
             New SqlParameter("@Estado", entity.Estado),
-            New SqlParameter("@Telefono", entity.Telefono)
+            New SqlParameter("@Telefono", entity.Telefono),
+            New SqlParameter("@Zona", entity.Zona)
         }
         Return ExecuteNonQuery(Insertar)
     End Function

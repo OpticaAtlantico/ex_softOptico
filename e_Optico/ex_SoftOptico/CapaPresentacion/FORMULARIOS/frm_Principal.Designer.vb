@@ -480,7 +480,7 @@ Partial Class frm_Principal
         pnlDrawer.Name = "pnlDrawer"
         pnlDrawer.Size = New Size(150, 673)
         pnlDrawer.TabIndex = 2
-        ' 
+        '
         ' pnlContenedor
         ' 
         pnlContenedor.BackColor = Color.White

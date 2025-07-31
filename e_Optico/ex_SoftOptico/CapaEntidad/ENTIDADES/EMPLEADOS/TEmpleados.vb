@@ -4,19 +4,20 @@
     Public Property Nombre As String
     Public Property Apellido As String
     Public Property Edad As Integer
-    Public Property Nacionalidad As String
-    Public Property EstadoCivil As String
-    Public Property Sexo As String
+    Public Property Nacionalidad As Integer
+    Public Property EstadoCivil As Integer
+    Public Property Sexo As Integer
     Public Property FechaNacimiento As Date
     Public Property Direccion As String
     Public Property Cargo As Integer 'FK DE TABLA TCARGOS
     Public Property Correo As String
-    Public Property Asesor As Byte ' 0 = No, 1 = Si
-    Public Property Gerente As Byte ' 0 = No, 1 = Si
-    Public Property Optometrista As Byte ' 0 = No, 1 = Si
-    Public Property Marketing As Byte ' 0 = No, 1 = Si
-    Public Property Cobranza As Byte ' 0 = No, 1 = Si
-    Public Property Estado As Byte
+    Public Property Asesor As Boolean
+    Public Property Gerente As Boolean
+    Public Property Optometrista As Boolean
+    Public Property Marketing As Boolean
+    Public Property Cobranza As Boolean
+    Public Property Estado As Integer
     Public Property Telefono As String
+    Public Property Zona As Integer
 
 End Class

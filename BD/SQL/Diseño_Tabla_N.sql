@@ -16,6 +16,10 @@ GO
 -- *** 1. Tablas Maestras ***
 
 -- Tabla: TMenuOpciones para almacenar los controles que van a aparecer en el menu de opcionesd del menu principal
+
+
+
+
 CREATE TABLE TMenuOpciones (
     id INT IDENTITY(1,1) PRIMARY KEY,
     TextoBoton NVARCHAR(50) NOT NULL,
@@ -140,13 +144,13 @@ CREATE TABLE TEmpleados (
     Nombre NVARCHAR(100) NOT NULL,
     Apellido NVARCHAR(100) NOT NULL,
     Edad INT NULL,
-    Nacionalidad CHAR(1) NULL,
-    EstadoCivil CHAR(1) NULL,
-    Sexo NVARCHAR(10) NULL,
+    Nacionalidad INT NULL DEFAULT 0,
+    EstadoCivil INT NULL DEFAULT 0,
+    Sexo INT NULL DEFAULT 0,
     FechaNacimiento DATE NULL,
     Direccion NVARCHAR(MAX) NULL,
     CargoEmpleadoID INT NOT NULL,
-    Email NVARCHAR(100) NULL,
+    Correo NVARCHAR(100) NULL,
     Telefono NVARCHAR(60) NULL,
     Asesor BIT NOT NULL DEFAULT 0,
     Gerente BIT NOT NULL DEFAULT 0,
@@ -154,6 +158,7 @@ CREATE TABLE TEmpleados (
     Marketing BIT NOT NULL DEFAULT 0,
     Cobranza BIT NOT NULL DEFAULT 0,
     Estado BIT NOT NULL DEFAULT 1, -- PARA SABER EL ESTADO DE USUARIO
+    Zona INT NULL DEFAULT 0,
     FOREIGN KEY (CargoEmpleadoID) REFERENCES TCargoEmpleado(CargoEmpleadoID)
 );
 

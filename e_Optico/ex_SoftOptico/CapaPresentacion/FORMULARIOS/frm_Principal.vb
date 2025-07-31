@@ -39,6 +39,7 @@ Public Class frm_Principal
         ' Timer para fade-in
         AddHandler fadeTimer.Tick, AddressOf FadeIn
         fadeTimer.Interval = 30
+        pnlDrawer.BringToFront()
 
     End Sub
 

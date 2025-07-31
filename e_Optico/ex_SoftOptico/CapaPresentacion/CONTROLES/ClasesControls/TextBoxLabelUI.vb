@@ -38,6 +38,8 @@ Public Class TextBoxLabelUI
     Private _borderColorPersonalizado As Color = Color.LightGray
     Private _borderSize As Integer = 1
 
+    Private _validarComoCorreo As Boolean = False
+
     ' === Constructor ===
     Public Sub New()
         Me.Size = New Size(300, 100)
@@ -118,8 +120,29 @@ Public Class TextBoxLabelUI
             End If
             pnlFondo.Invalidate()
         End If
+
+        If ValidarComoCorreo AndAlso Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            If Not EsCorreoValido(txtCampo.Text.Trim()) Then
+                lblError.Text = "Correo electrónico no válido."
+                lblError.Visible = True
+                _borderColorNormal = _colorError
+            Else
+                lblError.Visible = False
+                _borderColorNormal = Color.LightGray
+            End If
+        End If
+
         CapitalizarSiEsNecesario(sender, e) ' Capitaliza al perder el foco
     End Sub
+
+    Private Function EsCorreoValido(correo As String) As Boolean
+        Try
+            Dim addr As New System.Net.Mail.MailAddress(correo)
+            Return addr.Address = correo
+        Catch
+            Return False
+        End Try
+    End Function
 
     Private Sub ActualizarEstado(sender As Object, e As EventArgs)
         If lblError.Visible AndAlso Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
@@ -199,6 +222,15 @@ Public Class TextBoxLabelUI
 
 
     ' === Propiedades orbitales ===
+
+    Public Property ValidarComoCorreo As Boolean
+        Get
+            Return _validarComoCorreo
+        End Get
+        Set(value As Boolean)
+            _validarComoCorreo = value
+        End Set
+    End Property
 
     ' Capitaliza al perder el foco
     Private _capitalizarTexto As Boolean = False

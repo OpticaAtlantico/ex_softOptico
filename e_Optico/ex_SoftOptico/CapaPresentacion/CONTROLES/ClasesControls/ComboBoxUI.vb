@@ -21,7 +21,7 @@ Public Class ComboBoxUI
         Me.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
-        Me.ForeColor = Color.WhiteSmoke
+        Me.ForeColor = Color.Black
         Me.Size = New Size(300, 30)
     End Sub
 
@@ -93,6 +93,19 @@ Public Class ComboBoxUI
         End Set
     End Property
 
+    Public Property ValorSeleccionado As String
+        Get
+            Return If(Me.SelectedItem IsNot Nothing, Me.SelectedItem.ToString(), "")
+        End Get
+        Set(value As String)
+            Me.SelectedItem = value
+        End Set
+    End Property
+
+    Public Sub AddItem(item As Object)
+        Me.Items.Add(item)
+    End Sub
+
     Protected Overrides Sub OnGotFocus(e As EventArgs)
         MyBase.OnGotFocus(e)
         _hasFocus = True
@@ -128,7 +141,11 @@ Public Class ComboBoxUI
         ' Texto del ítem seleccionado
         If Me.SelectedIndex >= 0 Then
             Dim textRect As New Rectangle(10, 0, Me.Width - 30, Me.Height)
-            TextRenderer.DrawText(pe.Graphics, Me.GetItemText(Me.SelectedItem), Me.Font, textRect, Color.WhiteSmoke, TextFormatFlags.VerticalCenter)
+            TextRenderer.DrawText(pe.Graphics,
+                                  Me.GetItemText(Me.SelectedItem),
+                                  Me.Font, textRect,
+                                  Color.Black,
+                                  TextFormatFlags.VerticalCenter)
         End If
 
         ' Flecha orbital dibujada manualmente
@@ -176,5 +193,27 @@ Public Class ComboBoxUI
         path.CloseFigure()
         Return path
     End Function
+
+    Public ReadOnly Property ValorClave As Object
+        Get
+            If Me.SelectedItem IsNot Nothing AndAlso TypeOf Me.SelectedItem Is LlenarComboBox.ComboItem Then
+                Return CType(Me.SelectedItem, LlenarComboBox.ComboItem).Valor
+            End If
+            Return Nothing
+        End Get
+    End Property
+
+    Public ReadOnly Property ValorTexto As String
+        Get
+            If Me.SelectedItem IsNot Nothing AndAlso TypeOf Me.SelectedItem Is LlenarComboBox.ComboItem Then
+                Return CType(Me.SelectedItem, LlenarComboBox.ComboItem).Texto
+            End If
+            Return Me.Text
+        End Get
+    End Property
+
+
+    'empleado.EstadoCivil = cmbEstadoCivilUI.ValorClave?.ToString()
+
 
 End Class

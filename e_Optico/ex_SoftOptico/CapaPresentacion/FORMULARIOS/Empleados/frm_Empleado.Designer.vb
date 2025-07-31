@@ -612,9 +612,8 @@ Partial Class frm_Empleado
         ' 
         ' cmbSexo
         ' 
-        cmbSexo.BackColor = Color.Transparent
+        cmbSexo.BackColor = Color.White
         cmbSexo.CampoRequerido = True
-        cmbSexo.ForeColor = Color.White
         cmbSexo.Location = New Point(23, 409)
         cmbSexo.MensajeError = "Este campo es obligatorio."
         cmbSexo.MostrarError = False
