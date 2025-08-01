@@ -76,10 +76,20 @@ Public Class frmNuevoEmpleado
 
     Private Sub btnEliminarFoto_Click(sender As Object, e As EventArgs) Handles btnEliminarFoto.Click
         ' Elimina la imagen mostrada
-        limpiarImagen()
+        'limpiarImagen()
 
         '' Borra la ruta almacenada
-        rutaImagenSeleccionada = ""
+        'rutaImagenSeleccionada = ""
+
+        Dim inputForm As New InputBoxUI("Ingrese su nombre", "Ej: Wilmer", IconChar.User)
+        Dim resultado = inputForm.ShowDialog()
+
+        If resultado = DialogResult.OK Then
+            Dim texto = inputForm.ValorIngresado
+            MessageBox.Show("Ingresado: " & texto)
+        Else
+            MessageBox.Show("Cancelado")
+        End If
     End Sub
 
     Private Sub txtCedula_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCedula.CampoKeyPress
