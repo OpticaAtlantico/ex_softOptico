@@ -50,6 +50,19 @@ Partial Class frm_Visual
         pnlMenu.Size = New Size(58, 440)
         pnlMenu.TabIndex = 0
         ' 
+        ' pnlContenedor
+        ' 
+        pnlContenedor.BackColor = Color.Black
+        pnlContenedor.Dock = DockStyle.Fill
+        pnlContenedor.Location = New Point(258, 57)
+        pnlContenedor.Name = "pnlContenedor"
+        pnlContenedor.Size = New Size(955, 440)
+        pnlContenedor.TabIndex = 0
+        ' 
+        ' DrawerTimer
+        ' 
+        DrawerTimer.Interval = 15
+        ' 
         ' pnlDrawer
         ' 
         pnlDrawer.BackColor = SystemColors.ActiveCaption
@@ -59,19 +72,6 @@ Partial Class frm_Visual
         pnlDrawer.Size = New Size(200, 440)
         pnlDrawer.TabIndex = 2
         pnlDrawer.Visible = False
-        ' 
-        ' pnlContenedor
-        ' 
-        pnlContenedor.BackColor = Color.WhiteSmoke
-        pnlContenedor.Dock = DockStyle.Fill
-        pnlContenedor.Location = New Point(58, 57)
-        pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1155, 440)
-        pnlContenedor.TabIndex = 0
-        ' 
-        ' DrawerTimer
-        ' 
-        DrawerTimer.Interval = 15
         ' 
         ' frm_Visual
         ' 

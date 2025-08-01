@@ -249,6 +249,24 @@ Public Class ComboBoxLabelUI
         Return esValido
     End Function
 
+    Public Property ValorSeleccionado As Object
+        Get
+            Return OrbitalCombo.SelectedValue
+        End Get
+        Set(value As Object)
+            OrbitalCombo.SelectedValue = value
+        End Set
+    End Property
+
+    <Browsable(False)>
+    Public Sub Limpiar()
+        OrbitalCombo.SelectedIndex = -1
+        OrbitalCombo.Text = ""
+        OrbitalCombo.Refresh()
+        OrbitalCombo.Invalidate()
+    End Sub
+
+
 
     ''''''''''''''COMO USARLO en caso de error 
 

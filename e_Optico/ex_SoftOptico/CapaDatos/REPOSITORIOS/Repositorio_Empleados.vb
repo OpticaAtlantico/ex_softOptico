@@ -15,9 +15,9 @@ Public Class Repositorio_Empleados
         SeleccionarPorID = "SELECT * FROM VEmpleados WHERE EmpleadoID = @EmpleadoID"
         Insertar = "INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, 
                     Sexo, FechaNacimiento, Direccion, CargoEmpleadoID, Correo, Asesor, Gerente, Optometrista, Marketing, 
-                    Cobranza, Estado, Telefono, Zona) VALUES (@Cedula, @Nombre, @Apellido, @Edad, @Nacionalidad, 
+                    Cobranza, Estado, Telefono, Zona, Foto) VALUES (@Cedula, @Nombre, @Apellido, @Edad, @Nacionalidad, 
                     @EstadoCivil, @Sexo, @FechaNacimiento, @Direccion, @Cargo, @Correo, @Asesor, @Gerente, 
-                    @Optometrista, @Marketing, @Cobranza, @Estado, @Telefono, @Zona)"
+                    @Optometrista, @Marketing, @Cobranza, @Estado, @Telefono, @Zona, @Foto)"
         Actualizar = "UPDATE TEmpleados SET Cedula = @Cedula, Nombre = @Nombre, Apellido = @Apellido, Edad = @Edad, _
                     Nacionalidad = @Nacionalidad, EstadoCivil = @EstadoCivil, Sexo = @Sexo, FechaNacimiento = @FechaNacimiento, _
                     Direccion = @Direccion, Cargo = @Cargo, Correo = @Correo, Asesor = @Asesor, Gerente = @Gerente, _
@@ -76,7 +76,8 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Cobranza", entity.Cobranza),
             New SqlParameter("@Estado", entity.Estado),
             New SqlParameter("@Telefono", entity.Telefono),
-            New SqlParameter("@Zona", entity.Zona)
+            New SqlParameter("@Zona", entity.Zona),
+            New SqlParameter("@Foto", entity.Foto)
         }
         Return ExecuteNonQuery(Insertar)
     End Function

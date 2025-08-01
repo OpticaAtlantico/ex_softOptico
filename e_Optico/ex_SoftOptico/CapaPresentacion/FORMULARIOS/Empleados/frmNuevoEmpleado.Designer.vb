@@ -24,26 +24,27 @@ Partial Class frmNuevoEmpleado
     Private Sub InitializeComponent()
         pnlContenedor = New Panel()
         pnlContenido = New Panel()
-        cmbSexo = New ComboBoxLabelUI()
-        btnEliminarFoto = New FontAwesome.Sharp.IconButton()
-        btnGuardarFoto = New FontAwesome.Sharp.IconButton()
+        txtDireccion = New MultilineTextBoxLabelUI()
         pnlCargo = New Panel()
         swMarketing = New ToggleSwitchUI()
         swGerente = New ToggleSwitchUI()
         swOptometrista = New ToggleSwitchUI()
         swAsesor = New ToggleSwitchUI()
-        txtDireccion = New MultilineTextBoxLabelUI()
-        txtTelefono = New MaskedTextBoxLabelUI()
-        txtCorreo = New TextBoxLabelUI()
-        cmbZona = New ComboBoxLabelUI()
-        cmbCargo = New ComboBoxLabelUI()
-        txtFechaNac = New MaskedTextBoxLabelUI()
-        cmbEstadoCivil = New ComboBoxLabelUI()
-        cmbNacionalidad = New ComboBoxLabelUI()
-        txtApellido = New TextBoxLabelUI()
-        txtNombre = New TextBoxLabelUI()
-        txtEdad = New MaskedTextBoxLabelUI()
+        TableLayoutPanel1 = New TableLayoutPanel()
         txtCedula = New MaskedTextBoxLabelUI()
+        txtFechaNac = New DateBoxLabelUI()
+        txtNombre = New TextBoxLabelUI()
+        cmbSexo = New ComboBoxLabelUI()
+        txtApellido = New TextBoxLabelUI()
+        cmbZona = New ComboBoxLabelUI()
+        txtTelefono = New MaskedTextBoxLabelUI()
+        txtEdad = New MaskedTextBoxLabelUI()
+        txtCorreo = New TextBoxLabelUI()
+        cmbNacionalidad = New ComboBoxLabelUI()
+        cmbEstadoCivil = New ComboBoxLabelUI()
+        cmbCargo = New ComboBoxLabelUI()
+        btnEliminarFoto = New FontAwesome.Sharp.IconButton()
+        btnGuardarFoto = New FontAwesome.Sharp.IconButton()
         imgFoto = New FontAwesome.Sharp.IconPictureBox()
         pnlEncabezado = New Panel()
         bntGuardar = New CommandButtonUI()
@@ -51,6 +52,7 @@ Partial Class frmNuevoEmpleado
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
         pnlCargo.SuspendLayout()
+        TableLayoutPanel1.SuspendLayout()
         CType(imgFoto, ComponentModel.ISupportInitialize).BeginInit()
         pnlEncabezado.SuspendLayout()
         SuspendLayout()
@@ -62,36 +64,233 @@ Partial Class frmNuevoEmpleado
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(0, 0)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1274, 606)
+        pnlContenedor.Size = New Size(1274, 610)
         pnlContenedor.TabIndex = 0
         ' 
         ' pnlContenido
         ' 
         pnlContenido.AutoScroll = True
-        pnlContenido.Controls.Add(cmbSexo)
+        pnlContenido.Controls.Add(txtDireccion)
+        pnlContenido.Controls.Add(pnlCargo)
+        pnlContenido.Controls.Add(TableLayoutPanel1)
         pnlContenido.Controls.Add(btnEliminarFoto)
         pnlContenido.Controls.Add(btnGuardarFoto)
-        pnlContenido.Controls.Add(pnlCargo)
-        pnlContenido.Controls.Add(txtDireccion)
-        pnlContenido.Controls.Add(txtTelefono)
-        pnlContenido.Controls.Add(txtCorreo)
-        pnlContenido.Controls.Add(cmbZona)
-        pnlContenido.Controls.Add(cmbCargo)
-        pnlContenido.Controls.Add(txtFechaNac)
-        pnlContenido.Controls.Add(cmbEstadoCivil)
-        pnlContenido.Controls.Add(cmbNacionalidad)
-        pnlContenido.Controls.Add(txtApellido)
-        pnlContenido.Controls.Add(txtNombre)
-        pnlContenido.Controls.Add(txtEdad)
-        pnlContenido.Controls.Add(txtCedula)
         pnlContenido.Controls.Add(imgFoto)
         pnlContenido.Dock = DockStyle.Fill
         pnlContenido.Location = New Point(0, 60)
         pnlContenido.Margin = New Padding(3, 30, 3, 3)
         pnlContenido.Name = "pnlContenido"
         pnlContenido.Padding = New Padding(10, 30, 0, 0)
-        pnlContenido.Size = New Size(1274, 546)
+        pnlContenido.Size = New Size(1274, 550)
         pnlContenido.TabIndex = 1
+        ' 
+        ' txtDireccion
+        ' 
+        txtDireccion.AlturaMultilinea = 160
+        txtDireccion.BackColor = Color.Transparent
+        txtDireccion.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtDireccion.BorderRadius = 8
+        txtDireccion.BorderSize = 1
+        txtDireccion.CampoRequerido = True
+        txtDireccion.CapitalizarTexto = True
+        txtDireccion.CapitalizarTodasLasPalabras = False
+        txtDireccion.ColorError = Color.Firebrick
+        txtDireccion.FontField = New Font("Century Gothic", 12F)
+        txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
+        txtDireccion.LabelColor = Color.DarkSlateGray
+        txtDireccion.LabelText = "Dirección de habitación:"
+        txtDireccion.Location = New Point(12, 369)
+        txtDireccion.MensajeError = "Este campo es obligatorio."
+        txtDireccion.Multilinea = True
+        txtDireccion.Name = "txtDireccion"
+        txtDireccion.PaddingAll = 10
+        txtDireccion.PanelBackColor = Color.White
+        txtDireccion.Size = New Size(686, 138)
+        txtDireccion.TabIndex = 13
+        txtDireccion.TextColor = Color.Black
+        txtDireccion.TextoUsuario = ""
+        ' 
+        ' pnlCargo
+        ' 
+        pnlCargo.BackColor = Color.Azure
+        pnlCargo.Controls.Add(swMarketing)
+        pnlCargo.Controls.Add(swGerente)
+        pnlCargo.Controls.Add(swOptometrista)
+        pnlCargo.Controls.Add(swAsesor)
+        pnlCargo.Location = New Point(704, 389)
+        pnlCargo.Name = "pnlCargo"
+        pnlCargo.Size = New Size(548, 99)
+        pnlCargo.TabIndex = 21
+        ' 
+        ' swMarketing
+        ' 
+        swMarketing.BackgroundOff = Color.Gainsboro
+        swMarketing.BackgroundOn = Color.SeaGreen
+        swMarketing.BorderRadius = 20
+        swMarketing.Checked = False
+        swMarketing.EstadoTexto = "Marketing..."
+        swMarketing.Font = New Font("Century Gothic", 11F)
+        swMarketing.Location = New Point(345, 61)
+        swMarketing.Name = "swMarketing"
+        swMarketing.Size = New Size(160, 23)
+        swMarketing.SwitchColor = Color.DarkSlateGray
+        swMarketing.TabIndex = 18
+        swMarketing.Text = "ToggleSwitchui1"
+        swMarketing.TextColor = Color.DarkSlateGray
+        ' 
+        ' swGerente
+        ' 
+        swGerente.BackgroundOff = Color.Gainsboro
+        swGerente.BackgroundOn = Color.SeaGreen
+        swGerente.BorderRadius = 20
+        swGerente.Checked = False
+        swGerente.EstadoTexto = "Gerente..."
+        swGerente.Font = New Font("Century Gothic", 11F)
+        swGerente.Location = New Point(93, 61)
+        swGerente.Name = "swGerente"
+        swGerente.Size = New Size(147, 23)
+        swGerente.SwitchColor = Color.DarkSlateGray
+        swGerente.TabIndex = 17
+        swGerente.Text = "ToggleSwitchui1"
+        swGerente.TextColor = Color.DarkSlateGray
+        ' 
+        ' swOptometrista
+        ' 
+        swOptometrista.BackgroundOff = Color.Gainsboro
+        swOptometrista.BackgroundOn = Color.SeaGreen
+        swOptometrista.BorderRadius = 20
+        swOptometrista.Checked = False
+        swOptometrista.EstadoTexto = "Optometrista..."
+        swOptometrista.Font = New Font("Century Gothic", 11F)
+        swOptometrista.Location = New Point(345, 17)
+        swOptometrista.Name = "swOptometrista"
+        swOptometrista.Size = New Size(170, 23)
+        swOptometrista.SwitchColor = Color.DarkSlateGray
+        swOptometrista.TabIndex = 16
+        swOptometrista.Text = "ToggleSwitchui1"
+        swOptometrista.TextColor = Color.DarkSlateGray
+        ' 
+        ' swAsesor
+        ' 
+        swAsesor.BackgroundOff = Color.Gainsboro
+        swAsesor.BackgroundOn = Color.SeaGreen
+        swAsesor.BorderRadius = 20
+        swAsesor.Checked = False
+        swAsesor.EstadoTexto = "Asesor..."
+        swAsesor.Font = New Font("Century Gothic", 11F)
+        swAsesor.Location = New Point(93, 17)
+        swAsesor.Name = "swAsesor"
+        swAsesor.Size = New Size(131, 23)
+        swAsesor.SwitchColor = Color.DarkSlateGray
+        swAsesor.TabIndex = 15
+        swAsesor.Text = "ToggleSwitchui1"
+        swAsesor.TextColor = Color.DarkSlateGray
+        ' 
+        ' TableLayoutPanel1
+        ' 
+        TableLayoutPanel1.ColumnCount = 3
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
+        TableLayoutPanel1.Controls.Add(txtCedula, 0, 0)
+        TableLayoutPanel1.Controls.Add(txtFechaNac, 1, 2)
+        TableLayoutPanel1.Controls.Add(txtNombre, 1, 0)
+        TableLayoutPanel1.Controls.Add(cmbSexo, 0, 2)
+        TableLayoutPanel1.Controls.Add(txtApellido, 2, 0)
+        TableLayoutPanel1.Controls.Add(cmbZona, 2, 3)
+        TableLayoutPanel1.Controls.Add(txtTelefono, 1, 3)
+        TableLayoutPanel1.Controls.Add(txtEdad, 0, 1)
+        TableLayoutPanel1.Controls.Add(txtCorreo, 0, 3)
+        TableLayoutPanel1.Controls.Add(cmbNacionalidad, 1, 1)
+        TableLayoutPanel1.Controls.Add(cmbEstadoCivil, 2, 1)
+        TableLayoutPanel1.Controls.Add(cmbCargo, 2, 2)
+        TableLayoutPanel1.Location = New Point(214, 11)
+        TableLayoutPanel1.Name = "TableLayoutPanel1"
+        TableLayoutPanel1.RowCount = 4
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.Size = New Size(1048, 356)
+        TableLayoutPanel1.TabIndex = 26
+        ' 
+        ' txtCedula
+        ' 
+        txtCedula.BackColor = Color.Transparent
+        txtCedula.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCedula.BorderRadius = 8
+        txtCedula.BorderSize = 1
+        txtCedula.CampoRequerido = True
+        txtCedula.ColorError = Color.Firebrick
+        txtCedula.FontField = New Font("Century Gothic", 12F)
+        txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        txtCedula.LabelColor = Color.DarkSlateGray
+        txtCedula.LabelText = "#Cédula:"
+        txtCedula.Location = New Point(3, 3)
+        txtCedula.MascaraPersonalizada = ""
+        txtCedula.MaxCaracteres = 8
+        txtCedula.MensajeError = "Este campo es obligatorio."
+        txtCedula.Name = "txtCedula"
+        txtCedula.PaddingAll = 10
+        txtCedula.PanelBackColor = Color.White
+        txtCedula.SelectionStart = 0
+        txtCedula.Size = New Size(343, 80)
+        txtCedula.TabIndex = 1
+        txtCedula.TextColor = Color.Black
+        txtCedula.TextoUsuario = ""
+        txtCedula.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
+        ' 
+        ' txtFechaNac
+        ' 
+        txtFechaNac.BackColor = Color.White
+        txtFechaNac.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaNac.BorderRadius = 8
+        txtFechaNac.BorderSize = 1
+        txtFechaNac.CampoRequerido = True
+        txtFechaNac.FechaSeleccionada = New Date(2025, 7, 31, 0, 0, 0, 0)
+        txtFechaNac.FontField = New Font("Century Gothic", 12F)
+        txtFechaNac.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaNac.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
+        txtFechaNac.LabelColor = Color.DarkSlateGray
+        txtFechaNac.LabelText = "Fecha:"
+        txtFechaNac.Location = New Point(352, 183)
+        txtFechaNac.MensajeError = "Fecha requerida o inválida."
+        txtFechaNac.Name = "txtFechaNac"
+        txtFechaNac.PaddingAll = 10
+        txtFechaNac.PanelBackColor = Color.White
+        txtFechaNac.Size = New Size(343, 80)
+        txtFechaNac.TabIndex = 8
+        txtFechaNac.TextColor = Color.Black
+        ' 
+        ' txtNombre
+        ' 
+        txtNombre.BackColor = Color.Transparent
+        txtNombre.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtNombre.BorderRadius = 5
+        txtNombre.BorderSize = 1
+        txtNombre.CampoRequerido = True
+        txtNombre.CapitalizarTexto = True
+        txtNombre.CapitalizarTodasLasPalabras = True
+        txtNombre.CaracterContraseña = "*"c
+        txtNombre.ColorError = Color.Firebrick
+        txtNombre.FontField = New Font("Century Gothic", 12F)
+        txtNombre.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtNombre.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        txtNombre.LabelColor = Color.DarkSlateGray
+        txtNombre.LabelText = "Nombre:"
+        txtNombre.Location = New Point(352, 3)
+        txtNombre.MensajeError = "Este campo es obligatorio."
+        txtNombre.Name = "txtNombre"
+        txtNombre.PaddingAll = 10
+        txtNombre.PanelBackColor = Color.White
+        txtNombre.Size = New Size(343, 80)
+        txtNombre.TabIndex = 2
+        txtNombre.TextColor = Color.Black
+        txtNombre.TextoUsuario = ""
+        txtNombre.UsarModoContraseña = False
+        txtNombre.ValidarComoCorreo = False
         ' 
         ' cmbSexo
         ' 
@@ -102,14 +301,197 @@ Partial Class frmNuevoEmpleado
         cmbSexo.CampoRequerido = True
         cmbSexo.ForeColor = Color.Black
         cmbSexo.LabelColor = Color.DarkSlateGray
-        cmbSexo.Location = New Point(214, 177)
+        cmbSexo.Location = New Point(3, 183)
         cmbSexo.MensajeError = "Este campo es obligatorio."
         cmbSexo.MostrarError = False
         cmbSexo.Name = "cmbSexo"
         cmbSexo.RadioContornoPanel = 6
-        cmbSexo.Size = New Size(343, 74)
-        cmbSexo.TabIndex = 24
+        cmbSexo.Size = New Size(343, 80)
+        cmbSexo.TabIndex = 7
         cmbSexo.Titulo = "Selecciona una opción:"
+        cmbSexo.ValorSeleccionado = Nothing
+        ' 
+        ' txtApellido
+        ' 
+        txtApellido.BackColor = Color.Transparent
+        txtApellido.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtApellido.BorderRadius = 5
+        txtApellido.BorderSize = 1
+        txtApellido.CampoRequerido = True
+        txtApellido.CapitalizarTexto = True
+        txtApellido.CapitalizarTodasLasPalabras = False
+        txtApellido.CaracterContraseña = "*"c
+        txtApellido.ColorError = Color.Firebrick
+        txtApellido.FontField = New Font("Century Gothic", 12F)
+        txtApellido.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtApellido.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        txtApellido.LabelColor = Color.DarkSlateGray
+        txtApellido.LabelText = "Apellido:"
+        txtApellido.Location = New Point(701, 3)
+        txtApellido.MensajeError = "Este campo es obligatorio."
+        txtApellido.Name = "txtApellido"
+        txtApellido.PaddingAll = 10
+        txtApellido.PanelBackColor = Color.White
+        txtApellido.Size = New Size(344, 80)
+        txtApellido.TabIndex = 3
+        txtApellido.TextColor = Color.Black
+        txtApellido.TextoUsuario = ""
+        txtApellido.UsarModoContraseña = False
+        txtApellido.ValidarComoCorreo = False
+        ' 
+        ' cmbZona
+        ' 
+        cmbZona.BackColor = Color.Transparent
+        cmbZona.BackColorPnl = Color.WhiteSmoke
+        cmbZona.BorderColor = Color.LightGray
+        cmbZona.BorderSize = 1
+        cmbZona.CampoRequerido = True
+        cmbZona.LabelColor = Color.DarkSlateGray
+        cmbZona.Location = New Point(701, 273)
+        cmbZona.MensajeError = "Este campo es obligatorio."
+        cmbZona.MostrarError = False
+        cmbZona.Name = "cmbZona"
+        cmbZona.RadioContornoPanel = 8
+        cmbZona.Size = New Size(344, 80)
+        cmbZona.TabIndex = 12
+        cmbZona.Titulo = "Zona de habitación:"
+        cmbZona.ValorSeleccionado = Nothing
+        ' 
+        ' txtTelefono
+        ' 
+        txtTelefono.BackColor = Color.Transparent
+        txtTelefono.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtTelefono.BorderRadius = 8
+        txtTelefono.BorderSize = 1
+        txtTelefono.CampoRequerido = True
+        txtTelefono.ColorError = Color.Firebrick
+        txtTelefono.FontField = New Font("Century Gothic", 12F)
+        txtTelefono.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtTelefono.IconoDerechoChar = FontAwesome.Sharp.IconChar.PhoneVolume
+        txtTelefono.LabelColor = Color.DarkSlateGray
+        txtTelefono.LabelText = "# Teléfono contacto:"
+        txtTelefono.Location = New Point(352, 273)
+        txtTelefono.MascaraPersonalizada = ""
+        txtTelefono.MaxCaracteres = 0
+        txtTelefono.MensajeError = "Este campo es obligatorio."
+        txtTelefono.Name = "txtTelefono"
+        txtTelefono.PaddingAll = 10
+        txtTelefono.PanelBackColor = Color.White
+        txtTelefono.SelectionStart = 0
+        txtTelefono.Size = New Size(343, 80)
+        txtTelefono.TabIndex = 11
+        txtTelefono.TextColor = Color.Black
+        txtTelefono.TextoUsuario = ""
+        txtTelefono.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
+        ' 
+        ' txtEdad
+        ' 
+        txtEdad.BackColor = Color.Transparent
+        txtEdad.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtEdad.BorderRadius = 8
+        txtEdad.BorderSize = 1
+        txtEdad.CampoRequerido = True
+        txtEdad.ColorError = Color.Firebrick
+        txtEdad.FontField = New Font("Century Gothic", 12F)
+        txtEdad.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtEdad.IconoDerechoChar = FontAwesome.Sharp.IconChar.ArrowUp19
+        txtEdad.LabelColor = Color.DarkSlateGray
+        txtEdad.LabelText = "Edad:"
+        txtEdad.Location = New Point(3, 93)
+        txtEdad.MascaraPersonalizada = ""
+        txtEdad.MaxCaracteres = 0
+        txtEdad.MensajeError = "Este campo es obligatorio."
+        txtEdad.Name = "txtEdad"
+        txtEdad.PaddingAll = 10
+        txtEdad.PanelBackColor = Color.White
+        txtEdad.SelectionStart = 0
+        txtEdad.Size = New Size(343, 80)
+        txtEdad.TabIndex = 4
+        txtEdad.TextColor = Color.Black
+        txtEdad.TextoUsuario = ""
+        txtEdad.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
+        ' 
+        ' txtCorreo
+        ' 
+        txtCorreo.BackColor = Color.Transparent
+        txtCorreo.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCorreo.BorderRadius = 5
+        txtCorreo.BorderSize = 1
+        txtCorreo.CampoRequerido = True
+        txtCorreo.CapitalizarTexto = False
+        txtCorreo.CapitalizarTodasLasPalabras = True
+        txtCorreo.CaracterContraseña = "*"c
+        txtCorreo.ColorError = Color.Firebrick
+        txtCorreo.FontField = New Font("Century Gothic", 12F)
+        txtCorreo.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCorreo.IconoDerechoChar = FontAwesome.Sharp.IconChar.EnvelopesBulk
+        txtCorreo.LabelColor = Color.DarkSlateGray
+        txtCorreo.LabelText = "Correo electrónico:"
+        txtCorreo.Location = New Point(3, 273)
+        txtCorreo.MensajeError = "Este campo es obligatorio."
+        txtCorreo.Name = "txtCorreo"
+        txtCorreo.PaddingAll = 10
+        txtCorreo.PanelBackColor = Color.White
+        txtCorreo.Size = New Size(343, 80)
+        txtCorreo.TabIndex = 10
+        txtCorreo.TextColor = Color.Black
+        txtCorreo.TextoUsuario = ""
+        txtCorreo.UsarModoContraseña = False
+        txtCorreo.ValidarComoCorreo = True
+        ' 
+        ' cmbNacionalidad
+        ' 
+        cmbNacionalidad.BackColor = Color.Transparent
+        cmbNacionalidad.BackColorPnl = Color.WhiteSmoke
+        cmbNacionalidad.BorderColor = Color.LightGray
+        cmbNacionalidad.BorderSize = 1
+        cmbNacionalidad.CampoRequerido = True
+        cmbNacionalidad.LabelColor = Color.DarkSlateGray
+        cmbNacionalidad.Location = New Point(352, 93)
+        cmbNacionalidad.MensajeError = "Este campo es obligatorio."
+        cmbNacionalidad.MostrarError = False
+        cmbNacionalidad.Name = "cmbNacionalidad"
+        cmbNacionalidad.RadioContornoPanel = 8
+        cmbNacionalidad.Size = New Size(343, 80)
+        cmbNacionalidad.TabIndex = 5
+        cmbNacionalidad.Titulo = "Nacionalidad:"
+        cmbNacionalidad.ValorSeleccionado = Nothing
+        ' 
+        ' cmbEstadoCivil
+        ' 
+        cmbEstadoCivil.BackColor = Color.Transparent
+        cmbEstadoCivil.BackColorPnl = Color.WhiteSmoke
+        cmbEstadoCivil.BorderColor = Color.LightGray
+        cmbEstadoCivil.BorderSize = 1
+        cmbEstadoCivil.CampoRequerido = True
+        cmbEstadoCivil.LabelColor = Color.DarkSlateGray
+        cmbEstadoCivil.Location = New Point(701, 93)
+        cmbEstadoCivil.MensajeError = "Este campo es obligatorio."
+        cmbEstadoCivil.MostrarError = False
+        cmbEstadoCivil.Name = "cmbEstadoCivil"
+        cmbEstadoCivil.RadioContornoPanel = 8
+        cmbEstadoCivil.Size = New Size(344, 80)
+        cmbEstadoCivil.TabIndex = 6
+        cmbEstadoCivil.Titulo = "Estado Civil:"
+        cmbEstadoCivil.ValorSeleccionado = Nothing
+        ' 
+        ' cmbCargo
+        ' 
+        cmbCargo.BackColor = Color.Transparent
+        cmbCargo.BackColorPnl = Color.WhiteSmoke
+        cmbCargo.BorderColor = Color.LightGray
+        cmbCargo.BorderSize = 1
+        cmbCargo.CampoRequerido = True
+        cmbCargo.LabelColor = Color.DarkSlateGray
+        cmbCargo.Location = New Point(701, 183)
+        cmbCargo.MensajeError = "Este campo es obligatorio."
+        cmbCargo.MostrarError = False
+        cmbCargo.Name = "cmbCargo"
+        cmbCargo.RadioContornoPanel = 8
+        cmbCargo.Size = New Size(344, 80)
+        cmbCargo.TabIndex = 9
+        cmbCargo.Titulo = "Cargo:"
+        cmbCargo.ValorSeleccionado = Nothing
         ' 
         ' btnEliminarFoto
         ' 
@@ -144,353 +526,6 @@ Partial Class frmNuevoEmpleado
         btnGuardarFoto.Text = "Agregar"
         btnGuardarFoto.TextImageRelation = TextImageRelation.ImageAboveText
         btnGuardarFoto.UseVisualStyleBackColor = True
-        ' 
-        ' pnlCargo
-        ' 
-        pnlCargo.BackColor = Color.Azure
-        pnlCargo.Controls.Add(swMarketing)
-        pnlCargo.Controls.Add(swGerente)
-        pnlCargo.Controls.Add(swOptometrista)
-        pnlCargo.Controls.Add(swAsesor)
-        pnlCargo.Location = New Point(660, 364)
-        pnlCargo.Name = "pnlCargo"
-        pnlCargo.Size = New Size(602, 99)
-        pnlCargo.TabIndex = 21
-        ' 
-        ' swMarketing
-        ' 
-        swMarketing.BackgroundOff = Color.Gainsboro
-        swMarketing.BackgroundOn = Color.SeaGreen
-        swMarketing.BorderRadius = 20
-        swMarketing.Checked = False
-        swMarketing.EstadoTexto = "Marketing..."
-        swMarketing.Font = New Font("Century Gothic", 11F)
-        swMarketing.Location = New Point(345, 61)
-        swMarketing.Name = "swMarketing"
-        swMarketing.Size = New Size(160, 23)
-        swMarketing.SwitchColor = Color.DarkSlateGray
-        swMarketing.TabIndex = 0
-        swMarketing.Text = "ToggleSwitchui1"
-        swMarketing.TextColor = Color.DarkSlateGray
-        ' 
-        ' swGerente
-        ' 
-        swGerente.BackgroundOff = Color.Gainsboro
-        swGerente.BackgroundOn = Color.SeaGreen
-        swGerente.BorderRadius = 20
-        swGerente.Checked = False
-        swGerente.EstadoTexto = "Gerente..."
-        swGerente.Font = New Font("Century Gothic", 11F)
-        swGerente.Location = New Point(93, 61)
-        swGerente.Name = "swGerente"
-        swGerente.Size = New Size(147, 23)
-        swGerente.SwitchColor = Color.DarkSlateGray
-        swGerente.TabIndex = 0
-        swGerente.Text = "ToggleSwitchui1"
-        swGerente.TextColor = Color.DarkSlateGray
-        ' 
-        ' swOptometrista
-        ' 
-        swOptometrista.BackgroundOff = Color.Gainsboro
-        swOptometrista.BackgroundOn = Color.SeaGreen
-        swOptometrista.BorderRadius = 20
-        swOptometrista.Checked = False
-        swOptometrista.EstadoTexto = "Optometrista..."
-        swOptometrista.Font = New Font("Century Gothic", 11F)
-        swOptometrista.Location = New Point(345, 17)
-        swOptometrista.Name = "swOptometrista"
-        swOptometrista.Size = New Size(170, 23)
-        swOptometrista.SwitchColor = Color.DarkSlateGray
-        swOptometrista.TabIndex = 0
-        swOptometrista.Text = "ToggleSwitchui1"
-        swOptometrista.TextColor = Color.DarkSlateGray
-        ' 
-        ' swAsesor
-        ' 
-        swAsesor.BackgroundOff = Color.Gainsboro
-        swAsesor.BackgroundOn = Color.SeaGreen
-        swAsesor.BorderRadius = 20
-        swAsesor.Checked = False
-        swAsesor.EstadoTexto = "Asesor..."
-        swAsesor.Font = New Font("Century Gothic", 11F)
-        swAsesor.Location = New Point(93, 17)
-        swAsesor.Name = "swAsesor"
-        swAsesor.Size = New Size(131, 23)
-        swAsesor.SwitchColor = Color.DarkSlateGray
-        swAsesor.TabIndex = 0
-        swAsesor.Text = "ToggleSwitchui1"
-        swAsesor.TextColor = Color.DarkSlateGray
-        ' 
-        ' txtDireccion
-        ' 
-        txtDireccion.AlturaMultilinea = 160
-        txtDireccion.BackColor = Color.Transparent
-        txtDireccion.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtDireccion.BorderRadius = 8
-        txtDireccion.BorderSize = 1
-        txtDireccion.CampoRequerido = True
-        txtDireccion.CapitalizarTexto = True
-        txtDireccion.CapitalizarTodasLasPalabras = False
-        txtDireccion.ColorError = Color.Firebrick
-        txtDireccion.FontField = New Font("Century Gothic", 12F)
-        txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
-        txtDireccion.LabelColor = Color.DarkSlateGray
-        txtDireccion.LabelText = "Dirección de habitación:"
-        txtDireccion.Location = New Point(12, 343)
-        txtDireccion.MensajeError = "Este campo es obligatorio."
-        txtDireccion.Multilinea = True
-        txtDireccion.Name = "txtDireccion"
-        txtDireccion.PaddingAll = 10
-        txtDireccion.PanelBackColor = Color.White
-        txtDireccion.Size = New Size(642, 141)
-        txtDireccion.TabIndex = 20
-        txtDireccion.TextColor = Color.Black
-        ' 
-        ' txtTelefono
-        ' 
-        txtTelefono.BackColor = Color.Transparent
-        txtTelefono.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtTelefono.BorderRadius = 8
-        txtTelefono.BorderSize = 1
-        txtTelefono.CampoRequerido = True
-        txtTelefono.ColorError = Color.Firebrick
-        txtTelefono.FontField = New Font("Century Gothic", 12F)
-        txtTelefono.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtTelefono.IconoDerechoChar = FontAwesome.Sharp.IconChar.PhoneVolume
-        txtTelefono.LabelColor = Color.DarkSlateGray
-        txtTelefono.LabelText = "# Teléfono contacto:"
-        txtTelefono.Location = New Point(568, 260)
-        txtTelefono.MascaraPersonalizada = ""
-        txtTelefono.MensajeError = "Este campo es obligatorio."
-        txtTelefono.Name = "txtTelefono"
-        txtTelefono.PaddingAll = 10
-        txtTelefono.PanelBackColor = Color.White
-        txtTelefono.Size = New Size(348, 77)
-        txtTelefono.TabIndex = 8
-        txtTelefono.TextColor = Color.Black
-        txtTelefono.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
-        ' 
-        ' txtCorreo
-        ' 
-        txtCorreo.BackColor = Color.Transparent
-        txtCorreo.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCorreo.BorderRadius = 5
-        txtCorreo.BorderSize = 1
-        txtCorreo.CampoRequerido = True
-        txtCorreo.CapitalizarTexto = False
-        txtCorreo.CapitalizarTodasLasPalabras = True
-        txtCorreo.CaracterContraseña = "*"c
-        txtCorreo.ColorError = Color.Firebrick
-        txtCorreo.FontField = New Font("Century Gothic", 12F)
-        txtCorreo.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCorreo.IconoDerechoChar = FontAwesome.Sharp.IconChar.EnvelopesBulk
-        txtCorreo.LabelColor = Color.DarkSlateGray
-        txtCorreo.LabelText = "Correo electrónico:"
-        txtCorreo.Location = New Point(214, 260)
-        txtCorreo.MensajeError = "Este campo es obligatorio."
-        txtCorreo.Name = "txtCorreo"
-        txtCorreo.PaddingAll = 10
-        txtCorreo.PanelBackColor = Color.White
-        txtCorreo.Size = New Size(348, 77)
-        txtCorreo.TabIndex = 13
-        txtCorreo.TextColor = Color.Black
-        txtCorreo.UsarModoContraseña = False
-        txtCorreo.ValidarComoCorreo = True
-        ' 
-        ' cmbZona
-        ' 
-        cmbZona.BackColor = Color.Transparent
-        cmbZona.BackColorPnl = Color.WhiteSmoke
-        cmbZona.BorderColor = Color.LightGray
-        cmbZona.BorderSize = 1
-        cmbZona.CampoRequerido = True
-        cmbZona.LabelColor = Color.DarkSlateGray
-        cmbZona.Location = New Point(922, 260)
-        cmbZona.MensajeError = "Este campo es obligatorio."
-        cmbZona.MostrarError = False
-        cmbZona.Name = "cmbZona"
-        cmbZona.RadioContornoPanel = 8
-        cmbZona.Size = New Size(348, 77)
-        cmbZona.TabIndex = 14
-        cmbZona.Titulo = "Zona de habitación:"
-        ' 
-        ' cmbCargo
-        ' 
-        cmbCargo.BackColor = Color.Transparent
-        cmbCargo.BackColorPnl = Color.WhiteSmoke
-        cmbCargo.BorderColor = Color.LightGray
-        cmbCargo.BorderSize = 1
-        cmbCargo.CampoRequerido = True
-        cmbCargo.LabelColor = Color.DarkSlateGray
-        cmbCargo.Location = New Point(922, 177)
-        cmbCargo.MensajeError = "Este campo es obligatorio."
-        cmbCargo.MostrarError = False
-        cmbCargo.Name = "cmbCargo"
-        cmbCargo.RadioContornoPanel = 8
-        cmbCargo.Size = New Size(348, 77)
-        cmbCargo.TabIndex = 15
-        cmbCargo.Titulo = "Cargo:"
-        ' 
-        ' txtFechaNac
-        ' 
-        txtFechaNac.BackColor = Color.Transparent
-        txtFechaNac.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtFechaNac.BorderRadius = 8
-        txtFechaNac.BorderSize = 1
-        txtFechaNac.CampoRequerido = True
-        txtFechaNac.ColorError = Color.Firebrick
-        txtFechaNac.FontField = New Font("Century Gothic", 12F)
-        txtFechaNac.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtFechaNac.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
-        txtFechaNac.LabelColor = Color.DarkSlateGray
-        txtFechaNac.LabelText = "Fecha de Nacimiento:"
-        txtFechaNac.Location = New Point(568, 177)
-        txtFechaNac.MascaraPersonalizada = "99/99/9999"
-        txtFechaNac.MensajeError = "Este campo es obligatorio."
-        txtFechaNac.Name = "txtFechaNac"
-        txtFechaNac.PaddingAll = 10
-        txtFechaNac.PanelBackColor = Color.White
-        txtFechaNac.Size = New Size(348, 77)
-        txtFechaNac.TabIndex = 7
-        txtFechaNac.TextColor = Color.Black
-        txtFechaNac.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
-        ' 
-        ' cmbEstadoCivil
-        ' 
-        cmbEstadoCivil.BackColor = Color.Transparent
-        cmbEstadoCivil.BackColorPnl = Color.WhiteSmoke
-        cmbEstadoCivil.BorderColor = Color.LightGray
-        cmbEstadoCivil.BorderSize = 1
-        cmbEstadoCivil.CampoRequerido = True
-        cmbEstadoCivil.LabelColor = Color.DarkSlateGray
-        cmbEstadoCivil.Location = New Point(922, 94)
-        cmbEstadoCivil.MensajeError = "Este campo es obligatorio."
-        cmbEstadoCivil.MostrarError = False
-        cmbEstadoCivil.Name = "cmbEstadoCivil"
-        cmbEstadoCivil.RadioContornoPanel = 8
-        cmbEstadoCivil.Size = New Size(348, 77)
-        cmbEstadoCivil.TabIndex = 17
-        cmbEstadoCivil.Titulo = "Estado Civil:"
-        ' 
-        ' cmbNacionalidad
-        ' 
-        cmbNacionalidad.BackColor = Color.Transparent
-        cmbNacionalidad.BackColorPnl = Color.WhiteSmoke
-        cmbNacionalidad.BorderColor = Color.LightGray
-        cmbNacionalidad.BorderSize = 1
-        cmbNacionalidad.CampoRequerido = True
-        cmbNacionalidad.LabelColor = Color.DarkSlateGray
-        cmbNacionalidad.Location = New Point(568, 94)
-        cmbNacionalidad.MensajeError = "Este campo es obligatorio."
-        cmbNacionalidad.MostrarError = False
-        cmbNacionalidad.Name = "cmbNacionalidad"
-        cmbNacionalidad.RadioContornoPanel = 8
-        cmbNacionalidad.Size = New Size(348, 77)
-        cmbNacionalidad.TabIndex = 18
-        cmbNacionalidad.Titulo = "Nacionalidad:"
-        ' 
-        ' txtApellido
-        ' 
-        txtApellido.BackColor = Color.Transparent
-        txtApellido.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtApellido.BorderRadius = 5
-        txtApellido.BorderSize = 1
-        txtApellido.CampoRequerido = True
-        txtApellido.CapitalizarTexto = False
-        txtApellido.CapitalizarTodasLasPalabras = True
-        txtApellido.CaracterContraseña = "*"c
-        txtApellido.ColorError = Color.Firebrick
-        txtApellido.FontField = New Font("Century Gothic", 12F)
-        txtApellido.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtApellido.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        txtApellido.LabelColor = Color.DarkSlateGray
-        txtApellido.LabelText = "Apellido:"
-        txtApellido.Location = New Point(922, 11)
-        txtApellido.MensajeError = "Este campo es obligatorio."
-        txtApellido.Name = "txtApellido"
-        txtApellido.PaddingAll = 10
-        txtApellido.PanelBackColor = Color.White
-        txtApellido.Size = New Size(348, 77)
-        txtApellido.TabIndex = 11
-        txtApellido.TextColor = Color.Black
-        txtApellido.UsarModoContraseña = False
-        txtApellido.ValidarComoCorreo = False
-        ' 
-        ' txtNombre
-        ' 
-        txtNombre.BackColor = Color.Transparent
-        txtNombre.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtNombre.BorderRadius = 5
-        txtNombre.BorderSize = 1
-        txtNombre.CampoRequerido = True
-        txtNombre.CapitalizarTexto = True
-        txtNombre.CapitalizarTodasLasPalabras = True
-        txtNombre.CaracterContraseña = "*"c
-        txtNombre.ColorError = Color.Firebrick
-        txtNombre.FontField = New Font("Century Gothic", 12F)
-        txtNombre.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtNombre.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        txtNombre.LabelColor = Color.DarkSlateGray
-        txtNombre.LabelText = "Nombre:"
-        txtNombre.Location = New Point(568, 11)
-        txtNombre.MensajeError = "Este campo es obligatorio."
-        txtNombre.Name = "txtNombre"
-        txtNombre.PaddingAll = 10
-        txtNombre.PanelBackColor = Color.White
-        txtNombre.Size = New Size(348, 77)
-        txtNombre.TabIndex = 10
-        txtNombre.TextColor = Color.Black
-        txtNombre.UsarModoContraseña = False
-        txtNombre.ValidarComoCorreo = False
-        ' 
-        ' txtEdad
-        ' 
-        txtEdad.BackColor = Color.Transparent
-        txtEdad.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtEdad.BorderRadius = 8
-        txtEdad.BorderSize = 1
-        txtEdad.CampoRequerido = True
-        txtEdad.ColorError = Color.Firebrick
-        txtEdad.FontField = New Font("Century Gothic", 12F)
-        txtEdad.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtEdad.IconoDerechoChar = FontAwesome.Sharp.IconChar.ArrowUp19
-        txtEdad.LabelColor = Color.DarkSlateGray
-        txtEdad.LabelText = "Edad:"
-        txtEdad.Location = New Point(214, 94)
-        txtEdad.MascaraPersonalizada = ""
-        txtEdad.MensajeError = "Este campo es obligatorio."
-        txtEdad.Name = "txtEdad"
-        txtEdad.PaddingAll = 10
-        txtEdad.PanelBackColor = Color.White
-        txtEdad.Size = New Size(348, 77)
-        txtEdad.TabIndex = 9
-        txtEdad.TextColor = Color.Black
-        txtEdad.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
-        ' 
-        ' txtCedula
-        ' 
-        txtCedula.BackColor = Color.Transparent
-        txtCedula.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCedula.BorderRadius = 8
-        txtCedula.BorderSize = 1
-        txtCedula.CampoRequerido = True
-        txtCedula.ColorError = Color.Firebrick
-        txtCedula.FontField = New Font("Century Gothic", 12F)
-        txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        txtCedula.LabelColor = Color.DarkSlateGray
-        txtCedula.LabelText = "#Cédula:"
-        txtCedula.Location = New Point(214, 11)
-        txtCedula.MascaraPersonalizada = ""
-        txtCedula.MensajeError = "Este campo es obligatorio."
-        txtCedula.Name = "txtCedula"
-        txtCedula.PaddingAll = 10
-        txtCedula.PanelBackColor = Color.White
-        txtCedula.Size = New Size(348, 77)
-        txtCedula.TabIndex = 9
-        txtCedula.TextColor = Color.Black
-        txtCedula.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
         ' 
         ' imgFoto
         ' 
@@ -534,7 +569,7 @@ Partial Class frmNuevoEmpleado
         bntGuardar.Name = "bntGuardar"
         bntGuardar.RadioBorde = 8
         bntGuardar.Size = New Size(180, 40)
-        bntGuardar.TabIndex = 1
+        bntGuardar.TabIndex = 19
         bntGuardar.Text = "CommandButtonui2"
         bntGuardar.Texto = "Guardar Datos"
         ' 
@@ -559,13 +594,14 @@ Partial Class frmNuevoEmpleado
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(1274, 606)
+        ClientSize = New Size(1274, 610)
         Controls.Add(pnlContenedor)
         Name = "frmNuevoEmpleado"
         Text = "frmNuevoEmpleado"
         pnlContenedor.ResumeLayout(False)
         pnlContenido.ResumeLayout(False)
         pnlCargo.ResumeLayout(False)
+        TableLayoutPanel1.ResumeLayout(False)
         CType(imgFoto, ComponentModel.ISupportInitialize).EndInit()
         pnlEncabezado.ResumeLayout(False)
         ResumeLayout(False)
@@ -589,7 +625,6 @@ Partial Class frmNuevoEmpleado
     Friend WithEvents txtCorreo As TextBoxLabelUI
     Friend WithEvents cmbZona As ComboBoxLabelUI
     Friend WithEvents cmbCargo As ComboBoxLabelUI
-    Friend WithEvents txtFechaNac As MaskedTextBoxLabelUI
     Friend WithEvents cmbEstadoCivil As ComboBoxLabelUI
     Friend WithEvents cmbNacionalidad As ComboBoxLabelUI
     Friend WithEvents txtApellido As TextBoxLabelUI
@@ -598,4 +633,6 @@ Partial Class frmNuevoEmpleado
     Friend WithEvents imgFoto As FontAwesome.Sharp.IconPictureBox
     Friend WithEvents txtEdad As MaskedTextBoxLabelUI
     Friend WithEvents cmbSexo As ComboBoxLabelUI
+    Friend WithEvents txtFechaNac As DateBoxLabelUI
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
 End Class

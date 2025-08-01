@@ -19,5 +19,6 @@
     Public Property Estado As Integer
     Public Property Telefono As String
     Public Property Zona As Integer
+    Public Property Foto As String
 
 End Class

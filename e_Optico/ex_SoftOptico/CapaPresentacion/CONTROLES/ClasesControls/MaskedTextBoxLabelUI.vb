@@ -19,11 +19,16 @@ Public Class MaskedTextBoxLabelUI
     Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
     Private _paddingAll As Integer = 10
-
+    Private _maxCaracteres As Integer = 0
     Private iconoDerecho As New IconPictureBox()
     Private _borderColorPersonalizado As Color = Color.LightGray
     Private _borderSize As Integer = 1
     Private _labelColor As Color = Color.WhiteSmoke
+
+    Private WithEvents innerTextBox As New TextBox
+
+    'Evento keypress
+    Public Event CampoKeyPress(sender As Object, e As KeyPressEventArgs)
 
     ' === Validación ===
     Public Enum TipoEntradaNumerica
@@ -102,34 +107,71 @@ Public Class MaskedTextBoxLabelUI
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
 
-        AddHandler txtCampo.TextChanged, AddressOf ValidarNumerico
-        AddHandler txtCampo.Leave, AddressOf ValidarNumerico
+        AddHandler txtCampo.TextChanged, AddressOf OnTextChanged
+        AddHandler txtCampo.Leave, AddressOf OnLeave
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+        AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
+
+    End Sub
+    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
+        RaiseEvent CampoKeyPress(Me, e)
     End Sub
 
+
     ' === Validación automática orbital ===
-    Private Sub ValidarNumerico(sender As Object, e As EventArgs)
-        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
-            'lblError.Text = _mensajeError
-            'lblError.Visible = True
-            '_borderColorNormal = _colorError
-            lblError.Visible = False
-            _borderColorNormal = Color.LightGray
-        ElseIf _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(txtCampo.Text, Nothing) Then
-            lblError.Text = "Solo se permiten números enteros."
-            lblError.Visible = True
-            _borderColorNormal = _colorError
-        ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(txtCampo.Text, Nothing) Then
-            lblError.Text = "Solo se permiten números decimales."
+    Private Function ValidarEntrada() As Boolean
+        Dim texto As String = txtCampo.Text.Trim()
+        Dim mensajeError As String = ""
+        Dim valido As Boolean = True
+
+        ' Validación requerida
+        If _campoRequerido AndAlso String.IsNullOrEmpty(texto) Then
+            mensajeError = _mensajeError
+            valido = False
+
+            ' Validación numérica
+        ElseIf _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(texto, Nothing) Then
+            mensajeError = "Solo se permiten números enteros."
+            valido = False
+
+        ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(texto, Nothing) Then
+            mensajeError = "Solo se permiten números decimales."
+            valido = False
+
+            ' Validación de longitud
+        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
+            mensajeError = $"Máximo {_maxCaracteres} caracteres."
+            valido = False
+        End If
+
+        ' Mostrar resultado
+        If Not valido Then
+            lblError.Text = mensajeError
             lblError.Visible = True
             _borderColorNormal = _colorError
         Else
             lblError.Visible = False
-            _borderColorNormal = Color.LightGray
+            _borderColorNormal = _borderColorPersonalizado
         End If
+
         pnlFondo.Invalidate()
+        Return valido
+    End Function
+
+    Private Sub OnTextChanged(sender As Object, e As EventArgs)
+        If Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            ValidarEntrada()
+        End If
     End Sub
+
+    Private Sub OnLeave(sender As Object, e As EventArgs)
+        ValidarEntrada()
+    End Sub
+
+    Public Function EsValido() As Boolean
+        Return ValidarEntrada()
+    End Function
 
     ' === Fondo redondeado orbital ===
     Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
@@ -158,20 +200,18 @@ Public Class MaskedTextBoxLabelUI
         Return path
     End Function
 
-    Public Function EsValido() As Boolean
-        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
-            lblError.Text = _mensajeError
-            lblError.Visible = True
-            _borderColorNormal = _colorError
-            pnlFondo.Invalidate()
-            Return False
-        Else
-            lblError.Visible = False
-            _borderColorNormal = Color.LightGray
-            pnlFondo.Invalidate()
-            Return True
-        End If
+    Private Sub ValidarCampo(sender As Object, e As EventArgs)
+        EsValido()
+    End Sub
+
+    Public Function TryGetDate() As DateTime?
+        If String.IsNullOrWhiteSpace(Me.TextValue) Then Return Nothing
+
+        Dim fecha As DateTime
+        If DateTime.TryParse(Me.TextValue, fecha) Then Return fecha
+        Return Nothing
     End Function
+
 
     ' === Propiedades orbitales ===
 
@@ -328,6 +368,16 @@ Public Class MaskedTextBoxLabelUI
         End Get
     End Property
 
+    <Browsable(False)>
+    Public Property TextoUsuario As String
+        Get
+            Return txtCampo.Text
+        End Get
+        Set(value As String)
+            txtCampo.Text = value
+        End Set
+    End Property
+
     <Category("WilmerUI")>
     Public Property LabelColor As Color
         Get
@@ -358,6 +408,25 @@ Public Class MaskedTextBoxLabelUI
         Set(value As Integer)
             _borderSize = value
             pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    Public Property SelectionStart As Integer
+        Get
+            Return innerTextBox.SelectionStart
+        End Get
+        Set(value As Integer)
+            innerTextBox.SelectionStart = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property MaxCaracteres As Integer
+        Get
+            Return _maxCaracteres
+        End Get
+        Set(value As Integer)
+            _maxCaracteres = value
         End Set
     End Property
 

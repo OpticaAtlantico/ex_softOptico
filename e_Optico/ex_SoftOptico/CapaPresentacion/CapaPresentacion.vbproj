@@ -72,8 +72,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MODELO_VISTA\MODULOS\" />
-  </ItemGroup>
-
 </Project>

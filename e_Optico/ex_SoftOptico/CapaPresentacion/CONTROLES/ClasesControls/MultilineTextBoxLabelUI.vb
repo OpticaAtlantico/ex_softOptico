@@ -39,6 +39,8 @@ Public Class MultilineTextBoxLabelUI
     Private _borderColorPersonalizado As Color = Color.LightGray
     Private _borderSize As Integer = 1
 
+    Private _maxCaracteres As Integer = 0
+
     'Private WithEvents animadorAltura As New Timer() With {.Interval = 15}
 
     ' === Constructor ===
@@ -120,12 +122,10 @@ Public Class MultilineTextBoxLabelUI
         Me.Controls.Add(lblTitulo)
 
         ' === Eventos ===
-        AddHandler txtCampo.TextChanged, AddressOf ActualizarEstado
-        AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
+        AddHandler txtCampo.TextChanged, AddressOf OnTextChanged
+        AddHandler txtCampo.Leave, AddressOf ValidarCampoFinal
         AddHandler pnlFondo.Resize, AddressOf RecalcularAlineacion
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
-        AddHandler txtCampo.Leave, AddressOf CapitalizarSiEsNecesario
-
     End Sub
 
     Private Sub AjustarAlturaCampo()
@@ -153,27 +153,71 @@ Public Class MultilineTextBoxLabelUI
         End If
     End Sub
 
-    Private Sub ValidarCampo(sender As Object, e As EventArgs)
-        If _campoRequerido Then
-            If String.IsNullOrWhiteSpace(txtCampo.Text) Then
-                lblError.Text = _mensajeError
-                lblError.Visible = True
-                _borderColorNormal = _colorError
-            Else
-                lblError.Visible = False
-                _borderColorNormal = Color.LightGray
-            End If
-            pnlFondo.Invalidate()
-        End If
-    End Sub
-
-    Private Sub ActualizarEstado(sender As Object, e As EventArgs)
+    Private Sub OnTextChanged(sender As Object, e As EventArgs)
         If lblError.Visible AndAlso Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
             lblError.Visible = False
-            _borderColorNormal = Color.LightGray
+            _borderColorNormal = _borderColorPersonalizado
             pnlFondo.Invalidate()
         End If
-        txtCampo.Invalidate() ' Actualiza placeholder si necesario
+
+        ' Validación opcional mientras escribe
+        If Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            ValidarEntrada()
+        End If
+
+        txtCampo.Invalidate()
+    End Sub
+
+    Private Function ValidarEntrada() As Boolean
+        Dim texto As String = txtCampo.Text.Trim()
+        Dim mensajeError As String = ""
+        Dim valido As Boolean = True
+
+        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
+            mensajeError = _mensajeError
+            valido = False
+        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
+            mensajeError = $"Máximo {_maxCaracteres} caracteres."
+            valido = False
+        End If
+
+        If Not valido Then
+            lblError.Text = mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+        Else
+            lblError.Visible = False
+            _borderColorNormal = _borderColorPersonalizado
+        End If
+
+        pnlFondo.Invalidate()
+        Return valido
+    End Function
+
+    Public Function EsValido() As Boolean
+        Return ValidarEntrada()
+    End Function
+
+    Private Sub ValidarCampoFinal(sender As Object, e As EventArgs)
+        ' === Capitalización si está activada ===
+        If CapitalizarTexto Then
+            Dim textoOriginal As String = txtCampo.Text.Trim()
+
+            If CapitalizarTodasLasPalabras Then
+                Dim palabras = textoOriginal.Split(" "c)
+                For i = 0 To palabras.Length - 1
+                    If palabras(i).Length > 0 Then
+                        palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
+                    End If
+                Next
+                txtCampo.Text = String.Join(" ", palabras)
+            ElseIf textoOriginal.Length > 0 Then
+                txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
+            End If
+        End If
+
+        ' === Validación centralizada ===
+        ValidarEntrada()
     End Sub
 
     ' === Fondo redondeado orbital ===
@@ -202,44 +246,6 @@ Public Class MultilineTextBoxLabelUI
         path.CloseFigure()
         Return path
     End Function
-
-    Public Function EsValido() As Boolean
-        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
-            lblError.Text = _mensajeError
-            lblError.Visible = True
-            _borderColorNormal = _colorError
-            pnlFondo.Invalidate()
-            Return False
-        Else
-            lblError.Visible = False
-            _borderColorNormal = Color.LightGray
-            pnlFondo.Invalidate()
-            Return True
-        End If
-    End Function
-
-    Private Sub CapitalizarSiEsNecesario(sender As Object, e As EventArgs)
-        If Not CapitalizarTexto Then Exit Sub
-
-        Dim textoOriginal As String = txtCampo.Text.Trim()
-
-        If CapitalizarTodasLasPalabras Then
-            ' Capitalizar cada palabra
-            Dim palabras As String() = textoOriginal.Split(" "c)
-            For i As Integer = 0 To palabras.Length - 1
-                If palabras(i).Length > 0 Then
-                    palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
-                End If
-            Next
-            txtCampo.Text = String.Join(" ", palabras)
-        Else
-            ' Solo la primera letra de todo
-            If textoOriginal.Length > 0 Then
-                txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
-            End If
-        End If
-    End Sub
-
 
     ' === Propiedades orbitales ===
 
@@ -425,6 +431,16 @@ Public Class MultilineTextBoxLabelUI
         Get
             Return txtCampo.Text
         End Get
+    End Property
+
+    <Browsable(False)>
+    Public Property TextoUsuario As String
+        Get
+            Return txtCampo.Text
+        End Get
+        Set(value As String)
+            txtCampo.Text = value
+        End Set
     End Property
 
     <Category("WilmerUI")>

@@ -2,6 +2,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
+Imports CapaPresentacion.MaskedTextBoxLabelUI
 Imports FontAwesome.Sharp
 
 Public Class TextBoxLabelUI
@@ -20,7 +21,6 @@ Public Class TextBoxLabelUI
     Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
     Private _paddingAll As Integer = 10
-
     Private iconoDerecho As New IconPictureBox()
 
     Private _campoRequerido As Boolean = True
@@ -39,6 +39,12 @@ Public Class TextBoxLabelUI
     Private _borderSize As Integer = 1
 
     Private _validarComoCorreo As Boolean = False
+
+    'Evento keypress
+    Public Event CampoKeyPress(sender As Object, e As KeyPressEventArgs)
+    Private _maxCaracteres As Integer = 0
+    Private _tipoNumerico As TipoEntradaNumerica = TipoEntradaNumerica.Ninguno
+
 
     ' === Constructor ===
     Public Sub New()
@@ -85,8 +91,8 @@ Public Class TextBoxLabelUI
         iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
         pnlFondo.Controls.Add(iconoDerecho)
 
-        AddHandler txtCampo.TextChanged, AddressOf ActualizarEstado
-        AddHandler txtCampo.LostFocus, AddressOf ValidarCampo
+        AddHandler txtCampo.Leave, AddressOf ValidarCampoFinal
+        AddHandler txtCampo.TextChanged, AddressOf ValidarEnTiempoReal
         AddHandler pnlFondo.Resize, Sub()
                                         Dim tieneIcono As Boolean = iconoDerecho.Visible
 
@@ -105,34 +111,11 @@ Public Class TextBoxLabelUI
 
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
-
+        AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
     End Sub
 
-    Private Sub ValidarCampo(sender As Object, e As EventArgs)
-        If _campoRequerido Then
-            If String.IsNullOrWhiteSpace(txtCampo.Text) Then
-                lblError.Text = _mensajeError
-                lblError.Visible = True
-                _borderColorNormal = _colorError
-            Else
-                lblError.Visible = False
-                _borderColorNormal = Color.LightGray
-            End If
-            pnlFondo.Invalidate()
-        End If
-
-        If ValidarComoCorreo AndAlso Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
-            If Not EsCorreoValido(txtCampo.Text.Trim()) Then
-                lblError.Text = "Correo electrónico no válido."
-                lblError.Visible = True
-                _borderColorNormal = _colorError
-            Else
-                lblError.Visible = False
-                _borderColorNormal = Color.LightGray
-            End If
-        End If
-
-        CapitalizarSiEsNecesario(sender, e) ' Capitaliza al perder el foco
+    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
+        RaiseEvent CampoKeyPress(Me, e)
     End Sub
 
     Private Function EsCorreoValido(correo As String) As Boolean
@@ -144,13 +127,37 @@ Public Class TextBoxLabelUI
         End Try
     End Function
 
-    Private Sub ActualizarEstado(sender As Object, e As EventArgs)
-        If lblError.Visible AndAlso Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+    Private Sub ValidarEnTiempoReal(sender As Object, e As EventArgs)
+        Dim texto As String = txtCampo.Text.Trim()
+
+        ' No mostrar errores si está vacío y aún escribiendo
+        If String.IsNullOrEmpty(texto) Then
             lblError.Visible = False
-            _borderColorNormal = Color.LightGray
+            _borderColorNormal = _borderColorPersonalizado
             pnlFondo.Invalidate()
+            Return
         End If
-        txtCampo.Invalidate() ' Actualiza placeholder si necesario
+
+        Dim mensajeError As String = Nothing
+
+        If _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(texto, Nothing) Then
+            mensajeError = "Solo se permiten números enteros."
+        ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(texto, Nothing) Then
+            mensajeError = "Solo se permiten números decimales."
+        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
+            mensajeError = $"Máximo {_maxCaracteres} caracteres."
+        End If
+
+        If mensajeError IsNot Nothing Then
+            lblError.Text = mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+        Else
+            lblError.Visible = False
+            _borderColorNormal = _borderColorPersonalizado
+        End If
+
+        pnlFondo.Invalidate()
     End Sub
 
     ' === Fondo redondeado orbital ===
@@ -182,36 +189,54 @@ Public Class TextBoxLabelUI
 
     ' === Campo requerido orbital ===
     Public Function EsValido() As Boolean
-        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(txtCampo.Text) Then
-            lblError.Text = _mensajeError
+        Dim texto As String = txtCampo.Text.Trim()
+        Dim mensajeError As String = ""
+        Dim _esValido As Boolean = True
+
+        ' === Campo requerido ===
+        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
+            mensajeError = _mensajeError
+            _esValido = False
+
+            ' === Validar como correo si aplica ===
+        ElseIf ValidarComoCorreo AndAlso Not EsCorreoValido(texto) Then
+            mensajeError = "Correo electrónico no válido."
+            _esValido = False
+
+            ' === Validar longitud máxima ===
+        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
+            mensajeError = $"Máximo {_maxCaracteres} caracteres."
+            _esValido = False
+        End If
+
+        ' === Mostrar resultado visual ===
+        If Not _esValido Then
+            lblError.Text = mensajeError
             lblError.Visible = True
             _borderColorNormal = _colorError
-            pnlFondo.Invalidate()
-            Return False
         Else
             lblError.Visible = False
-            _borderColorNormal = Color.LightGray
-            pnlFondo.Invalidate()
-            Return True
+            _borderColorNormal = _borderColorPersonalizado
         End If
+
+        pnlFondo.Invalidate()
+        Return _esValido
     End Function
 
-    Private Sub CapitalizarSiEsNecesario(sender As Object, e As EventArgs)
+    Private Sub CapitalizarSiEsNecesario()
         If Not CapitalizarTexto Then Exit Sub
 
         Dim textoOriginal As String = txtCampo.Text.Trim()
 
         If CapitalizarTodasLasPalabras Then
-            ' Capitalizar cada palabra
-            Dim palabras As String() = textoOriginal.Split(" "c)
-            For i As Integer = 0 To palabras.Length - 1
+            Dim palabras = textoOriginal.Split(" "c)
+            For i = 0 To palabras.Length - 1
                 If palabras(i).Length > 0 Then
                     palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
                 End If
             Next
             txtCampo.Text = String.Join(" ", palabras)
         Else
-            ' Solo la primera letra de todo
             If textoOriginal.Length > 0 Then
                 txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
             End If
@@ -219,6 +244,10 @@ Public Class TextBoxLabelUI
     End Sub
 
 
+    Private Sub ValidarCampoFinal(sender As Object, e As EventArgs)
+        CapitalizarSiEsNecesario()
+        EsValido()
+    End Sub
 
 
     ' === Propiedades orbitales ===
@@ -253,8 +282,6 @@ Public Class TextBoxLabelUI
             _capitalizarTodasLasPalabras = value
         End Set
     End Property
-
-
 
     <Category("WilmerUI")>
     Public Property LabelText As String
@@ -389,6 +416,16 @@ Public Class TextBoxLabelUI
         End Get
     End Property
 
+    <Browsable(False)>
+    Public Property TextoUsuario As String
+        Get
+            Return txtCampo.Text
+        End Get
+        Set(value As String)
+            txtCampo.Text = value
+        End Set
+    End Property
+
     <Category("WilmerUI")>
     Public Property UsarModoContraseña As Boolean
         Get
@@ -446,6 +483,7 @@ Public Class TextBoxLabelUI
             pnlFondo.Invalidate()
         End Set
     End Property
+
 
     'Como cambio el icono dse la derecha
 
