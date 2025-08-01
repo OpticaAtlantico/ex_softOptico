@@ -425,7 +425,9 @@ CREATE OR ALTER VIEW VCategorias AS
     FROM TCategorias C
         
 -- SELECT * FROM VCategorias;
-
+CREATE OR ALTER VIEW VEmpleados AS
+    SELECT *
+    FROM TEmpleados
 
 --VISTA VCargoEmpleado , para visualizar todos los datos del cargos para los empleados
 CREATE OR ALTER VIEW VCargoEmpleado AS

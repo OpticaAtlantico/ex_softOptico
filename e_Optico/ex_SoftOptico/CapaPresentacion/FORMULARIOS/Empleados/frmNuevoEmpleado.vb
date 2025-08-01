@@ -10,6 +10,9 @@ Public Class frmNuevoEmpleado
     Private fadeStep As Double = 0.1
     Private rutaImagenSeleccionada As String = ""
 
+    Public Property DatosEmpleados As TEmpleados = Nothing
+    Public Property NombreBoton As String = String.Empty
+
 #Region "CONSTRUCTOR"
 
     Public Sub New()
@@ -51,6 +54,23 @@ Public Class frmNuevoEmpleado
 
         Me.Visible = True
         fadeTimer.Start()
+
+        If DatosEmpleados IsNot Nothing Then
+            CargarDatos(DatosEmpleados)
+        End If
+
+        Select Case NombreBoton
+            Case "Actualizar..."
+                btnGuardar.Texto = "Actualizar..."
+                btnGuardar.Icono = FontAwesome.Sharp.IconChar.UserPen
+            Case "Eliminar..."
+                btnGuardar.Texto = "Eliminar..."
+                btnGuardar.Icono = FontAwesome.Sharp.IconChar.UserSlash
+            Case Else
+                btnGuardar.Texto = "Guardar..."
+                btnGuardar.Icono = FontAwesome.Sharp.IconChar.UserTimes
+        End Select
+
     End Sub
 
     Private Sub btnGuardarFoto_Click(sender As Object, e As EventArgs) Handles btnGuardarFoto.Click
@@ -76,25 +96,11 @@ Public Class frmNuevoEmpleado
 
     Private Sub btnEliminarFoto_Click(sender As Object, e As EventArgs) Handles btnEliminarFoto.Click
         ' Elimina la imagen mostrada
-        'limpiarImagen()
+        limpiarImagen()
 
         '' Borra la ruta almacenada
-        'rutaImagenSeleccionada = ""
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese su correo",
-            placeholder:="ejemplo@correo.com",
-            tipoDato:=InputBoxUI.TipoValidacion.Correo,
-            icono:=FontAwesome.Sharp.IconChar.At,
-            obligatorio:=True
-        )
-        overlay.Close()
-        If resultado.Aceptado Then
-            MessageBox.Show("Dato recibido: " & resultado.Valor)
-        Else
-            MessageBox.Show("El usuario canceló.")
-        End If
+        rutaImagenSeleccionada = ""
+
     End Sub
 
     Private Sub txtCedula_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCedula.CampoKeyPress
@@ -169,7 +175,7 @@ Public Class frmNuevoEmpleado
 
     End Sub
 
-    Private Sub bntGuardar_Click(sender As Object, e As EventArgs) Handles bntGuardar.Click
+    Private Sub bntGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
         GuardarUsuario()
     End Sub
 
@@ -216,6 +222,49 @@ Public Class frmNuevoEmpleado
         imgFoto.IconFont = FontAwesome.Sharp.IconFont.Auto
         imgFoto.IconSize = 196
     End Sub
+
+    ' Recibe un objeto TEmpleados y rellena los controles del formulario.
+    Public Sub CargarDatos(ByVal empleado As TEmpleados)
+        ' Primero, verificamos que el objeto no sea nulo para evitar errores.
+        If empleado IsNot Nothing Then
+            ' Asignamos los datos del objeto a los controles
+            With Me
+                .txtCedula.TextoUsuario = empleado.Cedula
+                .txtNombre.TextoUsuario = empleado.Nombre
+                .txtApellido.TextoUsuario = empleado.Apellido
+                .txtEdad.TextoUsuario = empleado.Edad
+                .cmbNacionalidad.IndiceSeleccionado = empleado.Nacionalidad
+                .cmbEstadoCivil.IndiceSeleccionado = empleado.EstadoCivil
+                .cmbSexo.IndiceSeleccionado = empleado.Sexo
+                .txtFechaNac.FechaSeleccionada = empleado.FechaNacimiento
+                .cmbCargo.IndiceSeleccionado = empleado.Cargo - 1
+                .txtCorreo.TextoUsuario = empleado.Correo
+                .txtTelefono.TextoUsuario = empleado.Telefono
+                .cmbZona.IndiceSeleccionado = empleado.Zona
+                .txtDireccion.TextoUsuario = empleado.Direccion
+                .swAsesor.Checked = If(empleado.Asesor = "True", True, False)
+                .swOptometrista.Checked = If(empleado.Optometrista = "True", True, False)
+                .swGerente.Checked = If(empleado.Gerente = "True", True, False)
+                .swMarketing.Checked = If(empleado.Marketing = "True", True, False)
+                ' Si tienes un control para mostrar la foto, lo asignas aquí
+                If Not String.IsNullOrEmpty(empleado.Foto) Then
+                    Try
+                        Dim img As Image = Image.FromFile(empleado.Foto)
+                        .imgFoto.BackgroundImage = img
+                        .imgFoto.BackgroundImageLayout = ImageLayout.Zoom
+                        .imgFoto.IconChar = FontAwesome.Sharp.IconChar.None ' Oculta el ícono para que se vea la imagen
+                    Catch ex As Exception
+                        MessageBox.Show("Error al cargar imagen: " & ex.Message)
+                    End Try
+                Else
+                    .limpiarImagen() ' Limpia la imagen si no hay foto
+                End If
+
+            End With
+
+        End If
+    End Sub
+
 
 #End Region
 

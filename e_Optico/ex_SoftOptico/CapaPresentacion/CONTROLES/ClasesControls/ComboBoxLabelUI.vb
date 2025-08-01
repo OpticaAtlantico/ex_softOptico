@@ -258,6 +258,17 @@ Public Class ComboBoxLabelUI
         End Set
     End Property
 
+    Public Property IndiceSeleccionado As Integer
+        Get
+            Return OrbitalCombo.SelectedIndex
+        End Get
+        Set(value As Integer)
+            If value > 0 AndAlso value < OrbitalCombo.Items.Count Then
+                OrbitalCombo.SelectedIndex = value
+            End If
+        End Set
+    End Property
+
     <Browsable(False)>
     Public Sub Limpiar()
         OrbitalCombo.SelectedIndex = -1

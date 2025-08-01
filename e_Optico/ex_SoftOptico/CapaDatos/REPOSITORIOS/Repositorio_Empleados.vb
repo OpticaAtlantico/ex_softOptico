@@ -304,12 +304,12 @@ Public Class Repositorio_Empleados
                 .Nombre = Convert.ToString(row("Nombre")),
                 .Apellido = Convert.ToString(row("Apellido")),
                 .Edad = Convert.ToInt32(row("Edad")),
-                .Nacionalidad = Convert.ToString(row("Nacionalidad")),
-                .EstadoCivil = Convert.ToString(row("EstadoCivil")),
-                .Sexo = Convert.ToString(row("Sexo")),
+                .Nacionalidad = Convert.ToInt32(row("Nacionalidad")),
+                .EstadoCivil = Convert.ToInt32(row("EstadoCivil")),
+                .Sexo = Convert.ToInt32(row("Sexo")),
                 .FechaNacimiento = Convert.ToDateTime(row("FechaNacimiento")),
                 .Direccion = Convert.ToString(row("Direccion")),
-                .Cargo = Convert.ToInt32(row("Cargo")),
+                .Cargo = Convert.ToInt32(row("CargoEmpleadoID")),
                 .Correo = Convert.ToString(row("Correo")),
                 .Asesor = Convert.ToByte(row("Asesor")),
                 .Gerente = Convert.ToByte(row("Gerente")),
@@ -317,7 +317,9 @@ Public Class Repositorio_Empleados
                 .Marketing = Convert.ToByte(row("Marketing")),
                 .Cobranza = Convert.ToByte(row("Cobranza")),
                 .Estado = Convert.ToByte(row("Estado")),
-                .Telefono = Convert.ToString(row("Telefono"))
+                .Telefono = Convert.ToString(row("Telefono")),
+                .Zona = Convert.ToInt32(row("Zona")),
+                .Foto = Convert.ToString(row("Foto"))
             }
             lista.Add(empleado)
         Next

@@ -47,7 +47,7 @@ Partial Class frmNuevoEmpleado
         btnGuardarFoto = New FontAwesome.Sharp.IconButton()
         imgFoto = New FontAwesome.Sharp.IconPictureBox()
         pnlEncabezado = New Panel()
-        bntGuardar = New CommandButtonUI()
+        btnGuardar = New CommandButtonUI()
         Headerui1 = New HeaderUI()
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
@@ -300,6 +300,7 @@ Partial Class frmNuevoEmpleado
         cmbSexo.BorderSize = 1
         cmbSexo.CampoRequerido = True
         cmbSexo.ForeColor = Color.Black
+        cmbSexo.IndiceSeleccionado = -1
         cmbSexo.LabelColor = Color.DarkSlateGray
         cmbSexo.Location = New Point(3, 183)
         cmbSexo.MensajeError = "Este campo es obligatorio."
@@ -308,7 +309,7 @@ Partial Class frmNuevoEmpleado
         cmbSexo.RadioContornoPanel = 6
         cmbSexo.Size = New Size(343, 80)
         cmbSexo.TabIndex = 7
-        cmbSexo.Titulo = "Selecciona una opción:"
+        cmbSexo.Titulo = "Sexo:"
         cmbSexo.ValorSeleccionado = Nothing
         ' 
         ' txtApellido
@@ -346,6 +347,7 @@ Partial Class frmNuevoEmpleado
         cmbZona.BorderColor = Color.LightGray
         cmbZona.BorderSize = 1
         cmbZona.CampoRequerido = True
+        cmbZona.IndiceSeleccionado = -1
         cmbZona.LabelColor = Color.DarkSlateGray
         cmbZona.Location = New Point(701, 273)
         cmbZona.MensajeError = "Este campo es obligatorio."
@@ -446,6 +448,7 @@ Partial Class frmNuevoEmpleado
         cmbNacionalidad.BorderColor = Color.LightGray
         cmbNacionalidad.BorderSize = 1
         cmbNacionalidad.CampoRequerido = True
+        cmbNacionalidad.IndiceSeleccionado = -1
         cmbNacionalidad.LabelColor = Color.DarkSlateGray
         cmbNacionalidad.Location = New Point(352, 93)
         cmbNacionalidad.MensajeError = "Este campo es obligatorio."
@@ -464,6 +467,7 @@ Partial Class frmNuevoEmpleado
         cmbEstadoCivil.BorderColor = Color.LightGray
         cmbEstadoCivil.BorderSize = 1
         cmbEstadoCivil.CampoRequerido = True
+        cmbEstadoCivil.IndiceSeleccionado = -1
         cmbEstadoCivil.LabelColor = Color.DarkSlateGray
         cmbEstadoCivil.Location = New Point(701, 93)
         cmbEstadoCivil.MensajeError = "Este campo es obligatorio."
@@ -482,6 +486,7 @@ Partial Class frmNuevoEmpleado
         cmbCargo.BorderColor = Color.LightGray
         cmbCargo.BorderSize = 1
         cmbCargo.CampoRequerido = True
+        cmbCargo.IndiceSeleccionado = -1
         cmbCargo.LabelColor = Color.DarkSlateGray
         cmbCargo.Location = New Point(701, 183)
         cmbCargo.MensajeError = "Este campo es obligatorio."
@@ -544,7 +549,7 @@ Partial Class frmNuevoEmpleado
         ' 
         ' pnlEncabezado
         ' 
-        pnlEncabezado.Controls.Add(bntGuardar)
+        pnlEncabezado.Controls.Add(btnGuardar)
         pnlEncabezado.Controls.Add(Headerui1)
         pnlEncabezado.Dock = DockStyle.Top
         pnlEncabezado.Location = New Point(0, 0)
@@ -552,26 +557,26 @@ Partial Class frmNuevoEmpleado
         pnlEncabezado.Size = New Size(1274, 60)
         pnlEncabezado.TabIndex = 0
         ' 
-        ' bntGuardar
+        ' btnGuardar
         ' 
-        bntGuardar.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        bntGuardar.AnimarHover = True
-        bntGuardar.BackColor = Color.Transparent
-        bntGuardar.ColorBase = Color.FromArgb(CByte(76), CByte(175), CByte(80))
-        bntGuardar.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
-        bntGuardar.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
-        bntGuardar.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
-        bntGuardar.ColorTexto = Color.White
-        bntGuardar.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        bntGuardar.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        bntGuardar.Icono = FontAwesome.Sharp.IconChar.Save
-        bntGuardar.Location = New Point(1084, 12)
-        bntGuardar.Name = "bntGuardar"
-        bntGuardar.RadioBorde = 8
-        bntGuardar.Size = New Size(180, 40)
-        bntGuardar.TabIndex = 19
-        bntGuardar.Text = "CommandButtonui2"
-        bntGuardar.Texto = "Guardar Datos"
+        btnGuardar.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnGuardar.AnimarHover = True
+        btnGuardar.BackColor = Color.Transparent
+        btnGuardar.ColorBase = Color.FromArgb(CByte(76), CByte(175), CByte(80))
+        btnGuardar.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
+        btnGuardar.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
+        btnGuardar.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
+        btnGuardar.ColorTexto = Color.White
+        btnGuardar.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
+        btnGuardar.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnGuardar.Icono = FontAwesome.Sharp.IconChar.Save
+        btnGuardar.Location = New Point(1084, 12)
+        btnGuardar.Name = "btnGuardar"
+        btnGuardar.RadioBorde = 8
+        btnGuardar.Size = New Size(180, 40)
+        btnGuardar.TabIndex = 19
+        btnGuardar.Text = "CommandButtonui2"
+        btnGuardar.Texto = "Guardar Datos"
         ' 
         ' Headerui1
         ' 
@@ -611,7 +616,7 @@ Partial Class frmNuevoEmpleado
     Friend WithEvents pnlContenedor As Panel
     Friend WithEvents pnlEncabezado As Panel
     Friend WithEvents Headerui1 As HeaderUI
-    Friend WithEvents bntGuardar As CommandButtonUI
+    Friend WithEvents btnGuardar As CommandButtonUI
     Friend WithEvents pnlContenido As Panel
     Friend WithEvents btnEliminarFoto As FontAwesome.Sharp.IconButton
     Friend WithEvents btnGuardarFoto As FontAwesome.Sharp.IconButton

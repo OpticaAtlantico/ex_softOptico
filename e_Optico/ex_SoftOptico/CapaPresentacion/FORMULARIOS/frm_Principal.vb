@@ -4,6 +4,7 @@ Imports FontAwesome.Sharp
 Imports Microsoft.Windows.Themes
 Imports CapaEntidad
 Imports ClosedXML.Excel
+Imports CapaDatos
 
 Public Class frm_Principal
     Private drawerAbierto As Boolean = False
@@ -20,6 +21,7 @@ Public Class frm_Principal
 
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.1
+    Public Property EmpleadoEncontrado As TEmpleados = Nothing
 
 #Region "CONSTRUCTOR"
 
@@ -123,7 +125,7 @@ Public Class frm_Principal
 
 #End Region
 
-#Region "EVENTOS"
+#Region "EVENTOS FORMULARIO"
 
     Private Sub SubNuevo_Click(sender As Object, e As EventArgs)
         Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
@@ -137,12 +139,45 @@ Public Class frm_Principal
 
     Private Sub SubEditar_Click(sender As Object, e As EventArgs)
         'MostrarContenido(New AbrirControl())
+
         DrawerTimer.Start()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese número de cédula",
+            placeholder:="12345678",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.UserAlt,
+            obligatorio:=True
+        )
+        overlay.Close()
+        If resultado.Aceptado Then
+            enviarDatosEmpleados(resultado.Valor, 0)
+        Else
+            MessageBox.Show("El usuario canceló.")
+        End If
+
     End Sub
 
     Private Sub SubEliminar_Click(sender As Object, e As EventArgs)
-        'MostrarContenido(frm)
         DrawerTimer.Start()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese número de cédula",
+            placeholder:="12345678",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.UserAlt,
+            obligatorio:=True
+        )
+        overlay.Close()
+        If resultado.Aceptado Then
+            enviarDatosEmpleados(resultado.Valor, 1)
+        Else
+            MessageBox.Show("El usuario canceló.")
+        End If
     End Sub
 
     Private Sub SubConsultar_Click(sender As Object, e As EventArgs)
@@ -154,146 +189,6 @@ Public Class frm_Principal
         'MostrarContenido(New PegarControl())
         DrawerTimer.Start()
     End Sub
-
-#End Region
-
-#Region "ACCIONES"
-
-    Private Sub DrawerTimer_Tick(sender As Object, e As EventArgs) Handles DrawerTimer.Tick
-        If Not DrawerExpandido Then
-            ' Expandiendo
-            If pnlDrawer.Width < DrawerObjetivoWidth Then
-                pnlDrawer.Visible = True
-                pnlDrawer.Width += DrawerVelocidad
-            Else
-                DrawerTimer.Stop()
-                DrawerExpandido = True
-            End If
-        Else
-            ' Contrayendo
-            If pnlDrawer.Width > 0 Then
-                pnlDrawer.Width -= DrawerVelocidad
-            Else
-                DrawerTimer.Stop()
-                pnlDrawer.Visible = False
-                DrawerExpandido = False
-            End If
-        End If
-    End Sub
-
-    Private Sub btnMostrarMenu_Click(sender As Object, e As EventArgs) Handles btnMostrarMenu.Click
-        DrawerTimer.Start()
-    End Sub
-
-    Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        If MessageBox.Show("¿Está seguro de que desea salir?", "Confirmar salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            listLogin.Clear() ' Limpiar la lista de usuarios
-            Me.Close() ' Cerrar el formulario principal
-            'Application.Exit()
-        End If
-    End Sub
-
-    Private Sub btnMaximizar_Click(sender As Object, e As EventArgs) Handles btnMaximizar.Click
-        If Me.WindowState = FormWindowState.Normal Then
-            Me.WindowState = FormWindowState.Maximized
-        Else
-            Me.WindowState = FormWindowState.Normal
-        End If
-    End Sub
-
-    Private Sub btnminimizar_Click(sender As Object, e As EventArgs) Handles btnMinimizar.Click
-        If Me.WindowState = FormWindowState.Maximized Then
-            Me.WindowState = FormWindowState.Minimized
-        Else
-            Me.WindowState = FormWindowState.Normal
-        End If
-    End Sub
-
-
-#End Region
-
-#Region "PROCEDIMIENTO"
-    Private Sub EfectoBotonActivo(sender As Object)
-        EfectoBotonInActivo()
-        If sender IsNot Nothing Then
-            sender.BackColor = Color.White
-            sender.ForeColor = Color.Black
-            sender.IconColor = Color.Black
-        End If
-    End Sub
-
-    Private Sub EfectoBotonInActivo()
-        For Each btn In pnlMenu.Controls
-            If TypeOf btn Is IconButton Then
-                If btn IsNot currentButton Then
-                    If CType(btn, IconButton).IconColor <> Color.WhiteSmoke Then
-                        CType(btn, IconButton).IconColor = Color.WhiteSmoke
-                        CType(btn, IconButton).ForeColor = Color.WhiteSmoke
-                        CType(btn, IconButton).BackColor = Color.FromArgb(51, 51, 76)
-                    End If
-                End If
-            End If
-        Next
-    End Sub
-    Private Sub ActivateButton()
-        btnSalirFrmHijo.Visible = True
-    End Sub
-    Private Sub DisableButton()
-        btnSalirFrmHijo.Visible = False
-    End Sub
-    Private Sub OpenChildForm(childForm As Form, btnSender As Object)
-        If activeForms IsNot Nothing Then activeForms.Close()
-        ActivateButton()
-        activeForms = childForm
-        childForm.TopLevel = False
-        childForm.FormBorderStyle = FormBorderStyle.None
-        childForm.Dock = DockStyle.Fill
-        Me.pnlContenedor.Controls.Add(childForm)
-        Me.pnlContenedor.Tag = childForm
-        childForm.BringToFront()
-        DrawerExpandido = True
-        DrawerTimer.Start()
-        childForm.Show()
-
-    End Sub
-    Private Sub Reset()
-        currentButton = New Button()
-        DisableButton()
-    End Sub
-
-    Private Sub MostrarContenido(frm As Form)
-        'pnlContenedor.Controls.Clear()
-        'control.Dock = DockStyle.Fill
-        'pnlContenedor.Controls.Add(control)
-    End Sub
-
-    Private Sub FadeIn(sender As Object, e As EventArgs)
-        If Me.Opacity < 1 Then
-            Me.Opacity += fadeStep
-        Else
-            fadeTimer.Stop()
-        End If
-    End Sub
-
-    ' Aquí configuras tus controles, layout, etc.
-    Private Sub PrepararUI()
-        pnlDrawer.Controls.Add(drawerControl)
-        pnlDrawer.Width = 160
-        pnlDrawer.BackColor = Color.Azure
-        pnlDrawer.Visible = False
-
-        With Me
-            btnSalirFrmHijo.Visible = False
-            .Text = String.Empty
-            .ControlBox = False
-            .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
-        End With
-        WindowState = FormWindowState.Maximized
-    End Sub
-
-
-#End Region
-
 
     Private Sub btnInventario_Click(sender As Object, e As EventArgs) Handles btnInventario.Click
         'BotonMenuInventario()
@@ -353,4 +248,181 @@ Public Class frm_Principal
         Me.Visible = True
         fadeTimer.Start()
     End Sub
+
+    Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+        If MessageBox.Show("¿Está seguro de que desea salir?", "Confirmar salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            listLogin.Clear() ' Limpiar la lista de usuarios
+            Me.Close() ' Cerrar el formulario principal
+            'Application.Exit()
+        End If
+    End Sub
+
+    Private Sub btnMaximizar_Click(sender As Object, e As EventArgs) Handles btnMaximizar.Click
+        If Me.WindowState = FormWindowState.Normal Then
+            Me.WindowState = FormWindowState.Maximized
+        Else
+            Me.WindowState = FormWindowState.Normal
+        End If
+    End Sub
+
+    Private Sub btnminimizar_Click(sender As Object, e As EventArgs) Handles btnMinimizar.Click
+        If Me.WindowState = FormWindowState.Maximized Then
+            Me.WindowState = FormWindowState.Minimized
+        Else
+            Me.WindowState = FormWindowState.Normal
+        End If
+    End Sub
+
+#End Region
+
+#Region "ACCIONES"
+
+    Private Sub DrawerTimer_Tick(sender As Object, e As EventArgs) Handles DrawerTimer.Tick
+        If Not DrawerExpandido Then
+            ' Expandiendo
+            If pnlDrawer.Width < DrawerObjetivoWidth Then
+                pnlDrawer.Visible = True
+                pnlDrawer.Width += DrawerVelocidad
+            Else
+                DrawerTimer.Stop()
+                DrawerExpandido = True
+            End If
+        Else
+            ' Contrayendo
+            If pnlDrawer.Width > 0 Then
+                pnlDrawer.Width -= DrawerVelocidad
+            Else
+                DrawerTimer.Stop()
+                pnlDrawer.Visible = False
+                DrawerExpandido = False
+            End If
+        End If
+    End Sub
+
+    Private Sub btnMostrarMenu_Click(sender As Object, e As EventArgs) Handles btnMostrarMenu.Click
+        DrawerTimer.Start()
+    End Sub
+
+
+
+
+#End Region
+
+#Region "PROCEDIMIENTO"
+    Private Sub EfectoBotonActivo(sender As Object)
+        EfectoBotonInActivo()
+        If sender IsNot Nothing Then
+            sender.BackColor = Color.White
+            sender.ForeColor = Color.Black
+            sender.IconColor = Color.Black
+        End If
+    End Sub
+
+    Private Sub EfectoBotonInActivo()
+        For Each btn In pnlMenu.Controls
+            If TypeOf btn Is IconButton Then
+                If btn IsNot currentButton Then
+                    If CType(btn, IconButton).IconColor <> Color.WhiteSmoke Then
+                        CType(btn, IconButton).IconColor = Color.WhiteSmoke
+                        CType(btn, IconButton).ForeColor = Color.WhiteSmoke
+                        CType(btn, IconButton).BackColor = Color.FromArgb(51, 51, 76)
+                    End If
+                End If
+            End If
+        Next
+    End Sub
+    Private Sub ActivateButton()
+        btnSalirFrmHijo.Visible = True
+    End Sub
+    Private Sub DisableButton()
+        btnSalirFrmHijo.Visible = False
+    End Sub
+    Private Sub OpenChildForm(childForm As Form, btnSender As Object)
+
+        If activeForms IsNot Nothing Then activeForms.Close()
+        ActivateButton()
+        activeForms = childForm
+        childForm.TopLevel = False
+        childForm.FormBorderStyle = FormBorderStyle.None
+        childForm.Dock = DockStyle.Fill
+        Me.pnlContenedor.Controls.Add(childForm)
+        Me.pnlContenedor.Tag = childForm
+        childForm.BringToFront()
+        DrawerExpandido = True
+        DrawerTimer.Start()
+        childForm.Show()
+
+    End Sub
+    Private Sub Reset()
+        currentButton = New Button()
+        DisableButton()
+    End Sub
+
+    Private Sub MostrarContenido(frm As Form)
+        'pnlContenedor.Controls.Clear()
+        'control.Dock = DockStyle.Fill
+        'pnlContenedor.Controls.Add(control)
+    End Sub
+
+    Private Sub FadeIn(sender As Object, e As EventArgs)
+        If Me.Opacity < 1 Then
+            Me.Opacity += fadeStep
+        Else
+            fadeTimer.Stop()
+        End If
+    End Sub
+
+    ' Aquí configuras tus controles, layout, etc.
+    Private Sub PrepararUI()
+        pnlDrawer.Controls.Add(drawerControl)
+        pnlDrawer.Width = 160
+        pnlDrawer.BackColor = Color.Azure
+        pnlDrawer.Visible = False
+
+        With Me
+            btnSalirFrmHijo.Visible = False
+            .Text = String.Empty
+            .ControlBox = False
+            .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
+        End With
+        WindowState = FormWindowState.Maximized
+    End Sub
+
+    Private Sub enviarDatosEmpleados(cedula As Integer, opcion As Integer)
+
+        '--- CÓDIGO CORRECTO ---
+        Dim repositorio As New Repositorio_Empleados()
+        Dim cedulaE As String = cedula ' Asumiendo que 'cedula' es un TextBox
+        Dim texto As String = String.Empty
+
+        ' 1. Llama a la función y guarda el resultado en una lista.
+        Dim listaResultados As IEnumerable(Of TEmpleados) = repositorio.BuscarEmpleadosPorCedula(cedulaE)
+
+        ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
+        '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
+        Me.EmpleadoEncontrado = listaResultados.FirstOrDefault()
+
+        ' 3. Comprueba si se encontró un empleado antes de continuar.
+        If Me.EmpleadoEncontrado IsNot Nothing Then
+            ' 4. Ahora puedes pasar el objeto al formulario hijo.
+            Dim formularioHijo As New frmNuevoEmpleado()
+            formularioHijo.DatosEmpleados = Me.EmpleadoEncontrado
+            Select Case opcion
+                Case 0
+                    texto = "Actualizar..."
+                Case 1
+                    texto = "Eliminar..."
+            End Select
+            formularioHijo.NombreBoton = texto.ToString()
+            OpenChildForm(formularioHijo, Nothing)
+        Else
+            MessageBox.Show("No se encontró ningún empleado con esa cédula.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+
+    End Sub
+
+#End Region
+
+
+
 End Class
