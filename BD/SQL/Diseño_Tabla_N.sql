@@ -159,7 +159,7 @@ CREATE TABLE TEmpleados (
     Cobranza BIT NOT NULL DEFAULT 0,
     Estado BIT NOT NULL DEFAULT 1, -- PARA SABER EL ESTADO DE USUARIO
     Zona INT NULL DEFAULT 0,
-    Foto NVARCHAR(150) NULL,
+    Foto NVARCHAR(MAX) NULL,
     FOREIGN KEY (CargoEmpleadoID) REFERENCES TCargoEmpleado(CargoEmpleadoID)
 );
 

@@ -80,15 +80,20 @@ Public Class frmNuevoEmpleado
 
         '' Borra la ruta almacenada
         'rutaImagenSeleccionada = ""
-
-        Dim inputForm As New InputBoxUI("Ingrese su nombre", "Ej: Wilmer", IconChar.User)
-        Dim resultado = inputForm.ShowDialog()
-
-        If resultado = DialogResult.OK Then
-            Dim texto = inputForm.ValorIngresado
-            MessageBox.Show("Ingresado: " & texto)
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese su correo",
+            placeholder:="ejemplo@correo.com",
+            tipoDato:=InputBoxUI.TipoValidacion.Correo,
+            icono:=FontAwesome.Sharp.IconChar.At,
+            obligatorio:=True
+        )
+        overlay.Close()
+        If resultado.Aceptado Then
+            MessageBox.Show("Dato recibido: " & resultado.Valor)
         Else
-            MessageBox.Show("Cancelado")
+            MessageBox.Show("El usuario canceló.")
         End If
     End Sub
 
