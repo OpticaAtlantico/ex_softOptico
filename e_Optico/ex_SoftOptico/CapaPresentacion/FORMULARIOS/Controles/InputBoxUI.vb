@@ -30,48 +30,51 @@ Public Class InputBoxUI
     Public Sub New()
         Me.FormBorderStyle = FormBorderStyle.None
         Me.StartPosition = FormStartPosition.CenterParent
-        Me.BackColor = Color.FromArgb(57, 103, 208)
+        Me.BackColor = Color.AliceBlue
         Me.Opacity = 0.8R ' Nivel de transparencia
-        Me.Size = New Size(400, 200)
+        Me.Size = New Size(445, 185)
         Me.ShowInTaskbar = False
         Me.TopMost = True
+        Me.Region = New Region(GetRoundedRectPath(Me.ClientRectangle, 18))
 
         CrearControles()
     End Sub
 
     Private Sub CrearControles()
-        fondoPanel.Size = New Size(340, 160)
+        fondoPanel.Size = New Size(440, 180)
         fondoPanel.Location = New Point((Me.Width - fondoPanel.Width) \ 2, (Me.Height - fondoPanel.Height) \ 2)
         fondoPanel.BackColor = Color.White
-        fondoPanel.Region = New Region(GetRoundedRectPath(fondoPanel.ClientRectangle, 12))
+        fondoPanel.Region = New Region(GetRoundedRectPath(fondoPanel.ClientRectangle, 18))
         fondoPanel.Anchor = AnchorStyles.None
         fondoPanel.BorderStyle = BorderStyle.None
         Me.Controls.Add(fondoPanel)
 
         lblTitulo.Text = "Título"
-        lblTitulo.Font = New Font("Century Gothic", 12, FontStyle.Bold)
+        lblTitulo.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         lblTitulo.ForeColor = Color.FromArgb(40, 40, 40)
-        lblTitulo.Location = New Point(60, 10)
+        lblTitulo.Location = New Point(((Me.Width - fondoPanel.Width) \ 2) + 17, (Me.Top + 65))
         lblTitulo.AutoSize = True
         fondoPanel.Controls.Add(lblTitulo)
 
         iconoDecorativo.IconChar = icono
         iconoDecorativo.IconColor = Color.DodgerBlue
-        iconoDecorativo.IconSize = 32
-        iconoDecorativo.Location = New Point(15, 10)
-        iconoDecorativo.Size = New Size(32, 32)
+        iconoDecorativo.IconSize = 50
+        iconoDecorativo.Location = New Point(15, 20)
+        iconoDecorativo.Size = New Size(40, 40)
         fondoPanel.Controls.Add(iconoDecorativo)
 
         txtInput.Font = New Font("Century Gothic", 11)
-        txtInput.ForeColor = Color.Black
-        txtInput.BackColor = Color.White
-        txtInput.Location = New Point(20, 50)
-        txtInput.Width = 300
+        txtInput.ForeColor = Color.White
+        txtInput.BackColor = Color.LightSkyBlue
+        txtInput.BorderStyle = BorderStyle.None
+        txtInput.Location = New Point(20, 90)
+        txtInput.Width = 400
+        txtInput.Height = 80
         fondoPanel.Controls.Add(txtInput)
 
         lblError.Text = ""
         lblError.ForeColor = Color.Red
-        lblError.Location = New Point(20, 80)
+        lblError.Location = New Point(20, 120)
         lblError.AutoSize = True
         fondoPanel.Controls.Add(lblError)
 
@@ -79,17 +82,19 @@ Public Class InputBoxUI
         btnAceptar.BackColor = Color.DodgerBlue
         btnAceptar.ForeColor = Color.White
         btnAceptar.FlatStyle = FlatStyle.Flat
-        btnAceptar.Location = New Point(150, 110)
-        btnAceptar.Size = New Size(80, 30)
+        btnAceptar.Location = New Point(40, 130)
+        btnAceptar.Size = New Size(150, 40)
+        btnAceptar.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         AddHandler btnAceptar.Click, AddressOf BtnAceptar_Click
         fondoPanel.Controls.Add(btnAceptar)
 
         btnCancelar.Text = "Cancelar"
-        btnCancelar.BackColor = Color.LightGray
-        btnCancelar.ForeColor = Color.Black
+        btnCancelar.BackColor = Color.OrangeRed
+        btnCancelar.ForeColor = Color.WhiteSmoke
         btnCancelar.FlatStyle = FlatStyle.Flat
-        btnCancelar.Location = New Point(240, 110)
-        btnCancelar.Size = New Size(80, 30)
+        btnCancelar.Location = New Point(240, 130)
+        btnCancelar.Size = New Size(150, 40)
+        btnCancelar.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         AddHandler btnCancelar.Click, AddressOf BtnCancelar_Click
         fondoPanel.Controls.Add(btnCancelar)
     End Sub
