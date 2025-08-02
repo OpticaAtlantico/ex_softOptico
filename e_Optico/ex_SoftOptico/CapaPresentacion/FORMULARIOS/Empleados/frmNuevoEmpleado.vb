@@ -61,14 +61,14 @@ Public Class frmNuevoEmpleado
 
         Select Case NombreBoton
             Case "Actualizar..."
-                btnGuardar.Texto = "Actualizar..."
-                btnGuardar.Icono = FontAwesome.Sharp.IconChar.UserPen
+                btnAccion.Texto = "Actualizar..."
+                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPen
             Case "Eliminar..."
-                btnGuardar.Texto = "Eliminar..."
-                btnGuardar.Icono = FontAwesome.Sharp.IconChar.UserSlash
+                btnAccion.Texto = "Eliminar..."
+                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserSlash
             Case Else
-                btnGuardar.Texto = "Guardar..."
-                btnGuardar.Icono = FontAwesome.Sharp.IconChar.UserTimes
+                btnAccion.Texto = "Guardar..."
+                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
         End Select
 
     End Sub
@@ -175,8 +175,40 @@ Public Class frmNuevoEmpleado
 
     End Sub
 
-    Private Sub bntGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
-        GuardarUsuario()
+    Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
+        Select Case btnAccion.Texto
+            Case "Actualizar..."
+                ' Aquí puedes implementar la lógica para actualizar el empleado
+                If DatosEmpleados IsNot Nothing Then
+                    ProcesarEmpleado(esNuevo:=False)
+                Else
+                    MessageBox.Show("No hay datos de empleado para actualizar.")
+                End If
+            Case "Eliminar..."
+                ' Aquí puedes implementar la lógica para eliminar el empleado
+                If DatosEmpleados IsNot Nothing Then
+                    Dim repositorio As New Repositorio_Empleados()
+                    Dim resultado As Boolean = repositorio.EliminarEmpleado(DatosEmpleados.Cedula)
+                    If resultado Then
+                        MessageBox.Show("Empleado eliminado correctamente.")
+                        LimpiarControles(Me)
+                        limpiarImagen()
+                    Else
+                        MessageBox.Show("Error al eliminar el empleado.")
+                    End If
+                Else
+                    MessageBox.Show("No hay datos de empleado para eliminar.")
+                End If
+            Case "Guardar..."
+                ' Aquí puedes implementar la lógica para guardar un nuevo empleado
+                If DatosEmpleados Is Nothing Then
+                    ProcesarEmpleado(esNuevo:=True)
+                Else
+                    MessageBox.Show("Ya hay datos de empleado cargados.")
+                End If
+            Case Else
+                MessageBox.Show("Acción no reconocida.")
+        End Select
     End Sub
 
     Private Sub LimpiarControles(container As Control)
@@ -350,6 +382,7 @@ Public Class frmNuevoEmpleado
             If resultado Then
                 Mensaje.MostrarToast("Empleado guardado correctamente.", TipoToastUI.Success)
                 LimpiarControles(Me)
+                limpiarImagen()
                 ' Aquí puedes cerrar el formulario o limpiar los campos
             Else
                 ' Mostrar mensaje de error si no se pudo guardar
@@ -361,6 +394,194 @@ Public Class frmNuevoEmpleado
         End Try
 
     End Sub
+
+    Private Sub ActualizarUsuario()
+        Dim id As Integer = DatosEmpleados.EmpleadoID
+        Dim cedula As String = txtCedula.TextValue.Trim()
+        Dim nombre As String = txtNombre.TextValue.Trim()
+        Dim apellido As String = txtApellido.TextValue.Trim()
+        Dim edad As String = txtEdad.TextValue.Trim()
+        Dim nacionalidad As Integer = Convert.ToInt32(cmbNacionalidad.OrbitalCombo.ValorClave) + 1
+        Dim estadoCivil As Integer = Convert.ToInt32(cmbEstadoCivil.OrbitalCombo.ValorClave) + 1
+        Dim telefono As String = txtTelefono.TextValue.Trim()
+        Dim correo As String = txtCorreo.TextValue.Trim()
+        Dim direccion As String = txtDireccion.TextValue.Trim()
+        Dim fechaNacimiento? As DateTime = txtFechaNac.FechaSeleccionada
+        Dim sexo As Integer = Convert.ToInt32(cmbSexo.OrbitalCombo.ValorClave) + 1
+        Dim cargo As Integer = Convert.ToInt32(cmbCargo.OrbitalCombo.ValorClave) + 1
+        Dim asesor As String = swAsesor.Checked.ToString()
+        Dim optometrista As String = swOptometrista.Checked.ToString()
+        Dim gerente As String = swGerente.Checked.ToString()
+        Dim marketing As String = swMarketing.Checked.ToString()
+        Dim estado As Integer = 1
+        Dim zona As Integer = Convert.ToInt32(cmbZona.OrbitalCombo.ValorClave) + 1
+
+        If String.IsNullOrEmpty(cedula) OrElse
+           String.IsNullOrEmpty(nombre) OrElse
+           String.IsNullOrEmpty(apellido) OrElse
+           String.IsNullOrEmpty(edad) OrElse
+           String.IsNullOrEmpty(nacionalidad) OrElse
+           String.IsNullOrEmpty(estadoCivil) OrElse
+           String.IsNullOrEmpty(sexo) OrElse
+           String.IsNullOrEmpty(telefono) OrElse
+           String.IsNullOrEmpty(correo) OrElse
+           String.IsNullOrEmpty(direccion) OrElse
+           String.IsNullOrEmpty(cargo) Then
+
+            ' Mostrar mensaje de error si algún campo obligatorio está vacío
+
+            Dim msg As New ToastUI()
+            msg.MostrarToast("Por favor, complete todos los campos obligatorios.", TipoToastUI.Warning)
+
+            Return
+
+        End If
+
+        'Crear la carpeta foto
+        Dim Ruta As String
+        If Not String.IsNullOrEmpty(rutaImagenSeleccionada) Then
+            Dim rutaRelativa As String = GuardarImagenEnCarpeta(rutaImagenSeleccionada, $"empleado_{txtCedula.TextValue}")
+            Ruta = rutaRelativa
+        Else
+            Ruta = Nothing
+        End If
+
+        Dim empleado As New TEmpleados With {
+            .EmpleadoID = id,
+            .Cedula = cedula,
+            .Nombre = nombre,
+            .Apellido = apellido,
+            .Edad = edad,
+            .Nacionalidad = nacionalidad,
+            .EstadoCivil = estadoCivil,
+            .Sexo = sexo,
+            .Telefono = telefono,
+            .Correo = correo,
+            .Direccion = direccion,
+            .FechaNacimiento = fechaNacimiento,
+            .Cargo = cargo,
+            .Asesor = asesor,
+            .Optometrista = optometrista,
+            .Gerente = gerente,
+            .Marketing = marketing,
+            .Estado = estado,
+            .Zona = zona,
+            .Foto = Ruta
+        }
+
+        Dim repositorio As New Repositorio_Empleados()
+        Dim Mensaje As New ToastUI()
+        Try
+            Dim resultado As Boolean = repositorio.ActualizarEmpleado(empleado)
+
+            If resultado Then
+                Mensaje.MostrarToast("Empleado actualizado correctamente.", TipoToastUI.Success)
+                LimpiarControles(Me)
+                limpiarImagen()
+                ' Aquí puedes cerrar el formulario o limpiar los campos
+            Else
+                ' Mostrar mensaje de error si no se pudo guardar
+                Mensaje.MostrarToast("Error al actualizar los datos del empleado. Inténtelo de nuevo.", TipoToastUI.Errores)
+            End If
+        Catch ex As Exception
+            ' Manejar excepciones y mostrar mensaje de error
+            Mensaje.MostrarToast("Error al actualizar el empleado: " & ex.Message, TipoToastUI.Errores)
+        End Try
+
+    End Sub
+
+    Private Function ObtenerDatosEmpleado(Optional ByVal incluirID As Boolean = False) As ResultadoEmpleado
+        Dim resultado As New ResultadoEmpleado()
+        Dim mensaje As New ToastUI()
+
+        Try
+            Dim id As Integer = If(incluirID, DatosEmpleados.EmpleadoID, 0)
+            Dim cedula = txtCedula.TextValue.Trim()
+            Dim nombre = txtNombre.TextValue.Trim()
+            Dim apellido = txtApellido.TextValue.Trim()
+            Dim edad = txtEdad.TextValue.Trim()
+            Dim nacionalidad = Convert.ToInt32(cmbNacionalidad.OrbitalCombo.ValorClave) + 1
+            Dim estadoCivil = Convert.ToInt32(cmbEstadoCivil.OrbitalCombo.ValorClave) + 1
+            Dim telefono = txtTelefono.TextValue.Trim()
+            Dim correo = txtCorreo.TextValue.Trim()
+            Dim direccion = txtDireccion.TextValue.Trim()
+            Dim fechaNacimiento? = txtFechaNac.FechaSeleccionada
+            Dim sexo = Convert.ToInt32(cmbSexo.OrbitalCombo.ValorClave) + 1
+            Dim cargo = Convert.ToInt32(cmbCargo.OrbitalCombo.ValorClave) + 1
+            Dim zona = Convert.ToInt32(cmbZona.OrbitalCombo.ValorClave) + 1
+
+            If {cedula, nombre, apellido, edad, nacionalidad, estadoCivil, sexo, telefono, correo, direccion, cargo}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
+                mensaje.MostrarToast("Por favor, complete todos los campos obligatorios.", TipoToastUI.Warning)
+                resultado.EsValido = False
+                Return resultado
+            End If
+
+            ' Ruta de imagen
+            Dim rutaRelativa As String = If(Not String.IsNullOrEmpty(rutaImagenSeleccionada),
+                                        GuardarImagenEnCarpeta(rutaImagenSeleccionada, $"empleado_{cedula}"),
+                                        Nothing)
+
+            resultado.Empleado = New TEmpleados With {
+            .EmpleadoID = id,
+            .Cedula = cedula,
+            .Nombre = nombre,
+            .Apellido = apellido,
+            .Edad = edad,
+            .Nacionalidad = Convert.ToInt32(nacionalidad) + 1,
+            .EstadoCivil = Convert.ToInt32(estadoCivil) + 1,
+            .Sexo = Convert.ToInt32(sexo) + 1,
+            .Telefono = telefono,
+            .Correo = correo,
+            .Direccion = direccion,
+            .FechaNacimiento = fechaNacimiento,
+            .Cargo = Convert.ToInt32(cargo) + 1,
+            .Zona = Convert.ToInt32(zona) + 1,
+            .Asesor = swAsesor.Checked.ToString(),
+            .Optometrista = swOptometrista.Checked.ToString(),
+            .Gerente = swGerente.Checked.ToString(),
+            .Marketing = swMarketing.Checked.ToString(),
+            .Estado = 1,
+            .Foto = If(String.IsNullOrWhiteSpace(rutaRelativa), "", rutaRelativa)
+        }
+
+            resultado.EsValido = True
+        Catch ex As Exception
+            mensaje.MostrarToast("Error al obtener los datos: " & ex.Message, TipoToastUI.Errores)
+            resultado.EsValido = False
+        End Try
+
+        Return resultado
+    End Function
+
+    Private Sub ProcesarEmpleado(esNuevo As Boolean)
+        Dim datos = ObtenerDatosEmpleado(incluirID:=Not esNuevo)
+
+        If Not datos.EsValido Then Exit Sub
+
+        Dim repositorio As New Repositorio_Empleados()
+        Dim mensaje As New ToastUI()
+        Dim exito As Boolean = False
+
+        Try
+            If esNuevo Then
+                exito = repositorio.InsertarEmpleado(datos.Empleado)
+            Else
+                exito = repositorio.ActualizarEmpleado(datos.Empleado)
+            End If
+
+            If exito Then
+                mensaje.MostrarToast(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                LimpiarControles(Me)
+                limpiarImagen()
+            Else
+                mensaje.MostrarToast("Ocurrió un error al procesar la operación.", TipoToastUI.Errores)
+            End If
+        Catch ex As Exception
+            mensaje.MostrarToast("Error: " & ex.Message, TipoToastUI.Errores)
+        End Try
+    End Sub
+
+
 
 #End Region
 

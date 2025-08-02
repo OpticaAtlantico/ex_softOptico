@@ -12,16 +12,23 @@ Public Class Repositorio_Empleados
     Private Eliminar As String
     Public Sub New()
         SeleccionarTodos = "SELECT * FROM VEmpleados"
+        ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
         SeleccionarPorID = "SELECT * FROM VEmpleados WHERE EmpleadoID = @EmpleadoID"
+        ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
         Insertar = "INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, 
                     Sexo, FechaNacimiento, Direccion, CargoEmpleadoID, Correo, Asesor, Gerente, Optometrista, Marketing, 
                     Cobranza, Estado, Telefono, Zona, Foto) VALUES (@Cedula, @Nombre, @Apellido, @Edad, @Nacionalidad, 
                     @EstadoCivil, @Sexo, @FechaNacimiento, @Direccion, @Cargo, @Correo, @Asesor, @Gerente, 
                     @Optometrista, @Marketing, @Cobranza, @Estado, @Telefono, @Zona, @Foto)"
-        Actualizar = "UPDATE TEmpleados SET Cedula = @Cedula, Nombre = @Nombre, Apellido = @Apellido, Edad = @Edad, _
-                    Nacionalidad = @Nacionalidad, EstadoCivil = @EstadoCivil, Sexo = @Sexo, FechaNacimiento = @FechaNacimiento, _
-                    Direccion = @Direccion, Cargo = @Cargo, Correo = @Correo, Asesor = @Asesor, Gerente = @Gerente, _
-                    Optometrista = @Optometrista, Marketing = @Marketing, Cobranza = @Cobranza WHERE EmpleadoID = @EmpleadoID"
+        ' Note: The Foto field is assumed to be a string path or URL; adjust as necessary for your application.
+        Actualizar = "UPDATE TEmpleados SET 
+                    Cedula = @Cedula, Nombre = @Nombre, Apellido = @Apellido, Edad = @Edad, Nacionalidad = @Nacionalidad, 
+                    EstadoCivil = @EstadoCivil, Sexo = @Sexo, FechaNacimiento = @FechaNacimiento, Direccion = @Direccion, 
+                    CargoEmpleadoID = @Cargo, Correo = @Correo, Asesor = @Asesor, Gerente = @Gerente, 
+                    Optometrista = @Optometrista, Marketing = @Marketing, Cobranza = @Cobranza, Zona = @Zona, Foto = @Foto 
+                    WHERE EmpleadoID = @EmpleadoID"
+        'eliminar empleado
+        ' Assuming TEmpleados is the table where employee data is stored.
         Eliminar = "DELETE FROM TEmpleados WHERE EmpleadoID = @EmpleadoID"
     End Sub
 
@@ -77,7 +84,7 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Estado", entity.Estado),
             New SqlParameter("@Telefono", entity.Telefono),
             New SqlParameter("@Zona", entity.Zona),
-            New SqlParameter("@Foto", entity.Foto)
+            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), DBNull.Value, entity.Foto))
         }
         Return ExecuteNonQuery(Insertar)
     End Function
@@ -100,7 +107,11 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Gerente", entity.Gerente),
             New SqlParameter("@Optometrista", entity.Optometrista),
             New SqlParameter("@Marketing", entity.Marketing),
-            New SqlParameter("@Cobranza", entity.Cobranza)
+            New SqlParameter("@Cobranza", entity.Cobranza),
+            New SqlParameter("@Estado", entity.Estado),
+            New SqlParameter("@Telefono", entity.Telefono),
+            New SqlParameter("@Zona", entity.Zona),
+            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), DBNull.Value, entity.Foto))
         }
         Return ExecuteNonQuery(Actualizar)
     End Function
@@ -138,7 +149,9 @@ Public Class Repositorio_Empleados
                 .Marketing = Convert.ToByte(row("Marketing")),
                 .Cobranza = Convert.ToByte(row("Cobranza")),
                 .Estado = Convert.ToByte(row("Estado")),
-                .Telefono = Convert.ToString(row("Telefono"))
+                .Telefono = Convert.ToString(row("Telefono")),
+                .Zona = Convert.ToInt32(row("Zona")),
+                .Foto = Convert.ToString(row("Foto"))
             }
         End If
         Return Nothing
@@ -291,9 +304,9 @@ Public Class Repositorio_Empleados
     End Function
 
     Public Function BuscarEmpleadosPorCedula(cedula As String) As IEnumerable(Of TEmpleados) Implements IRepositorio_Empleados.SearchEmpleadosByCedula
-        Dim query As String = "SELECT * FROM VEmpleados WHERE Cedula LIKE @Cedula"
+        Dim query As String = "SELECT * FROM VEmpleados WHERE Cedula = @Cedula"
         parameter = New List(Of SqlParameter) From {
-            New SqlParameter("@Cedula", "%" & cedula & "%")
+            New SqlParameter("@Cedula", cedula)
         }
         Dim resultadoTable As DataTable = ExecuteReader(query)
         Dim lista = New List(Of TEmpleados)
