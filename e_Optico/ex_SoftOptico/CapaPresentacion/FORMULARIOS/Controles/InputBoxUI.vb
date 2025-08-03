@@ -19,6 +19,7 @@ Public Class InputBoxUI
     Private btnCancelar As New Button()
     Private iconoDecorativo As New IconPictureBox()
     Private fondoPanel As New Panel()
+    Private pnlTextBox As New Panel()
 
     Public Enum TipoValidacion
         Texto
@@ -41,7 +42,7 @@ Public Class InputBoxUI
     End Sub
 
     Private Sub CrearControles()
-        fondoPanel.Size = New Size(440, 180)
+        fondoPanel.Size = New Size(440, 220)
         fondoPanel.Location = New Point((Me.Width - fondoPanel.Width) \ 2, (Me.Height - fondoPanel.Height) \ 2)
         fondoPanel.BackColor = Color.White
         fondoPanel.Region = New Region(GetRoundedRectPath(fondoPanel.ClientRectangle, 18))
@@ -63,18 +64,30 @@ Public Class InputBoxUI
         iconoDecorativo.Size = New Size(40, 40)
         fondoPanel.Controls.Add(iconoDecorativo)
 
+        ' === Panel redondeado para textbox ===
+        pnlTextBox.Size = New Size(400, 38)
+        pnlTextBox.Location = New Point(20, 95)
+        pnlTextBox.BackColor = Color.LightSkyBlue
+        pnlTextBox.Region = New Region(GetRoundedRectPath(New Rectangle(0, 0, pnlTextBox.Width, pnlTextBox.Height), 15))
+        pnlTextBox.BorderStyle = BorderStyle.None
+        pnlTextBox.Padding = New Padding(0)
+        pnlTextBox.Anchor = AnchorStyles.Top Or AnchorStyles.Left
+        fondoPanel.Controls.Add(pnlTextBox)
+
+        ' === TextBox dentro del panel ===
         txtInput.Font = New Font("Century Gothic", 11)
         txtInput.ForeColor = Color.White
         txtInput.BackColor = Color.LightSkyBlue
         txtInput.BorderStyle = BorderStyle.None
-        txtInput.Location = New Point(20, 90)
-        txtInput.Width = 400
-        txtInput.Height = 80
-        fondoPanel.Controls.Add(txtInput)
+        txtInput.Location = New Point(10, 9) ' Centramos manualmente el texto verticalmente
+        txtInput.Size = New Size(380, 22)
+        txtInput.Multiline = False
+        txtInput.TextAlign = HorizontalAlignment.Left
+        pnlTextBox.Controls.Add(txtInput)
 
         lblError.Text = ""
         lblError.ForeColor = Color.Red
-        lblError.Location = New Point(20, 120)
+        lblError.Location = New Point(20, 145)
         lblError.AutoSize = True
         fondoPanel.Controls.Add(lblError)
 
@@ -82,7 +95,7 @@ Public Class InputBoxUI
         btnAceptar.BackColor = Color.DodgerBlue
         btnAceptar.ForeColor = Color.White
         btnAceptar.FlatStyle = FlatStyle.Flat
-        btnAceptar.Location = New Point(40, 130)
+        btnAceptar.Location = New Point(40, 155)
         btnAceptar.Size = New Size(150, 40)
         btnAceptar.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         AddHandler btnAceptar.Click, AddressOf BtnAceptar_Click
@@ -92,7 +105,7 @@ Public Class InputBoxUI
         btnCancelar.BackColor = Color.OrangeRed
         btnCancelar.ForeColor = Color.WhiteSmoke
         btnCancelar.FlatStyle = FlatStyle.Flat
-        btnCancelar.Location = New Point(240, 130)
+        btnCancelar.Location = New Point(240, 155)
         btnCancelar.Size = New Size(150, 40)
         btnCancelar.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         AddHandler btnCancelar.Click, AddressOf BtnCancelar_Click

@@ -133,12 +133,11 @@ Public Class frm_Login
         AddHandler frm.FormClosed, AddressOf Logout
         Hide()
 
-
     End Sub
 
     Private Sub Logout(sender As Object, e As FormClosedEventArgs)
-        txtUsuario.Text = vbEmpty
-        txtPass.Text = vbEmpty
+        txtUsuario.TextoUsuario = ""
+        txtPass.TextoUsuario = ""
         Me.Show()
         txtUsuario.Focus()
     End Sub

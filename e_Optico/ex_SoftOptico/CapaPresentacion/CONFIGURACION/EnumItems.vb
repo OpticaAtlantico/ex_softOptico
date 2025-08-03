@@ -1,30 +1,25 @@
 ﻿Imports System.Windows.Controls
 
 Public Enum EstadoCivil
-    Soltero = 1
-    Casado = 2
-    Viudo = 3
-    Divorciado = 4
+    Soltero = 0
+    Casado = 1
+    Viudo = 2
+    Divorciado = 3
 End Enum
 
 Public Enum Nacionalidad
-    Venezolano = 1
-    Extranjero = 2
+    Venezolano = 0
+    Extranjero = 1
 End Enum
 
 Public Enum Sexo
-    Masculino = 1
-    Femenino = 2
+    Masculino = 0
+    Femenino = 1
 End Enum
 
 Public Enum Zona
-    Puerto_Ordaz = 1
-    San_Felix = 2
-End Enum
-
-Public Enum Estado
-    Activo = 1
-    Inactivo = 2
+    Puerto_Ordaz = 0
+    San_Felix = 1
 End Enum
 
 Public Class EnumItems

@@ -84,7 +84,7 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Estado", entity.Estado),
             New SqlParameter("@Telefono", entity.Telefono),
             New SqlParameter("@Zona", entity.Zona),
-            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), DBNull.Value, entity.Foto))
+            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), "Sin Foto", entity.Foto))
         }
         Return ExecuteNonQuery(Insertar)
     End Function
@@ -111,7 +111,7 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Estado", entity.Estado),
             New SqlParameter("@Telefono", entity.Telefono),
             New SqlParameter("@Zona", entity.Zona),
-            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), DBNull.Value, entity.Foto))
+            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), "Sin Foto", entity.Foto))
         }
         Return ExecuteNonQuery(Actualizar)
     End Function
@@ -332,7 +332,7 @@ Public Class Repositorio_Empleados
                 .Estado = Convert.ToByte(row("Estado")),
                 .Telefono = Convert.ToString(row("Telefono")),
                 .Zona = Convert.ToInt32(row("Zona")),
-                .Foto = Convert.ToString(row("Foto"))
+                .Foto = If(String.IsNullOrWhiteSpace("Foto"), DBNull.Value, Convert.ToString(row("Foto")))
             }
             lista.Add(empleado)
         Next

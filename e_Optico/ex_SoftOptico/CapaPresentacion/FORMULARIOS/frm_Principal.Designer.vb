@@ -478,16 +478,16 @@ Partial Class frm_Principal
         pnlDrawer.Dock = DockStyle.Left
         pnlDrawer.Location = New Point(55, 64)
         pnlDrawer.Name = "pnlDrawer"
-        pnlDrawer.Size = New Size(150, 673)
+        pnlDrawer.Size = New Size(0, 673)
         pnlDrawer.TabIndex = 2
-        '
+        ' 
         ' pnlContenedor
         ' 
         pnlContenedor.BackColor = Color.White
         pnlContenedor.Dock = DockStyle.Fill
-        pnlContenedor.Location = New Point(205, 64)
+        pnlContenedor.Location = New Point(215, 64)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(961, 673)
+        pnlContenedor.Size = New Size(951, 673)
         pnlContenedor.TabIndex = 3
         ' 
         ' DrawerTimer

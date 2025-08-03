@@ -11,7 +11,7 @@ Public Class frm_Principal
     Private drawerControl As New DrawerControl()
 
     Private DrawerExpandido As Boolean = True
-    Private DrawerObjetivoWidth As Integer = 152
+    Private DrawerObjetivoWidth As Integer = 160
     Private DrawerVelocidad As Integer = 30
 
     'Para procedimeintos de botones 
@@ -116,11 +116,11 @@ Public Class frm_Principal
 
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
-        pnlDrawer.Visible = True
-        If pnlDrawer.Width <= 0 Then
-            DrawerTimer.Start()
-        End If
-        drawerAbierto = True
+        'pnlDrawer.Visible = True
+        'If pnlDrawer.Width <= 0 Then
+        DrawerTimer.Start()
+        'End If
+        'drawerAbierto = True
     End Sub
 
 #End Region
@@ -138,7 +138,6 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubEditar_Click(sender As Object, e As EventArgs)
-        'MostrarContenido(New AbrirControl())
 
         DrawerTimer.Start()
 
@@ -152,6 +151,8 @@ Public Class frm_Principal
             obligatorio:=True
         )
         overlay.Close()
+        EfectoBotonInActivo()
+
         If resultado.Aceptado Then
             enviarDatosEmpleados(resultado.Valor, 0)
         Else
@@ -173,6 +174,8 @@ Public Class frm_Principal
             obligatorio:=True
         )
         overlay.Close()
+        EfectoBotonInActivo()
+
         If resultado.Aceptado Then
             enviarDatosEmpleados(resultado.Valor, 1)
         Else
@@ -181,8 +184,12 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubConsultar_Click(sender As Object, e As EventArgs)
-        'ostrarContenido(New CopiarControl())
-        DrawerTimer.Start()
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
+
+        If Not abierto Then
+            OpenChildForm(New frmNuevoEmpleado, sender)
+            EfectoBotonInActivo()
+        End If
     End Sub
 
     Private Sub SubReportes_Click(sender As Object, e As EventArgs)
@@ -211,8 +218,8 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnEmpleado_Click(sender As Object, e As EventArgs) Handles btnEmpleado.Click
-        BotonMenuEmpleados()
         EfectoBotonActivo(sender)
+        BotonMenuEmpleados()
     End Sub
 
     Private Sub btnComision_Click(sender As Object, e As EventArgs) Handles btnComision.Click
@@ -250,11 +257,21 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        If MessageBox.Show("¿Está seguro de que desea salir?", "Confirmar salida", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-            listLogin.Clear() ' Limpiar la lista de usuarios
-            Me.Close() ' Cerrar el formulario principal
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim confirmacion = MessageBoxUI.Mostrar(mensaje:="Esta usted saliendo del sistema... ",
+                                                titulo:="Salida exitosa...",
+                                                tipoIcono:=IconChar.DoorClosed,
+                                                tipoBoton:=MessageBoxUI.TipoBotones.SiNo
+                                                )
+
+        overlay.Close()
+        If confirmacion = DialogResult.Yes Then
+            listLogin.Clear()
+            Me.Close() ' Cierra el formulario después de eliminar
             'Application.Exit()
         End If
+
     End Sub
 
     Private Sub btnMaximizar_Click(sender As Object, e As EventArgs) Handles btnMaximizar.Click
@@ -302,8 +319,6 @@ Public Class frm_Principal
     Private Sub btnMostrarMenu_Click(sender As Object, e As EventArgs) Handles btnMostrarMenu.Click
         DrawerTimer.Start()
     End Sub
-
-
 
 
 #End Region
@@ -375,10 +390,8 @@ Public Class frm_Principal
     ' Aquí configuras tus controles, layout, etc.
     Private Sub PrepararUI()
         pnlDrawer.Controls.Add(drawerControl)
-        pnlDrawer.Width = 160
         pnlDrawer.BackColor = Color.Azure
-        pnlDrawer.Visible = False
-
+        DrawerTimer.Start()
         With Me
             btnSalirFrmHijo.Visible = False
             .Text = String.Empty
