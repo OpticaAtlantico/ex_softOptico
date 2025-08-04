@@ -23,6 +23,7 @@ Partial Class frm_Principal
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Principal))
         pnlEncabezado = New Panel()
         pnlBotones = New Panel()
         btnSalir = New FontAwesome.Sharp.IconButton()
@@ -484,10 +485,12 @@ Partial Class frm_Principal
         ' pnlContenedor
         ' 
         pnlContenedor.BackColor = Color.White
+        pnlContenedor.BackgroundImage = CType(resources.GetObject("pnlContenedor.BackgroundImage"), Image)
+        pnlContenedor.BackgroundImageLayout = ImageLayout.Zoom
         pnlContenedor.Dock = DockStyle.Fill
-        pnlContenedor.Location = New Point(215, 64)
+        pnlContenedor.Location = New Point(55, 64)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(951, 673)
+        pnlContenedor.Size = New Size(1111, 673)
         pnlContenedor.TabIndex = 3
         ' 
         ' DrawerTimer

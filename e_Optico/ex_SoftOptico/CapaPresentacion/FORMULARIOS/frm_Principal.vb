@@ -22,6 +22,7 @@ Public Class frm_Principal
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.1
     Public Property EmpleadoEncontrado As TEmpleados = Nothing
+    Public Event AbrirFormularioHijoSolicitado As Action(Of Form)
 
 #Region "CONSTRUCTOR"
 
@@ -42,7 +43,6 @@ Public Class frm_Principal
         AddHandler fadeTimer.Tick, AddressOf FadeIn
         fadeTimer.Interval = 30
         pnlDrawer.BringToFront()
-
     End Sub
 
     Protected Overrides ReadOnly Property CreateParams As CreateParams
@@ -133,7 +133,7 @@ Public Class frm_Principal
         CerrarDrawer()
 
         If Not abierto Then
-            OpenChildForm(New frmNuevoEmpleado, sender)
+            OpenChildForm(New frmNuevoEmpleado)
             EfectoBotonInActivo()
         End If
 
@@ -193,7 +193,11 @@ Public Class frm_Principal
 
         If Not abierto Then
             EfectoBotonInActivo()
-            OpenChildForm(New frmConsultaEmpleados, sender)
+            Dim consultaEmpleadosForm As New frmConsultaEmpleados()
+            AddHandler consultaEmpleadosForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
+            OpenChildForm(consultaEmpleadosForm)
+
+            'OpenChildForm(New frmConsultaEmpleados)
         End If
     End Sub
 
@@ -260,6 +264,7 @@ Public Class frm_Principal
 
         Me.Visible = True
         fadeTimer.Start()
+        AddHandler AbrirFormularioHijoSolicitado, AddressOf OpenChildForm
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -366,25 +371,32 @@ Public Class frm_Principal
         End If
     End Sub
 
-    Public Sub OpenChildForm(childForm As Form, btnSender As Object)
+    Public Sub SolicitarAbrirFormularioHijo(childForm As Form)
+        RaiseEvent AbrirFormularioHijoSolicitado(childForm)
+    End Sub
 
+    Public Sub OpenChildForm(childForm As Form)
+        ' Cierra el formulario hijo activo con tus efectos
         If activeForms IsNot Nothing Then
             activeForms.Close()
+            ' Aquí puedes agregar efectos de fade out, blur, etc. si tienes
         End If
-
         ActivateButton()
         activeForms = childForm
         childForm.TopLevel = False
         childForm.FormBorderStyle = FormBorderStyle.None
         childForm.Dock = DockStyle.Fill
-        Me.pnlContenedor.Controls.Add(childForm)
-        Me.pnlContenedor.Tag = childForm
+        pnlContenedor.Controls.Add(childForm)
+        pnlContenedor.Tag = childForm
         childForm.BringToFront()
+
+        ' Tus efectos de drawer o blur que tengas
         DrawerExpandido = True
         DrawerTimer.Start()
-        childForm.Show()
 
+        childForm.Show()
     End Sub
+
     Private Sub Reset()
         currentButton = New Button()
         DisableButton()
@@ -444,7 +456,7 @@ Public Class frm_Principal
                     texto = "Eliminar..."
             End Select
             formularioHijo.NombreBoton = texto.ToString()
-            OpenChildForm(formularioHijo, Nothing)
+            OpenChildForm(formularioHijo)
         Else
             MessageBox.Show("No se encontró ningún empleado con esa cédula.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If

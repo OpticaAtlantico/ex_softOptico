@@ -281,7 +281,7 @@ Public Class frmNuevoEmpleado
                 .cmbEstadoCivil.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.EstadoCivil)
                 .cmbSexo.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.Sexo)
                 .txtFechaNac.FechaSeleccionada = empleado.FechaNacimiento
-                .cmbCargo.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.Cargo - 1)
+                .cmbCargo.OrbitalCombo.Text = empleado.Cargo
                 .txtCorreo.TextoUsuario = empleado.Correo
                 .txtTelefono.TextoUsuario = empleado.Telefono
                 .cmbZona.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.Zona)

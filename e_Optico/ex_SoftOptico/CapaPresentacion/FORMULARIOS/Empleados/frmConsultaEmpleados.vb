@@ -5,7 +5,8 @@ Imports FontAwesome.Sharp
 Public Class frmConsultaEmpleados
 
     Public Property EmpleadoSeleccionado As TEmpleados = Nothing
-    Public Event SolicitarAperturaFormulario(formulario As Form)
+    ' Evento para pedir al formulario padre abrir un formulario hijo nuevo
+    Public Event AbrirFormularioHijo As Action(Of Form)
 
     Public Sub New()
         InitializeComponent()
@@ -25,6 +26,7 @@ Public Class frmConsultaEmpleados
         AddHandler dgvDatosEmpleados.EditarRegistro, AddressOf EditarEmpleado
         AddHandler dgvDatosEmpleados.EliminarRegistro, AddressOf EliminarEmpleadoUnico
         AddHandler dgvDatosEmpleados.AgregarRegistro, AddressOf AgregarEmpleado
+        AddHandler AbrirFormularioHijo, AddressOf frm_Principal.SolicitarAbrirFormularioHijo
 
         dgvDatosEmpleados.MetodoCargaDatos = AddressOf ObtenerEmpleados
         dgvDatosEmpleados.RefrescarTodo()
@@ -122,7 +124,9 @@ Public Class frmConsultaEmpleados
                 Dim formularioHijo As New frmNuevoEmpleado()
                 formularioHijo.DatosEmpleados = empleadoEncontrado
                 formularioHijo.NombreBoton = "Actualizar..."
-                RaiseEvent SolicitarAperturaFormulario(formularioHijo)
+
+                ' En vez de abrir el formulario directamente, disparar evento
+                RaiseEvent AbrirFormularioHijo(formularioHijo)
             Else
                 MessageBox.Show("No se encontró el empleado.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
