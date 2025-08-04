@@ -426,8 +426,30 @@ CREATE OR ALTER VIEW VCategorias AS
         
 -- SELECT * FROM VCategorias;
 CREATE OR ALTER VIEW VEmpleados AS
-    SELECT *
-    FROM TEmpleados
+    SELECT dbo.TEmpleados.EmpleadoID
+            , dbo.TEmpleados.Cedula
+            , dbo.TEmpleados.Nombre
+            , dbo.TEmpleados.Apellido
+            , dbo.TEmpleados.Edad
+            , dbo.TEmpleados.Nacionalidad
+            , dbo.TEmpleados.EstadoCivil
+            , dbo.TEmpleados.Sexo
+            , dbo.TEmpleados.FechaNacimiento
+            , dbo.TEmpleados.Direccion
+            , dbo.TCargoEmpleado.Descripcion AS Cargo
+            , dbo.TEmpleados.Correo
+            , dbo.TEmpleados.Telefono
+            , dbo.TEmpleados.Asesor
+            , dbo.TEmpleados.Gerente
+            , dbo.TEmpleados.Optometrista
+            , dbo.TEmpleados.Marketing
+            , dbo.TEmpleados.Cobranza
+            , dbo.TEmpleados.Estado
+            , dbo.TEmpleados.Zona
+            , dbo.TEmpleados.Foto
+    FROM dbo.TEmpleados INNER JOIN
+         dbo.TCargoEmpleado ON 
+         dbo.TEmpleados.CargoEmpleadoID = dbo.TCargoEmpleado.CargoEmpleadoID
 
 --VISTA VCargoEmpleado , para visualizar todos los datos del cargos para los empleados
 CREATE OR ALTER VIEW VCargoEmpleado AS
@@ -435,7 +457,29 @@ CREATE OR ALTER VIEW VCargoEmpleado AS
          , C.Descripcion
     FROM TCargoEmpleado C
 
--- SELECT * FROM VCargoEmpleado;
+
+CREATE OR ALTER VIEW VLogin AS
+    SELECT L.Usuario
+            , L.Clave
+            , E.Cedula
+            , E.Nombre
+            , E.Apellido
+            , C.Descripcion AS Cargo
+            , E.Correo
+            , U.NombreUbicacion AS Central
+            , U.TipoUbicacion AS Clasificacion
+            , R.Descripcion AS Permisos
+            , L.Estado
+    FROM dbo.TEmpleados AS E INNER JOIN dbo.TLogin AS L 
+                ON E.EmpleadoID = L.EmpleadoID 
+            INNER JOIN dbo.TCargoEmpleado AS C 
+                ON E.CargoEmpleadoID = C.CargoEmpleadoID 
+            INNER JOIN dbo.TUbicaciones AS U 
+                ON L.UbicacionID = U.UbicacionID 
+            INNER JOIN dbo.TRol AS R 
+                ON L.RolID = R.RolID
+
+-- SELECT * FROM VLogin;
 
 -----   PROCEDIMIENTOS
 
@@ -527,6 +571,8 @@ INSERT INTO TTipoPago (Nombre) VALUES ('Intercambio Comercial')
 INSERT INTO TTipoPago (Nombre) VALUES ('Cashea')
 INSERT INTO TTipoPago (Nombre) VALUES ('Garantia')
 INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
+
+
 
 
 --Para incorporarlo al sistema

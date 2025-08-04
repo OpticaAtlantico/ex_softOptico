@@ -112,8 +112,9 @@ Public Class frm_Login
         End If
 
         'VALIDA LOS USUARIOS Y CONTRASEÑAS
-        Dim userModel As New LoginModel
-        Dim validUser = userModel.FindByUserPass(txtUsuario.TextValue, txtPass.TextValue)
+        'Dim userModel As New LoginModel
+        Dim userModel As New Repositorio_VLogin
+        Dim validUser = userModel.GetAllUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
             MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente", "Error de Inicio de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
             txtUsuario.Text = vbEmpty
@@ -126,9 +127,11 @@ Public Class frm_Login
         'Dim datosEmpleado = If(Usuario IsNot Nothing, userModel.FindById(Usuario.EmpleadoID), Nothing)
 
         Dim frm As New frm_Principal
-        'With {
-        '    .lblUsuario = "Algo"
-        '}
+        With frm
+            .lblUsuario.Text = Usuario.Nombre & ", " & Usuario.Apellido
+            .lblCargo.Text = Usuario.Permisos
+        End With
+
         frm.Show()
         AddHandler frm.FormClosed, AddressOf Logout
         Hide()

@@ -12,7 +12,7 @@ Public Class Repositorio_Login
 
     Public Sub New()
         SeleccionarTodos = "SELECT * FROM TLogin"
-        SeleccionarUserPass = "SELECT * FROM TLogin WHERE Usuario = @Usuario AND Clave = @Pass"
+        SeleccionarUserPass = "SELECT * FROM VLogin WHERE Usuario = @Usuario AND Clave = @Pass"
         Insertar = "INSERT INTO TLogin (Usuario, Pass) VALUES (@Usuario, @Pass)"
         Actualizar = "UPDATE TLogin SET Usuario = @Usuario, Pass = @Pass WHERE Id = @Id"
         Eliminar = "DELETE FROM TLogin WHERE Id = @Id"
@@ -101,20 +101,5 @@ Public Class Repositorio_Login
         }
         Return ExecuteNonQuery(Eliminar)
     End Function
-
-
-
-    '''''''''''''''''''''''''
-    '''
-
-
-
-
-
-
-
-
-
-
 
 End Class

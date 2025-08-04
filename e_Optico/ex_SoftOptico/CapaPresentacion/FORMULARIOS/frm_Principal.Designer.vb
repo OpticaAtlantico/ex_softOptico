@@ -139,9 +139,9 @@ Partial Class frm_Principal
         pnlRol.Controls.Add(lblCargo)
         pnlRol.Controls.Add(lblUsuario)
         pnlRol.Dock = DockStyle.Left
-        pnlRol.Location = New Point(660, 5)
+        pnlRol.Location = New Point(650, 5)
         pnlRol.Name = "pnlRol"
-        pnlRol.Size = New Size(169, 54)
+        pnlRol.Size = New Size(315, 54)
         pnlRol.TabIndex = 4
         ' 
         ' lblCargo
@@ -170,7 +170,7 @@ Partial Class frm_Principal
         ' 
         pnlLogoUser.Controls.Add(imgUser)
         pnlLogoUser.Dock = DockStyle.Left
-        pnlLogoUser.Location = New Point(571, 5)
+        pnlLogoUser.Location = New Point(561, 5)
         pnlLogoUser.Name = "pnlLogoUser"
         pnlLogoUser.Size = New Size(89, 54)
         pnlLogoUser.TabIndex = 3
@@ -194,9 +194,9 @@ Partial Class frm_Principal
         ' 
         pnlTitulo.Controls.Add(lblTitulo)
         pnlTitulo.Dock = DockStyle.Left
-        pnlTitulo.Location = New Point(117, 5)
+        pnlTitulo.Location = New Point(161, 5)
         pnlTitulo.Name = "pnlTitulo"
-        pnlTitulo.Size = New Size(454, 54)
+        pnlTitulo.Size = New Size(400, 54)
         pnlTitulo.TabIndex = 2
         ' 
         ' lblTitulo
@@ -210,7 +210,7 @@ Partial Class frm_Principal
         lblTitulo.Location = New Point(0, 0)
         lblTitulo.MostrarSeparador = False
         lblTitulo.Name = "lblTitulo"
-        lblTitulo.Size = New Size(454, 54)
+        lblTitulo.Size = New Size(400, 54)
         lblTitulo.Subtitulo = "Óptica Atlantico "
         lblTitulo.TabIndex = 0
         lblTitulo.Titulo = "Sistema de Integral de Gestion"
@@ -221,16 +221,16 @@ Partial Class frm_Principal
         pnlSalirfrm.Dock = DockStyle.Left
         pnlSalirfrm.Location = New Point(61, 5)
         pnlSalirfrm.Name = "pnlSalirfrm"
-        pnlSalirfrm.Size = New Size(56, 54)
+        pnlSalirfrm.Size = New Size(100, 54)
         pnlSalirfrm.TabIndex = 1
         ' 
         ' btnSalirFrmHijo
         ' 
-        btnSalirFrmHijo.Dock = DockStyle.Fill
+        btnSalirFrmHijo.Dock = DockStyle.Left
         btnSalirFrmHijo.FlatAppearance.BorderSize = 0
         btnSalirFrmHijo.FlatStyle = FlatStyle.Flat
         btnSalirFrmHijo.IconChar = FontAwesome.Sharp.IconChar.Reply
-        btnSalirFrmHijo.IconColor = Color.White
+        btnSalirFrmHijo.IconColor = Color.MidnightBlue
         btnSalirFrmHijo.IconFont = FontAwesome.Sharp.IconFont.Auto
         btnSalirFrmHijo.IconSize = 40
         btnSalirFrmHijo.Location = New Point(0, 0)
