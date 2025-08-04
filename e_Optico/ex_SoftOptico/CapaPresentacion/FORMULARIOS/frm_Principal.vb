@@ -158,7 +158,13 @@ Public Class frm_Principal
         If resultado.Aceptado Then
             enviarDatosEmpleados(resultado.Valor, 0)
         Else
-            MessageBox.Show("El usuario canceló.")
+            MessageBoxUI.Mostrar(Me,
+                                 "Cerrar...",
+                                 "Saliendo de control de entrada de datos",
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.Botones.Aceptar,
+                                 FontAwesome.Sharp.IconChar.InfoCircle
+                                )
         End If
         DrawerTimer.Start()
     End Sub
@@ -181,7 +187,13 @@ Public Class frm_Principal
         If resultado.Aceptado Then
             enviarDatosEmpleados(resultado.Valor, 1)
         Else
-            MessageBox.Show("El usuario canceló.")
+            MessageBoxUI.Mostrar(Me,
+                                 "Cerrar...",
+                                 "Saliendo de control de entrada de datos",
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.Botones.Aceptar,
+                                 FontAwesome.Sharp.IconChar.InfoCircle
+                                )
         End If
         DrawerTimer.Start()
     End Sub
@@ -268,19 +280,17 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim confirmacion = MessageBoxUI.Mostrar(mensaje:="Esta usted saliendo del sistema... ",
-                                                titulo:="Salida exitosa...",
-                                                tipoIcono:=IconChar.DoorClosed,
-                                                tipoBoton:=MessageBoxUI.TipoBotones.SiNo
-                                                )
+        Dim confirmacion = MessageBoxUI.Mostrar(Me,
+                                 "Cerrar...",
+                                 "Saliendo dek Sistema de gestión de datos",
+                                 MessageBoxUI.TipoMensaje.Exito,
+                                 MessageBoxUI.Botones.SiNo,
+                                 FontAwesome.Sharp.IconChar.InfoCircle
+                                )
 
-        overlay.Close()
         If confirmacion = DialogResult.Yes Then
             listLogin.Clear()
             Me.Close() ' Cierra el formulario después de eliminar
-            'Application.Exit()
         End If
 
     End Sub

@@ -2,6 +2,7 @@
 Imports System.Windows.Navigation
 Imports CapaDatos
 Imports CapaNegocio
+Imports DocumentFormat.OpenXml.Drawing.Charts
 Imports FontAwesome.Sharp
 Imports Microsoft.IdentityModel.Tokens
 Public Class frm_Login
@@ -14,6 +15,15 @@ Public Class frm_Login
 
 #Region "Form Behaviors"
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+
+        MessageBoxUI.Mostrar(Me,
+                             "Cerrando el Sistema...",
+                             "Estas saliendo de la App " & "Sistemas de Gestión para Óptica" & ", Vuelva pronto ",
+                             MessageBoxUI.TipoMensaje.Exito,
+                             MessageBoxUI.Botones.Aceptar,
+                             FontAwesome.Sharp.IconChar.CheckCircle
+                            )
+
         'Application.Exit()
         Me.Close()
     End Sub
@@ -106,7 +116,15 @@ Public Class frm_Login
         Next
 
         If Not esFormularioValido Then
-            MessageBox.Show("Hay campos obligatorios sin completar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ' Mostrar mensaje de error y enfocar el primer campo inválido
+            MessageBoxUI.Mostrar(Me,
+                             "Campos vacio...",
+                             "Hay celdas obligatorias sin completar... ",
+                             MessageBoxUI.TipoMensaje.Errors,
+                             MessageBoxUI.Botones.Aceptar,
+                             FontAwesome.Sharp.IconChar.InfoCircle
+                            )
+            'MessageBox.Show("Hay campos obligatorios sin completar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             primerInvalido?.Focus()
             Exit Sub
         End If
@@ -116,7 +134,17 @@ Public Class frm_Login
         Dim userModel As New Repositorio_VLogin
         Dim validUser = userModel.GetAllUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
-            MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente", "Error de Inicio de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'Dim overlay As New FondoOverlayUI()
+            'Overlay.Show()
+            MessageBoxUI.Mostrar(Me,
+                             "Datos incorrectos...",
+                             "Nombre de usuario o contraseña incorrecto",
+                             MessageBoxUI.TipoMensaje.Advertencia,
+                             MessageBoxUI.Botones.Aceptar,
+                             FontAwesome.Sharp.IconChar.TimesCircle
+                            )
+            'overlay.Close()
+            'MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente", "Error de Inicio de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
             txtUsuario.Text = vbEmpty
             txtPass.Text = vbEmpty
             txtUsuario.Focus()
@@ -144,5 +172,9 @@ Public Class frm_Login
         Me.Show()
         txtUsuario.Focus()
     End Sub
+
+
+
+
 
 End Class

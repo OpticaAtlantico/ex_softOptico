@@ -602,6 +602,7 @@ Partial Class frmNuevoEmpleado
         ClientSize = New Size(1274, 610)
         Controls.Add(pnlContenedor)
         Name = "frmNuevoEmpleado"
+        Opacity = 0.8R
         Text = "frmNuevoEmpleado"
         pnlContenedor.ResumeLayout(False)
         pnlContenido.ResumeLayout(False)

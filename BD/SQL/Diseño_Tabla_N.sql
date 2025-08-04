@@ -402,22 +402,6 @@ CREATE TABLE TPagosConConceptoMaterializado (
 GO
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----   VISTAS 
-CREATE OR ALTER VIEW VLogin AS
-    SELECT E.Cedula
-            , E.Nombre
-            , E.Apellido
-            , C.Descripcion
-            , E.Email
-            , R.Descripcion AS Posicion
-            , U.NombreUbicacion AS Central
-            , U.TipoUbicacion AS Clasificación
-    FROM dbo.TEmpleados E
-        INNER JOIN TLogin L ON E.EmpleadoID = L.EmpleadoID 
-        INNER JOIN TCargoEmpleado C ON E.CargoEmpleadoID = C.CargoEmpleadoID 
-        INNER JOIN TUbicaciones U ON L.UbicacionID = U.UbicacionID 
-        INNER JOIN TRol R ON L.RolID = R.RolID;
-
-GO
 
 CREATE OR ALTER VIEW VCategorias AS
     SELECT C.Categoriaid

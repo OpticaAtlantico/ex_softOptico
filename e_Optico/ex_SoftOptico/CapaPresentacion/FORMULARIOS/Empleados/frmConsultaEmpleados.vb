@@ -27,6 +27,8 @@ Public Class frmConsultaEmpleados
         AddHandler dgvDatosEmpleados.EliminarRegistro, AddressOf EliminarEmpleadoUnico
         AddHandler dgvDatosEmpleados.AgregarRegistro, AddressOf AgregarEmpleado
         AddHandler AbrirFormularioHijo, AddressOf frm_Principal.SolicitarAbrirFormularioHijo
+        'AddHandler dgvDatosEmpleados.ExportarExcelN, AddressOf AgregarEmpleado
+
 
         dgvDatosEmpleados.MetodoCargaDatos = AddressOf ObtenerEmpleados
         dgvDatosEmpleados.RefrescarTodo()
