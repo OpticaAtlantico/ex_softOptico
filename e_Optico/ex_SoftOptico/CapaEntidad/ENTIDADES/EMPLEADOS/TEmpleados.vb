@@ -9,7 +9,7 @@
     Public Property Sexo As Integer
     Public Property FechaNacimiento As Date
     Public Property Direccion As String
-    Public Property Cargo As Integer 'FK DE TABLA TCARGOS
+    Public Property Cargo As String 'FK DE TABLA TCARGOS
     Public Property Correo As String
     Public Property Asesor As Boolean
     Public Property Gerente As Boolean

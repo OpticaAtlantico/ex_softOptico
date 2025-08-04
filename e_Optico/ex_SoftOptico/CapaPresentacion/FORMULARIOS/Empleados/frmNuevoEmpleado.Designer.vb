@@ -300,6 +300,7 @@ Partial Class frmNuevoEmpleado
         cmbSexo.BorderSize = 1
         cmbSexo.CampoRequerido = True
         cmbSexo.ForeColor = Color.Black
+        cmbSexo.IndiceSeleccionado = -1
         cmbSexo.LabelColor = Color.DarkSlateGray
         cmbSexo.Location = New Point(3, 183)
         cmbSexo.MensajeError = "Este campo es obligatorio."
@@ -319,7 +320,7 @@ Partial Class frmNuevoEmpleado
         txtApellido.BorderSize = 1
         txtApellido.CampoRequerido = True
         txtApellido.CapitalizarTexto = True
-        txtApellido.CapitalizarTodasLasPalabras = False
+        txtApellido.CapitalizarTodasLasPalabras = True
         txtApellido.CaracterContraseña = "*"c
         txtApellido.ColorError = Color.Firebrick
         txtApellido.FontField = New Font("Century Gothic", 12F)
@@ -346,6 +347,7 @@ Partial Class frmNuevoEmpleado
         cmbZona.BorderColor = Color.LightGray
         cmbZona.BorderSize = 1
         cmbZona.CampoRequerido = True
+        cmbZona.IndiceSeleccionado = -1
         cmbZona.LabelColor = Color.DarkSlateGray
         cmbZona.Location = New Point(701, 273)
         cmbZona.MensajeError = "Este campo es obligatorio."
@@ -446,6 +448,7 @@ Partial Class frmNuevoEmpleado
         cmbNacionalidad.BorderColor = Color.LightGray
         cmbNacionalidad.BorderSize = 1
         cmbNacionalidad.CampoRequerido = True
+        cmbNacionalidad.IndiceSeleccionado = -1
         cmbNacionalidad.LabelColor = Color.DarkSlateGray
         cmbNacionalidad.Location = New Point(352, 93)
         cmbNacionalidad.MensajeError = "Este campo es obligatorio."
@@ -464,6 +467,7 @@ Partial Class frmNuevoEmpleado
         cmbEstadoCivil.BorderColor = Color.LightGray
         cmbEstadoCivil.BorderSize = 1
         cmbEstadoCivil.CampoRequerido = True
+        cmbEstadoCivil.IndiceSeleccionado = -1
         cmbEstadoCivil.LabelColor = Color.DarkSlateGray
         cmbEstadoCivil.Location = New Point(701, 93)
         cmbEstadoCivil.MensajeError = "Este campo es obligatorio."
@@ -482,6 +486,7 @@ Partial Class frmNuevoEmpleado
         cmbCargo.BorderColor = Color.LightGray
         cmbCargo.BorderSize = 1
         cmbCargo.CampoRequerido = True
+        cmbCargo.IndiceSeleccionado = -1
         cmbCargo.LabelColor = Color.DarkSlateGray
         cmbCargo.Location = New Point(701, 183)
         cmbCargo.MensajeError = "Este campo es obligatorio."

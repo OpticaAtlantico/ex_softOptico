@@ -12,6 +12,7 @@ Public Class DataGridViewUI
     Public Event EliminarRegistro(id As Integer)
     Public Event AgregarRegistro()
     Public Event ExportarExcelN()
+    Public Event RefrescarSolicitado()
 
     Private _dataCompleta As DataTable
     Public Event ExportarExcelSolicitado()
@@ -28,8 +29,9 @@ Public Class DataGridViewUI
     ' 🧠 Datos y paginación
     Private dataTableOriginal As DataTable
     Private paginaActual As Integer = 1
-    Private registrosPorPagina As Integer = 10
+    Private registrosPorPagina As Integer = 20
     Private totalPaginas As Integer = 1
+    Public Property MetodoCargaDatos As Func(Of DataTable)
 
     ' 🎨 Botones y encabezado
     Private btnNuevo As New CommandButtonUI() With {
@@ -88,7 +90,7 @@ Public Class DataGridViewUI
         Me.Controls.Add(PanelContenedorBotonesUI)
 
         AddHandler BNuevo.Click, Sub() RaiseEvent AgregarRegistro()
-        'AddHandler btnRefrescar.Click, Sub() RefrescarGrid()
+        AddHandler btnRefrescar.Click, Sub() RefrescarTodo()
         AddHandler btnExportar.Click, Sub() RaiseEvent ExportarExcelSolicitado()
         'AddHandler BRefrescar.Click, Sub() RestablecerVista()
 
@@ -145,6 +147,11 @@ Public Class DataGridViewUI
                                      RefrescarPaginacion(FuenteActual())
                                  End Sub
 
+        AddHandler btnRefrescar.Click, Sub()
+                                           RaiseEvent RefrescarSolicitado()
+                                           'RefrescarGridInterno() ' Descomenta si también quieres que se actualice interno
+                                       End Sub
+
         lblPaginaInfo = New Label With {
             .Text = "Página 1 de 1",
             .Font = New Font("Century Gothic", 9, FontStyle.Italic),
@@ -155,6 +162,13 @@ Public Class DataGridViewUI
         paginador.Controls.AddRange({btnInicio, btnPrev, btnNext, btnFin, lblPaginaInfo})
         Me.Controls.AddRange({dgvOrbital, paginador, filtro})
 
+    End Sub
+    Public Sub RefrescarTodo()
+        If MetodoCargaDatos IsNot Nothing Then
+            filtro.Texto = ""
+            Dim nuevaTabla As DataTable = MetodoCargaDatos.Invoke()
+            CargarDatos(nuevaTabla)
+        End If
     End Sub
 
     Private Function CrearBotonPaginadorUI(texto As String) As CommandButtonUI
@@ -182,29 +196,32 @@ Public Class DataGridViewUI
     End Function
 
     Private Sub PrepararEstiloVisualOrbital()
+        ActivarDoubleBuffering(dgvOrbital)
+
         dgvOrbital.EnableHeadersVisualStyles = False
         dgvOrbital.ColumnHeadersDefaultCellStyle = New DataGridViewCellStyle With {
-            .Font = New Font("Century Gothic", 10, FontStyle.Bold),
-            .Alignment = DataGridViewContentAlignment.MiddleLeft,
-            .Padding = New Padding(6, 10, 6, 10), ' 🧼 más espacio arriba y abajo
-            .BackColor = Color.FromArgb(220, 240, 255),
-            .ForeColor = Color.FromArgb(45, 45, 45)
-        }
+        .Font = New Font("Century Gothic", 10, FontStyle.Bold),
+        .Alignment = DataGridViewContentAlignment.MiddleLeft,
+        .Padding = New Padding(6, 10, 6, 10),
+        .BackColor = Color.FromArgb(220, 240, 255),
+        .ForeColor = Color.FromArgb(45, 45, 45)
+    }
 
         dgvOrbital.DefaultCellStyle = New DataGridViewCellStyle With {
-            .Font = New Font("Century Gothic", 10),
-            .ForeColor = Color.Black,
-            .BackColor = Color.White,
-            .SelectionBackColor = Color.LightSteelBlue,
-            .SelectionForeColor = Color.Black,
-            .Padding = New Padding(3)
-        }
+        .Font = New Font("Century Gothic", 10),
+        .ForeColor = Color.Black,
+        .BackColor = Color.White,
+        .SelectionBackColor = Color.LightSteelBlue,
+        .SelectionForeColor = Color.Black,
+        .Padding = New Padding(3)
+    }
 
         dgvOrbital.RowTemplate.Height = 29
         dgvOrbital.GridColor = Color.LightBlue
         dgvOrbital.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing
         dgvOrbital.ColumnHeadersHeight = 38
     End Sub
+
 
     Public Sub ConfigurarColumnasVisualesPorTipo(tabla As DataTable,
                                              columnasVisibles As String(),
@@ -309,40 +326,73 @@ Public Class DataGridViewUI
     End Sub
 
     Public Sub CrearFilaDesdeRow(row As DataRow)
-        Dim nuevaFila As DataGridViewRow = CType(dgvOrbital.RowTemplate.Clone(), DataGridViewRow)
+        Dim nuevaFila As New DataGridViewRow()
         nuevaFila.CreateCells(dgvOrbital)
 
-        ' Iconos orbitales (si existen las columnas)
-        If dgvOrbital.Columns.Contains("Agregar") Then
-            nuevaFila.Cells(dgvOrbital.Columns("Agregar").Index).Value =
-            IconChar.Plus.ToBitmapPaint(Color.SeaGreen, 18)
-        End If
+        For i As Integer = 0 To dgvOrbital.Columns.Count - 1
+            Dim nombreColumna As String = dgvOrbital.Columns(i).Name
 
-        If dgvOrbital.Columns.Contains("Editar") Then
-            nuevaFila.Cells(dgvOrbital.Columns("Editar").Index).Value =
-            IconChar.Pen.ToBitmapPaint(Color.SteelBlue, 18)
-        End If
-
-        If dgvOrbital.Columns.Contains("Eliminar") Then
-            nuevaFila.Cells(dgvOrbital.Columns("Eliminar").Index).Value =
-            IconChar.TrashAlt.ToBitmapPaint(Color.Firebrick, 18)
-        End If
-
-        ' Datos dinámicos por columna
-        For Each col As DataColumn In row.Table.Columns
-            If dgvOrbital.Columns.Contains(col.ColumnName) Then
-                nuevaFila.Cells(dgvOrbital.Columns(col.ColumnName).Index).Value = row(col.ColumnName)
-            End If
+            Select Case nombreColumna
+                Case "Agregar"
+                    nuevaFila.Cells(i).Value = IconCharToBitmap(IconChar.Plus, Color.SeaGreen, 18)
+                Case "Editar"
+                    nuevaFila.Cells(i).Value = IconCharToBitmap(IconChar.Pen, Color.SteelBlue, 18)
+                Case "Eliminar"
+                    nuevaFila.Cells(i).Value = IconCharToBitmap(IconChar.TrashAlt, Color.Firebrick, 18)
+                Case Else
+                    If row.Table.Columns.Contains(nombreColumna) Then
+                        nuevaFila.Cells(i).Value = row(nombreColumna)
+                    Else
+                        nuevaFila.Cells(i).Value = Nothing
+                    End If
+            End Select
         Next
 
         dgvOrbital.Rows.Add(nuevaFila)
         NeutralizarFondoIconos(dgvOrbital)
     End Sub
+    Public Sub AgregarColumnasBotones()
+        If Not dgvOrbital.Columns.Contains("Agregar") Then
+            Dim colAgregar As New DataGridViewImageColumn() With {
+            .Name = "Agregar",
+            .HeaderText = "",
+            .Width = 40,
+            .ImageLayout = DataGridViewImageCellLayout.Zoom
+        }
+            colAgregar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            dgvOrbital.Columns.Add(colAgregar)
+        End If
+
+        If Not dgvOrbital.Columns.Contains("Editar") Then
+            Dim colEditar As New DataGridViewImageColumn() With {
+            .Name = "Editar",
+            .HeaderText = "",
+            .Width = 40,
+            .ImageLayout = DataGridViewImageCellLayout.Zoom
+        }
+            colEditar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            dgvOrbital.Columns.Add(colEditar)
+        End If
+
+        If Not dgvOrbital.Columns.Contains("Eliminar") Then
+            Dim colEliminar As New DataGridViewImageColumn() With {
+            .Name = "Eliminar",
+            .HeaderText = "",
+            .Width = 40,
+            .ImageLayout = DataGridViewImageCellLayout.Zoom
+        }
+            colEliminar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+            dgvOrbital.Columns.Add(colEliminar)
+        End If
+    End Sub
+
     Public Sub NeutralizarFondoIconos(grid As DataGridView)
-        For Each col In grid.Columns
+        For Each col As DataGridViewColumn In grid.Columns
             If TypeOf col Is DataGridViewImageColumn Then
-                col.DefaultCellStyle.BackColor = Color.Transparent
-                col.DefaultCellStyle.SelectionBackColor = Color.Transparent
+                col.DefaultCellStyle.BackColor = Color.White
+                col.DefaultCellStyle.SelectionBackColor = Color.White
+                col.DefaultCellStyle.SelectionForeColor = Color.White
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             End If
         Next
     End Sub
@@ -425,6 +475,14 @@ Public Class DataGridViewUI
     Private Sub MostrarToast(mensaje As String, tipo As TipoToastUI)
         Dim toast As New ToastUI()
         toast.MostrarToast(mensaje, tipo)
+    End Sub
+
+    Private Sub ActivarDoubleBuffering(grid As DataGridView)
+        Dim tipo As Type = grid.GetType()
+        Dim prop = tipo.GetProperty("DoubleBuffered", Reflection.BindingFlags.Instance Or Reflection.BindingFlags.NonPublic)
+        If prop IsNot Nothing Then
+            prop.SetValue(grid, True, Nothing)
+        End If
     End Sub
 
     Public Property DataOriginal As DataTable

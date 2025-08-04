@@ -22,30 +22,30 @@ Partial Class frmConsultaEmpleados
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        DataGridViewui1 = New DataGridViewUI()
+        dgvDatosEmpleados = New DataGridViewUI()
         SuspendLayout()
         ' 
-        ' DataGridViewui1
+        ' dgvDatosEmpleados
         ' 
-        DataGridViewui1.BackColor = Color.WhiteSmoke
-        DataGridViewui1.DataCompleta = Nothing
-        DataGridViewui1.DataOriginal = Nothing
-        DataGridViewui1.Dock = DockStyle.Fill
-        DataGridViewui1.Location = New Point(0, 0)
-        DataGridViewui1.Name = "DataGridViewui1"
-        DataGridViewui1.Size = New Size(1204, 447)
-        DataGridViewui1.TabIndex = 0
+        dgvDatosEmpleados.BackColor = Color.WhiteSmoke
+        dgvDatosEmpleados.DataCompleta = Nothing
+        dgvDatosEmpleados.DataOriginal = Nothing
+        dgvDatosEmpleados.Dock = DockStyle.Fill
+        dgvDatosEmpleados.Location = New Point(0, 0)
+        dgvDatosEmpleados.Name = "dgvDatosEmpleados"
+        dgvDatosEmpleados.Size = New Size(1251, 507)
+        dgvDatosEmpleados.TabIndex = 0
         ' 
         ' frmConsultaEmpleados
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1204, 447)
-        Controls.Add(DataGridViewui1)
+        ClientSize = New Size(1251, 507)
+        Controls.Add(dgvDatosEmpleados)
         Name = "frmConsultaEmpleados"
         Text = "frm_ConsultaEmpleados"
         ResumeLayout(False)
     End Sub
 
-    Friend WithEvents DataGridViewui1 As DataGridViewUI
+    Friend WithEvents dgvDatosEmpleados As DataGridViewUI
 End Class

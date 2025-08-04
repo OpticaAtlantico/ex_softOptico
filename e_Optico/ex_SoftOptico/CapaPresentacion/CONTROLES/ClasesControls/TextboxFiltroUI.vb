@@ -8,42 +8,6 @@ Public Class TextboxFiltroUI
     Private _textInput As TextBox
     Public Event TextChanged As EventHandler
 
-    <Category("Orbital"), Description("Texto de sugerencia")>
-    Public Property PlaceholderText As String
-        Get
-            Return _textInput.PlaceholderText
-        End Get
-        Set(value As String)
-            _textInput.PlaceholderText = value
-        End Set
-    End Property
-
-    <Category("Orbital"), Description("Ícono FontAwesome")>
-    Public Property Icono As IconChar
-        Get
-            Return _iconBox.IconChar
-        End Get
-        Set(value As IconChar)
-            _iconBox.IconChar = value
-        End Set
-    End Property
-
-    <Category("Orbital"), Description("Color del ícono")>
-    Public Property IconColor As Color
-        Get
-            Return _iconBox.IconColor
-        End Get
-        Set(value As Color)
-            _iconBox.IconColor = value
-        End Set
-    End Property
-
-    Public ReadOnly Property TextoFiltrado As String
-        Get
-            Return _textInput.Text.Trim()
-        End Get
-    End Property
-
     Public Sub New()
         Me.Height = 30
         Me.Width = 240
@@ -95,5 +59,51 @@ Public Class TextboxFiltroUI
                                                RaiseEvent TextChanged(Me, e)
                                            End Sub
     End Sub
+
+    <Category("Orbital"), Description("Texto del filtro")>
+    Public Property Texto As String
+        Get
+            Return _textInput.Text
+        End Get
+        Set(value As String)
+            _textInput.Text = value
+        End Set
+    End Property
+
+    <Category("Orbital"), Description("Texto de sugerencia")>
+    Public Property PlaceholderText As String
+        Get
+            Return _textInput.PlaceholderText
+        End Get
+        Set(value As String)
+            _textInput.PlaceholderText = value
+        End Set
+    End Property
+
+    <Category("Orbital"), Description("Ícono FontAwesome")>
+    Public Property Icono As IconChar
+        Get
+            Return _iconBox.IconChar
+        End Get
+        Set(value As IconChar)
+            _iconBox.IconChar = value
+        End Set
+    End Property
+
+    <Category("Orbital"), Description("Color del ícono")>
+    Public Property IconColor As Color
+        Get
+            Return _iconBox.IconColor
+        End Get
+        Set(value As Color)
+            _iconBox.IconColor = value
+        End Set
+    End Property
+
+    Public ReadOnly Property TextoFiltrado As String
+        Get
+            Return _textInput.Text.Trim()
+        End Get
+    End Property
 
 End Class

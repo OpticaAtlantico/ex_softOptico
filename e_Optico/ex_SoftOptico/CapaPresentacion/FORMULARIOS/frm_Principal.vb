@@ -16,7 +16,7 @@ Public Class frm_Principal
 
     'Para procedimeintos de botones 
     Private currentButton As Button
-    Private activeForms As Form ' Formulario activo
+    Private activeForms As Form = Nothing  ' Formulario activo
     Dim loginmodelo = listLogin
 
     Private fadeTimer As New Timer()
@@ -130,6 +130,8 @@ Public Class frm_Principal
     Private Sub SubNuevo_Click(sender As Object, e As EventArgs)
         Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
 
+        CerrarDrawer()
+
         If Not abierto Then
             OpenChildForm(New frmNuevoEmpleado, sender)
             EfectoBotonInActivo()
@@ -139,7 +141,7 @@ Public Class frm_Principal
 
     Private Sub SubEditar_Click(sender As Object, e As EventArgs)
 
-        DrawerTimer.Start()
+        CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
         overlay.Show()
@@ -158,11 +160,11 @@ Public Class frm_Principal
         Else
             MessageBox.Show("El usuario canceló.")
         End If
-
+        DrawerTimer.Start()
     End Sub
 
     Private Sub SubEliminar_Click(sender As Object, e As EventArgs)
-        DrawerTimer.Start()
+        CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
         overlay.Show()
@@ -181,16 +183,20 @@ Public Class frm_Principal
         Else
             MessageBox.Show("El usuario canceló.")
         End If
+        DrawerTimer.Start()
     End Sub
 
     Private Sub SubConsultar_Click(sender As Object, e As EventArgs)
-        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultaEmpleados).Any()
+
+        CerrarDrawer()
 
         If Not abierto Then
-            OpenChildForm(New frmNuevoEmpleado, sender)
             EfectoBotonInActivo()
+            OpenChildForm(New frmConsultaEmpleados, sender)
         End If
     End Sub
+
 
     Private Sub SubReportes_Click(sender As Object, e As EventArgs)
         'MostrarContenido(New PegarControl())
@@ -352,9 +358,20 @@ Public Class frm_Principal
     Private Sub DisableButton()
         btnSalirFrmHijo.Visible = False
     End Sub
-    Private Sub OpenChildForm(childForm As Form, btnSender As Object)
 
-        If activeForms IsNot Nothing Then activeForms.Close()
+    Private Sub CerrarDrawer()
+        If pnlDrawer.Visible Then
+            pnlDrawer.Width = 0
+            drawerAbierto = False
+        End If
+    End Sub
+
+    Public Sub OpenChildForm(childForm As Form, btnSender As Object)
+
+        If activeForms IsNot Nothing Then
+            activeForms.Close()
+        End If
+
         ActivateButton()
         activeForms = childForm
         childForm.TopLevel = False
