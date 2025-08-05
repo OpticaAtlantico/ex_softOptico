@@ -4,6 +4,6 @@ Module Startup
     Sub Main()
         Application.EnableVisualStyles()
         Application.SetCompatibleTextRenderingDefault(False)
-        Application.Run(New frm_Login())
+        Application.Run(New frm_Principal())
     End Sub
 End Module

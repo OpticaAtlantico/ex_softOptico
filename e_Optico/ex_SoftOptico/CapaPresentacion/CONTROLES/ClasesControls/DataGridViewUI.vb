@@ -44,8 +44,13 @@ Public Class DataGridViewUI
         .EstiloBoton = CommandButtonUI.EstiloBootstrap.Success,
         .Icono = IconChar.SyncAlt
     }
-    Private btnExportar As New CommandButtonUI() With {
-        .Texto = "Exportar",
+    Private btnExportarGrid As New CommandButtonUI() With {
+        .Texto = "Exportar Grid",
+        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info,
+        .Icono = IconChar.FileExcel
+    }
+    Private btnExportarTabla As New CommandButtonUI() With {
+        .Texto = "Exportar Tabla",
         .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info,
         .Icono = IconChar.FileExcel
     }
@@ -85,14 +90,19 @@ Public Class DataGridViewUI
         }
 
         PanelIzquierdo.Controls.Add(lblTitulo)
-        PanelDerecho.Controls.AddRange({btnNuevo, BRefrescar, BExportar})
+        PanelDerecho.Controls.AddRange({btnNuevo, BRefrescar, BExportarGrid, BExportarTabla})
         PanelContenedorBotonesUI.Controls.AddRange({PanelDerecho, PanelIzquierdo})
         Me.Controls.Add(PanelContenedorBotonesUI)
 
         AddHandler BNuevo.Click, Sub() RaiseEvent AgregarRegistro()
         AddHandler btnRefrescar.Click, Sub() RefrescarTodo()
-        AddHandler btnExportar.Click, Sub() RaiseEvent ExportarExcelSolicitado()
-        'AddHandler BRefrescar.Click, Sub() RestablecerVista()
+        AddHandler btnExportarGrid.Click, Sub()
+                                              RaiseEvent ExportarExcelSolicitado()
+                                          End Sub
+        AddHandler btnExportarTabla.Click, Sub()
+                                               RaiseEvent ExportarExcelSolicitado()
+                                           End Sub
+
 
         ' 🔁 Conexión del filtro reactivo
         If filtro IsNot Nothing Then
@@ -452,7 +462,7 @@ Public Class DataGridViewUI
     ''' <summary>
     ''' Convierte el contenido del DataGridView a DataTable excluyendo columnas iniciales.
     ''' </summary>
-    Private Function ObtenerTablaDesdeGrid(grid As DataGridView, Optional excluirPrimeras As Integer = 0) As DataTable
+    Public Function ObtenerTablaDesdeGrid(grid As DataGridView, Optional excluirPrimeras As Integer = 0) As DataTable
         Dim tabla As New DataTable()
         Dim columnas = grid.Columns.Cast(Of DataGridViewColumn)().
         Where(Function(c) c.Visible AndAlso c.Index >= excluirPrimeras).ToList()
@@ -521,12 +531,21 @@ Public Class DataGridViewUI
         End Set
     End Property
 
-    Public Property BExportar As CommandButtonUI
+    Public Property BExportarGrid As CommandButtonUI
         Get
-            Return btnExportar
+            Return btnExportarGrid
         End Get
         Set(value As CommandButtonUI)
-            btnExportar = value
+            btnExportarGrid = value
+        End Set
+    End Property
+
+    Public Property BExportarTabla As CommandButtonUI
+        Get
+            Return btnExportarTabla
+        End Get
+        Set(value As CommandButtonUI)
+            btnExportarTabla = value
         End Set
     End Property
 

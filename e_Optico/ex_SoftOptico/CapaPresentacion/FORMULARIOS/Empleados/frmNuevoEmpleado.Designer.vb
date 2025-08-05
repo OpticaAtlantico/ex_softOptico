@@ -268,7 +268,7 @@ Partial Class frmNuevoEmpleado
         ' 
         txtNombre.BackColor = Color.Transparent
         txtNombre.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtNombre.BorderRadius = 5
+        txtNombre.BorderRadius = 8
         txtNombre.BorderSize = 1
         txtNombre.CampoRequerido = True
         txtNombre.CapitalizarTexto = True
@@ -306,7 +306,7 @@ Partial Class frmNuevoEmpleado
         cmbSexo.MensajeError = "Este campo es obligatorio."
         cmbSexo.MostrarError = False
         cmbSexo.Name = "cmbSexo"
-        cmbSexo.RadioContornoPanel = 6
+        cmbSexo.RadioContornoPanel = 8
         cmbSexo.Size = New Size(343, 80)
         cmbSexo.TabIndex = 7
         cmbSexo.Titulo = "Sexo:"
@@ -316,7 +316,7 @@ Partial Class frmNuevoEmpleado
         ' 
         txtApellido.BackColor = Color.Transparent
         txtApellido.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtApellido.BorderRadius = 5
+        txtApellido.BorderRadius = 8
         txtApellido.BorderSize = 1
         txtApellido.CampoRequerido = True
         txtApellido.CapitalizarTexto = True
@@ -417,7 +417,7 @@ Partial Class frmNuevoEmpleado
         ' 
         txtCorreo.BackColor = Color.Transparent
         txtCorreo.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCorreo.BorderRadius = 5
+        txtCorreo.BorderRadius = 8
         txtCorreo.BorderSize = 1
         txtCorreo.CampoRequerido = True
         txtCorreo.CapitalizarTexto = False

@@ -22,9 +22,15 @@ Partial Class MessageBoxUI
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Text = "MessageBoxUI"
+        SuspendLayout()
+        ' 
+        ' MessageBoxUI
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(120, 14)
+        Name = "MessageBoxUI"
+        Text = "MessageBoxUI"
+        ResumeLayout(False)
     End Sub
 End Class

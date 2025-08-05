@@ -8,6 +8,9 @@ Public Class frmConsultaEmpleados
     ' Evento para pedir al formulario padre abrir un formulario hijo nuevo
     Public Event AbrirFormularioHijo As Action(Of Form)
 
+    Private layoutOrbital As DataGridViewUI
+
+
     Public Sub New()
         InitializeComponent()
 
@@ -27,11 +30,21 @@ Public Class frmConsultaEmpleados
         AddHandler dgvDatosEmpleados.EliminarRegistro, AddressOf EliminarEmpleadoUnico
         AddHandler dgvDatosEmpleados.AgregarRegistro, AddressOf AgregarEmpleado
         AddHandler AbrirFormularioHijo, AddressOf frm_Principal.SolicitarAbrirFormularioHijo
-        'AddHandler dgvDatosEmpleados.ExportarExcelN, AddressOf AgregarEmpleado
-
 
         dgvDatosEmpleados.MetodoCargaDatos = AddressOf ObtenerEmpleados
         dgvDatosEmpleados.RefrescarTodo()
+
+        AddHandler dgvDatosEmpleados.BExportarGrid.Click, Sub()
+                                                              ExcelExportManagerUI.ExportarDesdeGridEstilizado(dgvDatosEmpleados.GrvOrbital, "Empleado")
+                                                          End Sub
+
+        AddHandler dgvDatosEmpleados.BExportarTabla.Click, Sub()
+                                                               MsgBox("Exportar tabla no implementado")
+                                                           End Sub
+
+
+
+
     End Sub
 
     Private Function ObtenerEmpleados() As DataTable
