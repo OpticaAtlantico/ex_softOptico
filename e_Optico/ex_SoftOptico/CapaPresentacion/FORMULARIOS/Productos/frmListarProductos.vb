@@ -1,4 +1,8 @@
-﻿Public Class frmListarProductos
+﻿Imports System.Windows.Forms
+Imports CapaDatos
+Imports CapaEntidad
+Public Class frmListarProductos
+
     Public Event ProductoSeleccionado(productoID As Integer, nombre As String, costo As Decimal)
 
     Private Sub frmListarProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -6,8 +10,8 @@
     End Sub
 
     Private Sub CargarProductos()
-        Dim dt As DataTable = RepositorioProductos.ObtenerTodos()
-        dgvProductos.DataSource = dt
+        'Dim dt As DataTable = Repositorio_VProductos.ObtenerTodos()
+        'dgvProductos.DataSource = dt'
     End Sub
 
     Private Sub dgvProductos_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvProductos.CellDoubleClick
