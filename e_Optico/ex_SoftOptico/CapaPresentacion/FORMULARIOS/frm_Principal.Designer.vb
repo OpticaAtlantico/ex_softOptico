@@ -475,7 +475,6 @@ Partial Class frm_Principal
         ' pnlDrawer
         ' 
         pnlDrawer.BackColor = Color.White
-        pnlDrawer.BorderStyle = BorderStyle.FixedSingle
         pnlDrawer.Dock = DockStyle.Left
         pnlDrawer.Location = New Point(55, 64)
         pnlDrawer.Name = "pnlDrawer"
@@ -495,7 +494,7 @@ Partial Class frm_Principal
         ' 
         ' DrawerTimer
         ' 
-        DrawerTimer.Interval = 15
+        DrawerTimer.Interval = 10
         ' 
         ' frm_Principal
         ' 

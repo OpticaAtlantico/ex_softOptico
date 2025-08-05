@@ -133,6 +133,7 @@ CREATE TABLE TProductos (
     PrecioVenta DECIMAL(18, 2) NOT NULL,
     CostoPromedio DECIMAL(18, 2) NOT NULL DEFAULT 0, -- Costo promedio ponderado
     Activo BIT NOT NULL DEFAULT 1,
+    Stock INT NOT NULL DEFAUL 0,
     RequiereInventario BIT NOT NULL DEFAULT 1, -- Para servicios que no manejan stock
     FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
 );
@@ -182,7 +183,7 @@ CREATE TABLE TLogin (
 
 -- Tabla: StockPorUbicacion (Inventario real por producto en cada ubicación)
 CREATE TABLE TStockProducto (
-    StockUbicacionID INT IDENTITY(1,1) PRIMARY KEY,
+    StockID INT IDENTITY(1,1) PRIMARY KEY,
     ProductoID INT NOT NULL,
     UbicacionID INT NOT NULL,
     StockActual INT NOT NULL DEFAULT 0,
@@ -465,6 +466,20 @@ CREATE OR ALTER VIEW VLogin AS
 
 -- SELECT * FROM VLogin;
 
+CREATE OR ALTER VIEW VProductos AS
+    SELECT dbo.TProductos.CodigoProducto AS Codigo
+           , dbo.TProductos.Descripcion AS Nombre
+           , dbo.TProductos.PrecioVenta AS Precio
+           , dbo.TCategorias.NombreCategoria AS Categoria
+           , dbo.TSubCategorias.NombreSubCategoria AS Subcategoria
+           , dbo.TStockProducto.StockActual AS Stock
+    FROM     dbo.TProductos INNER JOIN
+             dbo.TCategorias ON dbo.TProductos.CategoriaID = dbo.TCategorias.CategoriaID INNER JOIN
+             dbo.TSubCategorias ON dbo.TCategorias.CategoriaID = dbo.TSubCategorias.CategoriaID INNER JOIN
+             dbo.TStockProducto ON dbo.TProductos.ProductoID = dbo.TStockProducto.ProductoID
+
+
+
 -----   PROCEDIMIENTOS
 
 
@@ -581,4 +596,5 @@ INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
 --        Return (textos, iconos)
 --    End Function
 --End Class
+
 

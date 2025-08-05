@@ -11,6 +11,7 @@ Public Class DateBoxLabelUI
     ' === Controles ===
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
+    Private pnlSombra As New Panel()
     Private txtCampo As New MaskedTextBox()
     Private lblError As New Label()
     Private iconoDerecho As New IconPictureBox()
@@ -29,7 +30,7 @@ Public Class DateBoxLabelUI
     Private _colorError As Color = Color.Firebrick
     Private _campoRequerido As Boolean = True
     Private _mensajeError As String = "Este campo es obligatorio."
-
+    Private _borderColorPersonalizado As Color = Color.LightGray
     'Evento keypress
     Public Event CampoKeyPress(sender As Object, e As KeyPressEventArgs)
 
@@ -45,6 +46,13 @@ Public Class DateBoxLabelUI
         lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
+
+        pnlSombra.Dock = DockStyle.None
+        pnlSombra.BackColor = _borderColorPersonalizado
+        pnlSombra.Height = 37
+        pnlSombra.Width = 346
+        pnlSombra.Margin = Padding.Empty
+        pnlSombra.Location = New Point(6, 23)
 
         ' Panel fondo
         pnlFondo.Dock = DockStyle.Top
@@ -86,6 +94,7 @@ Public Class DateBoxLabelUI
         pnlFondo.Controls.Add(iconoDerecho)
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
+        Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
         ' Reajuste al redimensionar

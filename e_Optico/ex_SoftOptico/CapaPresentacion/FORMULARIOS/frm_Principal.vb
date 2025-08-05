@@ -64,10 +64,11 @@ Public Class frm_Principal
     End Sub
 #End Region
 
-#Region "CONTROLES"
+#Region "Formulario y botones"
     Private Sub btnSalirFrmHijo_Click(sender As Object, e As EventArgs) Handles btnSalirFrmHijo.Click
         If (Not (activeForms) Is Nothing) Then
             activeForms.Close()
+            DrawerTimer.Start()
         End If
         Reset()
     End Sub
@@ -75,198 +76,6 @@ Public Class frm_Principal
         'Funcion para permitir mover el formulario por todas partes
         ReleaseCapture()
         SendMessage(Me.Handle, &H112&, &HF012&, 0)
-    End Sub
-
-    Private Sub AgregarBotonMenu(nombre As String, icono As IconChar, evento As EventHandler)
-        Dim btn As New IconButton With {
-            .Text = "",
-            .IconChar = icono,
-            .IconColor = Color.WhiteSmoke,
-            .Dock = DockStyle.Top,
-            .Height = 50,
-            .FlatStyle = FlatStyle.Flat,
-            .TextImageRelation = TextImageRelation.ImageAboveText,
-            .IconSize = 45,
-            .ForeColor = Color.WhiteSmoke
-        }
-        btn.FlatAppearance.BorderSize = 0
-        AddHandler btn.Click, evento
-        pnlMenu.Controls.Add(btn)
-
-    End Sub
-
-    Private Sub BotonMenuEmpleados()
-        ' Crear las opciones de manera clara, evitando CType de lambdas
-        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
-
-        Dim handlerReporte As New EventHandler(AddressOf SubReportes_Click)
-        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
-
-        Dim handlerConsultar As New EventHandler(AddressOf SubConsultar_Click)
-        opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
-
-        Dim handlerEliminar As New EventHandler(AddressOf SubEliminar_Click)
-        opciones.Add(Tuple.Create("Eliminar Empleado", IconChar.TrashArrowUp, handlerEliminar))
-
-        Dim handlerEditar As New EventHandler(AddressOf SubEditar_Click)
-        opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
-
-        Dim handlerNuevo As New EventHandler(AddressOf SubNuevo_Click)
-        opciones.Add(Tuple.Create("Nuevo Empleado", IconChar.Save, handlerNuevo))
-
-        ' Cargar en Drawer
-        drawerControl.CargarOpciones(opciones)
-        'pnlDrawer.Visible = True
-        'If pnlDrawer.Width <= 0 Then
-        DrawerTimer.Start()
-        'End If
-        'drawerAbierto = True
-    End Sub
-
-#End Region
-
-#Region "EVENTOS FORMULARIO"
-
-    Private Sub SubNuevo_Click(sender As Object, e As EventArgs)
-        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
-
-        CerrarDrawer()
-
-        If Not abierto Then
-            OpenChildForm(New frmNuevoEmpleado)
-            EfectoBotonInActivo()
-        End If
-
-    End Sub
-
-    Private Sub SubEditar_Click(sender As Object, e As EventArgs)
-
-        CerrarDrawer()
-
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese número de cédula",
-            placeholder:="12345678",
-            tipoDato:=InputBoxUI.TipoValidacion.Numero,
-            icono:=FontAwesome.Sharp.IconChar.UserAlt,
-            obligatorio:=True
-        )
-        overlay.Close()
-        EfectoBotonInActivo()
-
-        If resultado.Aceptado Then
-            enviarDatosEmpleados(resultado.Valor, 0)
-        Else
-            MessageBoxUI.Mostrar(Me,
-                                 "Cerrar...",
-                                 "Saliendo de control de entrada de datos",
-                                 MessageBoxUI.TipoMensaje.Advertencia,
-                                 MessageBoxUI.Botones.Aceptar,
-                                 FontAwesome.Sharp.IconChar.InfoCircle
-                                )
-        End If
-        DrawerTimer.Start()
-    End Sub
-
-    Private Sub SubEliminar_Click(sender As Object, e As EventArgs)
-        CerrarDrawer()
-
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese número de cédula",
-            placeholder:="12345678",
-            tipoDato:=InputBoxUI.TipoValidacion.Numero,
-            icono:=FontAwesome.Sharp.IconChar.UserAlt,
-            obligatorio:=True
-        )
-        overlay.Close()
-        EfectoBotonInActivo()
-
-        If resultado.Aceptado Then
-            enviarDatosEmpleados(resultado.Valor, 1)
-        Else
-            MessageBoxUI.Mostrar(Me,
-                                 "Cerrar...",
-                                 "Saliendo de control de entrada de datos",
-                                 MessageBoxUI.TipoMensaje.Advertencia,
-                                 MessageBoxUI.Botones.Aceptar,
-                                 FontAwesome.Sharp.IconChar.InfoCircle
-                                )
-        End If
-        DrawerTimer.Start()
-    End Sub
-
-    Private Sub SubConsultar_Click(sender As Object, e As EventArgs)
-        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultaEmpleados).Any()
-
-        CerrarDrawer()
-
-        If Not abierto Then
-            EfectoBotonInActivo()
-            Dim consultaEmpleadosForm As New frmConsultaEmpleados()
-            AddHandler consultaEmpleadosForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
-            OpenChildForm(consultaEmpleadosForm)
-
-            'OpenChildForm(New frmConsultaEmpleados)
-        End If
-    End Sub
-
-
-    Private Sub SubReportes_Click(sender As Object, e As EventArgs)
-        'MostrarContenido(New PegarControl())
-        DrawerTimer.Start()
-    End Sub
-
-    Private Sub btnInventario_Click(sender As Object, e As EventArgs) Handles btnInventario.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnVenta_Click(sender As Object, e As EventArgs) Handles btnVenta.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnCompra_Click(sender As Object, e As EventArgs) Handles btnCompra.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnProveedor_Click(sender As Object, e As EventArgs) Handles btnProveedor.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnEmpleado_Click(sender As Object, e As EventArgs) Handles btnEmpleado.Click
-        EfectoBotonActivo(sender)
-        BotonMenuEmpleados()
-    End Sub
-
-    Private Sub btnComision_Click(sender As Object, e As EventArgs) Handles btnComision.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnNomina_Click(sender As Object, e As EventArgs) Handles btnNomina.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnReporte_Click(sender As Object, e As EventArgs) Handles btnReporte.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnAnalisis_Click(sender As Object, e As EventArgs) Handles btnAnalisis.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
-    End Sub
-
-    Private Sub btnAjustes_Click(sender As Object, e As EventArgs) Handles btnAjustes.Click
-        'BotonMenuInventario()
-        EfectoBotonActivo(sender)
     End Sub
 
     Private Sub frm_Principal_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -313,7 +122,248 @@ Public Class frm_Principal
 
 #End Region
 
-#Region "ACCIONES"
+#Region "Botones menu Empleados"
+
+    Private Sub BotonMenuEmpleados()
+        ' Crear las opciones de manera clara, evitando CType de lambdas
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
+
+        Dim handlerReporte As New EventHandler(AddressOf SubReportesE_Click)
+        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
+
+        Dim handlerConsultar As New EventHandler(AddressOf SubConsultarE_Click)
+        opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
+
+        Dim handlerEliminar As New EventHandler(AddressOf SubEliminarE_Click)
+        opciones.Add(Tuple.Create("Eliminar Empleado", IconChar.TrashArrowUp, handlerEliminar))
+
+        Dim handlerEditar As New EventHandler(AddressOf SubEditarE_Click)
+        opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
+
+        Dim handlerNuevo As New EventHandler(AddressOf SubNuevoE_Click)
+        opciones.Add(Tuple.Create("Nuevo Empleado", IconChar.Save, handlerNuevo))
+
+        ' Cargar en Drawer
+        drawerControl.CargarOpciones(opciones)
+        'pnlDrawer.Visible = True
+        'If pnlDrawer.Width <= 0 Then
+        DrawerTimer.Start()
+        'End If
+        'drawerAbierto = True
+    End Sub
+
+    Private Sub SubNuevoE_Click(sender As Object, e As EventArgs)
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            OpenChildForm(New frmNuevoEmpleado)
+            EfectoBotonInActivo()
+        End If
+
+    End Sub
+
+    Private Sub SubEditarE_Click(sender As Object, e As EventArgs)
+
+        CerrarDrawer()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese número de cédula",
+            placeholder:="12345678",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.UserAlt,
+            obligatorio:=True
+        )
+        overlay.Close()
+        EfectoBotonInActivo()
+
+        If resultado.Aceptado Then
+            enviarDatosEmpleados(resultado.Valor, 0)
+        Else
+            MessageBoxUI.Mostrar(Me,
+                                 "Cerrar...",
+                                 "Saliendo de control de entrada de datos",
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.Botones.Aceptar,
+                                 FontAwesome.Sharp.IconChar.InfoCircle
+                                )
+        End If
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubEliminarE_Click(sender As Object, e As EventArgs)
+        CerrarDrawer()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese número de cédula",
+            placeholder:="12345678",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.UserAlt,
+            obligatorio:=True
+        )
+        overlay.Close()
+        EfectoBotonInActivo()
+
+        If resultado.Aceptado Then
+            enviarDatosEmpleados(resultado.Valor, 1)
+        Else
+            MessageBoxUI.Mostrar(Me,
+                                 "Cerrar...",
+                                 "Saliendo de control de entrada de datos",
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.Botones.Aceptar,
+                                 FontAwesome.Sharp.IconChar.InfoCircle
+                                )
+        End If
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubConsultarE_Click(sender As Object, e As EventArgs)
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultaEmpleados).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            EfectoBotonInActivo()
+            Dim consultaEmpleadosForm As New frmConsultaEmpleados()
+            AddHandler consultaEmpleadosForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
+            OpenChildForm(consultaEmpleadosForm)
+
+            'OpenChildForm(New frmConsultaEmpleados)
+        End If
+    End Sub
+
+
+    Private Sub SubReportesE_Click(sender As Object, e As EventArgs)
+        'MostrarContenido(New PegarControl())
+        DrawerTimer.Start()
+    End Sub
+
+#End Region
+
+#Region "Botones menu Inventario"
+
+#End Region
+
+#Region "Botones menu Ventas"
+
+#End Region
+
+#Region "Boton menu compra"
+    Private Sub BotonMenuCompra()
+        ' Crear las opciones de manera clara, evitando CType de lambdas
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
+
+        Dim handlerReporte As New EventHandler(AddressOf SubReportesC_Click)
+        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
+
+        Dim handlerConsultar As New EventHandler(AddressOf SubConsultarC_Click)
+        opciones.Add(Tuple.Create("Consultar Compra", IconChar.ListNumeric, handlerConsultar))
+
+        Dim handlerEliminar As New EventHandler(AddressOf SubEliminarC_Click)
+        opciones.Add(Tuple.Create("Borrar Compra", IconChar.TrashArrowUp, handlerEliminar))
+
+        Dim handlerEditar As New EventHandler(AddressOf SubEditarC_Click)
+        opciones.Add(Tuple.Create("Editar Compra", IconChar.FolderOpen, handlerEditar))
+
+        Dim handlerNuevo As New EventHandler(AddressOf SubNuevoC_Click)
+        opciones.Add(Tuple.Create("Nueva Compra", IconChar.Save, handlerNuevo))
+
+        ' Cargar en Drawer
+        drawerControl.CargarOpciones(opciones)
+        'pnlDrawer.Visible = True
+        'If pnlDrawer.Width <= 0 Then
+        DrawerTimer.Start()
+        'End If
+        'drawerAbierto = True
+    End Sub
+
+    Private Sub SubReportesC_Click(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
+    End Sub
+
+    Private Sub SubConsultarC_Click(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
+    End Sub
+
+    Private Sub SubEliminarC_Click(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
+    End Sub
+
+    Private Sub SubEditarC_Click(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
+    End Sub
+
+    Private Sub SubNuevoC_Click(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
+    End Sub
+
+
+
+#End Region
+
+#Region "Botones del Menu"
+
+    Private Sub btnInventario_Click(sender As Object, e As EventArgs) Handles btnInventario.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub btnVenta_Click(sender As Object, e As EventArgs) Handles btnVenta.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub btnCompra_Click(sender As Object, e As EventArgs) Handles btnCompra.Click
+        EfectoBotonActivo(sender)
+        BotonMenuCompra()
+    End Sub
+
+    Private Sub btnProveedor_Click(sender As Object, e As EventArgs) Handles btnProveedor.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub btnEmpleado_Click(sender As Object, e As EventArgs) Handles btnEmpleado.Click
+        EfectoBotonActivo(sender)
+        BotonMenuEmpleados()
+    End Sub
+
+    Private Sub btnComision_Click(sender As Object, e As EventArgs) Handles btnComision.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub btnNomina_Click(sender As Object, e As EventArgs) Handles btnNomina.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub btnReporte_Click(sender As Object, e As EventArgs) Handles btnReporte.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub btnAnalisis_Click(sender As Object, e As EventArgs) Handles btnAnalisis.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+    Private Sub btnAjustes_Click(sender As Object, e As EventArgs) Handles btnAjustes.Click
+        'BotonMenuInventario()
+        EfectoBotonActivo(sender)
+    End Sub
+
+
+
+#End Region
+
+#Region "ACCIONES TIMER"
 
     Private Sub DrawerTimer_Tick(sender As Object, e As EventArgs) Handles DrawerTimer.Tick
         If Not DrawerExpandido Then
@@ -328,6 +378,7 @@ Public Class frm_Principal
         Else
             ' Contrayendo
             If pnlDrawer.Width > 0 Then
+                pnlDrawer.Width = 0
                 pnlDrawer.Width -= DrawerVelocidad
             Else
                 DrawerTimer.Stop()
@@ -345,6 +396,7 @@ Public Class frm_Principal
 #End Region
 
 #Region "PROCEDIMIENTO"
+
     Private Sub EfectoBotonActivo(sender As Object)
         EfectoBotonInActivo()
         If sender IsNot Nothing Then
@@ -401,8 +453,7 @@ Public Class frm_Principal
         childForm.BringToFront()
 
         ' Tus efectos de drawer o blur que tengas
-        DrawerExpandido = True
-        DrawerTimer.Start()
+        CerrarDrawer()
 
         childForm.Show()
     End Sub
@@ -474,7 +525,5 @@ Public Class frm_Principal
     End Sub
 
 #End Region
-
-
 
 End Class

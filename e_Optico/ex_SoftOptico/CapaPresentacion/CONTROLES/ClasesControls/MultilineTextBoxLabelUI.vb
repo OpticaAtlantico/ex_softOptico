@@ -11,6 +11,7 @@ Public Class MultilineTextBoxLabelUI
     ' === Controles ===
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
+    Private pnlSombra As New Panel()
     Private txtCampo As New TextBox()
     Private lblError As New Label()
 
@@ -56,6 +57,12 @@ Public Class MultilineTextBoxLabelUI
         lblTitulo.ForeColor = _textColor
         lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
 
+        pnlSombra.Dock = DockStyle.None
+        pnlSombra.BackColor = _borderColorPersonalizado
+        pnlSombra.Height = pnlFondo.Height + 0.6
+        pnlSombra.Width = 900
+        pnlSombra.Margin = Padding.Empty
+        pnlSombra.Location = New Point(6, 23)
 
         ' === Panel contenedor ===
         pnlFondo.Dock = DockStyle.Top
@@ -119,6 +126,7 @@ Public Class MultilineTextBoxLabelUI
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
+        Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
         ' === Eventos ===

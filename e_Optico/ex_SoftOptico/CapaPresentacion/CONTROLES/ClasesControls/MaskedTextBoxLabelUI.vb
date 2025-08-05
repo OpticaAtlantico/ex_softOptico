@@ -10,6 +10,7 @@ Public Class MaskedTextBoxLabelUI
     ' === Controles ===
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
+    Private pnlSombra As New Panel()
     Private txtCampo As New MaskedTextBox()
     Private lblError As New Label()
 
@@ -58,6 +59,13 @@ Public Class MaskedTextBoxLabelUI
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
 
+        pnlSombra.Dock = DockStyle.None
+        pnlSombra.BackColor = _borderColorPersonalizado
+        pnlSombra.Height = 37
+        pnlSombra.Width = 346
+        pnlSombra.Margin = Padding.Empty
+        pnlSombra.Location = New Point(6, 23)
+
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(_paddingAll)
@@ -105,6 +113,7 @@ Public Class MaskedTextBoxLabelUI
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
+        Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
         AddHandler txtCampo.TextChanged, AddressOf OnTextChanged

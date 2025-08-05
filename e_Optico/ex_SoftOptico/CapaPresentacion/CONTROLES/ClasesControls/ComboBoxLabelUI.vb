@@ -8,6 +8,7 @@ Public Class ComboBoxLabelUI
 
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
+    Private pnlSombra As New Panel()
     Private comboOrbital As New ComboBoxUI()
     Private lblError As New Label()
 
@@ -38,9 +39,16 @@ Public Class ComboBoxLabelUI
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
 
+        pnlSombra.Dock = DockStyle.None
+        pnlSombra.BackColor = _borderColorPersonalizado
+        pnlSombra.Height = 38
+        pnlSombra.Width = 346
+        pnlSombra.Margin = Padding.Empty
+        pnlSombra.Location = New Point(6, 23)
+
         ' -- Panel contenedor --
         pnlFondo.Dock = DockStyle.Top
-        pnlFondo.Height = comboOrbital.Height + 6
+        pnlFondo.Height = 38 'comboOrbital.Height + 6
         pnlFondo.Padding = New Padding(2)
         pnlFondo.BackColor = _backColorx
         pnlFondo.Controls.Add(comboOrbital)
@@ -82,6 +90,7 @@ Public Class ComboBoxLabelUI
         ' -- Añadir controles al UserControl --
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
+        Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
     End Sub
 
