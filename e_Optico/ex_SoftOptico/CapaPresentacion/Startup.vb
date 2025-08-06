@@ -4,6 +4,6 @@ Module Startup
     Sub Main()
         Application.EnableVisualStyles()
         Application.SetCompatibleTextRenderingDefault(False)
-        Application.Run(New frmCompras())
+        Application.Run(New frmListarProductos())
     End Sub
 End Module
