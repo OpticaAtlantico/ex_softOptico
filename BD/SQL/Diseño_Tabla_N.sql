@@ -133,7 +133,7 @@ CREATE TABLE TProductos (
     PrecioVenta DECIMAL(18, 2) NOT NULL,
     CostoPromedio DECIMAL(18, 2) NOT NULL DEFAULT 0, -- Costo promedio ponderado
     Activo BIT NOT NULL DEFAULT 1,
-    Stock INT NOT NULL DEFAUL 0,
+    Stock INT NOT NULL DEFAULT 0,
     RequiereInventario BIT NOT NULL DEFAULT 1, -- Para servicios que no manejan stock
     FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
 );
