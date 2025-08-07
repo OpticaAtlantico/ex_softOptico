@@ -151,12 +151,12 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubNuevoE_Click(sender As Object, e As EventArgs)
-        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmNuevoEmpleado).Any()
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmEmpleado).Any()
 
         CerrarDrawer()
 
         If Not abierto Then
-            OpenChildForm(New frmNuevoEmpleado)
+            OpenChildForm(New frmEmpleado)
             EfectoBotonInActivo()
         End If
 
@@ -303,6 +303,127 @@ Public Class frm_Principal
             OpenChildForm(New frmCompras)
             EfectoBotonInActivo()
         End If
+    End Sub
+
+#End Region
+
+#Region "Botones menu Proveedor"
+
+    Private Sub BotonMenuProveedor()
+        ' Crear las opciones de manera clara, evitando CType de lambdas
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
+
+        Dim handlerReporte As New EventHandler(AddressOf SubReportesPv_Click)
+        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
+
+        Dim handlerConsultar As New EventHandler(AddressOf SubConsultarPv_Click)
+        opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
+
+        Dim handlerEliminar As New EventHandler(AddressOf SubEliminarPv_Click)
+        opciones.Add(Tuple.Create("Eliminar Empleado", IconChar.TrashArrowUp, handlerEliminar))
+
+        Dim handlerEditar As New EventHandler(AddressOf SubEditarPv_Click)
+        opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
+
+        Dim handlerNuevo As New EventHandler(AddressOf SubNuevoPv_Click)
+        opciones.Add(Tuple.Create("Nuevo Empleado", IconChar.Save, handlerNuevo))
+
+        ' Cargar en Drawer
+        drawerControl.CargarOpciones(opciones)
+        'pnlDrawer.Visible = True
+        'If pnlDrawer.Width <= 0 Then
+        DrawerTimer.Start()
+        'End If
+        'drawerAbierto = True
+    End Sub
+
+    Private Sub SubNuevoPv_Click(sender As Object, e As EventArgs)
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmProveedor).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            OpenChildForm(New frmProveedor)
+            EfectoBotonInActivo()
+        End If
+
+    End Sub
+
+    Private Sub SubEditarPv_Click(sender As Object, e As EventArgs)
+
+        CerrarDrawer()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese número de cédula",
+            placeholder:="12345678",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.UserAlt,
+            obligatorio:=True
+        )
+        overlay.Close()
+        EfectoBotonInActivo()
+
+        If resultado.Aceptado Then
+            enviarDatosEmpleados(resultado.Valor, 0)
+        Else
+            MessageBoxUI.Mostrar(
+                                 "Cerrar...",
+                                 "Saliendo de control de entrada de datos",
+                                 TipoMensaje.Advertencia,
+                                 Botones.Aceptar
+                                 )
+        End If
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubEliminarPv_Click(sender As Object, e As EventArgs)
+        CerrarDrawer()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese número de cédula",
+            placeholder:="12345678",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.UserAlt,
+            obligatorio:=True
+        )
+        overlay.Close()
+        EfectoBotonInActivo()
+
+        If resultado.Aceptado Then
+            enviarDatosProveedor(resultado.Valor, 1)
+        Else
+            MessageBoxUI.Mostrar(
+                                 "Cerrar...",
+                                 "Saliendo de control de entrada de datos",
+                                 TipoMensaje.Advertencia,
+                                 Botones.Aceptar
+                                 )
+        End If
+        DrawerTimer.Start()
+    End Sub
+
+    Private Sub SubConsultarPv_Click(sender As Object, e As EventArgs)
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultaProveedor).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            EfectoBotonInActivo()
+            Dim consultaProveedorForm As New frmConsultaProveedor()
+            AddHandler consultaProveedorForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
+            OpenChildForm(consultaProveedorForm)
+
+        End If
+    End Sub
+
+
+    Private Sub SubReportesPv_Click(sender As Object, e As EventArgs)
+        'MostrarContenido(New PegarControl())
+        DrawerTimer.Start()
     End Sub
 
 #End Region
@@ -508,7 +629,44 @@ Public Class frm_Principal
         ' 3. Comprueba si se encontró un empleado antes de continuar.
         If Me.EmpleadoEncontrado IsNot Nothing Then
             ' 4. Ahora puedes pasar el objeto al formulario hijo.
-            Dim formularioHijo As New frmNuevoEmpleado()
+            Dim formularioHijo As New frmEmpleado()
+            formularioHijo.DatosEmpleados = Me.EmpleadoEncontrado
+            Select Case opcion
+                Case 0
+                    texto = "Actualizar..."
+                Case 1
+                    texto = "Eliminar..."
+            End Select
+            formularioHijo.NombreBoton = texto.ToString()
+            OpenChildForm(formularioHijo)
+        Else
+            MessageBoxUI.Mostrar(
+                                 "Datos no existe...",
+                                 "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
+                                 TipoMensaje.Advertencia,
+                                 Botones.Aceptar
+                                 )
+        End If
+    End Sub
+
+    Private Sub enviarDatosProveedor(rif As Integer, opcion As Integer)
+
+        '--- CÓDIGO CORRECTO ---
+        Dim repositorio As New Repositorio_Empleados()
+        Dim cedulaE As String = rif ' Asumiendo que 'cedula' es un TextBox
+        Dim texto As String = String.Empty
+
+        ' 1. Llama a la función y guarda el resultado en una lista.
+        Dim listaResultados As IEnumerable(Of TEmpleados) = repositorio.BuscarEmpleadosPorCedula(cedulaE)
+
+        ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
+        '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
+        Me.EmpleadoEncontrado = listaResultados.FirstOrDefault()
+
+        ' 3. Comprueba si se encontró un empleado antes de continuar.
+        If Me.EmpleadoEncontrado IsNot Nothing Then
+            ' 4. Ahora puedes pasar el objeto al formulario hijo.
+            Dim formularioHijo As New frmEmpleado()
             formularioHijo.DatosEmpleados = Me.EmpleadoEncontrado
             Select Case opcion
                 Case 0

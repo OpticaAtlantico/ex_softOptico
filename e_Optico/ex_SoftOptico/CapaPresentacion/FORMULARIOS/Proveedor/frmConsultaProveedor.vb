@@ -2,9 +2,8 @@
 Imports CapaEntidad
 Imports FontAwesome.Sharp
 
-Public Class frmConsultaEmpleados
-
-    Public Property EmpleadoSeleccionado As TEmpleados = Nothing
+Public Class frmConsultaProveedor
+    Public Property ProveedorSeleccionado As TEmpleados = Nothing
     ' Evento para pedir al formulario padre abrir un formulario hijo nuevo
     Public Event AbrirFormularioHijo As Action(Of Form)
 
@@ -15,43 +14,44 @@ Public Class frmConsultaEmpleados
         InitializeComponent()
 
         With Me.dgvDatosProveedor.lblTitulo
-            .Titulo = "Consulta de Empleados"
-            .Subtitulo = "Lista de empleados registrados"
+            .Titulo = "Consulta de Proveedor"
+            .Subtitulo = "Lista de Proveedores registrados..."
             .ForeColor = Color.FromArgb(57, 103, 208)
             .ColorTexto = Color.FromArgb(57, 103, 208)
             .Icono = IconChar.Users
         End With
 
-        CargarDatosEmpleados()
+        CargarDatosProveedores()
     End Sub
 
 #End Region
 
 #Region "EVENTOS DEL FORMULARIO"
 
-    Private Sub frmConsultaEmpleados_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AddHandler dgvDatosProveedor.EditarRegistro, AddressOf EditarEmpleado
-        AddHandler dgvDatosProveedor.EliminarRegistro, AddressOf EliminarEmpleadoUnico
-        AddHandler dgvDatosProveedor.AgregarRegistro, AddressOf AgregarEmpleado
+    Private Sub frmConsultaProveedor_Load(sender As Object, e As EventArgs) Handles Me.Load
+        AddHandler dgvDatosProveedor.EditarRegistro, AddressOf EditarProveedor
+        AddHandler dgvDatosProveedor.EliminarRegistro, AddressOf EliminarProveedorUnico
+        AddHandler dgvDatosProveedor.AgregarRegistro, AddressOf AgregarProveedor
         AddHandler AbrirFormularioHijo, AddressOf frm_Principal.SolicitarAbrirFormularioHijo
 
-        dgvDatosProveedor.MetodoCargaDatos = AddressOf ObtenerEmpleados
+        dgvDatosProveedor.MetodoCargaDatos = AddressOf ObtenerProveedor
         dgvDatosProveedor.RefrescarTodo()
 
         AddHandler dgvDatosProveedor.BExportarGrid.Click, Sub()
-                                                              ExcelExportManagerUI.ExportarDesdeGridEstilizado(dgvDatosProveedor.GrvOrbital, "Empleado")
+                                                              ExcelExportManagerUI.ExportarDesdeGridEstilizado(dgvDatosProveedor.GrvOrbital, "Proveedor")
                                                           End Sub
 
         AddHandler dgvDatosProveedor.BExportarTabla.Click, Sub()
                                                                MsgBox("Exportar tabla no implementado")
                                                            End Sub
+
     End Sub
 
 #End Region
 
 #Region "PROCEDIMIENTOS"
 
-    Private Sub CargarDatosEmpleados()
+    Private Sub CargarDatosProveedores()
         ' === Reiniciar propiedades internas ===
         dgvDatosProveedor.DataOriginal = Nothing
         dgvDatosProveedor.DataCompleta = Nothing
@@ -60,24 +60,21 @@ Public Class frmConsultaEmpleados
         dgvDatosProveedor.Grid.Rows.Clear()
         dgvDatosProveedor.Grid.Columns.Clear()
 
-        Dim repo As New Repositorio_Empleados()
-        Dim listaEmpleados As List(Of TEmpleados) = repo.ObtenerTodos()
-        Dim tabla As DataTable = ConvertirListaADataTable(listaEmpleados)
+        Dim repo As New Repositorio_Proveedor()
+        Dim listaProveedor As List(Of TProveedor) = repo.ObtenerProveedor()
+        Dim tabla As DataTable = ConvertirListaADataTable(listaProveedor)
 
-        Dim columnasVisibles = {"EmpleadoID", "Cedula", "Nombre", "Apellido", "Edad", "Nacionalidad", "EstadoCivil", "Sexo", "FechaNacimiento", "Correo", "Cargo", "Telefono", "Zona", "Direccion", "Estado"}
+        Dim columnasVisibles = {"ProveedorID", "Ruc", "NombreEmpresa", "RazonSocial", "Contacto", "Telefono", "Rif", "Email", "Direccion"}
 
         Dim anchos = New Dictionary(Of String, Integer) From {
-            {"EmpleadoID", 80}, {"Cedula", 120}, {"Nombre", 160}, {"Apellido", 160},
-            {"Edad", 80}, {"Nacionalidad", 120}, {"EstadoCivil", 120}, {"Sexo", 100},
-            {"FechaNacimiento", 130}, {"Correo", 200}, {"Cargo", 140}, {"Telefono", 120},
-            {"Zona", 100}, {"Direccion", 200}, {"Estado", 100}
+            {"ProveedorID", 80}, {"RUC", 80}, {"NombreEmpresa", 160}, {"RazonSocial", 160},
+            {"Contacto", 120}, {"Telefono", 120}, {"Rif", 100}, {"Email", 130}, {"Dirección", 450}
         }
 
         Dim nombres = New Dictionary(Of String, String) From {
-            {"EmpleadoID", "ID"}, {"Cedula", "Cédula"}, {"Nombre", "Nombres"}, {"Apellido", "Apellidos"},
-            {"Edad", "Edad"}, {"Nacionalidad", "Nacionalidad"}, {"EstadoCivil", "Estado Civil"}, {"Sexo", "Sexo"},
-            {"FechaNacimiento", "Fecha de Nacimiento"}, {"Correo", "Correo Electrónico"}, {"Cargo", "Cargo"},
-            {"Telefono", "Teléfono"}, {"Zona", "Zona"}, {"Direccion", "Dirección de Residencia"}, {"Estado", "Estatus"}
+            {"ProveedorID", "ID"}, {"RUC", "Ruc"}, {"NombreEmpresa", "Empresa"}, {"RazonSocial", "Razon Social"},
+            {"Contacto", "Contacto"}, {"Telefono", "# Telefono"}, {"Rif", "Rif"}, {"Email", "Correo Electrónico"},
+            {"Dirección", "Direccion de Habitación"}
         }
 
         dgvDatosProveedor.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombres)
@@ -125,62 +122,71 @@ Public Class frmConsultaEmpleados
         End If
     End Sub
 
-    Private Sub AgregarEmpleado()
+    Private Sub AgregarProveedor()
         Dim frm As New frmEmpleado
         Me.Close()
         RaiseEvent AbrirFormularioHijo(frm)
     End Sub
 
-    Private Sub EditarEmpleado(id As Integer)
+    Private Sub EditarProveedor(id As Integer)
         Try
             Dim repositorio As New Repositorio_Empleados()
-            Dim empleadoEncontrado As TEmpleados = repositorio.ObtenerPorID(id)
+            Dim proveedorEncontrado As TEmpleados = repositorio.ObtenerPorID(id)
 
-            If empleadoEncontrado IsNot Nothing Then
-                Dim formularioHijo As New frmEmpleado()
-                formularioHijo.DatosEmpleados = empleadoEncontrado
+            If proveedorEncontrado IsNot Nothing Then
+                Dim formularioHijo As New frmProveedor()
+                formularioHijo.DatosProveedor = proveedorEncontrado
                 formularioHijo.NombreBoton = "Actualizar..."
 
                 ' En vez de abrir el formulario directamente, disparar evento
                 RaiseEvent AbrirFormularioHijo(formularioHijo)
             Else
-                MessageBoxUI.Mostrar("Busqueda fallida...", "No se pudo localizar los datos del empleado seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Informacion, Botones.Aceptar)
+                MessageBoxUI.Mostrar("Búsqueda fallida...", "No se pudo localizar los datos del proveedor seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Informacion, Botones.Aceptar)
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error de datos...", "Error al intentar cargar el empleado, " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Error de edición...", "Error al intentar editar el proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 
-    Private Sub EliminarEmpleadoUnico(id As Integer)
+    Private Sub EliminarProveedorUnico(id As Integer)
         Try
-            Dim confirmar = MessageBoxUI.Mostrar("Eliminar datos...", "¿Deseas eliminar el proveedor seleccionado ?", TipoMensaje.Errors, Botones.AceptarCancelar)
+            Dim confirmar = MessageBoxUI.Mostrar("Remover datos...", "¿Deseas eliminar el proveedor seleccionado?", TipoMensaje.Advertencia, Botones.AceptarCancelar)
             If confirmar = DialogResult.No Then Exit Sub
 
-            Dim repositorio As New Repositorio_Empleados()
-            Dim empleado As TEmpleados = repositorio.ObtenerPorID(id)
+            Dim repositorio As New Repositorio_Proveedor()
+            Dim proveedor As TProveedor = repositorio.BuscarProveedorPorID(id)
 
-            If empleado Is Nothing Then
-                MessageBoxUI.Mostrar("Error de datos...", "Empleado no encontrado por favor verifique los datos", TipoMensaje.Errors, Botones.Aceptar)
+            If proveedor Is Nothing Then
+                MessageBoxUI.Mostrar("Buscando...", "No se encontró el proveedor.", TipoMensaje.Errors, Botones.Aceptar)
                 Exit Sub
             End If
 
-            If EliminarEmpleado(empleado.EmpleadoID, empleado.Foto) Then
-                CargarDatosEmpleados()
+            Dim eliminar = repositorio.EliminarProveedor(id)
+
+            If eliminar Then
+                MessageBoxUI.Mostrar("Éxito", "Proveedor eliminado correctamente.", TipoMensaje.Exito, Botones.Aceptar)
+                CargarDatosProveedores()
+            Else
+                MessageBoxUI.Mostrar("Error al eliminar", "No se pudo eliminar el proveedor.", TipoMensaje.Errors, Botones.Aceptar)
             End If
 
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error al eliminar...", "No se pudo eliminar el empleado seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Error... ", "Error al eliminar proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 
 #End Region
 
-#Region "FUNCIONES "
-    Private Function ObtenerEmpleados() As DataTable
-        Dim lista = New Repositorio_Empleados().ObtenerTodos()
+#Region "FUNCIONES PRIVADAS"
+
+    Private Function ObtenerProveedor() As DataTable
+        Dim lista = New Repositorio_Proveedor().ObtenerProveedor()
         Return ConvertirListaADataTable(lista.ToList)
     End Function
 
 #End Region
+
+
+
 
 End Class

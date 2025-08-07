@@ -5,7 +5,7 @@ Imports CapaPresentacion.LlenarComboBox
 Imports DocumentFormat.OpenXml
 Imports DocumentFormat.OpenXml.Office2010.Excel
 Imports FontAwesome.Sharp
-Public Class frmNuevoEmpleado
+Public Class frmEmpleado
     Inherits Form
 
     Private fadeTimer As New Timer()

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmConsultaEmpleados
+Partial Class frmConsultaProveedor
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
@@ -20,31 +20,30 @@ Partial Class frmConsultaEmpleados
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         dgvDatosProveedor = New DataGridViewUI()
         SuspendLayout()
         ' 
-        ' dgvDatosProveedor
+        ' dgvDatosEmpleados
         ' 
         dgvDatosProveedor.BackColor = Color.WhiteSmoke
         dgvDatosProveedor.DataCompleta = Nothing
         dgvDatosProveedor.DataOriginal = Nothing
         dgvDatosProveedor.Dock = DockStyle.Fill
         dgvDatosProveedor.Location = New Point(0, 0)
-        dgvDatosProveedor.MetodoCargaDatos = Nothing
         dgvDatosProveedor.Name = "dgvDatosProveedor"
         dgvDatosProveedor.Size = New Size(1251, 507)
         dgvDatosProveedor.TabIndex = 0
         ' 
         ' frmConsultaEmpleados
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1251, 507)
         Controls.Add(dgvDatosProveedor)
-        Name = "frmConsultaEmpleados"
-        Text = "frm_ConsultaEmpleados"
+        Name = "frmConsultaProveedor"
+        Text = "frmConsultaProveedor"
         ResumeLayout(False)
     End Sub
 

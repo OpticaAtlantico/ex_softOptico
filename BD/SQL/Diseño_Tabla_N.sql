@@ -107,6 +107,7 @@ CREATE TABLE TProveedores (
     Telefono NVARCHAR(20) NULL,
     Rif NVARCHAR(30) NOT NULL,
     Email NVARCHAR(100) NULL,
+    Estado BIT NOT NULL DEFAULT 1,
     Direccion NVARCHAR(255) NULL,
 );
 
@@ -487,6 +488,20 @@ CREATE OR ALTER VIEW VProductos AS
            dbo.TSubCategorias ON dbo.TProductos.SubCategoriaID = dbo.TSubCategorias.SubCategoriaID
 
 
+
+CREATE OR ALTER VIEW VProveedor AS
+    SELECT  ProveedorID
+            , RUC
+            , NombreEmpresa
+            , RazonSocial
+            , Contacto
+            , Telefono
+            , Rif
+            , Email
+            , Direccion
+            , Estatus
+    FROM   TProveedores
+
 -----   PROCEDIMIENTOS
 
 
@@ -578,6 +593,11 @@ INSERT INTO TTipoPago (Nombre) VALUES ('Cashea')
 INSERT INTO TTipoPago (Nombre) VALUES ('Garantia')
 INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
 
+INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, Sexo, FechaNacimiento, Direccion, CargoEmpleadoID, Correo, Telefono, Asesor, Gerente, Optometrista, Marketing, Cobranza, Estado, Zona, Foto)
+     VALUES('12133391','Wilmer Jesus','Flore Zavala','50','0','1','0','10/11/1974','San felix','12','wiflores@gmail.com','0412345678','True','True','True','True','True','1','0','Sin Foto')
+
+
+INSERT INTO TLogin (EmpleadoID, UbicacionID, RolID, Usuario, Clave, Estado, FechaRegistro) VALUES ('1','1','6','admin','admin','1','10/10/2025')
 
 
 --Para incorporarlo al sistema
