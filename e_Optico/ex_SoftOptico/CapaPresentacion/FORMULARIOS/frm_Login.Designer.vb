@@ -115,13 +115,18 @@ Partial Class frm_Login
         ' txtPass
         ' 
         txtPass.BackColor = Color.Transparent
+        txtPass.BorderColor = Color.LightGray
         txtPass.BorderRadius = 5
+        txtPass.BorderSize = 1
         txtPass.CampoRequerido = True
+        txtPass.CapitalizarTexto = False
+        txtPass.CapitalizarTodasLasPalabras = True
         txtPass.CaracterContraseña = "*"c
         txtPass.ColorError = Color.Firebrick
         txtPass.FontField = New Font("Century Gothic", 12F)
         txtPass.IconoColor = Color.White
         txtPass.IconoDerechoChar = FontAwesome.Sharp.IconChar.Fingerprint
+        txtPass.LabelColor = Color.WhiteSmoke
         txtPass.LabelText = "Contraseña"
         txtPass.Location = New Point(558, 353)
         txtPass.MensajeError = "La contraseña no puede quedar vacia..."
@@ -129,21 +134,29 @@ Partial Class frm_Login
         txtPass.PaddingAll = 10
         txtPass.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txtPass.Size = New Size(302, 78)
+        txtPass.SombraBackColor = Color.Transparent
         txtPass.TabIndex = 1
         txtPass.TextColor = Color.WhiteSmoke
+        txtPass.TextoUsuario = ""
         txtPass.UsarModoContraseña = True
+        txtPass.ValidarComoCorreo = False
         ' 
         ' txtUsuario
         ' 
         txtUsuario.BackColor = Color.Transparent
+        txtUsuario.BorderColor = Color.LightGray
         txtUsuario.BorderRadius = 5
+        txtUsuario.BorderSize = 1
         txtUsuario.CampoRequerido = True
+        txtUsuario.CapitalizarTexto = False
+        txtUsuario.CapitalizarTodasLasPalabras = True
         txtUsuario.CaracterContraseña = "*"c
         txtUsuario.ColorError = Color.Firebrick
         txtUsuario.FontField = New Font("Century Gothic", 12F)
         txtUsuario.ForeColor = SystemColors.ControlText
         txtUsuario.IconoColor = Color.White
         txtUsuario.IconoDerechoChar = FontAwesome.Sharp.IconChar.UserCheck
+        txtUsuario.LabelColor = Color.WhiteSmoke
         txtUsuario.LabelText = "Usuario"
         txtUsuario.Location = New Point(558, 261)
         txtUsuario.MensajeError = "Usuario desconocido..."
@@ -151,9 +164,12 @@ Partial Class frm_Login
         txtUsuario.PaddingAll = 10
         txtUsuario.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
         txtUsuario.Size = New Size(302, 86)
+        txtUsuario.SombraBackColor = Color.Transparent
         txtUsuario.TabIndex = 0
         txtUsuario.TextColor = Color.WhiteSmoke
+        txtUsuario.TextoUsuario = ""
         txtUsuario.UsarModoContraseña = False
+        txtUsuario.ValidarComoCorreo = False
         ' 
         ' fadeTimer
         ' 

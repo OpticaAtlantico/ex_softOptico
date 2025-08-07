@@ -1,4 +1,6 @@
-﻿Public Class TCompra
+﻿Imports Microsoft.Identity.Extensions
+
+Public Class TCompra
     Public Property CompraID As Integer
     Public Property FechaCompra As Date
     Public Property NumeroControl As String
@@ -10,6 +12,5 @@
     Public Property UbicacionDestinoID As Integer
     Public Property TotalCompra As Decimal
     Public Property Observacion As String
-    Public Property Estado As String = "Completada"
     Public Property Detalle As List(Of TDetalleCompra)
 End Class

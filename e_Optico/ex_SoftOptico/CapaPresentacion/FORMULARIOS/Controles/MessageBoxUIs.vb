@@ -1,11 +1,11 @@
-﻿Imports CapaPresentacion.MessageBoxUI
+﻿Imports CapaPresentacion.MessageBoxUIs
 Imports FontAwesome.Sharp
 Imports System.Drawing.Drawing2D
 
-Public Class MessageBoxUI
+Public Class MessageBoxUIs
     Inherits Form
 
-    Private fondoOverlay As FondoOverlay
+    Private fondoOverlay As FondoOverlayUI
 
     ' Enum para tipos de mensaje
     Public Enum TipoMensaje
@@ -265,7 +265,7 @@ Public Class MessageBoxUI
                                   tipoMensaje As TipoMensaje,
                                   botones As Botones,
                                   icono As IconChar) As DialogResult
-        Dim msg As New MessageBoxUI()
+        Dim msg As New MessageBoxUIs()
         msg.Titulo = titulo
         msg.Mensaje = mensaje
         msg.TipoMensajes = tipoMensaje
@@ -273,7 +273,7 @@ Public Class MessageBoxUI
         msg.IconoMensaje = icono
 
         ' Mostrar overlay
-        msg.fondoOverlay = New FondoOverlay()
+        msg.fondoOverlay = New FondoOverlayUI()
         msg.fondoOverlay.Show(owner)
 
         Dim resultado = msg.ShowDialog(owner)

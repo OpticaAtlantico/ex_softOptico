@@ -11,7 +11,7 @@ Public Class Repositorio_Compra
     Private Actualizar As String
     Private Eliminar As String
     Public Sub New()
-        SeleccionarTodos = "SELECT * FROM VEmpleados"
+        SeleccionarTodos = "SELECT * FROM VCompras"
         ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
         SeleccionarPorID = "SELECT * FROM VEmpleados WHERE EmpleadoID = @EmpleadoID"
         ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
@@ -49,10 +49,14 @@ Public Class Repositorio_Compra
                 ' INSERTAR ENCABEZADO DE COMPRA
                 Dim cmdCompra As New SqlCommand("
                     INSERT INTO TCompras 
-                        (FechaCompra, NumeroControl, NumeroFactura, TipoPagoID, AlicuotaID, ProveedorID, EmpleadoID, UbicacionDestinoID, TotalCompra, Estado, Observacion)
+                        (FechaCompra, NumeroControl, NumeroFactura, TipoPagoID, 
+                        AlicuotaID, ProveedorID, EmpleadoID, UbicacionDestinoID, 
+                        TotalCompra, Estado, Observacion)
                     OUTPUT INSERTED.CompraID
                     VALUES
-                        (@FechaCompra, @NumeroControl, @NumeroFactura, @TipoPagoID, @AlicuotaID, @ProveedorID, @EmpleadoID, @UbicacionDestinoID, @TotalCompra, @Estado, @Observacion)", conn, trans)
+                        (@FechaCompra, @NumeroControl, @NumeroFactura, @TipoPagoID, 
+                        @AlicuotaID, @ProveedorID, @EmpleadoID, @UbicacionDestinoID, 
+                        @TotalCompra, @Estado, @Observacion)", conn, trans)
 
                 cmdCompra.Parameters.AddWithValue("@FechaCompra", compra.FechaCompra)
                 cmdCompra.Parameters.AddWithValue("@NumeroControl", compra.NumeroControl)
@@ -63,7 +67,6 @@ Public Class Repositorio_Compra
                 cmdCompra.Parameters.AddWithValue("@EmpleadoID", compra.EmpleadoID)
                 cmdCompra.Parameters.AddWithValue("@UbicacionDestinoID", compra.UbicacionDestinoID)
                 cmdCompra.Parameters.AddWithValue("@TotalCompra", compra.TotalCompra)
-                cmdCompra.Parameters.AddWithValue("@Estado", compra.Estado)
                 cmdCompra.Parameters.AddWithValue("@Observacion", If(compra.Observacion, DBNull.Value))
 
                 Dim compraID As Integer = Convert.ToInt32(cmdCompra.ExecuteScalar())
@@ -105,7 +108,11 @@ Public Class Repositorio_Compra
         Throw New NotImplementedException()
     End Function
 
-    Public Function GetComprasByProveedorAndFecha(proveedorID As Integer, fecha As Date) As IEnumerable(Of TCompra) Implements IRepositorio_Compra.GetComprasByProveedorAndFecha
+    Public Function GetById(compraID As Integer) As TCompra Implements IRepositorio_Compra.GetById
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function GetAll() As IEnumerable(Of TCompra) Implements IRepositorio_Generico(Of TCompra).GetAll
         Throw New NotImplementedException()
     End Function
 
@@ -118,14 +125,6 @@ Public Class Repositorio_Compra
     End Function
 
     Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TCompra) Implements IRepositorio_Generico(Of TCompra).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function GetById(compraID As Integer) As TCompra Implements IRepositorio_Compra.GetById
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function GetAll() As IEnumerable(Of TCompra) Implements IRepositorio_Generico(Of TCompra).GetAll
         Throw New NotImplementedException()
     End Function
 End Class

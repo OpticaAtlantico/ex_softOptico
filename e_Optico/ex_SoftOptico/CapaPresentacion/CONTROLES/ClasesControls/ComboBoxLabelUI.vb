@@ -23,6 +23,7 @@ Public Class ComboBoxLabelUI
     Private _campoRequerido As Boolean = True
 
     Private _borderColorPersonalizado As Color = Color.LightGray
+    Private _sombraBackColor As Color = Color.LightGray
     Private _borderSize As Integer = 1
     Private _backColorx As Color = Color.WhiteSmoke
 
@@ -40,7 +41,7 @@ Public Class ComboBoxLabelUI
         lblTitulo.Height = 20
 
         pnlSombra.Dock = DockStyle.None
-        pnlSombra.BackColor = _borderColorPersonalizado
+        pnlSombra.BackColor = _sombraBackColor
         pnlSombra.Height = 38
         pnlSombra.Width = 346
         pnlSombra.Margin = Padding.Empty
@@ -195,6 +196,17 @@ Public Class ComboBoxLabelUI
         Set(value As Color)
             _labelColor = value
             lblTitulo.ForeColor = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property SombraBackColor As Color
+        Get
+            Return _sombraBackColor
+        End Get
+        Set(value As Color)
+            _sombraBackColor = value
+            pnlSombra.BackColor = value
         End Set
     End Property
 

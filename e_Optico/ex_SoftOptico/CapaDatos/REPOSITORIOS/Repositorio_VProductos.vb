@@ -12,14 +12,20 @@ Public Class Repositorio_VProductos
     End Sub
 
     Public Function GetAll() As IEnumerable(Of TVProductos) Implements IRepositorio_Generico(Of TVProductos).GetAll
-        'Return ExecuteReader(SeleccionarProductos).AsEnumerable().Select(Function(row) New TVProductos With {
-        '    .ProductoID = Convert.ToInt32(row("ProductoID")),
-        '    .Nombre = Convert.ToString(row("Nombre")),
-        '    .Descripcion = Convert.ToString(row("Descripcion")),
-        '    .Precio = Convert.ToDecimal(row("Precio")),
-        '    .Stock = Convert.ToInt32(row("Stock")),
-        '    .Categoria = Convert.ToString(row("Categoria"))
-        '})
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarProductos)
+        Dim lista = New List(Of TVProductos)
+        For Each row As DataRow In resultadoTable.Rows
+            Dim producto As New TVProductos With {
+                .Codigo = If(row("Codigo") IsNot DBNull.Value, row("Codigo").ToString(), String.Empty),
+                .Nombre = If(row("Nombre") IsNot DBNull.Value, row("Nombre").ToString(), String.Empty),
+                .Precio = If(row("Precio") IsNot DBNull.Value, Convert.ToDecimal(row("Precio")), 0D),
+                .Categoria = If(row("Categoria") IsNot DBNull.Value, row("Categoria").ToString(), String.Empty),
+                .SubCategoria = If(row("SubCategoria") IsNot DBNull.Value, row("SubCategoria").ToString(), String.Empty),
+                .Stock = If(row("Stock") IsNot DBNull.Value, Convert.ToInt32(row("Stock")), 0)
+            }
+            lista.Add(producto)
+        Next
+        Return lista
     End Function
 
     Public Function Add(entity As TVProductos) As Integer Implements IRepositorio_Generico(Of TVProductos).Add

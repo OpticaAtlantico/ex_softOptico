@@ -30,10 +30,10 @@ Public Class InputBoxUI
 
     Public Sub New()
         Me.FormBorderStyle = FormBorderStyle.None
-        Me.StartPosition = FormStartPosition.CenterParent
+        Me.StartPosition = FormStartPosition.CenterScreen
         Me.BackColor = Color.AliceBlue
-        Me.Opacity = 0.8R ' Nivel de transparencia
-        Me.Size = New Size(445, 185)
+        Me.Opacity = 0.9R ' Nivel de transparencia
+        Me.Size = New Size(445, 225)
         Me.ShowInTaskbar = False
         Me.TopMost = True
         Me.Region = New Region(GetRoundedRectPath(Me.ClientRectangle, 18))

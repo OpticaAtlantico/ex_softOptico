@@ -15,15 +15,7 @@ Public Class frm_Login
 
 #Region "Form Behaviors"
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-
-        MessageBoxUI.Mostrar(Me,
-                             "Cerrando el Sistema...",
-                             "Estas saliendo de la App " & "Sistemas de Gestión para Óptica" & ", Vuelva pronto ",
-                             MessageBoxUI.TipoMensaje.Exito,
-                             MessageBoxUI.Botones.Aceptar,
-                             FontAwesome.Sharp.IconChar.CheckCircle
-                            )
-
+        MessageBoxUI.Mostrar("Cerrando el Sistema...", "Estas saliendo de la App Sistemas de Gestión para Óptica, Vuelve pronto... ", TipoMensaje.Informacion, Botones.Aceptar)
         'Application.Exit()
         Me.Close()
     End Sub
@@ -85,7 +77,6 @@ Public Class frm_Login
     End Sub
 
 #End Region
-
     Public Sub New()
 
         ' Esta llamada es exigida por el diseñador.
@@ -116,35 +107,16 @@ Public Class frm_Login
         Next
 
         If Not esFormularioValido Then
-            ' Mostrar mensaje de error y enfocar el primer campo inválido
-            MessageBoxUI.Mostrar(Me,
-                             "Campos vacio...",
-                             "Hay celdas obligatorias sin completar... ",
-                             MessageBoxUI.TipoMensaje.Errors,
-                             MessageBoxUI.Botones.Aceptar,
-                             FontAwesome.Sharp.IconChar.InfoCircle
-                            )
-            'MessageBox.Show("Hay campos obligatorios sin completar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBoxUI.Mostrar("Campos Vacios...", "Hay campos obligatorios sin completar, por favor verifique", TipoMensaje.Advertencia, Botones.Aceptar)
             primerInvalido?.Focus()
             Exit Sub
         End If
 
         'VALIDA LOS USUARIOS Y CONTRASEÑAS
-        'Dim userModel As New LoginModel
         Dim userModel As New Repositorio_VLogin
         Dim validUser = userModel.GetAllUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
-            'Dim overlay As New FondoOverlayUI()
-            'Overlay.Show()
-            MessageBoxUI.Mostrar(Me,
-                             "Datos incorrectos...",
-                             "Nombre de usuario o contraseña incorrecto",
-                             MessageBoxUI.TipoMensaje.Advertencia,
-                             MessageBoxUI.Botones.Aceptar,
-                             FontAwesome.Sharp.IconChar.TimesCircle
-                            )
-            'overlay.Close()
-            'MessageBox.Show("Nombre de Usuario o contraseña incorrecto" + vbCrLf + "Por favor intente nuevamente", "Error de Inicio de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
             txtUsuario.Text = vbEmpty
             txtPass.Text = vbEmpty
             txtUsuario.Focus()
@@ -152,7 +124,6 @@ Public Class frm_Login
         End If
 
         Dim Usuario = validUser.FirstOrDefault()
-        'Dim datosEmpleado = If(Usuario IsNot Nothing, userModel.FindById(Usuario.EmpleadoID), Nothing)
 
         Dim frm As New frm_Principal
         With frm
@@ -172,9 +143,5 @@ Public Class frm_Login
         Me.Show()
         txtUsuario.Focus()
     End Sub
-
-
-
-
 
 End Class

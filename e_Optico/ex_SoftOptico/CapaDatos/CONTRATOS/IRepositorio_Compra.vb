@@ -5,6 +5,5 @@ Public Interface IRepositorio_Compra
     Function AddCompra(compra As TCompra) As Integer
     Function UpdateCompra(compra As TCompra) As Integer
     Function DeleteCompra(compraID As Integer) As Integer
-    Function GetComprasByProveedorAndFecha(proveedorID As Integer, fecha As Date) As IEnumerable(Of TCompra)
     Function GetById(compraID As Integer) As TCompra
 End Interface

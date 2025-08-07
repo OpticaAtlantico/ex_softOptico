@@ -1,58 +1,95 @@
-﻿Public Class frmListarProductos
-
+﻿Imports CapaDatos
+Imports CapaEntidad
+Imports FontAwesome.Sharp
+Public Class frmListarProductos
     Public Property FormularioDestino As frmCompras
     Private WithEvents productosGrid As New DataGridViewGUI()
 
+    Public Sub New()
+        ' Esta llamada es exigida por el diseñador.
+        InitializeComponent()
+        ' Agregar cualquier inicialización después de la llamada a InitializeComponent().
+        productosGrid = New DataGridViewGUI()
+    End Sub
+
+
+    Private Sub frmListarProducto_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Me.Closing
+        ' Limpiar el formulario destino al cerrar
+        If FormularioDestino IsNot Nothing Then
+            FormularioDestino = Nothing
+        End If
+    End Sub
+
+    Private Sub Componentes()
+        Me.Text = "Listado de Productos"
+        Me.MinimumSize = New Size(900, 600)
+        Me.StartPosition = FormStartPosition.CenterScreen
+        Me.FormBorderStyle = FormBorderStyle.FixedDialog
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.BackColor = Color.White
+        Me.MaximumSize = New Size(1000, 700)
+
+        productosGrid.Titulo = "LISTADO DE PRODUCTOS GENERAL"
+        productosGrid.Subtitulo = "Seleccione un producto para agregar al detalle de la compra"
+        productosGrid.Icono = IconChar.ShoppingCart
+    End Sub
+
     Private Sub frmListarProducto_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PrepararControl()
+        Componentes()
     End Sub
 
     Private Sub PrepararControl()
         productosGrid.Dock = DockStyle.Fill
 
-        ' 👉 Simulamos datos de productos
-        Dim tabla As New DataTable()
-        tabla.Columns.Add("Codigo")
-        tabla.Columns.Add("Descripcion")
-        tabla.Columns.Add("PrecioVenta", GetType(Decimal))
+        ' Repositorio
+        Dim repo As New Repositorio_VProductos()
 
-        tabla.Rows.Add("P001", "Aceite", 4.5D)
-        tabla.Rows.Add("P002", "Harina", 2.75D)
-        tabla.Rows.Add("P003", "Detergente", 6.3D)
+        Dim listaProductos As List(Of TVProductos) = repo.GetAll()
+        Dim tabla As DataTable = ConvertirListaADataTable(listaProductos)
 
-        ' 👉 Configurar columnas visuales ANTES de cargar datos
-        Dim columnasVisibles = {"Codigo", "Descripcion", "PrecioVenta"}
+        ' Configurar columnas y cargar
+        Dim columnasVisibles = {"Codigo", "Nombre", "Stock", "Categoria", "SubCategoria", "Precio"}
         Dim anchos = New Dictionary(Of String, Integer) From {
-            {"Codigo", 100},
-            {"Descripcion", 200},
-            {"PrecioVenta", 120}
-        }
+        {"Codigo", 100},
+        {"Nombre", 300},
+        {"Stock", 80},
+        {"Categoria", 150},
+        {"SubCategoria", 150},
+        {"Precio", 120}
+    }
         Dim nombresColumnas = New Dictionary(Of String, String) From {
-            {"Codigo", "Código"},
-            {"Descripcion", "Descripción"},
-            {"PrecioVenta", "Precio"}
-        }
+        {"Codigo", "Código"},
+        {"Nombre", "Descripción"},
+        {"Stock", "Stock"},
+        {"Categoria", "Categoría"},
+        {"SubCategoria", "Subcategoría"},
+        {"Precio", "Precio Venta"}
+    }
 
         productosGrid.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombresColumnas)
-
-        ' 👉 Definir método de carga (usado si refrescas)
         productosGrid.MetodoCargaDatos = Function() tabla
-
-        ' 👉 Cargar datos
         productosGrid.CargarDatos(tabla)
 
-        ' 👉 Manejar evento
         AddHandler productosGrid.ProductoSeleccionado, AddressOf ProductoSeleccionado
-
-        ' 👉 Agregar al formulario
         Me.Controls.Add(productosGrid)
     End Sub
 
     Private Sub ProductoSeleccionado(producto As DataRow)
         If FormularioDestino IsNot Nothing Then
-            FormularioDestino.AgregarProductoAlDetalle(producto)
+            ' Crear objeto limpio
+            Dim seleccionado As New ProductoSeleccionado With {
+            .Codigo = Convert.ToString(producto("Codigo")),
+            .Nombre = producto("Nombre").ToString(),
+            .Precio = 0,
+            .ExG = "Ex"
+        }
+
+            FormularioDestino.AgregarProductoAlDetalle(seleccionado)
             Me.Close()
         End If
     End Sub
+
 
 End Class

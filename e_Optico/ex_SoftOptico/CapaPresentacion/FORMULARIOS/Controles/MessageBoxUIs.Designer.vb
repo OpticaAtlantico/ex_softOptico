@@ -1,8 +1,8 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class MssgBoxUI
-    Inherits System.Windows.Forms.UserControl
+Partial Class MessageBoxUIs
+    Inherits System.Windows.Forms.Form
 
-    'UserControl reemplaza a Dispose para limpiar la lista de componentes.
+    'Form reemplaza a Dispose para limpiar la lista de componentes.
     <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
@@ -22,8 +22,15 @@ Partial Class MssgBoxUI
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container()
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        SuspendLayout()
+        ' 
+        ' MessageBoxUI
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(0, 14)
+        Name = "MessageBoxUI"
+        Text = "MessageBoxUI"
+        ResumeLayout(False)
     End Sub
-
 End Class

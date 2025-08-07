@@ -175,11 +175,11 @@ Public Class frmNuevoEmpleado
                 If DatosEmpleados IsNot Nothing Then
                     ProcesarEmpleado(esNuevo:=False)
                 Else
-                    MessageBoxUI.Mostrar(Me,
+                    MessageBoxUIs.Mostrar(Me,
                                  "Sin actualizar...",
                                  "No hay datos del empleado que actualizar... ",
-                                 MessageBoxUI.TipoMensaje.Exito,
-                                 MessageBoxUI.Botones.SiNo,
+                                 MessageBoxUIs.TipoMensaje.Exito,
+                                 MessageBoxUIs.Botones.SiNo,
                                  FontAwesome.Sharp.IconChar.InfoCircle
                                 )
                 End If
@@ -190,11 +190,11 @@ Public Class frmNuevoEmpleado
 
                 'Dim confirmacion = MessageBox.Show("¿Está seguro que desea eliminar este empleado?", "Confirmación", CType(vbYesNo, MessageBoxButtons), MessageBoxIcon.Question)
                 'Dim confirmacion As DialogResult = MessageBoxUI.Mostrar("¿Está seguro que desea eliminar este empleado?", "Confirmación", IconChar.TrashAlt, MessageBoxUI.TipoBotones.SiNo)
-                Dim confirmacion = MessageBoxUI.Mostrar(Me,
+                Dim confirmacion = MessageBoxUIs.Mostrar(Me,
                                                          "Eliminar datos...",
                                                          "¿Está usted seguro de eliminar el empleado seleccionado?",
-                                                         MessageBoxUI.TipoMensaje.Informacion,
-                                                         MessageBoxUI.Botones.SiNo,
+                                                         MessageBoxUIs.TipoMensaje.Informacion,
+                                                         MessageBoxUIs.Botones.SiNo,
                                                          FontAwesome.Sharp.IconChar.QuestionCircle
                                                         )
                 If confirmacion = DialogResult.Yes Then
@@ -208,20 +208,20 @@ Public Class frmNuevoEmpleado
                 If DatosEmpleados Is Nothing Then
                     ProcesarEmpleado(esNuevo:=True)
                 Else
-                    MessageBoxUI.Mostrar(Me,
+                    MessageBoxUIs.Mostrar(Me,
                                          "Guardar datos...",
                                          "Ya hay datos de empleados almacenado...",
-                                         MessageBoxUI.TipoMensaje.Errors,
-                                         MessageBoxUI.Botones.Aceptar,
+                                         MessageBoxUIs.TipoMensaje.Errors,
+                                         MessageBoxUIs.Botones.Aceptar,
                                          FontAwesome.Sharp.IconChar.ExclamationTriangle
                                         )
                 End If
             Case Else
-                MessageBoxUI.Mostrar(Me,
+                MessageBoxUIs.Mostrar(Me,
                                          "Sin datos...",
                                          "La acción que intenta ejecutar no es reconocida",
-                                         MessageBoxUI.TipoMensaje.Errors,
-                                         MessageBoxUI.Botones.Aceptar,
+                                         MessageBoxUIs.TipoMensaje.Errors,
+                                         MessageBoxUIs.Botones.Aceptar,
                                          FontAwesome.Sharp.IconChar.TimesCircle
                                         )
         End Select
@@ -302,11 +302,11 @@ Public Class frmNuevoEmpleado
                         .imgFoto.BackgroundImageLayout = ImageLayout.Zoom
                         .imgFoto.IconChar = FontAwesome.Sharp.IconChar.None ' Oculta el ícono para que se vea la imagen
                     Catch ex As Exception
-                        MessageBoxUI.Mostrar(Me,
+                        MessageBoxUIs.Mostrar(Me,
                                              "Cargando...",
                                              "Error al cargar la foto del empleado...",
-                                             MessageBoxUI.TipoMensaje.Informacion,
-                                             MessageBoxUI.Botones.Aceptar,
+                                             MessageBoxUIs.TipoMensaje.Informacion,
+                                             MessageBoxUIs.Botones.Aceptar,
                                              FontAwesome.Sharp.IconChar.InfoCircle
                                             )
                     End Try
@@ -344,11 +344,11 @@ Public Class frmNuevoEmpleado
             Dim zona = Convert.ToInt32(cmbZona.IndiceSeleccionado)
 
             If {cedula, nombre, apellido, edad, nacionalidad, estadoCivil, sexo, telefono, correo, direccion, cargo}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
-                MessageBoxUI.Mostrar(Me,
+                MessageBoxUIs.Mostrar(Me,
                                     "Cargando...",
                                     "Por favor, complete todos los campos obligatorios.",
-                                    MessageBoxUI.TipoMensaje.Informacion,
-                                    MessageBoxUI.Botones.Aceptar,
+                                    MessageBoxUIs.TipoMensaje.Informacion,
+                                    MessageBoxUIs.Botones.Aceptar,
                                     FontAwesome.Sharp.IconChar.InfoCircle
                                 )
 
@@ -385,11 +385,11 @@ Public Class frmNuevoEmpleado
             resultado.EsValido = True
         Catch ex As Exception
 
-            MessageBoxUI.Mostrar(Me,
+            MessageBoxUIs.Mostrar(Me,
                                     "Cargando...",
                                     "Error al obtener los datos",
-                                    MessageBoxUI.TipoMensaje.Errors,
-                                    MessageBoxUI.Botones.Aceptar,
+                                    MessageBoxUIs.TipoMensaje.Errors,
+                                    MessageBoxUIs.Botones.Aceptar,
                                     FontAwesome.Sharp.IconChar.TimesCircle
                                 )
             resultado.EsValido = False
@@ -421,20 +421,20 @@ Public Class frmNuevoEmpleado
                 frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal
             Else
                 mensaje.MostrarToast("Ocurrió un error al procesar la operación.", TipoToastUI.Errores)
-                MessageBoxUI.Mostrar(Me,
+                MessageBoxUIs.Mostrar(Me,
                                     "Procesando...",
                                     "Ocurrió un error al procesar la operación.",
-                                    MessageBoxUI.TipoMensaje.Informacion,
-                                    MessageBoxUI.Botones.Aceptar,
+                                    MessageBoxUIs.TipoMensaje.Informacion,
+                                    MessageBoxUIs.Botones.Aceptar,
                                     FontAwesome.Sharp.IconChar.InfoCircle
                                 )
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar(Me,
+            MessageBoxUIs.Mostrar(Me,
                                     "Error...",
                                     "Ha ocurrido un error al procesar los datos del empleado...",
-                                    MessageBoxUI.TipoMensaje.Informacion,
-                                    MessageBoxUI.Botones.Aceptar,
+                                    MessageBoxUIs.TipoMensaje.Informacion,
+                                    MessageBoxUIs.Botones.Aceptar,
                                     FontAwesome.Sharp.IconChar.InfoCircle
                                 )
 

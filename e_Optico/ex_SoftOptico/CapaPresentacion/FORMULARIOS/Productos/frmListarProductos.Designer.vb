@@ -28,9 +28,9 @@ Partial Class frmListarProductos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(932, 739)
+        ClientSize = New Size(932, 545)
         Name = "frmListarProductos"
-        Text = "frmListarProductos"
+        Text = "Listado de Productos"
         ResumeLayout(False)
     End Sub
 End Class

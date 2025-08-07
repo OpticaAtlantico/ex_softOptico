@@ -17,6 +17,7 @@ Public Class MaskedTextBoxLabelUI
     ' === Estilos ===
     Private _labelText As String = "Campo numérico:"
     Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
+    Private _sombraBackColor As Color = Color.LightGray
     Private _textColor As Color = Color.WhiteSmoke
     Private _fontField As Font = New Font("Century Gothic", 12)
     Private _paddingAll As Integer = 10
@@ -60,7 +61,7 @@ Public Class MaskedTextBoxLabelUI
         lblTitulo.Height = 20
 
         pnlSombra.Dock = DockStyle.None
-        pnlSombra.BackColor = _borderColorPersonalizado
+        pnlSombra.BackColor = _sombraBackColor
         pnlSombra.Height = 37
         pnlSombra.Width = 346
         pnlSombra.Margin = Padding.Empty
@@ -244,6 +245,17 @@ Public Class MaskedTextBoxLabelUI
             _panelBackColor = value
             pnlFondo.BackColor = value
             txtCampo.BackColor = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property SombraBackColor As Color
+        Get
+            Return _sombraBackColor
+        End Get
+        Set(value As Color)
+            _sombraBackColor = value
+            pnlSombra.BackColor = value
         End Set
     End Property
 

@@ -1,4 +1,4 @@
--- Actualizado el dia: 14/07/2025
+-- Actualizado el dia: 06/08/2025
 
 IF NOT EXISTS (
     SELECT * FROM SYS.databases 
@@ -130,12 +130,14 @@ CREATE TABLE TProductos (
     CodigoProducto NVARCHAR(50) NOT NULL UNIQUE,
     Descripcion NVARCHAR(255) NULL,
     CategoriaID INT NOT NULL,
-    PrecioVenta DECIMAL(18, 2) NOT NULL,
-    CostoPromedio DECIMAL(18, 2) NOT NULL DEFAULT 0, -- Costo promedio ponderado
-    Activo BIT NOT NULL DEFAULT 1,
+    SubCategoriaID INT NOT NULL,
+    Precio DECIMAL(18, 2) NOT NULL,
+    Costo DECIMAL(18, 2) NOT NULL DEFAULT 0, -- Costo promedio ponderado
     Stock INT NOT NULL DEFAULT 0,
+    Activo BIT NOT NULL DEFAULT 1,
     RequiereInventario BIT NOT NULL DEFAULT 1, -- Para servicios que no manejan stock
-    FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
+    FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID),
+    FOREIGN KEY (SubCategoriaID) REFERENCES TSubCategorias(SubCategoriaID)
 );
 
 -- Tabla: Empleados (Usuarios del Sistema)
@@ -408,7 +410,9 @@ CREATE OR ALTER VIEW VCategorias AS
     SELECT C.Categoriaid
          , C.NombreCategoria
     FROM TCategorias C
-        
+
+GO
+
 -- SELECT * FROM VCategorias;
 CREATE OR ALTER VIEW VEmpleados AS
     SELECT dbo.TEmpleados.EmpleadoID
@@ -436,12 +440,15 @@ CREATE OR ALTER VIEW VEmpleados AS
          dbo.TCargoEmpleado ON 
          dbo.TEmpleados.CargoEmpleadoID = dbo.TCargoEmpleado.CargoEmpleadoID
 
+GO
+
 --VISTA VCargoEmpleado , para visualizar todos los datos del cargos para los empleados
 CREATE OR ALTER VIEW VCargoEmpleado AS
     SELECT C.CargoEmpleadoID
          , C.Descripcion
     FROM TCargoEmpleado C
 
+GO
 
 CREATE OR ALTER VIEW VLogin AS
     SELECT L.Usuario
@@ -464,20 +471,20 @@ CREATE OR ALTER VIEW VLogin AS
             INNER JOIN dbo.TRol AS R 
                 ON L.RolID = R.RolID
 
+GO
+
 -- SELECT * FROM VLogin;
 
 CREATE OR ALTER VIEW VProductos AS
     SELECT dbo.TProductos.CodigoProducto AS Codigo
-           , dbo.TProductos.Descripcion AS Nombre
-           , dbo.TProductos.PrecioVenta AS Precio
-           , dbo.TCategorias.NombreCategoria AS Categoria
-           , dbo.TSubCategorias.NombreSubCategoria AS Subcategoria
-           , dbo.TStockProducto.StockActual AS Stock
-    FROM     dbo.TProductos INNER JOIN
-             dbo.TCategorias ON dbo.TProductos.CategoriaID = dbo.TCategorias.CategoriaID INNER JOIN
-             dbo.TSubCategorias ON dbo.TCategorias.CategoriaID = dbo.TSubCategorias.CategoriaID INNER JOIN
-             dbo.TStockProducto ON dbo.TProductos.ProductoID = dbo.TStockProducto.ProductoID
-
+         , dbo.TProductos.Descripcion AS Nombre
+         , dbo.TProductos.Precio
+         , dbo.TCategorias.NombreCategoria AS Categoria
+         , dbo.TProductos.Stock
+         , dbo.TSubCategorias.NombreSubCategoria as SubCategoria
+    FROM   dbo.TProductos INNER JOIN
+           dbo.TCategorias ON dbo.TProductos.CategoriaID = dbo.TCategorias.CategoriaID INNER JOIN
+           dbo.TSubCategorias ON dbo.TProductos.SubCategoriaID = dbo.TSubCategorias.SubCategoriaID
 
 
 -----   PROCEDIMIENTOS
@@ -570,7 +577,6 @@ INSERT INTO TTipoPago (Nombre) VALUES ('Intercambio Comercial')
 INSERT INTO TTipoPago (Nombre) VALUES ('Cashea')
 INSERT INTO TTipoPago (Nombre) VALUES ('Garantia')
 INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
-
 
 
 

@@ -89,15 +89,13 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        Dim confirmacion = MessageBoxUI.Mostrar(Me,
+        Dim confirmacion = MessageBoxUI.Mostrar(
                                  "Cerrar...",
-                                 "Saliendo dek Sistema de gestión de datos",
-                                 MessageBoxUI.TipoMensaje.Exito,
-                                 MessageBoxUI.Botones.SiNo,
-                                 FontAwesome.Sharp.IconChar.InfoCircle
-                                )
-
-        If confirmacion = DialogResult.Yes Then
+                                 "Saliendo del Sistema de gestión de datos",
+                                 TipoMensaje.Exito,
+                                 Botones.Aceptar
+                                 )
+        If confirmacion = DialogResult.OK Then
             listLogin.Clear()
             Me.Close() ' Cierra el formulario después de eliminar
         End If
@@ -183,13 +181,12 @@ Public Class frm_Principal
         If resultado.Aceptado Then
             enviarDatosEmpleados(resultado.Valor, 0)
         Else
-            MessageBoxUI.Mostrar(Me,
+            MessageBoxUI.Mostrar(
                                  "Cerrar...",
                                  "Saliendo de control de entrada de datos",
-                                 MessageBoxUI.TipoMensaje.Advertencia,
-                                 MessageBoxUI.Botones.Aceptar,
-                                 FontAwesome.Sharp.IconChar.InfoCircle
-                                )
+                                 TipoMensaje.Advertencia,
+                                 Botones.Aceptar
+                                 )
         End If
         DrawerTimer.Start()
     End Sub
@@ -212,13 +209,12 @@ Public Class frm_Principal
         If resultado.Aceptado Then
             enviarDatosEmpleados(resultado.Valor, 1)
         Else
-            MessageBoxUI.Mostrar(Me,
+            MessageBoxUI.Mostrar(
                                  "Cerrar...",
                                  "Saliendo de control de entrada de datos",
-                                 MessageBoxUI.TipoMensaje.Advertencia,
-                                 MessageBoxUI.Botones.Aceptar,
-                                 FontAwesome.Sharp.IconChar.InfoCircle
-                                )
+                                 TipoMensaje.Advertencia,
+                                 Botones.Aceptar
+                                 )
         End If
         DrawerTimer.Start()
     End Sub
@@ -234,7 +230,6 @@ Public Class frm_Principal
             AddHandler consultaEmpleadosForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
             OpenChildForm(consultaEmpleadosForm)
 
-            'OpenChildForm(New frmConsultaEmpleados)
         End If
     End Sub
 
@@ -300,10 +295,15 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubNuevoC_Click(sender As Object, e As EventArgs)
-        Throw New NotImplementedException()
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmCompras).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            OpenChildForm(New frmCompras)
+            EfectoBotonInActivo()
+        End If
     End Sub
-
-
 
 #End Region
 
@@ -519,7 +519,12 @@ Public Class frm_Principal
             formularioHijo.NombreBoton = texto.ToString()
             OpenChildForm(formularioHijo)
         Else
-            MessageBox.Show("No se encontró ningún empleado con esa cédula.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBoxUI.Mostrar(
+                                 "Datos no existe...",
+                                 "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
+                                 TipoMensaje.Advertencia,
+                                 Botones.Aceptar
+                                 )
         End If
 
     End Sub

@@ -1,9 +1,9 @@
 ﻿' DataGridViewGUI - Control personalizado profesional con filtros, paginación y eventos
 Imports System.ComponentModel
 Imports System.Data
+Imports CapaEntidad
 Imports ClosedXML.Excel
 Imports FontAwesome.Sharp
-
 Public Class DataGridViewGUI
     Inherits UserControl
 
@@ -34,6 +34,62 @@ Public Class DataGridViewGUI
         Get
             Return filtro
         End Get
+    End Property
+
+    ' === Propiedades privadas ===
+    ' Título principal del encabezado
+    <Browsable(True)>
+    Public Property Titulo As String
+        Get
+            Return headerUI.Titulo
+        End Get
+        Set(value As String)
+            headerUI.Titulo = value
+        End Set
+    End Property
+
+    ' Subtítulo del encabezado
+    <Browsable(True)>
+    Public Property Subtitulo As String
+        Get
+            Return headerUI.Subtitulo
+        End Get
+        Set(value As String)
+            headerUI.Subtitulo = value
+        End Set
+    End Property
+
+    ' Icono del encabezado (tipo FontAwesome.Sharp.IconChar)
+    <Browsable(True)>
+    Public Property Icono As IconChar
+        Get
+            Return headerUI.Icono
+        End Get
+        Set(value As IconChar)
+            headerUI.Icono = value
+        End Set
+    End Property
+
+    ' Título principal del encabezado
+    <Browsable(True)>
+    Public Property ColorFondo As Color
+        Get
+            Return headerUI.BackColor
+        End Get
+        Set(value As Color)
+            headerUI.BackColor = value
+        End Set
+    End Property
+
+    ' Subtítulo del encabezado
+    <Browsable(True)>
+    Public Property ColorTexto As Color
+        Get
+            Return headerUI.ForeColor
+        End Get
+        Set(value As Color)
+            headerUI.ForeColor = value
+        End Set
     End Property
 
     ' === Campos ===
