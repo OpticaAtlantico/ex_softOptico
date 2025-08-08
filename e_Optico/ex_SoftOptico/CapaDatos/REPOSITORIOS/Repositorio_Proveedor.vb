@@ -55,7 +55,7 @@ Public Class Repositorio_Proveedor
                 .contacto = row("Contacto").ToString(),
                 .telefono = row("Telefono").ToString(),
                 .rif = row("RIF").ToString(),
-                .email = row("Email").ToString(),
+                .correo = row("Email").ToString(),
                 .direccion = row("Direccion").ToString()
             }
         End If
@@ -90,7 +90,7 @@ Public Class Repositorio_Proveedor
                 .contacto = row("Contacto").ToString(),
                 .telefono = row("Telefono").ToString(),
                 .rif = row("RIF").ToString(),
-                .email = row("Email").ToString(),
+                .correo = row("Email").ToString(),
                 .direccion = row("Direccion").ToString()
             }
             lista.Add(proveedor)
@@ -106,7 +106,7 @@ Public Class Repositorio_Proveedor
             New SqlParameter("@Contacto", entity.contacto),
             New SqlParameter("@Telefono", entity.telefono),
             New SqlParameter("@Rif", entity.rif),
-            New SqlParameter("@Email", entity.email),
+            New SqlParameter("@Email", entity.correo),
             New SqlParameter("@Direccion", entity.direccion)
         }
         Return ExecuteNonQuery(Insertar)
@@ -120,7 +120,7 @@ Public Class Repositorio_Proveedor
             New SqlParameter("@Contacto", entity.contacto),
             New SqlParameter("@Telefono", entity.telefono),
             New SqlParameter("@Rif", entity.rif),
-            New SqlParameter("@Email", entity.email),
+            New SqlParameter("@Email", entity.correo),
             New SqlParameter("@Direccion", entity.direccion)
         }
         Return ExecuteNonQuery(Actualizar)

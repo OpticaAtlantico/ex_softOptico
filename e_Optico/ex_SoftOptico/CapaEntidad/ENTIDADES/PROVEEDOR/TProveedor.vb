@@ -6,6 +6,6 @@
     Public Property contacto As String
     Public Property telefono As String
     Public Property rif As String
-    Public Property email As String
+    Public Property correo As String
     Public Property direccion As String
 End Class

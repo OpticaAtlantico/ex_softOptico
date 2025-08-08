@@ -63,7 +63,7 @@ Public Class TextBoxLabelUI
         pnlSombra.Dock = DockStyle.None
         pnlSombra.BackColor = _sombraBackColor
         pnlSombra.Height = 37
-        pnlSombra.Width = 346
+        pnlSombra.Width = 600
         pnlSombra.Margin = Padding.Empty
         pnlSombra.Location = New Point(6, 23)
 

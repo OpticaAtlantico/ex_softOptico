@@ -139,7 +139,7 @@ Partial Class frm_Principal
         pnlRol.Controls.Add(lblCargo)
         pnlRol.Controls.Add(lblUsuario)
         pnlRol.Dock = DockStyle.Left
-        pnlRol.Location = New Point(650, 5)
+        pnlRol.Location = New Point(649, 5)
         pnlRol.Name = "pnlRol"
         pnlRol.Size = New Size(315, 54)
         pnlRol.TabIndex = 4
@@ -170,7 +170,7 @@ Partial Class frm_Principal
         ' 
         pnlLogoUser.Controls.Add(imgUser)
         pnlLogoUser.Dock = DockStyle.Left
-        pnlLogoUser.Location = New Point(561, 5)
+        pnlLogoUser.Location = New Point(560, 5)
         pnlLogoUser.Name = "pnlLogoUser"
         pnlLogoUser.Size = New Size(89, 54)
         pnlLogoUser.TabIndex = 3
@@ -194,7 +194,7 @@ Partial Class frm_Principal
         ' 
         pnlTitulo.Controls.Add(lblTitulo)
         pnlTitulo.Dock = DockStyle.Left
-        pnlTitulo.Location = New Point(161, 5)
+        pnlTitulo.Location = New Point(160, 5)
         pnlTitulo.Name = "pnlTitulo"
         pnlTitulo.Size = New Size(400, 54)
         pnlTitulo.TabIndex = 2
@@ -219,7 +219,7 @@ Partial Class frm_Principal
         ' 
         pnlSalirfrm.Controls.Add(btnSalirFrmHijo)
         pnlSalirfrm.Dock = DockStyle.Left
-        pnlSalirfrm.Location = New Point(61, 5)
+        pnlSalirfrm.Location = New Point(60, 5)
         pnlSalirfrm.Name = "pnlSalirfrm"
         pnlSalirfrm.Size = New Size(100, 54)
         pnlSalirfrm.TabIndex = 1
@@ -241,15 +241,18 @@ Partial Class frm_Principal
         ' 
         ' pnlBars
         ' 
+        pnlBars.BackColor = Color.FromArgb(CByte(51), CByte(51), CByte(76))
         pnlBars.Controls.Add(btnMostrarMenu)
         pnlBars.Dock = DockStyle.Left
         pnlBars.Location = New Point(5, 5)
+        pnlBars.Margin = New Padding(0)
         pnlBars.Name = "pnlBars"
-        pnlBars.Size = New Size(56, 54)
+        pnlBars.Size = New Size(55, 54)
         pnlBars.TabIndex = 0
         ' 
         ' btnMostrarMenu
         ' 
+        btnMostrarMenu.BackColor = Color.RoyalBlue
         btnMostrarMenu.Dock = DockStyle.Fill
         btnMostrarMenu.FlatAppearance.BorderSize = 0
         btnMostrarMenu.FlatStyle = FlatStyle.Flat
@@ -258,9 +261,9 @@ Partial Class frm_Principal
         btnMostrarMenu.IconFont = FontAwesome.Sharp.IconFont.Auto
         btnMostrarMenu.Location = New Point(0, 0)
         btnMostrarMenu.Name = "btnMostrarMenu"
-        btnMostrarMenu.Size = New Size(56, 54)
+        btnMostrarMenu.Size = New Size(55, 54)
         btnMostrarMenu.TabIndex = 0
-        btnMostrarMenu.UseVisualStyleBackColor = True
+        btnMostrarMenu.UseVisualStyleBackColor = False
         ' 
         ' pnlMenu
         ' 
@@ -538,7 +541,7 @@ Partial Class frm_Principal
     Friend WithEvents pnlMenu As Panel
     Friend WithEvents pnlDrawer As Panel
     Friend WithEvents pnlContenedor As Panel
-    Friend WithEvents DrawerTimer As Timer
+    Friend WithEvents DrawerTimer As New Timer
     Friend WithEvents btnInventario As FontAwesome.Sharp.IconButton
     Friend WithEvents btnReporte As FontAwesome.Sharp.IconButton
     Friend WithEvents btnNomina As FontAwesome.Sharp.IconButton

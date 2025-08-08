@@ -130,8 +130,8 @@ Public Class frmConsultaProveedor
 
     Private Sub EditarProveedor(id As Integer)
         Try
-            Dim repositorio As New Repositorio_Empleados()
-            Dim proveedorEncontrado As TEmpleados = repositorio.ObtenerPorID(id)
+            Dim repositorio As New Repositorio_Proveedor()
+            Dim proveedorEncontrado As TProveedor = repositorio.BuscarProveedorPorID(id)
 
             If proveedorEncontrado IsNot Nothing Then
                 Dim formularioHijo As New frmProveedor()

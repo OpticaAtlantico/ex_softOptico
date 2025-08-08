@@ -60,8 +60,8 @@ Public Class MultilineTextBoxLabelUI
 
         pnlSombra.Dock = DockStyle.None
         pnlSombra.BackColor = _sombraBackColor
-        pnlSombra.Height = pnlFondo.Height + 0.6
-        pnlSombra.Width = 900
+        pnlSombra.Height = _alturaMultilinea + 0.6
+        pnlSombra.Width = 1500
         pnlSombra.Margin = Padding.Empty
         pnlSombra.Location = New Point(6, 23)
 
@@ -92,7 +92,7 @@ Public Class MultilineTextBoxLabelUI
         iconoDerecho.BackColor = Color.Transparent
         iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
         pnlFondo.Controls.Add(iconoDerecho)
-        pnlFondo.Controls.Add(iconoDerecho)
+        'pnlFondo.Controls.Add(iconoDerecho)
 
         ' === Label de error ===
         lblError.Text = ""
@@ -115,7 +115,7 @@ Public Class MultilineTextBoxLabelUI
                                             txtCampo.Location = New Point(_paddingAll, _paddingAll)
                                         Else
                                             ' Si no es multilinea, mantener altura fija y centrar verticalmente
-                                            txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, 30)
+                                            txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, 25)
                                             txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
                                         End If
 

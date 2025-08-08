@@ -12,7 +12,7 @@ Public Class frm_Principal
 
     Private DrawerExpandido As Boolean = True
     Private DrawerObjetivoWidth As Integer = 160
-    Private DrawerVelocidad As Integer = 30
+    Private DrawerVelocidad As Integer = 20
 
     'Para procedimeintos de botones 
     Private currentButton As Button
@@ -41,7 +41,7 @@ Public Class frm_Principal
 
         ' Timer para fade-in
         AddHandler fadeTimer.Tick, AddressOf FadeIn
-        fadeTimer.Interval = 30
+        fadeTimer.Interval = 15
         pnlDrawer.BringToFront()
     End Sub
 
@@ -499,8 +499,7 @@ Public Class frm_Principal
         Else
             ' Contrayendo
             If pnlDrawer.Width > 0 Then
-                pnlDrawer.Width = 0
-                pnlDrawer.Width -= DrawerVelocidad
+                pnlDrawer.Width -= DrawerVelocidad * 3
             Else
                 DrawerTimer.Stop()
                 pnlDrawer.Visible = False

@@ -50,7 +50,7 @@ Public Class DateBoxLabelUI
         pnlSombra.Dock = DockStyle.None
         pnlSombra.BackColor = _borderColorPersonalizado
         pnlSombra.Height = 37
-        pnlSombra.Width = 346
+        pnlSombra.Width = 900
         pnlSombra.Margin = Padding.Empty
         pnlSombra.Location = New Point(6, 23)
 

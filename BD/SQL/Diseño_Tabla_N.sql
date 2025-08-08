@@ -17,9 +17,6 @@ GO
 
 -- Tabla: TMenuOpciones para almacenar los controles que van a aparecer en el menu de opcionesd del menu principal
 
-
-
-
 CREATE TABLE TMenuOpciones (
     id INT IDENTITY(1,1) PRIMARY KEY,
     TextoBoton NVARCHAR(50) NOT NULL,
@@ -100,15 +97,15 @@ CREATE TABLE TEmpresaCliente (
 -- Tabla: Proveedores
 CREATE TABLE TProveedores (
     ProveedorID INT IDENTITY(1,1) PRIMARY KEY,
-    RUC NVARCHAR(20) NOT NULL UNIQUE,
     NombreEmpresa NVARCHAR(100) NOT NULL,
     RazonSocial NVARCHAR(250) NULL, 
     Contacto NVARCHAR(100) NULL,
     Telefono NVARCHAR(20) NULL,
     Rif NVARCHAR(30) NOT NULL,
-    Email NVARCHAR(100) NULL,
+    Correo NVARCHAR(100) NULL,
     Estado BIT NOT NULL DEFAULT 1,
     Direccion NVARCHAR(255) NULL,
+    FechaRegistro DATETIME NOT NULL DEFAULT GETDATE()
 );
 
 -- Tabla: Categorias (para productos)

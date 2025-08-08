@@ -43,7 +43,7 @@ Public Class ComboBoxLabelUI
         pnlSombra.Dock = DockStyle.None
         pnlSombra.BackColor = _sombraBackColor
         pnlSombra.Height = 38
-        pnlSombra.Width = 346
+        pnlSombra.Width = 900
         pnlSombra.Margin = Padding.Empty
         pnlSombra.Location = New Point(6, 23)
 
