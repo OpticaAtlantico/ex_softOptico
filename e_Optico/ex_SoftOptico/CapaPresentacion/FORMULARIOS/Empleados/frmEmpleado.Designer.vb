@@ -23,6 +23,7 @@ Partial Class frmEmpleado
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         pnlContenedor = New Panel()
+        Panel1 = New Panel()
         pnlContenido = New Panel()
         txtDireccion = New MultilineTextBoxLabelUI()
         pnlCargo = New Panel()
@@ -59,13 +60,23 @@ Partial Class frmEmpleado
         ' 
         ' pnlContenedor
         ' 
+        pnlContenedor.Controls.Add(Panel1)
         pnlContenedor.Controls.Add(pnlContenido)
         pnlContenedor.Controls.Add(pnlEncabezado)
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(0, 0)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1274, 610)
+        pnlContenedor.Size = New Size(1274, 626)
         pnlContenedor.TabIndex = 0
+        ' 
+        ' Panel1
+        ' 
+        Panel1.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        Panel1.Dock = DockStyle.Bottom
+        Panel1.Location = New Point(0, 570)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(1274, 56)
+        Panel1.TabIndex = 2
         ' 
         ' pnlContenido
         ' 
@@ -81,7 +92,7 @@ Partial Class frmEmpleado
         pnlContenido.Margin = New Padding(3, 30, 3, 3)
         pnlContenido.Name = "pnlContenido"
         pnlContenido.Padding = New Padding(10, 30, 0, 0)
-        pnlContenido.Size = New Size(1274, 550)
+        pnlContenido.Size = New Size(1274, 566)
         pnlContenido.TabIndex = 1
         ' 
         ' txtDireccion
@@ -95,7 +106,7 @@ Partial Class frmEmpleado
         txtDireccion.CapitalizarTexto = True
         txtDireccion.CapitalizarTodasLasPalabras = False
         txtDireccion.ColorError = Color.Firebrick
-        txtDireccion.FontField = New Font("Century Gothic", 12F)
+        txtDireccion.FontField = New Font("Century Gothic", 12.0F)
         txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDireccion.LabelColor = Color.DarkSlateGray
@@ -107,6 +118,7 @@ Partial Class frmEmpleado
         txtDireccion.PaddingAll = 10
         txtDireccion.PanelBackColor = Color.White
         txtDireccion.Size = New Size(686, 138)
+        txtDireccion.SombraBackColor = Color.LightGray
         txtDireccion.TabIndex = 13
         txtDireccion.TextColor = Color.Black
         txtDireccion.TextoUsuario = ""
@@ -130,7 +142,7 @@ Partial Class frmEmpleado
         swMarketing.BorderRadius = 20
         swMarketing.Checked = False
         swMarketing.EstadoTexto = "Marketing..."
-        swMarketing.Font = New Font("Century Gothic", 11F)
+        swMarketing.Font = New Font("Century Gothic", 11.0F)
         swMarketing.Location = New Point(345, 61)
         swMarketing.Name = "swMarketing"
         swMarketing.Size = New Size(160, 23)
@@ -146,7 +158,7 @@ Partial Class frmEmpleado
         swGerente.BorderRadius = 20
         swGerente.Checked = False
         swGerente.EstadoTexto = "Gerente..."
-        swGerente.Font = New Font("Century Gothic", 11F)
+        swGerente.Font = New Font("Century Gothic", 11.0F)
         swGerente.Location = New Point(93, 61)
         swGerente.Name = "swGerente"
         swGerente.Size = New Size(147, 23)
@@ -162,7 +174,7 @@ Partial Class frmEmpleado
         swOptometrista.BorderRadius = 20
         swOptometrista.Checked = False
         swOptometrista.EstadoTexto = "Optometrista..."
-        swOptometrista.Font = New Font("Century Gothic", 11F)
+        swOptometrista.Font = New Font("Century Gothic", 11.0F)
         swOptometrista.Location = New Point(345, 17)
         swOptometrista.Name = "swOptometrista"
         swOptometrista.Size = New Size(170, 23)
@@ -178,7 +190,7 @@ Partial Class frmEmpleado
         swAsesor.BorderRadius = 20
         swAsesor.Checked = False
         swAsesor.EstadoTexto = "Asesor..."
-        swAsesor.Font = New Font("Century Gothic", 11F)
+        swAsesor.Font = New Font("Century Gothic", 11.0F)
         swAsesor.Location = New Point(93, 17)
         swAsesor.Name = "swAsesor"
         swAsesor.Size = New Size(131, 23)
@@ -208,10 +220,10 @@ Partial Class frmEmpleado
         TableLayoutPanel1.Location = New Point(214, 11)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 4
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
         TableLayoutPanel1.Size = New Size(1048, 356)
         TableLayoutPanel1.TabIndex = 26
         ' 
@@ -223,7 +235,7 @@ Partial Class frmEmpleado
         txtCedula.BorderSize = 1
         txtCedula.CampoRequerido = True
         txtCedula.ColorError = Color.Firebrick
-        txtCedula.FontField = New Font("Century Gothic", 12F)
+        txtCedula.FontField = New Font("Century Gothic", 12.0F)
         txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtCedula.LabelColor = Color.DarkSlateGray
@@ -237,6 +249,7 @@ Partial Class frmEmpleado
         txtCedula.PanelBackColor = Color.White
         txtCedula.SelectionStart = 0
         txtCedula.Size = New Size(343, 80)
+        txtCedula.SombraBackColor = Color.LightGray
         txtCedula.TabIndex = 1
         txtCedula.TextColor = Color.Black
         txtCedula.TextoUsuario = ""
@@ -250,7 +263,7 @@ Partial Class frmEmpleado
         txtFechaNac.BorderSize = 1
         txtFechaNac.CampoRequerido = True
         txtFechaNac.FechaSeleccionada = New Date(2025, 7, 31, 0, 0, 0, 0)
-        txtFechaNac.FontField = New Font("Century Gothic", 12F)
+        txtFechaNac.FontField = New Font("Century Gothic", 12.0F)
         txtFechaNac.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtFechaNac.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
         txtFechaNac.LabelColor = Color.DarkSlateGray
@@ -275,7 +288,7 @@ Partial Class frmEmpleado
         txtNombre.CapitalizarTodasLasPalabras = True
         txtNombre.CaracterContraseña = "*"c
         txtNombre.ColorError = Color.Firebrick
-        txtNombre.FontField = New Font("Century Gothic", 12F)
+        txtNombre.FontField = New Font("Century Gothic", 12.0F)
         txtNombre.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNombre.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtNombre.LabelColor = Color.DarkSlateGray
@@ -286,6 +299,7 @@ Partial Class frmEmpleado
         txtNombre.PaddingAll = 10
         txtNombre.PanelBackColor = Color.White
         txtNombre.Size = New Size(343, 80)
+        txtNombre.SombraBackColor = Color.LightGray
         txtNombre.TabIndex = 2
         txtNombre.TextColor = Color.Black
         txtNombre.TextoUsuario = ""
@@ -308,6 +322,7 @@ Partial Class frmEmpleado
         cmbSexo.Name = "cmbSexo"
         cmbSexo.RadioContornoPanel = 8
         cmbSexo.Size = New Size(343, 80)
+        cmbSexo.SombraBackColor = Color.LightGray
         cmbSexo.TabIndex = 7
         cmbSexo.Titulo = "Sexo:"
         cmbSexo.ValorSeleccionado = Nothing
@@ -323,7 +338,7 @@ Partial Class frmEmpleado
         txtApellido.CapitalizarTodasLasPalabras = True
         txtApellido.CaracterContraseña = "*"c
         txtApellido.ColorError = Color.Firebrick
-        txtApellido.FontField = New Font("Century Gothic", 12F)
+        txtApellido.FontField = New Font("Century Gothic", 12.0F)
         txtApellido.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtApellido.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtApellido.LabelColor = Color.DarkSlateGray
@@ -334,6 +349,7 @@ Partial Class frmEmpleado
         txtApellido.PaddingAll = 10
         txtApellido.PanelBackColor = Color.White
         txtApellido.Size = New Size(344, 80)
+        txtApellido.SombraBackColor = Color.LightGray
         txtApellido.TabIndex = 3
         txtApellido.TextColor = Color.Black
         txtApellido.TextoUsuario = ""
@@ -355,6 +371,7 @@ Partial Class frmEmpleado
         cmbZona.Name = "cmbZona"
         cmbZona.RadioContornoPanel = 8
         cmbZona.Size = New Size(344, 80)
+        cmbZona.SombraBackColor = Color.LightGray
         cmbZona.TabIndex = 12
         cmbZona.Titulo = "Zona de habitación:"
         cmbZona.ValorSeleccionado = Nothing
@@ -367,7 +384,7 @@ Partial Class frmEmpleado
         txtTelefono.BorderSize = 1
         txtTelefono.CampoRequerido = True
         txtTelefono.ColorError = Color.Firebrick
-        txtTelefono.FontField = New Font("Century Gothic", 12F)
+        txtTelefono.FontField = New Font("Century Gothic", 12.0F)
         txtTelefono.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtTelefono.IconoDerechoChar = FontAwesome.Sharp.IconChar.PhoneVolume
         txtTelefono.LabelColor = Color.DarkSlateGray
@@ -381,6 +398,7 @@ Partial Class frmEmpleado
         txtTelefono.PanelBackColor = Color.White
         txtTelefono.SelectionStart = 0
         txtTelefono.Size = New Size(343, 80)
+        txtTelefono.SombraBackColor = Color.LightGray
         txtTelefono.TabIndex = 11
         txtTelefono.TextColor = Color.Black
         txtTelefono.TextoUsuario = ""
@@ -394,7 +412,7 @@ Partial Class frmEmpleado
         txtEdad.BorderSize = 1
         txtEdad.CampoRequerido = True
         txtEdad.ColorError = Color.Firebrick
-        txtEdad.FontField = New Font("Century Gothic", 12F)
+        txtEdad.FontField = New Font("Century Gothic", 12.0F)
         txtEdad.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtEdad.IconoDerechoChar = FontAwesome.Sharp.IconChar.ArrowUp19
         txtEdad.LabelColor = Color.DarkSlateGray
@@ -408,6 +426,7 @@ Partial Class frmEmpleado
         txtEdad.PanelBackColor = Color.White
         txtEdad.SelectionStart = 0
         txtEdad.Size = New Size(343, 80)
+        txtEdad.SombraBackColor = Color.LightGray
         txtEdad.TabIndex = 4
         txtEdad.TextColor = Color.Black
         txtEdad.TextoUsuario = ""
@@ -424,7 +443,7 @@ Partial Class frmEmpleado
         txtCorreo.CapitalizarTodasLasPalabras = True
         txtCorreo.CaracterContraseña = "*"c
         txtCorreo.ColorError = Color.Firebrick
-        txtCorreo.FontField = New Font("Century Gothic", 12F)
+        txtCorreo.FontField = New Font("Century Gothic", 12.0F)
         txtCorreo.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtCorreo.IconoDerechoChar = FontAwesome.Sharp.IconChar.EnvelopesBulk
         txtCorreo.LabelColor = Color.DarkSlateGray
@@ -435,6 +454,7 @@ Partial Class frmEmpleado
         txtCorreo.PaddingAll = 10
         txtCorreo.PanelBackColor = Color.White
         txtCorreo.Size = New Size(343, 80)
+        txtCorreo.SombraBackColor = Color.LightGray
         txtCorreo.TabIndex = 10
         txtCorreo.TextColor = Color.Black
         txtCorreo.TextoUsuario = ""
@@ -456,6 +476,7 @@ Partial Class frmEmpleado
         cmbNacionalidad.Name = "cmbNacionalidad"
         cmbNacionalidad.RadioContornoPanel = 8
         cmbNacionalidad.Size = New Size(343, 80)
+        cmbNacionalidad.SombraBackColor = Color.LightGray
         cmbNacionalidad.TabIndex = 5
         cmbNacionalidad.Titulo = "Nacionalidad:"
         cmbNacionalidad.ValorSeleccionado = Nothing
@@ -475,6 +496,7 @@ Partial Class frmEmpleado
         cmbEstadoCivil.Name = "cmbEstadoCivil"
         cmbEstadoCivil.RadioContornoPanel = 8
         cmbEstadoCivil.Size = New Size(344, 80)
+        cmbEstadoCivil.SombraBackColor = Color.LightGray
         cmbEstadoCivil.TabIndex = 6
         cmbEstadoCivil.Titulo = "Estado Civil:"
         cmbEstadoCivil.ValorSeleccionado = Nothing
@@ -494,6 +516,7 @@ Partial Class frmEmpleado
         cmbCargo.Name = "cmbCargo"
         cmbCargo.RadioContornoPanel = 8
         cmbCargo.Size = New Size(344, 80)
+        cmbCargo.SombraBackColor = Color.LightGray
         cmbCargo.TabIndex = 9
         cmbCargo.Titulo = "Cargo:"
         cmbCargo.ValorSeleccionado = Nothing
@@ -561,29 +584,31 @@ Partial Class frmEmpleado
         ' 
         btnAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAccion.AnimarHover = True
-        btnAccion.BackColor = Color.Transparent
-        btnAccion.ColorBase = Color.FromArgb(CByte(76), CByte(175), CByte(80))
-        btnAccion.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
-        btnAccion.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
-        btnAccion.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
-        btnAccion.ColorTexto = Color.White
-        btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnAccion.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        btnAccion.Icono = FontAwesome.Sharp.IconChar.Save
+        btnAccion.BackColor = Color.FromArgb(CByte(0), CByte(191), CByte(192))
+        btnAccion.ColorBase = Color.FromArgb(CByte(255), CByte(193), CByte(7))
+        btnAccion.ColorHover = Color.FromArgb(CByte(255), CByte(179), CByte(0))
+        btnAccion.ColorInternoFondo = Color.FromArgb(CByte(255), CByte(193), CByte(7))
+        btnAccion.ColorPresionado = Color.FromArgb(CByte(255), CByte(160), CByte(0))
+        btnAccion.ColorTexto = Color.Black
+        btnAccion.Cursor = Cursors.Hand
+        btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Warning
+        btnAccion.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnAccion.Icono = FontAwesome.Sharp.IconChar.Warning
         btnAccion.Location = New Point(1084, 12)
         btnAccion.Name = "btnAccion"
         btnAccion.RadioBorde = 8
         btnAccion.Size = New Size(180, 40)
         btnAccion.TabIndex = 19
-        btnAccion.Text = "CommandButtonui2"
         btnAccion.Texto = "Guardar Datos"
+        btnAccion.UseWaitCursor = False
         ' 
         ' Headerui1
         ' 
-        Headerui1.ColorFondo = Color.White
-        Headerui1.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
+        Headerui1.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(190))
+        Headerui1.ColorFondo = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        Headerui1.ColorTexto = Color.WhiteSmoke
         Headerui1.Dock = DockStyle.Fill
-        Headerui1.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        Headerui1.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
         Headerui1.Icono = FontAwesome.Sharp.IconChar.CircleInfo
         Headerui1.Location = New Point(0, 0)
         Headerui1.MostrarSeparador = True
@@ -594,12 +619,12 @@ Partial Class frmEmpleado
         Headerui1.Text = "Headerui1"
         Headerui1.Titulo = "Título Principal"
         ' 
-        ' frmNuevoEmpleado
+        ' frmEmpleado
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(1274, 610)
+        ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
         Name = "frmEmpleado"
         Text = "frmEmpleado"
@@ -640,4 +665,5 @@ Partial Class frmEmpleado
     Friend WithEvents cmbSexo As ComboBoxLabelUI
     Friend WithEvents txtFechaNac As DateBoxLabelUI
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+    Friend WithEvents Panel1 As Panel
 End Class

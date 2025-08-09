@@ -48,13 +48,13 @@ Public Class ExcelExportManagerUI
     End Function
 
     Private Shared Sub MostrarToasts(formHost As Form, mensaje As String)
-        Dim toast As New ToastUI()
-        toast.MostrarToast(mensaje, TipoToastUI.Success)
+        Dim toast As New ToastUI(mensaje, TipoToastUI.Success)
+        toast.Mostrar()
     End Sub
 
     Private Shared Sub MostrarToasts(mensaje As String, tipomensaje As TipoToastUI)
-        Dim toast As New ToastUI()
-        toast.MostrarToast(mensaje, TipoToastUI.Success)
+        Dim toast As New ToastUI(mensaje, TipoToastUI.Success)
+        toast.Mostrar()
     End Sub
 
 End Class

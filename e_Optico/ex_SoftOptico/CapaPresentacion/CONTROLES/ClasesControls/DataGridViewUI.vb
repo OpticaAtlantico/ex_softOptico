@@ -483,8 +483,8 @@ Public Class DataGridViewUI
     End Function
 
     Private Sub MostrarToast(mensaje As String, tipo As TipoToastUI)
-        Dim toast As New ToastUI()
-        toast.MostrarToast(mensaje, tipo)
+        Dim toast As New ToastUI(mensaje, tipo)
+        toast.Mostrar()
     End Sub
 
     Private Sub ActivarDoubleBuffering(grid As DataGridView)

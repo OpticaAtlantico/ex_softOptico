@@ -1,123 +1,76 @@
-﻿Imports System.Drawing
-Imports System.Drawing.Drawing2D
-Imports System.Windows.Forms
-
-Public Enum TipoToastUI
-    Info
-    Success
-    Warning
-    Errores
-End Enum
+﻿Imports System.Runtime.InteropServices
+Imports System.Threading.Tasks
 
 Public Class ToastUI
     Inherits Form
 
-    Private ReadOnly lblTexto As New Label()
-    Private ReadOnly temporizador As New Timer()
-    Private duracionMs As Integer = 3000
+    Private lblMensaje As New Label()
+    Private tiempoEnPantalla As Integer = 3000 ' Tiempo visible en ms
+    Private colorFondo As Color = Color.FromArgb(40, 167, 69) ' Verde éxito
+    Private velocidadFade As Double = 0.08 ' Velocidad de transición
 
-    Public Sub New()
+    Public Sub New(mensaje As String, tipo As TipoToastUI)
+        ' Configuración básica
         Me.FormBorderStyle = FormBorderStyle.None
-        Me.ShowInTaskbar = False
         Me.StartPosition = FormStartPosition.Manual
+        Me.ShowInTaskbar = False
         Me.TopMost = True
-        Me.Size = New Size(300, 50)
-        Me.Opacity = 0
-        Me.DoubleBuffered = True
-        Me.BackColor = Color.Black
-        Me.Font = New Font("Century Gothic", 10)
-        Me.Padding = New Padding(12, 8, 12, 8)
+        Me.BackColor = colorFondo
+        Me.Size = New Size(300, 60)
+        Me.Opacity = 0 ' Inicia invisible
 
-        lblTexto.Dock = DockStyle.Fill
-        lblTexto.ForeColor = Color.White
-        lblTexto.TextAlign = ContentAlignment.MiddleLeft
-        Me.Controls.Add(lblTexto)
+        ' Posicionar en esquina inferior derecha
+        Dim screenBounds = Screen.PrimaryScreen.WorkingArea
+        Me.Location = New Point(screenBounds.Width - Me.Width - 20, screenBounds.Height - Me.Height - 20)
 
-        AddHandler temporizador.Tick, AddressOf Timer_Tick
-    End Sub
-
-    Public Sub MostrarToast(mensaje As String, tipo As TipoToastUI, Optional tiempoMs As Integer = 3000)
-        Me.duracionMs = tiempoMs
-        lblTexto.Text = mensaje
-        ConfigurarEstiloPorTipo(tipo)
-
-        ' Posición en esquina inferior derecha del formulario activo
-        Dim mainForm = Form.ActiveForm
-        If mainForm IsNot Nothing Then
-            Dim x = mainForm.Location.X + mainForm.Width - Me.Width - 20
-            Dim y = mainForm.Location.Y + mainForm.Height - Me.Height - 40
-            Me.Location = New Point(x, y)
-        Else
-            Me.Location = New Point(Screen.PrimaryScreen.WorkingArea.Width - Me.Width - 20,
-                                    Screen.PrimaryScreen.WorkingArea.Height - Me.Height - 20)
-        End If
-
-        Me.Show()
-        FadeIn()
-        temporizador.Interval = duracionMs
-        temporizador.Start()
-    End Sub
-
-    Private Sub ConfigurarEstiloPorTipo(tipo As TipoToastUI)
+        ' Cambiar color según tipo
         Select Case tipo
-            Case TipoToastUI.Info
-                Me.BackColor = Color.DodgerBlue
-                lblTexto.ForeColor = Color.White
             Case TipoToastUI.Success
-                Me.BackColor = Color.SeaGreen
-                lblTexto.ForeColor = Color.White
+                colorFondo = Color.FromArgb(40, 167, 69)
+            Case TipoToastUI.Errors
+                colorFondo = Color.FromArgb(220, 53, 69)
             Case TipoToastUI.Warning
-                Me.BackColor = Color.DarkOrange
-                lblTexto.ForeColor = Color.White
-            Case TipoToastUI.Errores
-                Me.BackColor = Color.Firebrick
-                lblTexto.ForeColor = Color.White
+                colorFondo = Color.FromArgb(255, 193, 7)
+            Case TipoToastUI.Info
+                colorFondo = Color.FromArgb(23, 162, 184)
         End Select
+        Me.BackColor = colorFondo
+
+        ' Texto del mensaje
+        lblMensaje.Text = mensaje
+        lblMensaje.Dock = DockStyle.Fill
+        lblMensaje.ForeColor = Color.White
+        lblMensaje.TextAlign = ContentAlignment.MiddleCenter
+        lblMensaje.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        Me.Controls.Add(lblMensaje)
     End Sub
 
-    Private Sub Timer_Tick(sender As Object, e As EventArgs)
-        temporizador.Stop()
-        FadeOut()
-    End Sub
-
-    Private Async Sub FadeIn()
+    Public Async Sub Mostrar()
+        ' Fade In
+        Me.Show()
         While Me.Opacity < 1
-            Await Task.Delay(20)
-            Me.Opacity += 0.05
+            Me.Opacity += velocidadFade
+            Await Task.Delay(30)
         End While
-    End Sub
 
-    Private Async Sub FadeOut()
+        ' Espera en pantalla
+        Await Task.Delay(tiempoEnPantalla)
+
+        ' Fade Out
         While Me.Opacity > 0
-            Await Task.Delay(20)
-            Me.Opacity -= 0.05
+            Me.Opacity -= velocidadFade
+            Await Task.Delay(30)
         End While
+
         Me.Close()
     End Sub
-
-    Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        MyBase.OnPaint(e)
-        Dim rect = New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
-        Dim path = RoundedPath(rect, 12)
-        Using fondoBrush As New SolidBrush(Me.BackColor)
-            e.Graphics.FillPath(fondoBrush, path)
-        End Using
-    End Sub
-
-    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
-        Dim path As New GraphicsPath()
-        path.StartFigure()
-        path.AddArc(rect.X, rect.Y, radius, radius, 180, 90)
-        path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90)
-        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
-        path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90)
-        path.CloseFigure()
-        Return path
-    End Function
-
-    'como usarlo
-
-    'Dim toast As New ToastUI()
-    'toast.MostrarToast("Guardado exitosamente", TipoToastUI.Success)
-
 End Class
+
+' Enumeración para tipos de toast
+Public Enum TipoToastUI
+    Success
+    Errors
+    Warning
+    Info
+End Enum
+

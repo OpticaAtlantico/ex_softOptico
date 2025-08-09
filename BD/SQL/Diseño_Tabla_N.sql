@@ -488,15 +488,15 @@ CREATE OR ALTER VIEW VProductos AS
 
 CREATE OR ALTER VIEW VProveedor AS
     SELECT  ProveedorID
-            , RUC
             , NombreEmpresa
             , RazonSocial
             , Contacto
             , Telefono
             , Rif
-            , Email
+            , Correo
             , Direccion
-            , Estatus
+            , Estado
+            , FechaRegistro
     FROM   TProveedores
 
 -----   PROCEDIMIENTOS

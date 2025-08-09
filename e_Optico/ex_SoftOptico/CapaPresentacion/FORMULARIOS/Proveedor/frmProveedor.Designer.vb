@@ -36,7 +36,7 @@ Partial Class frmProveedor
         txtContacto = New MaskedTextBoxLabelUI()
         pnlEncabezado = New Panel()
         btnAccion = New CommandButtonUI()
-        Headerui1 = New HeaderUI()
+        lblEncabezado = New HeaderUI()
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
@@ -142,7 +142,7 @@ Partial Class frmProveedor
         txtRif.TabIndex = 4
         txtRif.TextColor = Color.Black
         txtRif.TextoUsuario = ""
-        txtRif.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
+        txtRif.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
         ' 
         ' txtNombreEmpresa
         ' 
@@ -290,7 +290,7 @@ Partial Class frmProveedor
         ' pnlEncabezado
         ' 
         pnlEncabezado.Controls.Add(btnAccion)
-        pnlEncabezado.Controls.Add(Headerui1)
+        pnlEncabezado.Controls.Add(lblEncabezado)
         pnlEncabezado.Dock = DockStyle.Top
         pnlEncabezado.Location = New Point(0, 0)
         pnlEncabezado.Name = "pnlEncabezado"
@@ -318,21 +318,21 @@ Partial Class frmProveedor
         btnAccion.Text = "CommandButtonui2"
         btnAccion.Texto = "Guardar Datos"
         ' 
-        ' Headerui1
+        ' lblEncabezado
         ' 
-        Headerui1.ColorFondo = Color.White
-        Headerui1.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
-        Headerui1.Dock = DockStyle.Fill
-        Headerui1.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        Headerui1.Icono = FontAwesome.Sharp.IconChar.CircleInfo
-        Headerui1.Location = New Point(0, 0)
-        Headerui1.MostrarSeparador = True
-        Headerui1.Name = "Headerui1"
-        Headerui1.Size = New Size(1274, 60)
-        Headerui1.Subtitulo = "Subtítulo opcional"
-        Headerui1.TabIndex = 0
-        Headerui1.Text = "Headerui1"
-        Headerui1.Titulo = "Título Principal"
+        lblEncabezado.ColorFondo = Color.White
+        lblEncabezado.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
+        lblEncabezado.Dock = DockStyle.Fill
+        lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblEncabezado.Icono = FontAwesome.Sharp.IconChar.CircleInfo
+        lblEncabezado.Location = New Point(0, 0)
+        lblEncabezado.MostrarSeparador = True
+        lblEncabezado.Name = "lblEncabezado"
+        lblEncabezado.Size = New Size(1274, 60)
+        lblEncabezado.Subtitulo = "Subtítulo opcional"
+        lblEncabezado.TabIndex = 0
+        lblEncabezado.Text = "Headerui1"
+        lblEncabezado.Titulo = "Título Principal"
         ' 
         ' frmProveedor
         ' 
@@ -353,7 +353,7 @@ Partial Class frmProveedor
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents pnlContenedor As Panel
     Friend WithEvents pnlEncabezado As Panel
-    Friend WithEvents Headerui1 As HeaderUI
+    Friend WithEvents lblEncabezado As HeaderUI
     Friend WithEvents btnAccion As CommandButtonUI
     Friend WithEvents pnlContenido As Panel
     Friend WithEvents txtDireccion As MultilineTextBoxLabelUI

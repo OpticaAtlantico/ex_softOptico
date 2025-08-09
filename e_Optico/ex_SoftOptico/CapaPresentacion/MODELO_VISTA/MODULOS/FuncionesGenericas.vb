@@ -30,12 +30,12 @@ Module FuncionesGenericas
                 End If
 
                 ' Mostrar mensaje exitoso
-                Dim toast As New ToastUI()
-                toast.MostrarToast("Empleado eliminado correctamente.", TipoToastUI.Success)
+                Dim toast As New ToastUI("Empleado eliminado correctamente.", TipoToastUI.Success)
+                toast.Mostrar()
                 Return True
             Else
-                Dim toast As New ToastUI()
-                toast.MostrarToast("No se pudo eliminar el empleado.", TipoToastUI.Warning)
+                Dim toast As New ToastUI("No se pudo eliminar el empleado.", TipoToastUI.Warning)
+                toast.Mostrar()
                 Return False
             End If
 

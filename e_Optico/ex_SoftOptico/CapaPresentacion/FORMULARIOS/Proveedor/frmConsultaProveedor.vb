@@ -64,17 +64,17 @@ Public Class frmConsultaProveedor
         Dim listaProveedor As List(Of TProveedor) = repo.ObtenerProveedor()
         Dim tabla As DataTable = ConvertirListaADataTable(listaProveedor)
 
-        Dim columnasVisibles = {"ProveedorID", "Ruc", "NombreEmpresa", "RazonSocial", "Contacto", "Telefono", "Rif", "Email", "Direccion"}
+        Dim columnasVisibles = {"ProveedorID", "nombreEmpresa", "razonSocial", "contacto", "telefono", "rif", "correo", "direccion"}
 
         Dim anchos = New Dictionary(Of String, Integer) From {
-            {"ProveedorID", 80}, {"RUC", 80}, {"NombreEmpresa", 160}, {"RazonSocial", 160},
-            {"Contacto", 120}, {"Telefono", 120}, {"Rif", 100}, {"Email", 130}, {"Dirección", 450}
+            {"ProveedorID", 80}, {"nombreEmpresa", 160}, {"razonSocial", 160},
+            {"contacto", 120}, {"telefono", 120}, {"rif", 100}, {"correo", 130}, {"direccion", 450}
         }
 
         Dim nombres = New Dictionary(Of String, String) From {
-            {"ProveedorID", "ID"}, {"RUC", "Ruc"}, {"NombreEmpresa", "Empresa"}, {"RazonSocial", "Razon Social"},
-            {"Contacto", "Contacto"}, {"Telefono", "# Telefono"}, {"Rif", "Rif"}, {"Email", "Correo Electrónico"},
-            {"Dirección", "Direccion de Habitación"}
+            {"ProveedorID", "ID"}, {"nombreEmpresa", "Empresa"}, {"razonSocial", "Razon Social"},
+            {"contacto", "Contacto"}, {"telefono", "# Teléfono"}, {"rif", "Rif"}, {"correo", "Correo Electrónico"},
+            {"direccion", "Domicilio Fiscal"}
         }
 
         dgvDatosProveedor.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombres)
@@ -123,7 +123,7 @@ Public Class frmConsultaProveedor
     End Sub
 
     Private Sub AgregarProveedor()
-        Dim frm As New frmEmpleado
+        Dim frm As New frmProveedor
         Me.Close()
         RaiseEvent AbrirFormularioHijo(frm)
     End Sub
@@ -150,7 +150,8 @@ Public Class frmConsultaProveedor
 
     Private Sub EliminarProveedorUnico(id As Integer)
         Try
-            Dim confirmar = MessageBoxUI.Mostrar("Remover datos...", "¿Deseas eliminar el proveedor seleccionado?", TipoMensaje.Advertencia, Botones.AceptarCancelar)
+            Dim confirmar = MessageBoxUI.Mostrar("Remover datos...", "¿Deseas eliminar el proveedor seleccionado?", TipoMensaje.Advertencia, Botones.SiNo)
+
             If confirmar = DialogResult.No Then Exit Sub
 
             Dim repositorio As New Repositorio_Proveedor()

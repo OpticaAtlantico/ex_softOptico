@@ -22,6 +22,7 @@ Public Class frm_Principal
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.1
     Public Property EmpleadoEncontrado As TEmpleados = Nothing
+    Public Property ProveedorEncontrado As TProveedor = Nothing
     Public Event AbrirFormularioHijoSolicitado As Action(Of Form)
 
 #Region "CONSTRUCTOR"
@@ -89,12 +90,10 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        Dim confirmacion = MessageBoxUI.Mostrar(
-                                 "Cerrar...",
-                                 "Saliendo del Sistema de gestión de datos",
-                                 TipoMensaje.Exito,
-                                 Botones.Aceptar
-                                 )
+        Dim confirmacion = MessageBoxUI.Mostrar("Cerrar...",
+                                             "Saliendo del Sistema de gestión de datos",
+                                             TipoMensaje.Exito,
+                                             Botones.Aceptar)
         If confirmacion = DialogResult.OK Then
             listLogin.Clear()
             Me.Close() ' Cierra el formulario después de eliminar
@@ -356,9 +355,9 @@ Public Class frm_Principal
         Dim overlay As New FondoOverlayUI()
         overlay.Show()
         Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese número de cédula",
-            placeholder:="12345678",
-            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            titulo:="Ingrese el Nombre de la Empresa",
+            placeholder:="Ferreteria",
+            tipoDato:=InputBoxUI.TipoValidacion.Texto,
             icono:=FontAwesome.Sharp.IconChar.UserAlt,
             obligatorio:=True
         )
@@ -366,14 +365,11 @@ Public Class frm_Principal
         EfectoBotonInActivo()
 
         If resultado.Aceptado Then
-            enviarDatosEmpleados(resultado.Valor, 0)
+            enviarDatosProveedor(resultado.Valor, 0)
         Else
-            MessageBoxUI.Mostrar(
-                                 "Cerrar...",
-                                 "Saliendo de control de entrada de datos",
+            MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
                                  TipoMensaje.Advertencia,
-                                 Botones.Aceptar
-                                 )
+                                 Botones.Aceptar)
         End If
         DrawerTimer.Start()
     End Sub
@@ -384,9 +380,9 @@ Public Class frm_Principal
         Dim overlay As New FondoOverlayUI()
         overlay.Show()
         Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese número de cédula",
-            placeholder:="12345678",
-            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            titulo:="Ingrese el nombre del proveedor",
+            placeholder:="ferret",
+            tipoDato:=InputBoxUI.TipoValidacion.Texto,
             icono:=FontAwesome.Sharp.IconChar.UserAlt,
             obligatorio:=True
         )
@@ -396,12 +392,10 @@ Public Class frm_Principal
         If resultado.Aceptado Then
             enviarDatosProveedor(resultado.Valor, 1)
         Else
-            MessageBoxUI.Mostrar(
-                                 "Cerrar...",
+            MessageBoxUI.Mostrar("Cerrar...",
                                  "Saliendo de control de entrada de datos",
                                  TipoMensaje.Advertencia,
-                                 Botones.Aceptar
-                                 )
+                                 Botones.Aceptar)
         End If
         DrawerTimer.Start()
     End Sub
@@ -446,8 +440,8 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnProveedor_Click(sender As Object, e As EventArgs) Handles btnProveedor.Click
-        'BotonMenuInventario()
         EfectoBotonActivo(sender)
+        BotonMenuProveedor()
     End Sub
 
     Private Sub btnEmpleado_Click(sender As Object, e As EventArgs) Handles btnEmpleado.Click
@@ -583,11 +577,6 @@ Public Class frm_Principal
         DisableButton()
     End Sub
 
-    Private Sub MostrarContenido(frm As Form)
-        'pnlContenedor.Controls.Clear()
-        'control.Dock = DockStyle.Fill
-        'pnlContenedor.Controls.Add(control)
-    End Sub
 
     Private Sub FadeIn(sender As Object, e As EventArgs)
         If Me.Opacity < 1 Then
@@ -648,25 +637,25 @@ Public Class frm_Principal
         End If
     End Sub
 
-    Private Sub enviarDatosProveedor(rif As Integer, opcion As Integer)
+    Private Sub enviarDatosProveedor(nombre As String, opcion As Integer)
 
         '--- CÓDIGO CORRECTO ---
-        Dim repositorio As New Repositorio_Empleados()
-        Dim cedulaE As String = rif ' Asumiendo que 'cedula' es un TextBox
+        Dim repositorio As New Repositorio_Proveedor()
+        Dim nombreProveedor As String = nombre ' Asumiendo que 'cedula' es un TextBox
         Dim texto As String = String.Empty
 
         ' 1. Llama a la función y guarda el resultado en una lista.
-        Dim listaResultados As IEnumerable(Of TEmpleados) = repositorio.BuscarEmpleadosPorCedula(cedulaE)
+        Dim listaResultados As IEnumerable(Of TProveedor) = repositorio.BuscarProveedorPorNombre(nombreProveedor)
 
         ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
         '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
-        Me.EmpleadoEncontrado = listaResultados.FirstOrDefault()
+        Me.ProveedorEncontrado = listaResultados.FirstOrDefault()
 
         ' 3. Comprueba si se encontró un empleado antes de continuar.
-        If Me.EmpleadoEncontrado IsNot Nothing Then
+        If Me.ProveedorEncontrado IsNot Nothing Then
             ' 4. Ahora puedes pasar el objeto al formulario hijo.
-            Dim formularioHijo As New frmEmpleado()
-            formularioHijo.DatosEmpleados = Me.EmpleadoEncontrado
+            Dim formularioHijo As New frmProveedor()
+            formularioHijo.DatosProveedor = Me.ProveedorEncontrado
             Select Case opcion
                 Case 0
                     texto = "Actualizar..."
@@ -676,9 +665,8 @@ Public Class frm_Principal
             formularioHijo.NombreBoton = texto.ToString()
             OpenChildForm(formularioHijo)
         Else
-            MessageBoxUI.Mostrar(
-                                 "Datos no existe...",
-                                 "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
+            MessageBoxUI.Mostrar("Datos no existe...",
+                                 "No hay ningún proveedor con ese nombre, por favor verifique bien los datos",
                                  TipoMensaje.Advertencia,
                                  Botones.Aceptar
                                  )

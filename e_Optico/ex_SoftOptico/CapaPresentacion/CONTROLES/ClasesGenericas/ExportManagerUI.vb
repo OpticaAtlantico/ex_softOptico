@@ -61,8 +61,8 @@ Public Class ExportManagerUI
     End Function
 
     Private Shared Sub MostrarToasts(formHost As Form, mensaje As String)
-        Dim toast As New ToastUI()
-        toast.MostrarToast("Guardado exitosamente...", TipoToastUI.Success)
+        Dim toast As New ToastUI("Guardado exitosamente...", TipoToastUI.Success)
+        toast.Mostrar()
     End Sub
 
 End Class

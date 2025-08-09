@@ -67,7 +67,7 @@ Partial Class frm_Principal
         ' 
         ' pnlEncabezado
         ' 
-        pnlEncabezado.BackColor = Color.RoyalBlue
+        pnlEncabezado.BackColor = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         pnlEncabezado.Controls.Add(pnlBotones)
         pnlEncabezado.Controls.Add(pnlRol)
         pnlEncabezado.Controls.Add(pnlLogoUser)
@@ -177,7 +177,7 @@ Partial Class frm_Principal
         ' 
         ' imgUser
         ' 
-        imgUser.BackColor = Color.RoyalBlue
+        imgUser.BackColor = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         imgUser.Dock = DockStyle.Fill
         imgUser.ForeColor = Color.WhiteSmoke
         imgUser.IconChar = FontAwesome.Sharp.IconChar.UserShield
@@ -202,7 +202,7 @@ Partial Class frm_Principal
         ' lblTitulo
         ' 
         lblTitulo.BackColor = Color.RoyalBlue
-        lblTitulo.ColorFondo = Color.RoyalBlue
+        lblTitulo.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblTitulo.ColorTexto = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Fill
         lblTitulo.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
@@ -252,7 +252,7 @@ Partial Class frm_Principal
         ' 
         ' btnMostrarMenu
         ' 
-        btnMostrarMenu.BackColor = Color.RoyalBlue
+        btnMostrarMenu.BackColor = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         btnMostrarMenu.Dock = DockStyle.Fill
         btnMostrarMenu.FlatAppearance.BorderSize = 0
         btnMostrarMenu.FlatStyle = FlatStyle.Flat

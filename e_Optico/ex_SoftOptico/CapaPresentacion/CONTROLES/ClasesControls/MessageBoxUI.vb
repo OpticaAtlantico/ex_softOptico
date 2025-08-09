@@ -11,16 +11,21 @@ End Enum
 Public Enum Botones
     Aceptar
     AceptarCancelar
+    SiNo
 End Enum
 
 Public Class MessageBoxUI
     Inherits Form
+
+    Private tipoBotonesActual As Botones
 
     Private lblTitulo As New Label()
     Private lblMensaje As New Label()
     Private icono As New IconPictureBox()
     Private btnAceptar As New Button()
     Private btnCancelar As New Button()
+    Private btnSi As New Button()
+    Private btnNo As New Button()
     Private panelFondo As New Panel()
     Private blurFondo As New Form()
 
@@ -84,6 +89,25 @@ Public Class MessageBoxUI
         btnCancelar.ForeColor = Color.White
         AddHandler btnCancelar.Click, AddressOf BtnCancelar_Click
         panelFondo.Controls.Add(btnCancelar)
+
+        btnSi.Text = "Sí"
+        btnSi.Size = New Size(100, 35)
+        btnSi.FlatStyle = FlatStyle.Flat
+        btnSi.FlatAppearance.BorderSize = 0
+        btnSi.BackColor = Color.FromArgb(52, 152, 219)
+        btnSi.ForeColor = Color.White
+        AddHandler btnSi.Click, AddressOf BtnSi_Click
+        panelFondo.Controls.Add(btnSi)
+
+        btnNo.Text = "No"
+        btnNo.Size = New Size(100, 35)
+        btnNo.FlatStyle = FlatStyle.Flat
+        btnNo.FlatAppearance.BorderSize = 0
+        btnNo.BackColor = Color.Gray
+        btnNo.ForeColor = Color.White
+        AddHandler btnNo.Click, AddressOf BtnNo_Click
+        panelFondo.Controls.Add(btnNo)
+
     End Sub
 
     Public Sub Configurar(titulo As String, mensaje As String, tipo As TipoMensaje, botones As Botones)
@@ -115,12 +139,23 @@ Public Class MessageBoxUI
             Case botones.Aceptar
                 btnAceptar.Visible = True
                 btnCancelar.Visible = False
+                btnSi.Visible = False
+                btnNo.Visible = False
                 btnAceptar.Location = New Point((Me.Width - btnAceptar.Width) \ 2, Me.Height - 60)
             Case botones.AceptarCancelar
                 btnAceptar.Visible = True
                 btnCancelar.Visible = True
+                btnSi.Visible = False
+                btnNo.Visible = False
                 btnAceptar.Location = New Point(Me.Width \ 2 - 110, Me.Height - 60)
                 btnCancelar.Location = New Point(Me.Width \ 2 + 10, Me.Height - 60)
+            Case Botones.SiNo
+                btnSi.Visible = True
+                btnNo.Visible = True
+                btnAceptar.Visible = False
+                btnCancelar.Visible = False
+                btnSi.Location = New Point(Me.Width \ 2 - 110, Me.Height - 60)
+                btnNo.Location = New Point(Me.Width \ 2 + 10, Me.Height - 60)
         End Select
     End Sub
 
@@ -131,6 +166,16 @@ Public Class MessageBoxUI
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs)
         Resultado = DialogResult.Cancel
+        Me.Close()
+    End Sub
+
+    Private Sub BtnSi_Click(sender As Object, e As EventArgs)
+        Resultado = DialogResult.Yes
+        Me.Close()
+    End Sub
+
+    Private Sub BtnNo_Click(sender As Object, e As EventArgs)
+        Resultado = DialogResult.No
         Me.Close()
     End Sub
 

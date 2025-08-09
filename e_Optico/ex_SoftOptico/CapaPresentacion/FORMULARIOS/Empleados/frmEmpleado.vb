@@ -1,10 +1,7 @@
-﻿Imports System.IO
-Imports CapaDatos
+﻿Imports CapaDatos
 Imports CapaEntidad
-Imports CapaPresentacion.LlenarComboBox
-Imports DocumentFormat.OpenXml
-Imports DocumentFormat.OpenXml.Office2010.Excel
 Imports FontAwesome.Sharp
+Imports System.Drawing
 Public Class frmEmpleado
     Inherits Form
 
@@ -61,17 +58,26 @@ Public Class frmEmpleado
             CargarDatos(DatosEmpleados)
         End If
 
+        btnAccion.Cursor = Cursors.Hand
         Select Case NombreBoton
             Case "Actualizar..."
                 btnAccion.Texto = "Actualizar..."
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPen
             Case "Eliminar..."
                 btnAccion.Texto = "Eliminar..."
-                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserSlash
+                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
             Case Else
                 btnAccion.Texto = "Guardar..."
-                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
+                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPlus
         End Select
+
+        With Me.Headerui1
+            .Titulo = "Nuevo Empleado"
+            .Subtitulo = "Ingrese los datos del nuevo empleado..."
+            .Icono = IconChar.UserGear
+            .ColorFondo = Color.FromArgb(0, 191, 192)
+            .ColorTexto = Color.WhiteSmoke
+        End With
 
     End Sub
 
@@ -316,7 +322,6 @@ Public Class frmEmpleado
 
     Private Function ObtenerDatosEmpleado(Optional ByVal incluirID As Boolean = False) As ResultadoEmpleados
         Dim resultado As New ResultadoEmpleados()
-        Dim mensaje As New ToastUI()
 
         Try
             Dim id As Integer = If(incluirID, DatosEmpleados.EmpleadoID, 0)
@@ -391,7 +396,7 @@ Public Class frmEmpleado
         If Not datos.EsValido Then Exit Sub
 
         Dim repositorio As New Repositorio_Empleados()
-        Dim mensaje As New ToastUI()
+
         Dim exito As Boolean = False
 
         Try
@@ -402,7 +407,8 @@ Public Class frmEmpleado
             End If
 
             If exito Then
-                mensaje.MostrarToast(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                Dim mensaje As New ToastUI(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                mensaje.Mostrar()
 
                 Me.Close()
                 frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal

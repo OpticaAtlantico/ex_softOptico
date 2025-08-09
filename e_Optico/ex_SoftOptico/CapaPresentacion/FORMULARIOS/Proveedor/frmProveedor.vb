@@ -64,6 +64,16 @@ Public Class frmProveedor
                 btnAccion.Texto = "Guardar..."
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
         End Select
+
+        With lblEncabezado
+            .Titulo = "Proveedor"
+            .Subtitulo = "Datos del proveedor"
+            .ForeColor = Color.FromArgb(57, 103, 208)
+            .Icono = FontAwesome.Sharp.IconChar.Users
+            .BackColor = Color.White
+
+        End With
+
     End Sub
 
 #End Region
@@ -152,6 +162,8 @@ Public Class frmProveedor
             End If
         Next
 
+        txtNombreEmpresa.Focus()
+
         container.ResumeLayout()
         container.PerformLayout()
     End Sub
@@ -179,8 +191,6 @@ Public Class frmProveedor
 
     Private Function ObtenerDatosProveedor(Optional ByVal incluirID As Boolean = False) As ResultadoProveedor
         Dim resultado As New ResultadoProveedor()
-        Dim mensaje As New ToastUI()
-
         Try
             Dim id As Integer = If(incluirID, DatosProveedor.ProveedorID, 0)
             Dim nombre = txtNombreEmpresa.TextValue.Trim()
@@ -229,7 +239,6 @@ Public Class frmProveedor
         If Not datos.EsValido Then Exit Sub
 
         Dim repositorio As New Repositorio_Proveedor()
-        Dim mensaje As New ToastUI()
         Dim exito As Boolean = False
 
         Try
@@ -240,14 +249,16 @@ Public Class frmProveedor
             End If
 
             If exito Then
-                mensaje.MostrarToast(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                Dim mensaje As New ToastUI(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                mensaje.Mostrar()
 
                 Me.Close()
                 frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal
+
             Else
                 MessageBoxUI.Mostrar("Procesando...",
-                                     "Ocurrió un error al procesar la operación.",
-                                     TipoMensaje.Errors, Botones.Aceptar)
+                                    "Ocurrió un error al procesar la operación.",
+                                    TipoMensaje.Errors, Botones.Aceptar)
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error...",
