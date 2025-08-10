@@ -118,7 +118,7 @@ Public Class MultilineTextBoxLabelUI
                                             txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, 25)
                                             txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
                                         End If
-
+                                        pnlSombra.Size = New Size(pnlFondo.Width + 12, pnlFondo.Height - 0.3)
                                         ' Alinear el ícono a la derecha si está visible
                                         If iconoDerecho.Visible Then
                                             iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
@@ -439,11 +439,13 @@ Public Class MultilineTextBoxLabelUI
         Set(value As Integer)
             _alturaMultilinea = value
             pnlFondo.Height = value
+            pnlSombra.Height = value + 0.3
             txtCampo.Multiline = True
             txtCampo.Height = value - (_paddingAll * 2)
             RecalcularAlineacion(Nothing, Nothing)
             pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
             pnlFondo.Invalidate()
+            pnlSombra.Invalidate()
         End Set
     End Property
 

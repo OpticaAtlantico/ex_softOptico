@@ -19,7 +19,7 @@ Public Class Repositorio_Proveedor
         ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
         SeleccionarPorID = "SELECT * FROM VProveedor WHERE ProveedorID = @ProveedorID"
         ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
-        Insertar = "INSERT INTO TProveedores (NombreEmpresa, RazonSocial, Contacto, Telefono, Rif, Correo, Direccion) 
+        Insertar = "INSERT INTO TProveedor (NombreEmpresa, RazonSocial, Contacto, Telefono, Rif, Correo, Direccion) 
                     VALUES (@NombreEmpresa, @RazonSocial, @Contacto, @Telefono, @Rif, @Correo, @Direccion)"
         ' Note: The Foto field is assumed to be a string path or URL; adjust as necessary for your application.
         Actualizar = "UPDATE TProveedores SET NombreEmpresa = @NombreEmpresa, RazonSocial = @RazonSocial, Contacto = @Contacto,

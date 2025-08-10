@@ -59,6 +59,7 @@ Public Class frmEmpleado
         End If
 
         btnAccion.Cursor = Cursors.Hand
+        btnAccion.ColorTexto = Color.DarkSlateBlue
         Select Case NombreBoton
             Case "Actualizar..."
                 btnAccion.Texto = "Actualizar..."

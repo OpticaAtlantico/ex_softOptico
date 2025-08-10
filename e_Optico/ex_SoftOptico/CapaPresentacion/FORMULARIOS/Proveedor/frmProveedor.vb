@@ -1,5 +1,7 @@
 ﻿Imports CapaDatos
 Imports CapaEntidad
+Imports FontAwesome.Sharp
+Imports OfficeOpenXml.Drawing.Slicer.Style
 
 Public Class frmProveedor
 
@@ -53,25 +55,26 @@ Public Class frmProveedor
             CargarDatos(DatosProveedor)
         End If
 
+        btnAccion.Cursor = Cursors.Hand
+        btnAccion.ColorTexto = Color.DarkSlateBlue
         Select Case NombreBoton
             Case "Actualizar..."
                 btnAccion.Texto = "Actualizar..."
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPen
             Case "Eliminar..."
                 btnAccion.Texto = "Eliminar..."
-                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserSlash
+                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
             Case Else
                 btnAccion.Texto = "Guardar..."
-                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
+                btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPlus
         End Select
 
-        With lblEncabezado
-            .Titulo = "Proveedor"
-            .Subtitulo = "Datos del proveedor"
-            .ForeColor = Color.FromArgb(57, 103, 208)
-            .Icono = FontAwesome.Sharp.IconChar.Users
-            .BackColor = Color.White
-
+        With Me.lblEncabezado
+            .Titulo = "Nuevo Proveedor"
+            .Subtitulo = "Ingrese los datos del nuevo Proveedor..."
+            .Icono = IconChar.UserGear
+            .ColorFondo = Color.FromArgb(0, 191, 192)
+            .ColorTexto = Color.WhiteSmoke
         End With
 
     End Sub
@@ -101,7 +104,7 @@ Public Class frmProveedor
                 End If
             Case "Eliminar..."
                 ' Aquí puedes implementar la lógica para eliminar el empleado
-                Dim ProveedorId As Integer = DatosProveedor.proveedorID
+                Dim ProveedorId As Integer = DatosProveedor.ProveedorID
                 Dim confirmacion = MessageBoxUI.Mostrar("Eliminar datos...",
                                                         "¿Está usted seguro de eliminar el empleado seleccionado?",
                                                         TipoMensaje.Advertencia,
@@ -249,7 +252,7 @@ Public Class frmProveedor
             End If
 
             If exito Then
-                Dim mensaje As New ToastUI(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                Dim mensaje As New ToastUI(If(esNuevo, "Proveedor guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
                 mensaje.Mostrar()
 
                 Me.Close()

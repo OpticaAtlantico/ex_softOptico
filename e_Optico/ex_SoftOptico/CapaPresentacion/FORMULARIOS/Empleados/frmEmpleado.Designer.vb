@@ -106,7 +106,7 @@ Partial Class frmEmpleado
         txtDireccion.CapitalizarTexto = True
         txtDireccion.CapitalizarTodasLasPalabras = False
         txtDireccion.ColorError = Color.Firebrick
-        txtDireccion.FontField = New Font("Century Gothic", 12.0F)
+        txtDireccion.FontField = New Font("Century Gothic", 12F)
         txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDireccion.LabelColor = Color.DarkSlateGray
@@ -142,7 +142,7 @@ Partial Class frmEmpleado
         swMarketing.BorderRadius = 20
         swMarketing.Checked = False
         swMarketing.EstadoTexto = "Marketing..."
-        swMarketing.Font = New Font("Century Gothic", 11.0F)
+        swMarketing.Font = New Font("Century Gothic", 11F)
         swMarketing.Location = New Point(345, 61)
         swMarketing.Name = "swMarketing"
         swMarketing.Size = New Size(160, 23)
@@ -158,7 +158,7 @@ Partial Class frmEmpleado
         swGerente.BorderRadius = 20
         swGerente.Checked = False
         swGerente.EstadoTexto = "Gerente..."
-        swGerente.Font = New Font("Century Gothic", 11.0F)
+        swGerente.Font = New Font("Century Gothic", 11F)
         swGerente.Location = New Point(93, 61)
         swGerente.Name = "swGerente"
         swGerente.Size = New Size(147, 23)
@@ -174,7 +174,7 @@ Partial Class frmEmpleado
         swOptometrista.BorderRadius = 20
         swOptometrista.Checked = False
         swOptometrista.EstadoTexto = "Optometrista..."
-        swOptometrista.Font = New Font("Century Gothic", 11.0F)
+        swOptometrista.Font = New Font("Century Gothic", 11F)
         swOptometrista.Location = New Point(345, 17)
         swOptometrista.Name = "swOptometrista"
         swOptometrista.Size = New Size(170, 23)
@@ -190,7 +190,7 @@ Partial Class frmEmpleado
         swAsesor.BorderRadius = 20
         swAsesor.Checked = False
         swAsesor.EstadoTexto = "Asesor..."
-        swAsesor.Font = New Font("Century Gothic", 11.0F)
+        swAsesor.Font = New Font("Century Gothic", 11F)
         swAsesor.Location = New Point(93, 17)
         swAsesor.Name = "swAsesor"
         swAsesor.Size = New Size(131, 23)
@@ -220,10 +220,10 @@ Partial Class frmEmpleado
         TableLayoutPanel1.Location = New Point(214, 11)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 4
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
-        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
         TableLayoutPanel1.Size = New Size(1048, 356)
         TableLayoutPanel1.TabIndex = 26
         ' 
@@ -235,7 +235,7 @@ Partial Class frmEmpleado
         txtCedula.BorderSize = 1
         txtCedula.CampoRequerido = True
         txtCedula.ColorError = Color.Firebrick
-        txtCedula.FontField = New Font("Century Gothic", 12.0F)
+        txtCedula.FontField = New Font("Century Gothic", 12F)
         txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtCedula.LabelColor = Color.DarkSlateGray
@@ -263,7 +263,7 @@ Partial Class frmEmpleado
         txtFechaNac.BorderSize = 1
         txtFechaNac.CampoRequerido = True
         txtFechaNac.FechaSeleccionada = New Date(2025, 7, 31, 0, 0, 0, 0)
-        txtFechaNac.FontField = New Font("Century Gothic", 12.0F)
+        txtFechaNac.FontField = New Font("Century Gothic", 12F)
         txtFechaNac.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtFechaNac.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
         txtFechaNac.LabelColor = Color.DarkSlateGray
@@ -288,7 +288,7 @@ Partial Class frmEmpleado
         txtNombre.CapitalizarTodasLasPalabras = True
         txtNombre.CaracterContraseña = "*"c
         txtNombre.ColorError = Color.Firebrick
-        txtNombre.FontField = New Font("Century Gothic", 12.0F)
+        txtNombre.FontField = New Font("Century Gothic", 12F)
         txtNombre.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNombre.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtNombre.LabelColor = Color.DarkSlateGray
@@ -338,7 +338,7 @@ Partial Class frmEmpleado
         txtApellido.CapitalizarTodasLasPalabras = True
         txtApellido.CaracterContraseña = "*"c
         txtApellido.ColorError = Color.Firebrick
-        txtApellido.FontField = New Font("Century Gothic", 12.0F)
+        txtApellido.FontField = New Font("Century Gothic", 12F)
         txtApellido.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtApellido.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtApellido.LabelColor = Color.DarkSlateGray
@@ -384,7 +384,7 @@ Partial Class frmEmpleado
         txtTelefono.BorderSize = 1
         txtTelefono.CampoRequerido = True
         txtTelefono.ColorError = Color.Firebrick
-        txtTelefono.FontField = New Font("Century Gothic", 12.0F)
+        txtTelefono.FontField = New Font("Century Gothic", 12F)
         txtTelefono.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtTelefono.IconoDerechoChar = FontAwesome.Sharp.IconChar.PhoneVolume
         txtTelefono.LabelColor = Color.DarkSlateGray
@@ -412,7 +412,7 @@ Partial Class frmEmpleado
         txtEdad.BorderSize = 1
         txtEdad.CampoRequerido = True
         txtEdad.ColorError = Color.Firebrick
-        txtEdad.FontField = New Font("Century Gothic", 12.0F)
+        txtEdad.FontField = New Font("Century Gothic", 12F)
         txtEdad.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtEdad.IconoDerechoChar = FontAwesome.Sharp.IconChar.ArrowUp19
         txtEdad.LabelColor = Color.DarkSlateGray
@@ -443,7 +443,7 @@ Partial Class frmEmpleado
         txtCorreo.CapitalizarTodasLasPalabras = True
         txtCorreo.CaracterContraseña = "*"c
         txtCorreo.ColorError = Color.Firebrick
-        txtCorreo.FontField = New Font("Century Gothic", 12.0F)
+        txtCorreo.FontField = New Font("Century Gothic", 12F)
         txtCorreo.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtCorreo.IconoDerechoChar = FontAwesome.Sharp.IconChar.EnvelopesBulk
         txtCorreo.LabelColor = Color.DarkSlateGray
@@ -592,7 +592,7 @@ Partial Class frmEmpleado
         btnAccion.ColorTexto = Color.Black
         btnAccion.Cursor = Cursors.Hand
         btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Warning
-        btnAccion.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnAccion.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAccion.Icono = FontAwesome.Sharp.IconChar.Warning
         btnAccion.Location = New Point(1084, 12)
         btnAccion.Name = "btnAccion"
@@ -600,7 +600,6 @@ Partial Class frmEmpleado
         btnAccion.Size = New Size(180, 40)
         btnAccion.TabIndex = 19
         btnAccion.Texto = "Guardar Datos"
-        btnAccion.UseWaitCursor = False
         ' 
         ' Headerui1
         ' 
@@ -608,7 +607,7 @@ Partial Class frmEmpleado
         Headerui1.ColorFondo = Color.FromArgb(CByte(0), CByte(192), CByte(192))
         Headerui1.ColorTexto = Color.WhiteSmoke
         Headerui1.Dock = DockStyle.Fill
-        Headerui1.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
+        Headerui1.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         Headerui1.Icono = FontAwesome.Sharp.IconChar.CircleInfo
         Headerui1.Location = New Point(0, 0)
         Headerui1.MostrarSeparador = True
@@ -621,11 +620,13 @@ Partial Class frmEmpleado
         ' 
         ' frmEmpleado
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
+        MaximumSize = New Size(1300, 700)
+        MinimumSize = New Size(1260, 665)
         Name = "frmEmpleado"
         Text = "frmEmpleado"
         pnlContenedor.ResumeLayout(False)

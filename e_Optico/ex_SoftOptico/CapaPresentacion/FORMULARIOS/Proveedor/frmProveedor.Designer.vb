@@ -25,6 +25,7 @@ Partial Class frmProveedor
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         pnlContenedor = New Panel()
+        pnlFoter = New Panel()
         pnlContenido = New Panel()
         txtDireccion = New MultilineTextBoxLabelUI()
         TableLayoutPanel1 = New TableLayoutPanel()
@@ -45,13 +46,23 @@ Partial Class frmProveedor
         ' 
         ' pnlContenedor
         ' 
+        pnlContenedor.Controls.Add(pnlFoter)
         pnlContenedor.Controls.Add(pnlContenido)
         pnlContenedor.Controls.Add(pnlEncabezado)
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(0, 0)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1274, 610)
+        pnlContenedor.Size = New Size(1274, 626)
         pnlContenedor.TabIndex = 0
+        ' 
+        ' pnlFoter
+        ' 
+        pnlFoter.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        pnlFoter.Dock = DockStyle.Bottom
+        pnlFoter.Location = New Point(0, 570)
+        pnlFoter.Name = "pnlFoter"
+        pnlFoter.Size = New Size(1274, 56)
+        pnlFoter.TabIndex = 2
         ' 
         ' pnlContenido
         ' 
@@ -63,7 +74,7 @@ Partial Class frmProveedor
         pnlContenido.Margin = New Padding(3, 30, 3, 3)
         pnlContenido.Name = "pnlContenido"
         pnlContenido.Padding = New Padding(10, 30, 0, 0)
-        pnlContenido.Size = New Size(1274, 550)
+        pnlContenido.Size = New Size(1274, 566)
         pnlContenido.TabIndex = 1
         ' 
         ' txtDireccion
@@ -301,15 +312,15 @@ Partial Class frmProveedor
         ' 
         btnAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAccion.AnimarHover = True
-        btnAccion.BackColor = Color.Transparent
-        btnAccion.ColorBase = Color.FromArgb(CByte(76), CByte(175), CByte(80))
-        btnAccion.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
-        btnAccion.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
-        btnAccion.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
-        btnAccion.ColorTexto = Color.White
-        btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
+        btnAccion.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        btnAccion.ColorBase = Color.FromArgb(CByte(255), CByte(193), CByte(7))
+        btnAccion.ColorHover = Color.FromArgb(CByte(255), CByte(179), CByte(0))
+        btnAccion.ColorInternoFondo = Color.FromArgb(CByte(255), CByte(193), CByte(7))
+        btnAccion.ColorPresionado = Color.FromArgb(CByte(255), CByte(160), CByte(0))
+        btnAccion.ColorTexto = Color.Black
+        btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Warning
         btnAccion.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        btnAccion.Icono = FontAwesome.Sharp.IconChar.Save
+        btnAccion.Icono = FontAwesome.Sharp.IconChar.Warning
         btnAccion.Location = New Point(1084, 12)
         btnAccion.Name = "btnAccion"
         btnAccion.RadioBorde = 8
@@ -320,11 +331,12 @@ Partial Class frmProveedor
         ' 
         ' lblEncabezado
         ' 
-        lblEncabezado.ColorFondo = Color.White
-        lblEncabezado.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
-        lblEncabezado.Dock = DockStyle.Fill
+        lblEncabezado.BackColor = Color.WhiteSmoke
+        lblEncabezado.ColorFondo = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        lblEncabezado.ColorTexto = Color.WhiteSmoke
+        lblEncabezado.Dock = DockStyle.Top
         lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        lblEncabezado.Icono = FontAwesome.Sharp.IconChar.CircleInfo
+        lblEncabezado.Icono = FontAwesome.Sharp.IconChar.Eject
         lblEncabezado.Location = New Point(0, 0)
         lblEncabezado.MostrarSeparador = True
         lblEncabezado.Name = "lblEncabezado"
@@ -339,8 +351,10 @@ Partial Class frmProveedor
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
-        ClientSize = New Size(1274, 610)
+        ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
+        MaximumSize = New Size(1290, 665)
+        MinimumSize = New Size(1290, 665)
         Name = "frmProveedor"
         Text = "frmProveedor"
         pnlContenedor.ResumeLayout(False)
@@ -364,5 +378,6 @@ Partial Class frmProveedor
     Friend WithEvents txtRif As MaskedTextBoxLabelUI
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents txtContacto As MaskedTextBoxLabelUI
+    Friend WithEvents pnlFoter As Panel
 
 End Class

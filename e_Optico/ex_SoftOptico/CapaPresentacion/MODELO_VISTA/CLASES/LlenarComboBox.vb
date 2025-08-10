@@ -33,7 +33,7 @@ Public Class LlenarComboBox
 
         Dim items As List(Of ComboItem) = ObtenerItems(sql, textField, valueField)
         For Each item In items
-            combo.OrbitalCombo.Items.Add(item.ToString())
+            combo.OrbitalCombo.Items.Add(item)
         Next
     End Sub
 
@@ -61,28 +61,3 @@ Public Class LlenarComboBox
     End Function
 End Class
 
-
-
-'PASO 1 COMO IMPLEMENTARLO EN EL FORMULARIO
-
-'Private Sub FormCategorias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-'    Dim manager As New ComboBoxUIManager()
-'    Dim sql As String = "SELECT IdCategoria, Nombre FROM Categorias"
-'    manager.Cargar(ComboBoxUI1, sql, "Nombre", "IdCategoria")
-'End Sub
-
-
-
-'PASO 2: COMO OBTENER EL ITEM O ID SELECCIONADO
-
-'Private Sub ComboBoxUI1_SelectedIndexChanged(sender As Object, e As EventArgs) _
-'Handles ComboBoxUI1.SelectedIndexChanged
-
-'    Dim item As ComboBoxUIManager.ComboItem =
-'    TryCast(ComboBoxUI1.SelectedItem, ComboBoxUIManager.ComboItem)
-
-'    If item IsNot Nothing Then
-'        Dim idSeleccionado = item.Valor
-'        MessageBox.Show("ID seleccionado: " & idSeleccionado.ToString())
-'    End If
-'End Sub

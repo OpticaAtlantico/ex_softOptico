@@ -1,4 +1,5 @@
--- Actualizado el dia: 06/08/2025
+-- Actualizado el dia: 09/08/2025
+--Se incluyo
 
 IF NOT EXISTS (
     SELECT * FROM SYS.databases 
@@ -33,13 +34,13 @@ CREATE TABLE TRol (
 );
 
 -- Tabla: TEstado -- Ej: APARTADO, ABONADO PARCIALMENTE, PAGADO (Venta), En preparación, Listo para entrega, Entregado, Cancelado, Anulado etc..
-CREATE TABLE TEstado (
+CREATE TABLE TEstadoOrden (
     EstadoID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(100) NOT NULL
 );
 
 -- Tabla: TPermisos para los menu del formulario
-CREATE TABLE TPermisos (
+CREATE TABLE TPermisosMenu (
     PermisosID INT IDENTITY(1,1) PRIMARY KEY,
     RolID INT NOT NULL,
     NombreMenu NVARCHAR(100) NOT NULL,
@@ -68,7 +69,7 @@ CREATE TABLE TUbicaciones (
 );
 
 -- Tabla: Clientes
-CREATE TABLE TClientes (
+CREATE TABLE TCliente (
     ClienteID INT IDENTITY(1,1) PRIMARY KEY,
     Cedula NVARCHAR(20) NOT NULL UNIQUE,
     Rif NVARCHAR(60) NULL,
@@ -91,11 +92,11 @@ CREATE TABLE TEmpresaCliente (
     Email NVARCHAR(100) NULL,
     Rif NVARCHAR(60) NULL,
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
-    FOREIGN KEY (ClienteID) REFERENCES TClientes(ClienteID)
+    FOREIGN KEY (ClienteID) REFERENCES TCliente(ClienteID)
 );
 
 -- Tabla: Proveedores
-CREATE TABLE TProveedores (
+CREATE TABLE TProveedor (
     ProveedorID INT IDENTITY(1,1) PRIMARY KEY,
     NombreEmpresa NVARCHAR(100) NOT NULL,
     RazonSocial NVARCHAR(250) NULL, 
@@ -193,13 +194,19 @@ CREATE TABLE TStockProducto (
     FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
 
+-- Tabla: TTipoMovimientos (Detalle del tipo de movimiento)  Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
+CREATE TABLE TTipoMovimientos (
+    TipoMovimientoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(120) NOT NULL 
+);
+
 -- Tabla: MovimientosInventario (Registro detallado de todo movimiento de stock)
 CREATE TABLE TMovimientosInventario (
-    MovimientoID BIGINT IDENTITY(1,1) PRIMARY KEY,
+    MovimientoID INT IDENTITY(1,1) PRIMARY KEY,
     ProductoID INT NOT NULL,
     UbicacionOrigenID INT NOT NULL, -- NULL para entradas de compra
     UbicacionDestinoID INT NOT NULL, -- NULL para salidas por venta/ajuste negativo
-    TipoMovimiento NVARCHAR(50) NOT NULL, -- Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
+    TipoMovimientoID INT NOT NULL, -- Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
     Cantidad INT NOT NULL,
     FechaMovimiento DATETIME NOT NULL DEFAULT GETDATE(),
     Referencia NVARCHAR(255) NULL, -- Ej: 'Venta #123', 'Compra #456', 'Nota Entrega #789', 'Ajuste Físico', 'Devolución'
@@ -208,7 +215,8 @@ CREATE TABLE TMovimientosInventario (
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID),
     FOREIGN KEY (UbicacionOrigenID) REFERENCES TUbicaciones(UbicacionID),
     FOREIGN KEY (UbicacionDestinoID) REFERENCES TUbicaciones(UbicacionID),
-    FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID)
+    FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (TipoMovimientoID) REFERENCES TTipoMovimientos(TipoMovimientoID)
 );
 
 -- Tabla: TrasladosInventario (Encabezado para movimientos entre ubicaciones)
@@ -270,7 +278,7 @@ CREATE TABLE TCompras (
     TotalCompra DECIMAL(18, 2) NOT NULL,
     Estado NVARCHAR(50) NOT NULL DEFAULT 'Completada', -- Ej: 'Pendiente', 'Completada', 'Anulada'
     Observacion NVARCHAR(MAX) NULL,
-    FOREIGN KEY (ProveedorID) REFERENCES TProveedores(ProveedorID),
+    FOREIGN KEY (ProveedorID) REFERENCES TProveedor(ProveedorID),
     FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (AlicuotaID) REFERENCES TAlicuota(AlicuotaID),
     FOREIGN KEY (TipoPagoID) REFERENCES TTipoPago(TipoPagoID),
@@ -308,7 +316,7 @@ CREATE TABLE TVenta (
     Jornada NVARCHAR(250) NULL,
     Estado NVARCHAR(50) NOT NULL DEFAULT 'Completada', -- Ej: 'Completada', 'Anulada', 'Pendiente'
     EsNotaEntrega BIT NOT NULL DEFAULT 0, -- Indica si esta venta se emite como Nota de Entrega
-    FOREIGN KEY (ClienteID) REFERENCES TClientes(ClienteID),
+    FOREIGN KEY (ClienteID) REFERENCES TCliente(ClienteID),
     FOREIGN KEY (AsesorID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (GerenteID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (OptometristaID) REFERENCES TEmpleados(EmpleadoID),
@@ -342,7 +350,7 @@ CREATE table TSeguimientoVenta (
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
     FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
     FOREIGN KEY (UsuarioResponsableID) REFERENCES TEmpleados(EmpleadoID),
-    FOREIGN KEY (EstadoID) REFERENCES TEstado(EstadoID),
+    FOREIGN KEY (EstadoID) REFERENCES TEstadoOrden(EstadoID),
 );
 
 -- Tabla: TFormaDePago Tabla donde se almacena los pagos de la venta
@@ -484,7 +492,7 @@ CREATE OR ALTER VIEW VProductos AS
            dbo.TCategorias ON dbo.TProductos.CategoriaID = dbo.TCategorias.CategoriaID INNER JOIN
            dbo.TSubCategorias ON dbo.TProductos.SubCategoriaID = dbo.TSubCategorias.SubCategoriaID
 
-
+GO
 
 CREATE OR ALTER VIEW VProveedor AS
     SELECT  ProveedorID
@@ -497,7 +505,9 @@ CREATE OR ALTER VIEW VProveedor AS
             , Direccion
             , Estado
             , FechaRegistro
-    FROM   TProveedores
+    FROM   TProveedor
+
+    delete TProveedor
 
 -----   PROCEDIMIENTOS
 
@@ -534,18 +544,20 @@ INSERT INTO TCargoEmpleado (Descripcion) VALUEs ('Root')
 
 
 --DATOS PARA LA TABLA ESTADO DE LAS ORDENES DESDE QUE SE REALIZA LA VENTA DEL PRODUCTO
-INSERT INTO TEstado (Descripcion) VALUES ('Pedido generado')
-INSERT INTO TEstado (Descripcion) VALUES ('Pendiente de envío a laboratorio')
-INSERT INTO TEstado (Descripcion) VALUES ('Pedido verificado')
-INSERT INTO TEstado (Descripcion) VALUES ('Pedido por enviar')
-INSERT INTO TEstado (Descripcion) VALUES ('Listo para enviar a laboratorio')
-INSERT INTO TEstado (Descripcion) VALUES ('Pedido Recibido en laboratorio')
-INSERT INTO TEstado (Descripcion) VALUES ('Valija enviada')
-INSERT INTO TEstado (Descripcion) VALUES ('Producto en oficinas ZOOM')
-INSERT INTO TEstado (Descripcion) VALUES ('Producto por montar')
-INSERT INTO TEstado (Descripcion) VALUES ('Producto en montaje')
-INSERT INTO TEstado (Descripcion) VALUES ('Producto en tienda')
-INSERT INTO TEstado (Descripcion) VALUES ('Producto entregado')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Pedido generado')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Pendiente de envío a laboratorio')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Pedido verificado')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Pedido por enviar')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Listo para enviar a laboratorio')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Pedido Recibido en laboratorio')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Valija enviada')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto en oficinas ZOOM')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto por montar')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto en montaje')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto en tienda')
+INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto entregado')
+
+
 
 
 --DATOS PARA LA TABLA TEMPRESA O SUCURSAL
