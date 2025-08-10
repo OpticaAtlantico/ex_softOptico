@@ -45,6 +45,7 @@ Partial Class frmCompras
         txtRifCI = New TextBoxLabelUI()
         txtTelefonos = New MaskedTextBoxLabelUI()
         cmbTipoPago = New ComboBoxLabelUI()
+        btnSiguiente = New CommandButtonUI()
         Panel2 = New Panel()
         pnlBotones = New Panel()
         btnLimpiarCeldas = New CommandButtonUI()
@@ -54,7 +55,6 @@ Partial Class frmCompras
         btnAceptar = New CommandButtonUI()
         pnlTitulo = New Panel()
         lblEncabezado = New HeaderUI()
-        CommandButtonui1 = New CommandButtonUI()
         pnlContenedor.SuspendLayout()
         pnlContenedorGrid.SuspendLayout()
         pnlTotales.SuspendLayout()
@@ -249,7 +249,7 @@ Partial Class frmCompras
         pnlContenidoDatos.Controls.Add(txtRifCI)
         pnlContenidoDatos.Controls.Add(txtTelefonos)
         pnlContenidoDatos.Controls.Add(cmbTipoPago)
-        pnlContenidoDatos.Controls.Add(CommandButtonui1)
+        pnlContenidoDatos.Controls.Add(btnSiguiente)
         pnlContenidoDatos.Dock = DockStyle.Fill
         pnlContenidoDatos.Location = New Point(10, 10)
         pnlContenidoDatos.Name = "pnlContenidoDatos"
@@ -461,6 +461,26 @@ Partial Class frmCompras
         cmbTipoPago.Titulo = "Codición de Pago:"
         cmbTipoPago.ValorSeleccionado = Nothing
         ' 
+        ' btnSiguiente
+        ' 
+        btnSiguiente.AnimarHover = True
+        btnSiguiente.BackColor = Color.Transparent
+        btnSiguiente.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
+        btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
+        btnSiguiente.ColorTexto = Color.White
+        btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
+        btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
+        btnSiguiente.Location = New Point(3, 755)
+        btnSiguiente.Name = "btnSiguiente"
+        btnSiguiente.RadioBorde = 8
+        btnSiguiente.Size = New Size(176, 40)
+        btnSiguiente.TabIndex = 18
+        btnSiguiente.Text = "CommandButtonui1"
+        btnSiguiente.Texto = "Siguiente"
+        ' 
         ' Panel2
         ' 
         Panel2.Controls.Add(pnlBotones)
@@ -615,26 +635,6 @@ Partial Class frmCompras
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
         ' 
-        ' CommandButtonui1
-        ' 
-        CommandButtonui1.AnimarHover = True
-        CommandButtonui1.BackColor = Color.Transparent
-        CommandButtonui1.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        CommandButtonui1.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
-        CommandButtonui1.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        CommandButtonui1.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        CommandButtonui1.ColorTexto = Color.White
-        CommandButtonui1.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        CommandButtonui1.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        CommandButtonui1.Icono = FontAwesome.Sharp.IconChar.PlusSquare
-        CommandButtonui1.Location = New Point(3, 755)
-        CommandButtonui1.Name = "CommandButtonui1"
-        CommandButtonui1.RadioBorde = 8
-        CommandButtonui1.Size = New Size(176, 40)
-        CommandButtonui1.TabIndex = 18
-        CommandButtonui1.Text = "CommandButtonui1"
-        CommandButtonui1.Texto = "Agregar producto"
-        ' 
         ' frmCompras
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -689,6 +689,6 @@ Partial Class frmCompras
     Friend WithEvents btnLimpiarCeldas As CommandButtonUI
     Friend WithEvents btnExportarPdf As CommandButtonUI
     Friend WithEvents btnExportarExcel As CommandButtonUI
-    Friend WithEvents CommandButtonui1 As CommandButtonUI
+    Friend WithEvents btnSiguiente As CommandButtonUI
 
 End Class

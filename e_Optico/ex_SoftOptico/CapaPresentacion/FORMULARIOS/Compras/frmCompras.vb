@@ -1,5 +1,7 @@
 ﻿Imports CapaDatos
 Imports CapaEntidad
+Imports DocumentFormat.OpenXml.Office2010.Excel
+Imports OfficeOpenXml.Drawing.Slicer.Style
 
 Public Class frmCompras
 
@@ -34,6 +36,9 @@ Public Class frmCompras
         llenarCombo.Cargar(cmbProveedor, sql, "NombreEmpresa", "ProveedorID")
 
         cmbProveedor.FinalizarCarga()
+
+        'Bloquea el panel de grid hasta que se agregue un producto
+        pnlDataGrid.Enabled = False
 
     End Sub
 
@@ -88,6 +93,39 @@ Public Class frmCompras
             End Try
 
         End If
+
+    End Sub
+
+    Private Sub btnSiguiente_Click(sender As Object, e As EventArgs) Handles btnSiguiente.Click
+
+        Try
+            Dim ncontrol As String = txtNumeroControl.TextoUsuario.Trim()
+            Dim nfactura As String = txtNumeroFactura.TextoUsuario.Trim()
+            Dim fecha As Date = txtFechaEmision.TextValue
+            Dim proveedor As String = cmbProveedor.TextoSeleccionado.Trim()
+            Dim domicilio As String = txtDomicilio.TextoUsuario.Trim()
+            Dim rif As String = txtRifCI.TextoUsuario.Trim()
+            Dim telefono As String = txtTelefonos.TextoUsuario.Trim()
+            Dim tipoPago As String = cmbTipoPago.TextoSeleccionado.Trim()
+
+            If {ncontrol, nfactura, fecha, proveedor, domicilio, rif, telefono, tipoPago
+                        }.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
+                MessageBoxUI.Mostrar("Cargando...",
+                                         "Por favor, complete todos los campos obligatorios.",
+                                          TipoMensaje.Errors, Botones.Aceptar)
+
+            Else
+
+                'Desbloquear el panel de grid
+                pnlDataGrid.Enabled = True
+
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error...", "Error al procesar los datos: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+        End Try
+
+
+
 
     End Sub
 End Class
