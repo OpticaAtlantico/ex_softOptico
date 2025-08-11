@@ -39,6 +39,7 @@ Public Class frmCompras
 
         'Bloquea el panel de grid hasta que se agregue un producto
         pnlDataGrid.Enabled = False
+        pnlTotales.Enabled = False
 
     End Sub
 
@@ -118,15 +119,60 @@ Public Class frmCompras
 
                 'Desbloquear el panel de grid
                 pnlDataGrid.Enabled = True
+                pnlTotales.Enabled = True
 
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error...", "Error al procesar los datos: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
         End Try
 
+    End Sub
 
+    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+        pnlTotales.Enabled = False
+        pnlDataGrid.Enabled = False
 
+    End Sub
 
+    Private Sub btnLimpiarGrid_Click(sender As Object, e As EventArgs) Handles btnLimpiarGrid.Click
+        LimpiarGrids()
+    End Sub
+
+    Private Sub btnLimpiarCeldas_Click(sender As Object, e As EventArgs) Handles btnLimpiarCeldas.Click
+        LimpiarCeldas()
+    End Sub
+
+    Private Sub LimpiarCeldas()
+        txtNumeroControl.TextoUsuario = String.Empty
+        txtNumeroFactura.TextoUsuario = String.Empty
+        cmbProveedor.Limpiar()
+        txtDomicilio.TextoUsuario = String.Empty
+        txtRifCI.TextoUsuario = String.Empty
+        txtTelefonos.TextoUsuario = String.Empty
+        cmbTipoPago.Limpiar()
+
+        ' Limpiar el grid de compras
+        grvCompras.LimpiarGrid()
+        ' Deshabilitar paneles
+        pnlDataGrid.Enabled = False
+        pnlTotales.Enabled = False
+
+    End Sub
+
+    Private Sub LimpiarGrids()
+        If grvCompras.TieneDatos Then
+            Dim resultado = MessageBoxUI.Mostrar("Confirmación",
+                                                 "¿Está seguro de que desea limpiar el detalle de la compra?",
+                                                 TipoMensaje.Informacion, Botones.SiNo)
+            If resultado = DialogResult.Yes Then
+                grvCompras.LimpiarGrid()
+                pnlDataGrid.Enabled = False
+                pnlTotales.Enabled = False
+
+            End If
+        Else
+            MessageBoxUI.Mostrar("Información", "No hay productos en el detalle para limpiar.", TipoMensaje.Informacion, Botones.Aceptar)
+        End If
     End Sub
 End Class
 

@@ -141,7 +141,6 @@ Public Class frm_Login
         txtUsuario.TextoUsuario = ""
         txtPass.TextoUsuario = ""
         Me.Show()
-        txtUsuario.Focus()
     End Sub
 
 End Class

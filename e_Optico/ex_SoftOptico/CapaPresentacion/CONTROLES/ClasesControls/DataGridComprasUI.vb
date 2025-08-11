@@ -36,7 +36,11 @@ Public Class DataGridComprasUI
             CalcularTotales()
         End Set
     End Property
-
+    Public ReadOnly Property TieneDatos As Boolean
+        Get
+            Return dgv.Rows.Count > 0
+        End Get
+    End Property
 #End Region
 
 #Region "Inicializar"
@@ -309,6 +313,15 @@ Public Class DataGridComprasUI
         ' Actualiza totales
         CalcularTotales()
     End Sub
+
+    Public Sub LimpiarGrid()
+        dgv.Rows.Clear()
+        lblTotalExento.Text = "Exento: 0.00"
+        lblBaseImponible.Text = "Base: 0.00"
+        lblIva.Text = "IVA: 0.00"
+        lblTotalGeneral.Text = "Total: 0.00"
+    End Sub
+
 
 End Class
 

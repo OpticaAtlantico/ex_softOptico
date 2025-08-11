@@ -25,12 +25,12 @@ Partial Class frmEmpleado
         pnlContenedor = New Panel()
         Panel1 = New Panel()
         pnlContenido = New Panel()
-        txtDireccion = New MultilineTextBoxLabelUI()
-        pnlCargo = New Panel()
         swMarketing = New ToggleSwitchUI()
         swGerente = New ToggleSwitchUI()
         swOptometrista = New ToggleSwitchUI()
         swAsesor = New ToggleSwitchUI()
+        Labelui1 = New LabelUI()
+        txtDireccion = New MultilineTextBoxLabelUI()
         TableLayoutPanel1 = New TableLayoutPanel()
         txtCedula = New MaskedTextBoxLabelUI()
         txtFechaNac = New DateBoxLabelUI()
@@ -52,7 +52,6 @@ Partial Class frmEmpleado
         Headerui1 = New HeaderUI()
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
-        pnlCargo.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         CType(imgFoto, ComponentModel.ISupportInitialize).BeginInit()
         pnlEncabezado.SuspendLayout()
@@ -81,8 +80,12 @@ Partial Class frmEmpleado
         ' pnlContenido
         ' 
         pnlContenido.AutoScroll = True
+        pnlContenido.Controls.Add(swMarketing)
+        pnlContenido.Controls.Add(swGerente)
+        pnlContenido.Controls.Add(swOptometrista)
+        pnlContenido.Controls.Add(swAsesor)
+        pnlContenido.Controls.Add(Labelui1)
         pnlContenido.Controls.Add(txtDireccion)
-        pnlContenido.Controls.Add(pnlCargo)
         pnlContenido.Controls.Add(TableLayoutPanel1)
         pnlContenido.Controls.Add(btnEliminarFoto)
         pnlContenido.Controls.Add(btnGuardarFoto)
@@ -94,6 +97,93 @@ Partial Class frmEmpleado
         pnlContenido.Padding = New Padding(10, 30, 0, 0)
         pnlContenido.Size = New Size(1274, 566)
         pnlContenido.TabIndex = 1
+        ' 
+        ' swMarketing
+        ' 
+        swMarketing.BackColor = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        swMarketing.BackgroundOff = Color.WhiteSmoke
+        swMarketing.BackgroundOn = Color.SeaGreen
+        swMarketing.BorderRadius = 20
+        swMarketing.Checked = False
+        swMarketing.EstadoTexto = "Marketing..."
+        swMarketing.Font = New Font("Century Gothic", 11F)
+        swMarketing.Location = New Point(1046, 445)
+        swMarketing.Name = "swMarketing"
+        swMarketing.Size = New Size(160, 23)
+        swMarketing.SwitchColor = Color.Aquamarine
+        swMarketing.TabIndex = 36
+        swMarketing.Text = "ToggleSwitchui1"
+        swMarketing.TextColor = Color.DarkSlateGray
+        ' 
+        ' swGerente
+        ' 
+        swGerente.BackColor = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        swGerente.BackgroundOff = Color.WhiteSmoke
+        swGerente.BackgroundOn = Color.SeaGreen
+        swGerente.BorderRadius = 20
+        swGerente.Checked = False
+        swGerente.EstadoTexto = "Gerente..."
+        swGerente.Font = New Font("Century Gothic", 11F)
+        swGerente.Location = New Point(794, 445)
+        swGerente.Name = "swGerente"
+        swGerente.Size = New Size(147, 23)
+        swGerente.SwitchColor = Color.Aquamarine
+        swGerente.TabIndex = 35
+        swGerente.Text = "ToggleSwitchui1"
+        swGerente.TextColor = Color.DarkSlateGray
+        ' 
+        ' swOptometrista
+        ' 
+        swOptometrista.BackColor = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        swOptometrista.BackgroundOff = Color.WhiteSmoke
+        swOptometrista.BackgroundOn = Color.SeaGreen
+        swOptometrista.BorderRadius = 20
+        swOptometrista.Checked = False
+        swOptometrista.EstadoTexto = "Optometrista..."
+        swOptometrista.Font = New Font("Century Gothic", 11F)
+        swOptometrista.Location = New Point(1046, 401)
+        swOptometrista.Name = "swOptometrista"
+        swOptometrista.Size = New Size(170, 23)
+        swOptometrista.SwitchColor = Color.Aquamarine
+        swOptometrista.TabIndex = 34
+        swOptometrista.Text = "ToggleSwitchui1"
+        swOptometrista.TextColor = Color.DarkSlateGray
+        ' 
+        ' swAsesor
+        ' 
+        swAsesor.BackColor = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        swAsesor.BackgroundOff = Color.WhiteSmoke
+        swAsesor.BackgroundOn = Color.SeaGreen
+        swAsesor.BorderRadius = 20
+        swAsesor.Checked = False
+        swAsesor.EstadoTexto = "Asesor..."
+        swAsesor.Font = New Font("Century Gothic", 11F)
+        swAsesor.Location = New Point(794, 401)
+        swAsesor.Name = "swAsesor"
+        swAsesor.Size = New Size(131, 23)
+        swAsesor.SwitchColor = Color.Aquamarine
+        swAsesor.TabIndex = 33
+        swAsesor.Text = "ToggleSwitchui1"
+        swAsesor.TextColor = Color.DarkSlateGray
+        ' 
+        ' Labelui1
+        ' 
+        Labelui1.BackColor = Color.Transparent
+        Labelui1.BloquearColorFondo = True
+        Labelui1.CausesValidation = False
+        Labelui1.ColorInternoFondo = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        Labelui1.EstiloLabel = LabelUI.EstiloBootstrap.Info
+        Labelui1.Font = New Font("Century Gothic", 10F)
+        Labelui1.ForeColor = Color.FromArgb(CByte(0), CByte(188), CByte(212))
+        Labelui1.Icono = FontAwesome.Sharp.IconChar.None
+        Labelui1.Location = New Point(721, 390)
+        Labelui1.Name = "Labelui1"
+        Labelui1.Padding = New Padding(10, 6, 10, 6)
+        Labelui1.RadioBorde = 8
+        Labelui1.Size = New Size(538, 98)
+        Labelui1.TabIndex = 32
+        Labelui1.Text = "Labelui1"
+        Labelui1.Texto = ""
         ' 
         ' txtDireccion
         ' 
@@ -117,87 +207,11 @@ Partial Class frmEmpleado
         txtDireccion.Name = "txtDireccion"
         txtDireccion.PaddingAll = 10
         txtDireccion.PanelBackColor = Color.White
-        txtDireccion.Size = New Size(686, 138)
+        txtDireccion.Size = New Size(703, 138)
         txtDireccion.SombraBackColor = Color.LightGray
         txtDireccion.TabIndex = 13
         txtDireccion.TextColor = Color.Black
         txtDireccion.TextoUsuario = ""
-        ' 
-        ' pnlCargo
-        ' 
-        pnlCargo.BackColor = Color.Azure
-        pnlCargo.Controls.Add(swMarketing)
-        pnlCargo.Controls.Add(swGerente)
-        pnlCargo.Controls.Add(swOptometrista)
-        pnlCargo.Controls.Add(swAsesor)
-        pnlCargo.Location = New Point(704, 389)
-        pnlCargo.Name = "pnlCargo"
-        pnlCargo.Size = New Size(548, 99)
-        pnlCargo.TabIndex = 21
-        ' 
-        ' swMarketing
-        ' 
-        swMarketing.BackgroundOff = Color.Gainsboro
-        swMarketing.BackgroundOn = Color.SeaGreen
-        swMarketing.BorderRadius = 20
-        swMarketing.Checked = False
-        swMarketing.EstadoTexto = "Marketing..."
-        swMarketing.Font = New Font("Century Gothic", 11F)
-        swMarketing.Location = New Point(345, 61)
-        swMarketing.Name = "swMarketing"
-        swMarketing.Size = New Size(160, 23)
-        swMarketing.SwitchColor = Color.DarkSlateGray
-        swMarketing.TabIndex = 18
-        swMarketing.Text = "ToggleSwitchui1"
-        swMarketing.TextColor = Color.DarkSlateGray
-        ' 
-        ' swGerente
-        ' 
-        swGerente.BackgroundOff = Color.Gainsboro
-        swGerente.BackgroundOn = Color.SeaGreen
-        swGerente.BorderRadius = 20
-        swGerente.Checked = False
-        swGerente.EstadoTexto = "Gerente..."
-        swGerente.Font = New Font("Century Gothic", 11F)
-        swGerente.Location = New Point(93, 61)
-        swGerente.Name = "swGerente"
-        swGerente.Size = New Size(147, 23)
-        swGerente.SwitchColor = Color.DarkSlateGray
-        swGerente.TabIndex = 17
-        swGerente.Text = "ToggleSwitchui1"
-        swGerente.TextColor = Color.DarkSlateGray
-        ' 
-        ' swOptometrista
-        ' 
-        swOptometrista.BackgroundOff = Color.Gainsboro
-        swOptometrista.BackgroundOn = Color.SeaGreen
-        swOptometrista.BorderRadius = 20
-        swOptometrista.Checked = False
-        swOptometrista.EstadoTexto = "Optometrista..."
-        swOptometrista.Font = New Font("Century Gothic", 11F)
-        swOptometrista.Location = New Point(345, 17)
-        swOptometrista.Name = "swOptometrista"
-        swOptometrista.Size = New Size(170, 23)
-        swOptometrista.SwitchColor = Color.DarkSlateGray
-        swOptometrista.TabIndex = 16
-        swOptometrista.Text = "ToggleSwitchui1"
-        swOptometrista.TextColor = Color.DarkSlateGray
-        ' 
-        ' swAsesor
-        ' 
-        swAsesor.BackgroundOff = Color.Gainsboro
-        swAsesor.BackgroundOn = Color.SeaGreen
-        swAsesor.BorderRadius = 20
-        swAsesor.Checked = False
-        swAsesor.EstadoTexto = "Asesor..."
-        swAsesor.Font = New Font("Century Gothic", 11F)
-        swAsesor.Location = New Point(93, 17)
-        swAsesor.Name = "swAsesor"
-        swAsesor.Size = New Size(131, 23)
-        swAsesor.SwitchColor = Color.DarkSlateGray
-        swAsesor.TabIndex = 15
-        swAsesor.Text = "ToggleSwitchui1"
-        swAsesor.TextColor = Color.DarkSlateGray
         ' 
         ' TableLayoutPanel1
         ' 
@@ -631,7 +645,6 @@ Partial Class frmEmpleado
         Text = "frmEmpleado"
         pnlContenedor.ResumeLayout(False)
         pnlContenido.ResumeLayout(False)
-        pnlCargo.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)
         CType(imgFoto, ComponentModel.ISupportInitialize).EndInit()
         pnlEncabezado.ResumeLayout(False)
@@ -646,11 +659,6 @@ Partial Class frmEmpleado
     Friend WithEvents pnlContenido As Panel
     Friend WithEvents btnEliminarFoto As FontAwesome.Sharp.IconButton
     Friend WithEvents btnGuardarFoto As FontAwesome.Sharp.IconButton
-    Friend WithEvents pnlCargo As Panel
-    Friend WithEvents swMarketing As ToggleSwitchUI
-    Friend WithEvents swGerente As ToggleSwitchUI
-    Friend WithEvents swOptometrista As ToggleSwitchUI
-    Friend WithEvents swAsesor As ToggleSwitchUI
     Friend WithEvents txtDireccion As MultilineTextBoxLabelUI
     Friend WithEvents txtTelefono As MaskedTextBoxLabelUI
     Friend WithEvents txtCorreo As TextBoxLabelUI
@@ -667,4 +675,9 @@ Partial Class frmEmpleado
     Friend WithEvents txtFechaNac As DateBoxLabelUI
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents swMarketing As ToggleSwitchUI
+    Friend WithEvents swGerente As ToggleSwitchUI
+    Friend WithEvents swOptometrista As ToggleSwitchUI
+    Friend WithEvents swAsesor As ToggleSwitchUI
+    Friend WithEvents Labelui1 As LabelUI
 End Class

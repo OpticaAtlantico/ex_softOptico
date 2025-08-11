@@ -72,11 +72,35 @@ Public Class frmProveedor
         With Me.lblEncabezado
             .Titulo = "Nuevo Proveedor"
             .Subtitulo = "Ingrese los datos del nuevo Proveedor..."
-            .Icono = IconChar.UserGear
+            .Icono = IconChar.UserCheck
             .ColorFondo = Color.FromArgb(0, 191, 192)
             .ColorTexto = Color.WhiteSmoke
         End With
 
+    End Sub
+
+    Private Sub txtNombreEmpresa_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtNombreEmpresa.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+    Private Sub txtRazonSocial_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtRazonSocial.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+    Private Sub txtCorreo_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCorreo.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+    Private Sub txtRif_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtRif.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+    Private Sub txtTelefono_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtTelefono.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+    Private Sub txtContacto_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtContacto.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
     End Sub
 
 #End Region
@@ -139,6 +163,8 @@ Public Class frmProveedor
     Private Sub LimpiarControles(container As Control)
         container.SuspendLayout()
 
+        ' Recorre todos los controles dentro del contenedor y limpia sus valores
+
         For Each ctrl As Control In container.Controls
             If TypeOf ctrl Is TextBoxLabelUI Then
                 Dim c = CType(ctrl, TextBoxLabelUI)
@@ -164,8 +190,6 @@ Public Class frmProveedor
                 LimpiarControles(ctrl)
             End If
         Next
-
-        txtNombreEmpresa.Focus()
 
         container.ResumeLayout()
         container.PerformLayout()
@@ -255,8 +279,7 @@ Public Class frmProveedor
                 Dim mensaje As New ToastUI(If(esNuevo, "Proveedor guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
                 mensaje.Mostrar()
 
-                Me.Close()
-                frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal
+                LimpiarControles(Me)
 
             Else
                 MessageBoxUI.Mostrar("Procesando...",

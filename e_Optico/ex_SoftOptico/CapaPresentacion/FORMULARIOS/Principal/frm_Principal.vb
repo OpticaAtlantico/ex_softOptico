@@ -24,6 +24,7 @@ Public Class frm_Principal
     Public Property EmpleadoEncontrado As TEmpleados = Nothing
     Public Property ProveedorEncontrado As TProveedor = Nothing
     Public Event AbrirFormularioHijoSolicitado As Action(Of Form)
+    Private formularioHijoActual As Form
 
 #Region "CONSTRUCTOR"
 
@@ -572,7 +573,7 @@ Public Class frm_Principal
         childForm.Show()
     End Sub
 
-    Private Sub Reset()
+    Public Sub Reset()
         currentButton = New Button()
         DisableButton()
     End Sub

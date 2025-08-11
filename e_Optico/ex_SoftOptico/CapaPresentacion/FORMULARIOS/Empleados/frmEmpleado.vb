@@ -411,8 +411,9 @@ Public Class frmEmpleado
                 Dim mensaje As New ToastUI(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
                 mensaje.Mostrar()
 
-                Me.Close()
-                frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal
+                LimpiarControles(Me)
+                limpiarImagen()
+
             Else
                 MessageBoxUI.Mostrar("Procesando...",
                                     "Ocurrió un error al procesar la operación.",

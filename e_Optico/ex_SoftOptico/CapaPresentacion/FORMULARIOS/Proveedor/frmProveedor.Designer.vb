@@ -86,7 +86,7 @@ Partial Class frmProveedor
         txtDireccion.BorderSize = 1
         txtDireccion.CampoRequerido = True
         txtDireccion.CapitalizarTexto = True
-        txtDireccion.CapitalizarTodasLasPalabras = False
+        txtDireccion.CapitalizarTodasLasPalabras = True
         txtDireccion.ColorError = Color.Firebrick
         txtDireccion.FontField = New Font("Century Gothic", 12F)
         txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
@@ -101,7 +101,7 @@ Partial Class frmProveedor
         txtDireccion.PanelBackColor = Color.White
         txtDireccion.Size = New Size(1238, 86)
         txtDireccion.SombraBackColor = Color.LightGray
-        txtDireccion.TabIndex = 13
+        txtDireccion.TabIndex = 6
         txtDireccion.TextColor = Color.Black
         txtDireccion.TextoUsuario = ""
         ' 
@@ -150,7 +150,7 @@ Partial Class frmProveedor
         txtRif.SelectionStart = 0
         txtRif.Size = New Size(407, 80)
         txtRif.SombraBackColor = Color.LightGray
-        txtRif.TabIndex = 4
+        txtRif.TabIndex = 3
         txtRif.TextColor = Color.Black
         txtRif.TextoUsuario = ""
         txtRif.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
@@ -178,7 +178,7 @@ Partial Class frmProveedor
         txtNombreEmpresa.PanelBackColor = Color.White
         txtNombreEmpresa.Size = New Size(407, 80)
         txtNombreEmpresa.SombraBackColor = Color.LightGray
-        txtNombreEmpresa.TabIndex = 2
+        txtNombreEmpresa.TabIndex = 0
         txtNombreEmpresa.TextColor = Color.Black
         txtNombreEmpresa.TextoUsuario = ""
         txtNombreEmpresa.UsarModoContraseña = False
@@ -207,7 +207,7 @@ Partial Class frmProveedor
         txtRazonSocial.PanelBackColor = Color.White
         txtRazonSocial.Size = New Size(406, 80)
         txtRazonSocial.SombraBackColor = Color.LightGray
-        txtRazonSocial.TabIndex = 3
+        txtRazonSocial.TabIndex = 1
         txtRazonSocial.TextColor = Color.Black
         txtRazonSocial.TextoUsuario = ""
         txtRazonSocial.UsarModoContraseña = False
@@ -236,7 +236,7 @@ Partial Class frmProveedor
         txtCorreo.PanelBackColor = Color.White
         txtCorreo.Size = New Size(405, 80)
         txtCorreo.SombraBackColor = Color.LightGray
-        txtCorreo.TabIndex = 10
+        txtCorreo.TabIndex = 2
         txtCorreo.TextColor = Color.Black
         txtCorreo.TextoUsuario = ""
         txtCorreo.UsarModoContraseña = False
@@ -265,7 +265,7 @@ Partial Class frmProveedor
         txtTelefono.SelectionStart = 0
         txtTelefono.Size = New Size(406, 80)
         txtTelefono.SombraBackColor = Color.LightGray
-        txtTelefono.TabIndex = 11
+        txtTelefono.TabIndex = 4
         txtTelefono.TextColor = Color.Black
         txtTelefono.TextoUsuario = ""
         txtTelefono.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
@@ -293,7 +293,7 @@ Partial Class frmProveedor
         txtContacto.SelectionStart = 0
         txtContacto.Size = New Size(406, 80)
         txtContacto.SombraBackColor = Color.LightGray
-        txtContacto.TabIndex = 11
+        txtContacto.TabIndex = 5
         txtContacto.TextColor = Color.Black
         txtContacto.TextoUsuario = ""
         txtContacto.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
@@ -325,7 +325,7 @@ Partial Class frmProveedor
         btnAccion.Name = "btnAccion"
         btnAccion.RadioBorde = 8
         btnAccion.Size = New Size(180, 40)
-        btnAccion.TabIndex = 19
+        btnAccion.TabIndex = 7
         btnAccion.Text = "CommandButtonui2"
         btnAccion.Texto = "Guardar Datos"
         ' 
@@ -336,7 +336,7 @@ Partial Class frmProveedor
         lblEncabezado.ColorTexto = Color.WhiteSmoke
         lblEncabezado.Dock = DockStyle.Top
         lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        lblEncabezado.Icono = FontAwesome.Sharp.IconChar.Eject
+        lblEncabezado.Icono = FontAwesome.Sharp.IconChar.UserPlus
         lblEncabezado.Location = New Point(0, 0)
         lblEncabezado.MostrarSeparador = True
         lblEncabezado.Name = "lblEncabezado"
