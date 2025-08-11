@@ -34,8 +34,11 @@ Public Class frmCompras
 
         Dim sql As String = "SELECT ProveedorID, NombreEmpresa FROM TProveedor"
         llenarCombo.Cargar(cmbProveedor, sql, "NombreEmpresa", "ProveedorID")
-
         cmbProveedor.FinalizarCarga()
+
+        sql = "SELECT TipoPagoID, Nombre FROM TTipoPago"
+        llenarCombo.Cargar(cmbTipoPago, sql, "Nombre", "TipoPagoID")
+        cmbTipoPago.FinalizarCarga()
 
         'Bloquea el panel de grid hasta que se agregue un producto
         pnlDataGrid.Enabled = False
