@@ -598,6 +598,10 @@ Public Class frm_Principal
             .ControlBox = False
             .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
         End With
+
+        lblUsuario.Text = Sesion.NombreUsuario
+        lblCargo.Text = Sesion.Cargo
+
         WindowState = FormWindowState.Maximized
     End Sub
 

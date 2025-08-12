@@ -507,7 +507,7 @@ CREATE OR ALTER VIEW VProveedor AS
             , FechaRegistro
     FROM   TProveedor
 
-    delete TProveedor
+    --delete TProveedor
 
 -----   PROCEDIMIENTOS
 
@@ -631,5 +631,9 @@ INSERT INTO TLogin (EmpleadoID, UbicacionID, RolID, Usuario, Clave, Estado, Fech
 --        Return (textos, iconos)
 --    End Function
 --End Class
+
+
+
+
 
 

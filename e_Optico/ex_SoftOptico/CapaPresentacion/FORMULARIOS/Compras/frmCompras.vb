@@ -1,7 +1,6 @@
-﻿Imports CapaDatos
-Imports CapaEntidad
-Imports DocumentFormat.OpenXml.Office2010.Excel
-Imports OfficeOpenXml.Drawing.Slicer.Style
+﻿Imports CapaEntidad
+Imports CapaNegocio
+Imports CapaDatos
 
 Public Class frmCompras
 
@@ -100,38 +99,31 @@ Public Class frmCompras
 
     End Sub
 
-    Private Sub btnSiguiente_Click(sender As Object, e As EventArgs) Handles btnSiguiente.Click
-
+    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         Try
-            Dim ncontrol As String = txtNumeroControl.TextoUsuario.Trim()
-            Dim nfactura As String = txtNumeroFactura.TextoUsuario.Trim()
-            Dim fecha As Date = txtFechaEmision.TextValue
-            Dim proveedor As String = cmbProveedor.TextoSeleccionado.Trim()
-            Dim domicilio As String = txtDomicilio.TextoUsuario.Trim()
-            Dim rif As String = txtRifCI.TextoUsuario.Trim()
-            Dim telefono As String = txtTelefonos.TextoUsuario.Trim()
-            Dim tipoPago As String = cmbTipoPago.TextoSeleccionado.Trim()
+            Dim compra As New TCompra With {
+                .NumeroControl = txtNumeroControl.TextoUsuario.Trim(),
+                .NumeroFactura = txtNumeroFactura.TextoUsuario.Trim(),
+                .FechaCompra = txtFechaEmision.TextValue,
+                .EmpleadoID = CInt(Sesion.UsuarioID),
+                .UbicacionDestinoID = CInt(Sesion.UbicacionID),
+                .ProveedorID = CInt(cmbProveedor.ItemSeleccionado.Valor),
+                .TipoPagoID = CInt(cmbTipoPago.ItemSeleccionado.Valor),
+                .Observacion = txtObservacion.TextoUsuario.Trim(),
+                .TotalCompra = grvCompras.CalcularTotal(),
+                .Detalle = grvCompras.GetDetalleList()
+            }
 
-            If {ncontrol, nfactura, fecha, proveedor, domicilio, rif, telefono, tipoPago
-                        }.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
-                MessageBoxUI.Mostrar("Cargando...",
-                                         "Por favor, complete todos los campos obligatorios.",
-                                          TipoMensaje.Errors, Botones.Aceptar)
+            Dim service As New ComprasService()
+            Dim idGenerado As Integer = service.RegistrarCompra(compra)
 
-            Else
-
-                'Desbloquear el panel de grid
-                pnlDataGrid.Enabled = True
-                pnlTotales.Enabled = True
-
-            End If
+            MessageBoxUI.Mostrar("Éxito", $"Compra registrada con éxito. ID: {idGenerado}", TipoMensaje.Exito, Botones.Aceptar)
+            LimpiarCeldas()
+            LimpiarGrids()
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error...", "Error al procesar los datos: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Error...", "Error al registrar la compra: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
         End Try
 
-    End Sub
-
-    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         pnlTotales.Enabled = False
         pnlDataGrid.Enabled = False
 
@@ -176,6 +168,64 @@ Public Class frmCompras
         Else
             MessageBoxUI.Mostrar("Información", "No hay productos en el detalle para limpiar.", TipoMensaje.Informacion, Botones.Aceptar)
         End If
+    End Sub
+
+    Private Function GetDetalleFromGrid() As List(Of TDetalleCompra)
+        Dim list As New List(Of TDetalleCompra)
+        For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
+            If row.IsNewRow Then Continue For
+            Dim idProd As Integer = If(row.Cells("ProductoID").Value IsNot Nothing, Convert.ToInt32(row.Cells("ProductoID").Value), 0)
+            Dim cantidad As Decimal = If(row.Cells("Cantidad").Value IsNot Nothing, Convert.ToDecimal(row.Cells("Cantidad").Value), 0D)
+            Dim precio As Decimal = If(row.Cells("PrecioUnitario").Value IsNot Nothing, Convert.ToDecimal(row.Cells("PrecioUnitario").Value), 0D)
+            Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), cantidad * precio)
+
+            list.Add(New TDetalleCompra With {
+                .ProductoID = idProd,
+                .Cantidad = cantidad,
+                .PrecioUnitario = precio,
+                .Subtotal = subtotal
+            })
+        Next
+        Return list
+    End Function
+
+    Private Function CalculateTotalFromGrid() As Decimal
+        Dim total As Decimal = 0D
+        For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
+            If row.IsNewRow Then Continue For
+            Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), 0D)
+            total += subtotal
+        Next
+        Return total
+    End Function
+
+    Private Sub btnSiguiente_Click_1(sender As Object, e As EventArgs) Handles btnSiguiente.Click
+        Try
+            Dim ncontrol = txtNumeroControl.TextoUsuario.Trim
+            Dim nfactura = txtNumeroFactura.TextoUsuario.Trim
+            Dim fecha As Date = txtFechaEmision.TextValue
+            Dim proveedor = cmbProveedor.TextoSeleccionado.Trim
+            Dim domicilio = txtDomicilio.TextoUsuario.Trim
+            Dim rif = txtRifCI.TextoUsuario.Trim
+            Dim telefono = txtTelefonos.TextoUsuario.Trim
+            Dim tipoPago = cmbTipoPago.TextoSeleccionado.Trim
+
+            If {ncontrol, nfactura, fecha, proveedor, domicilio, rif, telefono, tipoPago
+                        }.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
+                MessageBoxUI.Mostrar("Cargando...",
+                                         "Por favor, complete todos los campos obligatorios.",
+                                          TipoMensaje.Errors, Botones.Aceptar)
+
+            Else
+
+                'Desbloquear el panel de grid
+                pnlDataGrid.Enabled = True
+                pnlTotales.Enabled = True
+
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error...", "Error al procesar los datos: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+        End Try
     End Sub
 End Class
 

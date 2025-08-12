@@ -41,6 +41,14 @@ Public Class DataGridComprasUI
             Return dgv.Rows.Count > 0
         End Get
     End Property
+
+    <Browsable(False)>
+    Public ReadOnly Property InnerGridView As DataGridView
+        Get
+            Return dgv
+        End Get
+    End Property
+
 #End Region
 
 #Region "Inicializar"
@@ -238,6 +246,41 @@ Public Class DataGridComprasUI
         CalcularTotales()
     End Sub
 
+    Public Function GetDetalleList() As List(Of TDetalleCompra)
+        Dim lista As New List(Of TDetalleCompra)
+
+        For Each row As DataGridViewRow In dgv.Rows
+            If row.IsNewRow Then Continue For
+
+            Dim detalle As New TDetalleCompra()
+
+            'detalle.ProductoID = Convert.ToInt32(row.Cells("ProductoId").Value)
+            'detalle.ProductoName = Convert.ToInt32(row.Cells("Producto").Value)
+            detalle.Cantidad = Convert.ToDecimal(row.Cells("Cantidad").Value)
+            detalle.PrecioUnitario = Convert.ToDecimal(row.Cells("Precio").Value)
+            detalle.Subtotal = Convert.ToDecimal(row.Cells("Subtotal").Value)
+
+            ' Campo opcional ExG
+            If dgv.Columns.Contains("ExG") Then
+                detalle.ModoCargo = Convert.ToString(row.Cells("ExG").Value)
+            Else
+                detalle.ModoCargo = String.Empty
+            End If
+
+            ' Campo opcional ModoCargo
+            If dgv.Columns.Contains("ModoCargo") Then
+                detalle.ModoCargo = Convert.ToString(row.Cells("ModoCargo").Value)
+            Else
+                detalle.ModoCargo = String.Empty
+            End If
+
+            lista.Add(detalle)
+        Next
+
+        Return lista
+    End Function
+
+
 #End Region
 
 #Region "Lógica de Cálculo"
@@ -272,6 +315,17 @@ Public Class DataGridComprasUI
 
         RaiseEvent TotalActualizado(totalExento, baseImponible, iva, totalGeneral)
     End Sub
+
+    Public Function CalcularTotal() As Decimal
+        Dim total As Decimal = 0D
+
+        For Each row As DataGridViewRow In dgv.Rows
+            If row.IsNewRow Then Continue For
+            total += Convert.ToDecimal(row.Cells("Subtotal").Value)
+        Next
+
+        Return total
+    End Function
 
 #End Region
 

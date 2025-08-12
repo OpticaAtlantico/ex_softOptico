@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.Windows.Navigation
 Imports CapaDatos
+Imports CapaEntidad
 Imports CapaNegocio
 Imports DocumentFormat.OpenXml.Drawing.Charts
 Imports FontAwesome.Sharp
@@ -125,12 +126,14 @@ Public Class frm_Login
 
         Dim Usuario = validUser.FirstOrDefault()
 
-        Dim frm As New frm_Principal
-        With frm
-            .lblUsuario.Text = Usuario.Nombre & ", " & Usuario.Apellido
-            .lblCargo.Text = Usuario.Permisos
-        End With
+        'INICIO DE VARIABLES DE SESION 
+        Sesion.NombreUsuario = Usuario.Nombre & ", " & Usuario.Apellido
+        Sesion.Cargo = Usuario.Cargo
+        Sesion.NombreRol = Usuario.Permisos
+        Sesion.NombreUbicacion = Usuario.Central
 
+
+        Dim frm As New frm_Principal
         frm.Show()
         AddHandler frm.FormClosed, AddressOf Logout
         Hide()

@@ -45,6 +45,7 @@ Partial Class frmCompras
         txtRifCI = New TextBoxLabelUI()
         txtTelefonos = New MaskedTextBoxLabelUI()
         cmbTipoPago = New ComboBoxLabelUI()
+        txtObservacion = New MultilineTextBoxLabelUI()
         btnSiguiente = New CommandButtonUI()
         Panel2 = New Panel()
         pnlBotones = New Panel()
@@ -249,6 +250,7 @@ Partial Class frmCompras
         pnlContenidoDatos.Controls.Add(txtRifCI)
         pnlContenidoDatos.Controls.Add(txtTelefonos)
         pnlContenidoDatos.Controls.Add(cmbTipoPago)
+        pnlContenidoDatos.Controls.Add(txtObservacion)
         pnlContenidoDatos.Controls.Add(btnSiguiente)
         pnlContenidoDatos.Dock = DockStyle.Fill
         pnlContenidoDatos.Location = New Point(10, 10)
@@ -461,6 +463,34 @@ Partial Class frmCompras
         cmbTipoPago.Titulo = "Codición de Pago:"
         cmbTipoPago.ValorSeleccionado = Nothing
         ' 
+        ' txtObservacion
+        ' 
+        txtObservacion.AlturaMultilinea = 160
+        txtObservacion.BackColor = Color.Transparent
+        txtObservacion.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtObservacion.BorderRadius = 8
+        txtObservacion.BorderSize = 1
+        txtObservacion.CampoRequerido = False
+        txtObservacion.CapitalizarTexto = True
+        txtObservacion.CapitalizarTodasLasPalabras = False
+        txtObservacion.ColorError = Color.Firebrick
+        txtObservacion.FontField = New Font("Century Gothic", 12F)
+        txtObservacion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtObservacion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
+        txtObservacion.LabelColor = Color.DarkSlateGray
+        txtObservacion.LabelText = "Observacion:"
+        txtObservacion.Location = New Point(3, 755)
+        txtObservacion.MensajeError = "Este campo es obligatorio."
+        txtObservacion.Multilinea = True
+        txtObservacion.Name = "txtObservacion"
+        txtObservacion.PaddingAll = 10
+        txtObservacion.PanelBackColor = Color.White
+        txtObservacion.Size = New Size(323, 138)
+        txtObservacion.SombraBackColor = Color.LightGray
+        txtObservacion.TabIndex = 14
+        txtObservacion.TextColor = Color.Black
+        txtObservacion.TextoUsuario = ""
+        ' 
         ' btnSiguiente
         ' 
         btnSiguiente.AnimarHover = True
@@ -473,11 +503,11 @@ Partial Class frmCompras
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
-        btnSiguiente.Location = New Point(3, 755)
+        btnSiguiente.Location = New Point(3, 899)
         btnSiguiente.Name = "btnSiguiente"
         btnSiguiente.RadioBorde = 8
         btnSiguiente.Size = New Size(176, 40)
-        btnSiguiente.TabIndex = 18
+        btnSiguiente.TabIndex = 19
         btnSiguiente.Text = "CommandButtonui1"
         btnSiguiente.Texto = "Siguiente"
         ' 
@@ -689,6 +719,7 @@ Partial Class frmCompras
     Friend WithEvents btnLimpiarCeldas As CommandButtonUI
     Friend WithEvents btnExportarPdf As CommandButtonUI
     Friend WithEvents btnExportarExcel As CommandButtonUI
+    Friend WithEvents txtObservacion As MultilineTextBoxLabelUI
     Friend WithEvents btnSiguiente As CommandButtonUI
 
 End Class
