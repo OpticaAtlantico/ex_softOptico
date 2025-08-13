@@ -29,7 +29,7 @@ Partial Class frmCompras
         lblTotalGeneral = New Label()
         Label4 = New Label()
         lblIva = New Label()
-        Label3 = New Label()
+        lblTextoIva = New Label()
         lblBaseImponible = New Label()
         Label2 = New Label()
         lblExento = New Label()
@@ -47,7 +47,6 @@ Partial Class frmCompras
         txtTelefonos = New MaskedTextBoxLabelUI()
         cmbTipoPago = New ComboBoxLabelUI()
         txtObservacion = New MultilineTextBoxLabelUI()
-        btnSiguiente = New CommandButtonUI()
         Panel2 = New Panel()
         pnlBotones = New Panel()
         btnLimpiarCeldas = New CommandButtonUI()
@@ -57,6 +56,7 @@ Partial Class frmCompras
         btnAceptar = New CommandButtonUI()
         pnlTitulo = New Panel()
         lblEncabezado = New HeaderUI()
+        btnSiguiente = New CommandButtonUI()
         pnlContenedor.SuspendLayout()
         pnlContenedorGrid.SuspendLayout()
         pnlTotales.SuspendLayout()
@@ -96,17 +96,18 @@ Partial Class frmCompras
         pnlDataGrid.Dock = DockStyle.Fill
         pnlDataGrid.Location = New Point(0, 113)
         pnlDataGrid.Name = "pnlDataGrid"
-        pnlDataGrid.Padding = New Padding(20)
+        pnlDataGrid.Padding = New Padding(20, 0, 20, 20)
         pnlDataGrid.Size = New Size(899, 448)
         pnlDataGrid.TabIndex = 1
         ' 
         ' pnlTotales
         ' 
         pnlTotales.BackColor = Color.White
+        pnlTotales.Controls.Add(btnLimpiarGrid)
         pnlTotales.Controls.Add(lblTotalGeneral)
         pnlTotales.Controls.Add(Label4)
         pnlTotales.Controls.Add(lblIva)
-        pnlTotales.Controls.Add(Label3)
+        pnlTotales.Controls.Add(lblTextoIva)
         pnlTotales.Controls.Add(lblBaseImponible)
         pnlTotales.Controls.Add(Label2)
         pnlTotales.Controls.Add(lblExento)
@@ -134,7 +135,7 @@ Partial Class frmCompras
         ' 
         Label4.AutoSize = True
         Label4.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label4.Location = New Point(601, 84)
+        Label4.Location = New Point(600, 84)
         Label4.Name = "Label4"
         Label4.Size = New Size(98, 17)
         Label4.TabIndex = 1
@@ -152,16 +153,17 @@ Partial Class frmCompras
         lblIva.Text = "0.00"
         lblIva.TextAlign = ContentAlignment.TopRight
         ' 
-        ' Label3
+        ' lblTextoIva
         ' 
-        Label3.AutoSize = True
-        Label3.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(652, 59)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(47, 17)
-        Label3.TabIndex = 1
-        Label3.Text = "IVA %:"
-        Label3.TextAlign = ContentAlignment.TopRight
+        lblTextoIva.AutoSize = True
+        lblTextoIva.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblTextoIva.Location = New Point(628, 59)
+        lblTextoIva.Name = "lblTextoIva"
+        lblTextoIva.RightToLeft = RightToLeft.No
+        lblTextoIva.Size = New Size(70, 17)
+        lblTextoIva.TabIndex = 1
+        lblTextoIva.Text = "IVA (16%):"
+        lblTextoIva.TextAlign = ContentAlignment.MiddleRight
         ' 
         ' lblBaseImponible
         ' 
@@ -178,7 +180,7 @@ Partial Class frmCompras
         ' 
         Label2.AutoSize = True
         Label2.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(589, 34)
+        Label2.Location = New Point(588, 34)
         Label2.Name = "Label2"
         Label2.Size = New Size(110, 17)
         Label2.TabIndex = 1
@@ -200,7 +202,7 @@ Partial Class frmCompras
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(609, 9)
+        Label1.Location = New Point(608, 9)
         Label1.Name = "Label1"
         Label1.Size = New Size(90, 17)
         Label1.TabIndex = 1
@@ -217,7 +219,7 @@ Partial Class frmCompras
         btnAgregarProducto.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
         btnAgregarProducto.ColorTexto = Color.White
         btnAgregarProducto.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        btnAgregarProducto.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnAgregarProducto.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAgregarProducto.Icono = FontAwesome.Sharp.IconChar.PlusSquare
         btnAgregarProducto.Location = New Point(23, 67)
         btnAgregarProducto.Name = "btnAgregarProducto"
@@ -253,6 +255,7 @@ Partial Class frmCompras
         pnlContenidoDatos.Controls.Add(txtTelefonos)
         pnlContenidoDatos.Controls.Add(cmbTipoPago)
         pnlContenidoDatos.Controls.Add(txtObservacion)
+        pnlContenidoDatos.Controls.Add(btnLimpiarCeldas)
         pnlContenidoDatos.Controls.Add(btnSiguiente)
         pnlContenidoDatos.Dock = DockStyle.Fill
         pnlContenidoDatos.Location = New Point(10, 10)
@@ -289,7 +292,7 @@ Partial Class frmCompras
         txtNumeroControl.BorderSize = 1
         txtNumeroControl.CampoRequerido = True
         txtNumeroControl.ColorError = Color.Firebrick
-        txtNumeroControl.FontField = New Font("Century Gothic", 12.0F)
+        txtNumeroControl.FontField = New Font("Century Gothic", 12F)
         txtNumeroControl.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNumeroControl.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtNumeroControl.LabelColor = Color.DarkSlateGray
@@ -317,7 +320,7 @@ Partial Class frmCompras
         txtNumeroFactura.BorderSize = 1
         txtNumeroFactura.CampoRequerido = True
         txtNumeroFactura.ColorError = Color.Firebrick
-        txtNumeroFactura.FontField = New Font("Century Gothic", 12.0F)
+        txtNumeroFactura.FontField = New Font("Century Gothic", 12F)
         txtNumeroFactura.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNumeroFactura.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtNumeroFactura.LabelColor = Color.DarkSlateGray
@@ -345,7 +348,7 @@ Partial Class frmCompras
         txtFechaEmision.BorderSize = 1
         txtFechaEmision.CampoRequerido = True
         txtFechaEmision.FechaSeleccionada = New Date(2025, 7, 31, 0, 0, 0, 0)
-        txtFechaEmision.FontField = New Font("Century Gothic", 12.0F)
+        txtFechaEmision.FontField = New Font("Century Gothic", 12F)
         txtFechaEmision.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtFechaEmision.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
         txtFechaEmision.LabelColor = Color.DarkSlateGray
@@ -391,7 +394,7 @@ Partial Class frmCompras
         txtDomicilio.CapitalizarTexto = True
         txtDomicilio.CapitalizarTodasLasPalabras = False
         txtDomicilio.ColorError = Color.Firebrick
-        txtDomicilio.FontField = New Font("Century Gothic", 12.0F)
+        txtDomicilio.FontField = New Font("Century Gothic", 12F)
         txtDomicilio.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtDomicilio.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDomicilio.LabelColor = Color.DarkSlateGray
@@ -419,7 +422,7 @@ Partial Class frmCompras
         txtRifCI.CapitalizarTodasLasPalabras = True
         txtRifCI.CaracterContraseña = "*"c
         txtRifCI.ColorError = Color.Firebrick
-        txtRifCI.FontField = New Font("Century Gothic", 12.0F)
+        txtRifCI.FontField = New Font("Century Gothic", 12F)
         txtRifCI.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtRifCI.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtRifCI.LabelColor = Color.DarkSlateGray
@@ -445,7 +448,7 @@ Partial Class frmCompras
         txtTelefonos.BorderSize = 1
         txtTelefonos.CampoRequerido = True
         txtTelefonos.ColorError = Color.Firebrick
-        txtTelefonos.FontField = New Font("Century Gothic", 12.0F)
+        txtTelefonos.FontField = New Font("Century Gothic", 12F)
         txtTelefonos.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtTelefonos.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtTelefonos.LabelColor = Color.DarkSlateGray
@@ -497,7 +500,7 @@ Partial Class frmCompras
         txtObservacion.CapitalizarTexto = True
         txtObservacion.CapitalizarTodasLasPalabras = False
         txtObservacion.ColorError = Color.Firebrick
-        txtObservacion.FontField = New Font("Century Gothic", 12.0F)
+        txtObservacion.FontField = New Font("Century Gothic", 12F)
         txtObservacion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtObservacion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtObservacion.LabelColor = Color.DarkSlateGray
@@ -514,26 +517,6 @@ Partial Class frmCompras
         txtObservacion.TextColor = Color.Black
         txtObservacion.TextoUsuario = ""
         ' 
-        ' btnSiguiente
-        ' 
-        btnSiguiente.AnimarHover = True
-        btnSiguiente.BackColor = Color.Transparent
-        btnSiguiente.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
-        btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnSiguiente.ColorTexto = Color.White
-        btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        btnSiguiente.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
-        btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
-        btnSiguiente.Location = New Point(3, 985)
-        btnSiguiente.Name = "btnSiguiente"
-        btnSiguiente.RadioBorde = 8
-        btnSiguiente.Size = New Size(176, 40)
-        btnSiguiente.TabIndex = 19
-        btnSiguiente.Text = "CommandButtonui1"
-        btnSiguiente.Texto = "Siguiente"
-        ' 
         ' Panel2
         ' 
         Panel2.Controls.Add(pnlBotones)
@@ -547,8 +530,6 @@ Partial Class frmCompras
         ' pnlBotones
         ' 
         pnlBotones.BackColor = Color.LightSkyBlue
-        pnlBotones.Controls.Add(btnLimpiarCeldas)
-        pnlBotones.Controls.Add(btnLimpiarGrid)
         pnlBotones.Controls.Add(btnExportarPdf)
         pnlBotones.Controls.Add(btnExportarExcel)
         pnlBotones.Controls.Add(btnAceptar)
@@ -569,9 +550,9 @@ Partial Class frmCompras
         btnLimpiarCeldas.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
         btnLimpiarCeldas.ColorTexto = Color.White
         btnLimpiarCeldas.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
-        btnLimpiarCeldas.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnLimpiarCeldas.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnLimpiarCeldas.Icono = FontAwesome.Sharp.IconChar.Trash
-        btnLimpiarCeldas.Location = New Point(6, 12)
+        btnLimpiarCeldas.Location = New Point(3, 985)
         btnLimpiarCeldas.Name = "btnLimpiarCeldas"
         btnLimpiarCeldas.RadioBorde = 8
         btnLimpiarCeldas.Size = New Size(153, 38)
@@ -590,12 +571,12 @@ Partial Class frmCompras
         btnLimpiarGrid.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
         btnLimpiarGrid.ColorTexto = Color.White
         btnLimpiarGrid.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
-        btnLimpiarGrid.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnLimpiarGrid.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnLimpiarGrid.Icono = FontAwesome.Sharp.IconChar.TrashAlt
-        btnLimpiarGrid.Location = New Point(165, 12)
+        btnLimpiarGrid.Location = New Point(205, 67)
         btnLimpiarGrid.Name = "btnLimpiarGrid"
         btnLimpiarGrid.RadioBorde = 8
-        btnLimpiarGrid.Size = New Size(153, 38)
+        btnLimpiarGrid.Size = New Size(153, 40)
         btnLimpiarGrid.TabIndex = 0
         btnLimpiarGrid.Text = "CommandButtonui1"
         btnLimpiarGrid.Texto = "Limpiar Grid"
@@ -611,12 +592,12 @@ Partial Class frmCompras
         btnExportarPdf.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
         btnExportarPdf.ColorTexto = Color.White
         btnExportarPdf.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnExportarPdf.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnExportarPdf.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnExportarPdf.Icono = FontAwesome.Sharp.IconChar.FilePdf
-        btnExportarPdf.Location = New Point(398, 12)
+        btnExportarPdf.Location = New Point(334, 12)
         btnExportarPdf.Name = "btnExportarPdf"
         btnExportarPdf.RadioBorde = 8
-        btnExportarPdf.Size = New Size(124, 38)
+        btnExportarPdf.Size = New Size(144, 38)
         btnExportarPdf.TabIndex = 0
         btnExportarPdf.Text = "CommandButtonui1"
         btnExportarPdf.Texto = "Ex. PDFs"
@@ -632,12 +613,12 @@ Partial Class frmCompras
         btnExportarExcel.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
         btnExportarExcel.ColorTexto = Color.White
         btnExportarExcel.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnExportarExcel.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnExportarExcel.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnExportarExcel.Icono = FontAwesome.Sharp.IconChar.FileExcel
-        btnExportarExcel.Location = New Point(528, 12)
+        btnExportarExcel.Location = New Point(486, 12)
         btnExportarExcel.Name = "btnExportarExcel"
         btnExportarExcel.RadioBorde = 8
-        btnExportarExcel.Size = New Size(124, 38)
+        btnExportarExcel.Size = New Size(144, 38)
         btnExportarExcel.TabIndex = 0
         btnExportarExcel.Text = "CommandButtonui1"
         btnExportarExcel.Texto = " Ex. Excel"
@@ -653,12 +634,12 @@ Partial Class frmCompras
         btnAceptar.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
         btnAceptar.ColorTexto = Color.White
         btnAceptar.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnAceptar.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
+        btnAceptar.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAceptar.Icono = FontAwesome.Sharp.IconChar.Save
-        btnAceptar.Location = New Point(658, 12)
+        btnAceptar.Location = New Point(638, 12)
         btnAceptar.Name = "btnAceptar"
         btnAceptar.RadioBorde = 8
-        btnAceptar.Size = New Size(124, 38)
+        btnAceptar.Size = New Size(144, 38)
         btnAceptar.TabIndex = 0
         btnAceptar.Text = "CommandButtonui1"
         btnAceptar.Texto = "Guardar"
@@ -677,7 +658,7 @@ Partial Class frmCompras
         lblEncabezado.ColorFondo = Color.LightSkyBlue
         lblEncabezado.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
         lblEncabezado.Dock = DockStyle.Fill
-        lblEncabezado.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
+        lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         lblEncabezado.Icono = FontAwesome.Sharp.IconChar.CartShopping
         lblEncabezado.Location = New Point(0, 0)
         lblEncabezado.MostrarSeparador = False
@@ -688,9 +669,29 @@ Partial Class frmCompras
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
         ' 
+        ' btnSiguiente
+        ' 
+        btnSiguiente.AnimarHover = True
+        btnSiguiente.BackColor = Color.Transparent
+        btnSiguiente.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
+        btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
+        btnSiguiente.ColorTexto = Color.White
+        btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
+        btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
+        btnSiguiente.Location = New Point(162, 985)
+        btnSiguiente.Name = "btnSiguiente"
+        btnSiguiente.RadioBorde = 8
+        btnSiguiente.Size = New Size(164, 40)
+        btnSiguiente.TabIndex = 20
+        btnSiguiente.Text = "CommandButtonui1"
+        btnSiguiente.Texto = "Siguiente"
+        ' 
         ' frmCompras
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
@@ -732,7 +733,7 @@ Partial Class frmCompras
     Friend WithEvents pnlTotales As Panel
     Friend WithEvents btnAgregarProducto As CommandButtonUI
     Friend WithEvents Label4 As Label
-    Friend WithEvents Label3 As Label
+    Friend WithEvents lblTextoIva As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents lblTotalGeneral As Label
@@ -743,7 +744,7 @@ Partial Class frmCompras
     Friend WithEvents btnExportarPdf As CommandButtonUI
     Friend WithEvents btnExportarExcel As CommandButtonUI
     Friend WithEvents txtObservacion As MultilineTextBoxLabelUI
-    Friend WithEvents btnSiguiente As CommandButtonUI
     Friend WithEvents cmbSucursal As ComboBoxLabelUI
+    Friend WithEvents btnSiguiente As CommandButtonUI
 
 End Class

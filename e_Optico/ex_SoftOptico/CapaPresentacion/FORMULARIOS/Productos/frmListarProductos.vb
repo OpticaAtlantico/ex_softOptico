@@ -50,15 +50,14 @@ Public Class frmListarProductos
         Dim tabla As DataTable = ConvertirListaADataTable(listaProductos)
 
         ' Configurar columnas y cargar
-        Dim columnasVisibles = {"Codigo", "Nombre", "Stock", "Categoria", "SubCategoria", "Precio", "CategoriaID"}
+        Dim columnasVisibles = {"Codigo", "Nombre", "Stock", "Categoria", "SubCategoria", "Precio"}
         Dim anchos = New Dictionary(Of String, Integer) From {
         {"Codigo", 100},
         {"Nombre", 300},
         {"Stock", 80},
         {"Categoria", 150},
         {"SubCategoria", 150},
-        {"Precio", 120},
-        {"CategoriaID", 0}
+        {"Precio", 120}
     }
         Dim nombresColumnas = New Dictionary(Of String, String) From {
         {"Codigo", "Código"},
@@ -66,8 +65,7 @@ Public Class frmListarProductos
         {"Stock", "Stock"},
         {"Categoria", "Categoría"},
         {"SubCategoria", "Subcategoría"},
-        {"Precio", "Precio Venta"},
-        {"CategoriaID", "ID"}
+        {"Precio", "Precio Venta"}
     }
 
         productosGrid.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombresColumnas)

@@ -1,6 +1,7 @@
 ﻿Imports CapaEntidad
 Imports CapaNegocio
 Imports CapaDatos
+Imports FontAwesome.Sharp
 
 Public Class frmCompras
 
@@ -47,7 +48,14 @@ Public Class frmCompras
         pnlDataGrid.Enabled = False
         pnlTotales.Enabled = False
 
-        lblIva.Text = "0.16"
+        lblTextoIva.Text = "IVA (" & grvCompras.IvaPorcentaje & "%)"
+
+        With lblEncabezado
+            .Titulo = "Modulo de Compras"
+            .Subtitulo = "Inclucion y administración de Compras de productos..."
+            .Icono = IconChar.CartShopping
+            .ColorTexto = Color.Black
+        End With
 
     End Sub
 
@@ -127,13 +135,9 @@ Public Class frmCompras
 
             MessageBoxUI.Mostrar("Éxito", $"Compra registrada con éxito. ID: {idGenerado}", TipoMensaje.Exito, Botones.Aceptar)
             LimpiarCeldas()
-            LimpiarGrids()
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error...", "Error al registrar la compra: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
         End Try
-
-        pnlTotales.Enabled = False
-        pnlDataGrid.Enabled = False
 
     End Sub
 
@@ -146,20 +150,48 @@ Public Class frmCompras
     End Sub
 
     Private Sub LimpiarCeldas()
-        txtNumeroControl.TextoUsuario = String.Empty
-        txtNumeroFactura.TextoUsuario = String.Empty
-        cmbProveedor.Limpiar()
-        txtDomicilio.TextoUsuario = String.Empty
-        txtRifCI.TextoUsuario = String.Empty
-        txtTelefonos.TextoUsuario = String.Empty
-        cmbTipoPago.Limpiar()
+        LimpiarControles(Me.pnlContenidoDatos)
 
         ' Limpiar el grid de compras
         grvCompras.LimpiarGrid()
+
         ' Deshabilitar paneles
         pnlDataGrid.Enabled = False
         pnlTotales.Enabled = False
 
+    End Sub
+
+    Private Sub LimpiarControles(container As Control)
+        container.SuspendLayout()
+
+        For Each ctrl As Control In container.Controls
+            If TypeOf ctrl Is TextBoxLabelUI Then
+                Dim c = CType(ctrl, TextBoxLabelUI)
+                c.TextoUsuario = ""
+
+            ElseIf TypeOf ctrl Is ComboBoxLabelUI Then
+                Dim c = CType(ctrl, ComboBoxLabelUI)
+                c.Limpiar()
+
+            ElseIf TypeOf ctrl Is MaskedTextBoxLabelUI Then
+                Dim c = CType(ctrl, MaskedTextBoxLabelUI)
+                c.TextoUsuario = ""
+
+            ElseIf TypeOf ctrl Is MultilineTextBoxLabelUI Then
+                Dim c = CType(ctrl, MultilineTextBoxLabelUI)
+                c.TextoUsuario = ""
+
+            ElseIf TypeOf ctrl Is ToggleSwitchUI Then
+                CType(ctrl, ToggleSwitchUI).Checked = False
+
+            ElseIf ctrl.HasChildren Then
+                ' Llamada recursiva para paneles o groupboxes
+                LimpiarControles(ctrl)
+            End If
+        Next
+
+        container.ResumeLayout()
+        container.PerformLayout()
     End Sub
 
     Private Sub LimpiarGrids()
@@ -207,7 +239,7 @@ Public Class frmCompras
         Return total
     End Function
 
-    Private Sub btnSiguiente_Click_1(sender As Object, e As EventArgs) Handles btnSiguiente.Click
+    Private Sub btnSiguiente_Click_1(sender As Object, e As EventArgs)
         Try
             Dim ncontrol = txtNumeroControl.TextoUsuario.Trim
             Dim nfactura = txtNumeroFactura.TextoUsuario.Trim

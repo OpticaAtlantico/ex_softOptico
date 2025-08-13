@@ -125,7 +125,7 @@ Public Class DataGridComprasUI
 
         lblTotalExento.Text = "Exento: 0.00"
         lblBaseImponible.Text = "Base: 0.00"
-        lblIva.Text = "IVA: 0.16"
+        lblIva.Text = "IVA: 0.00"
         lblTotalGeneral.Text = "Total: 0.00"
 
         panelTotales.Controls.AddRange({lblTotalExento, lblBaseImponible, lblIva, lblTotalGeneral})
