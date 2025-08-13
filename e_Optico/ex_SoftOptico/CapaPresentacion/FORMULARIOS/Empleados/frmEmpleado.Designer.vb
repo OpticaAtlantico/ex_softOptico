@@ -639,10 +639,9 @@ Partial Class frmEmpleado
         BackColor = Color.White
         ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
-        MaximumSize = New Size(1300, 700)
-        MinimumSize = New Size(1260, 665)
         Name = "frmEmpleado"
         Text = "frmEmpleado"
+        WindowState = FormWindowState.Maximized
         pnlContenedor.ResumeLayout(False)
         pnlContenido.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)

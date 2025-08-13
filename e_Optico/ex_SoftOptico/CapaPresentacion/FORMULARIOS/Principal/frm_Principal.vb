@@ -23,6 +23,8 @@ Public Class frm_Principal
     Private fadeStep As Double = 0.1
     Public Property EmpleadoEncontrado As TEmpleados = Nothing
     Public Property ProveedorEncontrado As TProveedor = Nothing
+    Public Property CompraEncontrado As TCompra = Nothing
+
     Public Event AbrirFormularioHijoSolicitado As Action(Of Form)
     Private formularioHijoActual As Form
 
@@ -291,7 +293,28 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubEditarC_Click(sender As Object, e As EventArgs)
-        Throw New NotImplementedException()
+        CerrarDrawer()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese el Id de la Compra",
+            placeholder:="1009",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.CartShopping,
+            obligatorio:=True
+        )
+        overlay.Close()
+        EfectoBotonInActivo()
+
+        If resultado.Aceptado Then
+            enviarDatosCompra(resultado.Valor, 0)
+        Else
+            MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
+                                 TipoMensaje.Advertencia,
+                                 Botones.Aceptar)
+        End If
+        DrawerTimer.Start()
     End Sub
 
     Private Sub SubNuevoC_Click(sender As Object, e As EventArgs)
@@ -617,29 +640,38 @@ Public Class frm_Principal
 
         ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
         '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
-        Me.EmpleadoEncontrado = listaResultados.FirstOrDefault()
 
-        ' 3. Comprueba si se encontró un empleado antes de continuar.
-        If Me.EmpleadoEncontrado IsNot Nothing Then
-            ' 4. Ahora puedes pasar el objeto al formulario hijo.
-            Dim formularioHijo As New frmEmpleado()
-            formularioHijo.DatosEmpleados = Me.EmpleadoEncontrado
-            Select Case opcion
-                Case 0
-                    texto = "Actualizar..."
-                Case 1
-                    texto = "Eliminar..."
-            End Select
-            formularioHijo.NombreBoton = texto.ToString()
-            OpenChildForm(formularioHijo)
-        Else
-            MessageBoxUI.Mostrar(
-                                 "Datos no existe...",
-                                 "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
-                                 TipoMensaje.Advertencia,
-                                 Botones.Aceptar
-                                 )
-        End If
+        Try
+            Me.EmpleadoEncontrado = listaResultados.FirstOrDefault()
+
+            ' 3. Comprueba si se encontró un empleado antes de continuar.
+            If Me.EmpleadoEncontrado IsNot Nothing Then
+                ' 4. Ahora puedes pasar el objeto al formulario hijo.
+                Dim formularioHijo As New frmEmpleado()
+                formularioHijo.DatosEmpleados = Me.EmpleadoEncontrado
+                Select Case opcion
+                    Case 0
+                        texto = "Actualizar..."
+                    Case 1
+                        texto = "Eliminar..."
+                End Select
+                formularioHijo.NombreBoton = texto.ToString()
+                OpenChildForm(formularioHijo)
+            Else
+                MessageBoxUI.Mostrar(
+                                     "Datos no existe...",
+                                     "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
+                                     TipoMensaje.Advertencia,
+                                     Botones.Aceptar
+                                     )
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error",
+                                 "Ocurrió un error al buscar el empleado. Por favor, intente nuevamente. " & ex.Message,
+                                 TipoMensaje.Errors,
+                                 Botones.Aceptar)
+        End Try
+
     End Sub
 
     Private Sub enviarDatosProveedor(nombre As String, opcion As Integer)
@@ -654,28 +686,81 @@ Public Class frm_Principal
 
         ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
         '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
-        Me.ProveedorEncontrado = listaResultados.FirstOrDefault()
+        Try
+            Me.ProveedorEncontrado = listaResultados.FirstOrDefault()
 
-        ' 3. Comprueba si se encontró un empleado antes de continuar.
-        If Me.ProveedorEncontrado IsNot Nothing Then
-            ' 4. Ahora puedes pasar el objeto al formulario hijo.
-            Dim formularioHijo As New frmProveedor()
-            formularioHijo.DatosProveedor = Me.ProveedorEncontrado
-            Select Case opcion
-                Case 0
-                    texto = "Actualizar..."
-                Case 1
-                    texto = "Eliminar..."
-            End Select
-            formularioHijo.NombreBoton = texto.ToString()
-            OpenChildForm(formularioHijo)
-        Else
-            MessageBoxUI.Mostrar("Datos no existe...",
-                                 "No hay ningún proveedor con ese nombre, por favor verifique bien los datos",
-                                 TipoMensaje.Advertencia,
-                                 Botones.Aceptar
-                                 )
-        End If
+            ' 3. Comprueba si se encontró un empleado antes de continuar.
+            If Me.ProveedorEncontrado IsNot Nothing Then
+                ' 4. Ahora puedes pasar el objeto al formulario hijo.
+                Dim formularioHijo As New frmProveedor()
+                formularioHijo.DatosProveedor = Me.ProveedorEncontrado
+                Select Case opcion
+                    Case 0
+                        texto = "Actualizar..."
+                    Case 1
+                        texto = "Eliminar..."
+                End Select
+                formularioHijo.NombreBoton = texto.ToString()
+                OpenChildForm(formularioHijo)
+            Else
+                MessageBoxUI.Mostrar("Datos no existe...",
+                                     "No hay ningún proveedor con ese nombre, por favor verifique bien los datos",
+                                     TipoMensaje.Advertencia,
+                                     Botones.Aceptar
+                                     )
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error",
+                                 "Ocurrió un error al buscar el proveedor. Por favor, intente nuevamente. " & ex.Message,
+                                 TipoMensaje.Errors,
+                                 Botones.Aceptar)
+        End Try
+
+
+    End Sub
+
+    Private Sub enviarDatosCompra(id As Integer, opcion As Integer)
+
+        '--- CÓDIGO CORRECTO ---
+        Dim repositorio As New Repositorio_Compra()
+        Dim Ident As Integer = id
+        Dim texto As String = String.Empty
+
+        ' 1. Llama a la función y guarda el resultado en una lista.
+        Dim listaResultados As IEnumerable(Of TCompra) = repositorio.GetById(Ident)
+
+        ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
+        '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
+        Try
+            Me.CompraEncontrado = listaResultados.FirstOrDefault()
+
+            ' 3. Comprueba si se encontró un empleado antes de continuar.
+            If Me.CompraEncontrado IsNot Nothing Then
+                ' 4. Ahora puedes pasar el objeto al formulario hijo.
+                Dim formularioHijo As New frmCompras()
+                formularioHijo.DatosCompra = Me.CompraEncontrado
+                Select Case opcion
+                    Case 0
+                        texto = "Actualizar..."
+                    Case 1
+                        texto = "Eliminar..."
+                End Select
+                formularioHijo.NombreBoton = texto.ToString()
+                OpenChildForm(formularioHijo)
+            Else
+                MessageBoxUI.Mostrar(
+                                     "Datos inexistentes...",
+                                     "No hay ninguna compra con ese número de identificador, por favor verifique bien los datos",
+                                     TipoMensaje.Advertencia,
+                                     Botones.Aceptar
+                                     )
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error",
+                                 "Ocurrió un error al buscar la compra. Por favor, intente nuevamente. " & ex.Message,
+                                 TipoMensaje.Errors,
+                                 Botones.Aceptar)
+        End Try
 
     End Sub
 

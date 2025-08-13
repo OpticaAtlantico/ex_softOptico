@@ -45,6 +45,7 @@ Partial Class frmConsultaEmpleados
         Controls.Add(dgvDatosProveedor)
         Name = "frmConsultaEmpleados"
         Text = "frm_ConsultaEmpleados"
+        WindowState = FormWindowState.Maximized
         ResumeLayout(False)
     End Sub
 

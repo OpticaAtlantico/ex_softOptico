@@ -78,7 +78,7 @@ Partial Class frm_Principal
         pnlEncabezado.Location = New Point(0, 0)
         pnlEncabezado.Name = "pnlEncabezado"
         pnlEncabezado.Padding = New Padding(5)
-        pnlEncabezado.Size = New Size(1166, 64)
+        pnlEncabezado.Size = New Size(1274, 64)
         pnlEncabezado.TabIndex = 0
         ' 
         ' pnlBotones
@@ -87,7 +87,7 @@ Partial Class frm_Principal
         pnlBotones.Controls.Add(btnMaximizar)
         pnlBotones.Controls.Add(btnMinimizar)
         pnlBotones.Dock = DockStyle.Right
-        pnlBotones.Location = New Point(1015, 5)
+        pnlBotones.Location = New Point(1123, 5)
         pnlBotones.Name = "pnlBotones"
         pnlBotones.Size = New Size(146, 54)
         pnlBotones.TabIndex = 5
@@ -282,7 +282,7 @@ Partial Class frm_Principal
         pnlMenu.Font = New Font("Century Gothic", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         pnlMenu.Location = New Point(0, 64)
         pnlMenu.Name = "pnlMenu"
-        pnlMenu.Size = New Size(55, 673)
+        pnlMenu.Size = New Size(55, 562)
         pnlMenu.TabIndex = 1
         ' 
         ' btnAjustes
@@ -481,18 +481,18 @@ Partial Class frm_Principal
         pnlDrawer.Dock = DockStyle.Left
         pnlDrawer.Location = New Point(55, 64)
         pnlDrawer.Name = "pnlDrawer"
-        pnlDrawer.Size = New Size(0, 673)
+        pnlDrawer.Size = New Size(0, 562)
         pnlDrawer.TabIndex = 2
         ' 
         ' pnlContenedor
         ' 
         pnlContenedor.BackColor = Color.White
         pnlContenedor.BackgroundImage = CType(resources.GetObject("pnlContenedor.BackgroundImage"), Image)
-        pnlContenedor.BackgroundImageLayout = ImageLayout.Zoom
+        pnlContenedor.BackgroundImageLayout = ImageLayout.Stretch
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(55, 64)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1111, 673)
+        pnlContenedor.Size = New Size(1219, 562)
         pnlContenedor.TabIndex = 3
         ' 
         ' DrawerTimer
@@ -503,13 +503,15 @@ Partial Class frm_Principal
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1166, 737)
+        ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
         Controls.Add(pnlDrawer)
         Controls.Add(pnlMenu)
         Controls.Add(pnlEncabezado)
         Name = "frm_Principal"
+        StartPosition = FormStartPosition.CenterScreen
         Text = "Principal"
+        WindowState = FormWindowState.Maximized
         pnlEncabezado.ResumeLayout(False)
         pnlBotones.ResumeLayout(False)
         pnlRol.ResumeLayout(False)

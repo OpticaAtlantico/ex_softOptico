@@ -353,10 +353,9 @@ Partial Class frmProveedor
         BackColor = Color.White
         ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
-        MaximumSize = New Size(1290, 665)
-        MinimumSize = New Size(1290, 665)
         Name = "frmProveedor"
         Text = "frmProveedor"
+        WindowState = FormWindowState.Maximized
         pnlContenedor.ResumeLayout(False)
         pnlContenido.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)

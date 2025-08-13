@@ -25,25 +25,27 @@ Partial Class frmConsultaProveedor
         dgvDatosProveedor = New DataGridViewUI()
         SuspendLayout()
         ' 
-        ' dgvDatosEmpleados
+        ' dgvDatosProveedor
         ' 
         dgvDatosProveedor.BackColor = Color.WhiteSmoke
         dgvDatosProveedor.DataCompleta = Nothing
         dgvDatosProveedor.DataOriginal = Nothing
         dgvDatosProveedor.Dock = DockStyle.Fill
         dgvDatosProveedor.Location = New Point(0, 0)
+        dgvDatosProveedor.MetodoCargaDatos = Nothing
         dgvDatosProveedor.Name = "dgvDatosProveedor"
         dgvDatosProveedor.Size = New Size(1251, 507)
         dgvDatosProveedor.TabIndex = 0
         ' 
-        ' frmConsultaEmpleados
+        ' frmConsultaProveedor
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1251, 507)
         Controls.Add(dgvDatosProveedor)
         Name = "frmConsultaProveedor"
         Text = "frmConsultaProveedor"
+        WindowState = FormWindowState.Maximized
         ResumeLayout(False)
     End Sub
 

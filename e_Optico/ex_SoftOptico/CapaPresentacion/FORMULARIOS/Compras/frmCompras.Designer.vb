@@ -26,6 +26,7 @@ Partial Class frmCompras
         pnlContenedorGrid = New Panel()
         pnlDataGrid = New Panel()
         pnlTotales = New Panel()
+        btnLimpiarGrid = New CommandButtonUI()
         lblTotalGeneral = New Label()
         Label4 = New Label()
         lblIva = New Label()
@@ -47,16 +48,15 @@ Partial Class frmCompras
         txtTelefonos = New MaskedTextBoxLabelUI()
         cmbTipoPago = New ComboBoxLabelUI()
         txtObservacion = New MultilineTextBoxLabelUI()
+        btnLimpiarCeldas = New CommandButtonUI()
+        btnSiguiente = New CommandButtonUI()
         Panel2 = New Panel()
         pnlBotones = New Panel()
-        btnLimpiarCeldas = New CommandButtonUI()
-        btnLimpiarGrid = New CommandButtonUI()
         btnExportarPdf = New CommandButtonUI()
         btnExportarExcel = New CommandButtonUI()
         btnAceptar = New CommandButtonUI()
         pnlTitulo = New Panel()
         lblEncabezado = New HeaderUI()
-        btnSiguiente = New CommandButtonUI()
         pnlContenedor.SuspendLayout()
         pnlContenedorGrid.SuspendLayout()
         pnlTotales.SuspendLayout()
@@ -119,6 +119,27 @@ Partial Class frmCompras
         pnlTotales.Padding = New Padding(20, 0, 20, 0)
         pnlTotales.Size = New Size(899, 113)
         pnlTotales.TabIndex = 0
+        ' 
+        ' btnLimpiarGrid
+        ' 
+        btnLimpiarGrid.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        btnLimpiarGrid.AnimarHover = True
+        btnLimpiarGrid.BackColor = Color.Transparent
+        btnLimpiarGrid.ColorBase = Color.FromArgb(CByte(244), CByte(67), CByte(54))
+        btnLimpiarGrid.ColorHover = Color.FromArgb(CByte(229), CByte(57), CByte(53))
+        btnLimpiarGrid.ColorInternoFondo = Color.FromArgb(CByte(244), CByte(67), CByte(54))
+        btnLimpiarGrid.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
+        btnLimpiarGrid.ColorTexto = Color.White
+        btnLimpiarGrid.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
+        btnLimpiarGrid.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnLimpiarGrid.Icono = FontAwesome.Sharp.IconChar.TrashAlt
+        btnLimpiarGrid.Location = New Point(205, 67)
+        btnLimpiarGrid.Name = "btnLimpiarGrid"
+        btnLimpiarGrid.RadioBorde = 8
+        btnLimpiarGrid.Size = New Size(153, 40)
+        btnLimpiarGrid.TabIndex = 0
+        btnLimpiarGrid.Text = "CommandButtonui1"
+        btnLimpiarGrid.Texto = "Limpiar Grid"
         ' 
         ' lblTotalGeneral
         ' 
@@ -517,28 +538,6 @@ Partial Class frmCompras
         txtObservacion.TextColor = Color.Black
         txtObservacion.TextoUsuario = ""
         ' 
-        ' Panel2
-        ' 
-        Panel2.Controls.Add(pnlBotones)
-        Panel2.Controls.Add(pnlTitulo)
-        Panel2.Dock = DockStyle.Top
-        Panel2.Location = New Point(0, 0)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1274, 65)
-        Panel2.TabIndex = 0
-        ' 
-        ' pnlBotones
-        ' 
-        pnlBotones.BackColor = Color.LightSkyBlue
-        pnlBotones.Controls.Add(btnExportarPdf)
-        pnlBotones.Controls.Add(btnExportarExcel)
-        pnlBotones.Controls.Add(btnAceptar)
-        pnlBotones.Dock = DockStyle.Fill
-        pnlBotones.Location = New Point(480, 0)
-        pnlBotones.Name = "pnlBotones"
-        pnlBotones.Size = New Size(794, 65)
-        pnlBotones.TabIndex = 1
-        ' 
         ' btnLimpiarCeldas
         ' 
         btnLimpiarCeldas.Anchor = AnchorStyles.Top Or AnchorStyles.Right
@@ -560,26 +559,47 @@ Partial Class frmCompras
         btnLimpiarCeldas.Text = "CommandButtonui1"
         btnLimpiarCeldas.Texto = "Limpiar Celdas"
         ' 
-        ' btnLimpiarGrid
+        ' btnSiguiente
         ' 
-        btnLimpiarGrid.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnLimpiarGrid.AnimarHover = True
-        btnLimpiarGrid.BackColor = Color.Transparent
-        btnLimpiarGrid.ColorBase = Color.FromArgb(CByte(244), CByte(67), CByte(54))
-        btnLimpiarGrid.ColorHover = Color.FromArgb(CByte(229), CByte(57), CByte(53))
-        btnLimpiarGrid.ColorInternoFondo = Color.FromArgb(CByte(244), CByte(67), CByte(54))
-        btnLimpiarGrid.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
-        btnLimpiarGrid.ColorTexto = Color.White
-        btnLimpiarGrid.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
-        btnLimpiarGrid.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        btnLimpiarGrid.Icono = FontAwesome.Sharp.IconChar.TrashAlt
-        btnLimpiarGrid.Location = New Point(205, 67)
-        btnLimpiarGrid.Name = "btnLimpiarGrid"
-        btnLimpiarGrid.RadioBorde = 8
-        btnLimpiarGrid.Size = New Size(153, 40)
-        btnLimpiarGrid.TabIndex = 0
-        btnLimpiarGrid.Text = "CommandButtonui1"
-        btnLimpiarGrid.Texto = "Limpiar Grid"
+        btnSiguiente.AnimarHover = True
+        btnSiguiente.BackColor = Color.Transparent
+        btnSiguiente.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
+        btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
+        btnSiguiente.ColorTexto = Color.White
+        btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
+        btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
+        btnSiguiente.Location = New Point(162, 985)
+        btnSiguiente.Name = "btnSiguiente"
+        btnSiguiente.RadioBorde = 8
+        btnSiguiente.Size = New Size(164, 40)
+        btnSiguiente.TabIndex = 20
+        btnSiguiente.Text = "CommandButtonui1"
+        btnSiguiente.Texto = "Siguiente"
+        ' 
+        ' Panel2
+        ' 
+        Panel2.Controls.Add(pnlBotones)
+        Panel2.Controls.Add(pnlTitulo)
+        Panel2.Dock = DockStyle.Top
+        Panel2.Location = New Point(0, 0)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(1274, 65)
+        Panel2.TabIndex = 0
+        ' 
+        ' pnlBotones
+        ' 
+        pnlBotones.BackColor = Color.LightSkyBlue
+        pnlBotones.Controls.Add(btnExportarPdf)
+        pnlBotones.Controls.Add(btnExportarExcel)
+        pnlBotones.Controls.Add(btnAceptar)
+        pnlBotones.Dock = DockStyle.Fill
+        pnlBotones.Location = New Point(480, 0)
+        pnlBotones.Name = "pnlBotones"
+        pnlBotones.Size = New Size(794, 65)
+        pnlBotones.TabIndex = 1
         ' 
         ' btnExportarPdf
         ' 
@@ -669,36 +689,15 @@ Partial Class frmCompras
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
         ' 
-        ' btnSiguiente
-        ' 
-        btnSiguiente.AnimarHover = True
-        btnSiguiente.BackColor = Color.Transparent
-        btnSiguiente.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
-        btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnSiguiente.ColorTexto = Color.White
-        btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
-        btnSiguiente.Location = New Point(162, 985)
-        btnSiguiente.Name = "btnSiguiente"
-        btnSiguiente.RadioBorde = 8
-        btnSiguiente.Size = New Size(164, 40)
-        btnSiguiente.TabIndex = 20
-        btnSiguiente.Text = "CommandButtonui1"
-        btnSiguiente.Texto = "Siguiente"
-        ' 
         ' frmCompras
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
-        MaximumSize = New Size(1290, 665)
-        MinimumSize = New Size(1290, 665)
         Name = "frmCompras"
         Text = "frmCompras"
+        WindowState = FormWindowState.Maximized
         pnlContenedor.ResumeLayout(False)
         pnlContenedorGrid.ResumeLayout(False)
         pnlTotales.ResumeLayout(False)
