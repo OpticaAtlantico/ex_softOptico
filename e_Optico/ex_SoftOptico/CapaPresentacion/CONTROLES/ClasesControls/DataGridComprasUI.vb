@@ -12,7 +12,7 @@ Public Class DataGridComprasUI
     Private lblBaseImponible As New Label()
     Private lblIva As New Label()
     Private lblTotalGeneral As New Label()
-    Private _ivaPorcentaje As Decimal = 13D
+    Private _ivaPorcentaje As Decimal = 16D
 
 #End Region
 
@@ -125,7 +125,7 @@ Public Class DataGridComprasUI
 
         lblTotalExento.Text = "Exento: 0.00"
         lblBaseImponible.Text = "Base: 0.00"
-        lblIva.Text = "IVA: 0.00"
+        lblIva.Text = "IVA: 0.16"
         lblTotalGeneral.Text = "Total: 0.00"
 
         panelTotales.Controls.AddRange({lblTotalExento, lblBaseImponible, lblIva, lblTotalGeneral})
@@ -240,7 +240,7 @@ Public Class DataGridComprasUI
 
 #Region "Métodos Públicos"
 
-    Public Sub AgregarProducto(productoID As Integer, nombre As String, exG As String, precio As Decimal)
+    Public Sub AgregarProducto(productoID As Integer, nombre As String, CategoriaID As Integer, exG As String, precio As Decimal)
         dgv.Rows.Add(nombre, 1, exG, precio, precio)
         dgv.Rows(dgv.Rows.Count - 1).Cells("Producto").Tag = productoID
         CalcularTotales()
@@ -254,7 +254,7 @@ Public Class DataGridComprasUI
 
             Dim detalle As New TDetalleCompra()
 
-            'detalle.ProductoID = Convert.ToInt32(row.Cells("ProductoId").Value)
+            detalle.ProductoID = Convert.ToInt32(row.Cells("Producto").Tag)
             'detalle.ProductoName = Convert.ToInt32(row.Cells("Producto").Value)
             detalle.Cantidad = Convert.ToDecimal(row.Cells("Cantidad").Value)
             detalle.PrecioUnitario = Convert.ToDecimal(row.Cells("Precio").Value)
@@ -267,19 +267,38 @@ Public Class DataGridComprasUI
                 detalle.ModoCargo = String.Empty
             End If
 
-            ' Campo opcional ModoCargo
-            If dgv.Columns.Contains("ModoCargo") Then
-                detalle.ModoCargo = Convert.ToString(row.Cells("ModoCargo").Value)
-            Else
-                detalle.ModoCargo = String.Empty
-            End If
-
             lista.Add(detalle)
         Next
 
         Return lista
     End Function
 
+    ' Método público para cargar productos desde el formulario frmCompras
+    Public Sub CargarDatos(listaProductos As List(Of ProductoSeleccionado))
+        If listaProductos Is Nothing Then Return
+
+        dgv.Rows.Clear()
+        For Each producto In listaProductos
+            dgv.Rows.Add(
+            producto.Codigo,
+            producto.Nombre,
+            producto.Cantidad,
+            producto.Precio,
+            producto.Total
+        )
+        Next
+
+        ' Actualiza totales
+        CalcularTotales()
+    End Sub
+
+    Public Sub LimpiarGrid()
+        dgv.Rows.Clear()
+        lblTotalExento.Text = "Exento: 0.00"
+        lblBaseImponible.Text = "Base: 0.00"
+        lblIva.Text = "IVA: 0.00"
+        lblTotalGeneral.Text = "Total: 0.00"
+    End Sub
 
 #End Region
 
@@ -347,35 +366,8 @@ Public Class DataGridComprasUI
         CalcularTotales()
     End Sub
 
+
 #End Region
-
-    ' Método público para cargar productos desde el formulario frmCompras
-    Public Sub CargarDatos(listaProductos As List(Of ProductoSeleccionado))
-        If listaProductos Is Nothing Then Return
-
-        dgv.Rows.Clear()
-        For Each producto In listaProductos
-            dgv.Rows.Add(
-            producto.Codigo,
-            producto.Nombre,
-            producto.Cantidad,
-            producto.Precio,
-            producto.Total
-        )
-        Next
-
-        ' Actualiza totales
-        CalcularTotales()
-    End Sub
-
-    Public Sub LimpiarGrid()
-        dgv.Rows.Clear()
-        lblTotalExento.Text = "Exento: 0.00"
-        lblBaseImponible.Text = "Base: 0.00"
-        lblIva.Text = "IVA: 0.00"
-        lblTotalGeneral.Text = "Total: 0.00"
-    End Sub
-
 
 End Class
 

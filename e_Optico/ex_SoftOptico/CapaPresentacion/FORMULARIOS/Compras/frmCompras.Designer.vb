@@ -37,6 +37,7 @@ Partial Class frmCompras
         btnAgregarProducto = New CommandButtonUI()
         pnlDatos = New Panel()
         pnlContenidoDatos = New FlowLayoutPanel()
+        cmbSucursal = New ComboBoxLabelUI()
         txtNumeroControl = New MaskedTextBoxLabelUI()
         txtNumeroFactura = New MaskedTextBoxLabelUI()
         txtFechaEmision = New DateBoxLabelUI()
@@ -216,7 +217,7 @@ Partial Class frmCompras
         btnAgregarProducto.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
         btnAgregarProducto.ColorTexto = Color.White
         btnAgregarProducto.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        btnAgregarProducto.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnAgregarProducto.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
         btnAgregarProducto.Icono = FontAwesome.Sharp.IconChar.PlusSquare
         btnAgregarProducto.Location = New Point(23, 67)
         btnAgregarProducto.Name = "btnAgregarProducto"
@@ -242,6 +243,7 @@ Partial Class frmCompras
         ' 
         pnlContenidoDatos.AutoScroll = True
         pnlContenidoDatos.BackColor = Color.Transparent
+        pnlContenidoDatos.Controls.Add(cmbSucursal)
         pnlContenidoDatos.Controls.Add(txtNumeroControl)
         pnlContenidoDatos.Controls.Add(txtNumeroFactura)
         pnlContenidoDatos.Controls.Add(txtFechaEmision)
@@ -258,6 +260,27 @@ Partial Class frmCompras
         pnlContenidoDatos.Size = New Size(353, 539)
         pnlContenidoDatos.TabIndex = 0
         ' 
+        ' cmbSucursal
+        ' 
+        cmbSucursal.BackColor = Color.Transparent
+        cmbSucursal.BackColorPnl = Color.WhiteSmoke
+        cmbSucursal.BorderColor = Color.LightGray
+        cmbSucursal.BorderSize = 1
+        cmbSucursal.CampoRequerido = True
+        cmbSucursal.ForeColor = Color.Black
+        cmbSucursal.IndiceSeleccionado = -1
+        cmbSucursal.LabelColor = Color.DarkSlateGray
+        cmbSucursal.Location = New Point(3, 3)
+        cmbSucursal.MensajeError = "Este campo es obligatorio."
+        cmbSucursal.MostrarError = False
+        cmbSucursal.Name = "cmbSucursal"
+        cmbSucursal.RadioContornoPanel = 8
+        cmbSucursal.Size = New Size(323, 80)
+        cmbSucursal.SombraBackColor = Color.LightGray
+        cmbSucursal.TabIndex = 10
+        cmbSucursal.Titulo = "Selecciona la Óptica:"
+        cmbSucursal.ValorSeleccionado = Nothing
+        ' 
         ' txtNumeroControl
         ' 
         txtNumeroControl.BackColor = Color.Transparent
@@ -266,12 +289,12 @@ Partial Class frmCompras
         txtNumeroControl.BorderSize = 1
         txtNumeroControl.CampoRequerido = True
         txtNumeroControl.ColorError = Color.Firebrick
-        txtNumeroControl.FontField = New Font("Century Gothic", 12F)
+        txtNumeroControl.FontField = New Font("Century Gothic", 12.0F)
         txtNumeroControl.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNumeroControl.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtNumeroControl.LabelColor = Color.DarkSlateGray
         txtNumeroControl.LabelText = "Número de Control:"
-        txtNumeroControl.Location = New Point(3, 3)
+        txtNumeroControl.Location = New Point(3, 89)
         txtNumeroControl.MascaraPersonalizada = ""
         txtNumeroControl.MaxCaracteres = 8
         txtNumeroControl.MensajeError = "Este campo es obligatorio."
@@ -294,12 +317,12 @@ Partial Class frmCompras
         txtNumeroFactura.BorderSize = 1
         txtNumeroFactura.CampoRequerido = True
         txtNumeroFactura.ColorError = Color.Firebrick
-        txtNumeroFactura.FontField = New Font("Century Gothic", 12F)
+        txtNumeroFactura.FontField = New Font("Century Gothic", 12.0F)
         txtNumeroFactura.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNumeroFactura.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtNumeroFactura.LabelColor = Color.DarkSlateGray
         txtNumeroFactura.LabelText = "Número de Factura:"
-        txtNumeroFactura.Location = New Point(3, 91)
+        txtNumeroFactura.Location = New Point(3, 177)
         txtNumeroFactura.MascaraPersonalizada = ""
         txtNumeroFactura.MaxCaracteres = 8
         txtNumeroFactura.MensajeError = "Este campo es obligatorio."
@@ -322,12 +345,12 @@ Partial Class frmCompras
         txtFechaEmision.BorderSize = 1
         txtFechaEmision.CampoRequerido = True
         txtFechaEmision.FechaSeleccionada = New Date(2025, 7, 31, 0, 0, 0, 0)
-        txtFechaEmision.FontField = New Font("Century Gothic", 12F)
+        txtFechaEmision.FontField = New Font("Century Gothic", 12.0F)
         txtFechaEmision.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtFechaEmision.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
         txtFechaEmision.LabelColor = Color.DarkSlateGray
         txtFechaEmision.LabelText = "Fecha de emisión:"
-        txtFechaEmision.Location = New Point(3, 179)
+        txtFechaEmision.Location = New Point(3, 265)
         txtFechaEmision.MensajeError = "Fecha requerida o inválida."
         txtFechaEmision.Name = "txtFechaEmision"
         txtFechaEmision.PaddingAll = 10
@@ -346,7 +369,7 @@ Partial Class frmCompras
         cmbProveedor.ForeColor = Color.Black
         cmbProveedor.IndiceSeleccionado = -1
         cmbProveedor.LabelColor = Color.DarkSlateGray
-        cmbProveedor.Location = New Point(3, 265)
+        cmbProveedor.Location = New Point(3, 351)
         cmbProveedor.MensajeError = "Este campo es obligatorio."
         cmbProveedor.MostrarError = False
         cmbProveedor.Name = "cmbProveedor"
@@ -368,12 +391,12 @@ Partial Class frmCompras
         txtDomicilio.CapitalizarTexto = True
         txtDomicilio.CapitalizarTodasLasPalabras = False
         txtDomicilio.ColorError = Color.Firebrick
-        txtDomicilio.FontField = New Font("Century Gothic", 12F)
+        txtDomicilio.FontField = New Font("Century Gothic", 12.0F)
         txtDomicilio.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtDomicilio.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDomicilio.LabelColor = Color.DarkSlateGray
         txtDomicilio.LabelText = "Domicilio Fiscal:"
-        txtDomicilio.Location = New Point(3, 351)
+        txtDomicilio.Location = New Point(3, 437)
         txtDomicilio.MensajeError = "Este campo es obligatorio."
         txtDomicilio.Multilinea = True
         txtDomicilio.Name = "txtDomicilio"
@@ -396,12 +419,12 @@ Partial Class frmCompras
         txtRifCI.CapitalizarTodasLasPalabras = True
         txtRifCI.CaracterContraseña = "*"c
         txtRifCI.ColorError = Color.Firebrick
-        txtRifCI.FontField = New Font("Century Gothic", 12F)
+        txtRifCI.FontField = New Font("Century Gothic", 12.0F)
         txtRifCI.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtRifCI.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtRifCI.LabelColor = Color.DarkSlateGray
         txtRifCI.LabelText = "Rif / C.I.:"
-        txtRifCI.Location = New Point(3, 495)
+        txtRifCI.Location = New Point(3, 581)
         txtRifCI.MensajeError = "Este campo es obligatorio."
         txtRifCI.Name = "txtRifCI"
         txtRifCI.PaddingAll = 10
@@ -422,12 +445,12 @@ Partial Class frmCompras
         txtTelefonos.BorderSize = 1
         txtTelefonos.CampoRequerido = True
         txtTelefonos.ColorError = Color.Firebrick
-        txtTelefonos.FontField = New Font("Century Gothic", 12F)
+        txtTelefonos.FontField = New Font("Century Gothic", 12.0F)
         txtTelefonos.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtTelefonos.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
         txtTelefonos.LabelColor = Color.DarkSlateGray
         txtTelefonos.LabelText = "Telefonos contacto:"
-        txtTelefonos.Location = New Point(3, 581)
+        txtTelefonos.Location = New Point(3, 667)
         txtTelefonos.MascaraPersonalizada = ""
         txtTelefonos.MaxCaracteres = 8
         txtTelefonos.MensajeError = "Este campo es obligatorio."
@@ -452,7 +475,7 @@ Partial Class frmCompras
         cmbTipoPago.ForeColor = Color.Black
         cmbTipoPago.IndiceSeleccionado = -1
         cmbTipoPago.LabelColor = Color.DarkSlateGray
-        cmbTipoPago.Location = New Point(3, 669)
+        cmbTipoPago.Location = New Point(3, 755)
         cmbTipoPago.MensajeError = "Este campo es obligatorio."
         cmbTipoPago.MostrarError = False
         cmbTipoPago.Name = "cmbTipoPago"
@@ -474,12 +497,12 @@ Partial Class frmCompras
         txtObservacion.CapitalizarTexto = True
         txtObservacion.CapitalizarTodasLasPalabras = False
         txtObservacion.ColorError = Color.Firebrick
-        txtObservacion.FontField = New Font("Century Gothic", 12F)
+        txtObservacion.FontField = New Font("Century Gothic", 12.0F)
         txtObservacion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtObservacion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtObservacion.LabelColor = Color.DarkSlateGray
         txtObservacion.LabelText = "Observacion:"
-        txtObservacion.Location = New Point(3, 755)
+        txtObservacion.Location = New Point(3, 841)
         txtObservacion.MensajeError = "Este campo es obligatorio."
         txtObservacion.Multilinea = True
         txtObservacion.Name = "txtObservacion"
@@ -501,9 +524,9 @@ Partial Class frmCompras
         btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
         btnSiguiente.ColorTexto = Color.White
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnSiguiente.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
-        btnSiguiente.Location = New Point(3, 899)
+        btnSiguiente.Location = New Point(3, 985)
         btnSiguiente.Name = "btnSiguiente"
         btnSiguiente.RadioBorde = 8
         btnSiguiente.Size = New Size(176, 40)
@@ -546,7 +569,7 @@ Partial Class frmCompras
         btnLimpiarCeldas.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
         btnLimpiarCeldas.ColorTexto = Color.White
         btnLimpiarCeldas.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
-        btnLimpiarCeldas.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnLimpiarCeldas.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
         btnLimpiarCeldas.Icono = FontAwesome.Sharp.IconChar.Trash
         btnLimpiarCeldas.Location = New Point(6, 12)
         btnLimpiarCeldas.Name = "btnLimpiarCeldas"
@@ -567,7 +590,7 @@ Partial Class frmCompras
         btnLimpiarGrid.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
         btnLimpiarGrid.ColorTexto = Color.White
         btnLimpiarGrid.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
-        btnLimpiarGrid.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnLimpiarGrid.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
         btnLimpiarGrid.Icono = FontAwesome.Sharp.IconChar.TrashAlt
         btnLimpiarGrid.Location = New Point(165, 12)
         btnLimpiarGrid.Name = "btnLimpiarGrid"
@@ -588,7 +611,7 @@ Partial Class frmCompras
         btnExportarPdf.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
         btnExportarPdf.ColorTexto = Color.White
         btnExportarPdf.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnExportarPdf.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnExportarPdf.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
         btnExportarPdf.Icono = FontAwesome.Sharp.IconChar.FilePdf
         btnExportarPdf.Location = New Point(398, 12)
         btnExportarPdf.Name = "btnExportarPdf"
@@ -609,7 +632,7 @@ Partial Class frmCompras
         btnExportarExcel.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
         btnExportarExcel.ColorTexto = Color.White
         btnExportarExcel.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnExportarExcel.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnExportarExcel.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
         btnExportarExcel.Icono = FontAwesome.Sharp.IconChar.FileExcel
         btnExportarExcel.Location = New Point(528, 12)
         btnExportarExcel.Name = "btnExportarExcel"
@@ -630,7 +653,7 @@ Partial Class frmCompras
         btnAceptar.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
         btnAceptar.ColorTexto = Color.White
         btnAceptar.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnAceptar.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnAceptar.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold)
         btnAceptar.Icono = FontAwesome.Sharp.IconChar.Save
         btnAceptar.Location = New Point(658, 12)
         btnAceptar.Name = "btnAceptar"
@@ -654,7 +677,7 @@ Partial Class frmCompras
         lblEncabezado.ColorFondo = Color.LightSkyBlue
         lblEncabezado.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
         lblEncabezado.Dock = DockStyle.Fill
-        lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblEncabezado.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
         lblEncabezado.Icono = FontAwesome.Sharp.IconChar.CartShopping
         lblEncabezado.Location = New Point(0, 0)
         lblEncabezado.MostrarSeparador = False
@@ -667,7 +690,7 @@ Partial Class frmCompras
         ' 
         ' frmCompras
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1274, 626)
         Controls.Add(pnlContenedor)
@@ -721,5 +744,6 @@ Partial Class frmCompras
     Friend WithEvents btnExportarExcel As CommandButtonUI
     Friend WithEvents txtObservacion As MultilineTextBoxLabelUI
     Friend WithEvents btnSiguiente As CommandButtonUI
+    Friend WithEvents cmbSucursal As ComboBoxLabelUI
 
 End Class

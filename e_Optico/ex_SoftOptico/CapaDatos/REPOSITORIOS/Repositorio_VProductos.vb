@@ -21,7 +21,8 @@ Public Class Repositorio_VProductos
                 .Precio = If(row("Precio") IsNot DBNull.Value, Convert.ToDecimal(row("Precio")), 0D),
                 .Categoria = If(row("Categoria") IsNot DBNull.Value, row("Categoria").ToString(), String.Empty),
                 .SubCategoria = If(row("SubCategoria") IsNot DBNull.Value, row("SubCategoria").ToString(), String.Empty),
-                .Stock = If(row("Stock") IsNot DBNull.Value, Convert.ToInt32(row("Stock")), 0)
+                .Stock = If(row("Stock") IsNot DBNull.Value, Convert.ToInt32(row("Stock")), 0),
+                .CategoriaID = If(row("CategoriaID") IsNot DBNull.Value, Convert.ToInt32(row("CategoriaID")), 0)
             }
             lista.Add(producto)
         Next

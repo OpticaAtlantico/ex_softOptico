@@ -39,9 +39,15 @@ Public Class frmCompras
         llenarCombo.Cargar(cmbTipoPago, sql, "Nombre", "TipoPagoID")
         cmbTipoPago.FinalizarCarga()
 
+        sql = "SELECT UbicacionID, NombreUbicacion FROM TUbicaciones"
+        llenarCombo.Cargar(cmbSucursal, sql, "NombreUbicacion", "UbicacionID")
+        cmbSucursal.FinalizarCarga()
+
         'Bloquea el panel de grid hasta que se agregue un producto
         pnlDataGrid.Enabled = False
         pnlTotales.Enabled = False
+
+        lblIva.Text = "0.16"
 
     End Sub
 
@@ -65,18 +71,19 @@ Public Class frmCompras
         grvCompras.AgregarProducto(
             producto.Codigo,
             producto.Nombre,
+            producto.CategoriaID,
             producto.ExG,
             producto.Precio
-        )
+)
     End Sub
 
-    Private Sub cmbProveedor_SelectedIndexChangedCustom(sender As Object, e As EventArgs) Handles cmbProveedor.SelectedIndexChangedCustom
+    Private Sub cmbProveedor_SelectedIndexChangedCustom(sender As Object, e As EventArgs) Handles cmbProveedor.SelectedIndexChangedCustom, cmbSucursal.SelectedIndexChangedCustom
 
         Dim seleccionado As LlenarComboBox.ComboItem = cmbProveedor.ItemSeleccionado
 
         If seleccionado IsNot Nothing Then
-            Dim idprovedor As Integer = Convert.ToInt32(seleccionado.Valor)
-            Dim nombreProveedor As String = seleccionado.Texto
+            Dim idprovedor = Convert.ToInt32(seleccionado.Valor)
+            Dim nombreProveedor = seleccionado.Texto
 
             Dim proveedor As New Repositorio_Proveedor
             Dim datos = proveedor.BuscarProveedorPorID(idprovedor)
@@ -106,7 +113,8 @@ Public Class frmCompras
                 .NumeroFactura = txtNumeroFactura.TextoUsuario.Trim(),
                 .FechaCompra = txtFechaEmision.TextValue,
                 .EmpleadoID = CInt(Sesion.UsuarioID),
-                .UbicacionDestinoID = CInt(Sesion.UbicacionID),
+                .AlicuotaID = 1,
+                .UbicacionDestinoID = CInt(cmbSucursal.ItemSeleccionado.Valor),
                 .ProveedorID = CInt(cmbProveedor.ItemSeleccionado.Valor),
                 .TipoPagoID = CInt(cmbTipoPago.ItemSeleccionado.Valor),
                 .Observacion = txtObservacion.TextoUsuario.Trim(),

@@ -2,6 +2,7 @@
     Public Property Codigo As String
     Public Property Nombre As String
     Public Property Precio As Decimal
+    Public Property CategoriaID As Integer
     Public Property Categoria As String
     Public Property SubCategoria As String
     Public Property Stock As Integer

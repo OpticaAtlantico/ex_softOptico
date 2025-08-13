@@ -11,7 +11,7 @@ Public Class Repositorio_Login
     Private Eliminar As String
 
     Public Sub New()
-        SeleccionarTodos = "SELECT * FROM TLogin"
+        SeleccionarTodos = "SELECT * FROM VLogin"
         SeleccionarUserPass = "SELECT * FROM VLogin WHERE Usuario = @Usuario AND Clave = @Pass"
         Insertar = "INSERT INTO TLogin (Usuario, Pass) VALUES (@Usuario, @Pass)"
         Actualizar = "UPDATE TLogin SET Usuario = @Usuario, Pass = @Pass WHERE Id = @Id"

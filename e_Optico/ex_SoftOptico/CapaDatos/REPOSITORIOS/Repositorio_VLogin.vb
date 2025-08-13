@@ -21,6 +21,7 @@ Public Class Repositorio_VLogin
         For Each row As DataRow In resultadoTable.Rows
             Dim login As New TVLogin With {
                 .Usuario = Convert.ToString(row("Usuario")),
+                .ID = Convert.ToInt32(row("ID")),
                 .Clave = Convert.ToString(row("Clave")),
                 .Cedula = Convert.ToString(row("Cedula")),
                 .Nombre = Convert.ToString(row("Nombre")),

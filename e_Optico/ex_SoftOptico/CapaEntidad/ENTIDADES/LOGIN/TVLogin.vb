@@ -1,4 +1,5 @@
 ﻿Public Class TVLogin
+    Public Property ID As Integer
     Public Property Usuario As String
     Public Property Clave As String
     Public Property Cedula As String

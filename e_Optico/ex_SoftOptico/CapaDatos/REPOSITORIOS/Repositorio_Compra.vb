@@ -35,9 +35,11 @@ Public Class Repositorio_Compra
                     ' 1) Insertar cabecera y obtener CompraID
                     Dim sqlInsertCompra As String = "
                         INSERT INTO TCompras
-                        (FechaCompra, NumeroControl, NumeroFactura, TipoPagoID, AlicuotaID, ProveedorID, EmpleadoID, UbicacionDestinoID, TotalCompra, Observacion)
+                                            (FechaCompra, NumeroControl, NumeroFactura, TipoPagoID, AlicuotaID, ProveedorID, EmpleadoID, 
+                                            UbicacionDestinoID, TotalCompra, Observacion)
                         OUTPUT INSERTED.CompraID
-                        VALUES (@FechaCompra, @NumeroControl, @NumeroFactura, @TipoPagoID, @AlicuotaID, @ProveedorID, @EmpleadoID, @UbicacionDestinoID, @TotalCompra, @Observacion);
+                        VALUES (@FechaCompra, @NumeroControl, @NumeroFactura, @TipoPagoID, @AlicuotaID, @ProveedorID, 
+                                @EmpleadoID, @UbicacionDestinoID, @TotalCompra, @Observacion);
                     "
 
                     Using cmdCompra As New SqlCommand(sqlInsertCompra, conn, tran)
@@ -57,8 +59,8 @@ Public Class Repositorio_Compra
 
                         ' 2) Insertar detalles (reutilizar comando es posible; mantengo claro y simple)
                         Dim sqlInsertDetalle As String = "
-                            INSERT INTO TDetalleCompra (CompraID, ProductoID, Cantidad, PrecioUnitario, SubTotal, ModoCargo)
-                            VALUES (@CompraID, @ProductoID, @Cantidad, @PrecioUnitario, @SubTotal, @ModoCargo);
+                            INSERT INTO TDetalleCompra (CompraID, ProductoID, Cantidad, CostoUnitario, SubTotal, ModoCargo)
+                            VALUES (@CompraID, @ProductoID, @Cantidad, @CostoUnitario, @SubTotal, @ModoCargo);
                         "
 
                         For Each det As TDetalleCompra In compra.Detalle
@@ -66,7 +68,7 @@ Public Class Repositorio_Compra
                                 cmdDet.Parameters.AddWithValue("@CompraID", newCompraID)
                                 cmdDet.Parameters.AddWithValue("@ProductoID", det.ProductoID)
                                 cmdDet.Parameters.AddWithValue("@Cantidad", det.Cantidad)
-                                cmdDet.Parameters.AddWithValue("@PrecioUnitario", det.PrecioUnitario)
+                                cmdDet.Parameters.AddWithValue("@CostoUnitario", det.PrecioUnitario)
                                 cmdDet.Parameters.AddWithValue("@SubTotal", det.Subtotal)
                                 cmdDet.Parameters.AddWithValue("@ModoCargo", If(String.IsNullOrWhiteSpace(det.ModoCargo), DBNull.Value, det.ModoCargo))
                                 cmdDet.ExecuteNonQuery()

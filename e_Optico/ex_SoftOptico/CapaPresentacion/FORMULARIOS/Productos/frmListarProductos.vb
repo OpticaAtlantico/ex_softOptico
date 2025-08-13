@@ -50,14 +50,15 @@ Public Class frmListarProductos
         Dim tabla As DataTable = ConvertirListaADataTable(listaProductos)
 
         ' Configurar columnas y cargar
-        Dim columnasVisibles = {"Codigo", "Nombre", "Stock", "Categoria", "SubCategoria", "Precio"}
+        Dim columnasVisibles = {"Codigo", "Nombre", "Stock", "Categoria", "SubCategoria", "Precio", "CategoriaID"}
         Dim anchos = New Dictionary(Of String, Integer) From {
         {"Codigo", 100},
         {"Nombre", 300},
         {"Stock", 80},
         {"Categoria", 150},
         {"SubCategoria", 150},
-        {"Precio", 120}
+        {"Precio", 120},
+        {"CategoriaID", 0}
     }
         Dim nombresColumnas = New Dictionary(Of String, String) From {
         {"Codigo", "Código"},
@@ -65,7 +66,8 @@ Public Class frmListarProductos
         {"Stock", "Stock"},
         {"Categoria", "Categoría"},
         {"SubCategoria", "Subcategoría"},
-        {"Precio", "Precio Venta"}
+        {"Precio", "Precio Venta"},
+        {"CategoriaID", "ID"}
     }
 
         productosGrid.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombresColumnas)
@@ -79,11 +81,19 @@ Public Class frmListarProductos
     Private Sub ProductoSeleccionado(producto As DataRow)
         If FormularioDestino IsNot Nothing Then
             ' Crear objeto limpio
+
+            Dim idCategoria As Integer = Convert.ToInt32(producto("CategoriaID"))
+            Dim ExG As String = "Ex"
+
+            If idCategoria = 2 Then
+                ExG = "G"
+            End If
+
             Dim seleccionado As New ProductoSeleccionado With {
             .Codigo = Convert.ToString(producto("Codigo")),
             .Nombre = producto("Nombre").ToString(),
             .Precio = 0,
-            .ExG = "Ex"
+            .ExG = ExG
         }
 
             FormularioDestino.AgregarProductoAlDetalle(seleccionado)

@@ -5,6 +5,7 @@ Imports CapaEntidad
 Imports CapaNegocio
 Imports DocumentFormat.OpenXml.Drawing.Charts
 Imports FontAwesome.Sharp
+Imports Microsoft.IdentityModel.Protocols.OpenIdConnect
 Imports Microsoft.IdentityModel.Tokens
 Public Class frm_Login
 
@@ -131,7 +132,7 @@ Public Class frm_Login
         Sesion.Cargo = Usuario.Cargo
         Sesion.NombreRol = Usuario.Permisos
         Sesion.NombreUbicacion = Usuario.Central
-
+        Sesion.UsuarioID = Usuario.ID
 
         Dim frm As New frm_Principal
         frm.Show()

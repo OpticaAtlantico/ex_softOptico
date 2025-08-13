@@ -459,6 +459,7 @@ GO
 CREATE OR ALTER VIEW VLogin AS
     SELECT L.Usuario
             , L.Clave
+            , E.EmpleadoID AS ID
             , E.Cedula
             , E.Nombre
             , E.Apellido
@@ -485,6 +486,7 @@ CREATE OR ALTER VIEW VProductos AS
     SELECT dbo.TProductos.CodigoProducto AS Codigo
          , dbo.TProductos.Descripcion AS Nombre
          , dbo.TProductos.Precio
+         , dbo.TCategorias.CategoriaID
          , dbo.TCategorias.NombreCategoria AS Categoria
          , dbo.TProductos.Stock
          , dbo.TSubCategorias.NombreSubCategoria as SubCategoria
