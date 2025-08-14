@@ -406,8 +406,6 @@ CREATE TABLE TPagosConConceptoMaterializado (
 	FechaActualizacion DATETIME DEFAULT GETDATE()
     FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID)
 );
-
-
 GO
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 -----   VISTAS 
@@ -509,16 +507,8 @@ CREATE OR ALTER VIEW VProveedor AS
             , FechaRegistro
     FROM   TProveedor
 
-    --delete TProveedor
 
------   PROCEDIMIENTOS
-
-
-
------   FUNCIONES
-
-
-
+--DATOS DE INICIO PARA LA TABLA
 
 ---DATOS PARA LA TABLA ROL 
 INSERT INTO TRol (Descripcion) VALUES ('Administrador')
@@ -559,9 +549,6 @@ INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto en montaje')
 INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto en tienda')
 INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto entregado')
 
-
-
-
 --DATOS PARA LA TABLA TEMPRESA O SUCURSAL
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico I', 'Sucursal', 'C.C. Plaza Mall, Local 47-A, Planta Baja, Estado Bolivar', 'J-41324802-6', '0414-9864196', 'opticaatlantico@gmail.com', '40')
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico II', 'Sucursal', 'C.C Ciudad Altavista I, local 112, Planta Baja, Ciudad Guayana Estado Bolivar', 'J-50101192-3', '0412-1155609', 'opticaatlantico@gmail.com', '40')
@@ -571,7 +558,6 @@ INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefo
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico VI', 'Sucursal', 'San Felix Ciudad Guayana Estado Bolivar', '0', '0414-9864196', 'opticaatlantico@gmail.com', '40')
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Almacen Central', 'Almacen', 'Alta Vista', '0', '0', 'opticaatlantico@gmail.com', '40')
 
-
 ---DATOAS PARA LA TABLA TCategoria
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Cristales')
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Monturas')
@@ -579,7 +565,6 @@ INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Contactos')
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Sol')
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Accesorios')
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Otros')
-
 
 ---DATOAS PARA LA TABLA TSubCategoria
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('1', 'Monofocal')
@@ -590,7 +575,6 @@ INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('5', 'Acces
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('3', 'Lentes de Contactos')
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('4', 'Lentes de Sol')
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('6', 'Otros')
-
 
 --DATOS PARA LA TABLA TTipoPago 
 INSERT INTO TTipoPago (Nombre) VALUES ('Divisas')
@@ -604,11 +588,19 @@ INSERT INTO TTipoPago (Nombre) VALUES ('Cashea')
 INSERT INTO TTipoPago (Nombre) VALUES ('Garantia')
 INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
 
+--TABLA 
 INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, Sexo, FechaNacimiento, Direccion, CargoEmpleadoID, Correo, Telefono, Asesor, Gerente, Optometrista, Marketing, Cobranza, Estado, Zona, Foto)
      VALUES('12133391','Wilmer Jesus','Flore Zavala','50','0','1','0','10/11/1974','San felix','12','wiflores@gmail.com','0412345678','True','True','True','True','True','1','0','Sin Foto')
 
-
+--TABLA LOGIN
 INSERT INTO TLogin (EmpleadoID, UbicacionID, RolID, Usuario, Clave, Estado, FechaRegistro) VALUES ('1','1','6','admin','admin','1','10/10/2025')
+
+--TABLA ALICUOTA 
+INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('16%','16')
+INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('8%','8')
+INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('31%','31')
+INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Exento','0')
+INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Gravamen','1')
 
 
 --Para incorporarlo al sistema

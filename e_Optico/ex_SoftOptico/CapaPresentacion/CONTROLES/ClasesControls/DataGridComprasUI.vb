@@ -240,7 +240,7 @@ Public Class DataGridComprasUI
 
 #Region "Métodos Públicos"
 
-    Public Sub AgregarProducto(productoID As Integer, nombre As String, CategoriaID As Integer, exG As String, precio As Decimal)
+    Public Sub AgregarProducto(productoID As Integer, nombre As String, exG As String, precio As Decimal)
         dgv.Rows.Add(nombre, 1, exG, precio, precio)
         dgv.Rows(dgv.Rows.Count - 1).Cells("Producto").Tag = productoID
         CalcularTotales()

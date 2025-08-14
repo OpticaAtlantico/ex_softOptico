@@ -306,14 +306,31 @@ Public Class frm_Principal
         )
         overlay.Close()
         EfectoBotonInActivo()
+        Try
+            If resultado.Aceptado Then
 
-        If resultado.Aceptado Then
-            enviarDatosCompra(resultado.Valor, 0)
-        Else
-            MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
-                                 TipoMensaje.Advertencia,
+                Dim idCompra As Integer
+                If Not Integer.TryParse(resultado.Valor, idCompra) Then
+                    MessageBoxUI.Mostrar("Entrada inválida",
+                                         "Por favor, ingrese un número válido para el Id de la Compra.",
+                                         TipoMensaje.Advertencia,
+                                         Botones.Aceptar)
+                    Exit Sub
+                End If
+
+                enviarDatosCompra(idCompra, 0)
+            Else
+                MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
+                                     TipoMensaje.Advertencia,
+                                     Botones.Aceptar)
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error",
+                                 "Ocurrió un error al procesar la entrada. Por favor, intente nuevamente. " & ex.Message,
+                                 TipoMensaje.Errors,
                                  Botones.Aceptar)
-        End If
+        End Try
+
         DrawerTimer.Start()
     End Sub
 
@@ -343,13 +360,13 @@ Public Class frm_Principal
         opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
 
         Dim handlerEliminar As New EventHandler(AddressOf SubEliminarPv_Click)
-        opciones.Add(Tuple.Create("Eliminar Empleado", IconChar.TrashArrowUp, handlerEliminar))
+        opciones.Add(Tuple.Create("Eliminar Proveedor", IconChar.TrashArrowUp, handlerEliminar))
 
         Dim handlerEditar As New EventHandler(AddressOf SubEditarPv_Click)
         opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
 
         Dim handlerNuevo As New EventHandler(AddressOf SubNuevoPv_Click)
-        opciones.Add(Tuple.Create("Nuevo Empleado", IconChar.Save, handlerNuevo))
+        opciones.Add(Tuple.Create("Nuevo Proveedor", IconChar.Save, handlerNuevo))
 
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)

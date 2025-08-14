@@ -26,8 +26,6 @@ Public Class frmCompras
         Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
 
-        CustomizeComponents()
-
         ' Oculta al inicio para cargar limpio
         Me.Opacity = 0
         Me.Visible = False
@@ -208,7 +206,6 @@ Public Class frmCompras
         grvCompras.AgregarProducto(
             producto.Codigo,
             producto.Nombre,
-            producto.CategoriaID,
             producto.ExG,
             producto.Precio
 )
@@ -280,7 +277,34 @@ Public Class frmCompras
         End If
     End Sub
 
+    Private Function GetDetalleFromGrid() As List(Of TDetalleCompra)
+        Dim list As New List(Of TDetalleCompra)
+        For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
+            If row.IsNewRow Then Continue For
+            Dim idProd As Integer = If(row.Cells("ProductoID").Value IsNot Nothing, Convert.ToInt32(row.Cells("ProductoID").Value), 0)
+            Dim cantidad As Decimal = If(row.Cells("Cantidad").Value IsNot Nothing, Convert.ToDecimal(row.Cells("Cantidad").Value), 0D)
+            Dim precio As Decimal = If(row.Cells("PrecioUnitario").Value IsNot Nothing, Convert.ToDecimal(row.Cells("PrecioUnitario").Value), 0D)
+            Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), cantidad * precio)
 
+            list.Add(New TDetalleCompra With {
+                .ProductoID = idProd,
+                .Cantidad = cantidad,
+                .PrecioUnitario = precio,
+                .Subtotal = subtotal
+            })
+        Next
+        Return list
+    End Function
+
+    Private Function CalculateTotalFromGrid() As Decimal
+        Dim total As Decimal = 0D
+        For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
+            If row.IsNewRow Then Continue For
+            Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), 0D)
+            total += subtotal
+        Next
+        Return total
+    End Function
 
 #End Region
 
