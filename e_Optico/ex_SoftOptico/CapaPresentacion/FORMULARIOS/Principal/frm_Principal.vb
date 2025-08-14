@@ -289,49 +289,11 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubEliminarC_Click(sender As Object, e As EventArgs)
-        Throw New NotImplementedException()
+        ActualizarEliminarCompra(1)
     End Sub
 
     Private Sub SubEditarC_Click(sender As Object, e As EventArgs)
-        CerrarDrawer()
-
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese el Id de la Compra",
-            placeholder:="1009",
-            tipoDato:=InputBoxUI.TipoValidacion.Numero,
-            icono:=FontAwesome.Sharp.IconChar.CartShopping,
-            obligatorio:=True
-        )
-        overlay.Close()
-        EfectoBotonInActivo()
-        Try
-            If resultado.Aceptado Then
-
-                Dim idCompra As Integer
-                If Not Integer.TryParse(resultado.Valor, idCompra) Then
-                    MessageBoxUI.Mostrar("Entrada inválida",
-                                         "Por favor, ingrese un número válido para el Id de la Compra.",
-                                         TipoMensaje.Advertencia,
-                                         Botones.Aceptar)
-                    Exit Sub
-                End If
-
-                enviarDatosCompra(idCompra, 0)
-            Else
-                MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
-                                     TipoMensaje.Advertencia,
-                                     Botones.Aceptar)
-            End If
-        Catch ex As Exception
-            MessageBoxUI.Mostrar("Error",
-                                 "Ocurrió un error al procesar la entrada. Por favor, intente nuevamente. " & ex.Message,
-                                 TipoMensaje.Errors,
-                                 Botones.Aceptar)
-        End Try
-
-        DrawerTimer.Start()
+        ActualizarEliminarCompra(0)
     End Sub
 
     Private Sub SubNuevoC_Click(sender As Object, e As EventArgs)
@@ -738,47 +700,85 @@ Public Class frm_Principal
 
     Private Sub enviarDatosCompra(id As Integer, opcion As Integer)
 
-        '--- CÓDIGO CORRECTO ---
         Dim repositorio As New Repositorio_Compra()
         Dim Ident As Integer = id
         Dim texto As String = String.Empty
 
-        ' 1. Llama a la función y guarda el resultado en una lista.
-        Dim listaResultados As IEnumerable(Of TCompra) = repositorio.GetById(Ident)
-
-        ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
-        '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
+        ' GetById devuelve UN SOLO TCompra, no una lista
         Try
-            Me.CompraEncontrado = listaResultados.FirstOrDefault()
+            Me.CompraEncontrado = repositorio.GetById(Ident)
 
-            ' 3. Comprueba si se encontró un empleado antes de continuar.
             If Me.CompraEncontrado IsNot Nothing Then
-                ' 4. Ahora puedes pasar el objeto al formulario hijo.
                 Dim formularioHijo As New frmCompras()
                 formularioHijo.DatosCompra = Me.CompraEncontrado
+
                 Select Case opcion
                     Case 0
                         texto = "Actualizar..."
                     Case 1
                         texto = "Eliminar..."
                 End Select
-                formularioHijo.NombreBoton = texto.ToString()
+
+                formularioHijo.NombreBoton = texto
                 OpenChildForm(formularioHijo)
             Else
                 MessageBoxUI.Mostrar(
-                                     "Datos inexistentes...",
-                                     "No hay ninguna compra con ese número de identificador, por favor verifique bien los datos",
-                                     TipoMensaje.Advertencia,
-                                     Botones.Aceptar
-                                     )
+                                        "Datos inexistentes...",
+                                        "No hay ninguna compra con ese número de identificador, por favor verifique bien los datos",
+                                        TipoMensaje.Advertencia,
+                                        Botones.Aceptar
+                                    )
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error",
-                                 "Ocurrió un error al buscar la compra. Por favor, intente nuevamente. " & ex.Message,
+                                    "Ocurrió un error al buscar la compra. Por favor, intente nuevamente. " & ex.Message,
+                                    TipoMensaje.Errors,
+                                    Botones.Aceptar
+                                )
+        End Try
+
+    End Sub
+
+    Private Sub ActualizarEliminarCompra(opcion As Integer)
+        CerrarDrawer()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+            titulo:="Ingrese el Id de la Compra",
+            placeholder:="1009",
+            tipoDato:=InputBoxUI.TipoValidacion.Numero,
+            icono:=FontAwesome.Sharp.IconChar.CartShopping,
+            obligatorio:=True
+        )
+        overlay.Close()
+        EfectoBotonInActivo()
+        Try
+            If resultado.Aceptado Then
+
+                Dim idCompra As Integer
+                If Not Integer.TryParse(resultado.Valor, idCompra) Then
+                    MessageBoxUI.Mostrar("Entrada inválida",
+                                         "Por favor, ingrese un número válido para el Id de la Compra.",
+                                         TipoMensaje.Advertencia,
+                                         Botones.Aceptar)
+                    Exit Sub
+                End If
+
+                enviarDatosCompra(idCompra, opcion)
+            Else
+                MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
+                                     TipoMensaje.Advertencia,
+                                     Botones.Aceptar)
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error",
+                                 "Ocurrió un error al procesar la entrada. Por favor, intente nuevamente. " & ex.Message,
                                  TipoMensaje.Errors,
                                  Botones.Aceptar)
         End Try
 
+        DrawerTimer.Start()
     End Sub
 
 #End Region

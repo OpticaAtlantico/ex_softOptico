@@ -1,4 +1,5 @@
 ﻿Imports CapaEntidad
+Imports Microsoft.Data
 Imports Microsoft.Data.SqlClient
 Imports System.Data
 
@@ -125,11 +126,11 @@ Public Class Repositorio_Compra
                 Using rdr = cmdDet.ExecuteReader()
                     While rdr.Read()
                         compra.Detalle.Add(New TDetalleCompra With {
-                            .DetalleID = Convert.ToInt32(rdr("DetalleID")),
-                            .CompraID = Convert.ToInt32(rdr("CompraID")),
+                            .DetalleID = If(IsDBNull(rdr("DetalleCompraID")), 0, Convert.ToInt32(rdr("DetalleCompraID"))),
+                            .CompraID = If(IsDBNull(rdr("CompraID")), 0, Convert.ToInt32(rdr("CompraID"))),
                             .ProductoID = Convert.ToInt32(rdr("ProductoID")),
                             .Cantidad = Convert.ToDecimal(rdr("Cantidad")),
-                            .PrecioUnitario = Convert.ToDecimal(rdr("PrecioUnitario")),
+                            .PrecioUnitario = Convert.ToDecimal(rdr("CostoUnitario")),
                             .Subtotal = Convert.ToDecimal(rdr("SubTotal")),
                             .ModoCargo = If(IsDBNull(rdr("ModoCargo")), "", Convert.ToString(rdr("ModoCargo")))
                         })
@@ -142,28 +143,40 @@ Public Class Repositorio_Compra
     End Function
 
     Public Function Remove(compraID As Integer) As Boolean Implements IRepositorio_Compra.Delete
-        Using conn As SqlConnection = ObtenerConexion()
-            conn.Open()
-            Using tran As SqlTransaction = conn.BeginTransaction()
-                Try
-                    Using cmdDet As New SqlCommand("DELETE FROM TDetalleCompra WHERE CompraID = @CompraID", conn, tran)
-                        cmdDet.Parameters.AddWithValue("@CompraID", compraID)
-                        cmdDet.ExecuteNonQuery()
-                    End Using
+        Try
+            Using conn As SqlConnection = ObtenerConexion()
+                conn.Open()
+                Using tran As SqlClient.SqlTransaction = conn.BeginTransaction()
+                    Try
+                        ' Primero eliminar los detalles
+                        Dim sqlDetalle As String = SQL_DELETE_DETALLE_BY_COMPRA
+                        Using cmdDetalle As New SqlClient.SqlCommand(sqlDetalle, conn, tran)
+                            cmdDetalle.Parameters.AddWithValue("@CompraID", compraID)
+                            cmdDetalle.ExecuteNonQuery()
+                        End Using
 
-                    Using cmdComp As New SqlCommand("DELETE FROM TCompras WHERE CompraID = @CompraID", conn, tran)
-                        cmdComp.Parameters.AddWithValue("@CompraID", compraID)
-                        cmdComp.ExecuteNonQuery()
-                    End Using
+                        ' Luego eliminar la compra
+                        Dim sqlCompra As String = SQL_DELETE_COMPRA
+                        Using cmdCompra As New SqlClient.SqlCommand(sqlCompra, conn, tran)
+                            cmdCompra.Parameters.AddWithValue("@CompraID", compraID)
+                            cmdCompra.ExecuteNonQuery()
+                        End Using
 
-                    tran.Commit()
-                    Return True
-                Catch ex As Exception
-                    tran.Rollback()
-                    Throw
-                End Try
+                        ' Confirmar transacción
+                        tran.Commit()
+                        Return True
+                    Catch ex As Exception
+                        ' Revertir si hubo error
+                        tran.Rollback()
+                        Throw
+                    End Try
+                End Using
             End Using
-        End Using
+        Catch ex As Exception
+            Throw New Exception("Repositorio_Compras.Remove -> " & ex.Message, ex)
+            Return False
+        End Try
+
     End Function
 
     Public Function GetAll() As IEnumerable(Of TCompra) Implements IRepositorio_Compra.GetAll

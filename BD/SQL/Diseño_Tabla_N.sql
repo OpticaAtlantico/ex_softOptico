@@ -25,19 +25,21 @@ CREATE TABLE TMenuOpciones (
     Categoria INT,
     Activo BIT
 );
-
+GO
 
 -- Tabla: Rol -- Ej: 'Administrador', 'Vendedor', 'Almacén', 'Gerente'
 CREATE TABLE TRol (
     RolID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(250) NOT NULL
 );
+GO
 
 -- Tabla: TEstado -- Ej: APARTADO, ABONADO PARCIALMENTE, PAGADO (Venta), En preparación, Listo para entrega, Entregado, Cancelado, Anulado etc..
 CREATE TABLE TEstadoOrden (
     EstadoID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(100) NOT NULL
 );
+GO
 
 -- Tabla: TPermisos para los menu del formulario
 CREATE TABLE TPermisosMenu (
@@ -47,12 +49,14 @@ CREATE TABLE TPermisosMenu (
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
     FOREIGN KEY (RolID) REFERENCES TRol(RolID)
 );
+GO
 
 -- Tabla: TCargoEmpleado -- Asesor, Gerente, Optometrista, Marketing etc...
 CREATE TABLE TCargoEmpleado (
     CargoEmpleadoID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(250) NOT NULL
 );
+GO
 
 -- Tabla: Ubicaciones (Almacenes y Sucursales)
 CREATE TABLE TUbicaciones (
@@ -67,6 +71,7 @@ CREATE TABLE TUbicaciones (
     Porcentaje INT NOT NULL,
     FechaRegistro DATETIME DEFAULT GETDATE()
 );
+GO
 
 -- Tabla: Clientes
 CREATE TABLE TCliente (
@@ -79,6 +84,7 @@ CREATE TABLE TCliente (
     Telefono NVARCHAR(20) NULL,
     Email NVARCHAR(100) NULL    
 );
+GO
 
 -- Tabla: TEmpresaCliente para almacenar información de las empresas de clientes  
 CREATE TABLE TEmpresaCliente (
@@ -94,6 +100,7 @@ CREATE TABLE TEmpresaCliente (
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
     FOREIGN KEY (ClienteID) REFERENCES TCliente(ClienteID)
 );
+GO
 
 -- Tabla: Proveedores
 CREATE TABLE TProveedor (
@@ -108,12 +115,14 @@ CREATE TABLE TProveedor (
     Direccion NVARCHAR(255) NULL,
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE()
 );
+GO
 
 -- Tabla: Categorias (para productos)
 CREATE TABLE TCategorias (
     CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
     NombreCategoria NVARCHAR(50) NOT NULL UNIQUE
 );
+GO
 
 -- Tabla: TSubCategorias (para categorias)
 CREATE TABLE TSubCategorias (
@@ -122,6 +131,7 @@ CREATE TABLE TSubCategorias (
     NombreSubCategoria NVARCHAR(50) NOT NULL,
     FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
 );
+GO
 
 -- Tabla: Productos
 CREATE TABLE TProductos (
@@ -138,6 +148,7 @@ CREATE TABLE TProductos (
     FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID),
     FOREIGN KEY (SubCategoriaID) REFERENCES TSubCategorias(SubCategoriaID)
 );
+GO
 
 -- Tabla: Empleados (Usuarios del Sistema)
 CREATE TABLE TEmpleados (
@@ -164,6 +175,7 @@ CREATE TABLE TEmpleados (
     Foto NVARCHAR(MAX) NULL,
     FOREIGN KEY (CargoEmpleadoID) REFERENCES TCargoEmpleado(CargoEmpleadoID)
 );
+GO
 
 -- Tabla: TLogin Inicio de secion al sistema
 CREATE TABLE TLogin (
@@ -179,6 +191,7 @@ CREATE TABLE TLogin (
     FOREIGN KEY (RolID) REFERENCES TRol(RolID),
     FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
+GO
 
 -- *** 2. Tablas de Inventario Multi-Ubicación ***
 
@@ -193,12 +206,14 @@ CREATE TABLE TStockProducto (
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID),
     FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
+GO
 
 -- Tabla: TTipoMovimientos (Detalle del tipo de movimiento)  Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
 CREATE TABLE TTipoMovimientos (
     TipoMovimientoID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion VARCHAR(120) NOT NULL 
 );
+GO
 
 -- Tabla: MovimientosInventario (Registro detallado de todo movimiento de stock)
 CREATE TABLE TMovimientosInventario (
@@ -218,6 +233,7 @@ CREATE TABLE TMovimientosInventario (
     FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (TipoMovimientoID) REFERENCES TTipoMovimientos(TipoMovimientoID)
 );
+GO
 
 -- Tabla: TrasladosInventario (Encabezado para movimientos entre ubicaciones)
 CREATE TABLE TTrasladosInventario (
@@ -235,6 +251,7 @@ CREATE TABLE TTrasladosInventario (
     FOREIGN KEY (EmpleadoOrigenID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (EmpleadoDestinoID) REFERENCES TEmpleados(EmpleadoID)
 );
+GO
 
 -- Tabla: DetalleTraslado (Productos en cada traslado)
 CREATE TABLE TDetalleTraslado (
@@ -248,6 +265,7 @@ CREATE TABLE TDetalleTraslado (
     FOREIGN KEY (TrasladoID) REFERENCES TTrasladosInventario(TrasladoID),
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
 );
+GO
 
 --Tabla: TAlicuota para registrar los porcentajes de iva
 CREATE TABLE TAlicuota (
@@ -255,12 +273,14 @@ CREATE TABLE TAlicuota (
     Nombre NVARCHAR(12) NOT NULL,
     Alicuota INT NOT NULL
 );
+GO
 
 --Tabla: TTipoPago para registrar los tipos de pagos
 CREATE TABLE TTipoPago (
     TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(50) NOT NULL,
 );
+GO
 
 -- *** 3. Tablas de Operaciones ***
 
@@ -284,6 +304,7 @@ CREATE TABLE TCompras (
     FOREIGN KEY (TipoPagoID) REFERENCES TTipoPago(TipoPagoID),
     FOREIGN KEY (UbicacionDestinoID) REFERENCES TUbicaciones(UbicacionID) 
 );
+GO
 
 -- Tabla: DetalleCompra
 CREATE TABLE TDetalleCompra (
@@ -297,6 +318,7 @@ CREATE TABLE TDetalleCompra (
     FOREIGN KEY (CompraID) REFERENCES TCompras(CompraID),
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
 );
+GO
 
 -- Tabla: TVenta (Encabezado de la venta)
 CREATE TABLE TVenta (
@@ -323,6 +345,7 @@ CREATE TABLE TVenta (
     FOREIGN KEY (MarketingID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (UbicacionVentaID) REFERENCES TUbicaciones(UbicacionID)
 );
+GO
 
 -- Tabla: DetalleVenta
 CREATE TABLE TDetalleVenta (
@@ -337,6 +360,7 @@ CREATE TABLE TDetalleVenta (
     FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
 );
+GO
 
 --Tabla: TRastreo para  registrar el estatus de ubicaciòn y condicion del producto
 CREATE table TSeguimientoVenta (
@@ -352,6 +376,7 @@ CREATE table TSeguimientoVenta (
     FOREIGN KEY (UsuarioResponsableID) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (EstadoID) REFERENCES TEstadoOrden(EstadoID),
 );
+GO
 
 -- Tabla: TFormaDePago Tabla donde se almacena los pagos de la venta
 CREATE TABLE TFormaDePago (
@@ -364,7 +389,7 @@ CREATE TABLE TFormaDePago (
     FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
     FOREIGN KEY (TipoPagoID) REFERENCES TTipoPago(TipoPagoID)
 );
-
+GO
 
 --Tabla: TFormula para registrar 
 CREATE TABLE TFormula (
@@ -391,6 +416,7 @@ CREATE TABLE TFormula (
     Observacion NVARCHAR(MAX) NULL,
     FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID)
 );
+GO
 
 --Tabla: TPagosConConceptoMaterializado para almacenar la informaciòn de busqueda del Reporte Semanal
 CREATE TABLE TPagosConConceptoMaterializado (
@@ -509,7 +535,7 @@ CREATE OR ALTER VIEW VProveedor AS
 
 
 --DATOS DE INICIO PARA LA TABLA
-
+GO
 ---DATOS PARA LA TABLA ROL 
 INSERT INTO TRol (Descripcion) VALUES ('Administrador')
 INSERT INTO TRol (Descripcion) VALUES ('Asesor')
@@ -518,7 +544,7 @@ INSERT INTO TRol (Descripcion) VALUES ('Gerente Sucursal')
 INSERT INTO TRol (Descripcion) VALUES ('Montador')
 INSERT INTO TRol (Descripcion) VALUES ('ROOT')
 INSERT INTO TRol (Descripcion) VALUES ('Contador')
-
+GO
 
 --DATOS PARA LA TABLA CARGOS DEL EMPLEADO
 INSERT INTO TCargoEmpleado (Descripcion) VALUES ('JEFE')
@@ -533,7 +559,7 @@ INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Montador')
 INSERT INTO TCargoEmpleado (Descripcion) VALUES ('Laboratorista')
 INSERT INTO TCargoEmpleado (Descripcion) VALUEs ('Empleado')
 INSERT INTO TCargoEmpleado (Descripcion) VALUEs ('Root')
-
+GO
 
 --DATOS PARA LA TABLA ESTADO DE LAS ORDENES DESDE QUE SE REALIZA LA VENTA DEL PRODUCTO
 INSERT INTO TEstadoOrden (Descripcion) VALUES ('Pedido generado')
@@ -548,6 +574,7 @@ INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto por montar')
 INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto en montaje')
 INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto en tienda')
 INSERT INTO TEstadoOrden (Descripcion) VALUES ('Producto entregado')
+GO
 
 --DATOS PARA LA TABLA TEMPRESA O SUCURSAL
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico I', 'Sucursal', 'C.C. Plaza Mall, Local 47-A, Planta Baja, Estado Bolivar', 'J-41324802-6', '0414-9864196', 'opticaatlantico@gmail.com', '40')
@@ -557,6 +584,7 @@ INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefo
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico V', 'Sucursal', 'C.C. Anakaro, Local 2, Planta Baja, Upata, Estado Bolivar', 'J-50582413-9', '0412-9226338', 'opticaatlantico@gmail.com', '40')
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico VI', 'Sucursal', 'San Felix Ciudad Guayana Estado Bolivar', '0', '0414-9864196', 'opticaatlantico@gmail.com', '40')
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Almacen Central', 'Almacen', 'Alta Vista', '0', '0', 'opticaatlantico@gmail.com', '40')
+GO
 
 ---DATOAS PARA LA TABLA TCategoria
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Cristales')
@@ -565,6 +593,7 @@ INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Contactos')
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Sol')
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Accesorios')
 INSERT INTO TCategorias (NombreCategoria) VALUES ('Otros')
+GO
 
 ---DATOAS PARA LA TABLA TSubCategoria
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('1', 'Monofocal')
@@ -575,6 +604,7 @@ INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('5', 'Acces
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('3', 'Lentes de Contactos')
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('4', 'Lentes de Sol')
 INSERT INTO TSubCategorias (CategoriaID, NombreSubCategoria) VALUES ('6', 'Otros')
+GO
 
 --DATOS PARA LA TABLA TTipoPago 
 INSERT INTO TTipoPago (Nombre) VALUES ('Divisas')
@@ -587,13 +617,16 @@ INSERT INTO TTipoPago (Nombre) VALUES ('Intercambio Comercial')
 INSERT INTO TTipoPago (Nombre) VALUES ('Cashea')
 INSERT INTO TTipoPago (Nombre) VALUES ('Garantia')
 INSERT INTO TTipoPago (Nombre) VALUES ('Transferencia Bancaria')
+GO
 
 --TABLA 
 INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, Sexo, FechaNacimiento, Direccion, CargoEmpleadoID, Correo, Telefono, Asesor, Gerente, Optometrista, Marketing, Cobranza, Estado, Zona, Foto)
      VALUES('12133391','Wilmer Jesus','Flore Zavala','50','0','1','0','10/11/1974','San felix','12','wiflores@gmail.com','0412345678','True','True','True','True','True','1','0','Sin Foto')
+GO
 
 --TABLA LOGIN
 INSERT INTO TLogin (EmpleadoID, UbicacionID, RolID, Usuario, Clave, Estado, FechaRegistro) VALUES ('1','1','6','admin','admin','1','10/10/2025')
+GO
 
 --TABLA ALICUOTA 
 INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('16%','16')
@@ -626,7 +659,11 @@ INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Gravamen','1')
 --    End Function
 --End Class
 
-
+--Para verificar los nombres de las columnas de la tabla
+--SELECT name 
+--FROM sys.columns 
+--WHERE object_id = OBJECT_ID('dbo.TDetalleCompra')
+--ORDER BY column_id;
 
 
 

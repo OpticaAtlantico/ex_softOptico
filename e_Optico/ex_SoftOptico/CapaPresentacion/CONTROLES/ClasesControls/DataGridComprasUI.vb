@@ -246,6 +246,12 @@ Public Class DataGridComprasUI
         CalcularTotales()
     End Sub
 
+    Public Sub AgregarProductoEdit(productoID As Integer, nombre As String, cantidad As Integer, exG As String, precio As Decimal)
+        dgv.Rows.Add(nombre, cantidad, exG, precio, precio)
+        dgv.Rows(dgv.Rows.Count - 1).Cells("Producto").Tag = productoID
+        CalcularTotales()
+    End Sub
+
     Public Function GetDetalleList() As List(Of TDetalleCompra)
         Dim lista As New List(Of TDetalleCompra)
 

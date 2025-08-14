@@ -1,14 +1,18 @@
 ﻿
 Imports Microsoft.Data.SqlClient
 Imports CapaEntidad
+Imports Microsoft.Data
+Imports CapaDatos
 Public Class Repositorio_VProductos
     Inherits Repositorio_Maestro
     Implements IRepositorio_VProductos
 
     Private SeleccionarProductos As String
+    Private SeleccionarProductosById As String
 
     Public Sub New()
         SeleccionarProductos = "SELECT * FROM VProductos"
+        SeleccionarProductosById = "SELECT Nombre FROM VProductos WHERE Codigo = @ProductoID"
     End Sub
 
     Public Function GetAll() As IEnumerable(Of TVProductos) Implements IRepositorio_Generico(Of TVProductos).GetAll
@@ -45,7 +49,39 @@ Public Class Repositorio_VProductos
         Throw New NotImplementedException()
     End Function
 
+    Public Function ObtenerProductoById(id As Integer) As String Implements IRepositorio_VProductos.ObtenerProductoById
+        Dim nombreProducto As String = String.Empty
+
+        Using conn As SqlConnection = ObtenerConexion()
+            conn.Open()
+            Using tran As SqlTransaction = conn.BeginTransaction()
+                Try
+                    Using cmdComp As New SqlCommand(SeleccionarProductosById, conn, tran)
+                        cmdComp.Parameters.AddWithValue("@ProductoID", id)
+                        Dim result = cmdComp.ExecuteScalar()
+                        If result IsNot Nothing Then
+                            nombreProducto = result.ToString()
+                        End If
+                    End Using
+
+                    tran.Commit()
+                    Return nombreProducto
+                Catch ex As Exception
+                    tran.Rollback()
+                    Throw
+                End Try
+            End Using
+        End Using
+
+    End Function
+
     Private Function IRepositorio_VProductos_ObtenerTodos() As IEnumerable(Of TVLogin) Implements IRepositorio_VProductos.ObtenerTodos
         Return GetAll()
     End Function
+
+    Public Function ObtenerNombreProducto(productoID As Integer) As String
+        Dim repo As New Repositorio_VProductos
+        Return repo.ObtenerProductoById(productoID)
+    End Function
+
 End Class

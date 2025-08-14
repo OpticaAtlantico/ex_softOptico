@@ -122,7 +122,6 @@ Partial Class frmCompras
         ' 
         ' btnLimpiarGrid
         ' 
-        btnLimpiarGrid.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnLimpiarGrid.AnimarHover = True
         btnLimpiarGrid.BackColor = Color.Transparent
         btnLimpiarGrid.ColorBase = Color.FromArgb(CByte(244), CByte(67), CByte(54))
