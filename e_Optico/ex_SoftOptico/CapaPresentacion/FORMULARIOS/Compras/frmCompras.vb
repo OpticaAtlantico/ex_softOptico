@@ -171,6 +171,30 @@ Public Class frmCompras
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         Select Case btnAceptar.Texto
             Case "Actualizar..."
+
+                Dim compra As New TCompra With {
+                    .CompraID = DatosCompra.CompraID,
+                    .NumeroControl = txtNumeroControl.TextoUsuario.Trim(),
+                    .NumeroFactura = txtNumeroFactura.TextoUsuario.Trim(),
+                    .FechaCompra = txtFechaEmision.TextValue,
+                    .EmpleadoID = CInt(Sesion.UsuarioID),
+                    .AlicuotaID = 1,
+                    .UbicacionDestinoID = CInt(cmbSucursal.ItemSeleccionado.Valor),
+                    .ProveedorID = CInt(cmbProveedor.ItemSeleccionado.Valor),
+                    .TipoPagoID = CInt(cmbTipoPago.ItemSeleccionado.Valor),
+                    .Observacion = txtObservacion.TextoUsuario.Trim(),
+                    .TotalCompra = grvCompras.CalcularTotal(),
+                    .Detalle = grvCompras.GetDetalleList()
+                }
+                Dim service As New ComprasService()
+                Dim resultado As Boolean = service.ActualizarCompra(compra)
+                If resultado Then
+                    MessageBoxUI.Mostrar("Éxito", "Compra actualizada correctamente", TipoMensaje.Exito, Botones.Aceptar)
+                    LimpiarCeldas()
+                Else
+                    MessageBoxUI.Mostrar("Fallo...", "No se pudo actualizar la compra", TipoMensaje.Errors, Botones.Aceptar)
+                End If
+
             Case "Eliminar..."
 
                 Dim repo As New Repositorio_Compra
@@ -179,6 +203,8 @@ Public Class frmCompras
                 If resultado Then
                     MessageBoxUI.Mostrar("Borrado Correcto", "Compra eliminada correctamente", TipoMensaje.Exito, Botones.Aceptar)
                     LimpiarCeldas()
+                    btnAceptar.Texto = "Guardar..."
+                    pnlContenidoDatos.Enabled = True
                 Else
                     MessageBoxUI.Mostrar("Fallo...", "No se pudo eliminar la compra", TipoMensaje.Errors, Botones.Aceptar)
                 End If

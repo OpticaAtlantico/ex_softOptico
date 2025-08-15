@@ -634,8 +634,10 @@ Public Class frm_Principal
                     Case 1
                         texto = "Eliminar..."
                 End Select
+
                 formularioHijo.NombreBoton = texto.ToString()
                 OpenChildForm(formularioHijo)
+
             Else
                 MessageBoxUI.Mostrar(
                                      "Datos no existe...",
