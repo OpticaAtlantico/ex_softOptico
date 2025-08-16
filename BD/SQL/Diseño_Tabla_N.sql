@@ -560,6 +560,19 @@ CREATE OR ALTER VIEW VCompras AS
             TProveedor PV ON C.ProveedorID = PV.ProveedorID INNER JOIN
             TAlicuota A ON C.AlicuotaID = A.AlicuotaID
 
+GO
+
+CREATE OR ALTER VIEW VDetalleCompras AS
+    SELECT  D.CompraID
+            , P.Descripcion
+            , P.CodigoProducto
+            , D.Cantidad
+            , D.CostoUnitario
+            , D.Subtotal
+            , D.ModoCargo
+    FROM    TDetalleCompra D INNER JOIN
+            TProductos P ON D.ProductoID = P.ProductoID
+
 --DATOS DE INICIO PARA LA TABLA
 GO
 ---DATOS PARA LA TABLA ROL 
@@ -686,10 +699,10 @@ INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Gravamen','1')
 --End Class
 
 --Para verificar los nombres de las columnas de la tabla
-SELECT name 
-FROM sys.columns 
-WHERE object_id = OBJECT_ID('dbo.VCompras')
-ORDER BY column_id;
+--SELECT name 
+--FROM sys.columns 
+--WHERE object_id = OBJECT_ID('dbo.VDetalleCompras')
+--ORDER BY column_id;
 
 
 
