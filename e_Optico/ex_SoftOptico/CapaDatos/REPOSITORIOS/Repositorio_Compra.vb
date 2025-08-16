@@ -19,10 +19,10 @@ Public Class Repositorio_Compra
         VALUES (@CompraID, @ProductoID, @Cantidad, @CostoUnitario, @SubTotal, @ModoCargo);"
 
     Private Const SQL_UPDATE_COMPRA As String = "
-        UPDATE TCompras SET (FechaCompra = @FechaCompra, NumeroControl = @NumeroControl, NumeroFactura = @NumeroFactura, 
+        UPDATE TCompras SET FechaCompra = @FechaCompra, NumeroControl = @NumeroControl, NumeroFactura = @NumeroFactura, 
         TipoPagoID = @TipoPagoID, AlicuotaID = @AlicuotaID, ProveedorID = @ProveedorID, 
         EmpleadoID = @EmpleadoID, UbicacionDestinoID = @UbicacionDestinoID, TotalCompra = @TotalCompra, 
-        Estado = @Estado, Observacion = @Observacion) WHERE CompraID = @CompraID"
+        Observacion = @Observacion WHERE CompraID = @CompraID;"
 
     Private Const SQL_UPDATE_DETALLE As String = "
         INSERT INTO TDetalleCompra (CompraID, ProductoID, Cantidad, CostoUnitario, Subtotal, ModoCargo)
@@ -32,8 +32,8 @@ Public Class Repositorio_Compra
     Private Const SQL_DELETE_COMPRA As String = "DELETE FROM TCompras WHERE CompraID = @CompraID"
     Private Const SQL_DELETE_DETALLE_BY_COMPRA As String = "DELETE FROM TDetalleCompra WHERE CompraID = @CompraID"
 
-    Private Const SQL_SELECT_ALL As String = "SELECT * FROM TCompras"
-    Private Const SQL_SELECT_BY_ID As String = "SELECT * FROM TCompras WHERE CompraID = @CompraID"
+    Private Const SQL_SELECT_ALL As String = "SELECT * FROM VCompras"
+    Private Const SQL_SELECT_BY_ID As String = "SELECT * FROM VCompras WHERE CompraID = @CompraID"
     Private Const SQL_SELECT_DETALLES_BY_COMPRA As String = "SELECT * FROM TDetalleCompra WHERE CompraID = @CompraID"
 
     Public Function Add(compra As TCompra) As Integer Implements IRepositorio_Compra.Add
@@ -180,7 +180,7 @@ Public Class Repositorio_Compra
         Throw New NotImplementedException()
     End Function
 
-    Public Function Update(compra As TCompra) As Integer Implements IRepositorio_Compra.Update
+    Public Function Update(compra As TCompra) As Boolean Implements IRepositorio_Compra.Update
         Try
             Using conn As SqlConnection = ObtenerConexion()
                 conn.Open()
@@ -188,28 +188,35 @@ Public Class Repositorio_Compra
                     Try
                         ' 1. Actualizar datos de la compra
                         Using cmdUpdate As New SqlClient.SqlCommand(SQL_UPDATE_COMPRA, conn, tran)
-                            cmdUpdate.Parameters.AddWithValue("@ProveedorID", proveedorID)
-                            cmdUpdate.Parameters.AddWithValue("@FechaCompra", fechaCompra)
-                            cmdUpdate.Parameters.AddWithValue("@TipoPagoID", tipoPagoID)
-                            cmdUpdate.Parameters.AddWithValue("@Total", total)
-                            cmdUpdate.Parameters.AddWithValue("@CompraID", compra)
+                            cmdUpdate.Parameters.AddWithValue("@CompraID", compra.CompraID)
+                            cmdUpdate.Parameters.AddWithValue("@FechaCompra", compra.FechaCompra)
+                            cmdUpdate.Parameters.AddWithValue("@NumeroControl", If(String.IsNullOrWhiteSpace(compra.NumeroControl), DBNull.Value, compra.NumeroControl))
+                            cmdUpdate.Parameters.AddWithValue("@NumeroFactura", If(String.IsNullOrWhiteSpace(compra.NumeroFactura), DBNull.Value, compra.NumeroFactura))
+                            cmdUpdate.Parameters.AddWithValue("@TipoPagoID", compra.TipoPagoID)
+                            cmdUpdate.Parameters.AddWithValue("@AlicuotaID", compra.AlicuotaID)
+                            cmdUpdate.Parameters.AddWithValue("@ProveedorID", compra.ProveedorID)
+                            cmdUpdate.Parameters.AddWithValue("@EmpleadoID", compra.EmpleadoID)
+                            cmdUpdate.Parameters.AddWithValue("@UbicacionDestinoID", compra.UbicacionDestinoID)
+                            cmdUpdate.Parameters.AddWithValue("@TotalCompra", compra.TotalCompra)
+                            cmdUpdate.Parameters.AddWithValue("@Observacion", If(String.IsNullOrWhiteSpace(compra.Observacion), DBNull.Value, compra.Observacion))
                             cmdUpdate.ExecuteNonQuery()
                         End Using
 
                         ' 2. Eliminar detalle viejo
                         Using cmdDelete As New SqlClient.SqlCommand(SQL_DELETE_DETALLE_BY_COMPRA, conn, tran)
-                            cmdDelete.Parameters.AddWithValue("@CompraID", compra)
+                            cmdDelete.Parameters.AddWithValue("@CompraID", compra.CompraID)
                             cmdDelete.ExecuteNonQuery()
                         End Using
 
                         ' 3. Insertar detalle nuevo
-                        For Each item In detalle
+                        For Each item In compra.Detalle
                             Using cmdInsert As New SqlClient.SqlCommand(SQL_INSERT_DETALLE, conn, tran)
-                                cmdInsert.Parameters.AddWithValue("@CompraID", compra)
+                                cmdInsert.Parameters.AddWithValue("@CompraID", compra.CompraID)
                                 cmdInsert.Parameters.AddWithValue("@ProductoID", item.ProductoID)
                                 cmdInsert.Parameters.AddWithValue("@Cantidad", item.Cantidad)
-                                cmdInsert.Parameters.AddWithValue("@PrecioUnitario", item.PrecioUnitario)
-                                cmdInsert.Parameters.AddWithValue("@Subtotal", item.Subtotal)
+                                cmdInsert.Parameters.AddWithValue("@CostoUnitario", item.PrecioUnitario)
+                                cmdInsert.Parameters.AddWithValue("@SubTotal", item.Subtotal)
+                                cmdInsert.Parameters.AddWithValue("@ModoCargo", If(String.IsNullOrWhiteSpace(item.ModoCargo), DBNull.Value, item.ModoCargo))
                                 cmdInsert.ExecuteNonQuery()
                             End Using
                         Next
@@ -224,80 +231,81 @@ Public Class Repositorio_Compra
                 End Using
             End Using
         Catch ex As Exception
-            MessageBox.Show("Error al actualizar la compra: " & ex.Message)
+            Throw New Exception("Repositorio_Compras.Update -> " & ex.Message, ex)
             Return False
         End Try
+
     End Function
 End Class
 
 
-Public Class RepositorioCompras
+'Public Class RepositorioCompras
 
-    Private Shared conexionString As String = "Data Source=TU_SERVIDOR;Initial Catalog=TU_BASE;Integrated Security=True"
+'    Private Shared conexionString As String = "Data Source=TU_SERVIDOR;Initial Catalog=TU_BASE;Integrated Security=True"
 
-    ''' <summary>
-    ''' Actualiza una compra y su detalle.
-    ''' </summary>
-    Public Shared Function ActualizarCompra(compraID As Integer, proveedorID As Integer, fechaCompra As Date, tipoPagoID As Integer, total As Decimal, detalle As List(Of DetalleCompra)) As Boolean
-        Try
-            Using conn As New SqlClient.SqlConnection(conexionString)
-                conn.Open()
-                Using tran As SqlClient.SqlTransaction = conn.BeginTransaction()
-                    Try
-                        ' 1. Actualizar datos de la compra
-                        Dim sqlUpdateCompra As String =
-                            "UPDATE TCompras 
-                             SET ProveedorID = @ProveedorID,
-                                 FechaCompra = @FechaCompra,
-                                 TipoPagoID = @TipoPagoID,
-                                 Total = @Total
-                             WHERE CompraID = @CompraID"
+'    ''' <summary>
+'    ''' Actualiza una compra y su detalle.
+'    ''' </summary>
+'    Public Shared Function ActualizarCompra(compraID As Integer, proveedorID As Integer, fechaCompra As Date, tipoPagoID As Integer, total As Decimal, detalle As List(Of DetalleCompra)) As Boolean
+'        Try
+'            Using conn As New SqlClient.SqlConnection(conexionString)
+'                conn.Open()
+'                Using tran As SqlClient.SqlTransaction = conn.BeginTransaction()
+'                    Try
+'                        ' 1. Actualizar datos de la compra
+'                        Dim sqlUpdateCompra As String =
+'                            "UPDATE TCompras 
+'                             SET ProveedorID = @ProveedorID,
+'                                 FechaCompra = @FechaCompra,
+'                                 TipoPagoID = @TipoPagoID,
+'                                 Total = @Total
+'                             WHERE CompraID = @CompraID"
 
-                        Using cmdUpdate As New SqlClient.SqlCommand(sqlUpdateCompra, conn, tran)
-                            cmdUpdate.Parameters.AddWithValue("@ProveedorID", proveedorID)
-                            cmdUpdate.Parameters.AddWithValue("@FechaCompra", fechaCompra)
-                            cmdUpdate.Parameters.AddWithValue("@TipoPagoID", tipoPagoID)
-                            cmdUpdate.Parameters.AddWithValue("@Total", total)
-                            cmdUpdate.Parameters.AddWithValue("@CompraID", compraID)
-                            cmdUpdate.ExecuteNonQuery()
-                        End Using
+'                        Using cmdUpdate As New SqlClient.SqlCommand(sqlUpdateCompra, conn, tran)
+'                            cmdUpdate.Parameters.AddWithValue("@ProveedorID", proveedorID)
+'                            cmdUpdate.Parameters.AddWithValue("@FechaCompra", fechaCompra)
+'                            cmdUpdate.Parameters.AddWithValue("@TipoPagoID", tipoPagoID)
+'                            cmdUpdate.Parameters.AddWithValue("@Total", total)
+'                            cmdUpdate.Parameters.AddWithValue("@CompraID", compraID)
+'                            cmdUpdate.ExecuteNonQuery()
+'                        End Using
 
-                        ' 2. Eliminar detalle viejo
-                        Dim sqlDeleteDetalle As String = "DELETE FROM TDetalleCompra WHERE CompraID = @CompraID"
-                        Using cmdDelete As New SqlClient.SqlCommand(sqlDeleteDetalle, conn, tran)
-                            cmdDelete.Parameters.AddWithValue("@CompraID", compraID)
-                            cmdDelete.ExecuteNonQuery()
-                        End Using
+'                        ' 2. Eliminar detalle viejo
+'                        Dim sqlDeleteDetalle As String = "DELETE FROM TDetalleCompra WHERE CompraID = @CompraID"
+'                        Using cmdDelete As New SqlClient.SqlCommand(sqlDeleteDetalle, conn, tran)
+'                            cmdDelete.Parameters.AddWithValue("@CompraID", compraID)
+'                            cmdDelete.ExecuteNonQuery()
+'                        End Using
 
-                        ' 3. Insertar detalle nuevo
-                        Dim sqlInsertDetalle As String =
-                            "INSERT INTO TDetalleCompra (CompraID, ProductoID, Cantidad, PrecioUnitario, Subtotal)
-                             VALUES (@CompraID, @ProductoID, @Cantidad, @PrecioUnitario, @Subtotal)"
+'                        ' 3. Insertar detalle nuevo
+'                        Dim sqlInsertDetalle As String =
+'                            "INSERT INTO TDetalleCompra (CompraID, ProductoID, Cantidad, PrecioUnitario, Subtotal)
+'                             VALUES (@CompraID, @ProductoID, @Cantidad, @PrecioUnitario, @Subtotal)"
 
-                        For Each item In detalle
-                            Using cmdInsert As New SqlClient.SqlCommand(sqlInsertDetalle, conn, tran)
-                                cmdInsert.Parameters.AddWithValue("@CompraID", compraID)
-                                cmdInsert.Parameters.AddWithValue("@ProductoID", item.ProductoID)
-                                cmdInsert.Parameters.AddWithValue("@Cantidad", item.Cantidad)
-                                cmdInsert.Parameters.AddWithValue("@PrecioUnitario", item.PrecioUnitario)
-                                cmdInsert.Parameters.AddWithValue("@Subtotal", item.Subtotal)
-                                cmdInsert.ExecuteNonQuery()
-                            End Using
-                        Next
+'                        For Each item In detalle
+'                            Using cmdInsert As New SqlClient.SqlCommand(sqlInsertDetalle, conn, tran)
+'                                cmdInsert.Parameters.AddWithValue("@CompraID", compraID)
+'                                cmdInsert.Parameters.AddWithValue("@ProductoID", item.ProductoID)
+'                                cmdInsert.Parameters.AddWithValue("@Cantidad", item.Cantidad)
+'                                cmdInsert.Parameters.AddWithValue("@PrecioUnitario", item.PrecioUnitario)
+'                                cmdInsert.Parameters.AddWithValue("@Subtotal", item.Subtotal)
+'                                cmdInsert.ExecuteNonQuery()
+'                            End Using
+'                        Next
 
-                        ' 4. Confirmar
-                        tran.Commit()
-                        Return True
-                    Catch ex As Exception
-                        tran.Rollback()
-                        Throw
-                    End Try
-                End Using
-            End Using
-        Catch ex As Exception
-            MessageBox.Show("Error al actualizar la compra: " & ex.Message)
-            Return False
-        End Try
-    End Function
+'                        ' 4. Confirmar
+'                        tran.Commit()
+'                        Return True
+'                    Catch ex As Exception
+'                        tran.Rollback()
+'                        Throw
+'                    End Try
+'                End Using
+'            End Using
+'        Catch ex As Exception
+'            MessageBox.Show("Error al actualizar la compra: " & ex.Message)
+'            Return False
+'        End Try
+'    End Function
 
-End Class
+'End Class

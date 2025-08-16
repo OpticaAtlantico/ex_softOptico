@@ -143,6 +143,8 @@ CREATE TABLE TProductos (
     Precio DECIMAL(18, 2) NOT NULL,
     Costo DECIMAL(18, 2) NOT NULL DEFAULT 0, -- Costo promedio ponderado
     Stock INT NOT NULL DEFAULT 0,
+    Material INT NOT NULL,
+    Color INT NOT NULL,
     Activo BIT NOT NULL DEFAULT 1,
     RequiereInventario BIT NOT NULL DEFAULT 1, -- Para servicios que no manejan stock
     FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID),
@@ -533,6 +535,30 @@ CREATE OR ALTER VIEW VProveedor AS
             , FechaRegistro
     FROM   TProveedor
 
+    GO
+
+CREATE OR ALTER VIEW VCompras AS
+    SELECT CompraID
+            , C.FechaCompra AS Fecha
+            , C.NumeroControl AS NControl
+            , C.NumeroFactura AS NFactura
+            , C.TotalCompra AS SubTotal
+            , C.Observacion
+            , U.NombreUbicacion AS Sucursal
+            , PV.NombreEmpresa AS Proveedor
+            , PV.RazonSocial
+            , PV.Telefono
+            , PV.Contacto
+            , PV.Direccion
+            , PV.Correo
+            , PV.Rif
+            , A.Nombre AS IVA
+            , P.Nombre AS TPago
+    FROM    TCompras C INNER JOIN
+            TUbicaciones U ON C.UbicacionDestinoID = U.UbicacionID INNER JOIN
+            TTipoPago P ON C.TipoPagoID = P.TipoPagoID INNER JOIN
+            TProveedor PV ON C.ProveedorID = PV.ProveedorID INNER JOIN
+            TAlicuota A ON C.AlicuotaID = A.AlicuotaID
 
 --DATOS DE INICIO PARA LA TABLA
 GO
@@ -660,10 +686,10 @@ INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Gravamen','1')
 --End Class
 
 --Para verificar los nombres de las columnas de la tabla
---SELECT name 
---FROM sys.columns 
---WHERE object_id = OBJECT_ID('dbo.TDetalleCompra')
---ORDER BY column_id;
+SELECT name 
+FROM sys.columns 
+WHERE object_id = OBJECT_ID('dbo.VCompras')
+ORDER BY column_id;
 
 
 

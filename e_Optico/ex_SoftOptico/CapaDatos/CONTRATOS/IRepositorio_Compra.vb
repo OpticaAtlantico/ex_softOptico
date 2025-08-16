@@ -3,7 +3,7 @@
 Public Interface IRepositorio_Compra
     Function GetAll() As IEnumerable(Of TCompra)
     Function Add(compra As TCompra) As Integer
-    Function Update(compra As TCompra) As Integer
+    Function Update(compra As TCompra) As Boolean
     Function Delete(compraID As Integer) As Boolean
     Function GetById(compraID As Integer) As TCompra
 End Interface

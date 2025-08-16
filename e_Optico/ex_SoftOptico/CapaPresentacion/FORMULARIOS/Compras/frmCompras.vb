@@ -171,32 +171,11 @@ Public Class frmCompras
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         Select Case btnAceptar.Texto
             Case "Actualizar..."
-
-                Dim compra As New TCompra With {
-                    .CompraID = DatosCompra.CompraID,
-                    .NumeroControl = txtNumeroControl.TextoUsuario.Trim(),
-                    .NumeroFactura = txtNumeroFactura.TextoUsuario.Trim(),
-                    .FechaCompra = txtFechaEmision.TextValue,
-                    .EmpleadoID = CInt(Sesion.UsuarioID),
-                    .AlicuotaID = 1,
-                    .UbicacionDestinoID = CInt(cmbSucursal.ItemSeleccionado.Valor),
-                    .ProveedorID = CInt(cmbProveedor.ItemSeleccionado.Valor),
-                    .TipoPagoID = CInt(cmbTipoPago.ItemSeleccionado.Valor),
-                    .Observacion = txtObservacion.TextoUsuario.Trim(),
-                    .TotalCompra = grvCompras.CalcularTotal(),
-                    .Detalle = grvCompras.GetDetalleList()
-                }
-                Dim service As New ComprasService()
-                Dim resultado As Boolean = service.ActualizarCompra(compra)
-                If resultado Then
-                    MessageBoxUI.Mostrar("Éxito", "Compra actualizada correctamente", TipoMensaje.Exito, Botones.Aceptar)
-                    LimpiarCeldas()
-                Else
-                    MessageBoxUI.Mostrar("Fallo...", "No se pudo actualizar la compra", TipoMensaje.Errors, Botones.Aceptar)
-                End If
+                '' Actualizar compra existente
+                AdminCompra(1)
 
             Case "Eliminar..."
-
+                ' Eliminar compra existente
                 Dim repo As New Repositorio_Compra
                 Dim resultado = repo.Remove(DatosCompra.CompraID)
 
@@ -209,34 +188,10 @@ Public Class frmCompras
                     MessageBoxUI.Mostrar("Fallo...", "No se pudo eliminar la compra", TipoMensaje.Errors, Botones.Aceptar)
                 End If
 
-
             Case Else
-                Try
-                    Dim compra As New TCompra With {
-                        .NumeroControl = txtNumeroControl.TextoUsuario.Trim(),
-                        .NumeroFactura = txtNumeroFactura.TextoUsuario.Trim(),
-                        .FechaCompra = txtFechaEmision.TextValue,
-                        .EmpleadoID = CInt(Sesion.UsuarioID),
-                        .AlicuotaID = 1,
-                        .UbicacionDestinoID = CInt(cmbSucursal.ItemSeleccionado.Valor),
-                        .ProveedorID = CInt(cmbProveedor.ItemSeleccionado.Valor),
-                        .TipoPagoID = CInt(cmbTipoPago.ItemSeleccionado.Valor),
-                        .Observacion = txtObservacion.TextoUsuario.Trim(),
-                        .TotalCompra = grvCompras.CalcularTotal(),
-                        .Detalle = grvCompras.GetDetalleList()
-                    }
-
-                    Dim service As New ComprasService()
-                    Dim idGenerado As Integer = service.RegistrarCompra(compra)
-
-                    MessageBoxUI.Mostrar("Éxito", $"Compra registrada con éxito. ID: {idGenerado}", TipoMensaje.Exito, Botones.Aceptar)
-                    LimpiarCeldas()
-                Catch ex As Exception
-                    MessageBoxUI.Mostrar("Error...", "Error al registrar la compra: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
-                End Try
+                ' Caso por defecto: Registrar nueva compra
+                AdminCompra(0)
         End Select
-
-
     End Sub
 
     Private Sub btnLimpiarGrid_Click(sender As Object, e As EventArgs) Handles btnLimpiarGrid.Click
@@ -361,72 +316,67 @@ Public Class frmCompras
         End If
     End Sub
 
-    'Private Function GetDetalleFromGrid() As List(Of TDetalleCompra)
-    '    Dim list As New List(Of TDetalleCompra)
-    '    For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
-    '        If row.IsNewRow Then Continue For
-    '        Dim idProd As Integer = If(row.Cells("ProductoID").Value IsNot Nothing, Convert.ToInt32(row.Cells("ProductoID").Value), 0)
-    '        Dim cantidad As Decimal = If(row.Cells("Cantidad").Value IsNot Nothing, Convert.ToDecimal(row.Cells("Cantidad").Value), 0D)
-    '        Dim precio As Decimal = If(row.Cells("PrecioUnitario").Value IsNot Nothing, Convert.ToDecimal(row.Cells("PrecioUnitario").Value), 0D)
-    '        Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), cantidad * precio)
+    Private Sub AdminCompra(opcion As Integer)
+        Dim datosID As Integer = 0
+        ' Opción 0: Registrar nueva compra
+        Select Case opcion
+            Case 0
+                ' Case 0: Registrar nueva compra
+                If Not grvCompras.TieneDatos Then
+                    MessageBoxUI.Mostrar("Atención", "Debe agregar al menos un producto al detalle de la compra.", TipoMensaje.Advertencia, Botones.Aceptar)
+                    Return
+                End If
 
-    '        list.Add(New TDetalleCompra With {
-    '            .ProductoID = idProd,
-    '            .Cantidad = cantidad,
-    '            .PrecioUnitario = precio,
-    '            .Subtotal = subtotal
-    '        })
-    '    Next
-    '    Return list
-    'End Function
+            Case 1
+                ' Case 1: Actualizar compra existente
+                If Not grvCompras.TieneDatos Then
+                    MessageBoxUI.Mostrar("Atención", "Debe agregar al menos un producto al detalle de la compra.", TipoMensaje.Advertencia, Botones.Aceptar)
+                    Return
+                End If
 
-    'Private Function CalculateTotalFromGrid() As Decimal
-    '    Dim total As Decimal = 0D
-    '    For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
-    '        If row.IsNewRow Then Continue For
-    '        Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), 0D)
-    '        total += subtotal
-    '    Next
-    '    Return total
-    'End Function
+        End Select
+        ' Opción 1: Actualizar compra existente
 
+        Dim compra As New TCompra With {
+                    .CompraID = If(IsNothing(DatosCompra), 1, Integer.Parse(DatosCompra.CompraID.ToString())),
+                    .NumeroControl = txtNumeroControl.TextoUsuario.Trim(),
+                    .NumeroFactura = txtNumeroFactura.TextoUsuario.Trim(),
+                    .FechaCompra = txtFechaEmision.TextValue,
+                    .EmpleadoID = CInt(Sesion.UsuarioID),
+                    .AlicuotaID = 1,
+                    .UbicacionDestinoID = CInt(cmbSucursal.ItemSeleccionado.Valor),
+                    .ProveedorID = CInt(cmbProveedor.ItemSeleccionado.Valor),
+                    .TipoPagoID = CInt(cmbTipoPago.ItemSeleccionado.Valor),
+                    .Observacion = txtObservacion.TextoUsuario.Trim(),
+                    .TotalCompra = grvCompras.CalcularTotal(),
+                    .Detalle = grvCompras.GetDetalleList()
+                }
+        Dim service As New ComprasService()
+        Select Case opcion
+            Case 0
+                ' Case 0: Registrar nueva compra
+                Dim resultado As Integer = service.RegistrarCompra(compra)
+                If resultado > 0 Then
+                    MessageBoxUI.Mostrar("Éxito", $"Compra registrada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
+                    LimpiarCeldas()
+                Else
+                    MessageBoxUI.Mostrar("Fallo...", "No se pudo registrar la compra", TipoMensaje.Errors, Botones.Aceptar)
+                End If
+            Case 1
+                ' Case 1: Actualizar compra existente
+                Dim resultado As Boolean = service.ActualizarCompra(compra)
+                If resultado Then
+                    MessageBoxUI.Mostrar("Éxito", $"Compra actualizada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
+                    LimpiarCeldas()
+                Else
+                    MessageBoxUI.Mostrar("Fallo...", "No se pudo actualizar la compra", TipoMensaje.Errors, Botones.Aceptar)
+                End If
+        End Select
+
+    End Sub
 #End Region
 
 End Class
-
-
-
-
-
-
-'Private Function GetDetalleFromGrid() As List(Of TDetalleCompra)
-'    Dim list As New List(Of TDetalleCompra)
-'    For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
-'        If row.IsNewRow Then Continue For
-'        Dim idProd As Integer = If(row.Cells("ProductoID").Value IsNot Nothing, Convert.ToInt32(row.Cells("ProductoID").Value), 0)
-'        Dim cantidad As Decimal = If(row.Cells("Cantidad").Value IsNot Nothing, Convert.ToDecimal(row.Cells("Cantidad").Value), 0D)
-'        Dim precio As Decimal = If(row.Cells("PrecioUnitario").Value IsNot Nothing, Convert.ToDecimal(row.Cells("PrecioUnitario").Value), 0D)
-'        Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), cantidad * precio)
-
-'        list.Add(New TDetalleCompra With {
-'            .ProductoID = idProd,
-'            .Cantidad = cantidad,
-'            .PrecioUnitario = precio,
-'            .Subtotal = subtotal
-'        })
-'    Next
-'    Return list
-'End Function
-
-'Private Function CalculateTotalFromGrid() As Decimal
-'    Dim total As Decimal = 0D
-'    For Each row As DataGridViewRow In grvCompras.InnerGridView.Rows
-'        If row.IsNewRow Then Continue For
-'        Dim subtotal As Decimal = If(row.Cells("SubTotal").Value IsNot Nothing, Convert.ToDecimal(row.Cells("SubTotal").Value), 0D)
-'        total += subtotal
-'    Next
-'    Return total
-'End Function
 
 
 

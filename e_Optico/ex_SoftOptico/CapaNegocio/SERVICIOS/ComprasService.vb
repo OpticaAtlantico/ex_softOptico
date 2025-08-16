@@ -21,7 +21,7 @@ Public Class ComprasService
         Return _repo.Add(compra)
     End Function
 
-    Public Function ActualizarCompra(compra As TCompra) As Integer
+    Public Function ActualizarCompra(compra As TCompra) As Boolean
         ' Validaciones de negocio
         If compra Is Nothing Then Throw New ArgumentNullException(NameOf(compra))
         If compra.ProveedorID <= 0 Then Throw New Exception("Seleccione un proveedor.")

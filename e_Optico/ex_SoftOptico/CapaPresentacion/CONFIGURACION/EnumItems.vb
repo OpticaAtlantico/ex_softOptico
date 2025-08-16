@@ -22,6 +22,22 @@ Public Enum Zona
     San_Felix = 1
 End Enum
 
+Public Enum Material
+    Metal = 0
+    Pasta = 1
+    Aluminio = 2
+    Plastico = 3
+    Acero_Inoxidable = 4
+End Enum
+
+Public Enum Color_Punto
+    Rojo = 0
+    Azul = 1
+    Verde = 2
+    Amarillo = 3
+    Morado = 4
+End Enum
+
 Public Class EnumItems
     Public Property nombre As String
     Public Property valor As Integer
