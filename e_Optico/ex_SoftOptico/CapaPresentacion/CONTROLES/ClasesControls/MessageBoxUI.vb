@@ -32,6 +32,12 @@ Public Class MessageBoxUI
     Public Property Resultado As DialogResult = DialogResult.None
 
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         ' Tamaño y estilo del Formulario MessageBoxUI
         Me.FormBorderStyle = FormBorderStyle.None
         Me.StartPosition = FormStartPosition.CenterScreen
@@ -39,7 +45,6 @@ Public Class MessageBoxUI
         Me.BackColor = Color.White
         Me.TopMost = True
         Me.ShowInTaskbar = False
-        Me.DoubleBuffered = True
 
         ' Fondo redondeado
         RedondearBordes()

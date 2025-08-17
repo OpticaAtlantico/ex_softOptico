@@ -56,9 +56,14 @@ Public Class LabelUI
     Private iconControl As New IconPictureBox()
 
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Size = New Size(280, 38)
         Me.Font = New Font("Century Gothic", 10, FontStyle.Regular)
-        Me.DoubleBuffered = True
 
         ' ✅ Activar soporte de transparencia visual
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or

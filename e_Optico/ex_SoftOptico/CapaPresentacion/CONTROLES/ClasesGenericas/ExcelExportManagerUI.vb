@@ -7,7 +7,6 @@ Imports OfficeOpenXml
 Imports OfficeOpenXml.Style
 
 Public Class ExcelExportManagerUI
-
     Public Shared Sub ExportarDesdeGridEstilizado(grid As DataGridView, Optional nombreArchivo As String = "ExportEstilizado", Optional excluirPrimeras As Integer = 3)
         If grid Is Nothing OrElse grid.Rows.Count = 0 Then
             MostrarToasts("No hay datos para exportar.", TipoToastUI.Warning)

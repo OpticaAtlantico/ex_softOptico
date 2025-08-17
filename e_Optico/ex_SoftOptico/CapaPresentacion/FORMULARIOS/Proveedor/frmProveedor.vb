@@ -16,18 +16,7 @@ Public Class frmProveedor
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
-
-        Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer, True)
-        Me.UpdateStyles()
-
-        ' Oculta al inicio para cargar limpio
-        Me.Opacity = 0
-        Me.Visible = False
-
-        ' Timer para fade-in
-        AddHandler fadeTimer.Tick, AddressOf FadeIn
-        fadeTimer.Interval = 30
+        FormStylerUI.Apply(Me)
 
         ' Add any initialization after the InitializeComponent() call.
     End Sub
@@ -76,7 +65,7 @@ Public Class frmProveedor
             .ColorFondo = Color.FromArgb(0, 191, 192)
             .ColorTexto = Color.WhiteSmoke
         End With
-
+        FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 
     Private Sub txtNombreEmpresa_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtNombreEmpresa.CampoKeyPress

@@ -61,9 +61,14 @@
 
     ' ➤ Constructor
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Size = New Size(200, 28)
         Me.BackColor = Color.Transparent
-        Me.DoubleBuffered = True
 
         animationTimer = New Timer With {.Interval = 15}
         AddHandler animationTimer.Tick, AddressOf AvanzarAnimacion

@@ -11,7 +11,7 @@ Public Class frmConsultarCompras
 #Region "CONSTRUCTOR"
     Public Sub New()
         InitializeComponent()
-        FadeManagerUI.ShowWithFade(Me, 0.2)
+        FormStylerUI.Apply(Me)
 
         With Me.dgvCompras.lblTitulo
             .Titulo = "Consulta de Compras"
@@ -35,6 +35,7 @@ Public Class frmConsultarCompras
         AddHandler dgvCompras.BExportarGrid.Click, Sub()
                                                        ExcelExportManagerUI.ExportarDesdeGridEstilizado(dgvCompras.GrvOrbital, "Compras")
                                                    End Sub
+        FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 #End Region
 

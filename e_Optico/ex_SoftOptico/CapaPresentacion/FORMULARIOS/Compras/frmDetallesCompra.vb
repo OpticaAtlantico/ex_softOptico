@@ -10,7 +10,7 @@ Public Class frmDetallesCompra
     Public Sub New()
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
-        FadeManagerUI.ShowWithFade(Me, 0.2)
+        FormStylerUI.Apply(Me)
 
         ' Agregar cualquier inicialización después de la llamada a InitializeComponent().
         productosGrid = New DataGridViewGUI()
@@ -20,12 +20,12 @@ Public Class frmDetallesCompra
     Private Sub Componentes()
         Me.Text = "Listado de Detalle de Compra"
         Me.MinimumSize = New Size(900, 600)
-        Me.StartPosition = FormStartPosition.CenterParent
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.BackColor = Color.White
         Me.MaximumSize = New Size(1000, 700)
+        Me.StartPosition = FormStartPosition.CenterScreen
 
         productosGrid.Titulo = "DETALLE DE COMPRA"
         productosGrid.Subtitulo = "Listado de productos comprados..."
@@ -42,13 +42,14 @@ Public Class frmDetallesCompra
         End With
 
         AddHandler productosGrid.btnEnviar.Click, Sub()
-                                                      FadeManagerUI.ApplyOut(Me, 500)
+                                                      FadeManagerUI.ApplyOut(Me, 60)
                                                   End Sub
     End Sub
 
     Private Sub frmListarProducto_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         PrepararControl()
         Componentes()
+        FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 
     Private Sub PrepararControl()

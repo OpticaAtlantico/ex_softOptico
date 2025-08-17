@@ -54,7 +54,12 @@ Public Class DataGridComprasUI
 #Region "Inicializar"
 
     Public Sub Inicializar()
-
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         PrepararEstiloVisual()
 
         ' Asegúrate de estar limpiando las columnas antes de volver a agregarlas

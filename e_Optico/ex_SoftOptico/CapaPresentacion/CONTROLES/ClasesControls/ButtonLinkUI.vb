@@ -10,6 +10,12 @@ Public Class ButtonLinkUI
 
     Public Sub New()
         InitializeComponent()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         lblTexto.ForeColor = _normalColor
         lblTexto.Cursor = Cursors.Hand
         lblTexto.Font = New Font("Century Gothic", 10, FontStyle.Regular)

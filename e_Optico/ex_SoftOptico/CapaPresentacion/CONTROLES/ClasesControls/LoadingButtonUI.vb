@@ -46,15 +46,15 @@ Public Class LoadingButtonUI
     Private iconControl As New IconPictureBox()
 
     Public Sub New()
-        Me.Size = New Size(160, 45)
-        Me.Font = New Font("Segoe UI", 10, FontStyle.Bold)
-        Me.Cursor = Cursors.Hand
         Me.DoubleBuffered = True
-
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
                     ControlStyles.UserPaint Or
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(160, 45)
+        Me.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        Me.Cursor = Cursors.Hand
         Me.BackColor = Color.Transparent
 
         iconControl.Size = New Size(24, 24)

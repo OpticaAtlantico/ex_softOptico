@@ -4,7 +4,6 @@ Imports FontAwesome.Sharp
 
 Public Class CommandButtonUI
     Inherits Control
-
     Public Enum EstiloBootstrap
         Primary
         Success
@@ -70,10 +69,15 @@ Public Class CommandButtonUI
     Private iconControl As New IconPictureBox()
 
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Size = New Size(160, 45)
         Me.Font = New Font("Century Gothic", 10, FontStyle.Bold)
         Me.Cursor = Cursors.Hand
-        Me.DoubleBuffered = True
 
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
                     ControlStyles.AllPaintingInWmPaint Or

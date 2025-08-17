@@ -19,6 +19,11 @@ Public Class ToggleSwitchUI
 
     Public Sub New()
         Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Font = New Font("Century Gothic", 11, FontStyle.Regular)
         Me.Size = New Size(120, 32)
         Me.Cursor = Cursors.Hand

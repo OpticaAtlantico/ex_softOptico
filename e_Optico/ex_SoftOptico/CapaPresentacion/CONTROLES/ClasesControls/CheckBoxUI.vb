@@ -65,6 +65,12 @@
     Public Event CheckedChanged(sender As Object, e As EventArgs)
 
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Size = New Size(124, 24)
         Me.DoubleBuffered = True
         Me.Cursor = Cursors.Hand

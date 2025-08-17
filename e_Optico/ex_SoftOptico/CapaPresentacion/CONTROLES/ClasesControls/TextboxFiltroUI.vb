@@ -9,10 +9,15 @@ Public Class TextboxFiltroUI
     Public Event TextChanged As EventHandler
 
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Height = 30
         Me.Width = 240
         Me.BackColor = Color.Transparent
-        Me.DoubleBuffered = True
         Me.Padding = New Padding(0)
 
         ' 🔍 Icono de búsqueda

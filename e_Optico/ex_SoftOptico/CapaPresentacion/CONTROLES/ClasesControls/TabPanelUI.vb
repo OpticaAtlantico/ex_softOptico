@@ -11,16 +11,14 @@ Public Class TabPanelUI
     Public Property ActiveContent As Control = Nothing
 
     Public Sub New()
-        Me.Font = New Font("Century Gothic", 10, FontStyle.Bold)
         Me.DoubleBuffered = True
-
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
-            ControlStyles.OptimizedDoubleBuffer Or
-            ControlStyles.AllPaintingInWmPaint Or
-            ControlStyles.UserPaint, True)
-
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Font = New Font("Century Gothic", 10, FontStyle.Bold)
         Me.BackColor = Color.Transparent
-
     End Sub
 
     Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)

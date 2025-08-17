@@ -3,9 +3,7 @@ Imports System.DirectoryServices.ActiveDirectory
 Imports System.IO
 Imports System.Text
 Imports System.Windows.Forms
-
 Public Class ExportManagerUI
-
     Public Shared Sub ExportarDesdeGrid(grid As DataGridView, nombreArchivo As String)
         If grid Is Nothing OrElse grid.Rows.Count = 0 Then Exit Sub
 
@@ -29,7 +27,6 @@ Public Class ExportManagerUI
             End If
         End Using
     End Sub
-
     Public Shared Sub ExportarDesdeDataTable(dt As DataTable, nombreArchivo As String, formHost As Form)
         If dt Is Nothing OrElse dt.Rows.Count = 0 Then Exit Sub
 
@@ -59,7 +56,6 @@ Public Class ExportManagerUI
         End If
         Return texto
     End Function
-
     Private Shared Sub MostrarToasts(formHost As Form, mensaje As String)
         Dim toast As New ToastUI("Guardado exitosamente...", TipoToastUI.Success)
         toast.Mostrar()

@@ -50,8 +50,13 @@ Public Class TextBoxLabelUI
 
     ' === Constructor ===
     Public Sub New()
-        Me.Size = New Size(300, 100)
         Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(300, 100)
         Me.BackColor = Color.Transparent
 
         lblTitulo.Text = _labelText

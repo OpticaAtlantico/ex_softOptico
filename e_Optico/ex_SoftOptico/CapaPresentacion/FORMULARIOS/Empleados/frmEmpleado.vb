@@ -63,7 +63,7 @@ Public Class frmEmpleado
             .ColorTexto = Color.WhiteSmoke
         End With
         Me.ResumeLayout()
-        FadeManagerUI.StartFade(Me, FadeDirection.FadeIn, 0.05)
+        FadeManagerUI.StartFade(Me, 0.05)
 
     End Sub
 

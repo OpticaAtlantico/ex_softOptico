@@ -10,6 +10,12 @@ Public Class ToastUI
     Private velocidadFade As Double = 0.08 ' Velocidad de transición
 
     Public Sub New(mensaje As String, tipo As TipoToastUI)
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         ' Configuración básica
         Me.FormBorderStyle = FormBorderStyle.None
         Me.StartPosition = FormStartPosition.Manual

@@ -68,6 +68,12 @@ Public Class DataGridViewUI
 
     ' 🚀 Constructor orbital
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Dock = DockStyle.Fill
         Me.BackColor = Color.WhiteSmoke
 
@@ -108,8 +114,6 @@ Public Class DataGridViewUI
         If filtro IsNot Nothing Then
             AddHandler filtro.TextChanged, AddressOf FiltrarRegistros
         End If
-
-
     End Sub
 
     ' 🧩 Layout visual

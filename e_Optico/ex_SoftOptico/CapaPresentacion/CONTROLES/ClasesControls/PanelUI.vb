@@ -25,6 +25,11 @@ Public Class PanelUI
 
     Public Sub New()
         Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.BackColor = Color.Transparent
         Me.Size = New Size(300, 80)
 

@@ -22,12 +22,12 @@ Public Class LoadingSpinnerUI
 
     Public Sub New()
         Me.DoubleBuffered = True
-        Me.Size = New Size(50, 50)
-
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
                     ControlStyles.UserPaint Or
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(50, 50)
         Me.BackColor = Color.Transparent
 
         spinTimer.Interval = Speed

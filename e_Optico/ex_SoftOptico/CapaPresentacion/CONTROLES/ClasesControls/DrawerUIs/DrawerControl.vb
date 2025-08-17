@@ -7,7 +7,6 @@ Public Class DrawerControl
                     ControlStyles.UserPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
-
         Me.Dock = DockStyle.Fill
     End Sub
 

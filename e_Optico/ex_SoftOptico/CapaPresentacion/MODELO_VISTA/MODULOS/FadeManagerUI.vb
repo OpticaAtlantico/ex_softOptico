@@ -48,7 +48,7 @@ Public Module FadeManagerUI
     Public Sub ApplyOut(form As Form, Optional durationMs As Integer = 300)
         If form Is Nothing OrElse form.IsDisposed Then Exit Sub
 
-        Dim steps As Integer = 30
+        Dim steps As Integer = 15
         Dim interval As Integer = durationMs \ steps
         Dim decrement As Double = 1.0 / steps
 

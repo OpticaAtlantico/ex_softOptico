@@ -24,13 +24,13 @@ Public Class SelectUI
 
     Public Sub New()
         Me.DoubleBuffered = True
-        Me.Size = New Size(250, 36)
-        Me.Font = New Font("Century Gothic", 11)
-
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
                     ControlStyles.UserPaint Or
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(250, 36)
+        Me.Font = New Font("Century Gothic", 11)
         Me.BackColor = Color.Transparent
 
         buscador.Font = Me.Font

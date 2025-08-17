@@ -8,10 +8,12 @@
     Private angulo As Integer = 0
 
     Public Sub New()
-        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or
-                    ControlStyles.OptimizedDoubleBuffer Or
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
                     ControlStyles.UserPaint Or
-                    ControlStyles.SupportsTransparentBackColor, True)
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.BackColor = Color.FromArgb(160, 0, 0, 0)
         Me.Dock = DockStyle.Fill
         Me.Font = New Font("Segoe UI", 10, FontStyle.Bold)

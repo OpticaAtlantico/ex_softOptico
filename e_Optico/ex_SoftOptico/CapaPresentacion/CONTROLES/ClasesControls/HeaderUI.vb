@@ -26,8 +26,13 @@ Public Class HeaderUI
     Private iconControl As New IconPictureBox()
 
     Public Sub New()
-        Me.Size = New Size(300, 60)
         Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(300, 60)
         Me.Font = New Font("Segoe UI", 10, FontStyle.Bold)
 
         iconControl.IconChar = Icono

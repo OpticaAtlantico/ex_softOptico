@@ -47,9 +47,14 @@ Public Class MultilineTextBoxLabelUI
 
     ' === Constructor ===
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.Size = New Size(300, 100)
         Me.BackColor = Color.Transparent
-        Me.DoubleBuffered = True
 
         ' === Label título ===
         lblTitulo.Text = _labelText

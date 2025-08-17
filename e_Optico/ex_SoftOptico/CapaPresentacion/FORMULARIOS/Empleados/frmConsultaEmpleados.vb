@@ -13,6 +13,7 @@ Public Class frmConsultaEmpleados
 #Region "CONSTRUCTOR"
     Public Sub New()
         InitializeComponent()
+        FormStylerUI.Apply(Me)
 
         With Me.dgvDatosProveedor.lblTitulo
             .Titulo = "Consulta de Empleados"
@@ -45,6 +46,7 @@ Public Class frmConsultaEmpleados
         AddHandler dgvDatosProveedor.BExportarTabla.Click, Sub()
                                                                MsgBox("Exportar tabla no implementado")
                                                            End Sub
+        FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 
 #End Region

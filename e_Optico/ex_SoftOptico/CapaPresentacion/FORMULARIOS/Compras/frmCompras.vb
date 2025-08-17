@@ -8,8 +8,6 @@ Public Class frmCompras
 
     Private grvCompras As New DataGridComprasUI()
     Private cargandoCombo As Boolean = False
-    Private fadeTimer As New Timer()
-    Private fadeStep As Double = 0.1
 
     Public Property DatosCompra As VCompras = Nothing
     Public Property NombreBoton As String = String.Empty
@@ -17,26 +15,9 @@ Public Class frmCompras
 #Region "CONSTRUCTORES"
 
     Public Sub New()
-
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
-
-        Me.SuspendLayout()
-
-        Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer, True)
-        Me.UpdateStyles()
-
-        ' Oculta al inicio para cargar limpio
-        Me.Opacity = 0
-        Me.Visible = False
-
-        ' Timer para fade-in
-        AddHandler fadeTimer.Tick, AddressOf FadeIn
-        fadeTimer.Interval = 30
-
-        Me.ResumeLayout()
-
+        FormStylerUI.Apply(Me)
     End Sub
 
     Private Sub CustomizeComponents()
@@ -125,6 +106,7 @@ Public Class frmCompras
             End Select
 
         End If
+        FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 
     Private Sub btnAgregarProducto_Click(sender As Object, e As EventArgs) Handles btnAgregarProducto.Click
@@ -285,13 +267,6 @@ Public Class frmCompras
             End If
         Else
             MessageBoxUI.Mostrar("Información", "No hay productos en el detalle para limpiar.", TipoMensaje.Informacion, Botones.Aceptar)
-        End If
-    End Sub
-    Private Sub FadeIn(sender As Object, e As EventArgs)
-        If Me.Opacity < 1 Then
-            Me.Opacity += fadeStep
-        Else
-            fadeTimer.Stop()
         End If
     End Sub
 

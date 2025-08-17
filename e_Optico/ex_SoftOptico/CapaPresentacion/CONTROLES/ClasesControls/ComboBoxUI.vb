@@ -15,7 +15,12 @@ Public Class ComboBoxUI
     Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
 
     Public Sub New()
-        Me.SetStyle(ControlStyles.UserPaint Or ControlStyles.ResizeRedraw Or ControlStyles.OptimizedDoubleBuffer, True)
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
         Me.DrawMode = DrawMode.OwnerDrawFixed
         Me.DropDownStyle = ComboBoxStyle.DropDownList
         Me.Font = New Font("Century Gothic", 12, FontStyle.Regular)
