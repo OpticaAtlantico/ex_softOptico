@@ -108,7 +108,7 @@ Public Class DataGridViewGUI
     Private spinner As OverlayDataGridSpinnerUI
 
     Private headerUI As HeaderUI
-    Private btnEnviar As CommandButtonUI
+    Public btnEnviar As CommandButtonUI
     Private btnRefrescar As CommandButtonUI
 
     ' === Constructor ===

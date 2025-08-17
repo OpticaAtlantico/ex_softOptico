@@ -8,10 +8,10 @@ Public Class frmListarProductos
     Public Sub New()
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
+        FadeManagerUI.ShowWithFade(Me, 0.2)
         ' Agregar cualquier inicialización después de la llamada a InitializeComponent().
         productosGrid = New DataGridViewGUI()
     End Sub
-
 
     Private Sub frmListarProducto_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Me.Closing
         ' Limpiar el formulario destino al cerrar
@@ -95,7 +95,7 @@ Public Class frmListarProductos
         }
 
             FormularioDestino.AgregarProductoAlDetalle(seleccionado)
-            Me.Close()
+            FadeManagerUI.ApplyOut(Me, 500)
         End If
     End Sub
 

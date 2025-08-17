@@ -2,6 +2,12 @@
 Public Class DrawerControl
     Public Sub New()
         InitializeComponent()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+
         Me.Dock = DockStyle.Fill
     End Sub
 

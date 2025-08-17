@@ -24,10 +24,14 @@ Public Class AlertPanelUI
     Private _btnCerrar As New Label()
 
     Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+
         Me.Size = New Size(400, 45)
         Me.BackColor = Color.Transparent
-        Me.DoubleBuffered = True
-
         _btnCerrar.Text = "✖"
         _btnCerrar.Font = New Font("Century Gothic", 10, FontStyle.Bold)
         _btnCerrar.ForeColor = Color.White

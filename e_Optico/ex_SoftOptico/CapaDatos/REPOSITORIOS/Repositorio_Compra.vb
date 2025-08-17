@@ -34,7 +34,7 @@ Public Class Repositorio_Compra
 
     Private Const SQL_SELECT_ALL As String = "SELECT * FROM VCompras"
     Private Const SQL_SELECT_BY_ID As String = "SELECT * FROM VCompras WHERE CompraID = @CompraID"
-    Private Const SQL_SELECT_DETALLES_BY_COMPRA As String = "SELECT * FROM TDetalleCompra WHERE CompraID = @CompraID"
+    Private Const SQL_SELECT_DETALLES_BY_COMPRA As String = "SELECT * FROM VDetalleCompras WHERE CompraID = @CompraID"
 
     Public Function Add(compra As TCompra) As Integer Implements IRepositorio_Compra.Add
         If compra Is Nothing Then Throw New ArgumentNullException(NameOf(compra))
@@ -90,9 +90,9 @@ Public Class Repositorio_Compra
         End Using
     End Function
 
-    Public Function GetById(compraID As Integer) As TCompra Implements IRepositorio_Compra.GetById
-        Dim compra As New TCompra()
-        compra.Detalle = New List(Of TDetalleCompra)()
+    Public Function GetById(compraID As Integer) As VCompras Implements IRepositorio_Compra.GetById
+        Dim compra As New VCompras()
+        compra.Detalle = New List(Of VDetalleCompras)()
 
         Using conn As SqlConnection = ObtenerConexion()
             conn.Open()
@@ -103,16 +103,20 @@ Public Class Repositorio_Compra
                 Using rdr = cmd.ExecuteReader()
                     If rdr.Read() Then
                         compra.CompraID = Convert.ToInt32(rdr("CompraID"))
-                        compra.FechaCompra = Convert.ToDateTime(rdr("FechaCompra"))
-                        compra.NumeroControl = If(IsDBNull(rdr("NumeroControl")), "", Convert.ToString(rdr("NumeroControl")))
-                        compra.NumeroFactura = If(IsDBNull(rdr("NumeroFactura")), "", Convert.ToString(rdr("NumeroFactura")))
-                        compra.TipoPagoID = Convert.ToInt32(rdr("TipoPagoID"))
-                        compra.AlicuotaID = Convert.ToInt32(rdr("AlicuotaID"))
-                        compra.ProveedorID = Convert.ToInt32(rdr("ProveedorID"))
-                        compra.EmpleadoID = Convert.ToInt32(rdr("EmpleadoID"))
-                        compra.UbicacionDestinoID = Convert.ToInt32(rdr("UbicacionDestinoID"))
-                        compra.TotalCompra = Convert.ToDecimal(rdr("TotalCompra"))
+                        compra.Fecha = Convert.ToDateTime(rdr("Fecha"))
+                        compra.NControl = If(IsDBNull(rdr("NControl")), "", Convert.ToString(rdr("NControl")))
+                        compra.NFactura = If(IsDBNull(rdr("NFactura")), "", Convert.ToString(rdr("NFactura")))
+                        compra.TPago = rdr("TPago")
+                        compra.IVA = rdr("IVA")
+                        compra.Proveedor = rdr("Proveedor")
+                        compra.Direccion = If(IsDBNull(rdr("Direccion")), "", Convert.ToString(rdr("Direccion")))
+                        compra.Telefono = If(IsDBNull(rdr("Telefono")), "", Convert.ToString(rdr("Telefono")))
+                        compra.Rif = If(IsDBNull(rdr("Rif")), "", Convert.ToString(rdr("Rif")))
+                        compra.RazonSocial = If(IsDBNull(rdr("RazonSocial")), "", Convert.ToString(rdr("RazonSocial")))
+                        compra.SubTotal = Convert.ToDecimal(rdr("SubTotal"))
+                        compra.Sucursal = rdr("Sucursal")
                         compra.Observacion = If(IsDBNull(rdr("Observacion")), "", Convert.ToString(rdr("Observacion")))
+
                     Else
                         Return Nothing
                     End If
@@ -124,12 +128,12 @@ Public Class Repositorio_Compra
                 cmdDet.Parameters.AddWithValue("@CompraID", compraID)
                 Using rdr = cmdDet.ExecuteReader()
                     While rdr.Read()
-                        compra.Detalle.Add(New TDetalleCompra With {
-                            .DetalleID = If(IsDBNull(rdr("DetalleCompraID")), 0, Convert.ToInt32(rdr("DetalleCompraID"))),
+                        compra.Detalle.Add(New VDetalleCompras With {
                             .CompraID = If(IsDBNull(rdr("CompraID")), 0, Convert.ToInt32(rdr("CompraID"))),
-                            .ProductoID = Convert.ToInt32(rdr("ProductoID")),
-                            .Cantidad = Convert.ToDecimal(rdr("Cantidad")),
-                            .PrecioUnitario = Convert.ToDecimal(rdr("CostoUnitario")),
+                            .Descripcion = If(IsDBNull(rdr("Descripcion")), "", Convert.ToString(rdr("Descripcion"))),
+                            .CodigoProducto = Convert.ToString(rdr("CodigoProducto")),
+                            .Cantidad = Convert.ToInt32(rdr("Cantidad")),
+                            .CostoUnitario = Convert.ToDecimal(rdr("CostoUnitario")),
                             .Subtotal = Convert.ToDecimal(rdr("SubTotal")),
                             .ModoCargo = If(IsDBNull(rdr("ModoCargo")), "", Convert.ToString(rdr("ModoCargo")))
                         })
@@ -174,10 +178,6 @@ Public Class Repositorio_Compra
             Return False
         End Try
 
-    End Function
-
-    Public Function GetAll() As IEnumerable(Of TCompra) Implements IRepositorio_Compra.GetAll
-        Throw New NotImplementedException()
     End Function
 
     Public Function Update(compra As TCompra) As Boolean Implements IRepositorio_Compra.Update
@@ -235,6 +235,61 @@ Public Class Repositorio_Compra
             Return False
         End Try
 
+    End Function
+
+    Public Function GetDetalle(idCompra As Integer) As IEnumerable(Of VDetalleCompras) Implements IRepositorio_Compra.GetDetalle
+        Dim listaDetalles As New List(Of VDetalleCompras)
+
+        Using conn As SqlConnection = ObtenerConexion()
+            conn.Open()
+
+            Using cmd As New SqlCommand(SQL_SELECT_DETALLES_BY_COMPRA, conn)
+                cmd.Parameters.AddWithValue("@CompraID", idCompra)
+
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim detalle As New VDetalleCompras With {
+                                .CompraID = Convert.ToInt32(reader("CompraID")),
+                                .Descripcion = reader("Descripcion").ToString(),
+                                .Cantidad = Convert.ToInt32(reader("Cantidad")),
+                                .ModoCargo = If(IsDBNull(reader("ModoCargo")), "", reader("ModoCargo").ToString()),
+                                .CostoUnitario = Convert.ToDecimal(reader("CostoUnitario")),
+                                .Subtotal = Convert.ToDecimal(reader("Subtotal"))
+                            }
+                        listaDetalles.Add(detalle)
+                    End While
+                End Using
+            End Using
+        End Using
+        Return listaDetalles
+    End Function
+
+    Public Function GetAll() As IEnumerable(Of VCompras) Implements IRepositorio_Compra.GetAll
+        Dim listaCompras As New List(Of VCompras)
+
+        Using conn As SqlConnection = ObtenerConexion()
+            conn.Open()
+
+            Using cmd As New SqlCommand(SQL_SELECT_ALL, conn)
+                Using reader As SqlDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        Dim compra As New VCompras With {
+                            .CompraID = Convert.ToInt32(reader("CompraID")),
+                            .Fecha = Convert.ToDateTime(reader("Fecha")),
+                            .NControl = If(IsDBNull(reader("NControl")), "", reader("NControl").ToString()),
+                            .NFactura = If(IsDBNull(reader("NFactura")), "", reader("NFactura").ToString()),
+                            .Sucursal = reader("Sucursal").ToString(),
+                            .Proveedor = reader("Proveedor").ToString(),
+                            .TPago = reader("TPago").ToString(),
+                            .SubTotal = Convert.ToDecimal(reader("SubTotal"))
+                        }
+                        listaCompras.Add(compra)
+                    End While
+                End Using
+            End Using
+        End Using
+
+        Return listaCompras
     End Function
 End Class
 

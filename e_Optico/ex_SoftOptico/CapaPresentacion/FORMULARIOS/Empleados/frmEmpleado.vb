@@ -5,8 +5,6 @@ Imports System.Drawing
 Public Class frmEmpleado
     Inherits Form
 
-    Private fadeTimer As New Timer()
-    Private fadeStep As Double = 0.1
     Private rutaImagenSeleccionada As String = ""
 
     Public Property DatosEmpleados As TEmpleados = Nothing
@@ -17,18 +15,7 @@ Public Class frmEmpleado
     Public Sub New()
         ' This call is required by the designer.
         InitializeComponent()
-
-        Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer, True)
-        Me.UpdateStyles()
-
-        ' Oculta al inicio para cargar limpio
-        Me.Opacity = 0
-        Me.Visible = False
-
-        ' Timer para fade-in
-        AddHandler fadeTimer.Tick, AddressOf FadeIn
-        fadeTimer.Interval = 30
+        FormStylerUI.Apply(Me)
 
         ' Add any initialization after the InitializeComponent() call.
     End Sub
@@ -49,10 +36,6 @@ Public Class frmEmpleado
         ' Initialize form components or load data if necessary
         Me.SuspendLayout()
         PrepararUI()
-        Me.ResumeLayout()
-
-        Me.Visible = True
-        fadeTimer.Start()
 
         If DatosEmpleados IsNot Nothing Then
             CargarDatos(DatosEmpleados)
@@ -79,6 +62,8 @@ Public Class frmEmpleado
             .ColorFondo = Color.FromArgb(0, 191, 192)
             .ColorTexto = Color.WhiteSmoke
         End With
+        Me.ResumeLayout()
+        FadeManagerUI.StartFade(Me, FadeDirection.FadeIn, 0.05)
 
     End Sub
 
@@ -145,15 +130,6 @@ Public Class frmEmpleado
 #End Region
 
 #Region "PROCEDIMIENTOS"
-
-    Private Sub FadeIn(sender As Object, e As EventArgs)
-        If Me.Opacity < 1 Then
-            Me.Opacity += fadeStep
-        Else
-            fadeTimer.Stop()
-        End If
-    End Sub
-
     Private Sub PrepararUI()
 
         'Llenar combos con EnumItems

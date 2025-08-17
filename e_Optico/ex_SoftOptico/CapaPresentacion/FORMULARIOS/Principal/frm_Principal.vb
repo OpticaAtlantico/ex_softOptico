@@ -23,7 +23,7 @@ Public Class frm_Principal
     Private fadeStep As Double = 0.1
     Public Property EmpleadoEncontrado As TEmpleados = Nothing
     Public Property ProveedorEncontrado As TProveedor = Nothing
-    Public Property CompraEncontrado As TCompra = Nothing
+    Public Property CompraEncontrado As VCompras = Nothing
 
     Public Event AbrirFormularioHijoSolicitado As Action(Of Form)
     Private formularioHijoActual As Form
@@ -35,17 +35,8 @@ Public Class frm_Principal
         ' Esta llamada es exigida por el diseñador.
 
         InitializeComponent()
-        Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer, True)
-        Me.UpdateStyles()
+        FormStylerUI.Apply(Me)
 
-        ' Oculta al inicio para cargar limpio
-        Me.Opacity = 0
-        Me.Visible = False
-
-        ' Timer para fade-in
-        AddHandler fadeTimer.Tick, AddressOf FadeIn
-        fadeTimer.Interval = 15
         pnlDrawer.BringToFront()
     End Sub
 
@@ -85,23 +76,26 @@ Public Class frm_Principal
     Private Sub frm_Principal_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.SuspendLayout()
         PrepararUI()
-        Me.ResumeLayout()
 
-        Me.Visible = True
-        fadeTimer.Start()
+
+        'Me.Visible = True
+        'fadeTimer.Start()
         AddHandler AbrirFormularioHijoSolicitado, AddressOf OpenChildForm
+        Me.ResumeLayout()
+        FadeManagerUI.StartFade(Me, 0.08)
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+        Me.SuspendLayout()
         Dim confirmacion = MessageBoxUI.Mostrar("Cerrar...",
-                                             "Saliendo del Sistema de gestión de datos",
-                                             TipoMensaje.Exito,
-                                             Botones.Aceptar)
+                                                 "Saliendo del Sistema de gestión de datos",
+                                                 TipoMensaje.Exito,
+                                                 Botones.Aceptar)
         If confirmacion = DialogResult.OK Then
             listLogin.Clear()
             Me.Close() ' Cierra el formulario después de eliminar
         End If
-
+        Me.ResumeLayout()
     End Sub
 
     Private Sub btnMaximizar_Click(sender As Object, e As EventArgs) Handles btnMaximizar.Click
@@ -153,19 +147,20 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubNuevoE_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
         Dim abierto As Boolean = Application.OpenForms().OfType(Of frmEmpleado).Any()
 
         CerrarDrawer()
 
         If Not abierto Then
-            OpenChildForm(New frmEmpleado)
             EfectoBotonInActivo()
+            OpenChildForm(New frmEmpleado)
         End If
-
+        Me.ResumeLayout()
     End Sub
 
     Private Sub SubEditarE_Click(sender As Object, e As EventArgs)
-
+        Me.SuspendLayout()
         CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
@@ -191,9 +186,11 @@ Public Class frm_Principal
                                  )
         End If
         DrawerTimer.Start()
+        Me.ResumeLayout()
     End Sub
 
     Private Sub SubEliminarE_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
         CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
@@ -219,9 +216,11 @@ Public Class frm_Principal
                                  )
         End If
         DrawerTimer.Start()
+        Me.ResumeLayout()
     End Sub
 
     Private Sub SubConsultarE_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
         Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultaEmpleados).Any()
 
         CerrarDrawer()
@@ -233,6 +232,7 @@ Public Class frm_Principal
             OpenChildForm(consultaEmpleadosForm)
 
         End If
+        Me.ResumeLayout()
     End Sub
 
 
@@ -285,7 +285,14 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubConsultarC_Click(sender As Object, e As EventArgs)
-        Throw New NotImplementedException()
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultarCompras).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            OpenChildForm(New frmConsultarCompras)
+            EfectoBotonInActivo()
+        End If
     End Sub
 
     Private Sub SubEliminarC_Click(sender As Object, e As EventArgs)
@@ -578,15 +585,6 @@ Public Class frm_Principal
     Public Sub Reset()
         currentButton = New Button()
         DisableButton()
-    End Sub
-
-
-    Private Sub FadeIn(sender As Object, e As EventArgs)
-        If Me.Opacity < 1 Then
-            Me.Opacity += fadeStep
-        Else
-            fadeTimer.Stop()
-        End If
     End Sub
 
     ' Aquí configuras tus controles, layout, etc.

@@ -15,6 +15,7 @@
     Public Property Rif As String
     Public Property IVA As String
     Public Property TPago As String
+    Public Property Detalle As List(Of VDetalleCompras)
 End Class
 
 

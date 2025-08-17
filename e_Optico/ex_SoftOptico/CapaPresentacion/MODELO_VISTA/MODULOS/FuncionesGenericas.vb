@@ -1,10 +1,11 @@
-﻿Imports System.Drawing.Drawing2D
+﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
+Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Reflection
 Imports CapaDatos
+Imports CapaEntidad
 Imports FontAwesome.Sharp
-Imports System.Drawing
-Imports System.Drawing.Imaging
 
 Module FuncionesGenericas
 

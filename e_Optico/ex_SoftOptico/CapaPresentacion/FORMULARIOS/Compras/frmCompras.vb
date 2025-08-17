@@ -11,7 +11,7 @@ Public Class frmCompras
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.1
 
-    Public Property DatosCompra As TCompra = Nothing
+    Public Property DatosCompra As VCompras = Nothing
     Public Property NombreBoton As String = String.Empty
 
 #Region "CONSTRUCTORES"
@@ -93,42 +93,36 @@ Public Class frmCompras
 
     Private Sub frmCompras_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CustomizeComponents()
+        'Mostrar los datos si DatosCompra no es nothing
         If DatosCompra IsNot Nothing Then
-            cmbSucursal.IndiceSeleccionado = DatosCompra.UbicacionDestinoID
-            txtNumeroControl.TextoUsuario = DatosCompra.NumeroControl.ToString()
-            txtNumeroFactura.TextoUsuario = DatosCompra.NumeroFactura.ToString()
-            'txtFechaEmision.TextValue = DatosCompra.FechaCompra.Date
-            cmbProveedor.IndiceSeleccionado = DatosCompra.ProveedorID
-            txtDomicilio.TextoUsuario = "Trelo de la base de datos"
-            txtRifCI.TextoUsuario = "0"
-            txtTelefonos.TextoUsuario = "0"
-            cmbTipoPago.IndiceSeleccionado = DatosCompra.TipoPagoID
+            cmbSucursal.OrbitalCombo.Text = DatosCompra.Sucursal.ToString()
+            txtNumeroControl.TextoUsuario = DatosCompra.NControl.ToString()
+            txtNumeroFactura.TextoUsuario = DatosCompra.NFactura.ToString()
+            'txtFechaEmision.TextValue = DatosCompra.Fecha
+            cmbProveedor.OrbitalCombo.Text = DatosCompra.Proveedor.ToString()
+            txtDomicilio.TextoUsuario = DatosCompra.Direccion.ToString()
+            txtRifCI.TextoUsuario = DatosCompra.Rif.ToString()
+            txtTelefonos.TextoUsuario = DatosCompra.Telefono.ToString()
+            cmbTipoPago.OrbitalCombo.Text = DatosCompra.TPago.ToString()
             txtObservacion.TextoUsuario = DatosCompra.Observacion.ToString()
 
             ' --- DETALLE ---
-
             grvCompras.LimpiarGrid()
             For Each det In DatosCompra.Detalle
-                grvCompras.AgregarProductoEdit(det.ProductoID,
-                                               producto.ObtenerNombreProducto(det.ProductoID),
+                grvCompras.AgregarProductoEdit(det.CodigoProducto,
+                                               det.Descripcion, 'producto.ObtenerNombreProducto(det.ProductoID),
                                                det.Cantidad,
                                                det.ModoCargo,
-                                               det.PrecioUnitario)
+                                               det.CostoUnitario)
             Next
 
+            'Propiedades de los controles 
             Select Case NombreBoton
                 Case "Actualizar..."
-                    btnAceptar.Texto = NombreBoton.ToString()
-                    pnlContenidoDatos.Enabled = True
-                    pnlContenedorGrid.Enabled = True
-                    pnlTotales.Enabled = True
+                    ActivarControles(0)
                 Case "Eliminar..."
-                    btnAceptar.Texto = NombreBoton.ToString()
-                    pnlContenidoDatos.Enabled = False
-                    pnlContenedorGrid.Enabled = False
-                    pnlTotales.Enabled = False
+                    ActivarControles(1)
             End Select
-
 
         End If
     End Sub
@@ -171,22 +165,11 @@ Public Class frmCompras
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         Select Case btnAceptar.Texto
             Case "Actualizar..."
-                '' Actualizar compra existente
+                ' Actualizar compra existente
                 AdminCompra(1)
 
             Case "Eliminar..."
-                ' Eliminar compra existente
-                Dim repo As New Repositorio_Compra
-                Dim resultado = repo.Remove(DatosCompra.CompraID)
-
-                If resultado Then
-                    MessageBoxUI.Mostrar("Borrado Correcto", "Compra eliminada correctamente", TipoMensaje.Exito, Botones.Aceptar)
-                    LimpiarCeldas()
-                    btnAceptar.Texto = "Guardar..."
-                    pnlContenidoDatos.Enabled = True
-                Else
-                    MessageBoxUI.Mostrar("Fallo...", "No se pudo eliminar la compra", TipoMensaje.Errors, Botones.Aceptar)
-                End If
+                AdminCompra(2)
 
             Case Else
                 ' Caso por defecto: Registrar nueva compra
@@ -199,7 +182,7 @@ Public Class frmCompras
     End Sub
 
     Private Sub btnLimpiarCeldas_Click(sender As Object, e As EventArgs) Handles btnLimpiarCeldas.Click
-        LimpiarCeldas()
+        LimpiarControles(Me.pnlContenidoDatos)
     End Sub
     Private Sub btnSiguiente_Click_1(sender As Object, e As EventArgs) Handles btnSiguiente.Click
         Try
@@ -221,8 +204,7 @@ Public Class frmCompras
             Else
 
                 'Desbloquear el panel de grid
-                pnlDataGrid.Enabled = True
-                pnlTotales.Enabled = True
+                ActivarControles(3)
 
             End If
         Catch ex As Exception
@@ -256,8 +238,7 @@ Public Class frmCompras
         grvCompras.LimpiarGrid()
 
         ' Deshabilitar paneles
-        pnlDataGrid.Enabled = False
-        pnlTotales.Enabled = False
+        ActivarControles(2)
 
     End Sub
     Private Sub LimpiarControles(container As Control)
@@ -300,9 +281,7 @@ Public Class frmCompras
                                                  TipoMensaje.Informacion, Botones.SiNo)
             If resultado = DialogResult.Yes Then
                 grvCompras.LimpiarGrid()
-                pnlDataGrid.Enabled = False
-                pnlTotales.Enabled = False
-
+                ActivarControles(3) ' Activar controles para nueva compra)
             End If
         Else
             MessageBoxUI.Mostrar("Información", "No hay productos en el detalle para limpiar.", TipoMensaje.Informacion, Botones.Aceptar)
@@ -333,7 +312,18 @@ Public Class frmCompras
                     MessageBoxUI.Mostrar("Atención", "Debe agregar al menos un producto al detalle de la compra.", TipoMensaje.Advertencia, Botones.Aceptar)
                     Return
                 End If
+            Case 2 ' Eliminar compra existente
+                Dim repo As New Repositorio_Compra
+                Dim resultado = repo.Remove(DatosCompra.CompraID)
 
+                If resultado Then
+                    MessageBoxUI.Mostrar("Borrado Correcto", "Compra eliminada correctamente", TipoMensaje.Exito, Botones.Aceptar)
+                    LimpiarCeldas()
+                    ActivarControles(2)
+                    Exit Sub
+                Else
+                    MessageBoxUI.Mostrar("Fallo...", "No se pudo eliminar la compra", TipoMensaje.Errors, Botones.Aceptar)
+                End If
         End Select
         ' Opción 1: Actualizar compra existente
 
@@ -359,6 +349,7 @@ Public Class frmCompras
                 If resultado > 0 Then
                     MessageBoxUI.Mostrar("Éxito", $"Compra registrada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
                     LimpiarCeldas()
+                    ActivarControles(2)
                 Else
                     MessageBoxUI.Mostrar("Fallo...", "No se pudo registrar la compra", TipoMensaje.Errors, Botones.Aceptar)
                 End If
@@ -368,31 +359,47 @@ Public Class frmCompras
                 If resultado Then
                     MessageBoxUI.Mostrar("Éxito", $"Compra actualizada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
                     LimpiarCeldas()
+                    ActivarControles(2)
                 Else
                     MessageBoxUI.Mostrar("Fallo...", "No se pudo actualizar la compra", TipoMensaje.Errors, Botones.Aceptar)
                 End If
         End Select
 
     End Sub
+
+    Private Sub ActivarControles(opcion)
+        Select Case opcion
+            Case 0 'Actualizar
+                btnAceptar.Texto = NombreBoton.ToString()
+                pnlContenidoDatos.Enabled = True
+                pnlContenedorGrid.Enabled = True
+                pnlDataGrid.Enabled = True
+                pnlTotales.Enabled = True
+                grvCompras.Enabled = True
+            Case 1 'Eliminar
+                btnAceptar.Texto = NombreBoton.ToString()
+                pnlContenidoDatos.Enabled = False
+                pnlContenedorGrid.Enabled = False
+                pnlDataGrid.Enabled = False
+                pnlTotales.Enabled = False
+            Case 2 'Guardar
+                btnAceptar.Texto = "Guardar..."
+                pnlContenidoDatos.Enabled = True
+                pnlContenedorGrid.Enabled = False
+                pnlDataGrid.Enabled = False
+                pnlTotales.Enabled = False
+            Case 3
+                ' Deshabilitar todo
+                pnlContenedorGrid.Enabled = True
+                pnlDataGrid.Enabled = True
+                pnlTotales.Enabled = True
+                grvCompras.Enabled = True
+        End Select
+    End Sub
+
 #End Region
 
 End Class
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
