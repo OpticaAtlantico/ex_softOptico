@@ -77,9 +77,6 @@ Public Class frm_Principal
         Me.SuspendLayout()
         PrepararUI()
 
-
-        'Me.Visible = True
-        'fadeTimer.Start()
         AddHandler AbrirFormularioHijoSolicitado, AddressOf OpenChildForm
         Me.ResumeLayout()
         FadeManagerUI.StartFade(Me, 0.08)
@@ -285,14 +282,18 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubConsultarC_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
         Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultarCompras).Any()
 
         CerrarDrawer()
 
         If Not abierto Then
-            OpenChildForm(New frmConsultarCompras)
             EfectoBotonInActivo()
+            Dim consultaCompraForm As New frmConsultarCompras()
+            AddHandler consultaCompraForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
+            OpenChildForm(consultaCompraForm)
         End If
+        Me.ResumeLayout()
     End Sub
 
     Private Sub SubEliminarC_Click(sender As Object, e As EventArgs)

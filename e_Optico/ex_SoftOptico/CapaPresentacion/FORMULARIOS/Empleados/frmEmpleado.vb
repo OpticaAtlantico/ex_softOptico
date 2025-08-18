@@ -32,7 +32,7 @@ Public Class frmEmpleado
 #End Region
 
 #Region "EVENTOS DEL FORMULARIO"
-    Private Sub frmNuevoEmpleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub frmEmpleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initialize form components or load data if necessary
         Me.SuspendLayout()
         PrepararUI()

@@ -37,8 +37,7 @@ Public Class frmProveedor
     Private Sub frmProveedor_Load(sender As Object, e As EventArgs) Handles Me.Load
         ' Initialize form components or load data if necessary
 
-        Me.Visible = True
-        fadeTimer.Start()
+        'Me.Visible = True
 
         If DatosProveedor IsNot Nothing Then
             CargarDatos(DatosProveedor)
@@ -95,14 +94,6 @@ Public Class frmProveedor
 #End Region
 
 #Region "PROCEDIMIENTOS"
-
-    Private Sub FadeIn(sender As Object, e As EventArgs)
-        If Me.Opacity < 1 Then
-            Me.Opacity += fadeStep
-        Else
-            fadeTimer.Stop()
-        End If
-    End Sub
 
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
         Select Case btnAccion.Texto

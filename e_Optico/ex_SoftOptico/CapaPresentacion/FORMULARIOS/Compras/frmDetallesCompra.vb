@@ -64,8 +64,8 @@ Public Class frmDetallesCompra
         ' Configurar columnas y cargar
         Dim columnasVisibles = {"Descripcion", "Cantidad", "ModoCargo", "CostoUnitario", "Subtotal"}
         Dim anchos = New Dictionary(Of String, Integer) From {
-        {"Descripcion", 300},
-        {"Cantidad", 80},
+        {"Descripcion", 400},
+        {"Cantidad", 100},
         {"ModoCargo", 150},
         {"CostoUnitario", 150},
         {"Subtotal", 150}

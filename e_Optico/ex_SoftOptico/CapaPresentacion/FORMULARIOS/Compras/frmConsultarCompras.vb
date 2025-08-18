@@ -35,7 +35,11 @@ Public Class frmConsultarCompras
         AddHandler dgvCompras.BExportarGrid.Click, Sub()
                                                        ExcelExportManagerUI.ExportarDesdeGridEstilizado(dgvCompras.GrvOrbital, "Compras")
                                                    End Sub
-        FadeManagerUI.StartFade(Me, 0.05)
+        AddHandler dgvCompras.BNuevo.Click, Sub()
+                                                AgregarNuevaCompra()
+                                            End Sub
+        AddHandler dgvCompras.EditarRegistro, AddressOf EditarCompra
+        AddHandler dgvCompras.EliminarRegistro, AddressOf EliminarCompraUnico
     End Sub
 #End Region
 
@@ -79,6 +83,8 @@ Public Class frmConsultarCompras
         dgvCompras.Grid.Refresh()
     End Sub
 
+
+
     Private Sub AgregarToolTipsBotones()
         Dim dgv = dgvCompras.GrvOrbital
         dgv.Columns("Agregar").ToolTipText = "Ver detalle de compra"
@@ -115,6 +121,60 @@ Public Class frmConsultarCompras
             dgv.Columns.Insert(2, colEliminar)
             colEliminar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         End If
+    End Sub
+
+    Private Sub AgregarNuevaCompra()
+        Dim frm As New frmCompras()
+        Me.Close()
+        RaiseEvent AbrirFormularioHijo(frm)
+    End Sub
+
+    Private Sub EditarCompra(id As Integer)
+        Try
+            Dim repositorio As New Repositorio_Compra()
+            Dim CompraEncontrado As VCompras = repositorio.GetById(id)
+
+            If CompraEncontrado IsNot Nothing Then
+                Dim formularioHijo As New frmCompras()
+                formularioHijo.DatosCompra = CompraEncontrado
+                formularioHijo.NombreBoton = "Actualizar..."
+
+                ' En vez de abrir el formulario directamente, disparar evento
+                RaiseEvent AbrirFormularioHijo(formularioHijo)
+            Else
+                MessageBoxUI.Mostrar("Búsqueda fallida...", "No se pudo localizar los datos del proveedor seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Informacion, Botones.Aceptar)
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error de edición...", "Error al intentar editar el proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+        End Try
+    End Sub
+
+    Private Sub EliminarCompraUnico(id As Integer)
+        Try
+            Dim confirmar = MessageBoxUI.Mostrar("Remover datos...", "¿Deseas eliminar la compra seleccionada?", TipoMensaje.Advertencia, Botones.SiNo)
+
+            If confirmar = DialogResult.No Then Exit Sub
+
+            Dim repositorio As New Repositorio_Compra()
+            Dim compra As VCompras = repositorio.GetById(id)
+
+            If compra Is Nothing Then
+                MessageBoxUI.Mostrar("Buscando...", "No se encontró la compra.", TipoMensaje.Errors, Botones.Aceptar)
+                Exit Sub
+            End If
+
+            Dim eliminar = repositorio.Remove(id)
+
+            If eliminar Then
+                MessageBoxUI.Mostrar("Éxito", "Proveedor eliminado correctamente.", TipoMensaje.Exito, Botones.Aceptar)
+                CargarDatosCompras()
+            Else
+                MessageBoxUI.Mostrar("Error al eliminar", "No se pudo eliminar el proveedor.", TipoMensaje.Errors, Botones.Aceptar)
+            End If
+
+        Catch ex As Exception
+            MessageBoxUI.Mostrar("Error... ", "Error al eliminar proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+        End Try
     End Sub
 
 #End Region
