@@ -21,6 +21,11 @@ Public Class frmConsultarCompras
             .Icono = IconChar.ShoppingCart
         End With
 
+        'Cambirle los iconos de acciones del DataGridView
+        dgvCompras.IconosPorAccion("Agregar") = IconChar.EyeLowVision
+        dgvCompras.IconosPorAccion("Editar") = IconChar.Pen
+        dgvCompras.IconosPorAccion("Eliminar") = IconChar.TrashAlt
+
         CargarDatosCompras()
     End Sub
 #End Region
@@ -57,12 +62,12 @@ Public Class frmConsultarCompras
         Dim columnasVisibles = {"CompraID", "Fecha", "NControl", "NFactura", "Sucursal", "Proveedor", "TPago", "SubTotal"}
         Dim anchos = New Dictionary(Of String, Integer) From {
             {"CompraID", 80},
-            {"Fecha", 120},
-            {"NControl", 100},
-            {"NFactura", 100},
-            {"Sucursal", 150},
-            {"Proveedor", 200},
-            {"TPago", 120},
+            {"Fecha", 160},
+            {"NControl", 150},
+            {"NFactura", 150},
+            {"Sucursal", 220},
+            {"Proveedor", 220},
+            {"TPago", 200},
             {"SubTotal", 100}
         }
         Dim nombres = New Dictionary(Of String, String) From {
@@ -81,9 +86,9 @@ Public Class frmConsultarCompras
         AgregarToolTipsBotones()
         dgvCompras.CargarDatos(tabla)
         dgvCompras.Grid.Refresh()
+        dgvCompras.OcultarColumnas({"CompraID"})
+
     End Sub
-
-
 
     Private Sub AgregarToolTipsBotones()
         Dim dgv = dgvCompras.GrvOrbital

@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Runtime.InteropServices
 Imports CapaDatos
 Imports CapaEntidad
 Imports FontAwesome.Sharp
@@ -6,6 +7,20 @@ Public Class frmDetallesCompra
     Public Property FormularioDestino As frmCompras
     Private WithEvents productosGrid As New DataGridViewGUI()
     Public idCompra As Integer
+
+#Region "Drag Form"
+    <DllImport("user32.DLL", EntryPoint:="ReleaseCapture")>
+    Private Shared Sub ReleaseCapture()
+    End Sub
+    <DllImport("user32.DLL", EntryPoint:="SendMessage")>
+    Private Shared Sub SendMessage(hWnd As IntPtr, wMsg As Integer, wParam As Integer, lParam As Integer)
+    End Sub
+
+    Private Sub pnlMove_MouseMove(sender As Object, e As MouseEventArgs) Handles pnlMove.MouseMove
+        MoverFormulario()
+    End Sub
+
+#End Region
 
     Public Sub New()
         ' Esta llamada es exigida por el diseñador.
@@ -17,12 +32,14 @@ Public Class frmDetallesCompra
 
     End Sub
 
+    Private Sub MoverFormulario()
+        ReleaseCapture()
+        SendMessage(Me.Handle, &H112&, &HF012&, 0)
+    End Sub
+
     Private Sub Componentes()
-        Me.Text = "Listado de Detalle de Compra"
         Me.MinimumSize = New Size(900, 600)
-        Me.FormBorderStyle = FormBorderStyle.FixedDialog
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
+        Me.FormBorderStyle = FormBorderStyle.None
         Me.BackColor = Color.White
         Me.MaximumSize = New Size(1000, 700)
         Me.StartPosition = FormStartPosition.CenterScreen
@@ -34,7 +51,7 @@ Public Class frmDetallesCompra
         With productosGrid.btnEnviar
             .Visible = True
             .Texto = "Salir..."
-            .BackColor = Color.FromArgb(57, 103, 208)
+            '.BackColor = Color.FromArgb(57, 103, 208)
             .ForeColor = Color.White
             .Font = New Font("Segoe UI", 10, FontStyle.Bold)
             .Cursor = Cursors.Hand
@@ -82,8 +99,9 @@ Public Class frmDetallesCompra
         productosGrid.MetodoCargaDatos = Function() tabla
         productosGrid.CargarDatos(tabla)
 
-        Me.Controls.Add(productosGrid)
+        Me.pnlContenedor.Controls.Add(productosGrid)
 
     End Sub
+
 
 End Class

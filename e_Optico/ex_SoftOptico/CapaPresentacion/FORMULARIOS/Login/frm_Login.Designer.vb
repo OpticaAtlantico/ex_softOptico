@@ -30,7 +30,6 @@ Partial Class frm_Login
         btnMinimizar = New FontAwesome.Sharp.IconButton()
         txtPass = New TextBoxLabelUI()
         txtUsuario = New TextBoxLabelUI()
-        fadeTimer = New Timer(components)
         pnlContenido.SuspendLayout()
         SuspendLayout()
         ' 
@@ -170,11 +169,7 @@ Partial Class frm_Login
         txtUsuario.TextoUsuario = ""
         txtUsuario.UsarModoContraseña = False
         txtUsuario.ValidarComoCorreo = False
-        ' 
-        ' fadeTimer
-        ' 
-        fadeTimer.Interval = 30
-        ' 
+
         ' frm_Login
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)

@@ -7,6 +7,7 @@
     <UseWindowsForms>True</UseWindowsForms>
     <MyType>WindowsForms</MyType>
     <ImportedNamespaces>System.Configuration=False,System.Data=False,System.Data.SqlClient=False,System.Drawing=False,System.Windows.Forms=False,Microsoft.VisualBasic=True,System=True,System.Collections=True,System.Collections.Generic=True,System.Diagnostics=True,System.Linq=True,System.Xml.Linq=True,System.Threading.Tasks=True,CapaPresentacion=True</ImportedNamespaces>
+    <AssemblyName>e_OpticaAtlantico</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

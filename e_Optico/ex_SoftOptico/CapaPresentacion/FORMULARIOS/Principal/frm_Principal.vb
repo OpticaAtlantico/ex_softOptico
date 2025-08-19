@@ -12,7 +12,7 @@ Public Class frm_Principal
 
     Private DrawerExpandido As Boolean = True
     Private DrawerObjetivoWidth As Integer = 160
-    Private DrawerVelocidad As Integer = 20
+    Private DrawerVelocidad As Integer = 30
 
     'Para procedimeintos de botones 
     Private currentButton As Button
@@ -20,7 +20,7 @@ Public Class frm_Principal
     Dim loginmodelo = listLogin
 
     Private fadeTimer As New Timer()
-    Private fadeStep As Double = 0.1
+    Private fadeStep As Double = 0.05
     Public Property EmpleadoEncontrado As TEmpleados = Nothing
     Public Property ProveedorEncontrado As TProveedor = Nothing
     Public Property CompraEncontrado As VCompras = Nothing
@@ -120,19 +120,19 @@ Public Class frm_Principal
         Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
 
         Dim handlerReporte As New EventHandler(AddressOf SubReportesE_Click)
-        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
+        opciones.Add(Tuple.Create("Reportes", IconChar.ListCheck, handlerReporte))
 
         Dim handlerConsultar As New EventHandler(AddressOf SubConsultarE_Click)
-        opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
+        opciones.Add(Tuple.Create("Consultar", IconChar.ListNumeric, handlerConsultar))
 
         Dim handlerEliminar As New EventHandler(AddressOf SubEliminarE_Click)
-        opciones.Add(Tuple.Create("Eliminar Empleado", IconChar.TrashArrowUp, handlerEliminar))
+        opciones.Add(Tuple.Create("Eliminar Datos", IconChar.TrashArrowUp, handlerEliminar))
 
         Dim handlerEditar As New EventHandler(AddressOf SubEditarE_Click)
-        opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
+        opciones.Add(Tuple.Create("Editar Datos", IconChar.FilePen, handlerEditar))
 
         Dim handlerNuevo As New EventHandler(AddressOf SubNuevoE_Click)
-        opciones.Add(Tuple.Create("Nuevo Empleado", IconChar.Save, handlerNuevo))
+        opciones.Add(Tuple.Create("Nuevo Registro", IconChar.Save, handlerNuevo))
 
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
@@ -254,19 +254,22 @@ Public Class frm_Principal
         Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
 
         Dim handlerReporte As New EventHandler(AddressOf SubReportesC_Click)
-        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
+        opciones.Add(Tuple.Create("Reporte", IconChar.ListCheck, handlerReporte))
+
+        Dim handlerDevolucion As New EventHandler(AddressOf SubReportesPv_Click)
+        opciones.Add(Tuple.Create("Devolución a Prove...", IconChar.Refresh, handlerDevolucion))
 
         Dim handlerConsultar As New EventHandler(AddressOf SubConsultarC_Click)
-        opciones.Add(Tuple.Create("Consultar Compra", IconChar.ListNumeric, handlerConsultar))
+        opciones.Add(Tuple.Create("Consultar", IconChar.ListNumeric, handlerConsultar))
 
         Dim handlerEliminar As New EventHandler(AddressOf SubEliminarC_Click)
-        opciones.Add(Tuple.Create("Borrar Compra", IconChar.TrashArrowUp, handlerEliminar))
+        opciones.Add(Tuple.Create("Borrar Orden", IconChar.TrashArrowUp, handlerEliminar))
 
         Dim handlerEditar As New EventHandler(AddressOf SubEditarC_Click)
-        opciones.Add(Tuple.Create("Editar Compra", IconChar.FolderOpen, handlerEditar))
+        opciones.Add(Tuple.Create("Editar Orden", IconChar.FilePen, handlerEditar))
 
         Dim handlerNuevo As New EventHandler(AddressOf SubNuevoC_Click)
-        opciones.Add(Tuple.Create("Nueva Compra", IconChar.Save, handlerNuevo))
+        opciones.Add(Tuple.Create("Nueva Orden", IconChar.Save, handlerNuevo))
 
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
@@ -324,19 +327,19 @@ Public Class frm_Principal
         Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
 
         Dim handlerReporte As New EventHandler(AddressOf SubReportesPv_Click)
-        opciones.Add(Tuple.Create("Ver Reporte", IconChar.ListCheck, handlerReporte))
+        opciones.Add(Tuple.Create("Reportes", IconChar.ListCheck, handlerReporte))
 
         Dim handlerConsultar As New EventHandler(AddressOf SubConsultarPv_Click)
-        opciones.Add(Tuple.Create("Lista de Consulta", IconChar.ListNumeric, handlerConsultar))
+        opciones.Add(Tuple.Create("Consultar", IconChar.ListNumeric, handlerConsultar))
 
         Dim handlerEliminar As New EventHandler(AddressOf SubEliminarPv_Click)
-        opciones.Add(Tuple.Create("Eliminar Proveedor", IconChar.TrashArrowUp, handlerEliminar))
+        opciones.Add(Tuple.Create("Eliminar Registro", IconChar.TrashArrowUp, handlerEliminar))
 
         Dim handlerEditar As New EventHandler(AddressOf SubEditarPv_Click)
-        opciones.Add(Tuple.Create("Actualizar Datos", IconChar.FolderOpen, handlerEditar))
+        opciones.Add(Tuple.Create("Editar Datos", IconChar.FolderOpen, handlerEditar))
 
         Dim handlerNuevo As New EventHandler(AddressOf SubNuevoPv_Click)
-        opciones.Add(Tuple.Create("Nuevo Proveedor", IconChar.Save, handlerNuevo))
+        opciones.Add(Tuple.Create("Nuevo Registro", IconChar.Save, handlerNuevo))
 
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
@@ -486,12 +489,12 @@ Public Class frm_Principal
     End Sub
 
 
-
 #End Region
 
 #Region "ACCIONES TIMER"
 
     Private Sub DrawerTimer_Tick(sender As Object, e As EventArgs) Handles DrawerTimer.Tick
+        Me.SuspendLayout()
         If Not DrawerExpandido Then
             ' Expandiendo
             If pnlDrawer.Width < DrawerObjetivoWidth Then
@@ -504,13 +507,14 @@ Public Class frm_Principal
         Else
             ' Contrayendo
             If pnlDrawer.Width > 0 Then
-                pnlDrawer.Width -= DrawerVelocidad * 3
+                pnlDrawer.Width = 0 'DrawerVelocidad
             Else
                 DrawerTimer.Stop()
                 pnlDrawer.Visible = False
                 DrawerExpandido = False
             End If
         End If
+        Me.ResumeLayout()
     End Sub
 
     Private Sub btnMostrarMenu_Click(sender As Object, e As EventArgs) Handles btnMostrarMenu.Click

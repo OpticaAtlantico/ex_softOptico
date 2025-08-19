@@ -9,11 +9,9 @@ Imports Microsoft.IdentityModel.Protocols.OpenIdConnect
 Imports Microsoft.IdentityModel.Tokens
 Public Class frm_Login
 
-    Private animacionTimer As Timer
-    Private tamanoInicial As Size
-    Private ubicacionFinal As Point
-    Private pasoActual As Integer = 0
-    Private pasosTotales As Integer = 20
+    'Private ubicacionFinal As Point
+    'Private pasoActual As Integer = 0
+    'Private pasosTotales As Integer = 20
 
 #Region "Form Behaviors"
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -55,42 +53,18 @@ Public Class frm_Login
 
     End Sub
 
-    Private Sub fadeTimer_Tick(sender As Object, e As EventArgs) Handles fadeTimer.Tick
-        If Me.Opacity < 1.0 Then
-            Me.Opacity += 0.05
-        Else
-            fadeTimer.Stop()
-        End If
-    End Sub
-
-    Private Sub CerrarConFade()
-        Dim cerrarTimer As New Timer()
-        cerrarTimer.Interval = 20
-        AddHandler cerrarTimer.Tick, Sub()
-                                         If Me.Opacity > 0 Then
-                                             Me.Opacity -= 0.05
-                                         Else
-                                             cerrarTimer.Stop()
-                                             cerrarTimer.Dispose()
-                                             Me.Close()
-                                         End If
-                                     End Sub
-        cerrarTimer.Start()
-    End Sub
-
 #End Region
     Public Sub New()
 
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
-
+        FormStylerUI.Apply(Me)
         ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
         CustomizeComponent()
     End Sub
 
     Private Sub frm_Login_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Me.Opacity = 0
-        fadeTimer.Start()
+        FadeManagerUI.StartFade(Me, 0.02)
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click

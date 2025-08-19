@@ -346,25 +346,37 @@ Public Class DataGridViewUI
         For i As Integer = 0 To dgvOrbital.Columns.Count - 1
             Dim nombreColumna As String = dgvOrbital.Columns(i).Name
 
-            Select Case nombreColumna
-                Case "Agregar"
-                    nuevaFila.Cells(i).Value = IconCharToBitmap(IconChar.Plus, Color.SeaGreen, 18)
-                Case "Editar"
-                    nuevaFila.Cells(i).Value = IconCharToBitmap(IconChar.Pen, Color.SteelBlue, 18)
-                Case "Eliminar"
-                    nuevaFila.Cells(i).Value = IconCharToBitmap(IconChar.TrashAlt, Color.Firebrick, 18)
-                Case Else
-                    If row.Table.Columns.Contains(nombreColumna) Then
-                        nuevaFila.Cells(i).Value = row(nombreColumna)
-                    Else
-                        nuevaFila.Cells(i).Value = Nothing
-                    End If
-            End Select
+            If IconosPorAccion.ContainsKey(nombreColumna) Then
+                nuevaFila.Cells(i).Value = IconCharToBitmap(IconosPorAccion(nombreColumna), ObtenerColor(nombreColumna), 18)
+            ElseIf row.Table.Columns.Contains(nombreColumna) Then
+                nuevaFila.Cells(i).Value = row(nombreColumna)
+            Else
+                nuevaFila.Cells(i).Value = Nothing
+            End If
         Next
 
         dgvOrbital.Rows.Add(nuevaFila)
         NeutralizarFondoIconos(dgvOrbital)
     End Sub
+
+    Public Sub OcultarColumnas(nombres As IEnumerable(Of String))
+        For Each nombre In nombres
+            If Grid.Columns.Contains(nombre) Then
+                Grid.Columns(nombre).Visible = False
+            End If
+        Next
+    End Sub
+
+    Private Function ObtenerColor(nombreColumna As String) As Color
+        Select Case nombreColumna
+            Case "Agregar" : Return Color.SeaGreen
+            Case "Editar" : Return Color.SteelBlue
+            Case "Eliminar" : Return Color.Firebrick
+            Case Else : Return Color.Gray
+        End Select
+    End Function
+
+
     Public Sub AgregarColumnasBotones()
         If Not dgvOrbital.Columns.Contains("Agregar") Then
             Dim colAgregar As New DataGridViewImageColumn() With {
@@ -581,5 +593,12 @@ Public Class DataGridViewUI
             dgvOrbital.DataSource = value
         End Set
     End Property
+
+    Public Property IconosPorAccion As Dictionary(Of String, IconChar) = New Dictionary(Of String, IconChar) From {
+    {"Agregar", IconChar.Plus},
+    {"Editar", IconChar.Pen},
+    {"Eliminar", IconChar.TrashAlt}
+}
+
 
 End Class

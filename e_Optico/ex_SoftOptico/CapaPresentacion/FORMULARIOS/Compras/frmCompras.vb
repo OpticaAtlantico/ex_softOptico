@@ -110,9 +110,15 @@ Public Class frmCompras
     End Sub
 
     Private Sub btnAgregarProducto_Click(sender As Object, e As EventArgs) Handles btnAgregarProducto.Click
-        Dim frmLista As New frmListarProductos
-        frmLista.FormularioDestino = Me
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+
+        Dim frmLista As New frmListarProductos() With {
+            .FormularioDestino = Me,
+            .StartPosition = FormStartPosition.CenterScreen
+        }
         frmLista.ShowDialog()
+        overlay.Close()
 
     End Sub
     Private Sub cmbProveedor_SelectedIndexChangedCustom(sender As Object, e As EventArgs) Handles cmbProveedor.SelectedIndexChangedCustom, cmbSucursal.SelectedIndexChangedCustom

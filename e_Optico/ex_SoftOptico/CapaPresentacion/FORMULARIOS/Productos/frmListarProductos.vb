@@ -54,7 +54,7 @@ Public Class frmListarProductos
         Dim columnasVisibles = {"Codigo", "Nombre", "Stock", "Categoria", "SubCategoria", "Precio"}
         Dim anchos = New Dictionary(Of String, Integer) From {
         {"Codigo", 100},
-        {"Nombre", 300},
+        {"Nombre", 280},
         {"Stock", 80},
         {"Categoria", 150},
         {"SubCategoria", 150},
@@ -99,6 +99,4 @@ Public Class frmListarProductos
             FadeManagerUI.ApplyOut(Me, 60)
         End If
     End Sub
-
-
 End Class
