@@ -110,7 +110,7 @@ Public Class frmProveedor
                 ' Aquí puedes implementar la lógica para eliminar el empleado
                 Dim ProveedorId As Integer = DatosProveedor.ProveedorID
                 Dim confirmacion = MessageBoxUI.Mostrar("Eliminar datos...",
-                                                        "¿Está usted seguro de eliminar el empleado seleccionado?",
+                                                        "¿Está usted seguro de eliminar el Proveedor seleccionado?",
                                                         TipoMensaje.Advertencia,
                                                         Botones.AceptarCancelar
                                                         )
@@ -126,7 +126,7 @@ Public Class frmProveedor
                     ProcesarProveedor(esNuevo:=True)
                 Else
                     MessageBoxUI.Mostrar("Guardar datos...",
-                                         "Ya hay datos de empleados almacenado...",
+                                         "Ya hay datos de proveedor almacenado...",
                                          TipoMensaje.Errors,
                                          Botones.Aceptar
                                        )
@@ -256,7 +256,7 @@ Public Class frmProveedor
             End If
 
             If exito Then
-                Dim mensaje As New ToastUI(If(esNuevo, "Proveedor guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                Dim mensaje As New ToastUI(If(esNuevo, "Proveedor guardado correctamente.", "Proveedor actualizado correctamente."), TipoToastUI.Success)
                 mensaje.Mostrar()
 
                 LimpiarControles(Me)
@@ -268,7 +268,7 @@ Public Class frmProveedor
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error...",
-                                 "Ha ocurrido un error al procesar los datos del empleado..." & ex.Message,
+                                 "Ha ocurrido un error al procesar los datos del proveedor..." & ex.Message,
                                  TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub

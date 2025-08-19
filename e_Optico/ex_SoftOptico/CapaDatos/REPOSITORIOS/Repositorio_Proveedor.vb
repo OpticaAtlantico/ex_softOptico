@@ -22,7 +22,7 @@ Public Class Repositorio_Proveedor
         Insertar = "INSERT INTO TProveedor (NombreEmpresa, RazonSocial, Contacto, Telefono, Rif, Correo, Direccion) 
                     VALUES (@NombreEmpresa, @RazonSocial, @Contacto, @Telefono, @Rif, @Correo, @Direccion)"
         ' Note: The Foto field is assumed to be a string path or URL; adjust as necessary for your application.
-        Actualizar = "UPDATE TProveedores SET NombreEmpresa = @NombreEmpresa, RazonSocial = @RazonSocial, Contacto = @Contacto,
+        Actualizar = "UPDATE TProveedor SET NombreEmpresa = @NombreEmpresa, RazonSocial = @RazonSocial, Contacto = @Contacto,
                       Telefono = @Telefono, Rif = @Rif, Correo = @Correo, Direccion = @Direccion"
 
         'eliminar empleado
