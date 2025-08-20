@@ -218,14 +218,15 @@ Public Class frmProveedor
             End If
 
             resultado.Proveedor = New TProveedor With {
-            .nombreEmpresa = nombre,
-            .razonSocial = razonSocial,
-            .correo = correo,
-            .rif = rif,
-            .telefono = telefono,
-            .contacto = contacto,
-            .direccion = direccion
-        }
+                                                        .ProveedorID = id,
+                                                        .nombreEmpresa = nombre,
+                                                        .razonSocial = razonSocial,
+                                                        .correo = correo,
+                                                        .rif = rif,
+                                                        .telefono = telefono,
+                                                        .contacto = contacto,
+                                                        .direccion = direccion
+                                                    }
 
             resultado.EsValido = True
         Catch ex As Exception

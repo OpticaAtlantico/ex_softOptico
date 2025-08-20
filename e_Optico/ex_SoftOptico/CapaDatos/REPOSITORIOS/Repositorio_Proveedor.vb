@@ -23,11 +23,11 @@ Public Class Repositorio_Proveedor
                     VALUES (@NombreEmpresa, @RazonSocial, @Contacto, @Telefono, @Rif, @Correo, @Direccion)"
         ' Note: The Foto field is assumed to be a string path or URL; adjust as necessary for your application.
         Actualizar = "UPDATE TProveedor SET NombreEmpresa = @NombreEmpresa, RazonSocial = @RazonSocial, Contacto = @Contacto,
-                      Telefono = @Telefono, Rif = @Rif, Correo = @Correo, Direccion = @Direccion"
-
+                      Telefono = @Telefono, Rif = @Rif, Correo = @Correo, Direccion = @Direccion
+                      WHERE ProveedorID = @ProveedorID"
         'eliminar empleado
         ' Assuming TEmpleados is the table where employee data is stored.
-        Eliminar = "DELETE FROM TProveedores WHERE ProveedorID = @ProveedorID"
+        Eliminar = "DELETE FROM TProveedor WHERE ProveedorID = @ProveedorID"
     End Sub
 
 #End Region
@@ -154,6 +154,7 @@ Public Class Repositorio_Proveedor
 
     Private Function IRepositorio_Generico_Actualizar(entity As TProveedor) As Integer Implements IRepositorio_Generico(Of TProveedor).Edit
         parameter = New List(Of SqlParameter) From {
+            New SqlParameter("@ProveedorID", entity.ProveedorID),
             New SqlParameter("@NombreEmpresa", entity.nombreEmpresa),
             New SqlParameter("@RazonSocial", entity.razonSocial),
             New SqlParameter("@Contacto", entity.contacto),
