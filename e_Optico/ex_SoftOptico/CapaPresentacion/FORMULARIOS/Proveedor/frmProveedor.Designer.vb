@@ -38,10 +38,13 @@ Partial Class frmProveedor
         pnlEncabezado = New Panel()
         btnAccion = New CommandButtonUI()
         lblEncabezado = New HeaderUI()
+        cmbSiglas = New ComboBoxLabelUI()
+        Panel1 = New Panel()
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         pnlEncabezado.SuspendLayout()
+        Panel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlContenedor
@@ -111,12 +114,12 @@ Partial Class frmProveedor
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
-        TableLayoutPanel1.Controls.Add(txtRif, 0, 1)
         TableLayoutPanel1.Controls.Add(txtNombreEmpresa, 0, 0)
         TableLayoutPanel1.Controls.Add(txtRazonSocial, 1, 0)
         TableLayoutPanel1.Controls.Add(txtCorreo, 2, 0)
         TableLayoutPanel1.Controls.Add(txtTelefono, 1, 1)
         TableLayoutPanel1.Controls.Add(txtContacto, 2, 1)
+        TableLayoutPanel1.Controls.Add(Panel1, 0, 1)
         TableLayoutPanel1.Location = New Point(12, 11)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 2
@@ -140,7 +143,7 @@ Partial Class frmProveedor
         txtRif.IconoDerechoChar = FontAwesome.Sharp.IconChar.ContactBook
         txtRif.LabelColor = Color.DarkSlateGray
         txtRif.LabelText = "Rif / C.I."
-        txtRif.Location = New Point(3, 93)
+        txtRif.Location = New Point(66, 3)
         txtRif.MascaraPersonalizada = ""
         txtRif.MaxCaracteres = 0
         txtRif.MensajeError = "Este campo es obligatorio."
@@ -148,7 +151,7 @@ Partial Class frmProveedor
         txtRif.PaddingAll = 10
         txtRif.PanelBackColor = Color.White
         txtRif.SelectionStart = 0
-        txtRif.Size = New Size(407, 80)
+        txtRif.Size = New Size(341, 80)
         txtRif.SombraBackColor = Color.LightGray
         txtRif.TabIndex = 3
         txtRif.TextColor = Color.Black
@@ -346,6 +349,37 @@ Partial Class frmProveedor
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
         ' 
+        ' cmbSiglas
+        ' 
+        cmbSiglas.BackColor = Color.Transparent
+        cmbSiglas.BackColorPnl = Color.WhiteSmoke
+        cmbSiglas.BorderColor = Color.LightGray
+        cmbSiglas.BorderSize = 1
+        cmbSiglas.CampoRequerido = True
+        cmbSiglas.ForeColor = Color.Black
+        cmbSiglas.IndiceSeleccionado = -1
+        cmbSiglas.LabelColor = Color.DarkSlateGray
+        cmbSiglas.Location = New Point(3, 4)
+        cmbSiglas.MensajeError = "Este campo es obligatorio."
+        cmbSiglas.MostrarError = False
+        cmbSiglas.Name = "cmbSiglas"
+        cmbSiglas.RadioContornoPanel = 8
+        cmbSiglas.Size = New Size(57, 80)
+        cmbSiglas.SombraBackColor = Color.LightGray
+        cmbSiglas.TabIndex = 27
+        cmbSiglas.Titulo = "Siglas"
+        cmbSiglas.ValorSeleccionado = Nothing
+        ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(txtRif)
+        Panel1.Controls.Add(cmbSiglas)
+        Panel1.Dock = DockStyle.Fill
+        Panel1.Location = New Point(3, 93)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(410, 87)
+        Panel1.TabIndex = 6
+        ' 
         ' frmProveedor
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -360,6 +394,7 @@ Partial Class frmProveedor
         pnlContenido.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)
         pnlEncabezado.ResumeLayout(False)
+        Panel1.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
@@ -378,5 +413,7 @@ Partial Class frmProveedor
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents txtContacto As MaskedTextBoxLabelUI
     Friend WithEvents pnlFoter As Panel
+    Friend WithEvents cmbSiglas As ComboBoxLabelUI
+    Friend WithEvents Panel1 As Panel
 
 End Class

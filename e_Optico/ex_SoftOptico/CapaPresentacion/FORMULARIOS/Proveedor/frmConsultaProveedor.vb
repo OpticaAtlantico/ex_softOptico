@@ -64,16 +64,16 @@ Public Class frmConsultaProveedor
         Dim listaProveedor As List(Of TProveedor) = repo.ObtenerProveedor()
         Dim tabla As DataTable = ConvertirListaADataTable(listaProveedor)
 
-        Dim columnasVisibles = {"ProveedorID", "nombreEmpresa", "razonSocial", "contacto", "telefono", "rif", "correo", "direccion"}
+        Dim columnasVisibles = {"ProveedorID", "nombreEmpresa", "razonSocial", "contacto", "telefono", "siglas", "rif", "correo", "direccion"}
 
         Dim anchos = New Dictionary(Of String, Integer) From {
             {"ProveedorID", 80}, {"nombreEmpresa", 160}, {"razonSocial", 160},
-            {"contacto", 120}, {"telefono", 120}, {"rif", 100}, {"correo", 130}, {"direccion", 450}
+            {"contacto", 120}, {"telefono", 120}, {"siglas", 50}, {"rif", 100}, {"correo", 130}, {"direccion", 450}
         }
 
         Dim nombres = New Dictionary(Of String, String) From {
             {"ProveedorID", "ID"}, {"nombreEmpresa", "Empresa"}, {"razonSocial", "Razon Social"},
-            {"contacto", "Contacto"}, {"telefono", "# Teléfono"}, {"rif", "Rif"}, {"correo", "Correo Electrónico"},
+            {"contacto", "Contacto"}, {"telefono", "# Teléfono"}, {"siglas", "Siglas"}, {"rif", "Rif"}, {"correo", "Correo Electrónico"},
             {"direccion", "Domicilio Fiscal"}
         }
 

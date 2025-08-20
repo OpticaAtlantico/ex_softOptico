@@ -1,54 +1,16 @@
 ﻿Imports System.Windows.Controls
 
-Public Enum EstadoCivil
-    Soltero = 0
-    Casado = 1
-    Viudo = 2
-    Divorciado = 3
-End Enum
-
-Public Enum Nacionalidad
-    Venezolano = 0
-    Extranjero = 1
-End Enum
-
-Public Enum Sexo
-    Masculino = 0
-    Femenino = 1
-End Enum
-
-Public Enum Zona
-    Puerto_Ordaz = 0
-    San_Felix = 1
-End Enum
-
-Public Enum Material
-    Metal = 0
-    Pasta = 1
-    Aluminio = 2
-    Plastico = 3
-    Acero_Inoxidable = 4
-End Enum
-
-Public Enum Color_Punto
-    Rojo = 0
-    Azul = 1
-    Verde = 2
-    Amarillo = 3
-    Morado = 4
-End Enum
-
-Public Class EnumItems
+Public Class CargarCombos
     Public Property nombre As String
     Public Property valor As Integer
 
     Public Shared Sub Cargar(combo As ComboBoxUI, tipoEnum As Type)
         If combo Is Nothing OrElse tipoEnum Is Nothing Then Exit Sub
 
-        Dim listaItems As New List(Of EnumItems)
+        Dim listaItems As New List(Of CargarCombos)
 
         For Each valor As Integer In [Enum].GetValues(tipoEnum)
-            listaItems.Add(New EnumItems With {
+            listaItems.Add(New CargarCombos With {
                 .nombre = [Enum].GetName(tipoEnum, valor),
                 .valor = valor
             })
@@ -59,8 +21,8 @@ Public Class EnumItems
         combo.DataSource = listaItems
     End Sub
 
-    Public Function GetSeleccionCombo(combo As ComboBox) As EnumItems
-        Return TryCast(combo.SelectedItem, EnumItems)
+    Public Function GetSeleccionCombo(combo As ComboBox) As CargarCombos
+        Return TryCast(combo.SelectedItem, CargarCombos)
     End Function
 
 

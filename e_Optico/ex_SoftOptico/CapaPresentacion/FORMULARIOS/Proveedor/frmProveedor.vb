@@ -38,6 +38,7 @@ Public Class frmProveedor
         ' Initialize form components or load data if necessary
 
         'Me.Visible = True
+        CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
 
         If DatosProveedor IsNot Nothing Then
             CargarDatos(DatosProveedor)
@@ -184,6 +185,7 @@ Public Class frmProveedor
                 txtNombreEmpresa.TextoUsuario = proveedor.nombreEmpresa
                 txtRazonSocial.TextoUsuario = proveedor.razonSocial
                 txtCorreo.TextoUsuario = proveedor.correo
+                cmbSiglas.OrbitalCombo.SelectedIndex = Convert.ToInt32(proveedor.siglas)
                 txtRif.TextoUsuario = proveedor.rif
                 txtTelefono.TextoUsuario = proveedor.telefono
                 txtContacto.TextoUsuario = proveedor.contacto
@@ -203,12 +205,13 @@ Public Class frmProveedor
             Dim nombre = txtNombreEmpresa.TextValue.Trim()
             Dim razonSocial = txtRazonSocial.TextValue.Trim()
             Dim correo = txtCorreo.TextValue.Trim()
+            Dim siglas = Convert.ToInt32(cmbSiglas.IndiceSeleccionado)
             Dim rif = txtRif.TextValue.Trim()
             Dim telefono = txtTelefono.TextValue.Trim()
             Dim contacto = txtContacto.TextValue.Trim()
             Dim direccion = txtDireccion.TextValue.Trim()
 
-            If {id, nombre, razonSocial, correo, rif, telefono, contacto, direccion}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
+            If {id, nombre, razonSocial, correo, siglas, rif, telefono, contacto, direccion}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
                 MessageBoxUI.Mostrar("Cargando...",
                                      "Por favor, complete todos los campos obligatorios.",
                                       TipoMensaje.Errors, Botones.Aceptar)
@@ -222,6 +225,7 @@ Public Class frmProveedor
                                                         .nombreEmpresa = nombre,
                                                         .razonSocial = razonSocial,
                                                         .correo = correo,
+                                                        .siglas = siglas,
                                                         .rif = rif,
                                                         .telefono = telefono,
                                                         .contacto = contacto,

@@ -22,32 +22,34 @@ Partial Class frmConsultaEmpleados
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        dgvDatosProveedor = New DataGridViewUI()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConsultaEmpleados))
+        dgvDatosEmpleado = New DataGridViewUI()
         SuspendLayout()
         ' 
-        ' dgvDatosProveedor
+        ' dgvDatosEmpleado
         ' 
-        dgvDatosProveedor.BackColor = Color.WhiteSmoke
-        dgvDatosProveedor.DataCompleta = Nothing
-        dgvDatosProveedor.DataOriginal = Nothing
-        dgvDatosProveedor.Dock = DockStyle.Fill
-        dgvDatosProveedor.Location = New Point(0, 0)
-        dgvDatosProveedor.MetodoCargaDatos = Nothing
-        dgvDatosProveedor.Name = "dgvDatosProveedor"
-        dgvDatosProveedor.Size = New Size(1251, 507)
-        dgvDatosProveedor.TabIndex = 0
+        dgvDatosEmpleado.BackColor = Color.WhiteSmoke
+        dgvDatosEmpleado.DataCompleta = Nothing
+        dgvDatosEmpleado.DataOriginal = Nothing
+        dgvDatosEmpleado.Dock = DockStyle.Fill
+        dgvDatosEmpleado.IconosPorAccion = CType(resources.GetObject("dgvDatosEmpleado.IconosPorAccion"), Dictionary(Of String, FontAwesome.Sharp.IconChar))
+        dgvDatosEmpleado.Location = New Point(0, 0)
+        dgvDatosEmpleado.MetodoCargaDatos = Nothing
+        dgvDatosEmpleado.Name = "dgvDatosEmpleado"
+        dgvDatosEmpleado.Size = New Size(1251, 507)
+        dgvDatosEmpleado.TabIndex = 0
         ' 
         ' frmConsultaEmpleados
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1251, 507)
-        Controls.Add(dgvDatosProveedor)
+        Controls.Add(dgvDatosEmpleado)
         Name = "frmConsultaEmpleados"
         Text = "frm_ConsultaEmpleados"
         WindowState = FormWindowState.Maximized
         ResumeLayout(False)
     End Sub
 
-    Friend WithEvents dgvDatosProveedor As DataGridViewUI
+    Friend WithEvents dgvDatosEmpleado As DataGridViewUI
 End Class

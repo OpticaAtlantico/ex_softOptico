@@ -230,7 +230,7 @@ Partial Class frm_Principal
         btnSalirFrmHijo.FlatAppearance.BorderSize = 0
         btnSalirFrmHijo.FlatStyle = FlatStyle.Flat
         btnSalirFrmHijo.IconChar = FontAwesome.Sharp.IconChar.Reply
-        btnSalirFrmHijo.IconColor = Color.MidnightBlue
+        btnSalirFrmHijo.IconColor = Color.MistyRose
         btnSalirFrmHijo.IconFont = FontAwesome.Sharp.IconFont.Auto
         btnSalirFrmHijo.IconSize = 40
         btnSalirFrmHijo.Location = New Point(0, 0)

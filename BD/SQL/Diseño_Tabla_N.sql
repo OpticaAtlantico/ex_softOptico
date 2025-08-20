@@ -109,6 +109,7 @@ CREATE TABLE TProveedor (
     RazonSocial NVARCHAR(250) NULL, 
     Contacto NVARCHAR(100) NULL,
     Telefono NVARCHAR(20) NULL,
+    Sigla NVARCHAR(1) NULL,
     Rif NVARCHAR(30) NOT NULL,
     Correo NVARCHAR(100) NULL,
     Estado BIT NOT NULL DEFAULT 1,
@@ -528,6 +529,7 @@ CREATE OR ALTER VIEW VProveedor AS
             , RazonSocial
             , Contacto
             , Telefono
+            , Siglas
             , Rif
             , Correo
             , Direccion

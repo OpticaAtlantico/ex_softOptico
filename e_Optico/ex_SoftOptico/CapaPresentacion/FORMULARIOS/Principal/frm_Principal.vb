@@ -21,7 +21,7 @@ Public Class frm_Principal
 
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.05
-    Public Property EmpleadoEncontrado As TEmpleados = Nothing
+    Public Property EmpleadoEncontrado As VEmpleados = Nothing
     Public Property ProveedorEncontrado As TProveedor = Nothing
     Public Property CompraEncontrado As VCompras = Nothing
 
@@ -618,7 +618,7 @@ Public Class frm_Principal
         Dim texto As String = String.Empty
 
         ' 1. Llama a la función y guarda el resultado en una lista.
-        Dim listaResultados As IEnumerable(Of TEmpleados) = repositorio.BuscarEmpleadosPorCedula(cedulaE)
+        Dim listaResultados As IEnumerable(Of VEmpleados) = repositorio.GetByCedula(cedulaE)
 
         ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
         '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.

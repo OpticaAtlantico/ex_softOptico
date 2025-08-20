@@ -8,25 +8,21 @@ Public Class Repositorio_Proveedor
 
     Private SeleccionarTodos As String
     Private SeleccionarPorID As String
+    Private SeleccionarPorNombre As String
     Private Insertar As String
     Private Actualizar As String
     Private Eliminar As String
 
-
 #Region "CONSTRUCTOR"
     Sub New()
         SeleccionarTodos = "SELECT * FROM VProveedor"
-        ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
         SeleccionarPorID = "SELECT * FROM VProveedor WHERE ProveedorID = @ProveedorID"
-        ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
-        Insertar = "INSERT INTO TProveedor (NombreEmpresa, RazonSocial, Contacto, Telefono, Rif, Correo, Direccion) 
-                    VALUES (@NombreEmpresa, @RazonSocial, @Contacto, @Telefono, @Rif, @Correo, @Direccion)"
-        ' Note: The Foto field is assumed to be a string path or URL; adjust as necessary for your application.
+        SeleccionarPorNombre = "SELECT * FROM VProveedor WHERE NombreEmpresa LIKE @Nombre"
+        Insertar = "INSERT INTO TProveedor (NombreEmpresa, RazonSocial, Contacto, Telefono, Siglas, Rif, Correo, Direccion) 
+                    VALUES (@NombreEmpresa, @RazonSocial, @Contacto, @Telefono, @Siglas, @Rif, @Correo, @Direccion)"
         Actualizar = "UPDATE TProveedor SET NombreEmpresa = @NombreEmpresa, RazonSocial = @RazonSocial, Contacto = @Contacto,
-                      Telefono = @Telefono, Rif = @Rif, Correo = @Correo, Direccion = @Direccion
+                      Telefono = @Telefono, Siglas = @Siglas, Rif = @Rif, Correo = @Correo, Direccion = @Direccion
                       WHERE ProveedorID = @ProveedorID"
-        'eliminar empleado
-        ' Assuming TEmpleados is the table where employee data is stored.
         Eliminar = "DELETE FROM TProveedor WHERE ProveedorID = @ProveedorID"
     End Sub
 
@@ -38,11 +34,10 @@ Public Class Repositorio_Proveedor
     End Function
 
     Public Function BuscarProveedorPorNombre(nombre As String) As IEnumerable(Of TProveedor) Implements IRepositorio_Proveedor.BuscarProveedorPorNombre
-        Dim query As String = "SELECT * FROM VProveedor WHERE NombreEmpresa LIKE @Nombre"
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Nombre", "%" & nombre & "%")
         }
-        Dim resultadoTable As DataTable = ExecuteReader(query)
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarPorNombre)
         Dim lista = New List(Of TProveedor)
         For Each row As DataRow In resultadoTable.Rows
             Dim proveedor As New TProveedor With {
@@ -51,6 +46,7 @@ Public Class Repositorio_Proveedor
                 .razonSocial = row("RazonSocial").ToString(),
                 .contacto = row("Contacto").ToString(),
                 .telefono = row("Telefono").ToString(),
+                .siglas = [Enum].GetName(GetType(Siglas), Convert.ToInt32(row("Siglas"))),
                 .rif = row("Rif").ToString(),
                 .correo = row("Correo").ToString(),
                 .direccion = row("Direccion").ToString()
@@ -74,6 +70,7 @@ Public Class Repositorio_Proveedor
                 .razonSocial = row("RazonSocial").ToString(),
                 .contacto = row("Contacto").ToString(),
                 .telefono = row("Telefono").ToString(),
+                .siglas = [Enum].GetName(GetType(Siglas), Convert.ToInt32(row("Siglas"))),
                 .rif = row("RIF").ToString(),
                 .correo = row("correo").ToString(),
                 .direccion = row("Direccion").ToString()
@@ -96,6 +93,7 @@ Public Class Repositorio_Proveedor
                 .razonSocial = row("RazonSocial").ToString(),
                 .contacto = row("Contacto").ToString(),
                 .telefono = row("Telefono").ToString(),
+                .siglas = [Enum].GetName(GetType(Siglas), Convert.ToInt32(row("Siglas"))),
                 .rif = row("Rif").ToString(),
                 .correo = row("Correo").ToString(),
                 .direccion = row("Direccion").ToString()
@@ -130,6 +128,7 @@ Public Class Repositorio_Proveedor
                 .razonSocial = row("RazonSocial").ToString(),
                 .contacto = row("Contacto").ToString(),
                 .telefono = row("Telefono").ToString(),
+                .siglas = [Enum].GetName(GetType(Siglas), Convert.ToInt32(row("Siglas"))),
                 .rif = row("Rif").ToString(),
                 .correo = row("Correo").ToString(),
                 .direccion = row("Direccion").ToString()
@@ -145,6 +144,7 @@ Public Class Repositorio_Proveedor
             New SqlParameter("@RazonSocial", entity.razonSocial),
             New SqlParameter("@Contacto", entity.contacto),
             New SqlParameter("@Telefono", entity.telefono),
+            New SqlParameter("@Siglas", entity.siglas),
             New SqlParameter("@Rif", entity.rif),
             New SqlParameter("@Correo", entity.correo),
             New SqlParameter("@Direccion", entity.direccion)
@@ -159,6 +159,7 @@ Public Class Repositorio_Proveedor
             New SqlParameter("@RazonSocial", entity.razonSocial),
             New SqlParameter("@Contacto", entity.contacto),
             New SqlParameter("@Telefono", entity.telefono),
+            New SqlParameter("@Siglas", entity.siglas),
             New SqlParameter("@Rif", entity.rif),
             New SqlParameter("@Correo", entity.correo),
             New SqlParameter("@Direccion", entity.direccion)

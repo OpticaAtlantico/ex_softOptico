@@ -4,6 +4,7 @@
     Public Property razonSocial As String
     Public Property contacto As String
     Public Property telefono As String
+    Public Property siglas As String
     Public Property rif As String
     Public Property correo As String
     Public Property direccion As String

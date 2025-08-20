@@ -14,7 +14,7 @@ Module FuncionesGenericas
         Try
             ' === 1. Eliminar de la base de datos ===
             Dim repositorio As New Repositorio_Empleados()
-            Dim eliminado As Boolean = repositorio.EliminarEmpleado(empleadoId)
+            Dim eliminado As Boolean = repositorio.Remove(empleadoId)
 
             If eliminado Then
                 ' === 2. Eliminar la imagen si existe ===

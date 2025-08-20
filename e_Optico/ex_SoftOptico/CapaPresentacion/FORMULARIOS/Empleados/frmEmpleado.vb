@@ -7,7 +7,7 @@ Public Class frmEmpleado
 
     Private rutaImagenSeleccionada As String = ""
 
-    Public Property DatosEmpleados As TEmpleados = Nothing
+    Public Property DatosEmpleados As VEmpleados = Nothing
     Public Property NombreBoton As String = String.Empty
 
 #Region "CONSTRUCTOR"
@@ -133,10 +133,10 @@ Public Class frmEmpleado
     Private Sub PrepararUI()
 
         'Llenar combos con EnumItems
-        EnumItems.CargarComboDesacoplado(cmbEstadoCivil, GetType(EstadoCivil))
-        EnumItems.CargarComboDesacoplado(cmbNacionalidad, GetType(Nacionalidad))
-        EnumItems.CargarComboDesacoplado(cmbSexo, GetType(Sexo))
-        EnumItems.CargarComboDesacoplado(cmbZona, GetType(Zona))
+        CargarCombos.CargarComboDesacoplado(cmbEstadoCivil, GetType(EstadoCivil))
+        CargarCombos.CargarComboDesacoplado(cmbNacionalidad, GetType(Nacionalidad))
+        CargarCombos.CargarComboDesacoplado(cmbSexo, GetType(Sexo))
+        CargarCombos.CargarComboDesacoplado(cmbZona, GetType(Zona))
 
         'llenar combos desde la base de datos
         Dim llenarCombo As New LlenarComboBox
@@ -164,8 +164,8 @@ Public Class frmEmpleado
                 End If
             Case "Eliminar..."
                 ' Aquí puedes implementar la lógica para eliminar el empleado
-                Dim empleadoId As Integer = DatosEmpleados.EmpleadoID
-                Dim rutaFoto As String = DatosEmpleados.Foto ' Ejemplo: "Fotos/empleado_1234.jpg"
+                Dim empleadoId As Integer = DatosEmpleados._empleadoID
+                Dim rutaFoto As String = DatosEmpleados._foto ' Ejemplo: "Fotos/empleado_1234.jpg"
 
                 Dim confirmacion = MessageBoxUI.Mostrar("Eliminando...",
                                                          "¿Está usted seguro de eliminar el empleado seleccionado?",
@@ -247,32 +247,32 @@ Public Class frmEmpleado
     End Sub
 
     ' Recibe un objeto TEmpleados y rellena los controles del formulario.
-    Public Sub CargarDatos(ByVal empleado As TEmpleados)
+    Public Sub CargarDatos(ByVal empleado As VEmpleados)
         ' Primero, verificamos que el objeto no sea nulo para evitar errores.
         If empleado IsNot Nothing Then
             ' Asignamos los datos del objeto a los controles
             With Me
-                .txtCedula.TextoUsuario = empleado.Cedula
-                .txtNombre.TextoUsuario = empleado.Nombre
-                .txtApellido.TextoUsuario = empleado.Apellido
-                .txtEdad.TextoUsuario = empleado.Edad
-                .cmbNacionalidad.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.Nacionalidad) ' Asumiendo que el índice comienza en 0
-                .cmbEstadoCivil.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.EstadoCivil)
-                .cmbSexo.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.Sexo)
-                .txtFechaNac.FechaSeleccionada = empleado.FechaNacimiento
-                .cmbCargo.OrbitalCombo.Text = empleado.Cargo
-                .txtCorreo.TextoUsuario = empleado.Correo
-                .txtTelefono.TextoUsuario = empleado.Telefono
-                .cmbZona.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado.Zona)
-                .txtDireccion.TextoUsuario = empleado.Direccion
-                .swAsesor.Checked = If(empleado.Asesor = "True", True, False)
-                .swOptometrista.Checked = If(empleado.Optometrista = "True", True, False)
-                .swGerente.Checked = If(empleado.Gerente = "True", True, False)
-                .swMarketing.Checked = If(empleado.Marketing = "True", True, False)
+                .txtCedula.TextoUsuario = empleado._cedula
+                .txtNombre.TextoUsuario = empleado._nombre
+                .txtApellido.TextoUsuario = empleado._apellido
+                .txtEdad.TextoUsuario = empleado._edad
+                .cmbNacionalidad.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._nacionalidad) ' Asumiendo que el índice comienza en 0
+                .cmbEstadoCivil.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._estadoCivil)
+                .cmbSexo.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._sexo)
+                .txtFechaNac.FechaSeleccionada = empleado._fechaNacimiento
+                .cmbCargo.OrbitalCombo.Text = empleado._cargo
+                .txtCorreo.TextoUsuario = empleado._correo
+                .txtTelefono.TextoUsuario = empleado._telefono
+                .cmbZona.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._zona)
+                .txtDireccion.TextoUsuario = empleado._direccion
+                .swAsesor.Checked = If(empleado._asesor = "True", True, False)
+                .swOptometrista.Checked = If(empleado._optometrista = "True", True, False)
+                .swGerente.Checked = If(empleado._gerente = "True", True, False)
+                .swMarketing.Checked = If(empleado._marketing = "True", True, False)
                 ' Si tienes un control para mostrar la foto, lo asignas aquí
-                If Not String.IsNullOrEmpty(empleado.Foto) Then
+                If Not String.IsNullOrEmpty(empleado._foto) Then
                     Try
-                        Dim img As Image = Image.FromFile(empleado.Foto)
+                        Dim img As Image = Image.FromFile(empleado._foto)
                         .imgFoto.BackgroundImage = img
                         .imgFoto.BackgroundImageLayout = ImageLayout.Zoom
                         .imgFoto.IconChar = FontAwesome.Sharp.IconChar.None ' Oculta el ícono para que se vea la imagen
@@ -301,7 +301,7 @@ Public Class frmEmpleado
         Dim resultado As New ResultadoEmpleados()
 
         Try
-            Dim id As Integer = If(incluirID, DatosEmpleados.EmpleadoID, 0)
+            Dim id As Integer = If(incluirID, DatosEmpleados._empleadoID, 0)
             Dim cedula = txtCedula.TextValue.Trim()
             Dim nombre = txtNombre.TextValue.Trim()
             Dim apellido = txtApellido.TextValue.Trim()
@@ -378,9 +378,9 @@ Public Class frmEmpleado
 
         Try
             If esNuevo Then
-                exito = repositorio.InsertarEmpleado(datos.Empleado)
+                exito = repositorio.Add(datos.Empleado)
             Else
-                exito = repositorio.ActualizarEmpleado(datos.Empleado)
+                exito = repositorio.Edit(datos.Empleado)
             End If
 
             If exito Then
