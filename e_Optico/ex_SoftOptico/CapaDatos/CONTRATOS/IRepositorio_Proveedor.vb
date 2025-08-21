@@ -1,10 +1,7 @@
 ﻿Imports CapaEntidad
 Public Interface IRepositorio_Proveedor
-    Function ObtenerProveedor() As IEnumerable(Of TProveedor)
-    Function BuscarProveedorPorRIF(rif As String) As IEnumerable(Of TProveedor)
-    Function BuscarProveedorPorID(id As Integer) As TProveedor
-    Function BuscarProveedorPorNombre(nombre As String) As IEnumerable(Of TProveedor)
-    Function AgregarProveedor(proveedor As TProveedor) As Integer
-    Function ActualizarProveedor(proveedor As TProveedor) As Integer
-    Function EliminarProveedor(id As Integer) As Integer
+    Function GetAlls() As IEnumerable(Of VProveedor)
+    Function GetAllByRif(rif As String) As IEnumerable(Of VProveedor)
+    Function GetAllByNombre(nombre As String) As IEnumerable(Of VProveedor)
+    Function GetById(id As Integer) As VProveedor
 End Interface

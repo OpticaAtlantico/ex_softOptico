@@ -44,9 +44,9 @@ Public Class Repositorio_Empleados
                 ._nombre = Convert.ToString(row("Nombre")),
                 ._apellido = Convert.ToString(row("Apellido")),
                 ._edad = Convert.ToInt32(row("Edad")),
-                ._nacionalidad = Convert.ToString(row("Nacionalidad")),
-                ._estadoCivil = Convert.ToString(row("EstadoCivil")),
-                ._sexo = Convert.ToString(row("Sexo")),
+                ._nacionalidad = [Enum].GetName(GetType(Nacionalidad), Convert.ToInt32(row("Nacionalidad"))),
+                ._estadoCivil = [Enum].GetName(GetType(EstadoCivil), Convert.ToInt32(row("EstadoCivil"))),
+                ._sexo = [Enum].GetName(GetType(Sexo), Convert.ToInt32(row("Sexo"))),
                 ._fechaNacimiento = Convert.ToDateTime(row("FechaNacimiento")),
                 ._direccion = Convert.ToString(row("Direccion")),
                 ._cargo = Convert.ToString(row("Cargo")),
@@ -58,7 +58,7 @@ Public Class Repositorio_Empleados
                 ._cobranza = Convert.ToBoolean(row("Cobranza")),
                 ._estado = Convert.ToByte(row("Estado")),
                 ._telefono = Convert.ToString(row("Telefono")),
-                ._zona = Convert.ToString(row("Zona")),
+                ._zona = [Enum].GetName(GetType(Zona), Convert.ToInt32(row("Zona"))),
                 ._foto = If(String.IsNullOrWhiteSpace(Convert.ToString(row("Foto"))), "Sin Foto", Convert.ToString(row("Foto")))
             }
             lista.Add(empleado)
@@ -79,9 +79,9 @@ Public Class Repositorio_Empleados
                 ._nombre = Convert.ToString(row("Nombre")),
                 ._apellido = Convert.ToString(row("Apellido")),
                 ._edad = Convert.ToInt32(row("Edad")),
-                ._nacionalidad = Convert.ToString(row("Nacionalidad")),
-                ._estadoCivil = Convert.ToString(row("EstadoCivil")),
-                ._sexo = Convert.ToString(row("Sexo")),
+                ._nacionalidad = [Enum].GetName(GetType(Nacionalidad), Convert.ToInt32(row("Nacionalidad"))),
+                ._estadoCivil = [Enum].GetName(GetType(EstadoCivil), Convert.ToInt32(row("EstadoCivil"))),
+                ._sexo = [Enum].GetName(GetType(Sexo), Convert.ToInt32(row("Sexo"))),
                 ._fechaNacimiento = Convert.ToDateTime(row("FechaNacimiento")),
                 ._direccion = Convert.ToString(row("Direccion")),
                 ._cargo = Convert.ToString(row("Cargo")),
@@ -93,7 +93,7 @@ Public Class Repositorio_Empleados
                 ._cobranza = Convert.ToBoolean(row("Cobranza")),
                 ._estado = Convert.ToByte(row("Estado")),
                 ._telefono = Convert.ToString(row("Telefono")),
-                ._zona = Convert.ToString(row("Zona")),
+                ._zona = [Enum].GetName(GetType(Zona), Convert.ToInt32(row("Zona"))),
                 ._foto = If(String.IsNullOrWhiteSpace(Convert.ToString(row("Foto"))), "Sin Foto", Convert.ToString(row("Foto")))
             }
             lista.Add(empleado)
@@ -114,9 +114,9 @@ Public Class Repositorio_Empleados
                 ._nombre = Convert.ToString(row("Nombre")),
                 ._apellido = Convert.ToString(row("Apellido")),
                 ._edad = Convert.ToInt32(row("Edad")),
-                ._nacionalidad = Convert.ToString(row("Nacionalidad")),
-                ._estadoCivil = Convert.ToString(row("EstadoCivil")),
-                ._sexo = Convert.ToString(row("Sexo")),
+                ._nacionalidad = [Enum].GetName(GetType(Nacionalidad), Convert.ToInt32(row("Nacionalidad"))),
+                ._estadoCivil = [Enum].GetName(GetType(EstadoCivil), Convert.ToInt32(row("EstadoCivil"))),
+                ._sexo = [Enum].GetName(GetType(Sexo), Convert.ToInt32(row("Sexo"))),
                 ._fechaNacimiento = Convert.ToDateTime(row("FechaNacimiento")),
                 ._direccion = Convert.ToString(row("Direccion")),
                 ._cargo = Convert.ToString(row("Cargo")),
@@ -128,7 +128,7 @@ Public Class Repositorio_Empleados
                 ._cobranza = Convert.ToBoolean(row("Cobranza")),
                 ._estado = Convert.ToByte(row("Estado")),
                 ._telefono = Convert.ToString(row("Telefono")),
-                ._zona = Convert.ToString(row("Zona")),
+                ._zona = [Enum].GetName(GetType(Zona), Convert.ToInt32(row("Zona"))),
                 ._foto = If(String.IsNullOrWhiteSpace(Convert.ToString(row("Foto"))), "Sin Foto", Convert.ToString(row("Foto")))
             }
         End If

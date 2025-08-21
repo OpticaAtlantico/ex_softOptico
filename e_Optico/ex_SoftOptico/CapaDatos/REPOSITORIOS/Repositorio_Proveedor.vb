@@ -8,6 +8,7 @@ Public Class Repositorio_Proveedor
 
     Private SeleccionarTodos As String
     Private SeleccionarPorID As String
+    Private SeleccionarPorRif As String
     Private SeleccionarPorNombre As String
     Private Insertar As String
     Private Actualizar As String
@@ -17,30 +18,47 @@ Public Class Repositorio_Proveedor
     Sub New()
         SeleccionarTodos = "SELECT * FROM VProveedor"
         SeleccionarPorID = "SELECT * FROM VProveedor WHERE ProveedorID = @ProveedorID"
+        SeleccionarPorRif = "SELECT * FROM VProveedor WHERE Rif = @Rif"
         SeleccionarPorNombre = "SELECT * FROM VProveedor WHERE NombreEmpresa LIKE @Nombre"
         Insertar = "INSERT INTO TProveedor (NombreEmpresa, RazonSocial, Contacto, Telefono, Siglas, Rif, Correo, Direccion) 
                     VALUES (@NombreEmpresa, @RazonSocial, @Contacto, @Telefono, @Siglas, @Rif, @Correo, @Direccion)"
+
         Actualizar = "UPDATE TProveedor SET NombreEmpresa = @NombreEmpresa, RazonSocial = @RazonSocial, Contacto = @Contacto,
                       Telefono = @Telefono, Siglas = @Siglas, Rif = @Rif, Correo = @Correo, Direccion = @Direccion
                       WHERE ProveedorID = @ProveedorID"
+
         Eliminar = "DELETE FROM TProveedor WHERE ProveedorID = @ProveedorID"
     End Sub
 
-#End Region
+    Public Function GetAlls() As IEnumerable(Of VProveedor) Implements IRepositorio_Proveedor.GetAlls
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarTodos)
+        Dim lista As New List(Of VProveedor)
+        For Each row As DataRow In resultadoTable.Rows
+            Dim proveedor As New VProveedor With {
+                .ProveedorID = Convert.ToInt32(row("ProveedorID")),
+                .nombreEmpresa = row("NombreEmpresa").ToString(),
+                .razonSocial = row("RazonSocial").ToString(),
+                .contacto = row("Contacto").ToString(),
+                .telefono = row("Telefono").ToString(),
+                .siglas = [Enum].GetName(GetType(Siglas), Convert.ToInt32(row("Siglas"))),
+                .rif = row("Rif").ToString(),
+                .correo = row("Correo").ToString(),
+                .direccion = row("Direccion").ToString()
+            }
+            lista.Add(proveedor)
+        Next
+        Return lista
 
-#Region "METODOS DE LA INTERFAZ IRepositorio_Proveedor"
-    Public Function ObtenerProveedor() As IEnumerable(Of TProveedor) Implements IRepositorio_Proveedor.ObtenerProveedor
-        Return Me.GetAll()
     End Function
 
-    Public Function BuscarProveedorPorNombre(nombre As String) As IEnumerable(Of TProveedor) Implements IRepositorio_Proveedor.BuscarProveedorPorNombre
+    Public Function GetAllByRif(rif As String) As IEnumerable(Of VProveedor) Implements IRepositorio_Proveedor.GetAllByRif
         parameter = New List(Of SqlParameter) From {
-            New SqlParameter("@Nombre", "%" & nombre & "%")
+            New SqlParameter("@Rif", "%" & rif & "%")
         }
-        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarPorNombre)
-        Dim lista = New List(Of TProveedor)
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarPorRif)
+        Dim lista As New List(Of VProveedor)
         For Each row As DataRow In resultadoTable.Rows
-            Dim proveedor As New TProveedor With {
+            Dim proveedor As New VProveedor With {
                 .ProveedorID = Convert.ToInt32(row("ProveedorID")),
                 .nombreEmpresa = row("NombreEmpresa").ToString(),
                 .razonSocial = row("RazonSocial").ToString(),
@@ -56,23 +74,22 @@ Public Class Repositorio_Proveedor
         Return lista
     End Function
 
-    Public Function BuscarProveedorPorRIF(rif As String) As IEnumerable(Of TProveedor) Implements IRepositorio_Proveedor.BuscarProveedorPorRIF
-        Dim query As String = "SELECT * FROM VProveedor WHERE Rif LIKE @Rif"
+    Public Function GetAllByNombre(nombre As String) As IEnumerable(Of VProveedor) Implements IRepositorio_Proveedor.GetAllByNombre
         parameter = New List(Of SqlParameter) From {
-            New SqlParameter("@Rif", "%" & rif & "%")
+            New SqlParameter("@Nombre", "%" & nombre & "%")
         }
-        Dim resultadoTable As DataTable = ExecuteReader(query)
-        Dim lista = New List(Of TProveedor)
+        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarPorNombre)
+        Dim lista As New List(Of VProveedor)
         For Each row As DataRow In resultadoTable.Rows
-            Dim proveedor As New TProveedor With {
+            Dim proveedor As New VProveedor With {
                 .ProveedorID = Convert.ToInt32(row("ProveedorID")),
                 .nombreEmpresa = row("NombreEmpresa").ToString(),
                 .razonSocial = row("RazonSocial").ToString(),
                 .contacto = row("Contacto").ToString(),
                 .telefono = row("Telefono").ToString(),
                 .siglas = [Enum].GetName(GetType(Siglas), Convert.ToInt32(row("Siglas"))),
-                .rif = row("RIF").ToString(),
-                .correo = row("correo").ToString(),
+                .rif = row("Rif").ToString(),
+                .correo = row("Correo").ToString(),
                 .direccion = row("Direccion").ToString()
             }
             lista.Add(proveedor)
@@ -80,14 +97,14 @@ Public Class Repositorio_Proveedor
         Return lista
     End Function
 
-    Public Function BuscarProveedorPorID(id As Integer) As TProveedor Implements IRepositorio_Proveedor.BuscarProveedorPorID
+    Public Function GetById(id As Integer) As VProveedor Implements IRepositorio_Proveedor.GetById
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@ProveedorID", id)
         }
         Dim resultadoTable As DataTable = ExecuteReader(SeleccionarPorID)
         If resultadoTable.Rows.Count > 0 Then
             Dim row As DataRow = resultadoTable.Rows(0)
-            Return New TProveedor With {
+            Return New VProveedor With {
                 .ProveedorID = Convert.ToInt32(row("ProveedorID")),
                 .nombreEmpresa = row("NombreEmpresa").ToString(),
                 .razonSocial = row("RazonSocial").ToString(),
@@ -102,43 +119,9 @@ Public Class Repositorio_Proveedor
         Return Nothing
     End Function
 
-    Public Function AgregarProveedor(proveedor As TProveedor) As Integer Implements IRepositorio_Proveedor.AgregarProveedor
-        Return IRepositorio_Generico_Insertar(proveedor)
-    End Function
 
-    Public Function ActualizarProveedor(proveedor As TProveedor) As Integer Implements IRepositorio_Proveedor.ActualizarProveedor
-        Return IRepositorio_Generico_Actualizar(proveedor)
-    End Function
 
-    Public Function EliminarProveedor(id As Integer) As Integer Implements IRepositorio_Proveedor.EliminarProveedor
-        Return Remove(id)
-    End Function
-
-#End Region
-
-#Region "MÉTODOS PRIVADOS"
-
-    Public Function GetAll() As IEnumerable(Of TProveedor) Implements IRepositorio_Generico(Of TProveedor).GetAll
-        Dim resultadoTable As DataTable = ExecuteReader(SeleccionarTodos)
-        Dim lista = New List(Of TProveedor)
-        For Each row As DataRow In resultadoTable.Rows
-            Dim proveedor As New TProveedor With {
-                .ProveedorID = Convert.ToInt32(row("ProveedorID")),
-                .nombreEmpresa = row("NombreEmpresa").ToString(),
-                .razonSocial = row("RazonSocial").ToString(),
-                .contacto = row("Contacto").ToString(),
-                .telefono = row("Telefono").ToString(),
-                .siglas = [Enum].GetName(GetType(Siglas), Convert.ToInt32(row("Siglas"))),
-                .rif = row("Rif").ToString(),
-                .correo = row("Correo").ToString(),
-                .direccion = row("Direccion").ToString()
-            }
-            lista.Add(proveedor)
-        Next
-        Return lista
-    End Function
-
-    Private Function IRepositorio_Generico_Insertar(entity As TProveedor) As Integer Implements IRepositorio_Generico(Of TProveedor).Add
+    Public Function Add(entity As TProveedor) As Integer Implements IRepositorio_Generico(Of TProveedor).Add
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@NombreEmpresa", entity.nombreEmpresa),
             New SqlParameter("@RazonSocial", entity.razonSocial),
@@ -152,7 +135,7 @@ Public Class Repositorio_Proveedor
         Return ExecuteNonQuery(Insertar)
     End Function
 
-    Private Function IRepositorio_Generico_Actualizar(entity As TProveedor) As Integer Implements IRepositorio_Generico(Of TProveedor).Edit
+    Public Function Edit(entity As TProveedor) As Integer Implements IRepositorio_Generico(Of TProveedor).Edit
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@ProveedorID", entity.ProveedorID),
             New SqlParameter("@NombreEmpresa", entity.nombreEmpresa),
@@ -169,14 +152,23 @@ Public Class Repositorio_Proveedor
 
     Public Function Remove(id As Integer) As Integer Implements IRepositorio_Generico(Of TProveedor).Remove
         parameter = New List(Of SqlParameter) From {
-                    New SqlParameter("@ProveedorID", id)
-                }
+            New SqlParameter("@ProveedorID", id)
+        }
         Return ExecuteNonQuery(Eliminar)
     End Function
+
+    '----------------------------------------------------------------
 
     Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TProveedor) Implements IRepositorio_Generico(Of TProveedor).GetAllUserPass
         Throw New NotImplementedException()
     End Function
+    Public Function GetAll() As IEnumerable(Of TProveedor) Implements IRepositorio_Generico(Of TProveedor).GetAll
+        Throw New NotImplementedException()
+    End Function
+#End Region
+
+#Region "METODOS DE LA INTERFAZ IRepositorio_Proveedor"
+
 
 
 

@@ -256,14 +256,14 @@ Public Class frmEmpleado
                 .txtNombre.TextoUsuario = empleado._nombre
                 .txtApellido.TextoUsuario = empleado._apellido
                 .txtEdad.TextoUsuario = empleado._edad
-                .cmbNacionalidad.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._nacionalidad) ' Asumiendo que el índice comienza en 0
-                .cmbEstadoCivil.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._estadoCivil)
-                .cmbSexo.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._sexo)
+                .cmbNacionalidad.OrbitalCombo.Text = empleado._nacionalidad ' Asumiendo que el índice comienza en 0
+                .cmbEstadoCivil.OrbitalCombo.Text = empleado._estadoCivil
+                .cmbSexo.OrbitalCombo.Text = empleado._sexo
                 .txtFechaNac.FechaSeleccionada = empleado._fechaNacimiento
                 .cmbCargo.OrbitalCombo.Text = empleado._cargo
                 .txtCorreo.TextoUsuario = empleado._correo
                 .txtTelefono.TextoUsuario = empleado._telefono
-                .cmbZona.OrbitalCombo.SelectedIndex = Convert.ToInt32(empleado._zona)
+                .cmbZona.OrbitalCombo.Text = empleado._zona
                 .txtDireccion.TextoUsuario = empleado._direccion
                 .swAsesor.Checked = If(empleado._asesor = "True", True, False)
                 .swOptometrista.Checked = If(empleado._optometrista = "True", True, False)
