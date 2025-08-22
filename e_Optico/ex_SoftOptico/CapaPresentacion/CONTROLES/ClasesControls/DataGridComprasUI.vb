@@ -265,8 +265,9 @@ Public Class DataGridComprasUI
 
             Dim detalle As New TDetalleCompra()
 
+
             detalle.ProductoID = Convert.ToInt32(row.Cells("Producto").Tag)
-            'detalle.ProductoName = Convert.ToInt32(row.Cells("Producto").Value)
+            'detalle.cod = Convert.ToInt32(row.Cells("Producto").Value)
             detalle.Cantidad = Convert.ToDecimal(row.Cells("Cantidad").Value)
             detalle.PrecioUnitario = Convert.ToDecimal(row.Cells("Precio").Value)
             detalle.Subtotal = Convert.ToDecimal(row.Cells("Subtotal").Value)

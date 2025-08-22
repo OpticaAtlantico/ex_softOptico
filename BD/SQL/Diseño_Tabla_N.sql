@@ -312,15 +312,15 @@ GO
 
 -- Tabla: DetalleCompra
 CREATE TABLE TDetalleCompra (
-    DetalleCompraID INT IDENTITY(1,1),
-    OrdenCompra BIGINT NOT NULL PRIMARY KEY,
-    ProductoID INT NOT NULL,
+    DetalleCompraID INT IDENTITY(1,1) PRIMARY KEY,
+    OrdenCompra BIGINT NOT NULL,
+    ProductoID NVARCHAR(50) NOT NULL,
     Cantidad INT NOT NULL,
     CostoUnitario DECIMAL(18, 2) NOT NULL,
     Subtotal DECIMAL(18, 2) NOT NULL,
     ModoCargo CHAR(2) NOT NULL,
     FOREIGN KEY (OrdenCompra) REFERENCES TCompras(OrdenCompra),
-    FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
+    FOREIGN KEY (ProductoID) REFERENCES TProductos(CodigoProducto)
 );
 GO
 
@@ -511,7 +511,8 @@ GO
 -- SELECT * FROM VLogin;
 
 CREATE OR ALTER VIEW VProductos AS
-    SELECT P.CodigoProducto AS Codigo
+    SELECT P.ProductoID 
+         , P.CodigoProducto AS Codigo
          , P.Descripcion AS Nombre
          , P.Precio
          , C.CategoriaID
@@ -676,6 +677,13 @@ INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('8%','8')
 INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('31%','31')
 INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Exento','0')
 INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Gravamen','1')
+
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('1','BIFOCAL','1','2','100','100','0','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('2','lENTES DE SOL','2','2','100','100','0','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('3','MULTIFOCAL','1','3','100','100','0','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('4','LENTES DE CONTACTO','2','2','100','100','0','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('5','MONOFOCAL','1','1','100','100','0','1','1','1','0')
+     
 
 
 --Para incorporarlo al sistema

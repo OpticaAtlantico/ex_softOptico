@@ -295,7 +295,7 @@ Public Class DataGridListaComprasUI
 
         Select Case e.ColumnIndex
             Case 0 ' Icono Plus
-                Dim idCompra = Convert.ToInt32(grid.Rows(e.RowIndex).Cells("CompraID").Value)
+                Dim idCompra = Convert.ToInt32(grid.Rows(e.RowIndex).Cells("_ordenCompra").Value)
                 MostrarDetalleCompra(idCompra, e.RowIndex)
             Case 1 ' Icono Editar
                 RaiseEvent EditarRegistro(id)

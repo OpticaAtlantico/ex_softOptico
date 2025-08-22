@@ -79,22 +79,21 @@ Public Class frmDetallesCompra
         Dim tabla As DataTable = ConvertirListaADataTable(listaProductos)
 
         ' Configurar columnas y cargar
-        Dim columnasVisibles = {"Descripcion", "Cantidad", "ModoCargo", "CostoUnitario", "Subtotal"}
+        Dim columnasVisibles = {"_descripcion", "_cantidad", "_modoCargo", "_costoUnitario", "_subtotal"}
         Dim anchos = New Dictionary(Of String, Integer) From {
-        {"Descripcion", 400},
-        {"Cantidad", 100},
-        {"ModoCargo", 150},
-        {"CostoUnitario", 150},
-        {"Subtotal", 150}
+        {"_descripcion", 400},
+        {"_cantidad", 100},
+        {"_modoCargo", 150},
+        {"_costoUnitario", 150},
+        {"_subtotal", 150}
     }
         Dim nombresColumnas = New Dictionary(Of String, String) From {
-        {"Descripcion", "Descripción"},
-        {"Cantidad", "Cantidad"},
-        {"ModoCargo", "Ex/G"},
-        {"CostoUnitario", "Precio"},
-        {"Subtotal", "Total"}
+        {"_descripcion", "Descripción"},
+        {"_cantidad", "Cantidad"},
+        {"_modoCargo", "Ex/G"},
+        {"_costoUnitario", "Precio"},
+        {"_subtotal", "Total"}
     }
-
         productosGrid.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombresColumnas)
         productosGrid.MetodoCargaDatos = Function() tabla
         productosGrid.CargarDatos(tabla)
@@ -102,6 +101,5 @@ Public Class frmDetallesCompra
         Me.pnlContenedor.Controls.Add(productosGrid)
 
     End Sub
-
 
 End Class

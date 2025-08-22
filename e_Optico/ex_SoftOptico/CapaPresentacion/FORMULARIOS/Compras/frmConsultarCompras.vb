@@ -59,26 +59,26 @@ Public Class frmConsultarCompras
         Dim listaCompras = repositorioCompra.GetAll().ToList()
         Dim tabla = ConvertirListaADataTable(listaCompras)
 
-        Dim columnasVisibles = {"CompraID", "Fecha", "NControl", "NFactura", "Sucursal", "Proveedor", "TPago", "SubTotal"}
+        Dim columnasVisibles = {"_ordenCompra", "_fecha", "_nControl", "_nFactura", "_sucursal", "_proveedor", "_tPago", "_subTotal"}
         Dim anchos = New Dictionary(Of String, Integer) From {
-            {"CompraID", 80},
-            {"Fecha", 160},
-            {"NControl", 150},
-            {"NFactura", 150},
-            {"Sucursal", 220},
-            {"Proveedor", 220},
-            {"TPago", 200},
-            {"SubTotal", 100}
+            {"_ordenCompra", 100},
+            {"_fecha", 180},
+            {"_nControl", 200},
+            {"_nFactura", 200},
+            {"_sucursal", 300},
+            {"_proveedor", 300},
+            {"_tPago", 250},
+            {"_subTotal", 120}
         }
         Dim nombres = New Dictionary(Of String, String) From {
-            {"CompraID", "ID"},
-            {"Fecha", "Fecha de Compra"},
-            {"NControl", "N° Control"},
-            {"NFactura", "N° Factura"},
-            {"Sucursal", "Sucursal"},
-            {"Proveedor", "Proveedor"},
-            {"TPago", "Tipo de Pago"},
-            {"SubTotal", "Subtotal"}
+            {"_ordenCompra", "# Orden"},
+            {"_fecha", "Fecha de Compra"},
+            {"_nControl", "N° Control"},
+            {"_nFactura", "N° Factura"},
+            {"_sucursal", "Sucursal"},
+            {"_proveedor", "Proveedor"},
+            {"_tPago", "Tipo de Pago"},
+            {"_subTotal", "Subtotal"}
         }
 
         dgvCompras.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombres)
@@ -86,8 +86,6 @@ Public Class frmConsultarCompras
         AgregarToolTipsBotones()
         dgvCompras.CargarDatos(tabla)
         dgvCompras.Grid.Refresh()
-        dgvCompras.OcultarColumnas({"CompraID"})
-
     End Sub
 
     Private Sub AgregarToolTipsBotones()

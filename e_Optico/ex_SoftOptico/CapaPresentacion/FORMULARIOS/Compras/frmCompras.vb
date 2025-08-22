@@ -222,11 +222,11 @@ Public Class frmCompras
     End Sub
     Public Sub AgregarProductoAlDetalle(producto As ProductoSeleccionado)
         grvCompras.AgregarProducto(
-            producto.Codigo,
-            producto.Nombre,
-            producto.ExG,
-            producto.Precio
-)
+                                    producto.Codigo,
+                                    producto.Nombre,
+                                    producto.ExG,
+                                    producto.Precio
+                                  )
     End Sub
     Private Sub LimpiarCeldas()
         LimpiarControles(Me.pnlContenidoDatos)
@@ -267,7 +267,7 @@ Public Class frmCompras
             End If
         Next
 
-        container.AutoScrollOffset = New Point(0, 0)
+        pnlContenidoDatos.AutoScrollPosition = New Point(0, 0)
 
         container.ResumeLayout()
         container.PerformLayout()
@@ -306,7 +306,7 @@ Public Class frmCompras
                 End If
             Case 2 ' Eliminar compra existente
                 Dim repo As New Repositorio_Compra
-                Dim resultado = repo.Remove(DatosCompra._compraID)
+                Dim resultado = repo.Remove(DatosCompra._ordenCompra)
 
                 If resultado Then
                     MessageBoxUI.Mostrar("Borrado Correcto", "Compra eliminada correctamente", TipoMensaje.Exito, Botones.Aceptar)

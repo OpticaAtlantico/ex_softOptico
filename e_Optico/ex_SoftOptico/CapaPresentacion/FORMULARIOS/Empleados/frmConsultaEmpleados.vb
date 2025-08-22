@@ -70,15 +70,15 @@ Public Class frmConsultaEmpleados
                                 "_fechaNacimiento", "_correo", "_cargo", "_telefono", "_zona", "_direccion", "_estado"}
 
         Dim anchos = New Dictionary(Of String, Integer) From {
-            {"_empleadoID", 60}, {"_cedula", 120}, {"_nombre", 160}, {"_apellido", 160},
-            {"_edad", 80}, {"_nacionalidad", 120}, {"_estadoCivil", 120}, {"_sexo", 100},
-            {"_fechaNacimiento", 130}, {"_correo", 200}, {"_cargo", 140}, {"_telefono", 120},
-            {"_zona", 100}, {"_direccion", 200}, {"_estado", 100}
+            {"_empleadoID", 40}, {"_cedula", 120}, {"_nombre", 160}, {"_apellido", 160},
+            {"_edad", 80}, {"_nacionalidad", 160}, {"_estadoCivil", 120}, {"_sexo", 100},
+            {"_fechaNacimiento", 160}, {"_correo", 230}, {"_cargo", 170}, {"_telefono", 190},
+            {"_zona", 160}, {"_direccion", 300}, {"_estado", 100}
         }
 
         Dim nombres = New Dictionary(Of String, String) From {
             {"_empleadoID", "ID"}, {"_cedula", "Cédula"}, {"_nombre", "Nombres"}, {"_apellido", "Apellidos"},
-            {"_edad", "Edad"}, {"_nacionalidad", "_nacionalidad"}, {"_estadoCivil", "_estado Civil"}, {"_sexo", "Sexo"},
+            {"_edad", "Edad"}, {"_nacionalidad", "Nacionalidad"}, {"_estadoCivil", "Estado Civil"}, {"_sexo", "Sexo"},
             {"_fechaNacimiento", "Fecha de Nacimiento"}, {"_correo", "Correo Electrónico"}, {"_cargo", "Cargo"},
             {"_telefono", "Teléfono"}, {"_zona", "Zona"}, {"_direccion", "Dirección de Residencia"}, {"_estado", "Estatus"}
         }
@@ -88,6 +88,7 @@ Public Class frmConsultaEmpleados
         AgregarToolTipsBotones()
         dgvDatosEmpleado.CargarDatos(tabla)
         dgvDatosEmpleado.Grid.Refresh()
+        dgvDatosEmpleado.OcultarColumnas({"_empleadoID", "_estado"})
     End Sub
 
     Private Sub AgregarToolTipsBotones()

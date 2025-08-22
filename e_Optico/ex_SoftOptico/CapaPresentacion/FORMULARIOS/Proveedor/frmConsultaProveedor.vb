@@ -63,17 +63,17 @@ Public Class frmConsultaProveedor
         Dim listaProveedor As List(Of VProveedor) = repo.GetAlls()
         Dim tabla As DataTable = ConvertirListaADataTable(listaProveedor)
 
-        Dim columnasVisibles = {"_proveedorID", "_nombreEmpresa", "_razonSocial", "_contacto", "_telefono", "_siglas", "_rif", "_correo", "_direccion"}
+        Dim columnasVisibles = {"_proveedorID", "_nombreEmpresa", "_razonSocial", "_contacto", "_telefono", "_sigla", "_rif", "_correo", "_direccion"}
 
         Dim anchos = New Dictionary(Of String, Integer) From {
-            {"_proveedorID", 80}, {"_nombreEmpresa", 160}, {"_razonSocial", 160},
-            {"_contacto", 120}, {"_telefono", 120}, {"_siglas", 50}, {"_rif", 100},
-            {"_correo", 130}, {"_direccion", 450}
+            {"_proveedorID", 80}, {"_nombreEmpresa", 240}, {"_razonSocial", 240},
+            {"_contacto", 170}, {"_telefono", 170}, {"_sigla", 90}, {"_rif", 130},
+            {"_correo", 200}, {"_direccion", 450}
         }
 
         Dim nombres = New Dictionary(Of String, String) From {
             {"_proveedorID", "ID"}, {"_nombreEmpresa", "Empresa"}, {"_razonSocial", "Razon Social"},
-            {"_contacto", "Contacto"}, {"_telefono", "# Teléfono"}, {"_siglas", "Siglas"}, {"_rif", "Rif"},
+            {"_contacto", "Contacto"}, {"_telefono", "# Teléfono"}, {"_sigla", "Siglas"}, {"_rif", "Rif"},
             {"_correo", "Correo Electrónico"}, {"_direccion", "Domicilio Fiscal"}
         }
 
@@ -82,6 +82,7 @@ Public Class frmConsultaProveedor
         AgregarToolTipsBotones()
         dgvDatosProveedor.CargarDatos(tabla)
         dgvDatosProveedor.Grid.Refresh()
+        dgvDatosProveedor.OcultarColumnas({"_proveedorID"})
     End Sub
 
     Private Sub AgregarToolTipsBotones()

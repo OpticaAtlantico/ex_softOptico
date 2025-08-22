@@ -20,7 +20,7 @@ Public Class Repositorio_Compra
         VALUES (@OrdenCompra, @ProductoID, @Cantidad, @CostoUnitario, @SubTotal, @ModoCargo);"
 
     Private Const SQL_UPDATE_COMPRA As String = "
-        UPDATE TCompras SET OrdenCompra = @OrdenCompra, FechaCompra = @FechaCompra, NumeroControl = @NumeroControl, NumeroFactura = @NumeroFactura, 
+        UPDATE TCompras SET OrdenCompra = @OrdenCompra, FechaCompra = @FechaCompra, NumeroFactura = @NumeroFactura, 
         TipoPagoID = @TipoPagoID, AlicuotaID = @AlicuotaID, ProveedorID = @ProveedorID, 
         EmpleadoID = @EmpleadoID, UbicacionDestinoID = @UbicacionDestinoID, TotalCompra = @TotalCompra, 
         Observacion = @Observacion WHERE OrdenCompra = @OrdenCompra;"
@@ -100,12 +100,11 @@ Public Class Repositorio_Compra
             conn.Open()
 
             Using cmd As New SqlCommand(SQL_SELECT_DETALLES_BY_COMPRA, conn)
-                cmd.Parameters.AddWithValue("@CompraID", idCompra)
+                cmd.Parameters.AddWithValue("@OrdenCompra", idCompra)
 
                 Using reader As SqlDataReader = cmd.ExecuteReader()
                     While reader.Read()
                         Dim detalle As New VDetalleCompras With {
-                                ._compraID = Convert.ToInt32(reader("CompraID")),
                                 ._ordenCompra = Convert.ToInt32(reader("OrdenCompra")),
                                 ._descripcion = reader("Descripcion").ToString(),
                                 ._cantidad = Convert.ToInt32(reader("Cantidad")),
@@ -176,7 +175,6 @@ Public Class Repositorio_Compra
                             cmdUpdate.Parameters.AddWithValue("@CompraID", entity.CompraID)
                             cmdUpdate.Parameters.AddWithValue("@OrdenCompra", entity.OrdenCompra)
                             cmdUpdate.Parameters.AddWithValue("@FechaCompra", entity.FechaCompra)
-                            cmdUpdate.Parameters.AddWithValue("@NumeroControl", If(String.IsNullOrWhiteSpace(entity.NumeroControl), DBNull.Value, entity.NumeroControl))
                             cmdUpdate.Parameters.AddWithValue("@NumeroFactura", If(String.IsNullOrWhiteSpace(entity.NumeroFactura), DBNull.Value, entity.NumeroFactura))
                             cmdUpdate.Parameters.AddWithValue("@TipoPagoID", entity.TipoPagoID)
                             cmdUpdate.Parameters.AddWithValue("@AlicuotaID", entity.AlicuotaID)
@@ -247,7 +245,7 @@ Public Class Repositorio_Compra
                         cmdCompra.Parameters.AddWithValue("@Observacion", If(String.IsNullOrWhiteSpace(entity.Observacion), DBNull.Value, entity.Observacion))
 
                         Dim newCompraID As Integer = Convert.ToInt32(cmdCompra.ExecuteScalar())
-                        entity.CompraID = newCompraID
+                        entity.OrdenCompra = newCompraID
 
                         ' 2) Insertar detalles (reutilizar comando es posible; mantengo claro y simple)
                         For Each det As TDetalleCompra In entity.Detalle
@@ -285,13 +283,13 @@ Public Class Repositorio_Compra
                     Try
                         ' Primero eliminar los detalles
                         Using cmdDetalle As New SqlClient.SqlCommand(SQL_DELETE_DETALLE_BY_COMPRA, conn, tran)
-                            cmdDetalle.Parameters.AddWithValue("@CompraID", id)
+                            cmdDetalle.Parameters.AddWithValue("@OrdenCompra", id)
                             cmdDetalle.ExecuteNonQuery()
                         End Using
 
                         ' Luego eliminar la compra
                         Using cmdCompra As New SqlClient.SqlCommand(SQL_DELETE_COMPRA, conn, tran)
-                            cmdCompra.Parameters.AddWithValue("@CompraID", id)
+                            cmdCompra.Parameters.AddWithValue("@OrdenCompra", id)
                             cmdCompra.ExecuteNonQuery()
                         End Using
 
