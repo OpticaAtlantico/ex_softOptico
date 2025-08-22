@@ -1,7 +1,8 @@
-﻿Imports CapaDatos
+﻿Imports System.Drawing
+Imports CapaDatos
 Imports CapaEntidad
 Imports FontAwesome.Sharp
-Imports System.Drawing
+Imports Microsoft.Data.SqlClient
 Public Class frmEmpleado
     Inherits Form
 
@@ -9,6 +10,7 @@ Public Class frmEmpleado
 
     Public Property DatosEmpleados As VEmpleados = Nothing
     Public Property NombreBoton As String = String.Empty
+
 
 #Region "CONSTRUCTOR"
 
@@ -84,7 +86,9 @@ Public Class frmEmpleado
                         imgFoto.BackgroundImageLayout = ImageLayout.Zoom
                     End Using
                 Catch ex As Exception
-                    MessageBoxUI.Mostrar("Error...", "Error al cargar la imagen: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         String.Format(MensajesUI.ErrorCargarFotos, ex.Message),
+                                         TipoMensaje.Errors, Botones.Aceptar)
                 End Try
             End If
         End Using
@@ -158,8 +162,8 @@ Public Class frmEmpleado
                 If DatosEmpleados IsNot Nothing Then
                     ProcesarEmpleado(esNuevo:=False)
                 Else
-                    MessageBoxUI.Mostrar("Sin actualizar...",
-                                         "No hay datos del empleado que actualizar... ",
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         MensajesUI.SinResultados,
                                          TipoMensaje.Advertencia, Botones.Aceptar)
                 End If
             Case "Eliminar..."
@@ -167,8 +171,8 @@ Public Class frmEmpleado
                 Dim empleadoId As Integer = DatosEmpleados._empleadoID
                 Dim rutaFoto As String = DatosEmpleados._foto ' Ejemplo: "Fotos/empleado_1234.jpg"
 
-                Dim confirmacion = MessageBoxUI.Mostrar("Eliminando...",
-                                                         "¿Está usted seguro de eliminar el empleado seleccionado?",
+                Dim confirmacion = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                                         MensajesUI.ConfirmarAccion,
                                                          TipoMensaje.Informacion,
                                                          Botones.AceptarCancelar
                                                        )
@@ -186,16 +190,16 @@ Public Class frmEmpleado
                     ProcesarEmpleado(esNuevo:=True)
                 Else
                     ' Si ya hay datos de empleados, muestra un mensaje de advertencia
-                    MessageBoxUI.Mostrar("Guardar datos...",
-                                         "Ya hay datos de empleados almacenados...",
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                         MensajesUI.RegistroDuplicado,
                                          TipoMensaje.Advertencia,
                                          Botones.Aceptar
                                          )
 
                 End If
             Case Else
-                MessageBoxUI.Mostrar("Sin datos...",
-                                     "La acción que intenta ejecutar no es reconocida",
+                MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                     MensajesUI.OperacionFallida,
                                     TipoMensaje.Informacion,
                                     Botones.Aceptar
                                     )
@@ -278,8 +282,8 @@ Public Class frmEmpleado
                         .imgFoto.IconChar = FontAwesome.Sharp.IconChar.None ' Oculta el ícono para que se vea la imagen
                     Catch ex As Exception
 
-                        MessageBoxUI.Mostrar("Cargando...",
-                                             "Error al cargar la foto del empleado..." & ex.Message,
+                        MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                             String.Format(MensajesUI.ErrorCargarFotos, ex.Message),
                                              TipoMensaje.Errors,
                                              Botones.Aceptar
                                             )
@@ -317,8 +321,8 @@ Public Class frmEmpleado
             Dim zona = Convert.ToInt32(cmbZona.IndiceSeleccionado)
 
             If {cedula, nombre, apellido, edad, nacionalidad, estadoCivil, sexo, telefono, correo, direccion, cargo}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
-                MessageBoxUI.Mostrar("Cargando...",
-                                    "Por favor, complete todos los campos obligatorios.",
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                    MensajesUI.DatosIncompletos,
                                     TipoMensaje.Advertencia,
                                     Botones.Aceptar
                                     )
@@ -355,8 +359,8 @@ Public Class frmEmpleado
 
             resultado.EsValido = True
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Cargando...",
-                                 "Error al obtener los datos" & ex.Message,
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
                                     TipoMensaje.Errors,
                                     Botones.Aceptar
                                     )
@@ -384,26 +388,36 @@ Public Class frmEmpleado
             End If
 
             If exito Then
-                Dim mensaje As New ToastUI(If(esNuevo, "Empleado guardado correctamente.", "Empleado actualizado correctamente."), TipoToastUI.Success)
+                Dim mensaje As New ToastUI(If(esNuevo, MensajesUI.RegistroExitoso,
+                                                       MensajesUI.ActualizacionExitosa), TipoToastUI.Success)
                 mensaje.Mostrar()
 
                 LimpiarControles(Me)
                 limpiarImagen()
 
             Else
-                MessageBoxUI.Mostrar("Procesando...",
-                                    "Ocurrió un error al procesar la operación.",
+                MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                    MensajesUI.ErrorInesperado,
                                     TipoMensaje.Errors,
                                     Botones.Aceptar
                                     )
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error...",
-                                 "Ha ocurrido un error al procesar los datos del empleado..." & ex.Message,
+            If TypeOf ex.InnerException Is SqlException Then
+                Dim sqlEx = CType(ex.InnerException, SqlException)
+                If sqlEx.Number = 2627 Then
+                    MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                         MensajesUI.RegistroDuplicado,
+                                         TipoMensaje.Errors, Botones.Aceptar)
+                    Exit Sub
+                End If
+            End If
+
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
                                  TipoMensaje.Errors,
                                  Botones.Aceptar
                                 )
-
         End Try
     End Sub
 

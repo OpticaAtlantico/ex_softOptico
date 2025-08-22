@@ -2,6 +2,7 @@
 
 Public Class TCompra
     Public Property CompraID As Integer
+    Public Property OrdenCompra As Integer
     Public Property FechaCompra As Date
     Public Property NumeroControl As String
     Public Property NumeroFactura As String

@@ -2,7 +2,7 @@
 Imports CapaDatos
 
 Public Class ComprasService
-    Private ReadOnly _repo As IRepositorio_Compra
+    Private ReadOnly _repo As Repositorio_Compra
 
     Public Sub New()
         _repo = New Repositorio_Compra() ' o inyecta vía constructor para tests
@@ -31,6 +31,6 @@ Public Class ComprasService
         ' Podrías validar stock, precios, límites, etc. aquí antes de guardar.
 
         ' Guardar (retorna el ID)
-        Return _repo.Update(compra)
+        Return _repo.Edit(compra)
     End Function
 End Class

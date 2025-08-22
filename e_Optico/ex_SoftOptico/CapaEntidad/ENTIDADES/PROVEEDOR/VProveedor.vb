@@ -1,11 +1,11 @@
 ﻿Public Class VProveedor
-    Public Property ProveedorID As Integer
-    Public Property nombreEmpresa As String
-    Public Property razonSocial As String
-    Public Property contacto As String
-    Public Property telefono As String
-    Public Property siglas As String
-    Public Property rif As String
-    Public Property correo As String
-    Public Property direccion As String
+    Public Property _proveedorID As Integer
+    Public Property _nombreEmpresa As String
+    Public Property _razonSocial As String
+    Public Property _contacto As String
+    Public Property _telefono As String
+    Public Property _sigla As String
+    Public Property _rif As String
+    Public Property _correo As String
+    Public Property _direccion As String
 End Class

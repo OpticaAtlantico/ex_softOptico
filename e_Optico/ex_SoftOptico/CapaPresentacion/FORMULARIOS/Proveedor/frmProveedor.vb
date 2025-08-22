@@ -1,14 +1,13 @@
 ﻿Imports CapaDatos
 Imports CapaEntidad
 Imports FontAwesome.Sharp
+Imports Microsoft.Data.SqlClient
 Imports OfficeOpenXml.Drawing.Slicer.Style
 
 Public Class frmProveedor
 
-    Private fadeTimer As New Timer()
-    Private fadeStep As Double = 0.1
     Private rutaImagenSeleccionada As String = ""
-    Public Property DatosProveedor As TProveedor = Nothing
+    Public Property DatosProveedor As VProveedor = Nothing
     Public Property NombreBoton As String = String.Empty
 
 #Region "CONSTRUCTOR"
@@ -33,11 +32,8 @@ Public Class frmProveedor
 #End Region
 
 #Region "EVENTOS DE FORMULARIO"
-
     Private Sub frmProveedor_Load(sender As Object, e As EventArgs) Handles Me.Load
-        ' Initialize form components or load data if necessary
 
-        'Me.Visible = True
         CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
 
         If DatosProveedor IsNot Nothing Then
@@ -60,7 +56,7 @@ Public Class frmProveedor
 
         With Me.lblEncabezado
             .Titulo = "Nuevo Proveedor"
-            .Subtitulo = "Ingrese los datos del nuevo Proveedor..."
+            .Subtitulo = "Administracion de los datos del proveedor activo..."
             .Icono = IconChar.UserCheck
             .ColorFondo = Color.FromArgb(0, 191, 192)
             .ColorTexto = Color.WhiteSmoke
@@ -95,7 +91,6 @@ Public Class frmProveedor
 #End Region
 
 #Region "PROCEDIMIENTOS"
-
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
         Select Case btnAccion.Texto
             Case "Actualizar..."
@@ -103,15 +98,15 @@ Public Class frmProveedor
                 If DatosProveedor IsNot Nothing Then
                     ProcesarProveedor(esNuevo:=False)
                 Else
-                    MessageBoxUI.Mostrar("Sin actualizar...",
-                                         "No hay datos del proveedor que actualizar... ",
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         MensajesUI.OperacionFallida,
                                          TipoMensaje.Errors, Botones.Aceptar)
                 End If
             Case "Eliminar..."
                 ' Aquí puedes implementar la lógica para eliminar el empleado
-                Dim ProveedorId As Integer = DatosProveedor.ProveedorID
-                Dim confirmacion = MessageBoxUI.Mostrar("Eliminar datos...",
-                                                        "¿Está usted seguro de eliminar el Proveedor seleccionado?",
+                Dim ProveedorId As Integer = DatosProveedor._proveedorID
+                Dim confirmacion = MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                                        MensajesUI.ConfirmarAccion,
                                                         TipoMensaje.Advertencia,
                                                         Botones.AceptarCancelar
                                                         )
@@ -126,15 +121,15 @@ Public Class frmProveedor
                 If DatosProveedor Is Nothing Then
                     ProcesarProveedor(esNuevo:=True)
                 Else
-                    MessageBoxUI.Mostrar("Guardar datos...",
-                                         "Ya hay datos de proveedor almacenado...",
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         MensajesUI.RegistroDuplicado,
                                          TipoMensaje.Errors,
                                          Botones.Aceptar
                                        )
                 End If
             Case Else
-                MessageBoxUI.Mostrar("Sin datos...",
-                                     "La acción que intenta ejecutar no es reconocida",
+                MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                     MensajesUI.OperacionFallida,
                                      TipoMensaje.Errors,
                                      Botones.Aceptar
                                     )
@@ -177,19 +172,19 @@ Public Class frmProveedor
     End Sub
 
     ' Recibe un objeto TEmpleados y rellena los controles del formulario.
-    Public Sub CargarDatos(ByVal proveedor As TProveedor)
+    Public Sub CargarDatos(ByVal proveedor As VProveedor)
         ' Primero, verificamos que el objeto no sea nulo para evitar errores.
         If proveedor IsNot Nothing Then
             ' Asignamos los datos del objeto a los controles
             With Me
-                txtNombreEmpresa.TextoUsuario = proveedor.nombreEmpresa
-                txtRazonSocial.TextoUsuario = proveedor.razonSocial
-                txtCorreo.TextoUsuario = proveedor.correo
-                cmbSiglas.OrbitalCombo.SelectedIndex = Convert.ToInt32(proveedor.siglas)
-                txtRif.TextoUsuario = proveedor.rif
-                txtTelefono.TextoUsuario = proveedor.telefono
-                txtContacto.TextoUsuario = proveedor.contacto
-                txtDireccion.TextoUsuario = proveedor.direccion
+                txtNombreEmpresa.TextoUsuario = proveedor._nombreEmpresa
+                txtRazonSocial.TextoUsuario = proveedor._razonSocial
+                txtCorreo.TextoUsuario = proveedor._correo
+                cmbSiglas.OrbitalCombo.Text = proveedor._sigla
+                txtRif.TextoUsuario = proveedor._rif
+                txtTelefono.TextoUsuario = proveedor._telefono
+                txtContacto.TextoUsuario = proveedor._contacto
+                txtDireccion.TextoUsuario = proveedor._direccion
             End With
         End If
     End Sub
@@ -197,23 +192,22 @@ Public Class frmProveedor
 #End Region
 
 #Region "SQL"
-
     Private Function ObtenerDatosProveedor(Optional ByVal incluirID As Boolean = False) As ResultadoProveedor
         Dim resultado As New ResultadoProveedor()
         Try
-            Dim id As Integer = If(incluirID, DatosProveedor.ProveedorID, 0)
+            Dim id As Integer = If(incluirID, DatosProveedor._proveedorID, 0)
             Dim nombre = txtNombreEmpresa.TextValue.Trim()
             Dim razonSocial = txtRazonSocial.TextValue.Trim()
             Dim correo = txtCorreo.TextValue.Trim()
-            Dim siglas = Convert.ToInt32(cmbSiglas.IndiceSeleccionado)
+            Dim sigla = Convert.ToInt32(cmbSiglas.IndiceSeleccionado)
             Dim rif = txtRif.TextValue.Trim()
             Dim telefono = txtTelefono.TextValue.Trim()
             Dim contacto = txtContacto.TextValue.Trim()
             Dim direccion = txtDireccion.TextValue.Trim()
 
-            If {id, nombre, razonSocial, correo, siglas, rif, telefono, contacto, direccion}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
-                MessageBoxUI.Mostrar("Cargando...",
-                                     "Por favor, complete todos los campos obligatorios.",
+            If {id, nombre, razonSocial, correo, sigla, rif, telefono, contacto, direccion}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
+                MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                     MensajesUI.DatosIncompletos,
                                       TipoMensaje.Errors, Botones.Aceptar)
 
                 resultado.EsValido = False
@@ -225,7 +219,7 @@ Public Class frmProveedor
                                                         .nombreEmpresa = nombre,
                                                         .razonSocial = razonSocial,
                                                         .correo = correo,
-                                                        .siglas = siglas,
+                                                        .sigla = sigla,
                                                         .rif = rif,
                                                         .telefono = telefono,
                                                         .contacto = contacto,
@@ -235,8 +229,8 @@ Public Class frmProveedor
             resultado.EsValido = True
         Catch ex As Exception
 
-            MessageBoxUI.Mostrar("Cargando...",
-                                 "Error al obtener los datos" & ex.Message,
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
                                  TipoMensaje.Errors, Botones.Aceptar)
 
             resultado.EsValido = False
@@ -255,26 +249,39 @@ Public Class frmProveedor
 
         Try
             If esNuevo Then
-                exito = repositorio.AgregarProveedor(datos.Proveedor)
+                exito = repositorio.Add(datos.Proveedor)
             Else
-                exito = repositorio.ActualizarProveedor(datos.Proveedor)
+                exito = repositorio.Edit(datos.Proveedor)
             End If
 
+            'exito es para 
             If exito Then
-                Dim mensaje As New ToastUI(If(esNuevo, "Proveedor guardado correctamente.", "Proveedor actualizado correctamente."), TipoToastUI.Success)
+                Dim mensaje As New ToastUI(If(esNuevo,
+                                           MensajesUI.RegistroExitoso,
+                                           MensajesUI.ActualizacionExitosa),
+                                           TipoToastUI.Success)
                 mensaje.Mostrar()
 
                 LimpiarControles(Me)
 
             Else
-                MessageBoxUI.Mostrar("Procesando...",
-                                    "Ocurrió un error al procesar la operación.",
+                MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                    MensajesUI.ErrorInesperado,
                                     TipoMensaje.Errors, Botones.Aceptar)
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error...",
-                                 "Ha ocurrido un error al procesar los datos del proveedor..." & ex.Message,
-                                 TipoMensaje.Errors, Botones.Aceptar)
+            If TypeOf ex.InnerException Is SqlException Then
+                Dim sqlEx = CType(ex.InnerException, SqlException)
+                If sqlEx.Number = 2627 Then
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                             MensajesUI.RegistroDuplicado,
+                                             TipoMensaje.Errors, Botones.Aceptar)
+                    Exit Sub
+                End If
+            End If
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                     String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                     TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 

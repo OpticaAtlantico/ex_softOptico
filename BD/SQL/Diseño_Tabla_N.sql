@@ -61,10 +61,10 @@ GO
 -- Tabla: Ubicaciones (Almacenes y Sucursales)
 CREATE TABLE TUbicaciones (
     UbicacionID INT IDENTITY(1,1) PRIMARY KEY,
-    NombreUbicacion NVARCHAR(100) NOT NULL UNIQUE,
+    NombreUbicacion NVARCHAR(100) NOT NULL,
     TipoUbicacion NVARCHAR(50) NOT NULL, -- Ej: 'Almacén Principal', 'Sucursal', 'Punto de Venta'
     Direccion NVARCHAR(255) NOT NULL,
-    Rif NVARCHAR(50) NOT NULL,
+    Rif NVARCHAR(50) NOT NULL UNIQUE,
     Telefono NVARCHAR(50) NOT NULL,
     Email NVARCHAR(50) NOT NULL,
     Activa BIT NOT NULL DEFAULT 1, -- Para habilitar/deshabilitar ubicaciones
@@ -76,7 +76,7 @@ GO
 -- Tabla: Clientes
 CREATE TABLE TCliente (
     ClienteID INT IDENTITY(1,1) PRIMARY KEY,
-    Cedula NVARCHAR(20) NOT NULL UNIQUE,
+    CedulaCliente VARCHAR(20) NOT NULL UNIQUE,
     Rif NVARCHAR(60) NULL,
     Nombre NVARCHAR(100) NOT NULL,
     Apellido NVARCHAR(100) NOT NULL,
@@ -110,7 +110,7 @@ CREATE TABLE TProveedor (
     Contacto NVARCHAR(100) NULL,
     Telefono NVARCHAR(20) NULL,
     Sigla NVARCHAR(1) NULL,
-    Rif NVARCHAR(30) NOT NULL,
+    Rif NVARCHAR(30) NOT NULL UNIQUE,
     Correo NVARCHAR(100) NULL,
     Estado BIT NOT NULL DEFAULT 1,
     Direccion NVARCHAR(255) NULL,
@@ -156,7 +156,7 @@ GO
 -- Tabla: Empleados (Usuarios del Sistema)
 CREATE TABLE TEmpleados (
     EmpleadoID INT IDENTITY(1,1) PRIMARY KEY,
-    Cedula NVARCHAR(20) UNIQUE,
+    Cedula VARCHAR(20) NOT NULL UNIQUE,
     Nombre NVARCHAR(100) NOT NULL,
     Apellido NVARCHAR(100) NOT NULL,
     Edad INT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE TLogin (
     EmpleadoID INT NOT NULL,
     UbicacionID INT NOT NULL, --Para saber la ubicaciòn del empleado al momento de ingresar al sistema
     RolID INT NOT NULL,
-    Usuario NVARCHAR(90) NOT NULL, 
+    Usuario NVARCHAR(90) NOT NULL UNIQUE, 
     Clave NVARCHAR(255) NOT NULL, -- Almacenar hash seguro (SHA256, BCrypt),
     Estado BIT DEFAULT 1,
     FechaRegistro DATETIME DEFAULT GETDATE(),
@@ -225,7 +225,7 @@ CREATE TABLE TMovimientosInventario (
     UbicacionOrigenID INT NOT NULL, -- NULL para entradas de compra
     UbicacionDestinoID INT NOT NULL, -- NULL para salidas por venta/ajuste negativo
     TipoMovimientoID INT NOT NULL, -- Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
-    Cantidad INT NOT NULL,
+    Cantidad BIGINT NOT NULL,
     FechaMovimiento DATETIME NOT NULL DEFAULT GETDATE(),
     Referencia NVARCHAR(255) NULL, -- Ej: 'Venta #123', 'Compra #456', 'Nota Entrega #789', 'Ajuste Físico', 'Devolución'
     EmpleadoID INT NOT NULL, -- Quién realizó el movimiento
@@ -289,9 +289,10 @@ GO
 
 -- Tabla: Compras (Encabezado de la compra)
 CREATE TABLE TCompras (
-    CompraID INT IDENTITY(1,1) PRIMARY KEY,
+    CompraID INT IDENTITY(1,1),
+    OrdenCompra BIGINT PRIMARY KEY,
     FechaCompra DATETIME NOT NULL DEFAULT GETDATE(),
-    NumeroControl NVARCHAR(30) NOT NULL,
+    NumeroControl NVARCHAR(30) NOT NULL UNIQUE,
     NumeroFactura NVARCHAR(30) NOT NULL,
     TipoPagoID INT NOT NULL,
     AlicuotaID INT NOT NULL,
@@ -311,22 +312,22 @@ GO
 
 -- Tabla: DetalleCompra
 CREATE TABLE TDetalleCompra (
-    DetalleCompraID INT IDENTITY(1,1) PRIMARY KEY,
-    CompraID INT NOT NULL,
+    DetalleCompraID INT IDENTITY(1,1),
+    OrdenCompra BIGINT NOT NULL PRIMARY KEY,
     ProductoID INT NOT NULL,
     Cantidad INT NOT NULL,
     CostoUnitario DECIMAL(18, 2) NOT NULL,
     Subtotal DECIMAL(18, 2) NOT NULL,
     ModoCargo CHAR(2) NOT NULL,
-    FOREIGN KEY (CompraID) REFERENCES TCompras(CompraID),
+    FOREIGN KEY (OrdenCompra) REFERENCES TCompras(OrdenCompra),
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
 );
 GO
 
 -- Tabla: TVenta (Encabezado de la venta)
 CREATE TABLE TVenta (
-    VentaID BIGINT IDENTITY(1,1) PRIMARY KEY,
-    NOrden NVARCHAR(50) UNIQUE, -- Número de factura o nota de entrega
+    VentaID BIGINT IDENTITY(1,1),
+    OrdenVenta BIGINT PRIMARY KEY, -- Número de factura o nota de entrega
     FechaVenta DATETIME NOT NULL DEFAULT GETDATE(),
     ClienteID INT NOT NULL,
     AsesorID INT NOT NULL, -- Quien realiza la venta
@@ -352,52 +353,52 @@ GO
 
 -- Tabla: DetalleVenta
 CREATE TABLE TDetalleVenta (
-    DetalleVentaID BIGINT IDENTITY(1,1) PRIMARY KEY,
-    VentaID BIGINT NOT NULL,
+    DetalleVentaID BIGINT IDENTITY(1,1),
+    OrdenVenta BIGINT PRIMARY KEY,
     ProductoID INT NOT NULL,
     Cantidad INT NOT NULL,
     PrecioUnitario DECIMAL(18, 2) NOT NULL,
     DescuentoUnitario DECIMAL(18, 2) DEFAULT 0,
     Subtotal DECIMAL(18, 2) NOT NULL,
     Observacion NVARCHAR(250) NULL,
-    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
+    FOREIGN KEY (OrdenVenta) REFERENCES TVenta(OrdenVenta),
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
 );
 GO
 
 --Tabla: TRastreo para  registrar el estatus de ubicaciòn y condicion del producto
 CREATE table TSeguimientoVenta (
-    SeguimientoID INT IDENTITY(1,1) PRIMARY KEY,
-    VentaID BIGINT NOT NULL, --NUMERO DE LA VENTA
+    SeguimientoID INT IDENTITY(1,1),
+    OrdenVenta BIGINT PRIMARY KEY, --NUMERO DE LA VENTA
     EstadoID INT NOT NULL, --APARTADO, PAGADO, EN preparacion, listo para entregar, entregado etc.
-    UsuarioResponsableID INT NOT NULL, --USUARIO RESPONSABLE DE REALIZAR EL CAMBIO
+    UsuarioResponsable INT NOT NULL, --USUARIO RESPONSABLE DE REALIZAR EL CAMBIO
     Observacion NVARCHAR(100) NULL,
     Ubicacion NVARCHAR(100) NULL, --Donde se encuentra fisicamente el producto (Almacen, Tienda, el laboratorio, el montaje)
     Activo BIT NOT NULL DEFAULT 1, --Para marcar el estado actual 1 o historico 0
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
-    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
-    FOREIGN KEY (UsuarioResponsableID) REFERENCES TEmpleados(EmpleadoID),
+    FOREIGN KEY (OrdenVenta) REFERENCES TVenta(OrdenVenta),
+    FOREIGN KEY (UsuarioResponsable) REFERENCES TEmpleados(EmpleadoID),
     FOREIGN KEY (EstadoID) REFERENCES TEstadoOrden(EstadoID),
 );
 GO
 
 -- Tabla: TFormaDePago Tabla donde se almacena los pagos de la venta
 CREATE TABLE TFormaDePago (
-    FormaPagoID INT IDENTITY(1,1) PRIMARY KEY,
-    VentaID BIGINT NOT NULL,
+    FormaPagoID INT IDENTITY(1,1),
+    OrdenVenta BIGINT PRIMARY KEY,
     TipoPagoID INT NOT NULL,
     FechaPago DATETIME NOT NULL,
     MontoPago DECIMAL(18,2) NOT NULL,
     Observacion NVARCHAR(250) NULL,
-    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID),
+    FOREIGN KEY (OrdenVenta) REFERENCES TVenta(OrdenVenta),
     FOREIGN KEY (TipoPagoID) REFERENCES TTipoPago(TipoPagoID)
 );
 GO
 
 --Tabla: TFormula para registrar 
 CREATE TABLE TFormula (
-    FormulaId INT IDENTITY(1,1) PRIMARY KEY,
-    VentaID BIGINT NOT NULL,
+    FormulaId INT IDENTITY(1,1),
+    OrdenVenta BIGINT NOT NULL PRIMARY KEY,
     EsferaDerecha NVARCHAR(5) NULL,
     EsferaIzquierda NVARCHAR(5) NULL,
     CilinfroDerecho NVARCHAR(5) NULL,
@@ -417,14 +418,14 @@ CREATE TABLE TFormula (
     NombreDoctor NVARCHAR(50) NULL,
     FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
     Observacion NVARCHAR(MAX) NULL,
-    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID)
+    FOREIGN KEY (OrdenVenta) REFERENCES TVenta(OrdenVenta)
 );
 GO
 
 --Tabla: TPagosConConceptoMaterializado para almacenar la informaciòn de busqueda del Reporte Semanal
 CREATE TABLE TPagosConConceptoMaterializado (
     ID INT PRIMARY KEY,
-    VentaID BIGINT NOT NULL,
+    OrdenVenta BIGINT NOT NULL,
     Monto DECIMAL(18,2) NULL,
     MontoPagar DECIMAL(18,2) NULL,
     Porcentaje DECIMAL(5,2) NULL,
@@ -433,7 +434,7 @@ CREATE TABLE TPagosConConceptoMaterializado (
 	Modo INT NULL,
 	FechaPago DATETIME NOT NULL,
 	FechaActualizacion DATETIME DEFAULT GETDATE()
-    FOREIGN KEY (VentaID) REFERENCES TVenta(VentaID)
+    FOREIGN KEY (OrdenVenta) REFERENCES TVenta(OrdenVenta)
 );
 GO
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -448,30 +449,30 @@ GO
 
 -- SELECT * FROM VCategorias;
 CREATE OR ALTER VIEW VEmpleados AS
-    SELECT dbo.TEmpleados.EmpleadoID
-            , dbo.TEmpleados.Cedula
-            , dbo.TEmpleados.Nombre
-            , dbo.TEmpleados.Apellido
-            , dbo.TEmpleados.Edad
-            , dbo.TEmpleados.Nacionalidad
-            , dbo.TEmpleados.EstadoCivil
-            , dbo.TEmpleados.Sexo
-            , dbo.TEmpleados.FechaNacimiento
-            , dbo.TEmpleados.Direccion
-            , dbo.TCargoEmpleado.Descripcion AS Cargo
-            , dbo.TEmpleados.Correo
-            , dbo.TEmpleados.Telefono
-            , dbo.TEmpleados.Asesor
-            , dbo.TEmpleados.Gerente
-            , dbo.TEmpleados.Optometrista
-            , dbo.TEmpleados.Marketing
-            , dbo.TEmpleados.Cobranza
-            , dbo.TEmpleados.Estado
-            , dbo.TEmpleados.Zona
-            , dbo.TEmpleados.Foto
-    FROM dbo.TEmpleados INNER JOIN
-         dbo.TCargoEmpleado ON 
-         dbo.TEmpleados.CargoEmpleadoID = dbo.TCargoEmpleado.CargoEmpleadoID
+    SELECT E.EmpleadoID
+            , E.Cedula
+            , E.Nombre
+            , E.Apellido
+            , E.Edad
+            , E.Nacionalidad
+            , E.EstadoCivil
+            , E.Sexo
+            , E.FechaNacimiento
+            , E.Direccion
+            , C.Descripcion AS Cargo
+            , E.Correo
+            , E.Telefono
+            , E.Asesor
+            , E.Gerente
+            , E.Optometrista
+            , E.Marketing
+            , E.Cobranza
+            , E.Estado
+            , E.Zona
+            , E.Foto
+    FROM TEmpleados E INNER JOIN
+         TCargoEmpleado C ON 
+         E.CargoEmpleadoID = C.CargoEmpleadoID
 
 GO
 
@@ -496,13 +497,13 @@ CREATE OR ALTER VIEW VLogin AS
             , U.TipoUbicacion AS Clasificacion
             , R.Descripcion AS Permisos
             , L.Estado
-    FROM dbo.TEmpleados AS E INNER JOIN dbo.TLogin AS L 
+    FROM TEmpleados AS E INNER JOIN TLogin AS L 
                 ON E.EmpleadoID = L.EmpleadoID 
-            INNER JOIN dbo.TCargoEmpleado AS C 
+            INNER JOIN TCargoEmpleado AS C 
                 ON E.CargoEmpleadoID = C.CargoEmpleadoID 
-            INNER JOIN dbo.TUbicaciones AS U 
+            INNER JOIN TUbicaciones AS U 
                 ON L.UbicacionID = U.UbicacionID 
-            INNER JOIN dbo.TRol AS R 
+            INNER JOIN TRol AS R 
                 ON L.RolID = R.RolID
 
 GO
@@ -510,16 +511,16 @@ GO
 -- SELECT * FROM VLogin;
 
 CREATE OR ALTER VIEW VProductos AS
-    SELECT dbo.TProductos.CodigoProducto AS Codigo
-         , dbo.TProductos.Descripcion AS Nombre
-         , dbo.TProductos.Precio
-         , dbo.TCategorias.CategoriaID
-         , dbo.TCategorias.NombreCategoria AS Categoria
-         , dbo.TProductos.Stock
-         , dbo.TSubCategorias.NombreSubCategoria as SubCategoria
-    FROM   dbo.TProductos INNER JOIN
-           dbo.TCategorias ON dbo.TProductos.CategoriaID = dbo.TCategorias.CategoriaID INNER JOIN
-           dbo.TSubCategorias ON dbo.TProductos.SubCategoriaID = dbo.TSubCategorias.SubCategoriaID
+    SELECT P.CodigoProducto AS Codigo
+         , P.Descripcion AS Nombre
+         , P.Precio
+         , C.CategoriaID
+         , C.NombreCategoria AS Categoria
+         , P.Stock
+         , S.NombreSubCategoria as SubCategoria
+    FROM   TProductos P INNER JOIN
+           TCategorias C ON P.CategoriaID = C.CategoriaID INNER JOIN
+           TSubCategorias S ON P.SubCategoriaID = S.SubCategoriaID
 
 GO
 
@@ -529,7 +530,7 @@ CREATE OR ALTER VIEW VProveedor AS
             , RazonSocial
             , Contacto
             , Telefono
-            , Siglas
+            , Sigla
             , Rif
             , Correo
             , Direccion
@@ -540,7 +541,7 @@ CREATE OR ALTER VIEW VProveedor AS
     GO
 
 CREATE OR ALTER VIEW VCompras AS
-    SELECT CompraID
+    SELECT C.OrdenCompra
             , C.FechaCompra AS Fecha
             , C.NumeroControl AS NControl
             , C.NumeroFactura AS NFactura
@@ -565,7 +566,7 @@ CREATE OR ALTER VIEW VCompras AS
 GO
 
 CREATE OR ALTER VIEW VDetalleCompras AS
-    SELECT  D.CompraID
+    SELECT  D.OrdenCompra
             , P.Descripcion
             , P.CodigoProducto
             , D.Cantidad
@@ -624,7 +625,7 @@ INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefo
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico IV', 'Sucursal', 'C.C. Ciudad AltaVista II, Local 67, Planta Baja, Ciudad Guayana Estado Bolivar', 'J-50439445-9', '0414-8605625', 'opticaatlantico@gmail.com', '40')
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico V', 'Sucursal', 'C.C. Anakaro, Local 2, Planta Baja, Upata, Estado Bolivar', 'J-50582413-9', '0412-9226338', 'opticaatlantico@gmail.com', '40')
 INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Atlantico VI', 'Sucursal', 'San Felix Ciudad Guayana Estado Bolivar', '0', '0414-9864196', 'opticaatlantico@gmail.com', '40')
-INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Almacen Central', 'Almacen', 'Alta Vista', '0', '0', 'opticaatlantico@gmail.com', '40')
+INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefono, Email, Porcentaje) VALUES ('Almacen Central', 'Almacen', 'Alta Vista', '1', '0', 'opticaatlantico@gmail.com', '40')
 GO
 
 ---DATOAS PARA LA TABLA TCategoria

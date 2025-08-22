@@ -147,23 +147,32 @@ Public Class frmConsultaEmpleados
                 ' En vez de abrir el formulario directamente, disparar evento
                 RaiseEvent AbrirFormularioHijo(formularioHijo)
             Else
-                MessageBoxUI.Mostrar("Busqueda fallida...", "No se pudo localizar los datos del empleado seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Informacion, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                     MensajesUI.OperacionFallida,
+                                     TipoMensaje.Informacion, Botones.Aceptar)
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error de datos...", "Error al intentar cargar el empleado, " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Advertencia, Botones.Aceptar)
         End Try
     End Sub
 
     Private Sub EliminarEmpleadoUnico(id As Integer)
         Try
-            Dim confirmar = MessageBoxUI.Mostrar("Eliminar datos...", "¿Deseas eliminar el proveedor seleccionado ?", TipoMensaje.Errors, Botones.AceptarCancelar)
+            Dim confirmar = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                                 MensajesUI.ConfirmarAccion,
+                                                 TipoMensaje.Errors, Botones.AceptarCancelar)
+
             If confirmar = DialogResult.No Then Exit Sub
 
             Dim repositorio As New Repositorio_Empleados()
             Dim empleado As VEmpleados = repositorio.GetById(id)
 
             If empleado Is Nothing Then
-                MessageBoxUI.Mostrar("Error de datos...", "Empleado no encontrado por favor verifique los datos", TipoMensaje.Errors, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                     MensajesUI.OperacionFallida,
+                                     TipoMensaje.Errors, Botones.Aceptar)
                 Exit Sub
             End If
 
@@ -172,7 +181,9 @@ Public Class frmConsultaEmpleados
             End If
 
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error al eliminar...", "No se pudo eliminar el empleado seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 

@@ -16,13 +16,13 @@ Public Class Repositorio_Empleados
         ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
         SeleccionarPorID = "SELECT * FROM VEmpleados WHERE EmpleadoID = @EmpleadoID"
         SeleccionarPorCedula = "SELECT * FROM VEmpleados WHERE Cedula = @Cedula"
-        ' Assuming VEmpleados is a view that contains all necessary fields for TEmpleados.
+
         Insertar = "INSERT INTO TEmpleados (Cedula, Nombre, Apellido, Edad, Nacionalidad, EstadoCivil, 
                     Sexo, FechaNacimiento, Direccion, CargoEmpleadoID, Correo, Asesor, Gerente, Optometrista, Marketing, 
                     Cobranza, Estado, Telefono, Zona, Foto) VALUES (@Cedula, @Nombre, @Apellido, @Edad, @Nacionalidad, 
                     @EstadoCivil, @Sexo, @FechaNacimiento, @Direccion, @Cargo, @Correo, @Asesor, @Gerente, 
                     @Optometrista, @Marketing, @Cobranza, @Estado, @Telefono, @Zona, @Foto)"
-        ' Note: The Foto field is assumed to be a string path or URL; adjust as necessary for your application.
+
         Actualizar = "UPDATE TEmpleados SET 
                     Cedula = @Cedula, Nombre = @Nombre, Apellido = @Apellido, Edad = @Edad, Nacionalidad = @Nacionalidad, 
                     EstadoCivil = @EstadoCivil, Sexo = @Sexo, FechaNacimiento = @FechaNacimiento, Direccion = @Direccion, 
@@ -146,7 +146,7 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Sexo", entity.Sexo),
             New SqlParameter("@FechaNacimiento", entity.FechaNacimiento),
             New SqlParameter("@Direccion", entity.Direccion),
-            New SqlParameter("@CargoEmpleadoID", entity.Cargo),
+            New SqlParameter("@Cargo", entity.Cargo),
             New SqlParameter("@Correo", entity.Correo),
             New SqlParameter("@Asesor", entity.Asesor),
             New SqlParameter("@Gerente", entity.Gerente),

@@ -66,6 +66,7 @@ Public Class frmCompras
             .Icono = IconChar.CartShopping
             .ColorTexto = Color.Black
         End With
+
     End Sub
 
 #End Region
@@ -76,25 +77,26 @@ Public Class frmCompras
         CustomizeComponents()
         'Mostrar los datos si DatosCompra no es nothing
         If DatosCompra IsNot Nothing Then
-            cmbSucursal.OrbitalCombo.Text = DatosCompra.Sucursal.ToString()
-            txtNumeroControl.TextoUsuario = DatosCompra.NControl.ToString()
-            txtNumeroFactura.TextoUsuario = DatosCompra.NFactura.ToString()
+            lblOrden.Texto = FormatearConCeros(DatosCompra._ordenCompra).ToString()
+            cmbSucursal.OrbitalCombo.Text = DatosCompra._sucursal.ToString()
+            txtNumeroControl.TextoUsuario = DatosCompra._nControl.ToString()
+            txtNumeroFactura.TextoUsuario = DatosCompra._nFactura.ToString()
             'txtFechaEmision.TextValue = DatosCompra.Fecha
-            cmbProveedor.OrbitalCombo.Text = DatosCompra.Proveedor.ToString()
-            txtDomicilio.TextoUsuario = DatosCompra.Direccion.ToString()
-            txtRifCI.TextoUsuario = DatosCompra.Rif.ToString()
-            txtTelefonos.TextoUsuario = DatosCompra.Telefono.ToString()
-            cmbTipoPago.OrbitalCombo.Text = DatosCompra.TPago.ToString()
-            txtObservacion.TextoUsuario = DatosCompra.Observacion.ToString()
+            cmbProveedor.OrbitalCombo.Text = DatosCompra._proveedor.ToString()
+            txtDomicilio.TextoUsuario = DatosCompra._direccion.ToString()
+            txtRifCI.TextoUsuario = DatosCompra._rif.ToString()
+            txtTelefonos.TextoUsuario = DatosCompra._telefono.ToString()
+            cmbTipoPago.OrbitalCombo.Text = DatosCompra._tPago.ToString()
+            txtObservacion.TextoUsuario = DatosCompra._observacion.ToString()
 
             ' --- DETALLE ---
             grvCompras.LimpiarGrid()
-            For Each det In DatosCompra.Detalle
-                grvCompras.AgregarProductoEdit(det.CodigoProducto,
-                                               det.Descripcion, 'producto.ObtenerNombreProducto(det.ProductoID),
-                                               det.Cantidad,
-                                               det.ModoCargo,
-                                               det.CostoUnitario)
+            For Each det In DatosCompra._detalle
+                grvCompras.AgregarProductoEdit(det._codigoProducto,
+                                               det._descripcion, 'producto.ObtenerNombreProducto(det.ProductoID),
+                                               det._cantidad,
+                                               det._modoCargo,
+                                               det._costoUnitario)
             Next
 
             'Propiedades de los controles 
@@ -104,7 +106,9 @@ Public Class frmCompras
                 Case "Eliminar..."
                     ActivarControles(1)
             End Select
-
+        Else
+            'Obtener ordenCompra max 
+            ObtenerNumeroOrdenCompra()
         End If
         FadeManagerUI.StartFade(Me, 0.05)
     End Sub
@@ -130,12 +134,12 @@ Public Class frmCompras
             Dim nombreProveedor = seleccionado.Texto
 
             Dim proveedor As New Repositorio_Proveedor
-            Dim datos = proveedor.BuscarProveedorPorID(idprovedor)
+            Dim datos = proveedor.GetById(idprovedor)
             Try
                 If datos IsNot Nothing Then
-                    txtTelefonos.TextoUsuario = datos.telefono
-                    txtRifCI.TextoUsuario = datos.rif
-                    txtDomicilio.TextoUsuario = datos.direccion
+                    txtTelefonos.TextoUsuario = datos._telefono
+                    txtRifCI.TextoUsuario = datos._rif
+                    txtDomicilio.TextoUsuario = datos._direccion
                 Else
                     ' Limpiar campos si no se encuentra el proveedor
                     txtTelefonos.TextoUsuario = String.Empty
@@ -143,7 +147,9 @@ Public Class frmCompras
                     txtDomicilio.TextoUsuario = String.Empty
                 End If
             Catch ex As Exception
-                MessageBoxUI.Mostrar("Error...", "Error al buscar el proveedor: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+                MessageBoxUI.Mostrar("Error...",
+                                     "Error al buscar los datos del proveedor: " & ex.Message,
+                                     TipoMensaje.Errors, Botones.Aceptar)
             End Try
 
         End If
@@ -174,6 +180,7 @@ Public Class frmCompras
     End Sub
     Private Sub btnSiguiente_Click_1(sender As Object, e As EventArgs) Handles btnSiguiente.Click
         Try
+            Dim OrdenCompra = lblOrden.Texto
             Dim ncontrol = txtNumeroControl.TextoUsuario.Trim
             Dim nfactura = txtNumeroFactura.TextoUsuario.Trim
             Dim fecha As Date = txtFechaEmision.TextValue
@@ -186,8 +193,8 @@ Public Class frmCompras
             If {ncontrol, nfactura, fecha, proveedor, domicilio, rif, telefono, tipoPago
                         }.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
                 MessageBoxUI.Mostrar("Cargando...",
-                                         "Por favor, complete todos los campos obligatorios.",
-                                          TipoMensaje.Errors, Botones.Aceptar)
+                                     "Por favor, complete todos los campos obligatorios.",
+                                     TipoMensaje.Errors, Botones.Aceptar)
 
             Else
 
@@ -196,7 +203,9 @@ Public Class frmCompras
 
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error...", "Error al procesar los datos: " & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Error...",
+                                 "Error al procesar los datos: " & ex.Message,
+                                 TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 
@@ -258,6 +267,8 @@ Public Class frmCompras
             End If
         Next
 
+        container.AutoScrollOffset = New Point(0, 0)
+
         container.ResumeLayout()
         container.PerformLayout()
     End Sub
@@ -295,7 +306,7 @@ Public Class frmCompras
                 End If
             Case 2 ' Eliminar compra existente
                 Dim repo As New Repositorio_Compra
-                Dim resultado = repo.Remove(DatosCompra.CompraID)
+                Dim resultado = repo.Remove(DatosCompra._compraID)
 
                 If resultado Then
                     MessageBoxUI.Mostrar("Borrado Correcto", "Compra eliminada correctamente", TipoMensaje.Exito, Botones.Aceptar)
@@ -309,7 +320,8 @@ Public Class frmCompras
         ' Opción 1: Actualizar compra existente
 
         Dim compra As New TCompra With {
-                    .CompraID = If(IsNothing(DatosCompra), 1, Integer.Parse(DatosCompra.CompraID.ToString())),
+                    .CompraID = If(IsNothing(DatosCompra), 1, Integer.Parse(DatosCompra._compraID.ToString())),
+                    .OrdenCompra = Convert.ToInt32(lblOrden.Texto),
                     .NumeroControl = txtNumeroControl.TextoUsuario.Trim(),
                     .NumeroFactura = txtNumeroFactura.TextoUsuario.Trim(),
                     .FechaCompra = txtFechaEmision.TextValue,
@@ -325,12 +337,17 @@ Public Class frmCompras
         Dim service As New ComprasService()
         Select Case opcion
             Case 0
-                ' Case 0: Registrar nueva compra
+                ' Case 0: Registrar nueva compra y retorna el id almacenado en resultado
                 Dim resultado As Integer = service.RegistrarCompra(compra)
-                If resultado > 0 Then
+                If resultado > 0 And resultado <> 2627 Then
                     MessageBoxUI.Mostrar("Éxito", $"Compra registrada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
                     LimpiarCeldas()
                     ActivarControles(2)
+                    ObtenerNumeroOrdenCompra()
+                ElseIf resultado = 2627 Then 'Si es duplicado mostrar el mensaje de error de duplicado
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                         MensajesUI.RegistroDuplicado,
+                                         TipoMensaje.Informacion, Botones.Aceptar)
                 Else
                     MessageBoxUI.Mostrar("Fallo...", "No se pudo registrar la compra", TipoMensaje.Errors, Botones.Aceptar)
                 End If
@@ -341,6 +358,7 @@ Public Class frmCompras
                     MessageBoxUI.Mostrar("Éxito", $"Compra actualizada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
                     LimpiarCeldas()
                     ActivarControles(2)
+                    ObtenerNumeroOrdenCompra()
                 Else
                     MessageBoxUI.Mostrar("Fallo...", "No se pudo actualizar la compra", TipoMensaje.Errors, Botones.Aceptar)
                 End If
@@ -378,12 +396,12 @@ Public Class frmCompras
         End Select
     End Sub
 
+    Private Sub ObtenerNumeroOrdenCompra()
+        Dim OrdenMax As New Repositorio_Compra
+        Dim resultado As Integer = OrdenMax.GetMax()
+        lblOrden.Texto = FormatearConCeros(resultado)
+    End Sub
+
 #End Region
 
 End Class
-
-
-
-
-
-

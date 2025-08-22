@@ -22,8 +22,8 @@ Public Class Repositorio_VLogin
             Dim login As New TVLogin With {
                 .Usuario = Convert.ToString(row("Usuario")),
                 .ID = Convert.ToInt32(row("ID")),
-                .Clave = Convert.ToString(row("Clave")),
                 .Cedula = Convert.ToString(row("Cedula")),
+                .Clave = Convert.ToString(row("Clave")),
                 .Nombre = Convert.ToString(row("Nombre")),
                 .Apellido = Convert.ToString(row("Apellido")),
                 .Cargo = Convert.ToString(row("Cargo")),

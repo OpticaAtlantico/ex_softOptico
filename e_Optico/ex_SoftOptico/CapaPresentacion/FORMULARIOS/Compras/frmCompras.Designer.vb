@@ -57,6 +57,7 @@ Partial Class frmCompras
         btnAceptar = New CommandButtonUI()
         pnlTitulo = New Panel()
         lblEncabezado = New HeaderUI()
+        lblOrden = New LabelUI()
         pnlContenedor.SuspendLayout()
         pnlContenedorGrid.SuspendLayout()
         pnlTotales.SuspendLayout()
@@ -103,6 +104,7 @@ Partial Class frmCompras
         ' pnlTotales
         ' 
         pnlTotales.BackColor = Color.White
+        pnlTotales.Controls.Add(lblOrden)
         pnlTotales.Controls.Add(btnLimpiarGrid)
         pnlTotales.Controls.Add(lblTotalGeneral)
         pnlTotales.Controls.Add(Label4)
@@ -688,6 +690,23 @@ Partial Class frmCompras
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
         ' 
+        ' lblOrden
+        ' 
+        lblOrden.BackColor = Color.Transparent
+        lblOrden.BloquearColorFondo = True
+        lblOrden.ColorInternoFondo = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        lblOrden.EstiloLabel = LabelUI.EstiloBootstrap.Info
+        lblOrden.Font = New Font("Century Gothic", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblOrden.ForeColor = Color.Maroon
+        lblOrden.Icono = FontAwesome.Sharp.IconChar.CircleInfo
+        lblOrden.Location = New Point(23, 9)
+        lblOrden.Name = "lblOrden"
+        lblOrden.Padding = New Padding(10, 6, 10, 6)
+        lblOrden.RadioBorde = 8
+        lblOrden.Size = New Size(146, 34)
+        lblOrden.TabIndex = 2
+        lblOrden.Texto = "0001"
+        ' 
         ' frmCompras
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -744,5 +763,6 @@ Partial Class frmCompras
     Friend WithEvents txtObservacion As MultilineTextBoxLabelUI
     Friend WithEvents cmbSucursal As ComboBoxLabelUI
     Friend WithEvents btnSiguiente As CommandButtonUI
+    Friend WithEvents lblOrden As LabelUI
 
 End Class

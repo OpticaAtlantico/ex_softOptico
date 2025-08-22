@@ -122,5 +122,12 @@ Module FuncionesGenericas
             Return bmp
         End Using
     End Function
+    'Esta funcion agrega tantos ceros sea necesario a la izquierda
+    Public Function FormatearConCeros(valor As Integer) As String
+        If valor > 999999 Then
+            Throw New ArgumentOutOfRangeException("El valor excede los 6 dígitos permitidos.")
+        End If
+        Return valor.ToString("D6")
+    End Function
 
 End Module

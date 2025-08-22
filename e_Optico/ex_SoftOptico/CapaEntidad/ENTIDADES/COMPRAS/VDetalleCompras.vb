@@ -1,9 +1,10 @@
 ﻿Public Class VDetalleCompras
-    Public Property CompraID As Integer
-    Public Property Descripcion As String
-    Public Property CodigoProducto As String
-    Public Property Cantidad As String
-    Public Property CostoUnitario As Decimal
-    Public Property Subtotal As Decimal
-    Public Property ModoCargo As String
+    Public Property _compraID As Integer
+    Public Property _ordenCompra As Integer
+    Public Property _descripcion As String
+    Public Property _codigoProducto As String
+    Public Property _cantidad As String
+    Public Property _costoUnitario As Decimal
+    Public Property _subtotal As Decimal
+    Public Property _modoCargo As String
 End Class

@@ -29,22 +29,22 @@ Partial Class frmProveedor
         pnlContenido = New Panel()
         txtDireccion = New MultilineTextBoxLabelUI()
         TableLayoutPanel1 = New TableLayoutPanel()
-        txtRif = New MaskedTextBoxLabelUI()
         txtNombreEmpresa = New TextBoxLabelUI()
         txtRazonSocial = New TextBoxLabelUI()
         txtCorreo = New TextBoxLabelUI()
         txtTelefono = New MaskedTextBoxLabelUI()
         txtContacto = New MaskedTextBoxLabelUI()
+        Panel1 = New Panel()
+        txtRif = New MaskedTextBoxLabelUI()
+        cmbSiglas = New ComboBoxLabelUI()
         pnlEncabezado = New Panel()
         btnAccion = New CommandButtonUI()
         lblEncabezado = New HeaderUI()
-        cmbSiglas = New ComboBoxLabelUI()
-        Panel1 = New Panel()
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
-        pnlEncabezado.SuspendLayout()
         Panel1.SuspendLayout()
+        pnlEncabezado.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlContenedor
@@ -129,34 +129,6 @@ Partial Class frmProveedor
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         TableLayoutPanel1.Size = New Size(1250, 183)
         TableLayoutPanel1.TabIndex = 26
-        ' 
-        ' txtRif
-        ' 
-        txtRif.BackColor = Color.Transparent
-        txtRif.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtRif.BorderRadius = 8
-        txtRif.BorderSize = 1
-        txtRif.CampoRequerido = True
-        txtRif.ColorError = Color.Firebrick
-        txtRif.FontField = New Font("Century Gothic", 12F)
-        txtRif.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtRif.IconoDerechoChar = FontAwesome.Sharp.IconChar.ContactBook
-        txtRif.LabelColor = Color.DarkSlateGray
-        txtRif.LabelText = "Rif / C.I."
-        txtRif.Location = New Point(66, 3)
-        txtRif.MascaraPersonalizada = ""
-        txtRif.MaxCaracteres = 0
-        txtRif.MensajeError = "Este campo es obligatorio."
-        txtRif.Name = "txtRif"
-        txtRif.PaddingAll = 10
-        txtRif.PanelBackColor = Color.White
-        txtRif.SelectionStart = 0
-        txtRif.Size = New Size(341, 80)
-        txtRif.SombraBackColor = Color.LightGray
-        txtRif.TabIndex = 3
-        txtRif.TextColor = Color.Black
-        txtRif.TextoUsuario = ""
-        txtRif.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
         ' 
         ' txtNombreEmpresa
         ' 
@@ -301,6 +273,65 @@ Partial Class frmProveedor
         txtContacto.TextoUsuario = ""
         txtContacto.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
         ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(txtRif)
+        Panel1.Controls.Add(cmbSiglas)
+        Panel1.Dock = DockStyle.Fill
+        Panel1.Location = New Point(3, 93)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(410, 87)
+        Panel1.TabIndex = 6
+        ' 
+        ' txtRif
+        ' 
+        txtRif.BackColor = Color.Transparent
+        txtRif.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtRif.BorderRadius = 8
+        txtRif.BorderSize = 1
+        txtRif.CampoRequerido = True
+        txtRif.ColorError = Color.Firebrick
+        txtRif.FontField = New Font("Century Gothic", 12F)
+        txtRif.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtRif.IconoDerechoChar = FontAwesome.Sharp.IconChar.ContactBook
+        txtRif.LabelColor = Color.DarkSlateGray
+        txtRif.LabelText = "Rif / C.I."
+        txtRif.Location = New Point(66, 0)
+        txtRif.MascaraPersonalizada = ""
+        txtRif.MaxCaracteres = 0
+        txtRif.MensajeError = "Este campo es obligatorio."
+        txtRif.Name = "txtRif"
+        txtRif.PaddingAll = 10
+        txtRif.PanelBackColor = Color.White
+        txtRif.SelectionStart = 0
+        txtRif.Size = New Size(341, 80)
+        txtRif.SombraBackColor = Color.LightGray
+        txtRif.TabIndex = 3
+        txtRif.TextColor = Color.Black
+        txtRif.TextoUsuario = ""
+        txtRif.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
+        ' 
+        ' cmbSiglas
+        ' 
+        cmbSiglas.BackColor = Color.Transparent
+        cmbSiglas.BackColorPnl = Color.WhiteSmoke
+        cmbSiglas.BorderColor = Color.LightGray
+        cmbSiglas.BorderSize = 1
+        cmbSiglas.CampoRequerido = True
+        cmbSiglas.ForeColor = Color.Black
+        cmbSiglas.IndiceSeleccionado = -1
+        cmbSiglas.LabelColor = Color.DarkSlateGray
+        cmbSiglas.Location = New Point(3, -1)
+        cmbSiglas.MensajeError = "Este campo es obligatorio."
+        cmbSiglas.MostrarError = False
+        cmbSiglas.Name = "cmbSiglas"
+        cmbSiglas.RadioContornoPanel = 8
+        cmbSiglas.Size = New Size(57, 80)
+        cmbSiglas.SombraBackColor = Color.LightGray
+        cmbSiglas.TabIndex = 27
+        cmbSiglas.Titulo = "Siglas"
+        cmbSiglas.ValorSeleccionado = Nothing
+        ' 
         ' pnlEncabezado
         ' 
         pnlEncabezado.Controls.Add(btnAccion)
@@ -349,37 +380,6 @@ Partial Class frmProveedor
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
         ' 
-        ' cmbSiglas
-        ' 
-        cmbSiglas.BackColor = Color.Transparent
-        cmbSiglas.BackColorPnl = Color.WhiteSmoke
-        cmbSiglas.BorderColor = Color.LightGray
-        cmbSiglas.BorderSize = 1
-        cmbSiglas.CampoRequerido = True
-        cmbSiglas.ForeColor = Color.Black
-        cmbSiglas.IndiceSeleccionado = -1
-        cmbSiglas.LabelColor = Color.DarkSlateGray
-        cmbSiglas.Location = New Point(3, 4)
-        cmbSiglas.MensajeError = "Este campo es obligatorio."
-        cmbSiglas.MostrarError = False
-        cmbSiglas.Name = "cmbSiglas"
-        cmbSiglas.RadioContornoPanel = 8
-        cmbSiglas.Size = New Size(57, 80)
-        cmbSiglas.SombraBackColor = Color.LightGray
-        cmbSiglas.TabIndex = 27
-        cmbSiglas.Titulo = "Siglas"
-        cmbSiglas.ValorSeleccionado = Nothing
-        ' 
-        ' Panel1
-        ' 
-        Panel1.Controls.Add(txtRif)
-        Panel1.Controls.Add(cmbSiglas)
-        Panel1.Dock = DockStyle.Fill
-        Panel1.Location = New Point(3, 93)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(410, 87)
-        Panel1.TabIndex = 6
-        ' 
         ' frmProveedor
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -393,8 +393,8 @@ Partial Class frmProveedor
         pnlContenedor.ResumeLayout(False)
         pnlContenido.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)
-        pnlEncabezado.ResumeLayout(False)
         Panel1.ResumeLayout(False)
+        pnlEncabezado.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 

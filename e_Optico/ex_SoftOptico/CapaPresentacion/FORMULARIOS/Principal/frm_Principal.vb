@@ -22,7 +22,7 @@ Public Class frm_Principal
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.05
     Public Property EmpleadoEncontrado As VEmpleados = Nothing
-    Public Property ProveedorEncontrado As TProveedor = Nothing
+    Public Property ProveedorEncontrado As VProveedor = Nothing
     Public Property CompraEncontrado As VCompras = Nothing
 
     Public Event AbrirFormularioHijoSolicitado As Action(Of Form)
@@ -666,7 +666,7 @@ Public Class frm_Principal
         Dim texto As String = String.Empty
 
         ' 1. Llama a la función y guarda el resultado en una lista.
-        Dim listaResultados As IEnumerable(Of TProveedor) = repositorio.BuscarProveedorPorNombre(nombreProveedor)
+        Dim listaResultados As IEnumerable(Of VProveedor) = repositorio.GetAllByNombre(nombreProveedor)
 
         ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
         '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
@@ -727,11 +727,10 @@ Public Class frm_Principal
                 formularioHijo.NombreBoton = texto
                 OpenChildForm(formularioHijo)
             Else
-                MessageBoxUI.Mostrar(
-                                        "Datos inexistentes...",
-                                        "No hay ninguna compra con ese número de identificador, por favor verifique bien los datos",
-                                        TipoMensaje.Advertencia,
-                                        Botones.Aceptar
+                MessageBoxUI.Mostrar("Datos inexistentes...",
+                                     "No hay ninguna compra con ese número de identificador, por favor verifique bien los datos",
+                                     TipoMensaje.Advertencia,
+                                     Botones.Aceptar
                                     )
             End If
         Catch ex As Exception

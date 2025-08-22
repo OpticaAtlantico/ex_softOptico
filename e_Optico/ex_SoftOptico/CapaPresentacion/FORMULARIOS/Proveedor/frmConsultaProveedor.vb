@@ -3,16 +3,15 @@ Imports CapaEntidad
 Imports FontAwesome.Sharp
 
 Public Class frmConsultaProveedor
-    Public Property ProveedorSeleccionado As TEmpleados = Nothing
-    ' Evento para pedir al formulario padre abrir un formulario hijo nuevo
+    Public Property ProveedorSeleccionado As VProveedor = Nothing
     Public Event AbrirFormularioHijo As Action(Of Form)
-
     Private layoutOrbital As DataGridViewUI
 
 #Region "CONSTRUCTOR"
     Public Sub New()
         InitializeComponent()
         FormStylerUI.Apply(Me)
+
         With Me.dgvDatosProveedor.lblTitulo
             .Titulo = "Consulta de Proveedor"
             .Subtitulo = "Lista de Proveedores registrados..."
@@ -61,20 +60,21 @@ Public Class frmConsultaProveedor
         dgvDatosProveedor.Grid.Columns.Clear()
 
         Dim repo As New Repositorio_Proveedor()
-        Dim listaProveedor As List(Of TProveedor) = repo.ObtenerProveedor()
+        Dim listaProveedor As List(Of VProveedor) = repo.GetAlls()
         Dim tabla As DataTable = ConvertirListaADataTable(listaProveedor)
 
-        Dim columnasVisibles = {"ProveedorID", "nombreEmpresa", "razonSocial", "contacto", "telefono", "siglas", "rif", "correo", "direccion"}
+        Dim columnasVisibles = {"_proveedorID", "_nombreEmpresa", "_razonSocial", "_contacto", "_telefono", "_siglas", "_rif", "_correo", "_direccion"}
 
         Dim anchos = New Dictionary(Of String, Integer) From {
-            {"ProveedorID", 80}, {"nombreEmpresa", 160}, {"razonSocial", 160},
-            {"contacto", 120}, {"telefono", 120}, {"siglas", 50}, {"rif", 100}, {"correo", 130}, {"direccion", 450}
+            {"_proveedorID", 80}, {"_nombreEmpresa", 160}, {"_razonSocial", 160},
+            {"_contacto", 120}, {"_telefono", 120}, {"_siglas", 50}, {"_rif", 100},
+            {"_correo", 130}, {"_direccion", 450}
         }
 
         Dim nombres = New Dictionary(Of String, String) From {
-            {"ProveedorID", "ID"}, {"nombreEmpresa", "Empresa"}, {"razonSocial", "Razon Social"},
-            {"contacto", "Contacto"}, {"telefono", "# Teléfono"}, {"siglas", "Siglas"}, {"rif", "Rif"}, {"correo", "Correo Electrónico"},
-            {"direccion", "Domicilio Fiscal"}
+            {"_proveedorID", "ID"}, {"_nombreEmpresa", "Empresa"}, {"_razonSocial", "Razon Social"},
+            {"_contacto", "Contacto"}, {"_telefono", "# Teléfono"}, {"_siglas", "Siglas"}, {"_rif", "Rif"},
+            {"_correo", "Correo Electrónico"}, {"_direccion", "Domicilio Fiscal"}
         }
 
         dgvDatosProveedor.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombres)
@@ -121,7 +121,6 @@ Public Class frmConsultaProveedor
             colEliminar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         End If
     End Sub
-
     Private Sub AgregarProveedor()
         Dim frm As New frmProveedor
         Me.Close()
@@ -131,7 +130,7 @@ Public Class frmConsultaProveedor
     Private Sub EditarProveedor(id As Integer)
         Try
             Dim repositorio As New Repositorio_Proveedor()
-            Dim proveedorEncontrado As TProveedor = repositorio.BuscarProveedorPorID(id)
+            Dim proveedorEncontrado As VProveedor = repositorio.GetById(id)
 
             If proveedorEncontrado IsNot Nothing Then
                 Dim formularioHijo As New frmProveedor()
@@ -141,38 +140,52 @@ Public Class frmConsultaProveedor
                 ' En vez de abrir el formulario directamente, disparar evento
                 RaiseEvent AbrirFormularioHijo(formularioHijo)
             Else
-                MessageBoxUI.Mostrar("Búsqueda fallida...", "No se pudo localizar los datos del proveedor seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Informacion, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                     MensajesUI.OperacionFallida,
+                                     TipoMensaje.Informacion, Botones.Aceptar)
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error de edición...", "Error al intentar editar el proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 
     Private Sub EliminarProveedorUnico(id As Integer)
         Try
-            Dim confirmar = MessageBoxUI.Mostrar("Remover datos...", "¿Deseas eliminar el proveedor seleccionado?", TipoMensaje.Advertencia, Botones.SiNo)
+            Dim confirmar = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                                MensajesUI.ConfirmarAccion,
+                                                 TipoMensaje.Advertencia, Botones.SiNo)
 
             If confirmar = DialogResult.No Then Exit Sub
 
             Dim repositorio As New Repositorio_Proveedor()
-            Dim proveedor As TProveedor = repositorio.BuscarProveedorPorID(id)
+            Dim proveedor As VProveedor = repositorio.GetById(id)
 
             If proveedor Is Nothing Then
-                MessageBoxUI.Mostrar("Buscando...", "No se encontró el proveedor.", TipoMensaje.Errors, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                     MensajesUI.SinResultados,
+                                     TipoMensaje.Errors, Botones.Aceptar)
                 Exit Sub
             End If
 
-            Dim eliminar = repositorio.EliminarProveedor(id)
+            Dim eliminar = repositorio.Remove(id)
 
             If eliminar Then
-                MessageBoxUI.Mostrar("Éxito", "Proveedor eliminado correctamente.", TipoMensaje.Exito, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                     MensajesUI.EliminacionExitosa,
+                                     TipoMensaje.Exito, Botones.Aceptar)
                 CargarDatosProveedores()
             Else
-                MessageBoxUI.Mostrar("Error al eliminar", "No se pudo eliminar el proveedor.", TipoMensaje.Errors, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                     MensajesUI.OperacionFallida,
+                                     TipoMensaje.Errors, Botones.Aceptar)
             End If
 
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error... ", "Error al eliminar proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 
@@ -181,13 +194,10 @@ Public Class frmConsultaProveedor
 #Region "FUNCIONES PRIVADAS"
 
     Private Function ObtenerProveedor() As DataTable
-        Dim lista = New Repositorio_Proveedor().ObtenerProveedor()
+        Dim lista = New Repositorio_Proveedor().GetAlls()
         Return ConvertirListaADataTable(lista.ToList)
     End Function
 
 #End Region
-
-
-
 
 End Class
