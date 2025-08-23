@@ -1,3 +1,4 @@
 ﻿Module modEmpleados
-    Public listEmpleados = New List(Of TEmpleados)
+    Public listTEmpleados = New List(Of TEmpleados)
+    Public listVEmpleados = New List(Of VEmpleados)
 End Module

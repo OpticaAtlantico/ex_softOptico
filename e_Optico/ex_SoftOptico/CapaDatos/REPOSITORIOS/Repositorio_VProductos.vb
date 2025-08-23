@@ -15,37 +15,37 @@ Public Class Repositorio_VProductos
         SeleccionarProductosById = "SELECT Nombre FROM VProductos WHERE Codigo = @ProductoID"
     End Sub
 
-    Public Function GetAll() As IEnumerable(Of TVProductos) Implements IRepositorio_Generico(Of TVProductos).GetAll
+    Public Function GetAll() As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAll
         Dim resultadoTable As DataTable = ExecuteReader(SeleccionarProductos)
-        Dim lista = New List(Of TVProductos)
+        Dim lista = New List(Of VProductos)
         For Each row As DataRow In resultadoTable.Rows
-            Dim producto As New TVProductos With {
-                .Codigo = If(row("Codigo") IsNot DBNull.Value, row("Codigo").ToString(), String.Empty),
-                .Nombre = If(row("Nombre") IsNot DBNull.Value, row("Nombre").ToString(), String.Empty),
-                .Precio = If(row("Precio") IsNot DBNull.Value, Convert.ToDecimal(row("Precio")), 0D),
-                .Categoria = If(row("Categoria") IsNot DBNull.Value, row("Categoria").ToString(), String.Empty),
-                .SubCategoria = If(row("SubCategoria") IsNot DBNull.Value, row("SubCategoria").ToString(), String.Empty),
-                .Stock = If(row("Stock") IsNot DBNull.Value, Convert.ToInt32(row("Stock")), 0),
-                .CategoriaID = If(row("CategoriaID") IsNot DBNull.Value, Convert.ToInt32(row("CategoriaID")), 0)
+            Dim producto As New VProductos With {
+                ._codigo = If(row("Codigo") IsNot DBNull.Value, row("Codigo").ToString(), String.Empty),
+                ._nombre = If(row("Nombre") IsNot DBNull.Value, row("Nombre").ToString(), String.Empty),
+                ._precio_Venta = 0,
+                ._categoria = If(row("Categoria") IsNot DBNull.Value, row("Categoria").ToString(), String.Empty),
+                ._subCategoria = If(row("SubCategoria") IsNot DBNull.Value, row("SubCategoria").ToString(), String.Empty),
+                ._stock = If(row("Stock") IsNot DBNull.Value, Convert.ToInt32(row("Stock")), 0),
+                ._categoriaID = If(row("CategoriaID") IsNot DBNull.Value, Convert.ToInt32(row("CategoriaID")), 0)
             }
             lista.Add(producto)
         Next
         Return lista
     End Function
 
-    Public Function Add(entity As TVProductos) As Integer Implements IRepositorio_Generico(Of TVProductos).Add
+    Public Function Add(entity As VProductos) As Integer Implements IRepositorio_Generico(Of VProductos).Add
         Throw New NotImplementedException()
     End Function
 
-    Public Function Edit(entity As TVProductos) As Integer Implements IRepositorio_Generico(Of TVProductos).Edit
+    Public Function Edit(entity As VProductos) As Integer Implements IRepositorio_Generico(Of VProductos).Edit
         Throw New NotImplementedException()
     End Function
 
-    Public Function Remove(id As Integer) As Integer Implements IRepositorio_Generico(Of TVProductos).Remove
+    Public Function Remove(id As Integer) As Integer Implements IRepositorio_Generico(Of VProductos).Remove
         Throw New NotImplementedException()
     End Function
 
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TVProductos) Implements IRepositorio_Generico(Of TVProductos).GetAllUserPass
+    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAllUserPass
         Throw New NotImplementedException()
     End Function
 

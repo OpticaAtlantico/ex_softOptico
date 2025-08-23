@@ -141,9 +141,6 @@ CREATE TABLE TProductos (
     Descripcion NVARCHAR(255) NULL,
     CategoriaID INT NOT NULL,
     SubCategoriaID INT NOT NULL,
-    Precio DECIMAL(18, 2) NOT NULL,
-    Costo DECIMAL(18, 2) NOT NULL DEFAULT 0, -- Costo promedio ponderado
-    Stock INT NOT NULL DEFAULT 0,
     Material INT NOT NULL,
     Color INT NOT NULL,
     Activo BIT NOT NULL DEFAULT 1,
@@ -199,17 +196,34 @@ GO
 -- *** 2. Tablas de Inventario Multi-Ubicación ***
 
 -- Tabla: StockPorUbicacion (Inventario real por producto en cada ubicación)
-CREATE TABLE TStockProducto (
+CREATE TABLE TStock (
     StockID INT IDENTITY(1,1) PRIMARY KEY,
-    ProductoID INT NOT NULL,
+    CodigoProducto NVARCHAR(50) NOT NULL,
     UbicacionID INT NOT NULL,
     StockActual INT NOT NULL DEFAULT 0,
     StockMinimo INT NOT NULL DEFAULT 0, -- Stock mínimo por ubicación
-    UNIQUE (ProductoID, UbicacionID), -- Un producto solo puede tener un registro de stock por ubicación
-    FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID),
+    StockMaximo INT NOT NULL DEFAULT 0, -- Stock maximo por ubicación
+    UNIQUE (CodigoProducto, UbicacionID), -- Un producto solo puede tener un registro de stock por ubicación
+    FOREIGN KEY (CodigoProducto) REFERENCES TProductos(CodigoProducto),
     FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
 GO
+
+CREATE TABLE TPrecios (
+    PrecioID INT IDENTITY(1,1) PRIMARY KEY,
+    CodigoProducto NVARCHAR(50) NOT NULL,
+    UbicacionID INT NOT NULL,
+    PVenta DECIMAL(18,2) NOT NULL DEFAULT 0, -- Precio de  Promosion
+    PCosto DECIMAL(18,2) NOT NULL DEFAULT 0, -- Precio de  Promosion
+    Promocion DECIMAL(18,2) NOT NULL DEFAULT 0, -- Precio de  Promosion
+    Descuento DECIMAL(18,2) NOT NULL DEFAULT 0, -- Descuento de productos
+    IvaVenta DECIMAL(18,2) NOT NULL DEFAULT 0, -- Impuesto iva para va venta
+    IvaCompra DECIMAL(18,2) NOT NULL DEFAULT 0, -- Impuesto para la Compra
+    IvaCuota INT NOT NULL, -- Alicuota para el porcentaje de impuesto 
+    UNIQUE (CodigoProducto, UbicacionID), -- Un producto solo puede tener un registro de stock por ubicación
+    FOREIGN KEY (CodigoProducto) REFERENCES TProductos(CodigoProducto),
+    FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
+);
 
 -- Tabla: TTipoMovimientos (Detalle del tipo de movimiento)  Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
 CREATE TABLE TTipoMovimientos (
@@ -219,9 +233,9 @@ CREATE TABLE TTipoMovimientos (
 GO
 
 -- Tabla: MovimientosInventario (Registro detallado de todo movimiento de stock)
-CREATE TABLE TMovimientosInventario (
+CREATE TABLE THistoricoStock (
     MovimientoID INT IDENTITY(1,1) PRIMARY KEY,
-    ProductoID INT NOT NULL,
+    CodigoProducto NVARCHAR(50) NOT NULL,
     UbicacionOrigenID INT NOT NULL, -- NULL para entradas de compra
     UbicacionDestinoID INT NOT NULL, -- NULL para salidas por venta/ajuste negativo
     TipoMovimientoID INT NOT NULL, -- Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
@@ -230,7 +244,8 @@ CREATE TABLE TMovimientosInventario (
     Referencia NVARCHAR(255) NULL, -- Ej: 'Venta #123', 'Compra #456', 'Nota Entrega #789', 'Ajuste Físico', 'Devolución'
     EmpleadoID INT NOT NULL, -- Quién realizó el movimiento
     Notas NVARCHAR(MAX) NULL,
-    FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID),
+    UNIQUE (CodigoProducto),
+    FOREIGN KEY (CodigoProducto) REFERENCES TProductos(CodigoProducto),
     FOREIGN KEY (UbicacionOrigenID) REFERENCES TUbicaciones(UbicacionID),
     FOREIGN KEY (UbicacionDestinoID) REFERENCES TUbicaciones(UbicacionID),
     FOREIGN KEY (EmpleadoID) REFERENCES TEmpleados(EmpleadoID),
@@ -239,7 +254,7 @@ CREATE TABLE TMovimientosInventario (
 GO
 
 -- Tabla: TrasladosInventario (Encabezado para movimientos entre ubicaciones)
-CREATE TABLE TTrasladosInventario (
+CREATE TABLE TMovimiento (
     TrasladoID INT IDENTITY(1,1) PRIMARY KEY,
     FechaTraslado DATETIME NOT NULL DEFAULT GETDATE(),
     UbicacionOrigenID INT NOT NULL,
@@ -265,7 +280,7 @@ CREATE TABLE TDetalleTraslado (
     CantidadEnviada INT NOT NULL, -- La que realmente se envió (puede ser diferente a la solicitada)
     CantidadRecibida INT NOT NULL DEFAULT 0,
     Notas NVARCHAR(MAX) NULL,
-    FOREIGN KEY (TrasladoID) REFERENCES TTrasladosInventario(TrasladoID),
+    FOREIGN KEY (TrasladoID) REFERENCES TMovimiento(TrasladoID),
     FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
 );
 GO
@@ -511,19 +526,6 @@ GO
 
 -- SELECT * FROM VLogin;
 
-CREATE OR ALTER VIEW VProductos AS
-    SELECT P.ProductoID 
-         , P.CodigoProducto AS Codigo
-         , P.Descripcion AS Nombre
-         , P.Precio
-         , C.CategoriaID
-         , C.NombreCategoria AS Categoria
-         , P.Stock
-         , S.NombreSubCategoria as SubCategoria
-    FROM   TProductos P INNER JOIN
-           TCategorias C ON P.CategoriaID = C.CategoriaID INNER JOIN
-           TSubCategorias S ON P.SubCategoriaID = S.SubCategoriaID
-
 GO
 
 CREATE OR ALTER VIEW VProveedor AS
@@ -580,6 +582,32 @@ CREATE OR ALTER VIEW VDetalleCompras AS
             TProductos P ON D.ProductoID = P.ProductoID
 
 GO
+
+CREATE OR ALTER VIEW VProductos AS
+    SELECT P.ProductoID AS ID
+           , P.CodigoProducto AS Codigo
+           , P.Descripcion AS Nombre
+           , S.StockActual AS Stock
+           , C.CategoriaID
+           , C.NombreCategoria AS Categoria
+           , SC.NombreSubCategoria AS SubCategoria
+           , P.Material
+           , P.Color
+           , P.Activo AS Estatus
+           , S.StockMinimo
+           , S.StockMaximo
+           , PR.PVenta AS Precio_Venta
+           , PR.PCosto AS Precio_Costo
+           , PR.Promocion
+           , PR.Descuento
+           , PR.IvaVenta
+           , PR.IvaCompra
+           , PR.IvaCuota
+    FROM TProductos P LEFT OUTER JOIN
+         TStock S ON P.CodigoProducto = S.CodigoProducto LEFT OUTER JOIN
+         TPrecios PR ON P.CodigoProducto = PR.CodigoProducto LEFT OUTER JOIN
+         TCategorias C ON P.CategoriaID = C.CategoriaID LEFT OUTER JOIN
+         TSubCategorias SC ON P.SubCategoriaID = SC.SubCategoriaID
 
 CREATE OR ALTER VIEW VCProveedor AS
     SELECT P.ProveedorID , P.NombreEmpresa 
@@ -706,11 +734,11 @@ INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('31%','31')
 INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Exento','0')
 INSERT INTO TAlicuota (Nombre,Alicuota) VALUES('Gravamen','1')
 
-INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('1','BIFOCAL','1','2','100','100','0','1','1','1','0')
-INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('2','lENTES DE SOL','2','2','100','100','0','1','1','1','0')
-INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('3','MULTIFOCAL','1','3','100','100','0','1','1','1','0')
-INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('4','LENTES DE CONTACTO','2','2','100','100','0','1','1','1','0')
-INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Precio,Costo,Stock,Material,Color,Activo,RequiereInventario) VALUES('5','MONOFOCAL','1','1','100','100','0','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('1','BIFOCAL','1','2','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('2','lENTES DE SOL','2','2','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('3','MULTIFOCAL','1','3','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('4','LENTES DE CONTACTO','2','2','1','1','1','0')
+INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('5','MONOFOCAL','1','1','1','1','1','0')
      
 
 

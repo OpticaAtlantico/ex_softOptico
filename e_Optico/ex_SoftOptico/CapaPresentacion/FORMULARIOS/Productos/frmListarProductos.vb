@@ -5,6 +5,7 @@ Public Class frmListarProductos
     Public Property FormularioDestino As frmCompras
     Private WithEvents productosGrid As New DataGridViewGUI()
 
+#Region "CONSTRUCTOR"
     Public Sub New()
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
@@ -13,6 +14,10 @@ Public Class frmListarProductos
         productosGrid = New DataGridViewGUI()
     End Sub
 
+#End Region
+
+
+#Region "CONTROLES Y FORMULARIOS"
     Private Sub frmListarProducto_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Me.Closing
         ' Limpiar el formulario destino al cerrar
         If FormularioDestino IsNot Nothing Then
@@ -20,6 +25,15 @@ Public Class frmListarProductos
         End If
     End Sub
 
+    Private Sub frmListarProducto_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        PrepararControl()
+        Componentes()
+        FadeManagerUI.StartFade(Me, 0.05)
+    End Sub
+#End Region
+
+
+#Region "PROCEDIMIENTOS"
     Private Sub Componentes()
         Me.Text = "Listado de Productos"
         Me.MinimumSize = New Size(900, 600)
@@ -31,14 +45,8 @@ Public Class frmListarProductos
         Me.StartPosition = FormStartPosition.CenterScreen
 
         productosGrid.Titulo = "LISTADO DE PRODUCTOS GENERAL"
-        productosGrid.Subtitulo = "Seleccione un producto para agregar al detalle de la compra"
+        productosGrid.Subtitulo = "Seleccione un producto para ser agregado al detalle de compra"
         productosGrid.Icono = IconChar.ShoppingCart
-    End Sub
-
-    Private Sub frmListarProducto_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        PrepararControl()
-        Componentes()
-        FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 
     Private Sub PrepararControl()
@@ -47,26 +55,24 @@ Public Class frmListarProductos
         ' Repositorio
         Dim repo As New Repositorio_VProductos()
 
-        Dim listaProductos As List(Of TVProductos) = repo.GetAll()
+        Dim listaProductos As List(Of VProductos) = repo.GetAll()
         Dim tabla As DataTable = ConvertirListaADataTable(listaProductos)
 
         ' Configurar columnas y cargar
-        Dim columnasVisibles = {"Codigo", "Nombre", "Stock", "Categoria", "SubCategoria", "Precio"}
+        Dim columnasVisibles = {"_codigo", "_nombre", "_categoria", "_subCategoria", "_stock"}
         Dim anchos = New Dictionary(Of String, Integer) From {
-        {"Codigo", 100},
-        {"Nombre", 280},
-        {"Stock", 80},
-        {"Categoria", 150},
-        {"SubCategoria", 150},
-        {"Precio", 120}
+        {"_codigo", 70},
+        {"_nombre", 380},
+        {"_categoria", 180},
+        {"_subCategoria", 180},
+        {"_stock", 100}
     }
         Dim nombresColumnas = New Dictionary(Of String, String) From {
-        {"Codigo", "Código"},
-        {"Nombre", "Descripción"},
-        {"Stock", "Stock"},
-        {"Categoria", "Categoría"},
-        {"SubCategoria", "Subcategoría"},
-        {"Precio", "Precio Venta"}
+        {"_sodigo", "Código"},
+        {"_nombre", "Descripción"},
+        {"_categoria", "Categoría"},
+        {"_subCategoria", "Subcategoría"},
+        {"_stock", "Stock"}
     }
 
         productosGrid.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombresColumnas)
@@ -81,7 +87,7 @@ Public Class frmListarProductos
         If FormularioDestino IsNot Nothing Then
             ' Crear objeto limpio
 
-            Dim idCategoria As Integer = Convert.ToInt32(producto("CategoriaID"))
+            Dim idCategoria As Integer = Convert.ToInt32(producto("_categoriaID"))
             Dim ExG As String = "Ex"
 
             If idCategoria = 2 Then
@@ -89,8 +95,8 @@ Public Class frmListarProductos
             End If
 
             Dim seleccionado As New ProductoSeleccionado With {
-            .Codigo = Convert.ToString(producto("Codigo")),
-            .Nombre = producto("Nombre").ToString(),
+            .Codigo = Convert.ToString(producto("_codigo")),
+            .Nombre = producto("_nombre").ToString(),
             .Precio = 0,
             .ExG = ExG
         }
@@ -99,4 +105,12 @@ Public Class frmListarProductos
             FadeManagerUI.ApplyOut(Me, 60)
         End If
     End Sub
+
+#End Region
+
+
+
+
+
+
 End Class

@@ -3,10 +3,9 @@
     Public Property CodigoProducto As String
     Public Property Descripcion As String
     Public Property CategoriaID As Integer
-    Public Property Precio As Decimal
-    Public Property Costo As Decimal 'Costo promedio ponderado
+    Public Property Material As Integer
+    Public Property Color As Integer
     Public Property Activo As Boolean = True
-    Public Property Stock As Integer
     Public Property RequiereInventario As Boolean = True ' Para servicios que no manejan stock
 
 End Class
