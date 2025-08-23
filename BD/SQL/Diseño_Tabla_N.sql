@@ -1,4 +1,4 @@
--- Actualizado el dia: 09/08/2025
+-- Actualizado el dia: 23/08/2025
 --Se incluyo
 
 IF NOT EXISTS (

@@ -271,7 +271,7 @@ Public Class Repositorio_Compra
                         tran.Rollback()
                     Catch
                     End Try
-                    Return ex.Number
+                    Return CInt("-" & ex.Number)
                 End Try
             End Using
         End Using

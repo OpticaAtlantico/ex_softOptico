@@ -67,43 +67,59 @@ Public Class frmCompras
 
 #Region "FORMULARIO Y CONTROLES"
     Private Sub frmCompras_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Inicia los componentes 
         CustomizeComponents()
         'Mostrar los datos si DatosCompra no es nothing
-        If DatosCompra IsNot Nothing Then
-            lblOrden.Texto = FormatearConCeros(DatosCompra._ordenCompra).ToString()
-            cmbSucursal.OrbitalCombo.Text = DatosCompra._sucursal.ToString()
-            txtNumeroControl.TextoUsuario = DatosCompra._nControl.ToString()
-            txtNumeroFactura.TextoUsuario = DatosCompra._nFactura.ToString()
-            txtFechaEmision.FechaSeleccionada = DatosCompra._fecha
-            cmbProveedor.OrbitalCombo.Text = DatosCompra._proveedor.ToString()
-            txtDomicilio.TextoUsuario = DatosCompra._direccion.ToString()
-            txtRifCI.TextoUsuario = DatosCompra._rif.ToString()
-            txtTelefonos.TextoUsuario = DatosCompra._telefono.ToString()
-            cmbTipoPago.OrbitalCombo.Text = DatosCompra._tPago.ToString()
-            txtObservacion.TextoUsuario = DatosCompra._observacion.ToString()
+        Try
 
-            ' --- DETALLE ---
-            grvCompras.LimpiarGrid()
-            For Each det In DatosCompra._detalle
-                grvCompras.AgregarProductoEdit(det._codigoProducto,
-                                               det._descripcion, 'producto.ObtenerNombreProducto(det.ProductoID),
-                                               det._cantidad,
-                                               det._modoCargo,
-                                               det._costoUnitario,
-                                               det._descripcion)
-            Next
+            If DatosCompra IsNot Nothing Then
 
-            'Propiedades de los controles 
-            Select Case NombreBoton
-                Case "Actualizar..."
-                    ActivarControles(0)
-                Case "Eliminar..."
-                    ActivarControles(1)
-            End Select
-        Else
-            'Obtener ordenCompra max 
-            ObtenerNumeroOrdenCompra()
-        End If
+                With DatosCompra
+
+                    lblOrden.Texto = FormatearConCeros(._ordenCompra).ToString()
+                    cmbSucursal.OrbitalCombo.Text = ._sucursal.ToString()
+                    txtNumeroControl.TextoUsuario = ._nControl.ToString()
+                    txtNumeroFactura.TextoUsuario = ._nFactura.ToString()
+                    txtFechaEmision.FechaSeleccionada = ._fecha
+                    cmbProveedor.OrbitalCombo.Text = ._proveedor.ToString()
+                    txtDomicilio.TextoUsuario = ._direccion.ToString()
+                    txtRifCI.TextoUsuario = ._rif.ToString()
+                    txtTelefonos.TextoUsuario = ._telefono.ToString()
+                    cmbTipoPago.OrbitalCombo.Text = ._tPago.ToString()
+                    txtObservacion.TextoUsuario = ._observacion.ToString()
+
+                    ' --- DETALLE ---
+                    grvCompras.LimpiarGrid()
+                    For Each det In ._detalle
+                        With det
+                            grvCompras.AgregarProductoEdit(._codigoProducto,
+                                                           ._descripcion, 'producto.ObtenerNombreProducto(det.ProductoID),
+                                                           ._cantidad,
+                                                           ._modoCargo,
+                                                           ._costoUnitario,
+                                                           ._descuento)
+                        End With
+                    Next
+
+                End With
+
+                'Propiedades de los controles 
+                Select Case NombreBoton
+                    Case "Actualizar..."
+                        ActivarControles(0)
+                    Case "Eliminar..."
+                        ActivarControles(1)
+                End Select
+            Else
+                'Obtener ordenCompra max 
+                ObtenerNumeroOrdenCompra()
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Errors, Botones.Aceptar)
+
+        End Try
         FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 
@@ -123,13 +139,15 @@ Public Class frmCompras
 
         Dim seleccionado As LlenarComboBox.ComboItem = cmbProveedor.ItemSeleccionado
 
-        If seleccionado IsNot Nothing Then
-            Dim idprovedor = Convert.ToInt32(seleccionado.Valor)
-            Dim nombreProveedor = seleccionado.Texto
+        Try
 
-            Dim proveedor As New Repositorio_Proveedor
-            Dim datos = proveedor.GetById(idprovedor)
-            Try
+            If seleccionado IsNot Nothing Then
+                Dim idprovedor = Convert.ToInt32(seleccionado.Valor)
+                Dim nombreProveedor = seleccionado.Texto
+
+                Dim proveedor As New Repositorio_Proveedor
+                Dim datos = proveedor.GetById(idprovedor)
+
                 If datos IsNot Nothing Then
                     txtTelefonos.TextoUsuario = datos._telefono
                     txtRifCI.TextoUsuario = datos._rif
@@ -140,14 +158,13 @@ Public Class frmCompras
                     txtRifCI.TextoUsuario = String.Empty
                     txtDomicilio.TextoUsuario = String.Empty
                 End If
-            Catch ex As Exception
-                MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                     String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                     TipoMensaje.Errors, Botones.Aceptar)
-            End Try
 
-        End If
-
+            End If
+        Catch ex As Exception
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Errors, Botones.Aceptar)
+        End Try
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
@@ -314,11 +331,12 @@ Public Class frmCompras
                                          TipoMensaje.Exito, Botones.Aceptar)
                     LimpiarCeldas()
                     ActivarControles(2)
-                    Exit Sub
+                    Return
                 Else
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                          MensajesUI.OperacionFallida,
                                          TipoMensaje.Errors, Botones.Aceptar)
+                    Return
                 End If
         End Select
         ' Opción 1: Actualizar compra existente
@@ -339,44 +357,56 @@ Public Class frmCompras
                     .Detalle = grvCompras.GetDetalleList()
                 }
         Dim service As New ComprasService()
-        Select Case opcion
-            Case 0
-                ' Case 0: Registrar nueva compra y retorna el id almacenado en resultado
-                Dim resultado As Integer = service.RegistrarCompra(compra)
-                If resultado > 0 And resultado <> 2627 Then
-                    MessageBoxUI.Mostrar(MensajesUI.TituloExito,
-                                         MensajesUI.RegistroExitoso,
-                                         TipoMensaje.Exito, Botones.Aceptar)
+        Try
 
-                    ObtenerNumeroOrdenCompra()
-                    LimpiarCeldas()
-                    ActivarControles(2)
-                ElseIf resultado = 2627 Then 'Si es duplicado mostrar el mensaje de error de duplicado
-                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
-                                         MensajesUI.RegistroDuplicado,
-                                         TipoMensaje.Informacion, Botones.Aceptar)
-                Else
-                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                         MensajesUI.OperacionFallida,
-                                         TipoMensaje.Errors, Botones.Aceptar)
-                End If
-            Case 1
-                ' Case 1: Actualizar compra existente
-                Dim resultado As Boolean = service.ActualizarCompra(compra)
-                If resultado Then
-                    MessageBoxUI.Mostrar(MensajesUI.TituloExito,
-                                         MensajesUI.ActualizacionExitosa,
-                                         TipoMensaje.Exito, Botones.Aceptar)
+            Select Case opcion
+                Case 0
+                    ' Case 0: Registrar nueva compra y retorna el id almacenado en resultado
+                    Dim resultado As Integer = service.RegistrarCompra(compra)
+                    If resultado > 0 And resultado <> -2627 Then
+                        MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                             MensajesUI.RegistroExitoso,
+                                             TipoMensaje.Exito, Botones.Aceptar)
 
-                    ObtenerNumeroOrdenCompra()
-                    LimpiarCeldas()
-                    ActivarControles(2)
-                Else
-                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                         MensajesUI.OperacionFallida,
-                                         TipoMensaje.Errors, Botones.Aceptar)
-                End If
-        End Select
+                        ObtenerNumeroOrdenCompra()
+                        LimpiarCeldas()
+                        ActivarControles(2)
+                    ElseIf resultado = -2627 Then 'Si es duplicado mostrar el mensaje de error de duplicado
+                        MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                             MensajesUI.RegistroDuplicado,
+                                             TipoMensaje.Informacion, Botones.Aceptar)
+                    ElseIf resultado = -547 Then 'Si el valor co coincide en la base de datos
+                        MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                             MensajesUI.OperacionFallida,
+                                             TipoMensaje.Informacion, Botones.Aceptar)
+                    Else
+                        MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                             MensajesUI.OperacionFallida,
+                                             TipoMensaje.Errors, Botones.Aceptar)
+                    End If
+                Case 1
+                    ' Case 1: Actualizar compra existente
+                    Dim resultado As Boolean = service.ActualizarCompra(compra)
+                    If resultado Then
+                        MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                             MensajesUI.ActualizacionExitosa,
+                                             TipoMensaje.Exito, Botones.Aceptar)
+
+                        ObtenerNumeroOrdenCompra()
+                        LimpiarCeldas()
+                        ActivarControles(2)
+                    Else
+                        MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                             MensajesUI.OperacionFallida,
+                                             TipoMensaje.Errors, Botones.Aceptar)
+                    End If
+            End Select
+
+        Catch ex As Exception
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Errors, Botones.Aceptar)
+        End Try
 
     End Sub
 

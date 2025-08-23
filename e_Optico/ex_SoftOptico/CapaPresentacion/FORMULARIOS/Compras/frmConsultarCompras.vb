@@ -145,16 +145,22 @@ Public Class frmConsultarCompras
                 ' En vez de abrir el formulario directamente, disparar evento
                 RaiseEvent AbrirFormularioHijo(formularioHijo)
             Else
-                MessageBoxUI.Mostrar("Búsqueda fallida...", "No se pudo localizar los datos del proveedor seleccionado, por favor verifique que los datos sean correctos", TipoMensaje.Informacion, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                     MensajesUI.OperacionFallida,
+                                     TipoMensaje.Informacion, Botones.Aceptar)
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error de edición...", "Error al intentar editar el proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 
     Private Sub EliminarCompraUnico(id As Integer)
         Try
-            Dim confirmar = MessageBoxUI.Mostrar("Remover datos...", "¿Deseas eliminar la compra seleccionada?", TipoMensaje.Advertencia, Botones.SiNo)
+            Dim confirmar = MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                                 MensajesUI.ConfirmarAccion,
+                                                 TipoMensaje.Advertencia, Botones.SiNo)
 
             If confirmar = DialogResult.No Then Exit Sub
 
@@ -162,21 +168,31 @@ Public Class frmConsultarCompras
             Dim compra As VCompras = repositorio.GetById(id)
 
             If compra Is Nothing Then
-                MessageBoxUI.Mostrar("Buscando...", "No se encontró la compra.", TipoMensaje.Errors, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                     MensajesUI.OperacionFallida,
+                                     TipoMensaje.Errors, Botones.Aceptar)
                 Exit Sub
             End If
 
             Dim eliminar = repositorio.Remove(id)
 
             If eliminar Then
-                MessageBoxUI.Mostrar("Éxito", "Proveedor eliminado correctamente.", TipoMensaje.Exito, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                     MensajesUI.EliminacionExitosa,
+                                     TipoMensaje.Exito, Botones.Aceptar)
+
+                'Actualizar datos de la tabla
                 CargarDatosCompras()
+
             Else
-                MessageBoxUI.Mostrar("Error al eliminar", "No se pudo eliminar el proveedor.", TipoMensaje.Errors, Botones.Aceptar)
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                     MensajesUI.OperacionFallida, TipoMensaje.Errors, Botones.Aceptar)
             End If
 
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error... ", "Error al eliminar proveedor" & ex.Message, TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                 TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 
