@@ -573,6 +573,7 @@ CREATE OR ALTER VIEW VDetalleCompras AS
             , P.CodigoProducto
             , D.Cantidad
             , D.CostoUnitario
+            , D.Descuento
             , D.Subtotal
             , D.ModoCargo
     FROM    TDetalleCompra D INNER JOIN
