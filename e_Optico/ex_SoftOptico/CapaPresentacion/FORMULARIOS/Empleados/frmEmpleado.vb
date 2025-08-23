@@ -305,7 +305,7 @@ Public Class frmEmpleado
             Dim telefono = txtTelefono.TextValue.Trim()
             Dim correo = txtCorreo.TextValue.Trim()
             Dim direccion = txtDireccion.TextValue.Trim()
-            Dim fechaNacimiento? = txtFechaNac.FechaSeleccionada
+            Dim fechaNacimiento = txtFechaNac.FechaSeleccionada
             Dim sexo = Convert.ToInt32(cmbSexo.IndiceSeleccionado)
             Dim cargo = Convert.ToInt32(cmbCargo.IndiceSeleccionado) + 1 ' Asumiendo que el índice comienza en 0
             Dim zona = Convert.ToInt32(cmbZona.IndiceSeleccionado)
