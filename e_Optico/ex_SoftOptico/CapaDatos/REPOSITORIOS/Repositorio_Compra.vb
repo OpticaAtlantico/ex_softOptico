@@ -1,8 +1,6 @@
 ﻿Imports CapaEntidad
 Imports Microsoft.Data
 Imports Microsoft.Data.SqlClient
-Imports Microsoft.EntityFrameworkCore.Storage.ValueConversion
-Imports System.Data
 
 Public Class Repositorio_Compra
     Inherits Repositorio_Maestro
@@ -16,8 +14,8 @@ Public Class Repositorio_Compra
                 @EmpleadoID, @UbicacionDestinoID, @TotalCompra, @Observacion);"
 
     Private Const SQL_INSERT_DETALLE As String = "
-        INSERT INTO TDetalleCompra (OrdenCompra, ProductoID, Cantidad, CostoUnitario, SubTotal, ModoCargo)
-        VALUES (@OrdenCompra, @ProductoID, @Cantidad, @CostoUnitario, @SubTotal, @ModoCargo);"
+        INSERT INTO TDetalleCompra (OrdenCompra, ProductoID, Cantidad, CostoUnitario, Descuento, SubTotal, ModoCargo)
+        VALUES (@OrdenCompra, @ProductoID, @Cantidad, @CostoUnitario, @Descuento, @SubTotal, @ModoCargo);"
 
     Private Const SQL_UPDATE_COMPRA As String = "
         UPDATE TCompras SET OrdenCompra = @OrdenCompra, FechaCompra = @FechaCompra, NumeroFactura = @NumeroFactura, 
@@ -82,6 +80,7 @@ Public Class Repositorio_Compra
                             ._codigoProducto = Convert.ToString(rdr("CodigoProducto")),
                             ._cantidad = Convert.ToInt32(rdr("Cantidad")),
                             ._costoUnitario = Convert.ToDecimal(rdr("CostoUnitario")),
+                            ._descuento = Convert.ToDecimal(rdr("Descuento")),
                             ._subtotal = Convert.ToDecimal(rdr("SubTotal")),
                             ._modoCargo = If(IsDBNull(rdr("ModoCargo")), "", Convert.ToString(rdr("ModoCargo")))
                         })
@@ -110,6 +109,7 @@ Public Class Repositorio_Compra
                                 ._cantidad = Convert.ToInt32(reader("Cantidad")),
                                 ._modoCargo = If(IsDBNull(reader("ModoCargo")), "", reader("ModoCargo").ToString()),
                                 ._costoUnitario = Convert.ToDecimal(reader("CostoUnitario")),
+                                ._descuento = Convert.ToDecimal(reader("Descuento")),
                                 ._subtotal = Convert.ToDecimal(reader("Subtotal"))
                             }
                         listaDetalles.Add(detalle)
@@ -199,6 +199,7 @@ Public Class Repositorio_Compra
                                 cmdInsert.Parameters.AddWithValue("@ProductoID", item.ProductoID)
                                 cmdInsert.Parameters.AddWithValue("@Cantidad", item.Cantidad)
                                 cmdInsert.Parameters.AddWithValue("@CostoUnitario", item.PrecioUnitario)
+                                cmdInsert.Parameters.AddWithValue("@Descuento", item.Descuento)
                                 cmdInsert.Parameters.AddWithValue("@SubTotal", item.Subtotal)
                                 cmdInsert.Parameters.AddWithValue("@ModoCargo", If(String.IsNullOrWhiteSpace(item.ModoCargo), DBNull.Value, item.ModoCargo))
                                 cmdInsert.ExecuteNonQuery()
@@ -254,6 +255,7 @@ Public Class Repositorio_Compra
                                 cmdDet.Parameters.AddWithValue("@ProductoID", det.ProductoID)
                                 cmdDet.Parameters.AddWithValue("@Cantidad", det.Cantidad)
                                 cmdDet.Parameters.AddWithValue("@CostoUnitario", det.PrecioUnitario)
+                                cmdDet.Parameters.AddWithValue("@Descuento", det.Descuento)
                                 cmdDet.Parameters.AddWithValue("@SubTotal", det.Subtotal)
                                 cmdDet.Parameters.AddWithValue("@ModoCargo", If(String.IsNullOrWhiteSpace(det.ModoCargo), DBNull.Value, det.ModoCargo))
                                 cmdDet.ExecuteNonQuery()
@@ -303,7 +305,7 @@ Public Class Repositorio_Compra
                     End Try
                 End Using
             End Using
-        Catch ex As Exception
+        Catch ex As SqlException
             Throw New Exception("Repositorio_Compras.Remove -> " & ex.Message, ex)
             Return False
         End Try

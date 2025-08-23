@@ -8,7 +8,10 @@ Imports Microsoft.Data.SqlClient
 
 Public Class LlenarComboBox
     Inherits Repositorio
-
+    Public SQL_PROVEEDOR As String = "SELECT * FROM VCProveedor"
+    Public SQL_TIPOPAGO As String = "SELECT * FROM VCTipoPago"
+    Public SQL_SUCURSALES As String = "SELECT * FROM VCUbicaciones"
+    Public SQL_CARGOEMPLEADOS As String = "SELECT * FROM VCCargoEmpleado"
     Public Class ComboItem
         Public Property Texto As String
         Public Property Valor As Object

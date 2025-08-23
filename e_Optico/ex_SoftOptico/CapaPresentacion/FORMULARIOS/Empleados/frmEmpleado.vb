@@ -7,10 +7,9 @@ Public Class frmEmpleado
     Inherits Form
 
     Private rutaImagenSeleccionada As String = ""
-
+    Private llenarCombo As New LlenarComboBox
     Public Property DatosEmpleados As VEmpleados = Nothing
     Public Property NombreBoton As String = String.Empty
-
 
 #Region "CONSTRUCTOR"
 
@@ -142,17 +141,8 @@ Public Class frmEmpleado
         CargarCombos.CargarComboDesacoplado(cmbSexo, GetType(Sexo))
         CargarCombos.CargarComboDesacoplado(cmbZona, GetType(Zona))
 
-        'llenar combos desde la base de datos
-        Dim llenarCombo As New LlenarComboBox
-
-        Dim sql As String = "SELECT CargoEmpleadoID, Descripcion FROM TCargoEmpleado"
-        llenarCombo.Cargar(cmbCargo, sql, "Descripcion", "CargoEmpleadoID")
-
-        'Para obtener el co seleccionado y el texto
-
-        'Dim idSeleccionado As Integer = Convert.ToInt32(cmbNacionalidad.ValorClave)
-        'Dim textoSeleccionado As String = cmbNacionalidad.ValorTexto
-
+        'LLENAR COMBO
+        llenarCombo.Cargar(cmbCargo, llenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
     End Sub
 
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click

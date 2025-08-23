@@ -78,13 +78,14 @@ Public Class frmDetallesCompra
         Dim listaProductos As List(Of VDetalleCompras) = repo.GetDetalle(idCompra)
         Dim tabla As DataTable = ConvertirListaADataTable(listaProductos)
 
-        ' Configurar columnas y cargar
-        Dim columnasVisibles = {"_descripcion", "_cantidad", "_modoCargo", "_costoUnitario", "_subtotal"}
+        'Configurar columnas y cargar
+        Dim columnasVisibles = {"_descripcion", "_cantidad", "_modoCargo", "_costoUnitario", "_descuento", "_subtotal"}
         Dim anchos = New Dictionary(Of String, Integer) From {
         {"_descripcion", 400},
         {"_cantidad", 100},
-        {"_modoCargo", 150},
+        {"_modoCargo", 90},
         {"_costoUnitario", 150},
+        {"_descuento", 100},
         {"_subtotal", 150}
     }
         Dim nombresColumnas = New Dictionary(Of String, String) From {
@@ -92,6 +93,7 @@ Public Class frmDetallesCompra
         {"_cantidad", "Cantidad"},
         {"_modoCargo", "Ex/G"},
         {"_costoUnitario", "Precio"},
+        {"_descuento", "% Desc."},
         {"_subtotal", "Total"}
     }
         productosGrid.ConfigurarColumnasVisualesPorTipo(tabla, columnasVisibles, anchos, nombresColumnas)

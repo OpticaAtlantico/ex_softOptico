@@ -19,6 +19,9 @@ Public Module MensajesUI
     ' ℹ️ Información
     Public Const ProcesoEnCurso As String = "La operación se está procesando, por favor espere."
     Public Const SinResultados As String = "No se encontraron registros con los criterios especificados."
+    Public Const GridSinDatos As String = "No hay información que limpiar en la tabla de datos"
+    Public Const CompletarDatos As String = "Debe agregar al menos un producto para continuar"
+
 
     ' 📌 Títulos estándar
     Public Const TituloExito As String = "Operación exitosa"

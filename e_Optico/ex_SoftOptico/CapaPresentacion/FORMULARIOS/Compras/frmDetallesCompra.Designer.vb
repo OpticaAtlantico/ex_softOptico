@@ -32,7 +32,7 @@ Partial Class frmDetallesCompra
         pnlMove.Dock = DockStyle.Top
         pnlMove.Location = New Point(0, 0)
         pnlMove.Name = "pnlMove"
-        pnlMove.Size = New Size(955, 27)
+        pnlMove.Size = New Size(1060, 27)
         pnlMove.TabIndex = 0
         ' 
         ' pnlContenedor
@@ -40,14 +40,14 @@ Partial Class frmDetallesCompra
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(0, 27)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(955, 458)
+        pnlContenedor.Size = New Size(1060, 473)
         pnlContenedor.TabIndex = 1
         ' 
         ' frmDetallesCompra
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(955, 485)
+        ClientSize = New Size(1060, 500)
         Controls.Add(pnlContenedor)
         Controls.Add(pnlMove)
         FormBorderStyle = FormBorderStyle.None

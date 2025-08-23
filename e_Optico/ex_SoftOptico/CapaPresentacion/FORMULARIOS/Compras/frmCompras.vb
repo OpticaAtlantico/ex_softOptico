@@ -8,7 +8,7 @@ Public Class frmCompras
 
     Private grvCompras As New DataGridComprasUI()
     Private cargandoCombo As Boolean = False
-
+    Private llenarCombo As New LlenarComboBox
     Public Property DatosCompra As VCompras = Nothing
     Public Property NombreBoton As String = String.Empty
 
@@ -39,19 +39,13 @@ Public Class frmCompras
         grvCompras.BringToFront()
         cmbProveedor.IniciarCarga()
 
-        'llenar combos desde la base de datos
-        Dim llenarCombo As New LlenarComboBox
-
-        Dim sql As String = "SELECT ProveedorID, NombreEmpresa FROM TProveedor"
-        llenarCombo.Cargar(cmbProveedor, sql, "NombreEmpresa", "ProveedorID")
+        llenarCombo.Cargar(cmbProveedor, llenarCombo.SQL_PROVEEDOR, "NombreEmpresa", "ProveedorID")
         cmbProveedor.FinalizarCarga()
 
-        sql = "SELECT TipoPagoID, Nombre FROM TTipoPago"
-        llenarCombo.Cargar(cmbTipoPago, sql, "Nombre", "TipoPagoID")
+        llenarCombo.Cargar(cmbTipoPago, llenarCombo.SQL_TIPOPAGO, "Nombre", "TipoPagoID")
         cmbTipoPago.FinalizarCarga()
 
-        sql = "SELECT UbicacionID, NombreUbicacion FROM TUbicaciones"
-        llenarCombo.Cargar(cmbSucursal, sql, "NombreUbicacion", "UbicacionID")
+        llenarCombo.Cargar(cmbSucursal, llenarCombo.SQL_SUCURSALES, "NombreUbicacion", "UbicacionID")
         cmbSucursal.FinalizarCarga()
 
         'Bloquea el panel de grid hasta que se agregue un producto
@@ -72,7 +66,6 @@ Public Class frmCompras
 #End Region
 
 #Region "FORMULARIO Y CONTROLES"
-
     Private Sub frmCompras_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CustomizeComponents()
         'Mostrar los datos si DatosCompra no es nothing
@@ -81,7 +74,7 @@ Public Class frmCompras
             cmbSucursal.OrbitalCombo.Text = DatosCompra._sucursal.ToString()
             txtNumeroControl.TextoUsuario = DatosCompra._nControl.ToString()
             txtNumeroFactura.TextoUsuario = DatosCompra._nFactura.ToString()
-            'txtFechaEmision.TextValue = DatosCompra.Fecha
+            txtFechaEmision.FechaSeleccionada = DatosCompra._fecha
             cmbProveedor.OrbitalCombo.Text = DatosCompra._proveedor.ToString()
             txtDomicilio.TextoUsuario = DatosCompra._direccion.ToString()
             txtRifCI.TextoUsuario = DatosCompra._rif.ToString()
@@ -96,7 +89,8 @@ Public Class frmCompras
                                                det._descripcion, 'producto.ObtenerNombreProducto(det.ProductoID),
                                                det._cantidad,
                                                det._modoCargo,
-                                               det._costoUnitario)
+                                               det._costoUnitario,
+                                               det._descripcion)
             Next
 
             'Propiedades de los controles 
@@ -147,8 +141,8 @@ Public Class frmCompras
                     txtDomicilio.TextoUsuario = String.Empty
                 End If
             Catch ex As Exception
-                MessageBoxUI.Mostrar("Error...",
-                                     "Error al buscar los datos del proveedor: " & ex.Message,
+                MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                     String.Format(MensajesUI.ErrorInesperado, ex.Message),
                                      TipoMensaje.Errors, Botones.Aceptar)
             End Try
 
@@ -183,7 +177,7 @@ Public Class frmCompras
             Dim OrdenCompra = lblOrden.Texto
             Dim ncontrol = txtNumeroControl.TextoUsuario.Trim
             Dim nfactura = txtNumeroFactura.TextoUsuario.Trim
-            Dim fecha As Date = txtFechaEmision.TextValue
+            Dim fecha As Date = txtFechaEmision.FechaSeleccionada
             Dim proveedor = cmbProveedor.TextoSeleccionado.Trim
             Dim domicilio = txtDomicilio.TextoUsuario.Trim
             Dim rif = txtRifCI.TextoUsuario.Trim
@@ -192,8 +186,8 @@ Public Class frmCompras
 
             If {ncontrol, nfactura, fecha, proveedor, domicilio, rif, telefono, tipoPago
                         }.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
-                MessageBoxUI.Mostrar("Cargando...",
-                                     "Por favor, complete todos los campos obligatorios.",
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                     MensajesUI.DatosIncompletos,
                                      TipoMensaje.Errors, Botones.Aceptar)
 
             Else
@@ -203,8 +197,8 @@ Public Class frmCompras
 
             End If
         Catch ex As Exception
-            MessageBoxUI.Mostrar("Error...",
-                                 "Error al procesar los datos: " & ex.Message,
+            MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
                                  TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
@@ -225,7 +219,8 @@ Public Class frmCompras
                                     producto.Codigo,
                                     producto.Nombre,
                                     producto.ExG,
-                                    producto.Precio
+                                    producto.Precio,
+                                    producto.Descuento
                                   )
     End Sub
     Private Sub LimpiarCeldas()
@@ -275,15 +270,17 @@ Public Class frmCompras
 
     Private Sub LimpiarGrids()
         If grvCompras.TieneDatos Then
-            Dim resultado = MessageBoxUI.Mostrar("Confirmación",
-                                                 "¿Está seguro de que desea limpiar el detalle de la compra?",
+            Dim resultado = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                                 MensajesUI.ConfirmarAccion,
                                                  TipoMensaje.Informacion, Botones.SiNo)
             If resultado = DialogResult.Yes Then
                 grvCompras.LimpiarGrid()
                 ActivarControles(3) ' Activar controles para nueva compra)
             End If
         Else
-            MessageBoxUI.Mostrar("Información", "No hay productos en el detalle para limpiar.", TipoMensaje.Informacion, Botones.Aceptar)
+            MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                 MensajesUI.GridSinDatos,
+                                 TipoMensaje.Informacion, Botones.Aceptar)
         End If
     End Sub
 
@@ -294,14 +291,17 @@ Public Class frmCompras
             Case 0
                 ' Case 0: Registrar nueva compra
                 If Not grvCompras.TieneDatos Then
-                    MessageBoxUI.Mostrar("Atención", "Debe agregar al menos un producto al detalle de la compra.", TipoMensaje.Advertencia, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                         MensajesUI.GridSinDatos, TipoMensaje.Advertencia, Botones.Aceptar)
                     Return
                 End If
 
             Case 1
                 ' Case 1: Actualizar compra existente
                 If Not grvCompras.TieneDatos Then
-                    MessageBoxUI.Mostrar("Atención", "Debe agregar al menos un producto al detalle de la compra.", TipoMensaje.Advertencia, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                         MensajesUI.CompletarDatos,
+                                         TipoMensaje.Advertencia, Botones.Aceptar)
                     Return
                 End If
             Case 2 ' Eliminar compra existente
@@ -309,12 +309,16 @@ Public Class frmCompras
                 Dim resultado = repo.Remove(DatosCompra._ordenCompra)
 
                 If resultado Then
-                    MessageBoxUI.Mostrar("Borrado Correcto", "Compra eliminada correctamente", TipoMensaje.Exito, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                         MensajesUI.EliminacionExitosa,
+                                         TipoMensaje.Exito, Botones.Aceptar)
                     LimpiarCeldas()
                     ActivarControles(2)
                     Exit Sub
                 Else
-                    MessageBoxUI.Mostrar("Fallo...", "No se pudo eliminar la compra", TipoMensaje.Errors, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         MensajesUI.OperacionFallida,
+                                         TipoMensaje.Errors, Botones.Aceptar)
                 End If
         End Select
         ' Opción 1: Actualizar compra existente
@@ -340,27 +344,37 @@ Public Class frmCompras
                 ' Case 0: Registrar nueva compra y retorna el id almacenado en resultado
                 Dim resultado As Integer = service.RegistrarCompra(compra)
                 If resultado > 0 And resultado <> 2627 Then
-                    MessageBoxUI.Mostrar("Éxito", $"Compra registrada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                         MensajesUI.RegistroExitoso,
+                                         TipoMensaje.Exito, Botones.Aceptar)
+
+                    ObtenerNumeroOrdenCompra()
                     LimpiarCeldas()
                     ActivarControles(2)
-                    ObtenerNumeroOrdenCompra()
                 ElseIf resultado = 2627 Then 'Si es duplicado mostrar el mensaje de error de duplicado
                     MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                          MensajesUI.RegistroDuplicado,
                                          TipoMensaje.Informacion, Botones.Aceptar)
                 Else
-                    MessageBoxUI.Mostrar("Fallo...", "No se pudo registrar la compra", TipoMensaje.Errors, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         MensajesUI.OperacionFallida,
+                                         TipoMensaje.Errors, Botones.Aceptar)
                 End If
             Case 1
                 ' Case 1: Actualizar compra existente
                 Dim resultado As Boolean = service.ActualizarCompra(compra)
                 If resultado Then
-                    MessageBoxUI.Mostrar("Éxito", $"Compra actualizada correctamente. ID: {resultado}", TipoMensaje.Exito, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                         MensajesUI.ActualizacionExitosa,
+                                         TipoMensaje.Exito, Botones.Aceptar)
+
+                    ObtenerNumeroOrdenCompra()
                     LimpiarCeldas()
                     ActivarControles(2)
-                    ObtenerNumeroOrdenCompra()
                 Else
-                    MessageBoxUI.Mostrar("Fallo...", "No se pudo actualizar la compra", TipoMensaje.Errors, Botones.Aceptar)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         MensajesUI.OperacionFallida,
+                                         TipoMensaje.Errors, Botones.Aceptar)
                 End If
         End Select
 

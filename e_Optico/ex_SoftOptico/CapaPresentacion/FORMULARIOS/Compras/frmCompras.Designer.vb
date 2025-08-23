@@ -26,6 +26,7 @@ Partial Class frmCompras
         pnlContenedorGrid = New Panel()
         pnlDataGrid = New Panel()
         pnlTotales = New Panel()
+        lblOrden = New LabelUI()
         btnLimpiarGrid = New CommandButtonUI()
         lblTotalGeneral = New Label()
         Label4 = New Label()
@@ -57,7 +58,6 @@ Partial Class frmCompras
         btnAceptar = New CommandButtonUI()
         pnlTitulo = New Panel()
         lblEncabezado = New HeaderUI()
-        lblOrden = New LabelUI()
         pnlContenedor.SuspendLayout()
         pnlContenedorGrid.SuspendLayout()
         pnlTotales.SuspendLayout()
@@ -86,9 +86,9 @@ Partial Class frmCompras
         pnlContenedorGrid.Controls.Add(pnlDataGrid)
         pnlContenedorGrid.Controls.Add(pnlTotales)
         pnlContenedorGrid.Dock = DockStyle.Fill
-        pnlContenedorGrid.Location = New Point(375, 65)
+        pnlContenedorGrid.Location = New Point(341, 65)
         pnlContenedorGrid.Name = "pnlContenedorGrid"
-        pnlContenedorGrid.Size = New Size(899, 561)
+        pnlContenedorGrid.Size = New Size(933, 561)
         pnlContenedorGrid.TabIndex = 2
         ' 
         ' pnlDataGrid
@@ -98,7 +98,7 @@ Partial Class frmCompras
         pnlDataGrid.Location = New Point(0, 113)
         pnlDataGrid.Name = "pnlDataGrid"
         pnlDataGrid.Padding = New Padding(20, 0, 20, 20)
-        pnlDataGrid.Size = New Size(899, 448)
+        pnlDataGrid.Size = New Size(933, 448)
         pnlDataGrid.TabIndex = 1
         ' 
         ' pnlTotales
@@ -119,8 +119,25 @@ Partial Class frmCompras
         pnlTotales.Location = New Point(0, 0)
         pnlTotales.Name = "pnlTotales"
         pnlTotales.Padding = New Padding(20, 0, 20, 0)
-        pnlTotales.Size = New Size(899, 113)
+        pnlTotales.Size = New Size(933, 113)
         pnlTotales.TabIndex = 0
+        ' 
+        ' lblOrden
+        ' 
+        lblOrden.BackColor = Color.Transparent
+        lblOrden.BloquearColorFondo = True
+        lblOrden.ColorInternoFondo = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        lblOrden.EstiloLabel = LabelUI.EstiloBootstrap.Info
+        lblOrden.Font = New Font("Century Gothic", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblOrden.ForeColor = Color.LightSeaGreen
+        lblOrden.Icono = FontAwesome.Sharp.IconChar.ArrowUp19
+        lblOrden.Location = New Point(23, 9)
+        lblOrden.Name = "lblOrden"
+        lblOrden.Padding = New Padding(10, 6, 10, 6)
+        lblOrden.RadioBorde = 8
+        lblOrden.Size = New Size(146, 34)
+        lblOrden.TabIndex = 2
+        lblOrden.Texto = "0001"
         ' 
         ' btnLimpiarGrid
         ' 
@@ -138,7 +155,7 @@ Partial Class frmCompras
         btnLimpiarGrid.Name = "btnLimpiarGrid"
         btnLimpiarGrid.RadioBorde = 8
         btnLimpiarGrid.Size = New Size(153, 40)
-        btnLimpiarGrid.TabIndex = 0
+        btnLimpiarGrid.TabIndex = 1
         btnLimpiarGrid.Text = "CommandButtonui1"
         btnLimpiarGrid.Texto = "Limpiar Grid"
         ' 
@@ -260,7 +277,7 @@ Partial Class frmCompras
         pnlDatos.Location = New Point(0, 65)
         pnlDatos.Name = "pnlDatos"
         pnlDatos.Padding = New Padding(10)
-        pnlDatos.Size = New Size(375, 561)
+        pnlDatos.Size = New Size(341, 561)
         pnlDatos.TabIndex = 1
         ' 
         ' pnlContenidoDatos
@@ -282,8 +299,8 @@ Partial Class frmCompras
         pnlContenidoDatos.Dock = DockStyle.Fill
         pnlContenidoDatos.Location = New Point(10, 10)
         pnlContenidoDatos.Name = "pnlContenidoDatos"
-        pnlContenidoDatos.Size = New Size(353, 539)
-        pnlContenidoDatos.TabIndex = 0
+        pnlContenidoDatos.Size = New Size(319, 539)
+        pnlContenidoDatos.TabIndex = 30
         ' 
         ' cmbSucursal
         ' 
@@ -300,9 +317,9 @@ Partial Class frmCompras
         cmbSucursal.MostrarError = False
         cmbSucursal.Name = "cmbSucursal"
         cmbSucursal.RadioContornoPanel = 8
-        cmbSucursal.Size = New Size(323, 80)
+        cmbSucursal.Size = New Size(293, 80)
         cmbSucursal.SombraBackColor = Color.LightGray
-        cmbSucursal.TabIndex = 10
+        cmbSucursal.TabIndex = 0
         cmbSucursal.Titulo = "Selecciona la Óptica:"
         cmbSucursal.ValorSeleccionado = Nothing
         ' 
@@ -327,9 +344,9 @@ Partial Class frmCompras
         txtNumeroControl.PaddingAll = 10
         txtNumeroControl.PanelBackColor = Color.White
         txtNumeroControl.SelectionStart = 0
-        txtNumeroControl.Size = New Size(323, 82)
+        txtNumeroControl.Size = New Size(293, 82)
         txtNumeroControl.SombraBackColor = Color.LightGray
-        txtNumeroControl.TabIndex = 2
+        txtNumeroControl.TabIndex = 1
         txtNumeroControl.TextColor = Color.Black
         txtNumeroControl.TextoUsuario = ""
         txtNumeroControl.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
@@ -355,7 +372,7 @@ Partial Class frmCompras
         txtNumeroFactura.PaddingAll = 10
         txtNumeroFactura.PanelBackColor = Color.White
         txtNumeroFactura.SelectionStart = 0
-        txtNumeroFactura.Size = New Size(323, 82)
+        txtNumeroFactura.Size = New Size(293, 82)
         txtNumeroFactura.SombraBackColor = Color.LightGray
         txtNumeroFactura.TabIndex = 2
         txtNumeroFactura.TextColor = Color.Black
@@ -380,8 +397,8 @@ Partial Class frmCompras
         txtFechaEmision.Name = "txtFechaEmision"
         txtFechaEmision.PaddingAll = 10
         txtFechaEmision.PanelBackColor = Color.White
-        txtFechaEmision.Size = New Size(323, 80)
-        txtFechaEmision.TabIndex = 9
+        txtFechaEmision.Size = New Size(293, 80)
+        txtFechaEmision.TabIndex = 3
         txtFechaEmision.TextColor = Color.Black
         ' 
         ' cmbProveedor
@@ -399,9 +416,9 @@ Partial Class frmCompras
         cmbProveedor.MostrarError = False
         cmbProveedor.Name = "cmbProveedor"
         cmbProveedor.RadioContornoPanel = 8
-        cmbProveedor.Size = New Size(323, 80)
+        cmbProveedor.Size = New Size(293, 80)
         cmbProveedor.SombraBackColor = Color.LightGray
-        cmbProveedor.TabIndex = 10
+        cmbProveedor.TabIndex = 4
         cmbProveedor.Titulo = "Proveedor:"
         cmbProveedor.ValorSeleccionado = Nothing
         ' 
@@ -427,9 +444,9 @@ Partial Class frmCompras
         txtDomicilio.Name = "txtDomicilio"
         txtDomicilio.PaddingAll = 10
         txtDomicilio.PanelBackColor = Color.White
-        txtDomicilio.Size = New Size(323, 138)
+        txtDomicilio.Size = New Size(293, 138)
         txtDomicilio.SombraBackColor = Color.LightGray
-        txtDomicilio.TabIndex = 14
+        txtDomicilio.TabIndex = 5
         txtDomicilio.TextColor = Color.Black
         txtDomicilio.TextoUsuario = ""
         ' 
@@ -454,9 +471,9 @@ Partial Class frmCompras
         txtRifCI.Name = "txtRifCI"
         txtRifCI.PaddingAll = 10
         txtRifCI.PanelBackColor = Color.White
-        txtRifCI.Size = New Size(323, 80)
+        txtRifCI.Size = New Size(293, 80)
         txtRifCI.SombraBackColor = Color.LightGray
-        txtRifCI.TabIndex = 15
+        txtRifCI.TabIndex = 6
         txtRifCI.TextColor = Color.Black
         txtRifCI.TextoUsuario = ""
         txtRifCI.UsarModoContraseña = False
@@ -477,18 +494,18 @@ Partial Class frmCompras
         txtTelefonos.LabelText = "Telefonos contacto:"
         txtTelefonos.Location = New Point(3, 667)
         txtTelefonos.MascaraPersonalizada = ""
-        txtTelefonos.MaxCaracteres = 8
+        txtTelefonos.MaxCaracteres = 0
         txtTelefonos.MensajeError = "Este campo es obligatorio."
         txtTelefonos.Name = "txtTelefonos"
         txtTelefonos.PaddingAll = 10
         txtTelefonos.PanelBackColor = Color.White
         txtTelefonos.SelectionStart = 0
-        txtTelefonos.Size = New Size(323, 82)
+        txtTelefonos.Size = New Size(293, 82)
         txtTelefonos.SombraBackColor = Color.LightGray
-        txtTelefonos.TabIndex = 16
+        txtTelefonos.TabIndex = 7
         txtTelefonos.TextColor = Color.Black
         txtTelefonos.TextoUsuario = ""
-        txtTelefonos.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
+        txtTelefonos.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
         ' 
         ' cmbTipoPago
         ' 
@@ -505,9 +522,9 @@ Partial Class frmCompras
         cmbTipoPago.MostrarError = False
         cmbTipoPago.Name = "cmbTipoPago"
         cmbTipoPago.RadioContornoPanel = 8
-        cmbTipoPago.Size = New Size(323, 80)
+        cmbTipoPago.Size = New Size(293, 80)
         cmbTipoPago.SombraBackColor = Color.LightGray
-        cmbTipoPago.TabIndex = 17
+        cmbTipoPago.TabIndex = 8
         cmbTipoPago.Titulo = "Codición de Pago:"
         cmbTipoPago.ValorSeleccionado = Nothing
         ' 
@@ -533,9 +550,9 @@ Partial Class frmCompras
         txtObservacion.Name = "txtObservacion"
         txtObservacion.PaddingAll = 10
         txtObservacion.PanelBackColor = Color.White
-        txtObservacion.Size = New Size(323, 138)
+        txtObservacion.Size = New Size(293, 138)
         txtObservacion.SombraBackColor = Color.LightGray
-        txtObservacion.TabIndex = 14
+        txtObservacion.TabIndex = 9
         txtObservacion.TextColor = Color.Black
         txtObservacion.TextoUsuario = ""
         ' 
@@ -555,8 +572,8 @@ Partial Class frmCompras
         btnLimpiarCeldas.Location = New Point(3, 985)
         btnLimpiarCeldas.Name = "btnLimpiarCeldas"
         btnLimpiarCeldas.RadioBorde = 8
-        btnLimpiarCeldas.Size = New Size(153, 38)
-        btnLimpiarCeldas.TabIndex = 1
+        btnLimpiarCeldas.Size = New Size(136, 38)
+        btnLimpiarCeldas.TabIndex = 15
         btnLimpiarCeldas.Text = "CommandButtonui1"
         btnLimpiarCeldas.Texto = "Limpiar Celdas"
         ' 
@@ -572,10 +589,10 @@ Partial Class frmCompras
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
-        btnSiguiente.Location = New Point(162, 985)
+        btnSiguiente.Location = New Point(145, 985)
         btnSiguiente.Name = "btnSiguiente"
         btnSiguiente.RadioBorde = 8
-        btnSiguiente.Size = New Size(164, 40)
+        btnSiguiente.Size = New Size(151, 40)
         btnSiguiente.TabIndex = 20
         btnSiguiente.Text = "CommandButtonui1"
         btnSiguiente.Texto = "Siguiente"
@@ -689,23 +706,6 @@ Partial Class frmCompras
         lblEncabezado.TabIndex = 0
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
-        ' 
-        ' lblOrden
-        ' 
-        lblOrden.BackColor = Color.Transparent
-        lblOrden.BloquearColorFondo = True
-        lblOrden.ColorInternoFondo = Color.FromArgb(CByte(208), CByte(233), CByte(242))
-        lblOrden.EstiloLabel = LabelUI.EstiloBootstrap.Info
-        lblOrden.Font = New Font("Century Gothic", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblOrden.ForeColor = Color.Maroon
-        lblOrden.Icono = FontAwesome.Sharp.IconChar.CircleInfo
-        lblOrden.Location = New Point(23, 9)
-        lblOrden.Name = "lblOrden"
-        lblOrden.Padding = New Padding(10, 6, 10, 6)
-        lblOrden.RadioBorde = 8
-        lblOrden.Size = New Size(146, 34)
-        lblOrden.TabIndex = 2
-        lblOrden.Texto = "0001"
         ' 
         ' frmCompras
         ' 

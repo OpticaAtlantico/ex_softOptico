@@ -72,7 +72,7 @@ Public Class DataGridComprasUI
             .Name = "Producto",
             .HeaderText = "Producto",
             .ReadOnly = True,
-            .Width = 420,
+            .Width = 380,
             .AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         }
 
@@ -98,6 +98,13 @@ Public Class DataGridComprasUI
             .AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         }
 
+        Dim colDescuento As New DataGridViewTextBoxColumn With {
+            .Name = "Descuento",
+            .HeaderText = "Descuento",
+            .Width = 100,
+            .AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+        }
+
         Dim colSubtotal As New DataGridViewTextBoxColumn With {
             .Name = "Subtotal",
             .HeaderText = "Subtotal",
@@ -114,7 +121,7 @@ Public Class DataGridComprasUI
             .AutoSizeMode = DataGridViewAutoSizeColumnMode.None
         }
 
-        dgv.Columns.AddRange({colProducto, colCantidad, colExG, colPrecio, colSubtotal, btnEliminar})
+        dgv.Columns.AddRange({colProducto, colCantidad, colExG, colPrecio, colDescuento, colSubtotal, btnEliminar})
 
         ' Eventos
         AddHandler dgv.CellValueChanged, AddressOf CalcularTotales
@@ -220,6 +227,15 @@ Public Class DataGridComprasUI
         colPrecio.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         dgv.Columns.Add(colPrecio)
 
+        ' === COLUMNA: Precio Unitario (Editable) ===
+        Dim colDescuento As New DataGridViewTextBoxColumn()
+        colPrecio.Name = "Descuento"
+        colPrecio.HeaderText = "Descuento"
+        colPrecio.Width = 90
+        colPrecio.DefaultCellStyle.Format = "C2"
+        colPrecio.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        dgv.Columns.Add(colDescuento)
+
         ' === COLUMNA: Total (calculado, solo lectura) ===
         Dim colTotal As New DataGridViewTextBoxColumn()
         colTotal.Name = "Total"
@@ -240,19 +256,18 @@ Public Class DataGridComprasUI
         dgv.Columns.Add(colEliminar)
     End Sub
 
-
 #End Region
 
 #Region "Métodos Públicos"
 
-    Public Sub AgregarProducto(productoID As Integer, nombre As String, exG As String, precio As Decimal)
-        dgv.Rows.Add(nombre, 1, exG, precio, precio)
+    Public Sub AgregarProducto(productoID As Integer, nombre As String, exG As String, precio As Decimal, descuento As Decimal)
+        dgv.Rows.Add(nombre, 1, exG, precio, descuento, precio)
         dgv.Rows(dgv.Rows.Count - 1).Cells("Producto").Tag = productoID
         CalcularTotales()
     End Sub
 
-    Public Sub AgregarProductoEdit(productoID As Integer, nombre As String, cantidad As Integer, exG As String, precio As Decimal)
-        dgv.Rows.Add(nombre, cantidad, exG, precio, precio)
+    Public Sub AgregarProductoEdit(productoID As Integer, nombre As String, cantidad As Integer, exG As String, precio As Decimal, descuento As Decimal)
+        dgv.Rows.Add(nombre, cantidad, exG, precio, descuento, precio)
         dgv.Rows(dgv.Rows.Count - 1).Cells("Producto").Tag = productoID
         CalcularTotales()
     End Sub
@@ -265,11 +280,10 @@ Public Class DataGridComprasUI
 
             Dim detalle As New TDetalleCompra()
 
-
             detalle.ProductoID = Convert.ToInt32(row.Cells("Producto").Tag)
-            'detalle.cod = Convert.ToInt32(row.Cells("Producto").Value)
             detalle.Cantidad = Convert.ToDecimal(row.Cells("Cantidad").Value)
             detalle.PrecioUnitario = Convert.ToDecimal(row.Cells("Precio").Value)
+            detalle.Descuento = Convert.ToDecimal(row.Cells("Descuento").Value)
             detalle.Subtotal = Convert.ToDecimal(row.Cells("Subtotal").Value)
 
             ' Campo opcional ExG
@@ -296,6 +310,7 @@ Public Class DataGridComprasUI
             producto.Nombre,
             producto.Cantidad,
             producto.Precio,
+            producto.Descuento,
             producto.Total
         )
         Next
@@ -325,7 +340,8 @@ Public Class DataGridComprasUI
 
             Dim cantidad As Decimal = Convert.ToDecimal(fila.Cells("Cantidad").Value)
             Dim precio As Decimal = Convert.ToDecimal(fila.Cells("Precio").Value)
-            Dim subtotal As Decimal = cantidad * precio
+            Dim descuento As Decimal = Convert.ToDecimal(fila.Cells("Descuento").Value)
+            Dim subtotal As Decimal = ((cantidad * precio) - ((cantidad * precio) * descuento / 100))
             fila.Cells("Subtotal").Value = subtotal
 
             Dim exg As String = fila.Cells("ExG").Value?.ToString()?.Trim()?.ToUpper()

@@ -104,7 +104,7 @@ Partial Class frmProveedor
         txtDireccion.PanelBackColor = Color.White
         txtDireccion.Size = New Size(1238, 86)
         txtDireccion.SombraBackColor = Color.LightGray
-        txtDireccion.TabIndex = 6
+        txtDireccion.TabIndex = 7
         txtDireccion.TextColor = Color.Black
         txtDireccion.TextoUsuario = ""
         ' 
@@ -194,7 +194,7 @@ Partial Class frmProveedor
         txtCorreo.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtCorreo.BorderRadius = 8
         txtCorreo.BorderSize = 1
-        txtCorreo.CampoRequerido = True
+        txtCorreo.CampoRequerido = False
         txtCorreo.CapitalizarTexto = False
         txtCorreo.CapitalizarTodasLasPalabras = True
         txtCorreo.CaracterContraseña = "*"c
@@ -240,7 +240,7 @@ Partial Class frmProveedor
         txtTelefono.SelectionStart = 0
         txtTelefono.Size = New Size(406, 80)
         txtTelefono.SombraBackColor = Color.LightGray
-        txtTelefono.TabIndex = 4
+        txtTelefono.TabIndex = 5
         txtTelefono.TextColor = Color.Black
         txtTelefono.TextoUsuario = ""
         txtTelefono.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
@@ -268,7 +268,7 @@ Partial Class frmProveedor
         txtContacto.SelectionStart = 0
         txtContacto.Size = New Size(406, 80)
         txtContacto.SombraBackColor = Color.LightGray
-        txtContacto.TabIndex = 5
+        txtContacto.TabIndex = 6
         txtContacto.TextColor = Color.Black
         txtContacto.TextoUsuario = ""
         txtContacto.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
@@ -306,7 +306,7 @@ Partial Class frmProveedor
         txtRif.SelectionStart = 0
         txtRif.Size = New Size(341, 80)
         txtRif.SombraBackColor = Color.LightGray
-        txtRif.TabIndex = 3
+        txtRif.TabIndex = 4
         txtRif.TextColor = Color.Black
         txtRif.TextoUsuario = ""
         txtRif.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
@@ -328,7 +328,7 @@ Partial Class frmProveedor
         cmbSiglas.RadioContornoPanel = 8
         cmbSiglas.Size = New Size(57, 80)
         cmbSiglas.SombraBackColor = Color.LightGray
-        cmbSiglas.TabIndex = 27
+        cmbSiglas.TabIndex = 3
         cmbSiglas.Titulo = "Siglas"
         cmbSiglas.ValorSeleccionado = Nothing
         ' 

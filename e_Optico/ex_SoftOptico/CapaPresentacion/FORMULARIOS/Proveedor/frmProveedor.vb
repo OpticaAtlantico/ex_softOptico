@@ -280,8 +280,8 @@ Public Class frmProveedor
                 End If
             End If
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                     String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                     TipoMensaje.Errors, Botones.Aceptar)
+                                String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                TipoMensaje.Errors, Botones.Aceptar)
         End Try
     End Sub
 

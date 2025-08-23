@@ -317,6 +317,7 @@ CREATE TABLE TDetalleCompra (
     ProductoID NVARCHAR(50) NOT NULL,
     Cantidad INT NOT NULL,
     CostoUnitario DECIMAL(18, 2) NOT NULL,
+    Descuento DECIMAL(18,2) DEFAULT 0,
     Subtotal DECIMAL(18, 2) NOT NULL,
     ModoCargo CHAR(2) NOT NULL,
     FOREIGN KEY (OrdenCompra) REFERENCES TCompras(OrdenCompra),
@@ -576,6 +577,32 @@ CREATE OR ALTER VIEW VDetalleCompras AS
             , D.ModoCargo
     FROM    TDetalleCompra D INNER JOIN
             TProductos P ON D.ProductoID = P.ProductoID
+
+GO
+
+CREATE OR ALTER VIEW VCProveedor AS
+    SELECT P.ProveedorID , P.NombreEmpresa 
+    FROM TProveedor P
+
+GO
+
+CREATE OR ALTER VIEW VCTipoPago AS
+    SELECT T.TipoPagoID, t.Nombre  
+    FROM TTipoPago T
+
+GO
+
+CREATE OR ALTER VIEW VCUbicaciones AS
+    SELECT U.UbicacionID, U.NombreUbicacion  
+    FROM TUbicaciones U
+
+GO
+
+CREATE OR ALTER VIEW VCCargoEmpleado AS
+    SELECT C.CargoEmpleadoID, C.Descripcion  
+    FROM TCargoEmpleado C
+
+GO
 
 --DATOS DE INICIO PARA LA TABLA
 GO

@@ -5,6 +5,7 @@
     Public Property _codigoProducto As String
     Public Property _cantidad As String
     Public Property _costoUnitario As Decimal
+    Public Property _descuento As Decimal
     Public Property _subtotal As Decimal
     Public Property _modoCargo As String
 End Class
