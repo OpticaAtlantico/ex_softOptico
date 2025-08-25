@@ -16,7 +16,6 @@ Public Class frmListarProductos
 
 #End Region
 
-
 #Region "CONTROLES Y FORMULARIOS"
     Private Sub frmListarProducto_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Me.Closing
         ' Limpiar el formulario destino al cerrar
@@ -31,7 +30,6 @@ Public Class frmListarProductos
         FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 #End Region
-
 
 #Region "PROCEDIMIENTOS"
     Private Sub Componentes()
@@ -53,7 +51,7 @@ Public Class frmListarProductos
         productosGrid.Dock = DockStyle.Fill
 
         ' Repositorio
-        Dim repo As New Repositorio_VProductos()
+        Dim repo As New Repositorio_Productos()
 
         Dim listaProductos As List(Of VProductos) = repo.GetAll()
         Dim tabla As DataTable = ConvertirListaADataTable(listaProductos)
@@ -107,10 +105,5 @@ Public Class frmListarProductos
     End Sub
 
 #End Region
-
-
-
-
-
 
 End Class

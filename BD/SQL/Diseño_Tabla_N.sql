@@ -27,6 +27,14 @@ CREATE TABLE TMenuOpciones (
 );
 GO
 
+--Tabla: TAlicuota para registrar los porcentajes de iva
+CREATE TABLE TAlicuota (
+    AlicuotaID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(12) NOT NULL,
+    Alicuota INT NOT NULL
+);
+GO
+
 -- Tabla: Rol -- Ej: 'Administrador', 'Vendedor', 'Almacén', 'Gerente'
 CREATE TABLE TRol (
     RolID INT IDENTITY(1,1) PRIMARY KEY,
@@ -38,6 +46,20 @@ GO
 CREATE TABLE TEstadoOrden (
     EstadoID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(100) NOT NULL
+);
+GO
+
+-- Tabla: TTipoMovimientos (Detalle del tipo de movimiento)  Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
+CREATE TABLE TTipoMovimientos (
+    TipoMovimientoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(120) NOT NULL 
+);
+GO
+
+--Tabla: TTipoPago para registrar los tipos de pagos
+CREATE TABLE TTipoPago (
+    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
 );
 GO
 
@@ -135,6 +157,7 @@ CREATE TABLE TSubCategorias (
 GO
 
 -- Tabla: Productos
+--Listo en app
 CREATE TABLE TProductos (
     ProductoID INT IDENTITY(1,1) PRIMARY KEY,
     CodigoProducto NVARCHAR(50) NOT NULL UNIQUE,
@@ -217,22 +240,18 @@ CREATE TABLE TPrecios (
     PCosto DECIMAL(18,2) NOT NULL DEFAULT 0, -- Precio de  Promosion
     Promocion DECIMAL(18,2) NOT NULL DEFAULT 0, -- Precio de  Promosion
     Descuento DECIMAL(18,2) NOT NULL DEFAULT 0, -- Descuento de productos
-    IvaVenta DECIMAL(18,2) NOT NULL DEFAULT 0, -- Impuesto iva para va venta
-    IvaCompra DECIMAL(18,2) NOT NULL DEFAULT 0, -- Impuesto para la Compra
-    IvaCuota INT NOT NULL, -- Alicuota para el porcentaje de impuesto 
+    IvaVentaID INT NOT NULL, -- Impuesto iva para va venta
+    IvaCompraID INT NOT NULL, -- Impuesto para la Compra
     UNIQUE (CodigoProducto, UbicacionID), -- Un producto solo puede tener un registro de stock por ubicación
     FOREIGN KEY (CodigoProducto) REFERENCES TProductos(CodigoProducto),
-    FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
-);
-
--- Tabla: TTipoMovimientos (Detalle del tipo de movimiento)  Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
-CREATE TABLE TTipoMovimientos (
-    TipoMovimientoID INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion VARCHAR(120) NOT NULL 
+    FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID),
+    FOREIGN KEY (IvaVentaID) REFERENCES TAlicuota(AlicuotaID),
+    FOREIGN KEY (IvaCompraID) REFERENCES TAlicuota(AlicuotaID)
 );
 GO
 
 -- Tabla: MovimientosInventario (Registro detallado de todo movimiento de stock)
+-- Listo en app
 CREATE TABLE THistoricoStock (
     MovimientoID INT IDENTITY(1,1) PRIMARY KEY,
     CodigoProducto NVARCHAR(50) NOT NULL,
@@ -257,9 +276,9 @@ GO
 CREATE TABLE TMovimiento (
     TrasladoID INT IDENTITY(1,1) PRIMARY KEY,
     FechaTraslado DATETIME NOT NULL DEFAULT GETDATE(),
-    UbicacionOrigenID INT NOT NULL,
-    UbicacionDestinoID INT NOT NULL,
-    EmpleadoOrigenID INT NOT NULL,
+    UbicacionOrigenID INT NOT NULL, --Lugar de donde sale la mercancia
+    UbicacionDestinoID INT NOT NULL, -- Lugar donde reiben 
+    EmpleadoOrigenID INT NOT NULL, --Empleado que despacha la mercancia
     EmpleadoDestinoID INT NOT NULL, -- Empleado que recibe en destino
     Estado NVARCHAR(50) NOT NULL DEFAULT 'Pendiente', -- Ej: 'Pendiente', 'En Tránsito', 'Recibido', 'Cancelado'
     FechaRecepcion DATETIME,
@@ -272,7 +291,7 @@ CREATE TABLE TMovimiento (
 GO
 
 -- Tabla: DetalleTraslado (Productos en cada traslado)
-CREATE TABLE TDetalleTraslado (
+CREATE TABLE TDetalleMovimiento (
     DetalleTrasladoID INT IDENTITY(1,1) PRIMARY KEY,
     TrasladoID INT NOT NULL,
     ProductoID INT NOT NULL,
@@ -285,24 +304,10 @@ CREATE TABLE TDetalleTraslado (
 );
 GO
 
---Tabla: TAlicuota para registrar los porcentajes de iva
-CREATE TABLE TAlicuota (
-    AlicuotaID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(12) NOT NULL,
-    Alicuota INT NOT NULL
-);
-GO
-
---Tabla: TTipoPago para registrar los tipos de pagos
-CREATE TABLE TTipoPago (
-    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(50) NOT NULL,
-);
-GO
-
 -- *** 3. Tablas de Operaciones ***
 
 -- Tabla: Compras (Encabezado de la compra)
+--Listo en app
 CREATE TABLE TCompras (
     CompraID INT IDENTITY(1,1),
     OrdenCompra BIGINT PRIMARY KEY,
@@ -326,6 +331,7 @@ CREATE TABLE TCompras (
 GO
 
 -- Tabla: DetalleCompra
+--Listo en app
 CREATE TABLE TDetalleCompra (
     DetalleCompraID INT IDENTITY(1,1) PRIMARY KEY,
     OrdenCompra BIGINT NOT NULL,
@@ -584,30 +590,33 @@ CREATE OR ALTER VIEW VDetalleCompras AS
 GO
 
 CREATE OR ALTER VIEW VProductos AS
-    SELECT P.ProductoID AS ID
-           , P.CodigoProducto AS Codigo
-           , P.Descripcion AS Nombre
-           , S.StockActual AS Stock
-           , C.CategoriaID
-           , C.NombreCategoria AS Categoria
-           , SC.NombreSubCategoria AS SubCategoria
-           , P.Material
-           , P.Color
-           , P.Activo AS Estatus
-           , S.StockMinimo
-           , S.StockMaximo
-           , PR.PVenta AS Precio_Venta
-           , PR.PCosto AS Precio_Costo
-           , PR.Promocion
-           , PR.Descuento
-           , PR.IvaVenta
-           , PR.IvaCompra
-           , PR.IvaCuota
-    FROM TProductos P LEFT OUTER JOIN
-         TStock S ON P.CodigoProducto = S.CodigoProducto LEFT OUTER JOIN
-         TPrecios PR ON P.CodigoProducto = PR.CodigoProducto LEFT OUTER JOIN
-         TCategorias C ON P.CategoriaID = C.CategoriaID LEFT OUTER JOIN
-         TSubCategorias SC ON P.SubCategoriaID = SC.SubCategoriaID
+    SELECT    P.ProductoID AS ID
+            , P.CodigoProducto AS Codigo
+            , P.Descripcion AS Nombre
+            , S.StockActual AS Stock
+            , C.CategoriaID
+            , C.NombreCategoria AS Categoria
+            , SC.NombreSubCategoria AS SubCategoria
+            , P.Material
+            , P.Color
+            , P.Activo AS Estatus
+            , S.StockMinimo
+            , S.StockMaximo
+            , PR.PVenta AS Precio_Venta
+            , PR.PCosto AS Precio_Costo
+            , PR.Promocion
+            , PR.Descuento
+            , A2.Alicuota AS IvaCompra
+            , A.Alicuota AS IvaVenta
+    FROM    TAlicuota AS A2 RIGHT OUTER JOIN
+            TPrecios AS PR ON A2.AlicuotaID = PR.IvaCompraID LEFT OUTER JOIN
+            TAlicuota AS A ON PR.IvaVentaID = A.AlicuotaID RIGHT OUTER JOIN
+            TProductos AS P LEFT OUTER JOIN
+            TStock AS S ON P.CodigoProducto = S.CodigoProducto ON PR.CodigoProducto = P.CodigoProducto LEFT OUTER JOIN
+            TCategorias AS C ON P.CategoriaID = C.CategoriaID LEFT OUTER JOIN
+            TSubCategorias AS SC ON P.SubCategoriaID = SC.SubCategoriaID
+
+GO
 
 CREATE OR ALTER VIEW VCProveedor AS
     SELECT P.ProveedorID , P.NombreEmpresa 
@@ -633,6 +642,60 @@ CREATE OR ALTER VIEW VCCargoEmpleado AS
 
 GO
 
+CREATE OR ALTER VIEW VHistoricoStock AS 
+    SELECT  H.MovimientoID AS ID
+            , P.Descripcion AS Producto
+            , U.NombreUbicacion AS Origen
+            , TU.NombreUbicacion AS Destino
+            , H.Cantidad
+            , T.Descripcion AS Tipo_Movimiento
+            , CONCAT(E.Cedula,'-' , E.Nombre, ', ', E.Apellido) AS Empleado
+            , C.Descripcion AS Cargo
+            , H.Referencia
+            , H.FechaMovimiento AS Fecha
+            , H.Notas
+    FROM    TUbicaciones U RIGHT OUTER JOIN
+            THistoricoStock H ON U.UbicacionID = H.UbicacionOrigenID LEFT OUTER JOIN
+            TCargoEmpleado C RIGHT OUTER JOIN
+            TEmpleados E ON C.CargoEmpleadoID = E.CargoEmpleadoID ON H.EmpleadoID = E.EmpleadoID LEFT OUTER JOIN
+            TTipoMovimientos T ON H.TipoMovimientoID = T.TipoMovimientoID LEFT OUTER JOIN
+            TUbicaciones AS TU ON H.UbicacionDestinoID = TU.UbicacionID LEFT OUTER JOIN
+            TProductos P ON H.CodigoProducto = P.CodigoProducto
+
+GO
+
+CREATE OR ALTER VIEW VStock AS
+    SELECT  S.StockID AS ID
+            , S.StockActual
+            , S.StockMinimo
+            , S.StockMaximo
+            , U.NombreUbicacion AS Ubicacion
+            , P.Descripcion AS Producto
+    FROM    TStock S LEFT OUTER JOIN
+            TProductos P ON S.CodigoProducto = P.CodigoProducto LEFT OUTER JOIN
+            TUbicaciones U ON S.UbicacionID = U.UbicacionID
+
+GO
+
+CREATE OR ALTER VIEW VPrecios AS
+    SELECT    P.PrecioID AS ID
+            , P.CodigoProducto AS Codigo
+            , PR.Descripcion AS Producto
+            , U.NombreUbicacion AS Ubicacion
+            , A2.Alicuota AS IvaVenta
+            , A.Alicuota AS IvaCompra
+            , P.PVenta AS PrecioVenta
+            , P.PCosto AS PrecioCosto
+            , P.Promocion
+            , P.Descuento
+    FROM      TUbicaciones U INNER JOIN
+              TPrecios P ON U.UbicacionID = P.UbicacionID INNER JOIN
+              TProductos PR ON P.CodigoProducto = PR.CodigoProducto LEFT OUTER JOIN
+              TAlicuota A ON P.IvaCompraID = A.AlicuotaID LEFT OUTER JOIN
+              TAlicuota A2 ON P.IvaVentaID = A2.AlicuotaID
+
+
+
 --DATOS DE INICIO PARA LA TABLA
 GO
 ---DATOS PARA LA TABLA ROL 
@@ -643,6 +706,15 @@ INSERT INTO TRol (Descripcion) VALUES ('Gerente Sucursal')
 INSERT INTO TRol (Descripcion) VALUES ('Montador')
 INSERT INTO TRol (Descripcion) VALUES ('ROOT')
 INSERT INTO TRol (Descripcion) VALUES ('Contador')
+GO
+
+INSERT INTO TTipoMovimientos (Descripcion) VALUES ('Entrada por Compra')
+INSERT INTO TTipoMovimientos (Descripcion) VALUES ('Salida por Venta')
+INSERT INTO TTipoMovimientos (Descripcion) VALUES ('Traslado')
+INSERT INTO TTipoMovimientos (Descripcion) VALUES ('Ajuste Positivo')
+INSERT INTO TTipoMovimientos (Descripcion) VALUES ('Ajuste Negativo')
+INSERT INTO TTipoMovimientos (Descripcion) VALUES ('Devolución Cliente')
+INSERT INTO TTipoMovimientos (Descripcion) VALUES ('Devolución Proveedor')
 GO
 
 --DATOS PARA LA TABLA CARGOS DEL EMPLEADO
@@ -739,7 +811,7 @@ INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,
 INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('3','MULTIFOCAL','1','3','1','1','1','0')
 INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('4','LENTES DE CONTACTO','2','2','1','1','1','0')
 INSERT INTO TProductos (CodigoProducto ,Descripcion ,CategoriaID,SubCategoriaID,Material,Color,Activo,RequiereInventario) VALUES('5','MONOFOCAL','1','1','1','1','1','0')
-     
+ 
 
 
 --Para incorporarlo al sistema

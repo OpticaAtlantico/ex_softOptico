@@ -241,7 +241,74 @@ Public Class frm_Principal
 #End Region
 
 #Region "Botones menu Inventario"
+    Private Sub BotonMenuInventario()
+        ' Crear las opciones de manera clara, evitando CType de lambdas
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
 
+        Dim handlerReporte As New EventHandler(AddressOf SubReportesInv_Click)
+        opciones.Add(Tuple.Create("Reporte", IconChar.ListCheck, handlerReporte))
+
+        Dim handlerDevolucion As New EventHandler(AddressOf SubReportesInv_Click)
+        opciones.Add(Tuple.Create("Devolución a Prove...", IconChar.Refresh, handlerDevolucion))
+
+        Dim handlerConsultar As New EventHandler(AddressOf SubConsultarInv_Click)
+        opciones.Add(Tuple.Create("Consultar", IconChar.ListNumeric, handlerConsultar))
+
+        Dim handlerEliminar As New EventHandler(AddressOf SubEliminarInv_Click)
+        opciones.Add(Tuple.Create("Borrar Orden", IconChar.TrashArrowUp, handlerEliminar))
+
+        Dim handlerEditar As New EventHandler(AddressOf SubEditarInv_Click)
+        opciones.Add(Tuple.Create("Editar Orden", IconChar.FilePen, handlerEditar))
+
+        Dim handlerNuevo As New EventHandler(AddressOf SubNuevoInv_Click)
+        opciones.Add(Tuple.Create("Nueva Orden", IconChar.Save, handlerNuevo))
+
+        ' Cargar en Drawer
+        drawerControl.CargarOpciones(opciones)
+        'pnlDrawer.Visible = True
+        'If pnlDrawer.Width <= 0 Then
+        DrawerTimer.Start()
+        'End If
+        'drawerAbierto = True
+    End Sub
+
+    Private Sub SubReportesInv_Click(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
+    End Sub
+
+    Private Sub SubConsultarInv_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultarCompras).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            EfectoBotonInActivo()
+            Dim consultaCompraForm As New frmConsultarCompras()
+            AddHandler consultaCompraForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
+            OpenChildForm(consultaCompraForm)
+        End If
+        Me.ResumeLayout()
+    End Sub
+
+    Private Sub SubEliminarInv_Click(sender As Object, e As EventArgs)
+        ActualizarEliminarCompra(1)
+    End Sub
+
+    Private Sub SubEditarInv_Click(sender As Object, e As EventArgs)
+        ActualizarEliminarCompra(0)
+    End Sub
+
+    Private Sub SubNuevoInv_Click(sender As Object, e As EventArgs)
+        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmCompras).Any()
+
+        CerrarDrawer()
+
+        If Not abierto Then
+            OpenChildForm(New frmProductos)
+            EfectoBotonInActivo()
+        End If
+    End Sub
 #End Region
 
 #Region "Botones menu Ventas"
@@ -439,8 +506,8 @@ Public Class frm_Principal
 #Region "Botones del Menu"
 
     Private Sub btnInventario_Click(sender As Object, e As EventArgs) Handles btnInventario.Click
-        'BotonMenuInventario()
         EfectoBotonActivo(sender)
+        BotonMenuInventario()
     End Sub
 
     Private Sub btnVenta_Click(sender As Object, e As EventArgs) Handles btnVenta.Click

@@ -2,8 +2,12 @@
 Imports System.Windows.Forms
 Imports FontAwesome.Sharp
 
+
+
 Public Class TabPanelUI
     Inherits Control
+
+    Public Event TabChanged(index As Integer, titulo As String)
 
     Public Property Tabs As New List(Of TabItemOrbitalAdv)
     Public Property TabHeight As Integer = 44
@@ -56,6 +60,9 @@ Public Class TabPanelUI
             MostrarContenido()
             Me.Invalidate()
         End If
+
+        RaiseEvent TabChanged(index, Tabs(index).Titulo)
+
     End Sub
 
     Private Sub MostrarContenido()

@@ -1,21 +1,18 @@
-﻿
+﻿Imports CapaEntidad
 Imports Microsoft.Data.SqlClient
-Imports CapaEntidad
-Imports Microsoft.Data
-Imports CapaDatos
-Public Class Repositorio_VProductos
+
+Public Class Repositorio_Productos
     Inherits Repositorio_Maestro
-    Implements IRepositorio_VProductos
+    Implements IRepositorio_Productos, IRepositorio_Generico(Of VProductos)
 
     Private SeleccionarProductos As String
     Private SeleccionarProductosById As String
-
     Public Sub New()
         SeleccionarProductos = "SELECT * FROM VProductos"
         SeleccionarProductosById = "SELECT Nombre FROM VProductos WHERE Codigo = @ProductoID"
     End Sub
 
-    Public Function GetAll() As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAll
+    Public Function GetAll() As IEnumerable(Of VProductos) Implements IRepositorio_Productos.GetAll
         Dim resultadoTable As DataTable = ExecuteReader(SeleccionarProductos)
         Dim lista = New List(Of VProductos)
         For Each row As DataRow In resultadoTable.Rows
@@ -33,23 +30,7 @@ Public Class Repositorio_VProductos
         Return lista
     End Function
 
-    Public Function Add(entity As VProductos) As Integer Implements IRepositorio_Generico(Of VProductos).Add
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function Edit(entity As VProductos) As Integer Implements IRepositorio_Generico(Of VProductos).Edit
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function Remove(id As Integer) As Integer Implements IRepositorio_Generico(Of VProductos).Remove
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function ObtenerProductoById(id As Integer) As String Implements IRepositorio_VProductos.ObtenerProductoById
+    Public Function GetById(id As Integer) As String Implements IRepositorio_Productos.GetById
         Dim nombreProducto As String = String.Empty
 
         Using conn As SqlConnection = ObtenerConexion()
@@ -75,13 +56,24 @@ Public Class Repositorio_VProductos
 
     End Function
 
-    Private Function IRepositorio_VProductos_ObtenerTodos() As IEnumerable(Of TVLogin) Implements IRepositorio_VProductos.ObtenerTodos
+    Public Function Add(entity As VProductos) As Integer Implements IRepositorio_Generico(Of VProductos).Add
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function Edit(entity As VProductos) As Integer Implements IRepositorio_Generico(Of VProductos).Edit
+        Throw New NotImplementedException()
+    End Function
+
+    Public Function Remove(id As Integer) As Integer Implements IRepositorio_Generico(Of VProductos).Remove
+        Throw New NotImplementedException()
+    End Function
+
+    '--------------------------------------------------------------------
+    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAllUserPass
+        Throw New NotImplementedException()
+    End Function
+
+    Private Function IRepositorio_Generico_GetAll() As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAll
         Return GetAll()
     End Function
-
-    Public Function ObtenerNombreProducto(productoID As Integer) As String
-        Dim repo As New Repositorio_VProductos
-        Return repo.ObtenerProductoById(productoID)
-    End Function
-
 End Class

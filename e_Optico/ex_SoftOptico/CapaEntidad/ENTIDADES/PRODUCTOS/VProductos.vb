@@ -14,7 +14,6 @@
     Public Property _precio_Costo As Decimal
     Public Property _promocion As Decimal
     Public Property _descuento As Decimal
-    Public Property _ivaVenta As Decimal
-    Public Property _ivaCompra As Decimal
-    Public Property _ivaCuota As Decimal
+    Public Property _ivaVenta As Integer
+    Public Property _ivaCompra As Integer
 End Class

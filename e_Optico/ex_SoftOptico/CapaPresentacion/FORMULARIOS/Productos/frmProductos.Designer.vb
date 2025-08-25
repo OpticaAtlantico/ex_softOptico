@@ -22,15 +22,53 @@ Partial Class frmProductos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        pnlEncabezado = New Panel()
+        Panel2 = New Panel()
+        pnlContenido = New Panel()
+        pnlEncabezado.SuspendLayout()
         SuspendLayout()
+        ' 
+        ' pnlEncabezado
+        ' 
+        pnlEncabezado.BackColor = SystemColors.ActiveCaptionText
+        pnlEncabezado.Controls.Add(Panel2)
+        pnlEncabezado.Dock = DockStyle.Top
+        pnlEncabezado.Location = New Point(0, 0)
+        pnlEncabezado.Name = "pnlEncabezado"
+        pnlEncabezado.Size = New Size(1037, 14)
+        pnlEncabezado.TabIndex = 0
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.FromArgb(CByte(23), CByte(187), CByte(255))
+        Panel2.Dock = DockStyle.Fill
+        Panel2.Location = New Point(0, 0)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(1037, 14)
+        Panel2.TabIndex = 1
+        ' 
+        ' pnlContenido
+        ' 
+        pnlContenido.Dock = DockStyle.Fill
+        pnlContenido.Location = New Point(0, 14)
+        pnlContenido.Name = "pnlContenido"
+        pnlContenido.Size = New Size(1037, 531)
+        pnlContenido.TabIndex = 2
         ' 
         ' frmProductos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(1037, 545)
+        Controls.Add(pnlContenido)
+        Controls.Add(pnlEncabezado)
         Name = "frmProductos"
         Text = "frmProductos"
+        pnlEncabezado.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
+
+    Friend WithEvents pnlEncabezado As Panel
+    Friend WithEvents pnlContenido As Panel
+    Friend WithEvents Panel2 As Panel
 End Class

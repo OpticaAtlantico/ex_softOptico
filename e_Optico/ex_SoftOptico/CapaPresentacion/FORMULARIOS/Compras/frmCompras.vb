@@ -4,7 +4,7 @@ Imports CapaDatos
 Imports FontAwesome.Sharp
 
 Public Class frmCompras
-    Private producto As New Repositorio_VProductos
+    Private producto As New Repositorio_Productos
 
     Private grvCompras As New DataGridComprasUI()
     Private cargandoCombo As Boolean = False
