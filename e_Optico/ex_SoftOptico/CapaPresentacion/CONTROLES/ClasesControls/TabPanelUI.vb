@@ -60,8 +60,19 @@ Public Class TabPanelUI
 
     Public Sub AddTab(tab As TabItemOrbitalAdv)
         Tabs.Add(tab)
-        If Tabs.Count = 1 Then MostrarContenido()
+        If Tabs.Count = 1 Then
+            SeleccionarPestana(0)
+        End If
         Me.Invalidate()
+    End Sub
+
+    Public Sub SeleccionarPestana(index As Integer)
+        If index >= 0 AndAlso index < Tabs.Count Then
+            currentIndex = index
+            MostrarContenido()
+            Me.Invalidate()
+            RaiseEvent TabChanged(index, Tabs(index).Titulo)
+        End If
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
@@ -100,14 +111,11 @@ Public Class TabPanelUI
             ActiveContent.Dock = DockStyle.None
             ActiveContent.Location = New Point(0, 0)
             ActiveContent.Anchor = AnchorStyles.Top Or AnchorStyles.Left
-
-            'ActiveContent.Dock = DockStyle.Fill
             ActiveContent.Margin = New Padding(0)
             ActiveContent.Padding = New Padding(0)
             PanelContenido.Controls.Add(ActiveContent)
             ActiveContent.BringToFront()
         End If
-
 
         PanelContenido.ResumeLayout()
 

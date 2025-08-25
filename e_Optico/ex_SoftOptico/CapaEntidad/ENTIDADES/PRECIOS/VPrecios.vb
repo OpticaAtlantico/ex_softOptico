@@ -9,4 +9,5 @@
     Public Property _prcioCosto As Decimal
     Public Property _promocion As Decimal
     Public Property _decuento As Integer
+    Public Property _tipo As String 'Ex - G
 End Class

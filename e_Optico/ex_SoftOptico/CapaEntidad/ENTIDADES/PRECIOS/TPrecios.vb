@@ -8,4 +8,5 @@
     Public Property Descuento As Decimal
     Public Property IvaVenta As Integer
     Public Property IvaCompra As Integer
+    Public Property Tipo As String ' Para identificar si el exento o gravamen Ex - G
 End Class

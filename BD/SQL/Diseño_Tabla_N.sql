@@ -243,6 +243,7 @@ CREATE TABLE TPrecios (
     Descuento DECIMAL(18,2) NOT NULL DEFAULT 0, -- Descuento de productos
     IvaVentaID INT NOT NULL, -- Impuesto iva para va venta
     IvaCompraID INT NOT NULL, -- Impuesto para la Compra
+    Tipo NVARCHAR(3) NOT NULL DEFAULT 'Ex', --Por si el producto es Exento o Gravamen
     UNIQUE (CodigoProducto, UbicacionID), -- Un producto solo puede tener un registro de stock por ubicación
     FOREIGN KEY (CodigoProducto) REFERENCES TProductos(CodigoProducto),
     FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID),

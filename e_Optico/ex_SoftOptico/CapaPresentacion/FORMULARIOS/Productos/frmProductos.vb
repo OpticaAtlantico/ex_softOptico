@@ -47,10 +47,13 @@ Public Class frmProductos
 
         Me.pnlContenido.Controls.Add(tabPanel)
 
+        'Permite avanzar entre pestañas
         ucProductos.TabPanelRef = tabPanel
         ucProveedor.TabPanelRef = tabPanel
         ucPrecios.TabPanelRef = tabPanel
         ucStock.TabPanelRef = tabPanel
+
+        tabPanel.SeleccionarPestana(0) 'Selecciona la primera pestaña
 
         AddHandler tabPanel.TabChanged, AddressOf TabPanel_TabChanged
 

@@ -35,7 +35,7 @@ Partial Class frmProductos
         pnlEncabezado.Dock = DockStyle.Top
         pnlEncabezado.Location = New Point(0, 0)
         pnlEncabezado.Name = "pnlEncabezado"
-        pnlEncabezado.Size = New Size(1037, 14)
+        pnlEncabezado.Size = New Size(1084, 14)
         pnlEncabezado.TabIndex = 0
         ' 
         ' Panel2
@@ -44,7 +44,7 @@ Partial Class frmProductos
         Panel2.Dock = DockStyle.Fill
         Panel2.Location = New Point(0, 0)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(1037, 14)
+        Panel2.Size = New Size(1084, 14)
         Panel2.TabIndex = 1
         ' 
         ' pnlContenido
@@ -52,14 +52,14 @@ Partial Class frmProductos
         pnlContenido.Dock = DockStyle.Fill
         pnlContenido.Location = New Point(0, 14)
         pnlContenido.Name = "pnlContenido"
-        pnlContenido.Size = New Size(1037, 531)
+        pnlContenido.Size = New Size(1084, 531)
         pnlContenido.TabIndex = 2
         ' 
         ' frmProductos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1037, 545)
+        ClientSize = New Size(1084, 545)
         Controls.Add(pnlContenido)
         Controls.Add(pnlEncabezado)
         Name = "frmProductos"

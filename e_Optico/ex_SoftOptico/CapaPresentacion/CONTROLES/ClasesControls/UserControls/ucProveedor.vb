@@ -1,11 +1,21 @@
-﻿Public Class ucProveedor
+﻿Imports CapaEntidad
+
+Public Class ucProveedor
+
     Public Property TabPanelRef As TabPanelUI
     Public Sub New()
 
         ' Esta llamada es exigida por el diseñador.
         InitializeComponent()
 
-        ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
+        dgvProveedor.Dock = DockStyle.Fill
+        dgvProveedor.Inicializar()
+
+        ' Inicializar con lista vacía
+        dgvProveedor.CargarDatos(New List(Of ProductoSeleccionado)())
+
+        dgvProveedor.BringToFront()
 
     End Sub
+
 End Class
