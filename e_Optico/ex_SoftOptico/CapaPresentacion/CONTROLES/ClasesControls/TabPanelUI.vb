@@ -2,12 +2,11 @@
 Imports System.Windows.Forms
 Imports FontAwesome.Sharp
 
-
-
 Public Class TabPanelUI
     Inherits Control
 
     Public Event TabChanged(index As Integer, titulo As String)
+    Private ReadOnly PanelContenido As Panel
 
     Public Property Tabs As New List(Of TabItemOrbitalAdv)
     Public Property TabHeight As Integer = 44
@@ -17,12 +16,26 @@ Public Class TabPanelUI
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
-                    ControlStyles.UserPaint Or
-                    ControlStyles.AllPaintingInWmPaint Or
-                    ControlStyles.OptimizedDoubleBuffer, True)
+                ControlStyles.UserPaint Or
+                ControlStyles.AllPaintingInWmPaint Or
+                ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
         Me.Font = New Font("Century Gothic", 10, FontStyle.Bold)
         Me.BackColor = Color.Transparent
+
+        ' 🌌 Panel orbital para contenido desacoplado
+        PanelContenido = New Panel With {
+        .Dock = DockStyle.None,
+        .Location = New Point(0, TabHeight),
+        .Size = New Size(Me.Width, Me.Height - TabHeight),
+        .Margin = New Padding(0),
+        .Padding = New Padding(0),
+        .BackColor = Color.Transparent,
+        .AutoScroll = True
+    }
+        Me.Controls.Add(PanelContenido)
+        PanelContenido.BringToFront()
+
     End Sub
 
     Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
@@ -34,6 +47,15 @@ Public Class TabPanelUI
         Else
             MyBase.OnPaintBackground(e) ' Solo si no hay Parent
         End If
+    End Sub
+
+    Protected Overrides Sub OnResize(e As EventArgs)
+        MyBase.OnResize(e)
+        If PanelContenido IsNot Nothing Then
+            PanelContenido.Location = New Point(0, TabHeight)
+            PanelContenido.Size = New Size(Me.Width, Me.Height - TabHeight)
+        End If
+
     End Sub
 
     Public Sub AddTab(tab As TabItemOrbitalAdv)
@@ -66,21 +88,29 @@ Public Class TabPanelUI
     End Sub
 
     Private Sub MostrarContenido()
-        If ActiveContent IsNot Nothing AndAlso Me.Controls.Contains(ActiveContent) Then
-            Me.Controls.Remove(ActiveContent)
-        End If
 
+        ' 🧼 Limpieza previa
+        PanelContenido.SuspendLayout()
+
+        PanelContenido.Controls.Clear()
         ActiveContent = Tabs(currentIndex).Contenido
-        If ActiveContent IsNot Nothing Then
-            Me.SuspendLayout()
-            ActiveContent.Location = New Point(0, TabHeight)
-            'ActiveContent.Size = New Size(Me.Width, Me.Height - TabHeight)
-            'ActiveContent.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
-            Me.Controls.Add(ActiveContent)
-            ActiveContent.BringToFront()
-            Me.ResumeLayout()
 
+        If ActiveContent IsNot Nothing Then
+            ActiveContent.Size = PanelContenido.ClientSize
+            ActiveContent.Dock = DockStyle.None
+            ActiveContent.Location = New Point(0, 0)
+            ActiveContent.Anchor = AnchorStyles.Top Or AnchorStyles.Left
+
+            'ActiveContent.Dock = DockStyle.Fill
+            ActiveContent.Margin = New Padding(0)
+            ActiveContent.Padding = New Padding(0)
+            PanelContenido.Controls.Add(ActiveContent)
+            ActiveContent.BringToFront()
         End If
+
+
+        PanelContenido.ResumeLayout()
+
     End Sub
 
     Private Sub DibujarPestañaConIcono(g As Graphics, tab As TabItemOrbitalAdv, rect As Rectangle, isSelected As Boolean)

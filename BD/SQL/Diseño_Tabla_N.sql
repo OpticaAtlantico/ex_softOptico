@@ -166,6 +166,7 @@ CREATE TABLE TProductos (
     SubCategoriaID INT NOT NULL,
     Material INT NOT NULL,
     Color INT NOT NULL,
+    Foto NVARCHAR(MAX) NULL,
     Activo BIT NOT NULL DEFAULT 1,
     RequiereInventario BIT NOT NULL DEFAULT 1, -- Para servicios que no manejan stock
     FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID),
@@ -608,6 +609,7 @@ CREATE OR ALTER VIEW VProductos AS
             , PR.Descuento
             , A2.Alicuota AS IvaCompra
             , A.Alicuota AS IvaVenta
+            , P.Foto 
     FROM    TAlicuota AS A2 RIGHT OUTER JOIN
             TPrecios AS PR ON A2.AlicuotaID = PR.IvaCompraID LEFT OUTER JOIN
             TAlicuota AS A ON PR.IvaVentaID = A.AlicuotaID RIGHT OUTER JOIN

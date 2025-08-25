@@ -16,4 +16,5 @@
     Public Property _descuento As Decimal
     Public Property _ivaVenta As Integer
     Public Property _ivaCompra As Integer
+    Public Property _foto As String
 End Class
