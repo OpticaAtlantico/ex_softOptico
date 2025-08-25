@@ -72,11 +72,14 @@ Public Class TabPanelUI
 
         ActiveContent = Tabs(currentIndex).Contenido
         If ActiveContent IsNot Nothing Then
+            Me.SuspendLayout()
             ActiveContent.Location = New Point(0, TabHeight)
-            ActiveContent.Size = New Size(Me.Width, Me.Height - TabHeight)
-            ActiveContent.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
+            'ActiveContent.Size = New Size(Me.Width, Me.Height - TabHeight)
+            'ActiveContent.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
             Me.Controls.Add(ActiveContent)
             ActiveContent.BringToFront()
+            Me.ResumeLayout()
+
         End If
     End Sub
 
@@ -112,5 +115,21 @@ Public Class TabPanelUI
             g.FillRectangle(New SolidBrush(colorTexto), rect.X, rect.Bottom - 3, rect.Width, 3)
         End If
     End Sub
+    Public Sub AvanzarPestaña()
+        If currentIndex < Tabs.Count - 1 Then
+            currentIndex += 1
+            MostrarContenido()
+            Me.Invalidate()
+        End If
+    End Sub
+
+    Public Sub RetrocederPestaña()
+        If currentIndex > 0 Then
+            currentIndex -= 1
+            MostrarContenido()
+            Me.Invalidate()
+        End If
+    End Sub
+
 
 End Class

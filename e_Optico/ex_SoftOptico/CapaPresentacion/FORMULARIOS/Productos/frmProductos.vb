@@ -2,6 +2,7 @@
 Imports FontAwesome.Sharp
 
 Public Class frmProductos
+    Public Property TabPanelRef As TabPanelUI
 
     Private Sub frmProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -45,6 +46,11 @@ Public Class frmProductos
         tabPanel.AddTab(tab4)
 
         Me.pnlContenido.Controls.Add(tabPanel)
+
+        ucProductos.TabPanelRef = tabPanel
+        ucProveedor.TabPanelRef = tabPanel
+        ucPrecios.TabPanelRef = tabPanel
+        ucStock.TabPanelRef = tabPanel
 
         AddHandler tabPanel.TabChanged, AddressOf TabPanel_TabChanged
 
