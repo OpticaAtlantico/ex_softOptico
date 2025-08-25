@@ -691,6 +691,7 @@ CREATE OR ALTER VIEW VPrecios AS
             , P.PCosto AS PrecioCosto
             , P.Promocion
             , P.Descuento
+            , P.Tipo
     FROM      TUbicaciones U INNER JOIN
               TPrecios P ON U.UbicacionID = P.UbicacionID INNER JOIN
               TProductos PR ON P.CodigoProducto = PR.CodigoProducto LEFT OUTER JOIN
