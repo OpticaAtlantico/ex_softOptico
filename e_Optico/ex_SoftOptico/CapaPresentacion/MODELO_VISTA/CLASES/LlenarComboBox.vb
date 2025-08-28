@@ -12,6 +12,10 @@ Public Class LlenarComboBox
     Public SQL_TIPOPAGO As String = "SELECT * FROM VCTipoPago"
     Public SQL_SUCURSALES As String = "SELECT * FROM VCUbicaciones"
     Public SQL_CARGOEMPLEADOS As String = "SELECT * FROM VCCargoEmpleado"
+
+    Public SQL_CATEGORIAPRODUCTOS As String = "SELECT * FROM VCategoria"
+    Public SQL_SUBCATEGORIAPRODUCTOS As String = "SELECT * FROM VSubCategoria WHERE CategoriaID = @IDCategoria"
+
     Public Class ComboItem
         Public Property Texto As String
         Public Property Valor As Object

@@ -2,6 +2,7 @@
     Inherits UserControl
 
     Public Property TabPanelRef As TabPanelUI
+    Public LlenarCombo As New LlenarComboBox
     Public Sub New()
         Me.InitializeComponent()
         Me.Dock = DockStyle.Fill
@@ -14,8 +15,9 @@
                                            AvanzarEntrePestañas()
                                        End Sub
 
-    End Sub
+        LlenarCombo.Cargar(cmbCategoria, LlenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
 
+    End Sub
     Private Sub AvanzarEntrePestañas()
         If TabPanelRef IsNot Nothing Then
             TabPanelRef.AvanzarPestaña()

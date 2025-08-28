@@ -14,24 +14,19 @@ GO
 USE BD_OPTICA
 GO
 
+
+
 -- *** 1. Tablas Maestras ***
 
 -- Tabla: TMenuOpciones para almacenar los controles que van a aparecer en el menu de opcionesd del menu principal
-
+-- Su uso es para ocultar o activar los botones del menu de Opciones del formulario principal segùn los permisos
+-- otorgados al usuario
 CREATE TABLE TMenuOpciones (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    TextoBoton NVARCHAR(50) NOT NULL,
-    IconUnicode NVARCHAR(10),
-    Categoria INT,
-    Activo BIT
-);
-GO
-
---Tabla: TAlicuota para registrar los porcentajes de iva
-CREATE TABLE TAlicuota (
-    AlicuotaID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(12) NOT NULL,
-    Alicuota INT NOT NULL
+    id INT IDENTITY(1,1) PRIMARY KEY, -- ID del Menu
+    TextoBoton NVARCHAR(50) NOT NULL, --Texto del Boton
+    IconUnicode NVARCHAR(10), -- En caso de ser un icono obtener su tipo
+    Categoria INT, -- En que categoria de permiso se encuentra
+    Activo BIT --Si esta activo o inactivo el procedimiento
 );
 GO
 
@@ -39,27 +34,6 @@ GO
 CREATE TABLE TRol (
     RolID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(250) NOT NULL
-);
-GO
-
--- Tabla: TEstado -- Ej: APARTADO, ABONADO PARCIALMENTE, PAGADO (Venta), En preparación, Listo para entrega, Entregado, Cancelado, Anulado etc..
-CREATE TABLE TEstadoOrden (
-    EstadoID INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion NVARCHAR(100) NOT NULL
-);
-GO
-
--- Tabla: TTipoMovimientos (Detalle del tipo de movimiento)  Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
-CREATE TABLE TTipoMovimientos (
-    TipoMovimientoID INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion VARCHAR(120) NOT NULL 
-);
-GO
-
---Tabla: TTipoPago para registrar los tipos de pagos
-CREATE TABLE TTipoPago (
-    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(50) NOT NULL,
 );
 GO
 
@@ -73,12 +47,63 @@ CREATE TABLE TPermisosMenu (
 );
 GO
 
+--Tabla: TAlicuota para registrar los porcentajes de iva
+CREATE TABLE TAlicuota (
+    AlicuotaID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(12) NOT NULL,
+    Alicuota INT NOT NULL
+);
+GO
+
+-- Tabla: TEstado -- Ej: APARTADO, ABONADO PARCIALMENTE, PAGADO (Venta), 
+-- En preparación, Listo para entrega, Entregado, Cancelado, Anulado etc..
+CREATE TABLE TEstadoOrden (
+    EstadoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(100) NOT NULL
+);
+GO
+
+-- Tabla: TTipoMovimientos (Detalle del tipo de movimiento)  
+-- Ej: 'Entrada por Compra', 'Salida por Venta', 'Traslado', 
+-- 'Ajuste Positivo', 'Ajuste Negativo', 'Devolución Cliente', 'Devolución Proveedor'
+CREATE TABLE TTipoMovimientos (
+    TipoMovimientoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(120) NOT NULL 
+);
+GO
+
+--Tabla: TTipoPago para registrar los tipos de pagos 
+-- Ejemplo Pago movil, efectivo, contado, creditto, cashea etc..
+CREATE TABLE TTipoPago (
+    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(50) NOT NULL,
+);
+GO
+
 -- Tabla: TCargoEmpleado -- Asesor, Gerente, Optometrista, Marketing etc...
 CREATE TABLE TCargoEmpleado (
     CargoEmpleadoID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion NVARCHAR(250) NOT NULL
 );
 GO
+
+-- Tabla: Categorias (para productos)
+CREATE TABLE TCategorias (
+    CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
+    NombreCategoria NVARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
+-- Tabla: TSubCategorias (para categorias)
+CREATE TABLE TSubCategorias (
+    SubCategoriaID INT IDENTITY(1,1) PRIMARY KEY,
+    CategoriaID INT NOT NULL,
+    NombreSubCategoria NVARCHAR(50) NOT NULL,
+    FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
+);
+GO
+
+-- 2. TABLAS DE DATOS DE NEGOCIO
 
 -- Tabla: Ubicaciones (Almacenes y Sucursales)
 CREATE TABLE TUbicaciones (
@@ -111,7 +136,7 @@ GO
 -- Tabla: TEmpresaCliente para almacenar información de las empresas de clientes  
 CREATE TABLE TEmpresaCliente (
     EmpresaClienteID INT IDENTITY(1,1) PRIMARY KEY,
-    ClienteID INT NOT NULL, 
+    ClienteID INT NOT NULL UNIQUE, 
     Nombre NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(250) NOT NULL,
     Direccion NVARCHAR(255) NULL,
@@ -124,7 +149,7 @@ CREATE TABLE TEmpresaCliente (
 );
 GO
 
--- Tabla: Proveedores
+-- Tabla: Proveedores de productos
 CREATE TABLE TProveedor (
     ProveedorID INT IDENTITY(1,1) PRIMARY KEY,
     NombreEmpresa NVARCHAR(100) NOT NULL,
@@ -140,21 +165,6 @@ CREATE TABLE TProveedor (
 );
 GO
 
--- Tabla: Categorias (para productos)
-CREATE TABLE TCategorias (
-    CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
-    NombreCategoria NVARCHAR(50) NOT NULL UNIQUE
-);
-GO
-
--- Tabla: TSubCategorias (para categorias)
-CREATE TABLE TSubCategorias (
-    SubCategoriaID INT IDENTITY(1,1) PRIMARY KEY,
-    CategoriaID INT NOT NULL,
-    NombreSubCategoria NVARCHAR(50) NOT NULL,
-    FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
-);
-GO
 
 -- Tabla: Productos
 --Listo en app
@@ -173,6 +183,47 @@ CREATE TABLE TProductos (
     FOREIGN KEY (SubCategoriaID) REFERENCES TSubCategorias(SubCategoriaID)
 );
 GO
+
+-- TABLA TProductoProveedor es la tabla intermedia para guardar los datos de los proveedores en caso 
+-- de que el producto tenga varios proveedores
+CREATE TABLE TProductoProveedor (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    CodigoProducto NVARCHAR(50) NOT NULL,
+    ProveedorID INT NOT NULL,
+    PrecioCompra DECIMAL(18,2) NOT NULL,
+    CantidadMinima DECIMAL(18,2) NULL,
+    FechaVigencia DATE NOT NULL DEFAULT GETDATE(),
+    EsPrincipal BIT DEFAULT 0, -- si este proveedor es el principal del producto
+    UNIQUE (CodigoProducto, ProveedorID),
+    FOREIGN KEY (CodigoProducto) REFERENCES TProductos(CodigoProducto),
+    FOREIGN KEY (ProveedorID) REFERENCES TProveedor(ProveedorID)
+);
+
+/*
+
+EJEMPLO DE USO A LA HORA DE BUSCAR LOS DATOS PARA HISTORICO
+PARA ESTE PUNTO SE CREA UNA VISTAS QUE HACEN ESTA CONSULTA
+
+Proveedor más barato de un producto:
+
+SELECT TOP 1 p.Nombre, pp.PrecioCompra
+FROM ProductoProveedor pp
+JOIN TProveedor p ON pp.ProveedorID = p.ProveedorID
+WHERE pp.ProductoID = 10
+ORDER BY pp.PrecioCompra ASC;
+
+
+Histórico de precios de un producto por proveedor:
+
+SELECT p.NombreProveedor, pr.NombreProducto, pp.PrecioCompra, pp.FechaVigencia
+FROM ProductoProveedor pp
+JOIN TProveedor p ON pp.ProveedorID = p.ProveedorID
+JOIN TProducto pr ON pp.ProductoID = pr.ProductoID
+WHERE pp.ProductoID = 10
+ORDER BY pp.FechaVigencia DESC;
+
+*/
+
 
 -- Tabla: Empleados (Usuarios del Sistema)
 CREATE TABLE TEmpleados (
@@ -233,6 +284,7 @@ CREATE TABLE TStock (
 );
 GO
 
+-- Tabla TPrecios para guardar los preciode de lo productos
 CREATE TABLE TPrecios (
     PrecioID INT IDENTITY(1,1) PRIMARY KEY,
     CodigoProducto NVARCHAR(50) NOT NULL,
@@ -471,7 +523,6 @@ CREATE OR ALTER VIEW VCategorias AS
 
 GO
 
--- SELECT * FROM VCategorias;
 CREATE OR ALTER VIEW VEmpleados AS
     SELECT E.EmpleadoID
             , E.Cedula

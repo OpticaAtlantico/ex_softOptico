@@ -24,7 +24,6 @@ Partial Class ucProveedor
     Private Sub InitializeComponent()
         tlpContenido = New TableLayoutPanel()
         cmbProveedor = New ComboBoxLabelUI()
-        dgvProveedor = New DataGridViewProveedorUI()
         tlpContenidoFoto = New TableLayoutPanel()
         imgFoto = New FontAwesome.Sharp.IconPictureBox()
         TableLayoutPanel1 = New TableLayoutPanel()
@@ -35,6 +34,8 @@ Partial Class ucProveedor
         pnlBtnIzquierdo = New Panel()
         btnAnterior = New CommandButtonUI()
         pnlIzquierdo = New Panel()
+        dgvProveedor = New DataGridViewProveedorUI()
+        TableLayoutPanel2 = New TableLayoutPanel()
         tlpContenido.SuspendLayout()
         tlpContenidoFoto.SuspendLayout()
         CType(imgFoto, ComponentModel.ISupportInitialize).BeginInit()
@@ -47,20 +48,21 @@ Partial Class ucProveedor
         ' 
         ' tlpContenido
         ' 
+        tlpContenido.AutoScroll = True
         tlpContenido.ColumnCount = 1
-        tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        tlpContenido.Controls.Add(cmbProveedor, 0, 0)
-        tlpContenido.Controls.Add(dgvProveedor, 0, 1)
+        tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
+        tlpContenido.Controls.Add(dgvProveedor, 0, 4)
+        tlpContenido.Controls.Add(cmbProveedor, 0, 1)
+        tlpContenido.Controls.Add(TableLayoutPanel2, 0, 0)
         tlpContenido.Location = New Point(293, 15)
         tlpContenido.Name = "tlpContenido"
-        tlpContenido.RowCount = 2
+        tlpContenido.RowCount = 5
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 50F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 50F))
+        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
+        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         tlpContenido.Size = New Size(778, 432)
         tlpContenido.TabIndex = 0
         ' 
@@ -74,24 +76,16 @@ Partial Class ucProveedor
         cmbProveedor.ForeColor = Color.Black
         cmbProveedor.IndiceSeleccionado = -1
         cmbProveedor.LabelColor = Color.DarkSlateGray
-        cmbProveedor.Location = New Point(3, 3)
+        cmbProveedor.Location = New Point(3, 83)
         cmbProveedor.MensajeError = "Este campo es obligatorio."
         cmbProveedor.MostrarError = False
         cmbProveedor.Name = "cmbProveedor"
         cmbProveedor.RadioContornoPanel = 8
-        cmbProveedor.Size = New Size(772, 74)
+        cmbProveedor.Size = New Size(325, 74)
         cmbProveedor.SombraBackColor = Color.LightGray
         cmbProveedor.TabIndex = 8
         cmbProveedor.Titulo = "Proveedor:"
         cmbProveedor.ValorSeleccionado = Nothing
-        ' 
-        ' dgvProveedor
-        ' 
-        dgvProveedor.Dock = DockStyle.Fill
-        dgvProveedor.Location = New Point(3, 83)
-        dgvProveedor.Name = "dgvProveedor"
-        dgvProveedor.Size = New Size(772, 346)
-        dgvProveedor.TabIndex = 9
         ' 
         ' tlpContenidoFoto
         ' 
@@ -238,6 +232,28 @@ Partial Class ucProveedor
         pnlIzquierdo.Size = New Size(285, 453)
         pnlIzquierdo.TabIndex = 3
         ' 
+        ' dgvProveedor
+        ' 
+        dgvProveedor.Dock = DockStyle.Fill
+        dgvProveedor.Location = New Point(3, 323)
+        dgvProveedor.Name = "dgvProveedor"
+        dgvProveedor.Size = New Size(772, 106)
+        dgvProveedor.TabIndex = 9
+        ' 
+        ' TableLayoutPanel2
+        ' 
+        TableLayoutPanel2.ColumnCount = 3
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
+        TableLayoutPanel2.Dock = DockStyle.Fill
+        TableLayoutPanel2.Location = New Point(3, 3)
+        TableLayoutPanel2.Name = "TableLayoutPanel2"
+        TableLayoutPanel2.RowCount = 1
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TableLayoutPanel2.Size = New Size(772, 74)
+        TableLayoutPanel2.TabIndex = 10
+        ' 
         ' ucProveedor
         ' 
         AutoScaleMode = AutoScaleMode.None
@@ -271,5 +287,6 @@ Partial Class ucProveedor
     Friend WithEvents btnAnterior As CommandButtonUI
     Friend WithEvents cmbProveedor As ComboBoxLabelUI
     Friend WithEvents dgvProveedor As DataGridViewProveedorUI
+    Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
 
 End Class
