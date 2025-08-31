@@ -23,7 +23,18 @@ Partial Class ucProveedor
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         tlpContenido = New TableLayoutPanel()
+        dgvProveedor = New DataGridViewProveedorUI()
+        TableLayoutPanel2 = New TableLayoutPanel()
+        txtCedula = New MaskedTextBoxLabelUI()
         cmbProveedor = New ComboBoxLabelUI()
+        TableLayoutPanel3 = New TableLayoutPanel()
+        btnAgregar = New FontAwesome.Sharp.IconButton()
+        Panel1 = New Panel()
+        Label1 = New Label()
+        optRequiereInvNo = New OptionButtonLabelUI()
+        optRequiereInvSi = New OptionButtonLabelUI()
+        txtFechaNac = New DateBoxLabelUI()
+        MaskedTextBoxLabelui1 = New MaskedTextBoxLabelUI()
         tlpContenidoFoto = New TableLayoutPanel()
         imgFoto = New FontAwesome.Sharp.IconPictureBox()
         TableLayoutPanel1 = New TableLayoutPanel()
@@ -34,9 +45,10 @@ Partial Class ucProveedor
         pnlBtnIzquierdo = New Panel()
         btnAnterior = New CommandButtonUI()
         pnlIzquierdo = New Panel()
-        dgvProveedor = New DataGridViewProveedorUI()
-        TableLayoutPanel2 = New TableLayoutPanel()
         tlpContenido.SuspendLayout()
+        TableLayoutPanel2.SuspendLayout()
+        TableLayoutPanel3.SuspendLayout()
+        Panel1.SuspendLayout()
         tlpContenidoFoto.SuspendLayout()
         CType(imgFoto, ComponentModel.ISupportInitialize).BeginInit()
         TableLayoutPanel1.SuspendLayout()
@@ -51,20 +63,69 @@ Partial Class ucProveedor
         tlpContenido.AutoScroll = True
         tlpContenido.ColumnCount = 1
         tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        tlpContenido.Controls.Add(dgvProveedor, 0, 4)
-        tlpContenido.Controls.Add(cmbProveedor, 0, 1)
+        tlpContenido.Controls.Add(dgvProveedor, 0, 2)
         tlpContenido.Controls.Add(TableLayoutPanel2, 0, 0)
+        tlpContenido.Controls.Add(TableLayoutPanel3, 0, 1)
         tlpContenido.Location = New Point(293, 15)
         tlpContenido.Name = "tlpContenido"
-        tlpContenido.RowCount = 5
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
+        tlpContenido.RowCount = 3
+        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         tlpContenido.Size = New Size(778, 432)
         tlpContenido.TabIndex = 0
+        ' 
+        ' dgvProveedor
+        ' 
+        dgvProveedor.Dock = DockStyle.Fill
+        dgvProveedor.Location = New Point(3, 183)
+        dgvProveedor.Name = "dgvProveedor"
+        dgvProveedor.Size = New Size(772, 246)
+        dgvProveedor.TabIndex = 9
+        ' 
+        ' TableLayoutPanel2
+        ' 
+        TableLayoutPanel2.ColumnCount = 2
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 70F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 30F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 20F))
+        TableLayoutPanel2.Controls.Add(txtCedula, 1, 0)
+        TableLayoutPanel2.Controls.Add(cmbProveedor, 0, 0)
+        TableLayoutPanel2.Dock = DockStyle.Fill
+        TableLayoutPanel2.Location = New Point(3, 3)
+        TableLayoutPanel2.Name = "TableLayoutPanel2"
+        TableLayoutPanel2.RowCount = 1
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TableLayoutPanel2.Size = New Size(772, 84)
+        TableLayoutPanel2.TabIndex = 10
+        ' 
+        ' txtCedula
+        ' 
+        txtCedula.BackColor = Color.Transparent
+        txtCedula.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCedula.BorderRadius = 8
+        txtCedula.BorderSize = 1
+        txtCedula.CampoRequerido = True
+        txtCedula.ColorError = Color.Firebrick
+        txtCedula.FontField = New Font("Century Gothic", 12F)
+        txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        txtCedula.LabelColor = Color.DarkSlateGray
+        txtCedula.LabelText = "#Cédula:"
+        txtCedula.Location = New Point(543, 3)
+        txtCedula.MascaraPersonalizada = ""
+        txtCedula.MaxCaracteres = 8
+        txtCedula.MensajeError = "Este campo es obligatorio."
+        txtCedula.Name = "txtCedula"
+        txtCedula.PaddingAll = 10
+        txtCedula.PanelBackColor = Color.White
+        txtCedula.SelectionStart = 0
+        txtCedula.Size = New Size(226, 78)
+        txtCedula.SombraBackColor = Color.LightGray
+        txtCedula.TabIndex = 9
+        txtCedula.TextColor = Color.Black
+        txtCedula.TextoUsuario = ""
+        txtCedula.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
         ' 
         ' cmbProveedor
         ' 
@@ -76,16 +137,148 @@ Partial Class ucProveedor
         cmbProveedor.ForeColor = Color.Black
         cmbProveedor.IndiceSeleccionado = -1
         cmbProveedor.LabelColor = Color.DarkSlateGray
-        cmbProveedor.Location = New Point(3, 83)
+        cmbProveedor.Location = New Point(3, 3)
         cmbProveedor.MensajeError = "Este campo es obligatorio."
         cmbProveedor.MostrarError = False
         cmbProveedor.Name = "cmbProveedor"
         cmbProveedor.RadioContornoPanel = 8
-        cmbProveedor.Size = New Size(325, 74)
+        cmbProveedor.Size = New Size(534, 78)
         cmbProveedor.SombraBackColor = Color.LightGray
         cmbProveedor.TabIndex = 8
         cmbProveedor.Titulo = "Proveedor:"
         cmbProveedor.ValorSeleccionado = Nothing
+        ' 
+        ' TableLayoutPanel3
+        ' 
+        TableLayoutPanel3.ColumnCount = 4
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 32.48511F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 27.0709248F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 27.0709248F))
+        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 13.3730364F))
+        TableLayoutPanel3.Controls.Add(btnAgregar, 3, 0)
+        TableLayoutPanel3.Controls.Add(Panel1, 2, 0)
+        TableLayoutPanel3.Controls.Add(txtFechaNac, 1, 0)
+        TableLayoutPanel3.Controls.Add(MaskedTextBoxLabelui1, 0, 0)
+        TableLayoutPanel3.Dock = DockStyle.Fill
+        TableLayoutPanel3.Location = New Point(3, 93)
+        TableLayoutPanel3.Name = "TableLayoutPanel3"
+        TableLayoutPanel3.RowCount = 1
+        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
+        TableLayoutPanel3.Size = New Size(772, 84)
+        TableLayoutPanel3.TabIndex = 11
+        ' 
+        ' btnAgregar
+        ' 
+        btnAgregar.FlatAppearance.BorderSize = 0
+        btnAgregar.FlatStyle = FlatStyle.Flat
+        btnAgregar.Font = New Font("Century Gothic", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAgregar.IconChar = FontAwesome.Sharp.IconChar.ArrowTurnDown
+        btnAgregar.IconColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        btnAgregar.IconFont = FontAwesome.Sharp.IconFont.Auto
+        btnAgregar.IconSize = 40
+        btnAgregar.Location = New Point(669, 3)
+        btnAgregar.Name = "btnAgregar"
+        btnAgregar.Size = New Size(100, 78)
+        btnAgregar.TabIndex = 38
+        btnAgregar.Text = "Incluir datos"
+        btnAgregar.TextImageRelation = TextImageRelation.ImageAboveText
+        btnAgregar.UseVisualStyleBackColor = True
+        ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(Label1)
+        Panel1.Controls.Add(optRequiereInvNo)
+        Panel1.Controls.Add(optRequiereInvSi)
+        Panel1.Dock = DockStyle.Fill
+        Panel1.Location = New Point(461, 3)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(202, 78)
+        Panel1.TabIndex = 37
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label1.ForeColor = Color.DarkSlateGray
+        Label1.Location = New Point(6, 9)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(190, 17)
+        Label1.TabIndex = 36
+        Label1.Text = "El proveedor es el principal?"
+        ' 
+        ' optRequiereInvNo
+        ' 
+        optRequiereInvNo.BackColor = Color.Transparent
+        optRequiereInvNo.BorderColor = Color.Gray
+        optRequiereInvNo.Checked = False
+        optRequiereInvNo.CheckedColor = Color.MediumSlateBlue
+        optRequiereInvNo.Location = New Point(115, 39)
+        optRequiereInvNo.Name = "optRequiereInvNo"
+        optRequiereInvNo.Size = New Size(76, 26)
+        optRequiereInvNo.TabIndex = 1
+        optRequiereInvNo.Texto = "No"
+        ' 
+        ' optRequiereInvSi
+        ' 
+        optRequiereInvSi.BackColor = Color.Transparent
+        optRequiereInvSi.BorderColor = Color.Gray
+        optRequiereInvSi.Checked = True
+        optRequiereInvSi.CheckedColor = Color.MediumSlateBlue
+        optRequiereInvSi.Location = New Point(31, 39)
+        optRequiereInvSi.Name = "optRequiereInvSi"
+        optRequiereInvSi.Size = New Size(76, 26)
+        optRequiereInvSi.TabIndex = 0
+        optRequiereInvSi.Texto = "Si"
+        ' 
+        ' txtFechaNac
+        ' 
+        txtFechaNac.BackColor = Color.White
+        txtFechaNac.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaNac.BorderRadius = 8
+        txtFechaNac.BorderSize = 1
+        txtFechaNac.CampoRequerido = True
+        txtFechaNac.FechaSeleccionada = New Date(2025, 7, 31, 0, 0, 0, 0)
+        txtFechaNac.FontField = New Font("Century Gothic", 12F)
+        txtFechaNac.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaNac.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
+        txtFechaNac.LabelColor = Color.DarkSlateGray
+        txtFechaNac.LabelText = "Fecha:"
+        txtFechaNac.Location = New Point(253, 3)
+        txtFechaNac.MensajeError = "Fecha requerida o inválida."
+        txtFechaNac.Name = "txtFechaNac"
+        txtFechaNac.PaddingAll = 10
+        txtFechaNac.PanelBackColor = Color.White
+        txtFechaNac.Size = New Size(202, 78)
+        txtFechaNac.TabIndex = 11
+        txtFechaNac.TextColor = Color.Black
+        ' 
+        ' MaskedTextBoxLabelui1
+        ' 
+        MaskedTextBoxLabelui1.BackColor = Color.Transparent
+        MaskedTextBoxLabelui1.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui1.BorderRadius = 8
+        MaskedTextBoxLabelui1.BorderSize = 1
+        MaskedTextBoxLabelui1.CampoRequerido = True
+        MaskedTextBoxLabelui1.ColorError = Color.Firebrick
+        MaskedTextBoxLabelui1.FontField = New Font("Century Gothic", 12F)
+        MaskedTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        MaskedTextBoxLabelui1.LabelColor = Color.DarkSlateGray
+        MaskedTextBoxLabelui1.LabelText = "#Cédula:"
+        MaskedTextBoxLabelui1.Location = New Point(3, 3)
+        MaskedTextBoxLabelui1.MascaraPersonalizada = ""
+        MaskedTextBoxLabelui1.MaxCaracteres = 8
+        MaskedTextBoxLabelui1.MensajeError = "Este campo es obligatorio."
+        MaskedTextBoxLabelui1.Name = "MaskedTextBoxLabelui1"
+        MaskedTextBoxLabelui1.PaddingAll = 10
+        MaskedTextBoxLabelui1.PanelBackColor = Color.White
+        MaskedTextBoxLabelui1.SelectionStart = 0
+        MaskedTextBoxLabelui1.Size = New Size(244, 78)
+        MaskedTextBoxLabelui1.SombraBackColor = Color.LightGray
+        MaskedTextBoxLabelui1.TabIndex = 10
+        MaskedTextBoxLabelui1.TextColor = Color.Black
+        MaskedTextBoxLabelui1.TextoUsuario = ""
+        MaskedTextBoxLabelui1.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
         ' 
         ' tlpContenidoFoto
         ' 
@@ -232,28 +425,6 @@ Partial Class ucProveedor
         pnlIzquierdo.Size = New Size(285, 453)
         pnlIzquierdo.TabIndex = 3
         ' 
-        ' dgvProveedor
-        ' 
-        dgvProveedor.Dock = DockStyle.Fill
-        dgvProveedor.Location = New Point(3, 323)
-        dgvProveedor.Name = "dgvProveedor"
-        dgvProveedor.Size = New Size(772, 106)
-        dgvProveedor.TabIndex = 9
-        ' 
-        ' TableLayoutPanel2
-        ' 
-        TableLayoutPanel2.ColumnCount = 3
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        TableLayoutPanel2.Dock = DockStyle.Fill
-        TableLayoutPanel2.Location = New Point(3, 3)
-        TableLayoutPanel2.Name = "TableLayoutPanel2"
-        TableLayoutPanel2.RowCount = 1
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel2.Size = New Size(772, 74)
-        TableLayoutPanel2.TabIndex = 10
-        ' 
         ' ucProveedor
         ' 
         AutoScaleMode = AutoScaleMode.None
@@ -264,6 +435,10 @@ Partial Class ucProveedor
         Name = "ucProveedor"
         Size = New Size(1100, 519)
         tlpContenido.ResumeLayout(False)
+        TableLayoutPanel2.ResumeLayout(False)
+        TableLayoutPanel3.ResumeLayout(False)
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
         tlpContenidoFoto.ResumeLayout(False)
         CType(imgFoto, ComponentModel.ISupportInitialize).EndInit()
         TableLayoutPanel1.ResumeLayout(False)
@@ -288,5 +463,14 @@ Partial Class ucProveedor
     Friend WithEvents cmbProveedor As ComboBoxLabelUI
     Friend WithEvents dgvProveedor As DataGridViewProveedorUI
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
+    Friend WithEvents txtCedula As MaskedTextBoxLabelUI
+    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
+    Friend WithEvents MaskedTextBoxLabelui1 As MaskedTextBoxLabelUI
+    Friend WithEvents txtFechaNac As DateBoxLabelUI
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents optRequiereInvNo As OptionButtonLabelUI
+    Friend WithEvents optRequiereInvSi As OptionButtonLabelUI
+    Friend WithEvents Label1 As Label
+    Friend WithEvents btnAgregar As FontAwesome.Sharp.IconButton
 
 End Class
