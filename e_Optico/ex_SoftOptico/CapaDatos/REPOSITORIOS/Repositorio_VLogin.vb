@@ -2,7 +2,6 @@
 Imports CapaEntidad
 Public Class Repositorio_VLogin
     Inherits Repositorio_Maestro
-    Implements IRepositorio_VLogin
 
     Private SeleccionarUserPass As String
 
@@ -10,16 +9,15 @@ Public Class Repositorio_VLogin
         SeleccionarUserPass = "SELECT * FROM VLogin WHERE Usuario = @Usuario AND Clave = @Pass"
     End Sub
 
-
-    Public Function ObtenerPorUsuarioYClave(usuario As String, clave As String) As IEnumerable(Of TVLogin) Implements IRepositorio_VLogin.GetUserPass
+    Public Function GetUserPass(usuario As String, clave As String) As IEnumerable(Of VLogin)
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Usuario", usuario),
             New SqlParameter("@Pass", clave)
         }
         Dim resultadoTable As DataTable = ExecuteReader(SeleccionarUserPass)
-        Dim lista = New List(Of TVLogin)
+        Dim lista = New List(Of VLogin)
         For Each row As DataRow In resultadoTable.Rows
-            Dim login As New TVLogin With {
+            Dim login As New VLogin With {
                 .Usuario = Convert.ToString(row("Usuario")),
                 .ID = Convert.ToInt32(row("ID")),
                 .Cedula = Convert.ToString(row("Cedula")),
@@ -38,24 +36,6 @@ Public Class Repositorio_VLogin
         Return lista
     End Function
 
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TVLogin) Implements IRepositorio_Generico(Of TVLogin).GetAllUserPass
-        Return ObtenerPorUsuarioYClave(usuario, password)
-    End Function
 
-    Public Function GetAll() As IEnumerable(Of TVLogin) Implements IRepositorio_Generico(Of TVLogin).GetAll
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function Add(entity As TVLogin) As Integer Implements IRepositorio_Generico(Of TVLogin).Add
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function Edit(entity As TVLogin) As Integer Implements IRepositorio_Generico(Of TVLogin).Edit
-        Throw New NotImplementedException()
-    End Function
-
-    Public Function Remove(id As Integer) As Integer Implements IRepositorio_Generico(Of TVLogin).Remove
-        Throw New NotImplementedException()
-    End Function
 End Class
 

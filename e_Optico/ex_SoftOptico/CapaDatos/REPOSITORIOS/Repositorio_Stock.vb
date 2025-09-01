@@ -28,10 +28,6 @@ Public Class Repositorio_Stock
 
     '-----------------------------------------------------
 
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of VStock) Implements IRepositorio_Generico(Of VStock).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
-
     Private Function IRepositorio_Generico_GetAll() As IEnumerable(Of VStock) Implements IRepositorio_Generico(Of VStock).GetAll
         Throw New NotImplementedException()
     End Function

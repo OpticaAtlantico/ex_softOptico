@@ -65,10 +65,6 @@ Public Class Repositorio_Login
         Return ObtenerTodos().Where(Function(x) x.Estado = True)
     End Function
 
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TLogin) Implements IRepositorio_Generico(Of TLogin).GetAllUserPass
-        Return ObtenerPorUsuarioYClave(usuario, password)
-    End Function
-
     Private Function IRepositorio_Generico_Insertar(entity As TLogin) As Integer Implements IRepositorio_Generico(Of TLogin).Add
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@EmpleadoID", entity.EmpleadoID),

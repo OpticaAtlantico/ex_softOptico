@@ -198,10 +198,6 @@ Public Class Repositorio_Empleados
 
     '----------------------------------------
 
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TEmpleados) Implements IRepositorio_Generico(Of TEmpleados).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
-
     Public Function GetAll() As IEnumerable(Of TEmpleados) Implements IRepositorio_Generico(Of TEmpleados).GetAll
         Throw New NotImplementedException()
     End Function

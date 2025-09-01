@@ -1,17 +1,8 @@
 ﻿Imports System.Runtime.InteropServices
-Imports System.Windows.Navigation
 Imports CapaDatos
 Imports CapaEntidad
-Imports CapaNegocio
-Imports DocumentFormat.OpenXml.Drawing.Charts
-Imports FontAwesome.Sharp
-Imports Microsoft.IdentityModel.Protocols.OpenIdConnect
 Imports Microsoft.IdentityModel.Tokens
 Public Class frm_Login
-
-    'Private ubicacionFinal As Point
-    'Private pasoActual As Integer = 0
-    'Private pasosTotales As Integer = 20
 
 #Region "Form Behaviors"
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -90,7 +81,7 @@ Public Class frm_Login
 
         'VALIDA LOS USUARIOS Y CONTRASEÑAS
         Dim userModel As New Repositorio_VLogin
-        Dim validUser = userModel.GetAllUserPass(txtUsuario.TextValue, txtPass.TextValue)
+        Dim validUser = userModel.GetUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
             MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
             txtUsuario.Text = vbEmpty

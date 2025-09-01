@@ -69,9 +69,6 @@ Public Class Repositorio_Productos
     End Function
 
     '--------------------------------------------------------------------
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
 
     Private Function IRepositorio_Generico_GetAll() As IEnumerable(Of VProductos) Implements IRepositorio_Generico(Of VProductos).GetAll
         Return GetAll()

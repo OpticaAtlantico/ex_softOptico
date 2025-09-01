@@ -25,12 +25,6 @@ Public Class Repositorio_HistoricoStock
         Throw New NotImplementedException()
     End Function
 
-
-    '-----------------------------------------
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of VHistoricoStock) Implements IRepositorio_Generico(Of VHistoricoStock).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
-
     Private Function IRepositorio_HistoricoStock_GetAll() As IEnumerable(Of VHistoricoStock) Implements IRepositorio_HistoricoStock.GetAll
         Return GetAll()
     End Function

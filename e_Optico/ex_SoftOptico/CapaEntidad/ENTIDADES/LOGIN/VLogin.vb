@@ -1,4 +1,4 @@
-﻿Public Class TVLogin
+﻿Public Class VLogin
     Public Property ID As Integer
     Public Property Usuario As String
     Public Property Clave As String

@@ -159,10 +159,6 @@ Public Class Repositorio_Proveedor
     End Function
 
     '----------------------------------------------------------------
-
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TProveedor) Implements IRepositorio_Generico(Of TProveedor).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
     Public Function GetAll() As IEnumerable(Of TProveedor) Implements IRepositorio_Generico(Of TProveedor).GetAll
         Throw New NotImplementedException()
     End Function

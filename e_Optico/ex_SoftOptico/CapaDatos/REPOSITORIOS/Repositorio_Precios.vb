@@ -24,10 +24,6 @@ Public Class Repositorio_Precios
         Throw New NotImplementedException()
     End Function
 
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of VPrecios) Implements IRepositorio_Generico(Of VPrecios).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
-
     Private Function IRepositorio_Generico_GetAll() As IEnumerable(Of VPrecios) Implements IRepositorio_Generico(Of VPrecios).GetAll
         Return GetAll()
     End Function

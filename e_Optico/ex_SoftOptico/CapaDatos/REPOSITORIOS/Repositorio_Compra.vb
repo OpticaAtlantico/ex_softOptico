@@ -314,10 +314,6 @@ Public Class Repositorio_Compra
 
     '--------------------------------------------------------------------
 
-    Public Function GetAllUserPass(usuario As String, password As String) As IEnumerable(Of TCompra) Implements IRepositorio_Generico(Of TCompra).GetAllUserPass
-        Throw New NotImplementedException()
-    End Function
-
     Private Function IRepositorio_Generico_GetAll() As IEnumerable(Of TCompra) Implements IRepositorio_Generico(Of TCompra).GetAll
         Throw New NotImplementedException()
     End Function
