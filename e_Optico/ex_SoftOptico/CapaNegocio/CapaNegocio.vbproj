@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="CLASES\" />
+    <Folder Include="MODULOS\" />
   </ItemGroup>
 
   <ItemGroup>
