@@ -7,7 +7,7 @@ Imports CapaDatos
 Imports Microsoft.Data.SqlClient
 
 Public Class LlenarComboBox
-    Inherits Repositorio
+    Inherits Repositorio_Conexion
     Public SQL_PROVEEDOR As String = "SELECT * FROM VCProveedor"
     Public SQL_TIPOPAGO As String = "SELECT * FROM VCTipoPago"
     Public SQL_SUCURSALES As String = "SELECT * FROM VCUbicaciones"

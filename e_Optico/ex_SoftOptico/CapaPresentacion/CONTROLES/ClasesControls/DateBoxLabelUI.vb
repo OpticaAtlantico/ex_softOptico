@@ -21,7 +21,7 @@ Public Class DateBoxLabelUI
     Private _labelColor As Color = Color.WhiteSmoke
     Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
     Private _textColor As Color = Color.WhiteSmoke
-    Private _fontField As Font = New Font("Century Gothic", 12)
+    Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
     Private _paddingAll As Integer = 10
     Private _borderColor As Color = Color.LightGray
     Private _borderSize As Integer = 1

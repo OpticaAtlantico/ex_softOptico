@@ -14,6 +14,7 @@ Public Class ComboBoxUI
     Private _textColor As Color = Color.Black
     Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
 
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -23,13 +24,15 @@ Public Class ComboBoxUI
         Me.UpdateStyles()
         Me.DrawMode = DrawMode.OwnerDrawFixed
         Me.DropDownStyle = ComboBoxStyle.DropDownList
-        Me.Font = New Font("Century Gothic", 12, FontStyle.Regular)
+        Me.Font = New Font(AppFonts.Century, AppFonts.SizeMedium, AppFonts.Regular)
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
         Me.ForeColor = Color.Black
         Me.Size = New Size(300, 30)
     End Sub
+#End Region
 
+#Region "PROPIEDADES"
     ' Propiedades orbitales
     <Category("UI Estilo")>
     Public Property BorderColor As Color
@@ -106,6 +109,7 @@ Public Class ComboBoxUI
             Me.SelectedItem = value
         End Set
     End Property
+#End Region
 
     Public Sub AddItem(item As Object)
         Me.Items.Add(item)

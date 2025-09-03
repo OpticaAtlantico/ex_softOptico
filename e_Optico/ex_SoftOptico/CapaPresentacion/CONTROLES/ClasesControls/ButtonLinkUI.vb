@@ -3,9 +3,9 @@ Imports System.Drawing
 
 Public Class ButtonLinkUI
 
-    Private _hoverColor As Color = Color.DodgerBlue
-    Private _normalColor As Color = Color.WhiteSmoke
-    Private _activeColor As Color = Color.RoyalBlue
+    Private _hoverColor As Color = AppColors._cHoverColor
+    Private _normalColor As Color = AppColors._cNormalColor
+    Private _activeColor As Color = AppColors._cActiveColor
     Private _subrayarHover As Boolean = True
 
     Public Sub New()
@@ -18,7 +18,7 @@ Public Class ButtonLinkUI
         Me.UpdateStyles()
         lblTexto.ForeColor = _normalColor
         lblTexto.Cursor = Cursors.Hand
-        lblTexto.Font = New Font("Century Gothic", 10, FontStyle.Regular)
+        lblTexto.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Regular)
         lblTexto.AutoSize = True
         lblTexto.TextAlign = ContentAlignment.MiddleLeft
         lblTexto.Dock = DockStyle.Fill

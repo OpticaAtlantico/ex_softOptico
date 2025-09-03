@@ -21,13 +21,13 @@ Public Class CommandButtonUI
     Public Property Icono As IconChar = IconChar.Check
 
     <Category("Apariencia Orbital")>
-    Public Property ColorBase As Color = Color.FromArgb(33, 150, 243)
+    Public Property ColorBase As Color = AppColors._cBasePrimary
 
     <Category("Apariencia Orbital")>
-    Public Property ColorHover As Color = Color.FromArgb(30, 136, 229)
+    Public Property ColorHover As Color = AppColors._cHoverPrimary
 
     <Category("Apariencia Orbital")>
-    Public Property ColorPresionado As Color = Color.FromArgb(25, 118, 210)
+    Public Property ColorPresionado As Color = AppColors._cPresionadoPrimary
 
     <Category("Apariencia Orbital")>
     Public Property ColorTexto As Color = Color.White
@@ -48,7 +48,7 @@ Public Class CommandButtonUI
             Me.Invalidate()
         End Set
     End Property
-    Private _colorInternoFondo As Color = Color.FromArgb(33, 150, 243)
+    Private _colorInternoFondo As Color = AppColors._cBasePrimary
 
     <Category("Estilo Bootstrap"), Description("Estilo visual tipo Bootstrap para el botón")>
     Public Property EstiloBoton As EstiloBootstrap
@@ -76,7 +76,7 @@ Public Class CommandButtonUI
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
         Me.Size = New Size(160, 45)
-        Me.Font = New Font("Century Gothic", 10, FontStyle.Bold)
+        Me.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Bold)
         Me.Cursor = Cursors.Hand
 
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -139,49 +139,49 @@ Public Class CommandButtonUI
     Private Sub AplicarEstilo(estilo As EstiloBootstrap)
         Select Case estilo
             Case EstiloBootstrap.Primary
-                ColorBase = Color.FromArgb(33, 150, 243)
-                ColorHover = Color.FromArgb(30, 136, 229)
-                ColorPresionado = Color.FromArgb(25, 118, 210)
+                ColorBase = AppColors._cBasePrimary
+                ColorHover = AppColors._cHoverPrimary
+                ColorPresionado = AppColors._cPresionadoPrimary
                 ColorTexto = Color.White
                 Icono = IconChar.Bolt
                 ColorInternoFondo = ColorBase
 
             Case EstiloBootstrap.Success
-                ColorBase = Color.FromArgb(76, 175, 80)
-                ColorHover = Color.FromArgb(67, 160, 71)
-                ColorPresionado = Color.FromArgb(56, 142, 60)
+                ColorBase = AppColors._cBaseSuccess
+                ColorHover = AppColors._cHoverSuccess
+                ColorPresionado = AppColors._cPresionadoSuccess
                 ColorTexto = Color.White
                 Icono = IconChar.CheckCircle
                 ColorInternoFondo = ColorBase
 
             Case EstiloBootstrap.Danger
-                ColorBase = Color.FromArgb(244, 67, 54)
-                ColorHover = Color.FromArgb(229, 57, 53)
-                ColorPresionado = Color.FromArgb(211, 47, 47)
+                ColorBase = AppColors._cBaseDanger
+                ColorHover = AppColors._cHoverDanger
+                ColorPresionado = AppColors._cPresionadoDanger
                 ColorTexto = Color.White
                 Icono = IconChar.TrashAlt
                 ColorInternoFondo = ColorBase
 
             Case EstiloBootstrap.Warning
-                ColorBase = Color.FromArgb(255, 193, 7)
-                ColorHover = Color.FromArgb(255, 179, 0)
-                ColorPresionado = Color.FromArgb(255, 160, 0)
+                ColorBase = AppColors._cBaseWarning
+                ColorHover = AppColors._cHoverWarning
+                ColorPresionado = AppColors._cPresionadoWarning
                 ColorTexto = Color.Black
                 Icono = IconChar.ExclamationTriangle
                 ColorInternoFondo = ColorBase
 
             Case EstiloBootstrap.Info
-                ColorBase = Color.FromArgb(0, 188, 212)
-                ColorHover = Color.FromArgb(0, 172, 193)
-                ColorPresionado = Color.FromArgb(0, 151, 167)
+                ColorBase = AppColors._cBaseInfo
+                ColorHover = AppColors._cHoverInfo
+                ColorPresionado = AppColors._cPresionadoInfo
                 ColorTexto = Color.White
                 Icono = IconChar.InfoCircle
                 ColorInternoFondo = ColorBase
 
             Case EstiloBootstrap.Dark
-                ColorBase = Color.FromArgb(66, 66, 66)
-                ColorHover = Color.FromArgb(55, 55, 55)
-                ColorPresionado = Color.FromArgb(40, 40, 40)
+                ColorBase = AppColors._cBaseDark
+                ColorHover = AppColors._cHoverDark
+                ColorPresionado = AppColors._cPresionadoDark
                 ColorTexto = Color.White
                 Icono = IconChar.Moon
                 ColorInternoFondo = ColorBase
@@ -208,5 +208,3 @@ Public Class CommandButtonUI
     End Sub
 End Class
 
-
-'''miBotonUI.EstiloBoton = EstiloBootstrap.Success

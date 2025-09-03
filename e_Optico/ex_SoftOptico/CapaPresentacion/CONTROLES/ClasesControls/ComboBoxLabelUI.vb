@@ -19,8 +19,8 @@ Public Class ComboBoxLabelUI
     Private _mensajeError As String = "Este campo es obligatorio."
     Private _mostrarError As Boolean = False
     Private _radiusPanel As Integer = 6
-    Private _fontField As Font = New Font("Century Gothic", 10)
-    Private _fontFields As Font = New Font("Century Gothic", 9)
+    Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
+    Private _fontFields As Font = New Font(AppFonts.Century, AppFonts.SizeMini)
     Private _campoRequerido As Boolean = True
     Private _borderColorPersonalizado As Color = Color.LightGray
     Private _sombraBackColor As Color = Color.LightGray
@@ -32,6 +32,9 @@ Public Class ComboBoxLabelUI
     Public Event SelectedIndexChangedCustom As EventHandler
     Public Event SelectionChangeCommittedCustom As EventHandler
 
+#Region "CONSTRUCTORES"
+
+#End Region
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or

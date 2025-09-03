@@ -1,0 +1,113 @@
+﻿¡Perfecto, Wilmer! Vamos a desplegar ejemplos prácticos de cómo usar las clases separadas en distintos contextos del sistema: formularios, UserControls, layouts orbitales y managers visuales. Esto te permitirá aplicar estilos, trazabilidad y consistencia visual sin esfuerzo.
+
+---
+
+## 🧪 1. **Aplicar estilos en un formulario principal**
+
+```vb.net
+Public Class FrmDashboard
+    Private Sub FrmDashboard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.BackColor = AppColors.BackgroundPrimary
+        Me.Font = New Font(AppFonts.DefaultFamily, AppFonts.SizeMedium)
+        Me.Padding = New Padding(AppLayout.PaddingLarge)
+    End Sub
+End Class
+```
+
+---
+
+## 🧩 2. **Estilizar un `UserControl` orbital**
+
+```vb.net
+Public Class UcClienteCard
+    Private Sub UcClienteCard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AppUserControlStyles.ApplyStandardStyle(Me)
+        lblNombre.Font = New Font(AppFonts.TitleFamily, AppFonts.SizeLarge)
+        lblEstado.ForeColor = If(estado = AppStates.Active, AppColors.Success, AppColors.Error)
+    End Sub
+End Class
+```
+
+---
+
+## 🧭 3. **Aplicar estilos dinámicos según estado**
+
+```vb.net
+Private Sub ActualizarEstadoVisual(ctrl As Control, estado As String)
+    Select Case estado
+        Case AppStates.Active
+            ctrl.BackColor = AppColors.Success
+        Case AppStates.Inactive
+            ctrl.BackColor = AppColors.BackgroundSecondary
+        Case AppStates.Pending
+            ctrl.BackColor = AppColors.Accent
+        Case Else
+            AppUserControlStyles.ApplyErrorStyle(ctrl)
+    End Select
+End Sub
+```
+
+---
+
+## 📦 4. **Cargar íconos desde rutas centralizadas**
+
+```vb.net
+picLogo.Image = Image.FromFile(AppPaths.LogoPath)
+picEstado.Image = If(estado = AppStates.Active,
+                     Image.FromFile(AppPaths.IconSuccess),
+                     Image.FromFile(AppPaths.IconError))
+```
+
+---
+
+## 🧠 5. **Mostrar sucursales en ComboBox**
+
+```vb.net
+cmbSucursal.DataSource = AppLocations.Sucursales
+cmbSucursal.Font = New Font(AppFonts.DefaultFamily, AppFonts.SizeMedium)
+cmbSucursal.BackColor = AppColors.BackgroundSecondary
+```
+
+---
+
+## 🧮 6. **Asignar roles y permisos**
+
+```vb.net
+If usuario.Rol = AppRoles.Admin Then
+    btnConfig.Visible = True
+    btnAuditoria.Visible = True
+ElseIf usuario.Rol = AppRoles.Vendedor Then
+    btnConfig.Visible = False
+End If
+```
+
+---
+
+## 🧠 7. **Aplicar estilos orbitales desde un manager visual**
+
+```vb.net
+Public Class OrbitalStyleManager
+    Public Shared Sub EstilizarPanel(panel As Panel)
+        panel.BackColor = AppColors.BackgroundPrimary
+        panel.Padding = New Padding(AppLayout.PaddingMedium)
+        panel.Font = New Font(AppFonts.DefaultFamily, AppFonts.SizeMedium)
+    End Sub
+
+    Public Shared Sub EstilizarBoton(boton As Button)
+        boton.Font = New Font(AppFonts.DefaultFamily, AppFonts.SizeMedium)
+        boton.BackColor = AppColors.Accent
+        boton.ForeColor = Color.White
+        boton.Height = AppLayout.ControlHeight
+    End Sub
+End Class
+```
+
+**Uso:**
+```vb.net
+OrbitalStyleManager.EstilizarPanel(pnlContenedor)
+OrbitalStyleManager.EstilizarBoton(btnGuardar)
+```
+
+---
+
+¿Quieres que armemos un `ThemeManager` que permita cambiar dinámicamente entre temas claros y oscuros usando estas clases? También podemos integrar esto con validadores visuales y exportadores PDF orbitales. Tú marcas el rumbo, Almirante.

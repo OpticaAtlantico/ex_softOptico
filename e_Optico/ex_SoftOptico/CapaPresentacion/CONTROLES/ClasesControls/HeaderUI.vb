@@ -1,10 +1,14 @@
 ﻿Imports System.ComponentModel
 Imports System.Drawing.Drawing2D
+Imports System.Drawing.Printing
 Imports FontAwesome.Sharp
 
 Public Class HeaderUI
     Inherits Control
 
+    Private iconControl As New IconPictureBox()
+
+#Region "PROPIEDADES"
     <Category("Contenido UI")>
     Public Property Titulo As String = "Título Principal"
 
@@ -15,16 +19,16 @@ Public Class HeaderUI
     Public Property Icono As IconChar = IconChar.InfoCircle
 
     <Category("Estilo UI")>
-    Public Property ColorFondo As Color = Color.FromArgb(240, 240, 240)
+    Public Property ColorFondo As Color = AppColors._cHeaderBackcolor
 
     <Category("Estilo UI")>
-    Public Property ColorTexto As Color = Color.FromArgb(45, 45, 45)
+    Public Property ColorTexto As Color = AppColors._cHeaderTexto
 
     <Category("Estilo UI")>
     Public Property MostrarSeparador As Boolean = True
+#End Region
 
-    Private iconControl As New IconPictureBox()
-
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -33,30 +37,32 @@ Public Class HeaderUI
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
         Me.Size = New Size(300, 60)
-        Me.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        Me.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Bold)
 
         iconControl.IconChar = Icono
         iconControl.IconColor = ColorTexto
         iconControl.BackColor = Color.Transparent
         iconControl.SizeMode = PictureBoxSizeMode.CenterImage
-        iconControl.Size = New Size(28, 28)
+        iconControl.Size = New Size(40, 40)
         iconControl.Enabled = False
         Me.Controls.Add(iconControl)
     End Sub
+#End Region
 
+#Region "DIBUJO"
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
         Dim g = e.Graphics
         g.SmoothingMode = SmoothingMode.AntiAlias
         g.Clear(ColorFondo)
 
         ' 🟪 Título
-        Dim tituloFont = New Font(Me.Font.FontFamily, 11, FontStyle.Bold)
+        Dim tituloFont = New Font(AppFonts.Century, AppFonts.SizeMedium, AppFonts.Bold)
         Using brush As New SolidBrush(ColorTexto)
             g.DrawString(Titulo, tituloFont, brush, 45, 8)
         End Using
 
         ' 🔹 Subtítulo
-        Dim subtituloFont = New Font(Me.Font.FontFamily, 9, FontStyle.Regular)
+        Dim subtituloFont = New Font(AppFonts.Century, AppFonts.SizeMini, AppFonts.Regular)
         Using brush As New SolidBrush(ColorTexto)
             g.DrawString(Subtitulo, subtituloFont, brush, 45, 28)
         End Using
@@ -71,6 +77,8 @@ Public Class HeaderUI
         ' 🎯 Posición del ícono
         iconControl.IconChar = Icono
         iconControl.IconColor = ColorTexto
-        iconControl.Location = New Point(10, (Me.Height - iconControl.Height) \ 2)
+        iconControl.Location = New Point(5, (Me.Height - iconControl.Height) \ 2)
     End Sub
+#End Region
+
 End Class

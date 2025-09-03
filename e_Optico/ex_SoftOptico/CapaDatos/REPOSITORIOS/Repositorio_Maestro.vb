@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.Data.SqlClient
 
 Public Class Repositorio_Maestro
-    Inherits Repositorio
+    Inherits Repositorio_Conexion
 
     Protected parameter As List(Of SqlParameter)
 

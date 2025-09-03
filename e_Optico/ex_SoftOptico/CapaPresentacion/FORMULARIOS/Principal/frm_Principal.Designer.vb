@@ -87,52 +87,57 @@ Partial Class frm_Principal
         pnlBotones.Controls.Add(btnMaximizar)
         pnlBotones.Controls.Add(btnMinimizar)
         pnlBotones.Dock = DockStyle.Right
-        pnlBotones.Location = New Point(1123, 5)
+        pnlBotones.Location = New Point(1139, 5)
         pnlBotones.Name = "pnlBotones"
-        pnlBotones.Size = New Size(146, 54)
+        pnlBotones.Size = New Size(130, 54)
         pnlBotones.TabIndex = 5
         ' 
         ' btnSalir
         ' 
+        btnSalir.BackColor = Color.Transparent
         btnSalir.FlatAppearance.BorderSize = 0
+        btnSalir.FlatAppearance.MouseDownBackColor = Color.Transparent
+        btnSalir.FlatAppearance.MouseOverBackColor = Color.Transparent
         btnSalir.FlatStyle = FlatStyle.Flat
         btnSalir.IconChar = FontAwesome.Sharp.IconChar.X
         btnSalir.IconColor = Color.WhiteSmoke
         btnSalir.IconFont = FontAwesome.Sharp.IconFont.Auto
-        btnSalir.IconSize = 30
-        btnSalir.Location = New Point(105, 12)
+        btnSalir.IconSize = 22
+        btnSalir.Location = New Point(92, 15)
         btnSalir.Name = "btnSalir"
-        btnSalir.Size = New Size(29, 30)
+        btnSalir.Size = New Size(23, 23)
         btnSalir.TabIndex = 0
-        btnSalir.UseVisualStyleBackColor = True
+        btnSalir.UseVisualStyleBackColor = False
         ' 
         ' btnMaximizar
         ' 
+        btnMaximizar.BackColor = Color.Transparent
         btnMaximizar.FlatAppearance.BorderSize = 0
         btnMaximizar.FlatStyle = FlatStyle.Flat
         btnMaximizar.IconChar = FontAwesome.Sharp.IconChar.WindowMaximize
         btnMaximizar.IconColor = Color.WhiteSmoke
         btnMaximizar.IconFont = FontAwesome.Sharp.IconFont.Auto
-        btnMaximizar.IconSize = 30
-        btnMaximizar.Location = New Point(58, 11)
+        btnMaximizar.IconSize = 22
+        btnMaximizar.Location = New Point(54, 14)
         btnMaximizar.Name = "btnMaximizar"
-        btnMaximizar.Size = New Size(29, 30)
+        btnMaximizar.Size = New Size(23, 23)
         btnMaximizar.TabIndex = 0
-        btnMaximizar.UseVisualStyleBackColor = True
+        btnMaximizar.UseVisualStyleBackColor = False
         ' 
         ' btnMinimizar
         ' 
+        btnMinimizar.BackColor = Color.Transparent
         btnMinimizar.FlatAppearance.BorderSize = 0
         btnMinimizar.FlatStyle = FlatStyle.Flat
         btnMinimizar.IconChar = FontAwesome.Sharp.IconChar.WindowMinimize
         btnMinimizar.IconColor = Color.WhiteSmoke
         btnMinimizar.IconFont = FontAwesome.Sharp.IconFont.Auto
-        btnMinimizar.IconSize = 30
-        btnMinimizar.Location = New Point(11, 11)
+        btnMinimizar.IconSize = 22
+        btnMinimizar.Location = New Point(16, 14)
         btnMinimizar.Name = "btnMinimizar"
-        btnMinimizar.Size = New Size(29, 30)
+        btnMinimizar.Size = New Size(23, 23)
         btnMinimizar.TabIndex = 0
-        btnMinimizar.UseVisualStyleBackColor = True
+        btnMinimizar.UseVisualStyleBackColor = False
         ' 
         ' pnlRol
         ' 
@@ -141,24 +146,24 @@ Partial Class frm_Principal
         pnlRol.Dock = DockStyle.Left
         pnlRol.Location = New Point(649, 5)
         pnlRol.Name = "pnlRol"
-        pnlRol.Size = New Size(315, 54)
+        pnlRol.Size = New Size(439, 54)
         pnlRol.TabIndex = 4
         ' 
         ' lblCargo
         ' 
         lblCargo.AutoSize = True
-        lblCargo.Font = New Font("Century Gothic", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        lblCargo.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         lblCargo.ForeColor = Color.WhiteSmoke
         lblCargo.Location = New Point(14, 30)
         lblCargo.Name = "lblCargo"
-        lblCargo.Size = New Size(44, 16)
+        lblCargo.Size = New Size(51, 17)
         lblCargo.TabIndex = 0
         lblCargo.Text = "Cargo"
         ' 
         ' lblUsuario
         ' 
         lblUsuario.AutoSize = True
-        lblUsuario.Font = New Font("Century Gothic", 10F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        lblUsuario.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         lblUsuario.ForeColor = Color.WhiteSmoke
         lblUsuario.Location = New Point(14, 10)
         lblUsuario.Name = "lblUsuario"
@@ -185,6 +190,7 @@ Partial Class frm_Principal
         imgUser.IconFont = FontAwesome.Sharp.IconFont.Auto
         imgUser.IconSize = 54
         imgUser.Location = New Point(0, 0)
+        imgUser.Margin = New Padding(4)
         imgUser.Name = "imgUser"
         imgUser.Size = New Size(89, 54)
         imgUser.TabIndex = 0
@@ -201,11 +207,11 @@ Partial Class frm_Principal
         ' 
         ' lblTitulo
         ' 
-        lblTitulo.BackColor = Color.RoyalBlue
+        lblTitulo.BackColor = Color.Transparent
         lblTitulo.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblTitulo.ColorTexto = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Fill
-        lblTitulo.Font = New Font("Century Gothic", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblTitulo.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTitulo.Icono = FontAwesome.Sharp.IconChar.Glasses
         lblTitulo.Location = New Point(0, 0)
         lblTitulo.MostrarSeparador = False
@@ -217,6 +223,7 @@ Partial Class frm_Principal
         ' 
         ' pnlSalirfrm
         ' 
+        pnlSalirfrm.BackColor = Color.FromArgb(CByte(45), CByte(45), CByte(45))
         pnlSalirfrm.Controls.Add(btnSalirFrmHijo)
         pnlSalirfrm.Dock = DockStyle.Left
         pnlSalirfrm.Location = New Point(60, 5)
@@ -226,6 +233,7 @@ Partial Class frm_Principal
         ' 
         ' btnSalirFrmHijo
         ' 
+        btnSalirFrmHijo.BackColor = Color.FromArgb(CByte(6), CByte(91), CByte(210))
         btnSalirFrmHijo.Dock = DockStyle.Left
         btnSalirFrmHijo.FlatAppearance.BorderSize = 0
         btnSalirFrmHijo.FlatStyle = FlatStyle.Flat
@@ -237,7 +245,7 @@ Partial Class frm_Principal
         btnSalirFrmHijo.Name = "btnSalirFrmHijo"
         btnSalirFrmHijo.Size = New Size(56, 54)
         btnSalirFrmHijo.TabIndex = 0
-        btnSalirFrmHijo.UseVisualStyleBackColor = True
+        btnSalirFrmHijo.UseVisualStyleBackColor = False
         ' 
         ' pnlBars
         ' 
@@ -279,7 +287,7 @@ Partial Class frm_Principal
         pnlMenu.Controls.Add(btnVenta)
         pnlMenu.Controls.Add(btnInventario)
         pnlMenu.Dock = DockStyle.Left
-        pnlMenu.Font = New Font("Century Gothic", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        pnlMenu.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         pnlMenu.Location = New Point(0, 64)
         pnlMenu.Name = "pnlMenu"
         pnlMenu.Size = New Size(55, 562)
@@ -290,7 +298,7 @@ Partial Class frm_Principal
         btnAjustes.Dock = DockStyle.Top
         btnAjustes.FlatAppearance.BorderSize = 0
         btnAjustes.FlatStyle = FlatStyle.Flat
-        btnAjustes.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAjustes.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAjustes.ForeColor = Color.WhiteSmoke
         btnAjustes.IconChar = FontAwesome.Sharp.IconChar.Cog
         btnAjustes.IconColor = Color.WhiteSmoke
@@ -309,7 +317,7 @@ Partial Class frm_Principal
         btnAnalisis.Dock = DockStyle.Top
         btnAnalisis.FlatAppearance.BorderSize = 0
         btnAnalisis.FlatStyle = FlatStyle.Flat
-        btnAnalisis.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAnalisis.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAnalisis.ForeColor = Color.WhiteSmoke
         btnAnalisis.IconChar = FontAwesome.Sharp.IconChar.ListAlt
         btnAnalisis.IconColor = Color.WhiteSmoke
@@ -328,7 +336,7 @@ Partial Class frm_Principal
         btnReporte.Dock = DockStyle.Top
         btnReporte.FlatAppearance.BorderSize = 0
         btnReporte.FlatStyle = FlatStyle.Flat
-        btnReporte.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnReporte.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnReporte.ForeColor = Color.WhiteSmoke
         btnReporte.IconChar = FontAwesome.Sharp.IconChar.Newspaper
         btnReporte.IconColor = Color.WhiteSmoke
@@ -347,7 +355,7 @@ Partial Class frm_Principal
         btnNomina.Dock = DockStyle.Top
         btnNomina.FlatAppearance.BorderSize = 0
         btnNomina.FlatStyle = FlatStyle.Flat
-        btnNomina.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnNomina.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnNomina.ForeColor = Color.WhiteSmoke
         btnNomina.IconChar = FontAwesome.Sharp.IconChar.ContactBook
         btnNomina.IconColor = Color.WhiteSmoke
@@ -366,7 +374,7 @@ Partial Class frm_Principal
         btnComision.Dock = DockStyle.Top
         btnComision.FlatAppearance.BorderSize = 0
         btnComision.FlatStyle = FlatStyle.Flat
-        btnComision.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnComision.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnComision.ForeColor = Color.WhiteSmoke
         btnComision.IconChar = FontAwesome.Sharp.IconChar.MoneyCheck
         btnComision.IconColor = Color.WhiteSmoke
@@ -385,7 +393,7 @@ Partial Class frm_Principal
         btnEmpleado.Dock = DockStyle.Top
         btnEmpleado.FlatAppearance.BorderSize = 0
         btnEmpleado.FlatStyle = FlatStyle.Flat
-        btnEmpleado.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnEmpleado.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEmpleado.ForeColor = Color.WhiteSmoke
         btnEmpleado.IconChar = FontAwesome.Sharp.IconChar.Users
         btnEmpleado.IconColor = Color.WhiteSmoke
@@ -404,7 +412,7 @@ Partial Class frm_Principal
         btnProveedor.Dock = DockStyle.Top
         btnProveedor.FlatAppearance.BorderSize = 0
         btnProveedor.FlatStyle = FlatStyle.Flat
-        btnProveedor.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnProveedor.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnProveedor.ForeColor = Color.WhiteSmoke
         btnProveedor.IconChar = FontAwesome.Sharp.IconChar.Handshake
         btnProveedor.IconColor = Color.WhiteSmoke
@@ -423,7 +431,7 @@ Partial Class frm_Principal
         btnCompra.Dock = DockStyle.Top
         btnCompra.FlatAppearance.BorderSize = 0
         btnCompra.FlatStyle = FlatStyle.Flat
-        btnCompra.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCompra.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnCompra.ForeColor = Color.WhiteSmoke
         btnCompra.IconChar = FontAwesome.Sharp.IconChar.ShoppingBag
         btnCompra.IconColor = Color.WhiteSmoke
@@ -442,7 +450,7 @@ Partial Class frm_Principal
         btnVenta.Dock = DockStyle.Top
         btnVenta.FlatAppearance.BorderSize = 0
         btnVenta.FlatStyle = FlatStyle.Flat
-        btnVenta.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnVenta.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnVenta.ForeColor = Color.WhiteSmoke
         btnVenta.IconChar = FontAwesome.Sharp.IconChar.CartShopping
         btnVenta.IconColor = Color.WhiteSmoke
@@ -461,7 +469,7 @@ Partial Class frm_Principal
         btnInventario.Dock = DockStyle.Top
         btnInventario.FlatAppearance.BorderSize = 0
         btnInventario.FlatStyle = FlatStyle.Flat
-        btnInventario.Font = New Font("Century Gothic", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnInventario.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnInventario.ForeColor = Color.WhiteSmoke
         btnInventario.IconChar = FontAwesome.Sharp.IconChar.Truck
         btnInventario.IconColor = Color.WhiteSmoke

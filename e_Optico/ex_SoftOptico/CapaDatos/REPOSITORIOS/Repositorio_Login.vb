@@ -16,7 +16,6 @@ Public Class Repositorio_Login
         Insertar = "INSERT INTO TLogin (Usuario, Pass) VALUES (@Usuario, @Pass)"
         Actualizar = "UPDATE TLogin SET Usuario = @Usuario, Pass = @Pass WHERE Id = @Id"
         Eliminar = "DELETE FROM TLogin WHERE Id = @Id"
-
     End Sub
 
     Public Function ObtenerTodos() As IEnumerable(Of TLogin) Implements IRepositorio_Generico(Of TLogin).GetAll
@@ -37,31 +36,38 @@ Public Class Repositorio_Login
         Next
         Return lista
     End Function
-
-    Public Function ObtenerPorUsuarioYClave(usuario As String, clave As String) As IEnumerable(Of TLogin) Implements IRepositorio_Login.GetUserPass
+    Public Function GetUserPass(usuario As String, clave As String) As IEnumerable(Of VLogin)
         parameter = New List(Of SqlParameter) From {
             New SqlParameter("@Usuario", usuario),
             New SqlParameter("@Pass", clave)
         }
         Dim resultadoTable As DataTable = ExecuteReader(SeleccionarUserPass)
-        Dim lista = New List(Of TLogin)
+        Dim lista = New List(Of VLogin)
         For Each row As DataRow In resultadoTable.Rows
-            Dim login As New TLogin With {
-                .LoginID = Convert.ToInt32(row("LoginID")),
-                .EmpleadoID = Convert.ToString(row("EmpleadoID")),
-                .UbicacionID = Convert.ToString(row("UbicacionID")),
-                .RolID = Convert.ToString(row("RolID")),
+            Dim login As New VLogin With {
                 .Usuario = Convert.ToString(row("Usuario")),
+                .ID = Convert.ToInt32(row("ID")),
+                .Cedula = Convert.ToString(row("Cedula")),
                 .Clave = Convert.ToString(row("Clave")),
-                .Estado = Convert.ToBoolean(row("Estado")),
-                .FechaRegistro = Convert.ToDateTime(row("FechaRegistro"))
+                .Nombre = Convert.ToString(row("Nombre")),
+                .Apellido = Convert.ToString(row("Apellido")),
+                .Cargo = Convert.ToString(row("Cargo")),
+                .Correo = Convert.ToString(row("Correo")),
+                .Central = Convert.ToString(row("Central")),
+                .Clasificacion = Convert.ToString(row("Clasificacion")),
+                .Permisos = Convert.ToString(row("Permisos")),
+                .Estado = Convert.ToBoolean(row("Estado"))
             }
             lista.Add(login)
         Next
         Return lista
     End Function
 
-    Public Function ObtenerTodosLosUsuarios() As IEnumerable(Of TLogin) Implements IRepositorio_Login.GetAllUser
+    'Public Function ObtenerTodosLosUsuarios() As IEnumerable(Of VLogin) Implements IRepositorio_Login.GetAllUser
+    '    Return ObtenerTodos().Where(Function(x) x.Estado = True)
+    'End Function
+
+    Public Function GetAllUser() As IEnumerable(Of VLogin) Implements IRepositorio_Login.GetAllUser
         Return ObtenerTodos().Where(Function(x) x.Estado = True)
     End Function
 
@@ -98,4 +104,7 @@ Public Class Repositorio_Login
         Return ExecuteNonQuery(Eliminar)
     End Function
 
+    Private Function IRepositorio_Login_GetUserPass(usuario As String, clave As String) As IEnumerable(Of VLogin) Implements IRepositorio_Login.GetUserPass
+        Return GetUserPass(usuario, clave)
+    End Function
 End Class

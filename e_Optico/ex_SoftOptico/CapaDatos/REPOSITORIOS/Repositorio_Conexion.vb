@@ -1,7 +1,7 @@
 ﻿Imports System.Configuration
-Imports Microsoft.data.sqlclient
+Imports Microsoft.data.SqlClient
 
-Public MustInherit Class Repositorio
+Public MustInherit Class Repositorio_Conexion
     Private ReadOnly ConnectionString As String
     Public Sub New()
         ' Constructor base para inicializar cualquier recurso común

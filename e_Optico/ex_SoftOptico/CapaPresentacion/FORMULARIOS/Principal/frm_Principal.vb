@@ -36,8 +36,26 @@ Public Class frm_Principal
 
         InitializeComponent()
         FormStylerUI.Apply(Me)
-
+        CustomerComponent()
         pnlDrawer.BringToFront()
+    End Sub
+
+    Private Sub CustomerComponent()
+        With Me
+            .pnlMenu.BackColor = AppColors._cMenu1
+            .pnlEncabezado.BackColor = AppColors._cFondo
+            .pnlBotones.BackColor = AppColors._cFondo
+            .pnlRol.BackColor = AppColors._cFondo
+            .pnlSalirfrm.BackColor = AppColors._cFondo
+            'Boton regresar
+            .btnSalirFrmHijo.IconColor = AppColors._cBlanco
+            .btnSalirFrmHijo.BackColor = AppColors._cFondo
+            'Boton para mostrar el menu
+            .btnMostrarMenu.IconColor = AppColors._cHeaderTexto
+            'Botones de formulario
+            .btnSalir.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
+
+        End With
     End Sub
 
     Protected Overrides ReadOnly Property CreateParams As CreateParams
@@ -137,8 +155,7 @@ Public Class frm_Principal
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
         'pnlDrawer.Visible = True
-        'If pnlDrawer.Width <= 0 Then
-        DrawerTimer.Start()
+        If pnlDrawer.Visible = False Then DrawerTimer.Start()
         'End If
         'drawerAbierto = True
     End Sub
@@ -266,8 +283,7 @@ Public Class frm_Principal
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
         'pnlDrawer.Visible = True
-        'If pnlDrawer.Width <= 0 Then
-        DrawerTimer.Start()
+        If pnlDrawer.Visible = False Then DrawerTimer.Start()
         'End If
         'drawerAbierto = True
     End Sub
@@ -341,8 +357,7 @@ Public Class frm_Principal
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
         'pnlDrawer.Visible = True
-        'If pnlDrawer.Width <= 0 Then
-        DrawerTimer.Start()
+        If pnlDrawer.Visible = False Then DrawerTimer.Start()
         'End If
         'drawerAbierto = True
     End Sub
@@ -411,8 +426,7 @@ Public Class frm_Principal
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
         'pnlDrawer.Visible = True
-        'If pnlDrawer.Width <= 0 Then
-        DrawerTimer.Start()
+        If pnlDrawer.Visible = False Then DrawerTimer.Start()
         'End If
         'drawerAbierto = True
     End Sub

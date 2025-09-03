@@ -22,7 +22,6 @@ Partial Class frm_Login
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New ComponentModel.Container()
         pnlContenido = New Panel()
         btnOlvidePass = New ButtonLinkUI()
         btnAceptar = New CommandButtonUI()
@@ -79,7 +78,7 @@ Partial Class frm_Login
         btnAceptar.Name = "btnAceptar"
         btnAceptar.RadioBorde = 8
         btnAceptar.Size = New Size(266, 42)
-        btnAceptar.TabIndex = 3
+        btnAceptar.TabIndex = 2
         btnAceptar.Text = "CommandButtonui1"
         btnAceptar.Texto = "Aceptar"
         ' 
@@ -169,7 +168,7 @@ Partial Class frm_Login
         txtUsuario.TextoUsuario = ""
         txtUsuario.UsarModoContraseña = False
         txtUsuario.ValidarComoCorreo = False
-
+        ' 
         ' frm_Login
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)

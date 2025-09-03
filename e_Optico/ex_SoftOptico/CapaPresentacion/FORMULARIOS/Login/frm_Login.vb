@@ -45,6 +45,8 @@ Public Class frm_Login
     End Sub
 
 #End Region
+
+#Region "CONSTRUCTOR"
     Public Sub New()
 
         ' Esta llamada es exigida por el diseñador.
@@ -54,11 +56,17 @@ Public Class frm_Login
         CustomizeComponent()
     End Sub
 
+#End Region
+
     Private Sub frm_Login_Load(sender As Object, e As EventArgs) Handles Me.Load
         FadeManagerUI.StartFade(Me, 0.02)
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+        IniciarApp()
+    End Sub
+
+    Private Sub IniciarApp()
         ' Validar todos los campos requeridos
         Dim primerInvalido As TextBoxLabelUI = Nothing
         Dim esFormularioValido As Boolean = True
@@ -80,7 +88,7 @@ Public Class frm_Login
         End If
 
         'VALIDA LOS USUARIOS Y CONTRASEÑAS
-        Dim userModel As New Repositorio_VLogin
+        Dim userModel As New Repositorio_Login
         Dim validUser = userModel.GetUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
             MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
@@ -103,7 +111,6 @@ Public Class frm_Login
         frm.Show()
         AddHandler frm.FormClosed, AddressOf Logout
         Hide()
-
     End Sub
 
     Private Sub Logout(sender As Object, e As FormClosedEventArgs)
@@ -112,4 +119,14 @@ Public Class frm_Login
         Me.Show()
     End Sub
 
+    Private Sub txtPass_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPass.CampoKeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            e.Handled = True
+            IniciarApp()
+        End If
+    End Sub
+
+    Private Sub txtUsuario_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUsuario.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
 End Class

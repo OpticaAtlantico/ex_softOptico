@@ -34,8 +34,8 @@ Public Class AlertPanelUI
         Me.Size = New Size(400, 45)
         Me.BackColor = Color.Transparent
         _btnCerrar.Text = "✖"
-        _btnCerrar.Font = New Font("Century Gothic", 10, FontStyle.Bold)
-        _btnCerrar.ForeColor = Color.White
+        _btnCerrar.Font = New Font(AppFonts.Century, AppFonts.SizeMedium, AppFonts.Bold)
+        _btnCerrar.ForeColor = AppColors._cBlanco
         _btnCerrar.AutoSize = False
         _btnCerrar.TextAlign = ContentAlignment.MiddleCenter
         _btnCerrar.Size = New Size(20, 20)
