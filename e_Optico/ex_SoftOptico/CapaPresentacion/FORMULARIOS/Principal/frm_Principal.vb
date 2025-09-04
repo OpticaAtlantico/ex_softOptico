@@ -54,7 +54,8 @@ Public Class frm_Principal
             .btnMostrarMenu.IconColor = AppColors._cHeaderTexto
             'Botones de formulario
             .btnSalir.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
-
+            .btnMinimizar.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
+            .btnMaximizar.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
         End With
     End Sub
 
@@ -266,19 +267,28 @@ Public Class frm_Principal
         opciones.Add(Tuple.Create("Reporte", IconChar.ListCheck, handlerReporte))
 
         Dim handlerDevolucion As New EventHandler(AddressOf SubReportesInv_Click)
-        opciones.Add(Tuple.Create("Devolución a Prove...", IconChar.Refresh, handlerDevolucion))
+        opciones.Add(Tuple.Create("Conteo Fisico", IconChar.Refresh, handlerDevolucion))
+
+        Dim handlerDevolucin As New EventHandler(AddressOf SubReportesInv_Click)
+        opciones.Add(Tuple.Create("Ajustes", IconChar.Refresh, handlerDevolucion))
+
+        Dim handlerDevolucio As New EventHandler(AddressOf SubReportesInv_Click)
+        opciones.Add(Tuple.Create("Admin. Generos", IconChar.Refresh, handlerDevolucion))
+
+        Dim handlerDevoluci As New EventHandler(AddressOf SubReportesInv_Click)
+        opciones.Add(Tuple.Create("Admin. Grupos", IconChar.Refresh, handlerDevolucion))
 
         Dim handlerConsultar As New EventHandler(AddressOf SubConsultarInv_Click)
-        opciones.Add(Tuple.Create("Consultar", IconChar.ListNumeric, handlerConsultar))
+        opciones.Add(Tuple.Create("Consultas", IconChar.ListNumeric, handlerConsultar))
 
         Dim handlerEliminar As New EventHandler(AddressOf SubEliminarInv_Click)
-        opciones.Add(Tuple.Create("Borrar Orden", IconChar.TrashArrowUp, handlerEliminar))
+        opciones.Add(Tuple.Create("Lista de Miselaneos", IconChar.TrashArrowUp, handlerEliminar))
 
         Dim handlerEditar As New EventHandler(AddressOf SubEditarInv_Click)
-        opciones.Add(Tuple.Create("Editar Orden", IconChar.FilePen, handlerEditar))
+        opciones.Add(Tuple.Create("Catalogo de Cristales", IconChar.FilePen, handlerEditar))
 
         Dim handlerNuevo As New EventHandler(AddressOf SubNuevoInv_Click)
-        opciones.Add(Tuple.Create("Nueva Orden", IconChar.Save, handlerNuevo))
+        opciones.Add(Tuple.Create("Catalogo de Lentes", IconChar.Save, handlerNuevo))
 
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
@@ -687,6 +697,8 @@ Public Class frm_Principal
 
         lblUsuario.Text = Sesion.NombreUsuario
         lblCargo.Text = Sesion.Cargo
+
+        lblTitulo.Icono = IconChar.Eye
 
         WindowState = FormWindowState.Maximized
     End Sub

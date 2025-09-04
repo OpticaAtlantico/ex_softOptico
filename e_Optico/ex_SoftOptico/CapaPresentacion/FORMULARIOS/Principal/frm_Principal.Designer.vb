@@ -144,7 +144,7 @@ Partial Class frm_Principal
         pnlRol.Controls.Add(lblCargo)
         pnlRol.Controls.Add(lblUsuario)
         pnlRol.Dock = DockStyle.Left
-        pnlRol.Location = New Point(649, 5)
+        pnlRol.Location = New Point(620, 5)
         pnlRol.Name = "pnlRol"
         pnlRol.Size = New Size(439, 54)
         pnlRol.TabIndex = 4
@@ -176,8 +176,9 @@ Partial Class frm_Principal
         pnlLogoUser.Controls.Add(imgUser)
         pnlLogoUser.Dock = DockStyle.Left
         pnlLogoUser.Location = New Point(560, 5)
+        pnlLogoUser.Margin = New Padding(0)
         pnlLogoUser.Name = "pnlLogoUser"
-        pnlLogoUser.Size = New Size(89, 54)
+        pnlLogoUser.Size = New Size(60, 54)
         pnlLogoUser.TabIndex = 3
         ' 
         ' imgUser
@@ -187,12 +188,12 @@ Partial Class frm_Principal
         imgUser.ForeColor = Color.WhiteSmoke
         imgUser.IconChar = FontAwesome.Sharp.IconChar.UserShield
         imgUser.IconColor = Color.WhiteSmoke
-        imgUser.IconFont = FontAwesome.Sharp.IconFont.Auto
-        imgUser.IconSize = 54
+        imgUser.IconFont = FontAwesome.Sharp.IconFont.Solid
+        imgUser.IconSize = 60
         imgUser.Location = New Point(0, 0)
-        imgUser.Margin = New Padding(4)
+        imgUser.Margin = New Padding(0)
         imgUser.Name = "imgUser"
-        imgUser.Size = New Size(89, 54)
+        imgUser.Size = New Size(60, 54)
         imgUser.TabIndex = 0
         imgUser.TabStop = False
         ' 
@@ -212,7 +213,7 @@ Partial Class frm_Principal
         lblTitulo.ColorTexto = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Fill
         lblTitulo.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblTitulo.Icono = FontAwesome.Sharp.IconChar.Glasses
+        lblTitulo.Icono = FontAwesome.Sharp.IconChar.Eye
         lblTitulo.Location = New Point(0, 0)
         lblTitulo.MostrarSeparador = False
         lblTitulo.Name = "lblTitulo"

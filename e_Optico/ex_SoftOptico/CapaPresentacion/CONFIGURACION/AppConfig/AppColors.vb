@@ -56,7 +56,8 @@
     Public Shared ReadOnly _cHeaderSubTitulo = Color.FromArgb(45, 45, 45)
 
     Public Shared ReadOnly _cHeaderTexto = Color.FromArgb(45, 45, 45)
-    Public Shared ReadOnly _cBotonFrm = Color.FromArgb(23, 115, 156)
+    Public Shared ReadOnly _cBotonFrm = Color.LightSkyBlue
+
 
 
 End Class
