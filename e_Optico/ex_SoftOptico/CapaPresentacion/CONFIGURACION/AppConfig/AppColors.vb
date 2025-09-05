@@ -58,6 +58,16 @@
     Public Shared ReadOnly _cHeaderTexto = Color.FromArgb(45, 45, 45)
     Public Shared ReadOnly _cBotonFrm = Color.LightSkyBlue
 
+    'Color de controles de entrada de datos
+    Public Shared ReadOnly _cLabel = Color.DarkSlateGray
+    Public Shared ReadOnly _cTexto = Color.Black
+    Public Shared ReadOnly _cMsgError = Color.Firebrick
+    Public Shared ReadOnly _cIcono = Color.FromArgb(57, 103, 208)
+    Public Shared ReadOnly _cBorde = Color.FromArgb(57, 103, 208)
+    Public Shared ReadOnly _cSombra = Color.LightGray
+    Public Shared ReadOnly _cBordeSel = _cBaseInfo
+    Public Shared ReadOnly _cBordeError = _cMsgError
+    Public Shared ReadOnly _cFondoControl = _cBlanco
 
 
 End Class

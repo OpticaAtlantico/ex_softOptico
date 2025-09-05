@@ -14,40 +14,46 @@ Public Class MaskedTextBoxLabelUI
     Private txtCampo As New MaskedTextBox()
     Private lblError As New Label()
 
+    Private _tipoNumerico As TipoEntradaNumerica = TipoEntradaNumerica.Ninguno
+    Private _campoRequerido As Boolean = True
+    Private _mensajeError As String = "Este campo es obligatorio."
+    Private _colorError As Color = AppColors._cMsgError
+
+    ' === Visual orbital ===
+    Private _borderRadius As Integer = 8
+    Private _borderColorNormal As Color = AppColors._cBorde
+
     ' === Estilos ===
     Private _labelText As String = "Campo numérico:"
-    Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
-    Private _sombraBackColor As Color = Color.LightGray
-    Private _textColor As Color = Color.WhiteSmoke
-    Private _fontField As Font = New Font("Century Gothic", 12)
+    Private _panelBackColor As Color = AppColors._cBlanco
+    Private _sombraBackColor As Color = AppColors._cSombra
+    Private _textColor As Color = AppColors._cTexto
+    Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
     Private _paddingAll As Integer = 10
     Private _maxCaracteres As Integer = 0
     Private iconoDerecho As New IconPictureBox()
-    Private _borderColorPersonalizado As Color = Color.LightGray
+    Private _borderColorPersonalizado As Color = AppColors._cBorde
     Private _borderSize As Integer = 1
-    Private _labelColor As Color = Color.WhiteSmoke
-
+    Private _labelColor As Color = AppColors._cLabel
+    Private _focusColor As Color = AppColors._cBordeSel
     Private WithEvents innerTextBox As New TextBox
 
     'Evento keypress
     Public Event CampoKeyPress(sender As Object, e As KeyPressEventArgs)
 
-    ' === Validación ===
+#Region "PROPIEDADES"
+
+#End Region
+
+#Region "TIPOS ENTRADAS"
     Public Enum TipoEntradaNumerica
         Ninguno
         Entero
         Decimals
     End Enum
+#End Region
 
-    Private _tipoNumerico As TipoEntradaNumerica = TipoEntradaNumerica.Ninguno
-    Private _campoRequerido As Boolean = True
-    Private _mensajeError As String = "Este campo es obligatorio."
-    Private _colorError As Color = Color.Firebrick
-
-    ' === Visual orbital ===
-    Private _borderRadius As Integer = 5
-    Private _borderColorNormal As Color = Color.LightGray
-
+#Region "CONSTRUCTOR"
     ' === Constructor ===
     Public Sub New()
         Me.DoubleBuffered = True
@@ -61,7 +67,7 @@ Public Class MaskedTextBoxLabelUI
 
         lblTitulo.Text = _labelText
         lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
-        lblTitulo.ForeColor = Color.WhiteSmoke
+        lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = 20
 
@@ -97,7 +103,7 @@ Public Class MaskedTextBoxLabelUI
         lblError.TextAlign = ContentAlignment.MiddleRight
 
         iconoDerecho.IconChar = IconChar.InfoCircle
-        iconoDerecho.IconColor = Color.White
+        iconoDerecho.IconColor = AppColors._cIcono
         iconoDerecho.Size = New Size(24, 24)
         iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
         iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
@@ -127,107 +133,12 @@ Public Class MaskedTextBoxLabelUI
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
         AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
+        AddHandler txtCampo.Enter, AddressOf OnEnter
 
     End Sub
-    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
-        RaiseEvent CampoKeyPress(Me, e)
-    End Sub
+#End Region
 
-
-    ' === Validación automática orbital ===
-    Private Function ValidarEntrada() As Boolean
-        Dim texto As String = txtCampo.Text.Trim()
-        Dim mensajeError As String = ""
-        Dim valido As Boolean = True
-
-        ' Validación requerida
-        If _campoRequerido AndAlso String.IsNullOrEmpty(texto) Then
-            mensajeError = _mensajeError
-            valido = False
-
-            ' Validación numérica
-        ElseIf _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(texto, Nothing) Then
-            mensajeError = "Solo se permiten números enteros."
-            valido = False
-
-        ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(texto, Nothing) Then
-            mensajeError = "Solo se permiten números decimales."
-            valido = False
-
-            ' Validación de longitud
-        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
-            mensajeError = $"Máximo {_maxCaracteres} caracteres."
-            valido = False
-        End If
-
-        ' Mostrar resultado
-        If Not valido Then
-            lblError.Text = mensajeError
-            lblError.Visible = True
-            _borderColorNormal = _colorError
-        Else
-            lblError.Visible = False
-            _borderColorNormal = _borderColorPersonalizado
-        End If
-
-        pnlFondo.Invalidate()
-        Return valido
-    End Function
-
-    Private Sub OnTextChanged(sender As Object, e As EventArgs)
-        If Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
-            ValidarEntrada()
-        End If
-    End Sub
-
-    Private Sub OnLeave(sender As Object, e As EventArgs)
-        ValidarEntrada()
-    End Sub
-
-    Public Function EsValido() As Boolean
-        Return ValidarEntrada()
-    End Function
-
-    ' === Fondo redondeado orbital ===
-    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
-        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-        Dim rect = pnlFondo.ClientRectangle
-        rect.Inflate(-1, -1)
-
-        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-            Using brush As New SolidBrush(pnlFondo.BackColor)
-                e.Graphics.FillPath(brush, path)
-            End Using
-            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorPersonalizado)
-            Using pen As New Pen(colorBorde, _borderSize)
-                e.Graphics.DrawPath(pen, path)
-            End Using
-        End Using
-    End Sub
-
-    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
-        Dim path As New GraphicsPath()
-        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
-        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
-        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
-        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
-        path.CloseFigure()
-        Return path
-    End Function
-
-    Private Sub ValidarCampo(sender As Object, e As EventArgs)
-        EsValido()
-    End Sub
-
-    Public Function TryGetDate() As DateTime?
-        If String.IsNullOrWhiteSpace(Me.TextValue) Then Return Nothing
-
-        Dim fecha As DateTime
-        If DateTime.TryParse(Me.TextValue, fecha) Then Return fecha
-        Return Nothing
-    End Function
-
-
+#Region "PROPIEDADES"
     ' === Propiedades orbitales ===
 
     <Category("WilmerUI")>
@@ -238,6 +149,17 @@ Public Class MaskedTextBoxLabelUI
         Set(value As String)
             _labelText = value
             lblTitulo.Text = value
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property FocusColor As Color
+        Get
+            Return _focusColor
+        End Get
+        Set(value As Color)
+            _focusColor = value
+            Me.Invalidate()
         End Set
     End Property
 
@@ -418,10 +340,10 @@ Public Class MaskedTextBoxLabelUI
     <Category("WilmerUI")>
     Public Property BorderColor As Color
         Get
-            Return _borderColorPersonalizado
+            Return _borderColorNormal
         End Get
         Set(value As Color)
-            _borderColorPersonalizado = value
+            _borderColorNormal = value
             pnlFondo.Invalidate()
         End Set
     End Property
@@ -455,6 +377,121 @@ Public Class MaskedTextBoxLabelUI
             _maxCaracteres = value
         End Set
     End Property
+#End Region
+
+#Region "EVENTOS INTERNOS"
+    Public Function TryGetDate() As DateTime?
+        If String.IsNullOrWhiteSpace(Me.TextValue) Then Return Nothing
+
+        Dim fecha As DateTime
+        If DateTime.TryParse(Me.TextValue, fecha) Then Return fecha
+        Return Nothing
+    End Function
+    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
+        RaiseEvent CampoKeyPress(Me, e)
+    End Sub
+
+    Private Sub OnEnter(sender As Object, e As EventArgs)
+        _borderColorNormal = _focusColor
+        pnlFondo.Invalidate()
+    End Sub
+    Private Sub OnTextChanged(sender As Object, e As EventArgs)
+        If Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            ValidarEntrada()
+        End If
+    End Sub
+
+    Private Sub OnLeave(sender As Object, e As EventArgs)
+        ValidarEntrada()
+        If lblError.Visible Then
+            _borderColorNormal = _colorError
+        Else
+            _borderColorNormal = _borderColorPersonalizado
+        End If
+        pnlFondo.Invalidate()
+    End Sub
+
+#End Region
+
+#Region "VALIDACIONES"
+    ' === Validación automática orbital ===
+    Private Function ValidarEntrada() As Boolean
+        Dim texto As String = txtCampo.Text.Trim()
+        Dim mensajeError As String = ""
+        Dim valido As Boolean = True
+
+        ' Validación requerida
+        If _campoRequerido AndAlso String.IsNullOrEmpty(texto) Then
+            mensajeError = _mensajeError
+            valido = False
+
+            ' Validación numérica
+        ElseIf _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(texto, Nothing) Then
+            mensajeError = "Solo se permiten números enteros."
+            valido = False
+
+        ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(texto, Nothing) Then
+            mensajeError = "Solo se permiten números decimales."
+            valido = False
+
+            ' Validación de longitud
+        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
+            mensajeError = $"Máximo {_maxCaracteres} caracteres."
+            valido = False
+        End If
+
+        ' Mostrar resultado
+        If Not valido Then
+            lblError.Text = mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+        Else
+            lblError.Visible = False
+            _borderColorNormal = _borderColorPersonalizado
+        End If
+
+        pnlFondo.Invalidate()
+        Return valido
+    End Function
+
+    Public Function EsValido() As Boolean
+        Return ValidarEntrada()
+    End Function
+
+    Private Sub ValidarCampo(sender As Object, e As EventArgs)
+        EsValido()
+    End Sub
+#End Region
+
+#Region "DIBUJO"
+    ' === Fondo redondeado orbital ===
+    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+        Dim rect = pnlFondo.ClientRectangle
+        rect.Inflate(-1, -1)
+
+        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
+            Using brush As New SolidBrush(pnlFondo.BackColor)
+                e.Graphics.FillPath(brush, path)
+            End Using
+            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorNormal)
+            Using pen As New Pen(colorBorde, _borderSize)
+                e.Graphics.DrawPath(pen, path)
+            End Using
+        End Using
+    End Sub
+
+    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
+        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
+        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
+
+#End Region
 
     'Como cambio el icono dse la derecha
 

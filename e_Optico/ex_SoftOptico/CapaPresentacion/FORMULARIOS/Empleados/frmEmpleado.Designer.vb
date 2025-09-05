@@ -248,7 +248,7 @@ Partial Class frmEmpleado
         txtCedula.BorderRadius = 8
         txtCedula.BorderSize = 1
         txtCedula.CampoRequerido = True
-        txtCedula.ColorError = Color.Firebrick
+        txtCedula.ColorError = Color.FromArgb(CByte(192), CByte(0), CByte(0))
         txtCedula.FontField = New Font("Century Gothic", 12F)
         txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard

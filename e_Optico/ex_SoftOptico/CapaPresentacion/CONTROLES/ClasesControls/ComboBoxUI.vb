@@ -6,13 +6,13 @@ Imports System.Windows.Forms
 Public Class ComboBoxUI
     Inherits ComboBox
 
-    Private _borderColor As Color = Color.FromArgb(57, 103, 208)
-    Private _focusColor As Color = Color.DeepSkyBlue
-    Private _borderRadius As Integer = 6
+    Private _borderColor As Color = AppColors._cBorde
+    Private _focusColor As Color = AppColors._cBordeSel
+    Private _borderRadius As Integer = 8
     Private _hasFocus As Boolean = False
-    Private _backgroundColor As Color = Color.White
-    Private _textColor As Color = Color.Black
-    Private _shadowColor As Color = Color.FromArgb(30, Color.Black)
+    Private _backgroundColor As Color = AppColors._cBlanco
+    Private _textColor As Color = AppColors._cTexto
+    Private _shadowColor As Color = AppColors._cSombra
 
 #Region "CONSTRUCTOR"
     Public Sub New()
@@ -27,7 +27,7 @@ Public Class ComboBoxUI
         Me.Font = New Font(AppFonts.Century, AppFonts.SizeMedium, AppFonts.Regular)
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
-        Me.ForeColor = Color.Black
+        Me.ForeColor = AppColors._cTexto
         Me.Size = New Size(300, 30)
     End Sub
 #End Region
@@ -109,24 +109,28 @@ Public Class ComboBoxUI
             Me.SelectedItem = value
         End Set
     End Property
+
+    Public ReadOnly Property ValorClave As Object
+        Get
+            If Me.SelectedItem IsNot Nothing AndAlso TypeOf Me.SelectedItem Is LlenarComboBox.ComboItem Then
+                Return CType(Me.SelectedItem, LlenarComboBox.ComboItem).Valor
+            End If
+            Return Nothing
+        End Get
+    End Property
+
+    Public ReadOnly Property ValorTexto As String
+        Get
+            If Me.SelectedItem IsNot Nothing AndAlso TypeOf Me.SelectedItem Is LlenarComboBox.ComboItem Then
+                Return CType(Me.SelectedItem, LlenarComboBox.ComboItem).Texto
+            End If
+            Return Me.Text
+        End Get
+    End Property
+
 #End Region
 
-    Public Sub AddItem(item As Object)
-        Me.Items.Add(item)
-    End Sub
-
-    Protected Overrides Sub OnGotFocus(e As EventArgs)
-        MyBase.OnGotFocus(e)
-        _hasFocus = True
-        Me.Invalidate()
-    End Sub
-
-    Protected Overrides Sub OnLostFocus(e As EventArgs)
-        MyBase.OnLostFocus(e)
-        _hasFocus = False
-        Me.Invalidate()
-    End Sub
-
+#Region "DIBUJO"
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
@@ -202,27 +206,27 @@ Public Class ComboBoxUI
         path.CloseFigure()
         Return path
     End Function
+#End Region
 
-    Public ReadOnly Property ValorClave As Object
-        Get
-            If Me.SelectedItem IsNot Nothing AndAlso TypeOf Me.SelectedItem Is LlenarComboBox.ComboItem Then
-                Return CType(Me.SelectedItem, LlenarComboBox.ComboItem).Valor
-            End If
-            Return Nothing
-        End Get
-    End Property
+#Region "EVENTOS INTERNOS"
+    Protected Overrides Sub OnGotFocus(e As EventArgs)
+        MyBase.OnGotFocus(e)
+        _hasFocus = True
+        Me.Invalidate()
+    End Sub
 
-    Public ReadOnly Property ValorTexto As String
-        Get
-            If Me.SelectedItem IsNot Nothing AndAlso TypeOf Me.SelectedItem Is LlenarComboBox.ComboItem Then
-                Return CType(Me.SelectedItem, LlenarComboBox.ComboItem).Texto
-            End If
-            Return Me.Text
-        End Get
-    End Property
+    Protected Overrides Sub OnLostFocus(e As EventArgs)
+        MyBase.OnLostFocus(e)
+        _hasFocus = False
+        Me.Invalidate()
+    End Sub
+#End Region
 
-
-    'empleado.EstadoCivil = cmbEstadoCivilUI.ValorClave?.ToString()
-
+#Region "PROCEDIMIENTOS"
+    Public Sub AddItem(item As Object)
+        Me.Items.Add(item)
+    End Sub
+#End Region
 
 End Class
+'empleado.EstadoCivil = cmbEstadoCivilUI.ValorClave?.ToString()

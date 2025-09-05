@@ -5,21 +5,31 @@ Imports FontAwesome.Sharp
 Public Class LoadingButtonUI
     Inherits Control
 
+    Private _estadoProcesando As Boolean = False
+    Private hovering As Boolean = False
+    Private presionado As Boolean = False
+    Private spinnerAngle As Integer = 0
+
+    Private clickTimer As New Timer With {.Interval = 100}
+    Private spinnerTimer As New Timer With {.Interval = 80}
+    Private iconControl As New IconPictureBox()
+
+#Region "PROPIEDADES"
     ' 📦 Propiedades principales
-    <Category("Contenido UI")> Public Property Texto As String = "Guardar"
+    <Category("Contenido UI")> Public Property Texto As String = "Guardar..."
     <Category("Contenido UI")> Public Property Icono As IconChar = IconChar.Save
 
-    <Category("Estilo UI")> Public Property ColorBase As Color = Color.FromArgb(76, 175, 80)
-    <Category("Estilo UI")> Public Property ColorHover As Color = Color.FromArgb(67, 160, 71)
-    <Category("Estilo UI")> Public Property ColorPresionado As Color = Color.FromArgb(56, 142, 60)
-    <Category("Estilo UI")> Public Property ColorTexto As Color = Color.White
-    <Category("Estilo UI")> Public Property RadioBorde As Integer = 6
+    <Category("Estilo UI")> Public Property ColorBase As Color = AppColors._cBaseInfo
+    <Category("Estilo UI")> Public Property ColorHover As Color = AppColors._cHoverInfo
+    <Category("Estilo UI")> Public Property ColorPresionado As Color = AppColors._cPresionadoInfo
+    <Category("Estilo UI")> Public Property ColorTexto As Color = AppColors._cBlanco
+    <Category("Estilo UI")> Public Property RadioBorde As Integer = 8
 
-    <Browsable(False)> Public Property ColorInternoFondo As Color = Color.FromArgb(76, 175, 80)
+    <Browsable(False)> Public Property ColorInternoFondo As Color = AppColors._cBaseSuccess
 
     ' 🔄 Spinner
     <Category("Spinner UI")> Public Property MostrarSpinner As Boolean = False
-    <Category("Spinner UI")> Public Property SpinnerColor As Color = Color.White
+    <Category("Spinner UI")> Public Property SpinnerColor As Color = AppColors._cBlanco
 
     ' ⚙️ Estado de procesamiento
     <Category("Estado")>
@@ -34,17 +44,9 @@ Public Class LoadingButtonUI
             Me.Invalidate()
         End Set
     End Property
-    Private _estadoProcesando As Boolean = False
+#End Region
 
-    ' 🔒 Variables internas
-    Private hovering As Boolean = False
-    Private presionado As Boolean = False
-    Private spinnerAngle As Integer = 0
-
-    Private clickTimer As New Timer With {.Interval = 100}
-    Private spinnerTimer As New Timer With {.Interval = 80}
-    Private iconControl As New IconPictureBox()
-
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -53,7 +55,7 @@ Public Class LoadingButtonUI
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
         Me.Size = New Size(160, 45)
-        Me.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        Me.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Bold)
         Me.Cursor = Cursors.Hand
         Me.BackColor = Color.Transparent
 
@@ -77,7 +79,9 @@ Public Class LoadingButtonUI
 
         ColorInternoFondo = ColorBase
     End Sub
+#End Region
 
+#Region "DIBUJO"
     Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
         If Me.Parent IsNot Nothing Then
             Using b As New SolidBrush(Me.Parent.BackColor)
@@ -87,7 +91,6 @@ Public Class LoadingButtonUI
             MyBase.OnPaintBackground(e)
         End If
     End Sub
-
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
         Dim g = e.Graphics
         g.SmoothingMode = SmoothingMode.AntiAlias
@@ -130,7 +133,6 @@ Public Class LoadingButtonUI
             Next
         End If
     End Sub
-
     Private Function BordeRedondeado(rect As Rectangle, radio As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
         path.AddArc(rect.X, rect.Y, radio, radio, 180, 90)
@@ -140,7 +142,9 @@ Public Class LoadingButtonUI
         path.CloseFigure()
         Return path
     End Function
+#End Region
 
+#Region "EVENTO INTERNO"
     Protected Overrides Sub OnMouseEnter(e As EventArgs)
         hovering = True
         Me.Invalidate()
@@ -159,4 +163,6 @@ Public Class LoadingButtonUI
         Me.Invalidate()
         MyBase.OnClick(e)
     End Sub
+#End Region
+
 End Class

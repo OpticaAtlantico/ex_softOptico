@@ -5,6 +5,11 @@ Imports FontAwesome.Sharp
 Public Class LabelUI
     Inherits Control
 
+    Private _colorInterno As Color = AppColors._cBaseInfo ' Info por defecto
+    Private _estiloLabel As EstiloBootstrap = EstiloBootstrap.Info
+    Private iconControl As New IconPictureBox()
+
+#Region "ESTILOS"
     Public Enum EstiloBootstrap
         Primary
         Success
@@ -13,7 +18,9 @@ Public Class LabelUI
         Info
         Dark
     End Enum
+#End Region
 
+#Region "PROPIEDADES"
     ' 📦 Propiedades orbitales
     <Category("Contenido Orbital")>
     Public Property Texto As String = "Mensaje informativo"
@@ -22,7 +29,7 @@ Public Class LabelUI
     Public Property Icono As IconChar = IconChar.InfoCircle
 
     <Category("Estilo Orbital")>
-    Public Property RadioBorde As Integer = 6
+    Public Property RadioBorde As Integer = 8
 
     <Category("Estilo Orbital")>
     Public Property BloquearColorFondo As Boolean = True
@@ -38,7 +45,6 @@ Public Class LabelUI
             Me.Invalidate()
         End Set
     End Property
-    Private _estiloLabel As EstiloBootstrap = EstiloBootstrap.Info
 
     ' 🛡 Fondo interno desacoplado del BackColor
     <Browsable(False)>
@@ -51,10 +57,9 @@ Public Class LabelUI
             Me.Invalidate()
         End Set
     End Property
-    Private _colorInterno As Color = Color.FromArgb(208, 233, 242) ' Info por defecto
+#End Region
 
-    Private iconControl As New IconPictureBox()
-
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -63,13 +68,9 @@ Public Class LabelUI
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
         Me.Size = New Size(280, 38)
-        Me.Font = New Font("Century Gothic", 10, FontStyle.Regular)
+        Me.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Regular)
 
         ' ✅ Activar soporte de transparencia visual
-        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
-                    ControlStyles.UserPaint Or
-                    ControlStyles.AllPaintingInWmPaint Or
-                    ControlStyles.OptimizedDoubleBuffer, True)
         Me.BackColor = Color.Transparent
 
         ' ⭐ Ícono informativo
@@ -82,7 +83,9 @@ Public Class LabelUI
         Me.Padding = New Padding(10, 6, 10, 6)
         AplicarEstilo(_estiloLabel)
     End Sub
+#End Region
 
+#Region "DIBUJO"
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
         Dim g = e.Graphics
         g.SmoothingMode = SmoothingMode.AntiAlias
@@ -111,7 +114,27 @@ Public Class LabelUI
         iconControl.IconColor = Me.ForeColor
         iconControl.Location = New Point(10, (Me.Height - iconControl.Height) \ 2)
     End Sub
+    Private Function BordeRedondeado(rect As Rectangle, radio As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.AddArc(rect.X, rect.Y, radio, radio, 180, 90)
+        path.AddArc(rect.Right - radio, rect.Y, radio, radio, 270, 90)
+        path.AddArc(rect.Right - radio, rect.Bottom - radio, radio, radio, 0, 90)
+        path.AddArc(rect.X, rect.Bottom - radio, radio, radio, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
+    Protected Overrides Sub OnBackColorChanged(e As EventArgs)
+        MyBase.OnBackColorChanged(e)
+        If BloquearColorFondo Then Me.BackColor = Color.Transparent
+    End Sub
+    Protected Overrides Sub OnParentChanged(e As EventArgs)
+        MyBase.OnParentChanged(e)
+        If BloquearColorFondo Then Me.BackColor = Color.Transparent
+    End Sub
 
+#End Region
+
+#Region "PROCEDIMIENTOS"
     Private Sub AplicarEstilo(estilo As EstiloBootstrap)
         Select Case estilo
             Case EstiloBootstrap.Primary
@@ -145,24 +168,6 @@ Public Class LabelUI
                 Me.Icono = IconChar.QuestionCircle
         End Select
     End Sub
+#End Region
 
-    Private Function BordeRedondeado(rect As Rectangle, radio As Integer) As GraphicsPath
-        Dim path As New GraphicsPath()
-        path.AddArc(rect.X, rect.Y, radio, radio, 180, 90)
-        path.AddArc(rect.Right - radio, rect.Y, radio, radio, 270, 90)
-        path.AddArc(rect.Right - radio, rect.Bottom - radio, radio, radio, 0, 90)
-        path.AddArc(rect.X, rect.Bottom - radio, radio, radio, 90, 90)
-        path.CloseFigure()
-        Return path
-    End Function
-
-    Protected Overrides Sub OnBackColorChanged(e As EventArgs)
-        MyBase.OnBackColorChanged(e)
-        If BloquearColorFondo Then Me.BackColor = Color.Transparent
-    End Sub
-
-    Protected Overrides Sub OnParentChanged(e As EventArgs)
-        MyBase.OnParentChanged(e)
-        If BloquearColorFondo Then Me.BackColor = Color.Transparent
-    End Sub
 End Class

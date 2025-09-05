@@ -15,17 +15,17 @@ Public Class ComboBoxLabelUI
 
     ' Variables internas
     Private _tituloText As String = "Selecciona una opción:"
-    Private _labelColor As Color = Color.WhiteSmoke
+    Private _labelColor As Color = AppColors._cLabel
     Private _mensajeError As String = "Este campo es obligatorio."
     Private _mostrarError As Boolean = False
-    Private _radiusPanel As Integer = 6
+    Private _radiusPanel As Integer = 8
     Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
     Private _fontFields As Font = New Font(AppFonts.Century, AppFonts.SizeMini)
     Private _campoRequerido As Boolean = True
-    Private _borderColorPersonalizado As Color = Color.LightGray
-    Private _sombraBackColor As Color = Color.LightGray
+    Private _borderColorPersonalizado As Color = AppColors._cBorde
+    Private _sombraBackColor As Color = AppColors._cSombra
     Private _borderSize As Integer = 1
-    Private _backColorx As Color = Color.WhiteSmoke
+    Private _backColorx As Color = AppColors._cBlanco
     Private cargarCombo As Boolean = False ' Evitar eventos en carga
 
     ' Eventos públicos
