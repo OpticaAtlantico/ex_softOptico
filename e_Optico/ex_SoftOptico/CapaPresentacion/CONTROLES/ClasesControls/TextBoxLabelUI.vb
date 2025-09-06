@@ -17,28 +17,31 @@ Public Class TextBoxLabelUI
 
     ' === Estilos ===
     Private _labelText As String = "Texto:"
-    Private _labelColor As Color = Color.WhiteSmoke
-    Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
-    Private _sombraBackColor As Color = Color.LightGray
-    Private _textColor As Color = Color.WhiteSmoke
-    Private _fontField As Font = New Font("Century Gothic", 12)
-    Private _paddingAll As Integer = 10
+    Private _labelColor As Color = AppColors._cLabel
+    Private _panelBackColor As Color = AppColors._cBlanco
+    Private _sombraBackColor As Color = AppColors._cSombra
+    Private _textColor As Color = AppColors._cTexto
+    Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
+    Private _paddingAll As Integer = AppLayout.Padding10
     Private iconoDerecho As New IconPictureBox()
-
+    Private _focusColor As Color = AppColors._cBordeSel
     Private _campoRequerido As Boolean = True
-    Private _mensajeError As String = "Este campo es obligatorio."
-    Private _colorError As Color = Color.Firebrick
+    Private _mensajeError As String = AppMensajes.msgCampoRequerido
+    Private _colorError As Color = AppColors._cMsgError
+
+    Private _capitalizarTexto As Boolean = False
+    Private _capitalizarTodasLasPalabras As Boolean = True
 
     ' === Visual orbital ===
-    Private _borderRadius As Integer = 5
-    Private _borderColorNormal As Color = Color.LightGray
+    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
+    Private _borderColorNormal As Color = AppColors._cBorde
 
     ' === Contraseña orbital ===
     Private _usarContraseña As Boolean = False
     Private _caracterContraseña As Char = "*"c
 
-    Private _borderColorPersonalizado As Color = Color.LightGray
-    Private _borderSize As Integer = 1
+    Private _borderColorPersonalizado As Color = AppColors._cBorde
+    Private _borderSize As Integer = AppLayout.BorderSizeMediun
 
     Private _validarComoCorreo As Boolean = False
 
@@ -47,227 +50,8 @@ Public Class TextBoxLabelUI
     Private _maxCaracteres As Integer = 0
     Private _tipoNumerico As TipoEntradaNumerica = TipoEntradaNumerica.Ninguno
 
-
-    ' === Constructor ===
-    Public Sub New()
-        Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
-                    ControlStyles.UserPaint Or
-                    ControlStyles.AllPaintingInWmPaint Or
-                    ControlStyles.OptimizedDoubleBuffer, True)
-        Me.UpdateStyles()
-        Me.Size = New Size(300, 100)
-        Me.BackColor = Color.Transparent
-
-        lblTitulo.Text = _labelText
-        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
-        lblTitulo.ForeColor = Color.WhiteSmoke
-        lblTitulo.Dock = DockStyle.Top
-        lblTitulo.Height = 20
-
-        pnlSombra.Dock = DockStyle.None
-        pnlSombra.BackColor = _sombraBackColor
-        pnlSombra.Height = 37
-        pnlSombra.Width = 600
-        pnlSombra.Margin = Padding.Empty
-        pnlSombra.Location = New Point(6, 23)
-
-        pnlFondo.Dock = DockStyle.Top
-        pnlFondo.BackColor = _panelBackColor
-        pnlFondo.Padding = New Padding(_paddingAll)
-        pnlFondo.Height = 37
-        pnlFondo.Margin = Padding.Empty
-
-        txtCampo.BorderStyle = BorderStyle.None
-        txtCampo.Font = _fontField
-        txtCampo.ForeColor = _textColor
-        txtCampo.BackColor = _panelBackColor
-        txtCampo.TextAlign = HorizontalAlignment.Left
-        txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
-        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
-        txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
-        pnlFondo.Controls.Add(txtCampo)
-
-        lblError.Text = ""
-        lblError.ForeColor = _colorError
-        lblError.Dock = DockStyle.Top
-        lblError.Height = 20
-        lblError.Visible = False
-        lblError.Margin = Padding.Empty
-        lblError.TextAlign = ContentAlignment.MiddleRight
-        lblError.BackColor = Color.Transparent
-
-        iconoDerecho.IconChar = IconChar.InfoCircle
-        iconoDerecho.IconColor = Color.White
-        iconoDerecho.Size = New Size(24, 24)
-        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
-        iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
-        iconoDerecho.BackColor = Color.Transparent
-        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
-        pnlFondo.Controls.Add(iconoDerecho)
-
-        AddHandler txtCampo.Leave, AddressOf ValidarCampoFinal
-        AddHandler txtCampo.TextChanged, AddressOf ValidarEnTiempoReal
-        AddHandler pnlFondo.Resize, Sub()
-                                        Dim tieneIcono As Boolean = iconoDerecho.Visible
-
-                                        Dim margenIcono = If(tieneIcono, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
-                                        txtCampo.Size = New Size(pnlFondo.Width - margenIcono - _paddingAll, 30)
-                                        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
-
-                                        If tieneIcono Then
-                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
-                                        End If
-                                    End Sub
-
-        Me.Controls.Add(lblError)
-        Me.Controls.Add(pnlFondo)
-        Me.Controls.Add(pnlSombra)
-        Me.Controls.Add(lblTitulo)
-
-        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
-        AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
-        AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
-    End Sub
-
-    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
-        RaiseEvent CampoKeyPress(Me, e)
-    End Sub
-
-    Private Function EsCorreoValido(correo As String) As Boolean
-        Try
-            Dim addr As New System.Net.Mail.MailAddress(correo)
-            Return addr.Address = correo
-        Catch
-            Return False
-        End Try
-    End Function
-
-    Private Sub ValidarEnTiempoReal(sender As Object, e As EventArgs)
-        Dim texto As String = txtCampo.Text.Trim()
-
-        ' No mostrar errores si está vacío y aún escribiendo
-        If String.IsNullOrEmpty(texto) Then
-            lblError.Visible = False
-            _borderColorNormal = _borderColorPersonalizado
-            pnlFondo.Invalidate()
-            Return
-        End If
-
-        Dim mensajeError As String = Nothing
-
-        If _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(texto, Nothing) Then
-            mensajeError = "Solo se permiten números enteros."
-        ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(texto, Nothing) Then
-            mensajeError = "Solo se permiten números decimales."
-        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
-            mensajeError = $"Máximo {_maxCaracteres} caracteres."
-        End If
-
-        If mensajeError IsNot Nothing Then
-            lblError.Text = mensajeError
-            lblError.Visible = True
-            _borderColorNormal = _colorError
-        Else
-            lblError.Visible = False
-            _borderColorNormal = _borderColorPersonalizado
-        End If
-
-        pnlFondo.Invalidate()
-    End Sub
-
-    ' === Fondo redondeado orbital ===
-    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
-        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-        Dim rect = pnlFondo.ClientRectangle
-        rect.Inflate(-1, -1)
-
-        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-            Using brush As New SolidBrush(pnlFondo.BackColor)
-                e.Graphics.FillPath(brush, path)
-            End Using
-            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorPersonalizado)
-            Using pen As New Pen(colorBorde, _borderSize)
-                e.Graphics.DrawPath(pen, path)
-            End Using
-        End Using
-    End Sub
-
-    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
-        Dim path As New GraphicsPath()
-        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
-        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
-        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
-        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
-        path.CloseFigure()
-        Return path
-    End Function
-
-    ' === Campo requerido orbital ===
-    Public Function EsValido() As Boolean
-        Dim texto As String = txtCampo.Text.Trim()
-        Dim mensajeError As String = ""
-        Dim _esValido As Boolean = True
-
-        ' === Campo requerido ===
-        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
-            mensajeError = _mensajeError
-            _esValido = False
-
-            ' === Validar como correo si aplica ===
-        ElseIf ValidarComoCorreo AndAlso Not EsCorreoValido(texto) Then
-            mensajeError = "Correo electrónico no válido."
-            _esValido = False
-
-            ' === Validar longitud máxima ===
-        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
-            mensajeError = $"Máximo {_maxCaracteres} caracteres."
-            _esValido = False
-        End If
-
-        ' === Mostrar resultado visual ===
-        If Not _esValido Then
-            lblError.Text = mensajeError
-            lblError.Visible = True
-            _borderColorNormal = _colorError
-        Else
-            lblError.Visible = False
-            _borderColorNormal = _borderColorPersonalizado
-        End If
-
-        pnlFondo.Invalidate()
-        Return _esValido
-    End Function
-
-    Private Sub CapitalizarSiEsNecesario()
-        If Not CapitalizarTexto Then Exit Sub
-
-        Dim textoOriginal As String = txtCampo.Text.Trim()
-
-        If CapitalizarTodasLasPalabras Then
-            Dim palabras = textoOriginal.Split(" "c)
-            For i = 0 To palabras.Length - 1
-                If palabras(i).Length > 0 Then
-                    palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
-                End If
-            Next
-            txtCampo.Text = String.Join(" ", palabras)
-        Else
-            If textoOriginal.Length > 0 Then
-                txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
-            End If
-        End If
-    End Sub
-
-
-    Private Sub ValidarCampoFinal(sender As Object, e As EventArgs)
-        CapitalizarSiEsNecesario()
-        EsValido()
-    End Sub
-
-
+#Region "PROPIEDADES"
     ' === Propiedades orbitales ===
-
     Public Property ValidarComoCorreo As Boolean
         Get
             Return _validarComoCorreo
@@ -278,7 +62,6 @@ Public Class TextBoxLabelUI
     End Property
 
     ' Capitaliza al perder el foco
-    Private _capitalizarTexto As Boolean = False
     Public Property CapitalizarTexto As Boolean
         Get
             Return _capitalizarTexto
@@ -289,7 +72,6 @@ Public Class TextBoxLabelUI
     End Property
 
     ' Capitalizar todas las palabras o solo la primera
-    Private _capitalizarTodasLasPalabras As Boolean = True
     Public Property CapitalizarTodasLasPalabras As Boolean
         Get
             Return _capitalizarTodasLasPalabras
@@ -510,10 +292,224 @@ Public Class TextBoxLabelUI
             pnlFondo.Invalidate()
         End Set
     End Property
+#End Region
 
+#Region "CONSTRUCTOR"
+    ' === Constructor ===
+    Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(300, 100)
+        Me.BackColor = Color.Transparent
 
-    'Como cambio el icono dse la derecha
+        lblTitulo.Text = _labelText
+        lblTitulo.Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
+        lblTitulo.ForeColor = _labelColor
+        lblTitulo.Dock = DockStyle.Top
+        lblTitulo.Height = AppLayout.ControlLabelHeight
 
-    'MaskedTextBoxLabelUI1.IconoDerechoChar = IconChar.ExclamationT
+        pnlSombra.Dock = DockStyle.None
+        pnlSombra.BackColor = _sombraBackColor
+        pnlSombra.Height = AppLayout.PanelHeightStandar
+        pnlSombra.Width = 900
+        pnlSombra.Margin = Padding.Empty
+        pnlSombra.Location = New Point(6, 23)
+
+        pnlFondo.Dock = DockStyle.Top
+        pnlFondo.BackColor = _panelBackColor
+        pnlFondo.Padding = New Padding(_paddingAll)
+        pnlFondo.Height = AppLayout.PanelHeightStandar
+        pnlFondo.Margin = Padding.Empty
+
+        txtCampo.BorderStyle = BorderStyle.None
+        txtCampo.Font = _fontField
+        txtCampo.ForeColor = _textColor
+        txtCampo.BackColor = _panelBackColor
+        txtCampo.TextAlign = HorizontalAlignment.Left
+        txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
+        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+        txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
+        pnlFondo.Controls.Add(txtCampo)
+
+        lblError.Text = ""
+        lblError.ForeColor = _colorError
+        lblError.Dock = DockStyle.Top
+        lblError.Height = AppLayout.ControlLabelHeight
+        lblError.Visible = False
+        lblError.Margin = Padding.Empty
+        lblError.TextAlign = ContentAlignment.MiddleRight
+        lblError.BackColor = Color.Transparent
+
+        iconoDerecho.IconChar = IconChar.InfoCircle
+        iconoDerecho.IconColor = AppColors._cIcono
+        iconoDerecho.Size = New Size(AppLayout.IconMedium, AppLayout.IconMedium)
+        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+        iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
+        iconoDerecho.BackColor = Color.Transparent
+        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
+        pnlFondo.Controls.Add(iconoDerecho)
+
+        AddHandler txtCampo.Leave, AddressOf ValidarCampoFinal
+        AddHandler txtCampo.TextChanged, AddressOf ValidarEnTiempoReal
+        AddHandler pnlFondo.Resize, Sub()
+                                        Dim tieneIcono As Boolean = iconoDerecho.Visible
+
+                                        Dim margenIcono = If(tieneIcono, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
+                                        txtCampo.Size = New Size(pnlFondo.Width - margenIcono - _paddingAll, 30)
+                                        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+
+                                        If tieneIcono Then
+                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+                                        End If
+                                    End Sub
+
+        Me.Controls.Add(lblError)
+        Me.Controls.Add(pnlFondo)
+        Me.Controls.Add(pnlSombra)
+        Me.Controls.Add(lblTitulo)
+
+        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
+        AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+        AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
+        AddHandler txtCampo.Leave, AddressOf OnLeave
+        AddHandler txtCampo.TextChanged, AddressOf OnTextChanged
+        AddHandler txtCampo.Enter, AddressOf OnEnter
+    End Sub
+#End Region
+
+#Region "PROCEDIMIENTO"
+    Private Sub CapitalizarSiEsNecesario()
+        If Not CapitalizarTexto Then Exit Sub
+
+        Dim textoOriginal As String = txtCampo.Text.Trim()
+
+        If CapitalizarTodasLasPalabras Then
+            Dim palabras = textoOriginal.Split(" "c)
+            For i = 0 To palabras.Length - 1
+                If palabras(i).Length > 0 Then
+                    palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
+                End If
+            Next
+            txtCampo.Text = String.Join(" ", palabras)
+        Else
+            If textoOriginal.Length > 0 Then
+                txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
+            End If
+        End If
+    End Sub
+#End Region
+
+#Region "EVENTOS INTERNOS"
+    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
+        RaiseEvent CampoKeyPress(Me, e)
+    End Sub
+    Private Sub OnEnter(sender As Object, e As EventArgs)
+        _borderColorNormal = _focusColor
+        pnlFondo.Invalidate()
+    End Sub
+    Private Sub OnTextChanged(sender As Object, e As EventArgs)
+        If Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            EsValido()
+        End If
+    End Sub
+
+    Private Sub OnLeave(sender As Object, e As EventArgs)
+        EsValido()
+        If lblError.Visible Then
+            _borderColorNormal = _colorError
+        Else
+            _borderColorNormal = _borderColorPersonalizado
+        End If
+        pnlFondo.Invalidate()
+    End Sub
+#End Region
+
+#Region "VALIDACIONES"
+    Private Function EsCorreoValido(correo As String) As Boolean
+        Try
+            Dim addr As New System.Net.Mail.MailAddress(correo)
+            Return addr.Address = correo
+        Catch
+            Return False
+        End Try
+    End Function
+    Private Sub ValidarEnTiempoReal(sender As Object, e As EventArgs)
+        EsValido()
+    End Sub
+
+    ' === Campo requerido orbital ===
+    Public Function EsValido() As Boolean
+        Dim texto As String = txtCampo.Text.Trim()
+        Dim mensajeError As String = ""
+        Dim _esValido As Boolean = True
+
+        ' === Campo requerido ===
+        If _campoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
+            mensajeError = _mensajeError
+            _esValido = False
+
+            ' === Validar como correo si aplica ===
+        ElseIf ValidarComoCorreo AndAlso Not EsCorreoValido(texto) Then
+            mensajeError = AppMensajes.msgCorreoInvalido
+            _esValido = False
+
+            ' === Validar longitud máxima ===
+        ElseIf _maxCaracteres > 0 AndAlso texto.Length > _maxCaracteres Then
+            mensajeError = $"Máximo {_maxCaracteres} caracteres."
+            _esValido = False
+        End If
+
+        ' === Mostrar resultado visual ===
+        If Not _esValido Then
+            lblError.Text = mensajeError
+            lblError.Visible = True
+            _borderColorNormal = _colorError
+        Else
+            lblError.Visible = False
+            _borderColorNormal = _borderColorNormal
+        End If
+
+        pnlFondo.Invalidate()
+        Return _esValido
+    End Function
+    Private Sub ValidarCampoFinal(sender As Object, e As EventArgs)
+        CapitalizarSiEsNecesario()
+        EsValido()
+    End Sub
+
+#End Region
+
+#Region "DIBUJO"
+    ' === Fondo redondeado orbital ===
+    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+        Dim rect = pnlFondo.ClientRectangle
+        rect.Inflate(-1, -1)
+
+        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
+            Using brush As New SolidBrush(pnlFondo.BackColor)
+                e.Graphics.FillPath(brush, path)
+            End Using
+            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorNormal)
+            Using pen As New Pen(colorBorde, _borderSize)
+                e.Graphics.DrawPath(pen, path)
+            End Using
+        End Using
+    End Sub
+
+    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
+        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
+        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
+#End Region
 
 End Class

@@ -16,15 +16,15 @@ Public Class ComboBoxLabelUI
     ' Variables internas
     Private _tituloText As String = "Selecciona una opción:"
     Private _labelColor As Color = AppColors._cLabel
-    Private _mensajeError As String = "Este campo es obligatorio."
+    Private _mensajeError As String = AppMensajes.msgCampoRequerido
     Private _mostrarError As Boolean = False
-    Private _radiusPanel As Integer = 8
+    Private _radiusPanel As Integer = AppLayout.BorderRadiusStandar
     Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
     Private _fontFields As Font = New Font(AppFonts.Century, AppFonts.SizeMini)
     Private _campoRequerido As Boolean = True
     Private _borderColorPersonalizado As Color = AppColors._cBorde
     Private _sombraBackColor As Color = AppColors._cSombra
-    Private _borderSize As Integer = 1
+    Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _backColorx As Color = AppColors._cBlanco
     Private cargarCombo As Boolean = False ' Evitar eventos en carga
 
@@ -33,8 +33,6 @@ Public Class ComboBoxLabelUI
     Public Event SelectionChangeCommittedCustom As EventHandler
 
 #Region "CONSTRUCTORES"
-
-#End Region
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -42,7 +40,7 @@ Public Class ComboBoxLabelUI
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
-        Me.Size = New Size(300, 90)
+        Me.Size = New Size(300, 100)
         Me.BackColor = Color.Transparent
 
         ' Label título
@@ -50,19 +48,19 @@ Public Class ComboBoxLabelUI
         lblTitulo.Font = _fontField
         lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
-        lblTitulo.Height = 20
+        lblTitulo.Height = AppLayout.ControlLabelHeight
 
         ' Sombra
         pnlSombra.Dock = DockStyle.None
         pnlSombra.BackColor = _sombraBackColor
-        pnlSombra.Height = 38
+        pnlSombra.Height = AppLayout.PanelHeightStandar
         pnlSombra.Width = 900
         pnlSombra.Location = New Point(6, 23)
 
         ' Panel fondo
         pnlFondo.Dock = DockStyle.Top
-        pnlFondo.Height = 38
-        pnlFondo.Padding = New Padding(2)
+        pnlFondo.Height = AppLayout.PanelHeightStandar
+        pnlFondo.Padding = New Padding(AppLayout.Padding2)
         pnlFondo.BackColor = _backColorx
         pnlFondo.Controls.Add(comboOrbital)
         AddHandler pnlFondo.Resize, Sub()
@@ -80,10 +78,10 @@ Public Class ComboBoxLabelUI
 
         ' Label error
         lblError.Text = ""
-        lblError.ForeColor = Color.Firebrick
+        lblError.ForeColor = AppColors._cMsgError
         lblError.Dock = DockStyle.Top
         lblError.TextAlign = ContentAlignment.MiddleRight
-        lblError.Height = 20
+        lblError.Height = AppLayout.ControlLabelHeight
         lblError.Visible = _mostrarError
 
         ' Agregar controles
@@ -92,6 +90,7 @@ Public Class ComboBoxLabelUI
         Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
     End Sub
+#End Region
 
 #Region "Propiedades"
 
@@ -258,7 +257,6 @@ Public Class ComboBoxLabelUI
 #End Region
 
 #Region "Métodos Públicos"
-
     Public Sub Limpiar()
         comboOrbital.SelectedIndex = -1
         comboOrbital.Text = ""
@@ -306,7 +304,6 @@ Public Class ComboBoxLabelUI
 #End Region
 
 #Region "Dibujo"
-
     Private Function RoundedRectanglePath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
         path.StartFigure()

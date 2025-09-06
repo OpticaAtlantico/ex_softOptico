@@ -18,155 +18,25 @@ Public Class DateBoxLabelUI
 
     ' === Estilos y propiedades ===
     Private _labelText As String = "Fecha"
-    Private _labelColor As Color = Color.WhiteSmoke
-    Private _panelBackColor As Color = Color.FromArgb(80, 94, 129)
-    Private _textColor As Color = Color.WhiteSmoke
+    Private _labelColor As Color = AppColors._cLabel
+    Private _panelBackColor As Color = AppColors._cBlanco
+    Private _textColor As Color = AppColors._cTexto
     Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
-    Private _paddingAll As Integer = 10
-    Private _borderColor As Color = Color.LightGray
-    Private _borderSize As Integer = 1
-    Private _borderRadius As Integer = 6
-    Private _iconoColor As Color = Color.White
-    Private _colorError As Color = Color.Firebrick
+    Private _paddingAll As Integer = AppLayout.Padding10
+    Private _borderColor As Color = AppColors._cBorde
+    Private _borderSize As Integer = AppLayout.BorderSizeMediun
+    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
+    Private _iconoColor As Color = AppColors._cIcono
+    Private _colorError As Color = AppColors._cMsgError
     Private _campoRequerido As Boolean = True
-    Private _mensajeError As String = "Este campo es obligatorio."
-    Private _borderColorPersonalizado As Color = Color.LightGray
+    Private _mensajeError As String = AppMensajes.msgCampoRequerido
+    Private _borderColorPersonalizado As Color = AppColors._cBorde
+    Private _borderColorNormal As Color = AppColors._cBorde
+    Private _focusColor As Color = AppColors._cBordeSel
     'Evento keypress
     Public Event CampoKeyPress(sender As Object, e As KeyPressEventArgs)
 
-    ' === Constructor ===
-    Public Sub New()
-        Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
-                    ControlStyles.UserPaint Or
-                    ControlStyles.AllPaintingInWmPaint Or
-                    ControlStyles.OptimizedDoubleBuffer, True)
-        Me.UpdateStyles()
-        Me.Size = New Size(300, 100)
-        Me.BackColor = Color.Transparent
-
-        ' Label
-        lblTitulo.Text = _labelText
-        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
-        lblTitulo.ForeColor = _labelColor
-        lblTitulo.Dock = DockStyle.Top
-        lblTitulo.Height = 20
-
-        pnlSombra.Dock = DockStyle.None
-        pnlSombra.BackColor = _borderColorPersonalizado
-        pnlSombra.Height = 37
-        pnlSombra.Width = 900
-        pnlSombra.Margin = Padding.Empty
-        pnlSombra.Location = New Point(6, 23)
-
-        ' Panel fondo
-        pnlFondo.Dock = DockStyle.Top
-        pnlFondo.Height = 37
-        pnlFondo.BackColor = _panelBackColor
-        pnlFondo.Padding = New Padding(_paddingAll)
-        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
-        AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
-
-        ' TextBox fecha
-        txtCampo.BorderStyle = BorderStyle.None
-        txtCampo.Font = _fontField
-        txtCampo.ForeColor = _textColor
-        txtCampo.BackColor = _panelBackColor
-        txtCampo.Mask = "00/00/0000"
-        txtCampo.PromptChar = "_"c
-        txtCampo.TextMaskFormat = MaskFormat.IncludePromptAndLiterals
-        txtCampo.ValidatingType = GetType(DateTime)
-        txtCampo.Size = New Size(220, 30)
-        AddHandler txtCampo.Leave, AddressOf ValidarCampo
-
-        ' Icono derecho
-        iconoDerecho.IconChar = IconChar.CalendarAlt
-        iconoDerecho.IconColor = _iconoColor
-        iconoDerecho.Size = New Size(24, 24)
-        iconoDerecho.BackColor = Color.Transparent
-        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
-
-        ' Label error
-        lblError.Text = ""
-        lblError.ForeColor = _colorError
-        lblError.Dock = DockStyle.Top
-        lblError.Height = 20
-        lblError.Visible = False
-        lblError.TextAlign = ContentAlignment.MiddleRight
-
-        ' Añadir controles
-        pnlFondo.Controls.Add(txtCampo)
-        pnlFondo.Controls.Add(iconoDerecho)
-        Me.Controls.Add(lblError)
-        Me.Controls.Add(pnlFondo)
-        Me.Controls.Add(pnlSombra)
-        Me.Controls.Add(lblTitulo)
-
-        ' Reajuste al redimensionar
-        AddHandler pnlFondo.Resize, Sub()
-                                        Dim margenIcono = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
-                                        txtCampo.Width = pnlFondo.Width - margenIcono - _paddingAll
-                                        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
-                                        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
-                                    End Sub
-        AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
-    End Sub
-
-    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
-        RaiseEvent CampoKeyPress(Me, e)
-    End Sub
-
-    ' === Validación ===
-    Private Sub ValidarCampo(sender As Object, e As EventArgs)
-        Dim sinSeparadores = txtCampo.Text.Replace("/", "").Replace("_", "").Trim()
-
-        If _campoRequerido AndAlso sinSeparadores.Length < 8 Then
-            MostrarError(_mensajeError)
-        ElseIf Not FechaSeleccionada.HasValue Then
-            MostrarError("Formato de fecha inválido.")
-        Else
-            OcultarError()
-        End If
-    End Sub
-
-    Private Sub MostrarError(msg As String)
-        lblError.Text = msg
-        lblError.Visible = True
-        _borderColor = _colorError
-        pnlFondo.Invalidate()
-    End Sub
-
-    Private Sub OcultarError()
-        lblError.Visible = False
-        _borderColor = Color.LightGray
-        pnlFondo.Invalidate()
-    End Sub
-
-    ' === Fondo redondeado ===
-    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
-        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-        Dim rect = pnlFondo.ClientRectangle
-        rect.Inflate(-1, -1)
-        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-            Using brush As New SolidBrush(pnlFondo.BackColor)
-                e.Graphics.FillPath(brush, path)
-            End Using
-            Using pen As New Pen(_borderColor, _borderSize)
-                e.Graphics.DrawPath(pen, path)
-            End Using
-        End Using
-    End Sub
-
-    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
-        Dim path As New GraphicsPath()
-        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
-        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
-        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
-        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
-        path.CloseFigure()
-        Return path
-    End Function
-
+#Region "PROPIEDADES"
     ' === Propiedades públicas ===
 
     <Category("WilmerUI")>
@@ -337,11 +207,176 @@ Public Class DateBoxLabelUI
             End If
         End Set
     End Property
+#End Region
+
+#Region "CONSTRUCTOR"
+    ' === Constructor ===
+    Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(300, 100)
+        Me.BackColor = Color.Transparent
+
+        ' Label
+        lblTitulo.Text = _labelText
+        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
+        lblTitulo.ForeColor = _labelColor
+        lblTitulo.Dock = DockStyle.Top
+        lblTitulo.Height = AppLayout.ControlLabelHeight
+
+        pnlSombra.Dock = DockStyle.None
+        pnlSombra.BackColor = AppColors._cSombra
+        pnlSombra.Height = AppLayout.PanelHeightStandar
+        pnlSombra.Width = 900
+        pnlSombra.Margin = Padding.Empty
+        pnlSombra.Location = New Point(6, 23)
+
+        ' Panel fondo
+        pnlFondo.Dock = DockStyle.Top
+        pnlFondo.Height = AppLayout.PanelHeightStandar
+        pnlFondo.BackColor = _panelBackColor
+        pnlFondo.Padding = New Padding(_paddingAll)
+        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
+        AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+
+        ' TextBox fecha
+        txtCampo.BorderStyle = BorderStyle.None
+        txtCampo.Font = _fontField
+        txtCampo.ForeColor = _textColor
+        txtCampo.BackColor = _panelBackColor
+        txtCampo.Mask = "00/00/0000"
+        txtCampo.PromptChar = "_"c
+        txtCampo.TextMaskFormat = MaskFormat.IncludePromptAndLiterals
+        txtCampo.ValidatingType = GetType(DateTime)
+        txtCampo.Size = New Size(220, 30)
+        AddHandler txtCampo.Leave, AddressOf ValidarCampo
+
+        ' Icono derecho
+        iconoDerecho.IconChar = IconChar.CalendarDays
+        iconoDerecho.IconColor = _iconoColor
+        iconoDerecho.Size = New Size(AppLayout.IconMedium, AppLayout.IconMedium)
+        iconoDerecho.BackColor = Color.Transparent
+        iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
+
+        ' Label error
+        lblError.Text = ""
+        lblError.ForeColor = _colorError
+        lblError.Dock = DockStyle.Top
+        lblError.Height = AppLayout.ControlLabelHeight
+        lblError.Visible = False
+        lblError.TextAlign = ContentAlignment.MiddleRight
+
+        ' Añadir controles
+        pnlFondo.Controls.Add(txtCampo)
+        pnlFondo.Controls.Add(iconoDerecho)
+        Me.Controls.Add(lblError)
+        Me.Controls.Add(pnlFondo)
+        Me.Controls.Add(pnlSombra)
+        Me.Controls.Add(lblTitulo)
+
+        ' Reajuste al redimensionar
+        AddHandler pnlFondo.Resize, Sub()
+                                        Dim margenIcono = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
+                                        txtCampo.Width = pnlFondo.Width - margenIcono - _paddingAll
+                                        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+                                        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+                                    End Sub
+        AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
+        AddHandler txtCampo.Enter, AddressOf OnEnter
+        AddHandler txtCampo.Leave, AddressOf OnLeave
+        AddHandler txtCampo.TextChanged, AddressOf OnTextChanged
+    End Sub
+#End Region
+
+#Region "VALIDACIONES"
+    ' === Validación ===
+    Private Sub ValidarCampo(sender As Object, e As EventArgs)
+        Dim sinSeparadores = txtCampo.Text.Replace("/", "").Replace("_", "").Trim()
+
+        If _campoRequerido AndAlso sinSeparadores.Length < 8 Then
+            MostrarError(_mensajeError)
+        ElseIf Not FechaSeleccionada.HasValue Then
+            MostrarError("Formato de fecha inválido.")
+        Else
+            OcultarError()
+        End If
+    End Sub
+
+    Private Sub MostrarError(msg As String)
+        lblError.Text = msg
+        lblError.Visible = True
+        _borderColor = _colorError
+        pnlFondo.Invalidate()
+    End Sub
+
+    Private Sub OcultarError()
+        lblError.Visible = False
+        _borderColor = Color.LightGray
+        pnlFondo.Invalidate()
+    End Sub
 
     Public Function EsValido() As Boolean
         ValidarCampo(Nothing, Nothing)
         Return Not lblError.Visible
     End Function
+#End Region
+
+#Region "DIBUJO"
+    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+        Dim rect = pnlFondo.ClientRectangle
+        rect.Inflate(-1, -1)
+        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
+            Using brush As New SolidBrush(pnlFondo.BackColor)
+                e.Graphics.FillPath(brush, path)
+            End Using
+            Using pen As New Pen(_borderColor, _borderSize)
+                e.Graphics.DrawPath(pen, path)
+            End Using
+        End Using
+    End Sub
+
+    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
+        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
+        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
+#End Region
+
+#Region "EVENTOS INTERNOS"
+    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
+        RaiseEvent CampoKeyPress(Me, e)
+    End Sub
+
+    Private Sub OnEnter(sender As Object, e As EventArgs)
+        _borderColorNormal = _focusColor
+        pnlFondo.Invalidate()
+    End Sub
+    Private Sub OnTextChanged(sender As Object, e As EventArgs)
+        If Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            EsValido()
+        End If
+    End Sub
+    Private Sub OnLeave(sender As Object, e As EventArgs)
+        EsValido()
+        If lblError.Visible Then
+            _borderColorNormal = _colorError
+        Else
+            _borderColorNormal = _borderColorPersonalizado
+        End If
+        pnlFondo.Invalidate()
+    End Sub
+
+#End Region
+
 End Class
 
 'Como se usa

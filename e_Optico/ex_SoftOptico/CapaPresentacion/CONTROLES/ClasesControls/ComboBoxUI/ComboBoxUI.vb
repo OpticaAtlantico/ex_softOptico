@@ -8,7 +8,7 @@ Public Class ComboBoxUI
 
     Private _borderColor As Color = AppColors._cBorde
     Private _focusColor As Color = AppColors._cBordeSel
-    Private _borderRadius As Integer = 8
+    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
     Private _hasFocus As Boolean = False
     Private _backgroundColor As Color = AppColors._cBlanco
     Private _textColor As Color = AppColors._cTexto

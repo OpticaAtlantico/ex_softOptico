@@ -16,11 +16,11 @@ Public Class MaskedTextBoxLabelUI
 
     Private _tipoNumerico As TipoEntradaNumerica = TipoEntradaNumerica.Ninguno
     Private _campoRequerido As Boolean = True
-    Private _mensajeError As String = "Este campo es obligatorio."
+    Private _mensajeError As String = AppMensajes.msgCampoRequerido
     Private _colorError As Color = AppColors._cMsgError
 
     ' === Visual orbital ===
-    Private _borderRadius As Integer = 8
+    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
     Private _borderColorNormal As Color = AppColors._cBorde
 
     ' === Estilos ===
@@ -29,21 +29,17 @@ Public Class MaskedTextBoxLabelUI
     Private _sombraBackColor As Color = AppColors._cSombra
     Private _textColor As Color = AppColors._cTexto
     Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
-    Private _paddingAll As Integer = 10
+    Private _paddingAll As Integer = AppLayout.Padding10
     Private _maxCaracteres As Integer = 0
     Private iconoDerecho As New IconPictureBox()
     Private _borderColorPersonalizado As Color = AppColors._cBorde
-    Private _borderSize As Integer = 1
+    Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _labelColor As Color = AppColors._cLabel
     Private _focusColor As Color = AppColors._cBordeSel
     Private WithEvents innerTextBox As New TextBox
 
     'Evento keypress
     Public Event CampoKeyPress(sender As Object, e As KeyPressEventArgs)
-
-#Region "PROPIEDADES"
-
-#End Region
 
 #Region "TIPOS ENTRADAS"
     Public Enum TipoEntradaNumerica
@@ -62,18 +58,19 @@ Public Class MaskedTextBoxLabelUI
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
+
         Me.Size = New Size(300, 100)
         Me.BackColor = Color.Transparent
 
         lblTitulo.Text = _labelText
-        lblTitulo.Font = New Font(_fontField.FontFamily, _fontField.Size - 2)
+        lblTitulo.Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
         lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
-        lblTitulo.Height = 20
+        lblTitulo.Height = AppLayout.ControlLabelHeight
 
         pnlSombra.Dock = DockStyle.None
         pnlSombra.BackColor = _sombraBackColor
-        pnlSombra.Height = 37
+        pnlSombra.Height = AppLayout.PanelHeightStandar
         pnlSombra.Width = 900
         pnlSombra.Margin = Padding.Empty
         pnlSombra.Location = New Point(6, 23)
@@ -81,7 +78,7 @@ Public Class MaskedTextBoxLabelUI
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(_paddingAll)
-        pnlFondo.Height = 37
+        pnlFondo.Height = AppLayout.PanelHeightStandar
         pnlFondo.Margin = Padding.Empty
 
         txtCampo.BorderStyle = BorderStyle.None
@@ -97,14 +94,14 @@ Public Class MaskedTextBoxLabelUI
         lblError.Text = ""
         lblError.ForeColor = _colorError
         lblError.Dock = DockStyle.Top
-        lblError.Height = 20
+        lblError.Height = AppLayout.ControlLabelHeight
         lblError.Visible = False
         lblError.Margin = Padding.Empty
         lblError.TextAlign = ContentAlignment.MiddleRight
 
         iconoDerecho.IconChar = IconChar.InfoCircle
         iconoDerecho.IconColor = AppColors._cIcono
-        iconoDerecho.Size = New Size(24, 24)
+        iconoDerecho.Size = New Size(AppLayout.IconMedium, AppLayout.IconMedium)
         iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
         iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
         iconoDerecho.BackColor = Color.Transparent
@@ -400,7 +397,6 @@ Public Class MaskedTextBoxLabelUI
             ValidarEntrada()
         End If
     End Sub
-
     Private Sub OnLeave(sender As Object, e As EventArgs)
         ValidarEntrada()
         If lblError.Visible Then
@@ -427,11 +423,11 @@ Public Class MaskedTextBoxLabelUI
 
             ' Validación numérica
         ElseIf _tipoNumerico = TipoEntradaNumerica.Entero AndAlso Not Integer.TryParse(texto, Nothing) Then
-            mensajeError = "Solo se permiten números enteros."
+            mensajeError = AppMensajes.msgSoloEntero
             valido = False
 
         ElseIf _tipoNumerico = TipoEntradaNumerica.Decimals AndAlso Not Decimal.TryParse(texto, Nothing) Then
-            mensajeError = "Solo se permiten números decimales."
+            mensajeError = AppMensajes.msgSoloDecimales
             valido = False
 
             ' Validación de longitud
@@ -447,7 +443,7 @@ Public Class MaskedTextBoxLabelUI
             _borderColorNormal = _colorError
         Else
             lblError.Visible = False
-            _borderColorNormal = _borderColorPersonalizado
+            _borderColorNormal = _borderColorNormal
         End If
 
         pnlFondo.Invalidate()
@@ -478,6 +474,7 @@ Public Class MaskedTextBoxLabelUI
             Using pen As New Pen(colorBorde, _borderSize)
                 e.Graphics.DrawPath(pen, path)
             End Using
+
         End Using
     End Sub
 

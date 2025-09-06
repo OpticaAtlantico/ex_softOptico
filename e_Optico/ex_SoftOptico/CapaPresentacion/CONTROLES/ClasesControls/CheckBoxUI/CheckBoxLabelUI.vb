@@ -7,7 +7,10 @@
     Private _BorderColor As Color = Color.Gray
 
     Public Event CheckedChanged(sender As Object, e As EventArgs)
+    Private WithEvents chk As New CheckBoxUI
+    Private WithEvents lblTexto As New Label
 
+#Region "PROPIEDADES"
     Public Property Texto As String
         Get
             Return _Texto
@@ -56,10 +59,9 @@
             chk.Checked = value
         End Set
     End Property
+#End Region
 
-    Private WithEvents chk As New CheckBoxUI
-    Private WithEvents lblTexto As New Label
-
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -77,13 +79,15 @@
         lblTexto.AutoSize = True
         lblTexto.Text = _Texto
         lblTexto.Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
-        lblTexto.ForeColor = Color.Black
+        lblTexto.ForeColor = AppColors._cTexto
         lblTexto.Cursor = Cursors.Hand
 
         Me.Controls.Add(chk)
         Me.Controls.Add(lblTexto)
     End Sub
+#End Region
 
+#Region "EVENTOS"
     Private Sub lblTexto_Click(sender As Object, e As EventArgs) Handles lblTexto.Click
         chk.Checked = Not chk.Checked
     End Sub
@@ -91,4 +95,6 @@
     Private Sub chk_CheckedChanged(sender As Object, e As EventArgs) Handles chk.CheckedChanged
         RaiseEvent CheckedChanged(Me, EventArgs.Empty)
     End Sub
+#End Region
+
 End Class

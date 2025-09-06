@@ -3,7 +3,7 @@
         ctrl.Font = New Font(AppFonts.DefaultFamily, AppFonts.SizeMedium)
         ctrl.BackColor = AppColors.BackgroundPrimary
         ctrl.ForeColor = AppColors.TextPrimary
-        ctrl.Padding = New Padding(AppLayout.PaddingMedium)
+        ctrl.Padding = New Padding(AppLayout.Padding10)
     End Sub
 
     Public Shared Sub ApplyErrorStyle(ctrl As Control)

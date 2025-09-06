@@ -8,14 +8,19 @@ Public Class ButtonLinkUI
     Private _activeColor As Color = AppColors._cActiveColor
     Private _subrayarHover As Boolean = True
 
+    ' Evento público para que puedas manejar el Click
+    Public Event LinkClick As EventHandler
+
+#Region "CONSTRUCTOR"
     Public Sub New()
-        InitializeComponent()
         Me.DoubleBuffered = True
+        InitializeComponent()
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
                     ControlStyles.UserPaint Or
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
+
         lblTexto.ForeColor = _normalColor
         lblTexto.Cursor = Cursors.Hand
         lblTexto.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Regular)
@@ -24,7 +29,9 @@ Public Class ButtonLinkUI
         lblTexto.Dock = DockStyle.Fill
         Me.BackColor = Color.Transparent
     End Sub
+#End Region
 
+#Region "PROPIEDADES"
     ' === Propiedades Personalizadas ===
 
     <Category("WilmerUI")>
@@ -77,9 +84,10 @@ Public Class ButtonLinkUI
             lblTexto.Text = value
         End Set
     End Property
+#End Region
 
+#Region "EVENTOS"
     ' === Eventos Hover y Click ===
-
     Private Sub lblTexto_MouseEnter(sender As Object, e As EventArgs) Handles lblTexto.MouseEnter
         lblTexto.ForeColor = _hoverColor
         If _subrayarHover Then
@@ -100,9 +108,11 @@ Public Class ButtonLinkUI
         lblTexto.ForeColor = _hoverColor
     End Sub
 
-    ' Evento público para que puedas manejar el Click
-    Public Event LinkClick As EventHandler
+
     Private Sub lblTexto_Click(sender As Object, e As EventArgs) Handles lblTexto.Click
         RaiseEvent LinkClick(Me, EventArgs.Empty)
     End Sub
+
+#End Region
+
 End Class

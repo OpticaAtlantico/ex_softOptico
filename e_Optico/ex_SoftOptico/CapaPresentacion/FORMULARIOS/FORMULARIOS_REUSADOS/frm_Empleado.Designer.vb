@@ -70,7 +70,7 @@ Partial Class frm_Empleado
         txtCorreo = New TextBoxLabelUI()
         pnl_Titulo = New Panel()
         Label17 = New Label()
-        MaskedTextBoxLabelui2 = New MaskedTextBoxLabelUI()
+        DateBoxLabelui1 = New DateBoxLabelUI()
         pnlPrincipal.SuspendLayout()
         pnlDatos.SuspendLayout()
         Panel4.SuspendLayout()
@@ -93,7 +93,7 @@ Partial Class frm_Empleado
         ' 
         ' pnlDatos
         ' 
-        pnlDatos.Controls.Add(MaskedTextBoxLabelui2)
+        pnlDatos.Controls.Add(DateBoxLabelui1)
         pnlDatos.Controls.Add(Panel4)
         pnlDatos.Controls.Add(lnk_EditarUsuario)
         pnlDatos.Controls.Add(lbl_Nombre)
@@ -705,34 +705,27 @@ Partial Class frm_Empleado
         Label17.TabIndex = 30
         Label17.Text = "Editar..."
         ' 
-        ' MaskedTextBoxLabelui2
+        ' DateBoxLabelui1
         ' 
-        MaskedTextBoxLabelui2.BackColor = Color.Transparent
-        MaskedTextBoxLabelui2.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui2.BorderRadius = 8
-        MaskedTextBoxLabelui2.BorderSize = 1
-        MaskedTextBoxLabelui2.CampoRequerido = True
-        MaskedTextBoxLabelui2.ColorError = Color.Firebrick
-        MaskedTextBoxLabelui2.FocusColor = Color.FromArgb(CByte(0), CByte(188), CByte(212))
-        MaskedTextBoxLabelui2.FontField = New Font("Century Gothic", 12F)
-        MaskedTextBoxLabelui2.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui2.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
-        MaskedTextBoxLabelui2.LabelColor = Color.DarkSlateGray
-        MaskedTextBoxLabelui2.LabelText = "Campo numérico:"
-        MaskedTextBoxLabelui2.Location = New Point(181, 567)
-        MaskedTextBoxLabelui2.MascaraPersonalizada = ""
-        MaskedTextBoxLabelui2.MaxCaracteres = 0
-        MaskedTextBoxLabelui2.MensajeError = "Este campo es obligatorio."
-        MaskedTextBoxLabelui2.Name = "MaskedTextBoxLabelui2"
-        MaskedTextBoxLabelui2.PaddingAll = 10
-        MaskedTextBoxLabelui2.PanelBackColor = Color.White
-        MaskedTextBoxLabelui2.SelectionStart = 0
-        MaskedTextBoxLabelui2.Size = New Size(322, 85)
-        MaskedTextBoxLabelui2.SombraBackColor = Color.LightGray
-        MaskedTextBoxLabelui2.TabIndex = 42
-        MaskedTextBoxLabelui2.TextColor = Color.Black
-        MaskedTextBoxLabelui2.TextoUsuario = ""
-        MaskedTextBoxLabelui2.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Ninguno
+        DateBoxLabelui1.BackColor = Color.Transparent
+        DateBoxLabelui1.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        DateBoxLabelui1.BorderRadius = 8
+        DateBoxLabelui1.BorderSize = 1
+        DateBoxLabelui1.CampoRequerido = True
+        DateBoxLabelui1.FechaSeleccionada = New Date(2025, 9, 5, 22, 24, 12, 921)
+        DateBoxLabelui1.FontField = New Font("Century Gothic", 12F)
+        DateBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        DateBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
+        DateBoxLabelui1.LabelColor = Color.DarkSlateGray
+        DateBoxLabelui1.LabelText = "Fecha"
+        DateBoxLabelui1.Location = New Point(232, 573)
+        DateBoxLabelui1.MensajeError = "Este campo es requerido"
+        DateBoxLabelui1.Name = "DateBoxLabelui1"
+        DateBoxLabelui1.PaddingAll = 10
+        DateBoxLabelui1.PanelBackColor = Color.White
+        DateBoxLabelui1.Size = New Size(271, 79)
+        DateBoxLabelui1.TabIndex = 42
+        DateBoxLabelui1.TextColor = Color.Black
         ' 
         ' frm_Empleado
         ' 
@@ -809,5 +802,5 @@ Partial Class frm_Empleado
     Friend WithEvents Label27 As Label
     Friend WithEvents lbl_Cargo As Label
     Friend WithEvents Label35 As Label
-    Friend WithEvents MaskedTextBoxLabelui2 As MaskedTextBoxLabelUI
+    Friend WithEvents DateBoxLabelui1 As DateBoxLabelUI
 End Class

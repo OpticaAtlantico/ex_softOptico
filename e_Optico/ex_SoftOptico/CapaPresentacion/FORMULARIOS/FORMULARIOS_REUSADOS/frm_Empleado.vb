@@ -65,6 +65,7 @@ Public Class frm_Empleado
 
     Private Sub frm_Empleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CustomizeComponent()
+
     End Sub
 
     Private Sub lnk_EditarUsuario_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lnk_EditarUsuario.LinkClicked
@@ -78,6 +79,9 @@ Public Class frm_Empleado
         End With
     End Sub
 
+    Private Sub CommandButtonui1_Click(sender As Object, e As EventArgs)
+
+    End Sub
 
 
 

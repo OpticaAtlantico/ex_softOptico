@@ -4,6 +4,15 @@ Imports FontAwesome.Sharp
 
 Public Class CommandButtonUI
     Inherits Control
+
+    Private _colorInternoFondo As Color = AppColors._cBasePrimary
+    Private _estiloBoton As EstiloBootstrap = EstiloBootstrap.Primary
+
+    Private hovering As Boolean = False
+    Private presionado As Boolean = False
+    Private clickTimer As New Timer With {.Interval = 100}
+    Private iconControl As New IconPictureBox()
+
     Public Enum EstiloBootstrap
         Primary
         Success
@@ -13,6 +22,7 @@ Public Class CommandButtonUI
         Dark
     End Enum
 
+#Region "PROPIEDADES"
     ' 🧩 Propiedades públicas
     <Category("Apariencia Orbital")>
     Public Property Texto As String = "Aceptar"
@@ -30,13 +40,13 @@ Public Class CommandButtonUI
     Public Property ColorPresionado As Color = AppColors._cPresionadoPrimary
 
     <Category("Apariencia Orbital")>
-    Public Property ColorTexto As Color = Color.White
+    Public Property ColorTexto As Color = AppColors._cBlancoOscuro
 
     <Category("Apariencia Orbital")>
     Public Property AnimarHover As Boolean = True
 
     <Category("Apariencia Orbital")>
-    Public Property RadioBorde As Integer = 8
+    Public Property RadioBorde As Integer = AppLayout.BorderRadiusStandar
 
     <Category("Estilo Orbital")>
     Public Property ColorInternoFondo As Color
@@ -48,7 +58,6 @@ Public Class CommandButtonUI
             Me.Invalidate()
         End Set
     End Property
-    Private _colorInternoFondo As Color = AppColors._cBasePrimary
 
     <Category("Estilo Bootstrap"), Description("Estilo visual tipo Bootstrap para el botón")>
     Public Property EstiloBoton As EstiloBootstrap
@@ -61,13 +70,9 @@ Public Class CommandButtonUI
             Me.Invalidate()
         End Set
     End Property
-    Private _estiloBoton As EstiloBootstrap = EstiloBootstrap.Primary
+#End Region
 
-    Private hovering As Boolean = False
-    Private presionado As Boolean = False
-    Private clickTimer As New Timer With {.Interval = 100}
-    Private iconControl As New IconPictureBox()
-
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -75,17 +80,13 @@ Public Class CommandButtonUI
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
+
         Me.Size = New Size(160, 45)
         Me.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Bold)
         Me.Cursor = Cursors.Hand
-
-        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
-                    ControlStyles.AllPaintingInWmPaint Or
-                    ControlStyles.UserPaint Or
-                    ControlStyles.OptimizedDoubleBuffer, True)
         Me.BackColor = Color.Transparent
 
-        iconControl.Size = New Size(30, 30)
+        iconControl.Size = New Size(AppLayout.IconLarge, AppLayout.IconLarge)
         iconControl.SizeMode = PictureBoxSizeMode.CenterImage
         iconControl.BackColor = Color.Transparent
         iconControl.Enabled = False
@@ -99,7 +100,9 @@ Public Class CommandButtonUI
 
         AplicarEstilo(_estiloBoton)
     End Sub
+#End Region
 
+#Region "DIBUJO"
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
         Dim g = e.Graphics
         g.SmoothingMode = SmoothingMode.AntiAlias
@@ -135,14 +138,16 @@ Public Class CommandButtonUI
         path.CloseFigure()
         Return path
     End Function
+#End Region
 
+#Region "PROCEDIMIENTO"
     Private Sub AplicarEstilo(estilo As EstiloBootstrap)
         Select Case estilo
             Case EstiloBootstrap.Primary
                 ColorBase = AppColors._cBasePrimary
                 ColorHover = AppColors._cHoverPrimary
                 ColorPresionado = AppColors._cPresionadoPrimary
-                ColorTexto = Color.White
+                ColorTexto = AppColors._cTextoPrimary
                 Icono = IconChar.Bolt
                 ColorInternoFondo = ColorBase
 
@@ -150,7 +155,7 @@ Public Class CommandButtonUI
                 ColorBase = AppColors._cBaseSuccess
                 ColorHover = AppColors._cHoverSuccess
                 ColorPresionado = AppColors._cPresionadoSuccess
-                ColorTexto = Color.White
+                ColorTexto = AppColors._cTextoSuccess
                 Icono = IconChar.CheckCircle
                 ColorInternoFondo = ColorBase
 
@@ -158,7 +163,7 @@ Public Class CommandButtonUI
                 ColorBase = AppColors._cBaseDanger
                 ColorHover = AppColors._cHoverDanger
                 ColorPresionado = AppColors._cPresionadoDanger
-                ColorTexto = Color.White
+                ColorTexto = AppColors._cTextoDanger
                 Icono = IconChar.TrashAlt
                 ColorInternoFondo = ColorBase
 
@@ -166,7 +171,7 @@ Public Class CommandButtonUI
                 ColorBase = AppColors._cBaseWarning
                 ColorHover = AppColors._cHoverWarning
                 ColorPresionado = AppColors._cPresionadoWarning
-                ColorTexto = Color.Black
+                ColorTexto = AppColors._cTextoWarning
                 Icono = IconChar.ExclamationTriangle
                 ColorInternoFondo = ColorBase
 
@@ -174,7 +179,7 @@ Public Class CommandButtonUI
                 ColorBase = AppColors._cBaseInfo
                 ColorHover = AppColors._cHoverInfo
                 ColorPresionado = AppColors._cPresionadoInfo
-                ColorTexto = Color.White
+                ColorTexto = AppColors._cTextoInfo
                 Icono = IconChar.InfoCircle
                 ColorInternoFondo = ColorBase
 
@@ -182,12 +187,14 @@ Public Class CommandButtonUI
                 ColorBase = AppColors._cBaseDark
                 ColorHover = AppColors._cHoverDark
                 ColorPresionado = AppColors._cPresionadoDark
-                ColorTexto = Color.White
+                ColorTexto = AppColors._cTextoDark
                 Icono = IconChar.Moon
                 ColorInternoFondo = ColorBase
         End Select
     End Sub
+#End Region
 
+#Region "EVENTOS INTERNOS"
     Protected Overrides Sub OnMouseEnter(e As EventArgs)
         hovering = True
         Me.Invalidate()
@@ -206,5 +213,7 @@ Public Class CommandButtonUI
         Me.Invalidate()
         MyBase.OnClick(e)
     End Sub
+#End Region
+
 End Class
 

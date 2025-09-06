@@ -14,15 +14,17 @@ Public Class AlertPanelUI
     Private _tipo As AlertType = AlertType.Info
     Private _mensaje As String = "Mensaje de alerta"
     Private _iconoUnicode As String = ChrW(&HF06A) ' fa-info-circle
-    Private _iconoColor As Color = Color.White
-    Private _fondoColor As Color = Color.SkyBlue
-    Private _textoColor As Color = Color.White
-    Private _fontAwesome As New Font("Font Awesome 6 Free Solid", 10)
+    Private _iconoColor As Color = AppColors._cBlancoOscuro
+    Private _fondoColor As Color = AppColors._cBasePrimary
+    Private _textoColor As Color = AppColors._cBlancoOscuro
+    Private _fontAwesome As New Font("Font Awesome 6 Free Solid", 20)
     Private _fadeTimer As New Timer()
     Private _vidaTimer As New Timer()
     Private _opacidad As Integer = 255
     Private _btnCerrar As New Label()
 
+
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -44,7 +46,7 @@ Public Class AlertPanelUI
         AddHandler _btnCerrar.Click, Sub() Me.Dispose()
         Me.Controls.Add(_btnCerrar)
 
-        _vidaTimer.Interval = 3000
+        _vidaTimer.Interval = 5000
         AddHandler _vidaTimer.Tick, Sub()
                                         _vidaTimer.Stop()
                                         _fadeTimer.Start()
@@ -63,14 +65,9 @@ Public Class AlertPanelUI
 
         Me.Visible = False
     End Sub
+#End Region
 
-    Public Sub Mostrar()
-        Me.Visible = True
-        _opacidad = 255
-        _vidaTimer.Start()
-        Me.Invalidate()
-    End Sub
-
+#Region "PROPIEDADES"
     Public Property TipoAlerta As AlertType
         Get
             Return _tipo
@@ -79,16 +76,16 @@ Public Class AlertPanelUI
             _tipo = value
             Select Case value
                 Case AlertType.Success
-                    _fondoColor = Color.MediumSeaGreen
+                    _fondoColor = AppColors._cBaseSuccess
                     _iconoUnicode = ChrW(&HF00C) ' fa-check
                 Case AlertType.Warning
-                    _fondoColor = Color.Goldenrod
+                    _fondoColor = AppColors._cBaseWarning
                     _iconoUnicode = ChrW(&HF071) ' fa-exclamation-triangle
                 Case AlertType.Errores
-                    _fondoColor = Color.IndianRed
+                    _fondoColor = AppColors._cBaseDanger
                     _iconoUnicode = ChrW(&HF057) ' fa-times-circle
                 Case AlertType.Info
-                    _fondoColor = Color.SkyBlue
+                    _fondoColor = AppColors._cBaseInfo
                     _iconoUnicode = ChrW(&HF06A) ' fa-info-circle
             End Select
             Me.Invalidate()
@@ -104,9 +101,19 @@ Public Class AlertPanelUI
             Me.Invalidate()
         End Set
     End Property
+#End Region
 
+#Region "PROCEDIMIENTO"
+    Public Sub Mostrar()
+        Me.Visible = True
+        _opacidad = 255
+        _vidaTimer.Start()
+        Me.Invalidate()
+    End Sub
+#End Region
+
+#Region "DIBUJO"
     ' 🎨 Render personalizado
-
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         Dim g = pe.Graphics
         g.SmoothingMode = SmoothingMode.AntiAlias
@@ -123,6 +130,13 @@ Public Class AlertPanelUI
         TextRenderer.DrawText(g, _iconoUnicode, _fontAwesome, New Point(10, 12), iconColorFade)
 
         ' Mensaje
-        TextRenderer.DrawText(g, _mensaje, New Font("Century Gothic", 10), New Rectangle(40, 10, Me.Width - 60, 25), textoColorFade)
+        TextRenderer.DrawText(g, _mensaje, New Font(AppFonts.Century, AppFonts.SizeSmall), New Rectangle(40, 10, Me.Width - 60, 25), textoColorFade)
     End Sub
+#End Region
+
 End Class
+
+'COMO USARLO 
+'HAY QUE UTILIZAR LA CLASE AlertManagerUI UBICADA EN LA CARPETA CLASESGENERICAS
+
+'AlertManagerUI.MostrarAlerta(Me, AlertType.Info, "hola")

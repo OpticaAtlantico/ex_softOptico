@@ -8,7 +8,7 @@ Public Module AlertManagerUI
         Dim alerta As New AlertPanelUI()
         alerta.TipoAlerta = tipo
         alerta.MensajeAlerta = mensaje
-        alerta.Size = New Size(400, 45)
+        alerta.Size = New Size(800, 60)
 
         ' Posicionar en esquina superior derecha
         Dim x = form.ClientSize.Width - alerta.Width - 20
@@ -17,7 +17,7 @@ Public Module AlertManagerUI
         alerta.Location = New Point(x, yBase)
         form.Controls.Add(alerta)
         alertStack.Add(alerta)
-
+        alerta.BringToFront()
         alerta.Mostrar()
 
         AddHandler alerta.Disposed, Sub()

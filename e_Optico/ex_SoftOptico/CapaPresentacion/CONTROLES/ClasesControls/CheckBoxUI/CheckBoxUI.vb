@@ -9,6 +9,9 @@
     Private _AnimationTimer As Timer
     Private _Texto As String = "Etiqueta"
 
+    Public Event CheckedChanged(sender As Object, e As EventArgs)
+
+#Region "PROPIEDADES"
     Public Property Texto As String
         Get
             Return _Texto
@@ -18,7 +21,6 @@
             Invalidate()
         End Set
     End Property
-
 
     Public Property CheckedColor As Color
         Get
@@ -61,9 +63,9 @@
             End If
         End Set
     End Property
+#End Region
 
-    Public Event CheckedChanged(sender As Object, e As EventArgs)
-
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -77,7 +79,16 @@
         _AnimationTimer = New Timer() With {.Interval = 15}
         AddHandler _AnimationTimer.Tick, AddressOf AnimateSelection
     End Sub
+#End Region
 
+#Region "EVENTO"
+    Protected Overrides Sub OnClick(e As EventArgs)
+        MyBase.OnClick(e)
+        Me.Checked = Not Me.Checked
+    End Sub
+#End Region
+
+#Region "PROCEDIMIENTO"
     Private Sub AnimateSelection(sender As Object, e As EventArgs)
         _AnimationProgress += 0.1F
         If _AnimationProgress >= 1.0F Then
@@ -86,7 +97,9 @@
         End If
         Invalidate()
     End Sub
+#End Region
 
+#Region "DIBUJO"
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         Dim g = pe.Graphics
         g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
@@ -123,16 +136,13 @@
             End Using
         End If
 
-        Using f As New Font("Segoe UI", 9.5F)
+        Using f As New Font(AppFonts.Century, AppFonts.SizeSmall)
             Dim textoPos = New Point(Me.Height + 6, (Me.Height \ 2) - (f.Height \ 2))
             g.DrawString(_Texto, f, Brushes.Black, textoPos)
         End Using
 
     End Sub
+#End Region
 
-    Protected Overrides Sub OnClick(e As EventArgs)
-        MyBase.OnClick(e)
-        Me.Checked = Not Me.Checked
-    End Sub
 End Class
 
