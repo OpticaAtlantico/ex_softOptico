@@ -28,12 +28,12 @@ Public Class TabItemOrbitalAdv
 
     Public Function ColorBootstrap() As Color
         Select Case Estilo
-            Case EstiloBootstrap.Primary : Return Color.FromArgb(33, 150, 243)
-            Case EstiloBootstrap.Success : Return Color.FromArgb(76, 175, 80)
-            Case EstiloBootstrap.Danger : Return Color.FromArgb(244, 67, 54)
-            Case EstiloBootstrap.Warning : Return Color.FromArgb(255, 193, 7)
-            Case EstiloBootstrap.Info : Return Color.FromArgb(0, 188, 212)
-            Case EstiloBootstrap.Dark : Return Color.FromArgb(66, 66, 66)
+            Case EstiloBootstrap.Primary : Return AppColors._cBasePrimary
+            Case EstiloBootstrap.Success : Return AppColors._cBaseSuccess
+            Case EstiloBootstrap.Danger : Return AppColors._cBaseDanger
+            Case EstiloBootstrap.Warning : Return AppColors._cBaseWarning
+            Case EstiloBootstrap.Info : Return AppColors._cBaseInfo
+            Case EstiloBootstrap.Dark : Return AppColors._cBaseDark
             Case Else : Return Color.Gray
         End Select
     End Function

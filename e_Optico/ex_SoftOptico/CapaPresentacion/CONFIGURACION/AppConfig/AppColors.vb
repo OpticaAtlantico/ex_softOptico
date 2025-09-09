@@ -73,10 +73,12 @@
     Public Shared ReadOnly _cIcono As Color = Color.FromArgb(57, 103, 208)
     Public Shared ReadOnly _cBorde As Color = Color.FromArgb(57, 103, 208)
     Public Shared ReadOnly _cSombra As Color = Color.LightGray
-    Public Shared ReadOnly _cBordeSel As Color = _cBaseInfo
+    Public Shared ReadOnly _cBordeSel As Color = Color.Orange
     Public Shared ReadOnly _cBordeError As Color = _cMsgError
     Public Shared ReadOnly _cFondoControl As Color = _cBlanco
 
+    'OPTION BUTTON
+    Public Shared ReadOnly _cOptionButton As Color = Color.MediumSlateBlue
 
 
 

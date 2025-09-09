@@ -106,31 +106,19 @@ Public Class MaskedTextBoxLabelUI
         iconoDerecho.Anchor = AnchorStyles.Right Or AnchorStyles.Top
         iconoDerecho.BackColor = Color.Transparent
         iconoDerecho.SizeMode = PictureBoxSizeMode.Zoom
+
         pnlFondo.Controls.Add(iconoDerecho)
-
-        AddHandler pnlFondo.Resize, Sub()
-                                        Dim tieneIcono As Boolean = iconoDerecho.Visible
-
-                                        Dim margenIcono = If(tieneIcono, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
-                                        txtCampo.Size = New Size(pnlFondo.Width - margenIcono - _paddingAll, 30)
-                                        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
-
-                                        If tieneIcono Then
-                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
-                                        End If
-                                    End Sub
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
-        AddHandler txtCampo.TextChanged, AddressOf OnTextChanged
-        AddHandler txtCampo.Leave, AddressOf OnLeave
-        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
-        AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+        AddHandler pnlFondo.Resize, Sub() ActualizarLayoutOrbital()
         AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
         AddHandler txtCampo.Enter, AddressOf OnEnter
+        AddHandler txtCampo.Leave, AddressOf OnLeave
+        AddHandler txtCampo.TextChanged, AddressOf OnTextChanged
 
     End Sub
 #End Region
@@ -276,9 +264,11 @@ Public Class MaskedTextBoxLabelUI
             Return _borderRadius
         End Get
         Set(value As Integer)
-            _borderRadius = value
-            pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
-            pnlFondo.Invalidate()
+            If _borderRadius <> value Then
+                _borderRadius = value
+                ActualizarRegion()
+                Me.Invalidate()
+            End If
         End Set
     End Property
 
@@ -461,32 +451,54 @@ Public Class MaskedTextBoxLabelUI
 
 #Region "DIBUJO"
     ' === Fondo redondeado orbital ===
-    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
-        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-        Dim rect = pnlFondo.ClientRectangle
-        rect.Inflate(-1, -1)
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+        Dim temaVisual As New ThemaVisualLayout With {
+                .ColorNormal = AppColors._cBasePrimary,
+                .ColorError = AppColors._cBordeError,
+                .ColorValidado = AppColors._cBaseSuccess,
+                .ColorHover = AppColors._cHoverColor,
+                .ColorFocus = AppColors._cBordeSel
+            }
 
-        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-            Using brush As New SolidBrush(pnlFondo.BackColor)
-                e.Graphics.FillPath(brush, path)
-            End Using
-            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorNormal)
-            Using pen As New Pen(colorBorde, _borderSize)
-                e.Graphics.DrawPath(pen, path)
-            End Using
+        Dim motorVisual As New EstiloLayout(
+            tema:=temaVisual,
+            estadoFunc:=Function()
+                            If lblError.Visible Then
+                                Return EstiloLayout.EstadoVisual.Errors
+                            ElseIf txtCampo.Focused Then
+                                Return EstiloLayout.EstadoVisual.Focus
+                            Else
+                                Return EstiloLayout.EstadoVisual.Normal
+                            End If
+                        End Function
+        )
 
-        End Using
+        Dim estilosOrbitales As New Dictionary(Of Control, (Radius As Integer, BorderSize As Integer)) From {
+                    {pnlFondo, (_borderRadius, _borderSize)}
+                }
+
+        motorVisual.Aplicar(
+            pnlFondo,
+            obtenerRadio:=Function() estilosOrbitales(pnlFondo).Radius,
+            obtenerBordeSize:=Function() estilosOrbitales(pnlFondo).BorderSize
+        )
+
     End Sub
 
-    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
-        Dim path As New GraphicsPath()
-        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
-        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
-        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
-        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
-        path.CloseFigure()
-        Return path
-    End Function
+#End Region
+
+#Region "PROCEDIMIENTO"
+    Private Sub ActualizarRegion()
+        If Me.ClientRectangle.Width > 0 AndAlso _borderRadius > 0 Then
+            Me.Region = New Region(EstiloLayout.RoundedPath(Me.ClientRectangle, _borderRadius))
+        End If
+    End Sub
+    Private Sub ActualizarLayoutOrbital()
+        Dim margenIcono = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
+        txtCampo.Width = pnlFondo.Width - margenIcono - _paddingAll
+        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+    End Sub
 
 #End Region
 

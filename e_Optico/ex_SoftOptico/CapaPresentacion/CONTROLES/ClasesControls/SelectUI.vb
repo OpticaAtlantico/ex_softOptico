@@ -11,10 +11,10 @@ Public Class SelectUI
     Private _items As New List(Of String)()
     Private _filteredItems As New List(Of String)()
     Private _selectedItem As String = ""
-    Private _textColor As Color = Color.Black
-    Private _borderRadius As Integer = 6
-    Private _colorInternoFondo As Color = Color.White
-    Private _borderColor As Color = Color.DeepSkyBlue
+    Private _textColor As Color = AppColors._cTexto
+    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
+    Private _colorInternoFondo As Color = AppColors._cBlanco
+    Private _borderColor As Color = AppColors._cBasePrimary
 
     ' 🎯 Controles visuales
     Private listaVisual As New ListBox()
@@ -22,31 +22,7 @@ Public Class SelectUI
     Private panelLista As Form
     Private desplegado As Boolean = False
 
-    Public Sub New()
-        Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
-                    ControlStyles.UserPaint Or
-                    ControlStyles.AllPaintingInWmPaint Or
-                    ControlStyles.OptimizedDoubleBuffer, True)
-        Me.UpdateStyles()
-        Me.Size = New Size(250, 36)
-        Me.Font = New Font("Century Gothic", 11)
-        Me.BackColor = Color.Transparent
-
-        buscador.Font = Me.Font
-        buscador.BorderStyle = BorderStyle.FixedSingle
-        buscador.BackColor = Color.White
-        AddHandler buscador.TextChanged, AddressOf FiltrarLista
-
-        listaVisual.Font = Me.Font
-        listaVisual.BorderStyle = BorderStyle.None
-        listaVisual.BackColor = Color.White
-        listaVisual.ItemHeight = 28
-        AddHandler listaVisual.Click, AddressOf SeleccionarItem
-
-        AddHandler Me.Click, AddressOf ToggleLista
-    End Sub
-
+#Region "PROPIEDADES"
     ' 📦 Propiedades públicas
     <Category("UI Orbital")> Public Property Items As List(Of String)
         Get
@@ -109,6 +85,36 @@ Public Class SelectUI
             Me.Invalidate()
         End Set
     End Property
+#End Region
+
+#Region "CONSTRUCTOR"
+    Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
+        Me.UpdateStyles()
+        Me.Size = New Size(250, 36)
+        Me.Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
+        Me.BackColor = Color.Transparent
+
+        buscador.Font = Me.Font
+        buscador.BorderStyle = BorderStyle.FixedSingle
+        buscador.BackColor = AppColors._cHoverInfo
+        AddHandler buscador.TextChanged, AddressOf FiltrarLista
+
+        listaVisual.Font = Me.Font
+        listaVisual.BorderStyle = BorderStyle.None
+        listaVisual.BackColor = AppColors._cTexto
+        listaVisual.ItemHeight = 28
+        AddHandler listaVisual.Click, AddressOf SeleccionarItem
+
+        AddHandler Me.Click, AddressOf ToggleLista
+    End Sub
+#End Region
+
+
 
     ' 🎨 Fondo orbital simulado
     Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)

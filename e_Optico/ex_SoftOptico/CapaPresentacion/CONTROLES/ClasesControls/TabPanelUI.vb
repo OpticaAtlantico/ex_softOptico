@@ -13,6 +13,8 @@ Public Class TabPanelUI
     Private currentIndex As Integer = 0
     Public Property ActiveContent As Control = Nothing
 
+
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -20,24 +22,26 @@ Public Class TabPanelUI
                 ControlStyles.AllPaintingInWmPaint Or
                 ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
-        Me.Font = New Font("Century Gothic", 10, FontStyle.Bold)
+        Me.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Bold)
         Me.BackColor = Color.Transparent
 
         ' 🌌 Panel orbital para contenido desacoplado
         PanelContenido = New Panel With {
-        .Dock = DockStyle.None,
-        .Location = New Point(0, TabHeight),
-        .Size = New Size(Me.Width, Me.Height - TabHeight),
-        .Margin = New Padding(0),
-        .Padding = New Padding(0),
-        .BackColor = Color.Transparent,
-        .AutoScroll = True
-    }
+            .Dock = DockStyle.None,
+            .Location = New Point(0, TabHeight),
+            .Size = New Size(Me.Width, Me.Height - TabHeight),
+            .Margin = New Padding(0),
+            .Padding = New Padding(0),
+            .BackColor = Color.Transparent,
+            .AutoScroll = True
+        }
         Me.Controls.Add(PanelContenido)
         PanelContenido.BringToFront()
 
     End Sub
+#End Region
 
+#Region "DIBUJO"
     Protected Overrides Sub OnPaintBackground(e As PaintEventArgs)
         ' Simula transparencia orbital heredando el fondo del contenedor padre
         If Me.Parent IsNot Nothing Then
@@ -58,23 +62,6 @@ Public Class TabPanelUI
 
     End Sub
 
-    Public Sub AddTab(tab As TabItemOrbitalAdv)
-        Tabs.Add(tab)
-        If Tabs.Count = 1 Then
-            SeleccionarPestana(0)
-        End If
-        Me.Invalidate()
-    End Sub
-
-    Public Sub SeleccionarPestana(index As Integer)
-        If index >= 0 AndAlso index < Tabs.Count Then
-            currentIndex = index
-            MostrarContenido()
-            Me.Invalidate()
-            RaiseEvent TabChanged(index, Tabs(index).Titulo)
-        End If
-    End Sub
-
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
         Dim g = e.Graphics
         Dim tabWidth = Me.Width \ Math.Max(1, Tabs.Count)
@@ -83,42 +70,6 @@ Public Class TabPanelUI
             Dim rect = New Rectangle(i * tabWidth, 0, tabWidth, TabHeight)
             DibujarPestañaConIcono(g, Tabs(i), rect, i = currentIndex)
         Next
-    End Sub
-
-    Protected Overrides Sub OnMouseClick(e As MouseEventArgs)
-        Dim tabWidth = Me.Width \ Math.Max(1, Tabs.Count)
-        Dim index = e.X \ tabWidth
-        If index >= 0 AndAlso index < Tabs.Count Then
-            currentIndex = index
-            MostrarContenido()
-            Me.Invalidate()
-        End If
-
-        RaiseEvent TabChanged(index, Tabs(index).Titulo)
-
-    End Sub
-
-    Private Sub MostrarContenido()
-
-        ' 🧼 Limpieza previa
-        PanelContenido.SuspendLayout()
-
-        PanelContenido.Controls.Clear()
-        ActiveContent = Tabs(currentIndex).Contenido
-
-        If ActiveContent IsNot Nothing Then
-            ActiveContent.Size = PanelContenido.ClientSize
-            ActiveContent.Dock = DockStyle.None
-            ActiveContent.Location = New Point(0, 0)
-            ActiveContent.Anchor = AnchorStyles.Top Or AnchorStyles.Left
-            ActiveContent.Margin = New Padding(0)
-            ActiveContent.Padding = New Padding(0)
-            PanelContenido.Controls.Add(ActiveContent)
-            ActiveContent.BringToFront()
-        End If
-
-        PanelContenido.ResumeLayout()
-
     End Sub
 
     Private Sub DibujarPestañaConIcono(g As Graphics, tab As TabItemOrbitalAdv, rect As Rectangle, isSelected As Boolean)
@@ -153,6 +104,65 @@ Public Class TabPanelUI
             g.FillRectangle(New SolidBrush(colorTexto), rect.X, rect.Bottom - 3, rect.Width, 3)
         End If
     End Sub
+
+#End Region
+
+#Region "EVENTOS INTERNOS"
+    Protected Overrides Sub OnMouseClick(e As MouseEventArgs)
+        Dim tabWidth = Me.Width \ Math.Max(1, Tabs.Count)
+        Dim index = e.X \ tabWidth
+        If index >= 0 AndAlso index < Tabs.Count Then
+            currentIndex = index
+            MostrarContenido()
+            Me.Invalidate()
+        End If
+
+        RaiseEvent TabChanged(index, Tabs(index).Titulo)
+
+    End Sub
+#End Region
+
+#Region "PROCEDIMIENTOS"
+    Public Sub AddTab(tab As TabItemOrbitalAdv)
+        Tabs.Add(tab)
+        If Tabs.Count = 1 Then
+            SeleccionarPestana(0)
+        End If
+        Me.Invalidate()
+    End Sub
+
+    Public Sub SeleccionarPestana(index As Integer)
+        If index >= 0 AndAlso index < Tabs.Count Then
+            currentIndex = index
+            MostrarContenido()
+            Me.Invalidate()
+            RaiseEvent TabChanged(index, Tabs(index).Titulo)
+        End If
+    End Sub
+
+    Private Sub MostrarContenido()
+
+        ' 🧼 Limpieza previa
+        PanelContenido.SuspendLayout()
+
+        PanelContenido.Controls.Clear()
+        ActiveContent = Tabs(currentIndex).Contenido
+
+        If ActiveContent IsNot Nothing Then
+            ActiveContent.Size = PanelContenido.ClientSize
+            ActiveContent.Dock = DockStyle.None
+            ActiveContent.Location = New Point(0, 0)
+            ActiveContent.Anchor = AnchorStyles.Top Or AnchorStyles.Left
+            ActiveContent.Margin = New Padding(0)
+            ActiveContent.Padding = New Padding(0)
+            PanelContenido.Controls.Add(ActiveContent)
+            ActiveContent.BringToFront()
+        End If
+
+        PanelContenido.ResumeLayout()
+
+    End Sub
+
     Public Sub AvanzarPestaña()
         If currentIndex < Tabs.Count - 1 Then
             currentIndex += 1
@@ -168,6 +178,6 @@ Public Class TabPanelUI
             Me.Invalidate()
         End If
     End Sub
-
+#End Region
 
 End Class

@@ -70,7 +70,6 @@ Partial Class frm_Empleado
         txtCorreo = New TextBoxLabelUI()
         pnl_Titulo = New Panel()
         Label17 = New Label()
-        DateBoxLabelui1 = New DateBoxLabelUI()
         pnlPrincipal.SuspendLayout()
         pnlDatos.SuspendLayout()
         Panel4.SuspendLayout()
@@ -93,7 +92,6 @@ Partial Class frm_Empleado
         ' 
         ' pnlDatos
         ' 
-        pnlDatos.Controls.Add(DateBoxLabelui1)
         pnlDatos.Controls.Add(Panel4)
         pnlDatos.Controls.Add(lnk_EditarUsuario)
         pnlDatos.Controls.Add(lbl_Nombre)
@@ -705,28 +703,6 @@ Partial Class frm_Empleado
         Label17.TabIndex = 30
         Label17.Text = "Editar..."
         ' 
-        ' DateBoxLabelui1
-        ' 
-        DateBoxLabelui1.BackColor = Color.Transparent
-        DateBoxLabelui1.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        DateBoxLabelui1.BorderRadius = 8
-        DateBoxLabelui1.BorderSize = 1
-        DateBoxLabelui1.CampoRequerido = True
-        DateBoxLabelui1.FechaSeleccionada = New Date(2025, 9, 5, 22, 24, 12, 921)
-        DateBoxLabelui1.FontField = New Font("Century Gothic", 12F)
-        DateBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        DateBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CalendarDays
-        DateBoxLabelui1.LabelColor = Color.DarkSlateGray
-        DateBoxLabelui1.LabelText = "Fecha"
-        DateBoxLabelui1.Location = New Point(232, 573)
-        DateBoxLabelui1.MensajeError = "Este campo es requerido"
-        DateBoxLabelui1.Name = "DateBoxLabelui1"
-        DateBoxLabelui1.PaddingAll = 10
-        DateBoxLabelui1.PanelBackColor = Color.White
-        DateBoxLabelui1.Size = New Size(271, 79)
-        DateBoxLabelui1.TabIndex = 42
-        DateBoxLabelui1.TextColor = Color.Black
-        ' 
         ' frm_Empleado
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -802,5 +778,4 @@ Partial Class frm_Empleado
     Friend WithEvents Label27 As Label
     Friend WithEvents lbl_Cargo As Label
     Friend WithEvents Label35 As Label
-    Friend WithEvents DateBoxLabelui1 As DateBoxLabelUI
 End Class

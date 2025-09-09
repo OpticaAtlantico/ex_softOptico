@@ -74,7 +74,7 @@ Public Class LabelUI
         Me.BackColor = Color.Transparent
 
         ' ⭐ Ícono informativo
-        iconControl.Size = New Size(20, 20)
+        iconControl.Size = New Size(AppLayout.IconMedium, AppLayout.IconMedium)
         iconControl.SizeMode = PictureBoxSizeMode.CenterImage
         iconControl.BackColor = Color.Transparent
         iconControl.Enabled = False
@@ -138,33 +138,33 @@ Public Class LabelUI
     Private Sub AplicarEstilo(estilo As EstiloBootstrap)
         Select Case estilo
             Case EstiloBootstrap.Primary
-                ColorInternoFondo = Color.FromArgb(217, 235, 255)
-                Me.ForeColor = Color.FromArgb(33, 150, 243)
+                ColorInternoFondo = AppColors._cBasePrimary
+                Me.ForeColor = AppColors._cTextoPrimary
                 Me.Icono = IconChar.InfoCircle
 
             Case EstiloBootstrap.Success
-                ColorInternoFondo = Color.FromArgb(223, 240, 216)
-                Me.ForeColor = Color.FromArgb(76, 175, 80)
+                ColorInternoFondo = AppColors._cBaseSuccess
+                Me.ForeColor = AppColors._cTextoSuccess
                 Me.Icono = IconChar.CheckCircle
 
             Case EstiloBootstrap.Danger
-                ColorInternoFondo = Color.FromArgb(250, 221, 221)
-                Me.ForeColor = Color.FromArgb(244, 67, 54)
+                ColorInternoFondo = AppColors._cBaseDanger
+                Me.ForeColor = AppColors._cTextoDanger
                 Me.Icono = IconChar.TimesCircle
 
             Case EstiloBootstrap.Warning
-                ColorInternoFondo = Color.FromArgb(255, 243, 205)
-                Me.ForeColor = Color.FromArgb(255, 193, 7)
+                ColorInternoFondo = AppColors._cBaseWarning
+                Me.ForeColor = AppColors._cTextoWarning
                 Me.Icono = IconChar.ExclamationTriangle
 
             Case EstiloBootstrap.Info
-                ColorInternoFondo = Color.FromArgb(208, 233, 242)
-                Me.ForeColor = Color.FromArgb(0, 188, 212)
+                ColorInternoFondo = AppColors._cBaseInfo
+                Me.ForeColor = AppColors._cTextoInfo
                 Me.Icono = IconChar.InfoCircle
 
             Case EstiloBootstrap.Dark
-                ColorInternoFondo = Color.FromArgb(230, 230, 230)
-                Me.ForeColor = Color.FromArgb(66, 66, 66)
+                ColorInternoFondo = AppColors._cBaseDark
+                Me.ForeColor = AppColors._cTextoDark
                 Me.Icono = IconChar.QuestionCircle
         End Select
     End Sub

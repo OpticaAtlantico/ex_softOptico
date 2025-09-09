@@ -4,8 +4,8 @@
     ' ➤ Atributos
     Private _Texto As String = "Opción"
     Private _Checked As Boolean = False
-    Private _CheckedColor As Color = Color.MediumSlateBlue
-    Private _BorderColor As Color = Color.Gray
+    Private _CheckedColor As Color = AppColors._cOptionButton
+    Private _BorderColor As Color = AppColors._cBasePrimary
 
     Private animationTimer As Timer
     Private animationProgress As Single = 0F
@@ -13,6 +13,7 @@
 
     Public Event CheckedChanged(sender As Object, e As EventArgs)
 
+#Region "PROPIEDADES"
     ' ➤ Propiedades públicas
     Public Property Texto As String
         Get
@@ -58,8 +59,9 @@
             _BorderColor = value : Invalidate()
         End Set
     End Property
+#End Region
 
-    ' ➤ Constructor
+#Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
         Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
@@ -77,13 +79,15 @@
             .Text = _Texto,
             .Location = New Point(28, 4),
             .AutoSize = True,
-            .Font = New Font("Century Gothic", 10),
+            .Font = New Font(AppFonts.Century, AppFonts.SizeMedium),
             .Cursor = Cursors.Hand
         }
         AddHandler lblTexto.Click, Sub() Me.Checked = True
         Me.Controls.Add(lblTexto)
     End Sub
+#End Region
 
+#Region "DIBUJO"
     ' ➤ Dibujo animado del botón
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         Dim g = pe.Graphics
@@ -105,7 +109,9 @@
             End Using
         End If
     End Sub
+#End Region
 
+#Region "PROCEDIMIENTO"
     ' ➤ Animación progresiva
     Private Sub AvanzarAnimacion(sender As Object, e As EventArgs)
         animationProgress += 0.1F
@@ -132,17 +138,19 @@
         MyBase.OnClick(e)
         Me.Checked = True
     End Sub
-
-    'Uso en e formulario
-
-    'Dim opt1 As New OptionButtonUI With {.Texto = "Opción A", .Location = New Point(30, 40)}
-    'Dim opt2 As New OptionButtonUI With {.Texto = "Opción B", .Location = New Point(30, 80)}
-    'Dim opt3 As New OptionButtonUI With {.Texto = "Opción C", .Location = New Point(30, 120)}
-
-    'AddHandler opt1.CheckedChanged, Sub() MsgBox("Elegiste: A")
-    'AddHandler opt2.CheckedChanged, Sub() MsgBox("Elegiste: B")
-    'AddHandler opt3.CheckedChanged, Sub() MsgBox("Elegiste: C")
-
-    'Me.Controls.AddRange({opt1, opt2, opt3})
+#End Region
 
 End Class
+
+
+'Uso en e formulario
+
+'Dim opt1 As New OptionButtonUI With {.Texto = "Opción A", .Location = New Point(30, 40)}
+'Dim opt2 As New OptionButtonUI With {.Texto = "Opción B", .Location = New Point(30, 80)}
+'Dim opt3 As New OptionButtonUI With {.Texto = "Opción C", .Location = New Point(30, 120)}
+
+'AddHandler opt1.CheckedChanged, Sub() MsgBox("Elegiste: A")
+'AddHandler opt2.CheckedChanged, Sub() MsgBox("Elegiste: B")
+'AddHandler opt3.CheckedChanged, Sub() MsgBox("Elegiste: C")
+
+'Me.Controls.AddRange({opt1, opt2, opt3})
