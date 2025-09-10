@@ -80,6 +80,8 @@
     'OPTION BUTTON
     Public Shared ReadOnly _cOptionButton As Color = Color.MediumSlateBlue
 
+    Public Shared ReadOnly _cPlaceHolder As Color = Color.Gray
+
 
 
 End Class

@@ -1,6 +1,7 @@
 ﻿
 Imports System.ComponentModel
 Imports FontAwesome.Sharp
+Imports System.Drawing.Drawing2D
 
 Public Class MultilineTextBoxLabelUI
     Inherits UserControl
@@ -13,16 +14,9 @@ Public Class MultilineTextBoxLabelUI
     Private lblError As New Label()
 
     ' === Visual orbital ===
-    Private _alturaMultilinea As Integer = 40
-
-    Private alturaObjetivo As Integer = 100
-    Private alturaAnimadaActual As Integer = 40
-
-    Private _campoRequerido As Boolean = True
-
-    ' === Visual orbital ===
-    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
-    Private _borderColorNormal As Color = AppColors._cBorde
+    Private _alturaMultilinea As Integer = 38
+    Private alturaObjetivo As Integer = 38
+    Private alturaAnimadaActual As Integer = 38
 
     ' === Estilos ===
     Private _labelText As String = "Texto:"
@@ -35,11 +29,17 @@ Public Class MultilineTextBoxLabelUI
     Private iconoDerecho As New IconPictureBox()
     Private _borderColorPersonalizado As Color = AppColors._cBorde
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
+
     Private _labelColor As Color = AppColors._cLabel
     Private _focusColor As Color = AppColors._cBordeSel
     Private _mensajeError As String = AppMensajes.msgCampoRequerido
     Private _colorError As Color = AppColors._cMsgError
     Private WithEvents innerTextBox As New TextBox
+    Private _campoRequerido As Boolean = True
+
+    ' === Visual orbital ===
+    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
+    Private _borderColorNormal As Color = AppColors._cBorde
 
     'Private WithEvents animadorAltura As New Timer() With {.Interval = 15}
 
@@ -178,8 +178,8 @@ Public Class MultilineTextBoxLabelUI
         Set(value As Integer)
             If _borderRadius <> value Then
                 _borderRadius = value
-                ActualizarRegion()
-                Me.Invalidate()
+                pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+                pnlFondo.Invalidate()
             End If
         End Set
     End Property
@@ -233,7 +233,7 @@ Public Class MultilineTextBoxLabelUI
             txtCampo.Multiline = True
             txtCampo.Height = value - (_paddingAll * 2)
             RecalcularAlineacion(Nothing, Nothing)
-            ActualizarRegion()
+            pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
             pnlFondo.Invalidate()
             pnlSombra.Invalidate()
         End Set
@@ -352,17 +352,42 @@ Public Class MultilineTextBoxLabelUI
         lblError.Margin = Padding.Empty
         lblError.TextAlign = ContentAlignment.MiddleRight
 
+        If txtCampo.Multiline Then
+            Dim margenIcono = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
+            txtCampo.Size = New Size(pnlFondo.Width - margenIcono - _paddingAll, pnlFondo.Height - (_paddingAll * 2))
+            txtCampo.Location = New Point(_paddingAll, _paddingAll)
+        Else
+            txtCampo.Size = New Size(pnlFondo.Width - _paddingAll * 2, 30)
+            txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+        End If
+
+        AddHandler txtCampo.Leave, AddressOf ValidarCampoFinal
+        AddHandler pnlFondo.Resize, Sub()
+                                        Dim tieneIcono As Boolean = iconoDerecho.Visible
+                                        Dim margenIcono = If(tieneIcono, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
+                                        If txtCampo.Multiline Then
+                                            txtCampo.Size = New Size(pnlFondo.Width - margenIcono - _paddingAll, pnlFondo.Height - (_paddingAll * 2))
+                                            txtCampo.Location = New Point(_paddingAll, _paddingAll)
+                                        Else
+                                            txtCampo.Size = New Size(pnlFondo.Width - margenIcono - _paddingAll, 30)
+                                            txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+                                        End If
+
+                                        If tieneIcono Then
+                                            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
+                                        End If
+                                    End Sub
+
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
-        ' === Eventos ===
+        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
+        AddHandler pnlFondo.Resize, Sub() pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+        AddHandler txtCampo.Leave, AddressOf OnLeave
         AddHandler txtCampo.TextChanged, AddressOf OnTextChanged
         AddHandler txtCampo.Enter, AddressOf OnEnter
-        AddHandler txtCampo.Leave, AddressOf OnLeave
-        AddHandler pnlFondo.Resize, Sub() ActualizarRegion()
-        AddHandler pnlFondo.Resize, Sub() ActualizarLayoutOrbital()
 
     End Sub
 #End Region
@@ -456,40 +481,32 @@ Public Class MultilineTextBoxLabelUI
 #End Region
 
 #Region "DIBUJO"
-    ' === Fondo redondeado orbital ===
-    Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        Dim temaVisual As New ThemaVisualLayout With {
-                .ColorNormal = AppColors._cBasePrimary,
-                .ColorError = AppColors._cBordeError,
-                .ColorValidado = AppColors._cBaseSuccess,
-                .ColorHover = AppColors._cHoverColor,
-                .ColorFocus = AppColors._cBordeSel
-            }
+    Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+        Dim rect = pnlFondo.ClientRectangle
+        rect.Inflate(-1, -1)
 
-        Dim motorVisual As New EstiloLayout(
-            tema:=temaVisual,
-            estadoFunc:=Function()
-                            If lblError.Visible Then
-                                Return EstiloLayout.EstadoVisual.Errors
-                            ElseIf txtCampo.Focused Then
-                                Return EstiloLayout.EstadoVisual.Focus
-                            Else
-                                Return EstiloLayout.EstadoVisual.Normal
-                            End If
-                        End Function
-        )
-
-        Dim estilosOrbitales As New Dictionary(Of Control, (Radius As Integer, BorderSize As Integer)) From {
-                    {pnlFondo, (_borderRadius, _borderSize)}
-                }
-
-        motorVisual.Aplicar(
-            pnlFondo,
-            obtenerRadio:=Function() estilosOrbitales(pnlFondo).Radius,
-            obtenerBordeSize:=Function() estilosOrbitales(pnlFondo).BorderSize
-        )
-
+        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
+            Using brush As New SolidBrush(pnlFondo.BackColor)
+                e.Graphics.FillPath(brush, path)
+            End Using
+            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColorNormal)
+            Using pen As New Pen(colorBorde, _borderSize)
+                e.Graphics.DrawPath(pen, path)
+            End Using
+        End Using
     End Sub
+
+    Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.AddArc(rect.Left, rect.Top, radius, radius, 180, 90)
+        path.AddArc(rect.Right - radius, rect.Top, radius, radius, 270, 90)
+        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
+
     Private Sub AjustarAlturaCampo()
         If txtCampo.Multiline Then
             pnlFondo.Height = alturaObjetivo  ' Puedes ajustar esta altura orbital según estilo
@@ -519,31 +536,51 @@ Public Class MultilineTextBoxLabelUI
 #End Region
 
 #Region "PROCEDIMIENTO"
-    Private Sub ActualizarRegion()
-        If Me.ClientRectangle.Width > 0 AndAlso _borderRadius > 0 Then
-            Me.Region = New Region(EstiloLayout.RoundedPath(Me.ClientRectangle, _borderRadius))
-        End If
-    End Sub
-    Private Sub ActualizarLayoutOrbital()
+    'Private Sub ActualizarRegion()
+    '    If Me.ClientRectangle.Width > 0 AndAlso _borderRadius > 0 Then
+    '        Me.Region = New Region(EstiloLayout.RoundedPath(Me.ClientRectangle, _borderRadius))
+    '    End If
+    'End Sub
+    'Private Sub ActualizarLayoutOrbital()
 
-        Dim margenDerecho As Integer = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
+    '    Dim margenDerecho As Integer = If(iconoDerecho.Visible, iconoDerecho.Width + (_paddingAll * 2), _paddingAll)
 
-        ' Si el TextBox es multilinea, usa todo el alto disponible menos padding
-        If txtCampo.Multiline Then
-            txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, pnlFondo.Height - (_paddingAll * 2))
-            txtCampo.Location = New Point(_paddingAll, _paddingAll)
+    '    ' Si el TextBox es multilinea, usa todo el alto disponible menos padding
+    '    If txtCampo.Multiline Then
+    '        txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, pnlFondo.Height - (_paddingAll * 2))
+    '        txtCampo.Location = New Point(_paddingAll, _paddingAll)
+    '    Else
+    '        ' Si no es multilinea, mantener altura fija y centrar verticalmente
+    '        txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, 25)
+    '        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+    '    End If
+    '    pnlSombra.Size = New Size(pnlFondo.Width + 12, pnlFondo.Height - 0.3)
+
+    '    ' Alinear el ícono a la derecha si está visible
+    '    If iconoDerecho.Visible Then
+    '        iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, _paddingAll)
+    '    End If
+
+    'End Sub
+
+    Private Sub CapitalizarSiEsNecesario()
+        If Not CapitalizarTexto Then Exit Sub
+
+        Dim textoOriginal As String = txtCampo.Text.Trim()
+
+        If CapitalizarTodasLasPalabras Then
+            Dim palabras = textoOriginal.Split(" "c)
+            For i = 0 To palabras.Length - 1
+                If palabras(i).Length > 0 Then
+                    palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
+                End If
+            Next
+            txtCampo.Text = String.Join(" ", palabras)
         Else
-            ' Si no es multilinea, mantener altura fija y centrar verticalmente
-            txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, 25)
-            txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
+            If textoOriginal.Length > 0 Then
+                txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
+            End If
         End If
-        pnlSombra.Size = New Size(pnlFondo.Width + 12, pnlFondo.Height - 0.3)
-
-        ' Alinear el ícono a la derecha si está visible
-        If iconoDerecho.Visible Then
-            iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, _paddingAll)
-        End If
-
     End Sub
 
 #End Region
