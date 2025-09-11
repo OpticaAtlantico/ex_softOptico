@@ -211,6 +211,7 @@ Public Class BaseTextBoxLabelUI
         path.CloseFigure()
         Return path
     End Function
+
 #End Region
 
 #Region "EVENTOS INTERNOS"
