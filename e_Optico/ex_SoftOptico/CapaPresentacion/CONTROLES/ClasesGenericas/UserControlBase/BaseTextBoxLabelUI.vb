@@ -55,7 +55,7 @@ Public Class BaseTextBoxLabelUI
     Public Property CampoRequerido As Boolean = False
 
     <Category("WilmerUI")>
-    Public Property MensajeError As String = "Campo requerido."
+    Public Property MensajeError As String = AppMensajes.msgCampoRequerido
 
     <Category("WilmerUI")>
     Public Property MaxCaracteres As Integer = 0
@@ -98,6 +98,19 @@ Public Class BaseTextBoxLabelUI
         End Get
         Set(value As String)
             lblTitulo.Text = value
+            Me.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
+    Public Property ColorTitulo As Color
+        Get
+            Return _labelColor
+        End Get
+        Set(value As Color)
+            _labelColor = value
+            lblTitulo.ForeColor = value
+            Me.Invalidate()
         End Set
     End Property
 
@@ -143,13 +156,6 @@ Public Class BaseTextBoxLabelUI
         lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = AppLayout.ControlLabelHeight
-
-        'pnlSombra.Dock = DockStyle.None
-        'pnlSombra.BackColor = _sombraBackColor
-        'pnlSombra.Height = AppLayout.PanelHeightStandar
-        'pnlSombra.Width = 900
-        'pnlSombra.Margin = Padding.Empty
-        'pnlSombra.Location = New Point(6, 23)
 
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
@@ -202,7 +208,6 @@ Public Class BaseTextBoxLabelUI
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
-        'Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
         ' Eventos
@@ -218,22 +223,7 @@ Public Class BaseTextBoxLabelUI
 #End Region
 
 #Region "DIBUJO"
-    ' === Dibujar borde redondeado ===
-    'Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
-    '    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-    '    Dim rect As Rectangle = pnlFondo.ClientRectangle
-    '    rect.Inflate(-1, -1)
 
-    '    Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-    '        Using brush As New SolidBrush(pnlFondo.BackColor)
-    '            e.Graphics.FillPath(brush, path)
-    '        End Using
-    '        Dim penColor As Color = If(lblError.Visible, _borderColorError, _borderColor)
-    '        Using pen As New Pen(penColor, _borderSize)
-    '            e.Graphics.DrawPath(pen, path)
-    '        End Using
-    '    End Using
-    'End Sub
     Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
@@ -270,7 +260,6 @@ Public Class BaseTextBoxLabelUI
         ' NO cambiar pnlFondo.Region, para que la sombra quede visible fuera
         ' pnlFondo.Region = New Region(pathPanel)
     End Sub
-
 
     Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()

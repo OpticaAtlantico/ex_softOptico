@@ -5,6 +5,7 @@ Public Class PanelUI
     Inherits UserControl
 
     Private lblContenido As New Label()
+    Private contenedor As New Panel()
 
     Private _borderRadius As Integer = AppLayout.BorderRadiusPanel
     Private _borderColor As Color = AppColors._cPanelBorderColor
@@ -12,6 +13,7 @@ Public Class PanelUI
     Private _shadowColor As Color = AppColors._cPanelSombracolor
     Private _shadowSize As Integer = 3
     Private _backColorCard As Color = AppColors._cPanelBackColor
+    Private _backColorContenedor As Color = Color.Transparent ' AppColors._cBlancoOscuro
     Private _textColor As Color = AppColors._cTexto
     Private _estilo As EstiloCard = EstiloCard.None
 
@@ -70,6 +72,17 @@ Public Class PanelUI
     End Property
 
     <Category("WilmerUI")>
+    Public Property BackColorContenedor As Color
+        Get
+            Return _backColorContenedor
+        End Get
+        Set(value As Color)
+            _backColorContenedor = value
+            Me.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
     Public Property ShadowColor As Color
         Get
             Return _shadowColor
@@ -113,17 +126,14 @@ Public Class PanelUI
         Me.BackColor = Color.Transparent
         Me.Size = New Size(300, 100)
 
-        ' Label interno
-        With lblContenido
-            .AutoSize = False
+        With contenedor
             .Dock = DockStyle.Fill
-            .TextAlign = ContentAlignment.MiddleLeft
+            .BackColor = _backColorContenedor
             .Padding = New Padding(AppLayout.Padding1)
-            .Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Regular)
-            .ForeColor = _textColor
         End With
 
-        Me.Controls.Add(lblContenido)
+        'lblContenido.Controls.Add(contenedor)
+        Me.Controls.Add(contenedor)
         AplicarEstiloVisual()
     End Sub
 #End Region
@@ -153,7 +163,7 @@ Public Class PanelUI
                 _textColor = AppColors._cTextoDanger
             Case Else
                 _backColorCard = AppColors._cPanelBackColor
-                _borderColor = AppColors._cPanelBorderColor
+                _borderColor = _borderColor
                 _textColor = AppColors._cTexto
         End Select
         lblContenido.ForeColor = _textColor
@@ -197,7 +207,6 @@ Public Class PanelUI
         ' NO cambiar Me.Region, para que la sombra fuera del panel sea visible
         ' Me.Region = New Region(pathCard)
     End Sub
-
 
     Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
