@@ -9,5 +9,7 @@
         alerta.Mensaje = "Ocurrió un error inesperado."
         alerta.Dock = DockStyle.Top
         Me.Controls.Add(alerta)
+        alerta.BringToFront()
+        alerta.Mostrar()
     End Sub
 End Class

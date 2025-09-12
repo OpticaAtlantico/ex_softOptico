@@ -6,6 +6,9 @@ Public Class AlertUI
 
     Private lblMensaje As New Label()
     Private icono As New IconPictureBox()
+    Private _fadeTimer As New Timer()
+    Private _vidaTimer As New Timer()
+    Private _opacidad As Integer = 255
 
     Public Enum AlertType
         Info
@@ -40,7 +43,7 @@ Public Class AlertUI
     Public Sub New()
         MyBase.New()
         Me.Height = 50
-        Me.BorderRadius = 6
+        Me.BorderRadius = 8
         Me.BorderSize = 1
 
         ' 🔹 Ícono FontAwesome
@@ -63,6 +66,26 @@ Public Class AlertUI
         Me.Controls.Add(lblMensaje)
 
         AplicarEstiloAlerta()
+
+        _vidaTimer.Interval = 5000
+        AddHandler _vidaTimer.Tick, Sub()
+                                        _vidaTimer.Stop()
+                                        _fadeTimer.Start()
+                                    End Sub
+
+        _fadeTimer.Interval = 30
+        AddHandler _fadeTimer.Tick, Sub()
+                                        _opacidad -= 15
+                                        If _opacidad <= 0 Then
+                                            _fadeTimer.Stop()
+                                            Me.Dispose()
+                                        Else
+                                            Me.Invalidate()
+                                        End If
+                                    End Sub
+
+        Me.Visible = False
+
     End Sub
 
     Private Sub AplicarEstiloAlerta()
@@ -97,4 +120,11 @@ Public Class AlertUI
         End Select
         Me.Invalidate()
     End Sub
+    Public Sub Mostrar()
+        Me.Visible = True
+        _opacidad = 255
+        _vidaTimer.Start()
+        Me.Invalidate()
+    End Sub
+
 End Class
