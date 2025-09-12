@@ -1,12 +1,19 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.Threading.Tasks
+Public Enum TipoToastUI
+    Primary
+    Success
+    Errors
+    Warning
+    Info
+End Enum
 
 Public Class ToastUI
     Inherits Form
 
     Private lblMensaje As New Label()
     Private tiempoEnPantalla As Integer = 3000 ' Tiempo visible en ms
-    Private colorFondo As Color = Color.FromArgb(40, 167, 69) ' Verde éxito
+    Private colorFondo As Color = AppColors._cBaseSuccess
     Private velocidadFade As Double = 0.08 ' Velocidad de transición
 
     Public Sub New(mensaje As String, tipo As TipoToastUI)
@@ -31,23 +38,25 @@ Public Class ToastUI
 
         ' Cambiar color según tipo
         Select Case tipo
+            Case TipoToastUI.Primary
+                colorFondo = AppColors._cBasePrimary
             Case TipoToastUI.Success
-                colorFondo = Color.FromArgb(40, 167, 69)
+                colorFondo = AppColors._cBaseSuccess
             Case TipoToastUI.Errors
-                colorFondo = Color.FromArgb(220, 53, 69)
+                colorFondo = AppColors._cBaseDanger
             Case TipoToastUI.Warning
-                colorFondo = Color.FromArgb(255, 193, 7)
+                colorFondo = AppColors._cBaseWarning
             Case TipoToastUI.Info
-                colorFondo = Color.FromArgb(23, 162, 184)
+                colorFondo = AppColors._cBaseInfo
         End Select
         Me.BackColor = colorFondo
 
         ' Texto del mensaje
         lblMensaje.Text = mensaje
         lblMensaje.Dock = DockStyle.Fill
-        lblMensaje.ForeColor = Color.White
+        lblMensaje.ForeColor = AppColors._cBlancoOscuro
         lblMensaje.TextAlign = ContentAlignment.MiddleCenter
-        lblMensaje.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+        lblMensaje.Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Bold)
         Me.Controls.Add(lblMensaje)
     End Sub
 
@@ -73,10 +82,5 @@ Public Class ToastUI
 End Class
 
 ' Enumeración para tipos de toast
-Public Enum TipoToastUI
-    Success
-    Errors
-    Warning
-    Info
-End Enum
+
 

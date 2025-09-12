@@ -55,6 +55,7 @@
     Public Const Margin25 As Integer = 25
 
     Public Const BorderRadiusStandar As Integer = 8
+    Public Const BorderRadiusPanel As Integer = 20
     Public Const BorderRadiusMsg As Integer = 25
 
     Public Const ControlHeight As Integer = 32

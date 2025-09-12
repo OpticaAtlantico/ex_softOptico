@@ -1,6 +1,6 @@
 ﻿Public Class AppUserControlStyles
     Public Shared Sub ApplyStandardStyle(ctrl As Control)
-        ctrl.Font = New Font(AppFonts.DefaultFamily, AppFonts.SizeMedium)
+        ctrl.Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
         ctrl.BackColor = AppColors.BackgroundPrimary
         ctrl.ForeColor = AppColors.TextPrimary
         ctrl.Padding = New Padding(AppLayout.Padding10)

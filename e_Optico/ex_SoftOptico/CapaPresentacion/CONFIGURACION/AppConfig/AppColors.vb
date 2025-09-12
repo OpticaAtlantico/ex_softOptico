@@ -82,6 +82,10 @@
 
     Public Shared ReadOnly _cPlaceHolder As Color = Color.Gray
 
+    'Panel
+    Public Shared ReadOnly _cPanelBackColor As Color = _cBlanco
+    Public Shared ReadOnly _cPanelBorderColor As Color = Color.FromArgb(0, 188, 212)
+    Public Shared ReadOnly _cPanelSombracolor As Color = Color.LightGray
 
 
 End Class

@@ -19,10 +19,9 @@ Public Class MultilineTextBoxLabelUI
 
     ' === Estilos ===
     Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
-    Private _borderColorNormal As Color = AppColors._cBasePrimary
-    Private _borderColorPersonalizado As Color = AppColors._cBasePrimary
-    Private _borderColor As Color = AppColors._cBasePrimary
-    Private _borderColorFocus As Color = AppColors._cBordeSel
+    Private _borderColorSuccess As Color = AppColors._cBaseSuccess 'Verde
+    Private _borderColor As Color = AppColors._cBasePrimary 'Azul
+    Private _borderColorFocus As Color = AppColors._cBordeSel 'Anaranjado
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _borderColorError As Color = AppColors._cMsgError
 
@@ -32,12 +31,13 @@ Public Class MultilineTextBoxLabelUI
     Private _panelBackColor As Color = AppColors._cBlanco
     Private _sombraBackColor As Color = AppColors._cSombra
     Private _textColor As Color = AppColors._cTexto
-    Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
+    Private _fontFieldTexto As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
+    Private _fontFieldTitulo As Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
+    Private _fontFieldMsgError As Font = New Font(AppFonts.Segoe, AppFonts.SizeMini)
     Private _paddingAll As Integer = AppLayout.Padding10
     Private iconoDerecho As New IconPictureBox()
     Private _campoRequerido As Boolean = True
     Private _mensajeError As String = AppMensajes.msgCampoRequerido
-
 
     Private _capitalizarTexto As Boolean = False
     Private _capitalizarTodasLasPalabras As Boolean = True
@@ -49,7 +49,7 @@ Public Class MultilineTextBoxLabelUI
     Private alturaAnimadaActual As Integer = 40
 
     ' === Placeholder ===
-    Private _placeholder As String = "Escriba aquí..."
+    Private _placeholder As String = "Escribaaa aquí..."
     Private _placeholderColor As Color = AppColors._cPlaceHolder
 #End Region
 
@@ -124,13 +124,11 @@ Public Class MultilineTextBoxLabelUI
     <Category("WilmerUI")>
     Public Property FontField As Font
         Get
-            Return _fontField
+            Return _fontFieldTexto
         End Get
         Set(value As Font)
-            _fontField = value
+            _fontFieldTexto = value
             txtCampo.Font = value
-            lblTitulo.Font = New Font(value.FontFamily, value.Size - 2)
-            lblError.Font = New Font(value.FontFamily, value.Size - 3)
         End Set
     End Property
 
@@ -174,18 +172,6 @@ Public Class MultilineTextBoxLabelUI
         Set(value As Color)
             _borderColorError = value
             lblError.ForeColor = value
-        End Set
-    End Property
-
-    <Category("WilmerUI")>
-    Public Property BorderRadius As Integer
-        Get
-            Return _borderRadius
-        End Get
-        Set(value As Integer)
-            _borderRadius = value
-            pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
-            pnlFondo.Invalidate()
         End Set
     End Property
 
@@ -272,6 +258,18 @@ Public Class MultilineTextBoxLabelUI
     End Property
 
     <Category("WilmerUI")>
+    Public Property BorderRadius As Integer
+        Get
+            Return _borderRadius
+        End Get
+        Set(value As Integer)
+            _borderRadius = value
+            pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+            pnlFondo.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
     Public Property BorderColor As Color
         Get
             Return _borderColor
@@ -334,7 +332,7 @@ Public Class MultilineTextBoxLabelUI
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = AppLayout.ControlLabelHeight
         lblTitulo.ForeColor = _textColor
-        lblTitulo.Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
+        lblTitulo.Font = _fontFieldTitulo
 
         pnlSombra.Dock = DockStyle.None
         pnlSombra.BackColor = _sombraBackColor
@@ -353,7 +351,7 @@ Public Class MultilineTextBoxLabelUI
 
         ' === Campo de texto ===
         txtCampo.BorderStyle = BorderStyle.None
-        txtCampo.Font = _fontField
+        txtCampo.Font = _fontFieldTexto
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
         txtCampo.Multiline = True ' listo para expansión vertica
@@ -373,6 +371,7 @@ Public Class MultilineTextBoxLabelUI
 
         ' === Label de error ===
         lblError.Text = ""
+        lblError.Font = _fontFieldMsgError
         lblError.ForeColor = _borderColorError
         lblError.Dock = DockStyle.Top
         lblError.Height = AppLayout.ControlLabelHeight
@@ -427,11 +426,9 @@ Public Class MultilineTextBoxLabelUI
         AddHandler pnlFondo.Resize, AddressOf RecalcularAlineacion
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
 
-
         AddHandler txtCampo.Enter, AddressOf OnEnterCampo
         AddHandler txtCampo.Leave, AddressOf OnLeaveCampo
         AddHandler txtCampo.TextChanged, AddressOf OnTextChangedCampo
-        AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
     End Sub
 #End Region
 
@@ -447,7 +444,6 @@ Public Class MultilineTextBoxLabelUI
             _borderColor = _borderColorError
         Else
             _borderColor = AppColors._cBaseSuccess
-            CapitalizarSiEsNecesario()
         End If
         CapitalizarSiEsNecesario()
         pnlFondo.Invalidate()
@@ -503,10 +499,10 @@ Public Class MultilineTextBoxLabelUI
         If Not valido Then
             lblError.Text = mensajeError
             lblError.Visible = True
-            _borderColorNormal = _borderColorError
+            _borderColor = _borderColorError
         Else
             lblError.Visible = False
-            _borderColorNormal = _borderColorPersonalizado
+            _borderColor = _borderColorSuccess
         End If
 
         pnlFondo.Invalidate()
@@ -569,7 +565,7 @@ Public Class MultilineTextBoxLabelUI
             Using brush As New SolidBrush(pnlFondo.BackColor)
                 e.Graphics.FillPath(brush, path)
             End Using
-            Dim colorBorde As Color = If(lblError.Visible, _borderColorError, _borderColorPersonalizado)
+            Dim colorBorde As Color = If(lblError.Visible, _borderColorError, _borderColor)
             Using pen As New Pen(colorBorde, _borderSize)
                 e.Graphics.DrawPath(pen, path)
             End Using

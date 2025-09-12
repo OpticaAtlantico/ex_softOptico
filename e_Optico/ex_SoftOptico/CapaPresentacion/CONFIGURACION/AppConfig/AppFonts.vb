@@ -1,5 +1,6 @@
 ﻿Public Class AppFonts
-    Public Const DefaultFamily As String = "Segoe UI"
+    Public Const Segoe As String = "Segoe UI"
+    Public Const SegoeSB As String = "Segoe UI Semibold"
     Public Const TitleFamily As String = "Montserrat"
     Public Const MonoFamily As String = "Consolas"
     Public Const Century As String = "Century Gothic"

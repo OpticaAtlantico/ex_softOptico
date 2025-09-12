@@ -6,12 +6,12 @@ Public Class PanelUI
 
     Private lblContenido As New Label()
 
-    Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
-    Private _borderColor As Color = AppColors._cBasePrimary
+    Private _borderRadius As Integer = AppLayout.BorderRadiusPanel
+    Private _borderColor As Color = AppColors._cPanelBorderColor
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
-    Private _shadowColor As Color = AppColors._cSombra
-    Private _shadowSize As Integer = AppLayout.PanelHeightStandar
-    Private _backColorCard As Color = AppColors._cBlanco
+    Private _shadowColor As Color = AppColors._cPanelSombracolor
+    Private _shadowSize As Integer = 3
+    Private _backColorCard As Color = AppColors._cPanelBackColor
     Private _textColor As Color = AppColors._cTexto
     Private _estilo As EstiloCard = EstiloCard.None
 
@@ -24,15 +24,14 @@ Public Class PanelUI
         Danger
     End Enum
 
-#Region "PROPIDADES"
-    ' === PROPIEDADES ===
+#Region "PROPIEDADES"
     <Category("WilmerUI")>
     Public Property BorderRadius As Integer
         Get
             Return _borderRadius
         End Get
         Set(value As Integer)
-            _borderRadius = value
+            _borderRadius = Math.Max(0, value)
             Me.Invalidate()
         End Set
     End Property
@@ -43,7 +42,7 @@ Public Class PanelUI
             Return _borderSize
         End Get
         Set(value As Integer)
-            _borderSize = value
+            _borderSize = Math.Max(0, value)
             Me.Invalidate()
         End Set
     End Property
@@ -89,7 +88,6 @@ Public Class PanelUI
         Set(value As EstiloCard)
             _estilo = value
             AplicarEstiloVisual()
-            Me.Invalidate()
         End Set
     End Property
 
@@ -115,12 +113,14 @@ Public Class PanelUI
         Me.BackColor = Color.Transparent
         Me.Size = New Size(300, 100)
 
+        ' Label interno
         With lblContenido
             .AutoSize = False
             .Dock = DockStyle.Fill
             .TextAlign = ContentAlignment.MiddleLeft
-            .Padding = New Padding(AppLayout.Padding2)
+            .Padding = New Padding(AppLayout.Padding1)
             .Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Regular)
+            .ForeColor = _textColor
         End With
 
         Me.Controls.Add(lblContenido)
@@ -152,8 +152,8 @@ Public Class PanelUI
                 _borderColor = AppColors._cBaseDanger
                 _textColor = AppColors._cTextoDanger
             Case Else
-                _backColorCard = AppColors._cBlancoOscuro
-                _borderColor = AppColors._cBaseInfo
+                _backColorCard = AppColors._cPanelBackColor
+                _borderColor = AppColors._cPanelBorderColor
                 _textColor = AppColors._cTexto
         End Select
         lblContenido.ForeColor = _textColor
@@ -162,44 +162,50 @@ Public Class PanelUI
 #End Region
 
 #Region "DIBUJO"
-    ' === Dibujar tarjeta con sombra y bordes ===
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
-        Dim cardRect = Me.ClientRectangle
-        cardRect.Inflate(-_shadowSize, -_shadowSize)
+        Dim r = Math.Min(_borderRadius, Math.Min(Me.Width, Me.Height) \ 2)
 
-        ' === Sombra ===
-        Dim shadowRect = Rectangle.Inflate(cardRect, _shadowSize, _shadowSize)
-        Using pathShadow As GraphicsPath = RoundedPath(shadowRect, _borderRadius)
-            Using brushShadow As New SolidBrush(_shadowColor)
-                e.Graphics.FillPath(brushShadow, pathShadow)
+        ' Rectángulo de la tarjeta (dejando espacio para sombra fuera)
+        Dim rectCard As New Rectangle(0, 0, Me.Width - 6, Me.Height - 6)
+
+        ' Sombra desplazada 3px abajo y derecha, queda fuera del panel
+        If _shadowSize > 0 Then
+            Dim shadowRect As New Rectangle(rectCard.X + 3, rectCard.Y + 3, rectCard.Width, rectCard.Height)
+            Using pathShadow As GraphicsPath = RoundedPath(shadowRect, r)
+                Using brushShadow As New SolidBrush(_shadowColor)
+                    e.Graphics.FillPath(brushShadow, pathShadow)
+                End Using
             End Using
-        End Using
+        End If
 
-        ' === Fondo ===
-        Using pathCard As GraphicsPath = RoundedPath(cardRect, _borderRadius)
+        ' Fondo tarjeta
+        Using pathCard As GraphicsPath = RoundedPath(rectCard, r)
             Using brushCard As New SolidBrush(_backColorCard)
                 e.Graphics.FillPath(brushCard, pathCard)
             End Using
 
+            ' Borde
             If _borderSize > 0 Then
                 Using penBorder As New Pen(_borderColor, _borderSize)
                     e.Graphics.DrawPath(penBorder, pathCard)
                 End Using
             End If
-
-            Me.Region = New Region(pathCard)
         End Using
+
+        ' NO cambiar Me.Region, para que la sombra fuera del panel sea visible
+        ' Me.Region = New Region(pathCard)
     End Sub
+
 
     Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
-        Dim diameter As Integer = radius
-        path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90)
-        path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90)
-        path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90)
-        path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90)
+        path.StartFigure()
+        path.AddArc(rect.X, rect.Y, radius, radius, 180, 90)
+        path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90)
+        path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90)
+        path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90)
         path.CloseFigure()
         Return path
     End Function

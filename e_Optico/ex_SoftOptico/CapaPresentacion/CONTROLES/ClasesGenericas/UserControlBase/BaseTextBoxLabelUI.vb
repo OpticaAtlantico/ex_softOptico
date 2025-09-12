@@ -13,7 +13,7 @@ Public Class BaseTextBoxLabelUI
     Protected Friend pnlFondo As New Panel()
     Protected Friend pnlSombra As New Panel()
     Protected Friend iconoDerecha As New IconPictureBox()
-    Private lblPlaceholder As New Label()
+    Protected Friend lblPlaceholder As New Label()
 
     ' === Estética ===
     Private _borderColor As Color = AppColors._cBasePrimary
@@ -22,13 +22,20 @@ Public Class BaseTextBoxLabelUI
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
 
+    Private _shadowColor As Color = AppColors._cPanelSombracolor
+    Private _shadowSize As Integer = 3
+
     ' === Colores y fuentes ===
     Private _labelColor As Color = AppColors._cLabel
     Private _panelBackColor As Color = AppColors._cBlanco
     Private _sombraBackColor As Color = AppColors._cSombra
     Private _textColor As Color = AppColors._cTexto
     Private _colorError As Color = AppColors._cMsgError
-    Private _fontField As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
+
+    Private _fontFieldTexto As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
+    Private _fontFieldTitulo As Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
+    Private _fontFieldMsgError As Font = New Font(AppFonts.Segoe, AppFonts.SizeMini)
+
     Private _paddingAll As Integer = AppLayout.Padding10
     Private _labelText As String = "Texto:"
 
@@ -58,6 +65,31 @@ Public Class BaseTextBoxLabelUI
 
     <Category("WilmerUI")>
     Public Property CapitalizarTodasLasPalabras As Boolean = False
+
+    <Category("WilmerUI")>
+    Public Property IconoColor As Color
+        Get
+            Return iconoDerecha.IconColor
+        End Get
+        Set(value As Color)
+            iconoDerecha.IconColor = value
+            iconoDerecha.Invalidate()
+        End Set
+    End Property
+
+    'Ocultar icono si no esta asignado
+    <Category("WilmerUI")>
+    Public Property IconoDerechoChar As IconChar
+        Get
+            Return iconoDerecha.IconChar
+        End Get
+        Set(value As IconChar)
+            iconoDerecha.IconChar = value
+            iconoDerecha.Visible = (value <> IconChar.None)
+            pnlFondo.PerformLayout()  ' Recalcular alineación
+            pnlFondo.Invalidate()
+        End Set
+    End Property
 
     <Category("WilmerUI")>
     Public Property TextoLabel As String
@@ -107,17 +139,17 @@ Public Class BaseTextBoxLabelUI
         Me.BackColor = Color.Transparent
 
         lblTitulo.Text = _labelText
-        lblTitulo.Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
+        lblTitulo.Font = _fontFieldTitulo
         lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = AppLayout.ControlLabelHeight
 
-        pnlSombra.Dock = DockStyle.None
-        pnlSombra.BackColor = _sombraBackColor
-        pnlSombra.Height = AppLayout.PanelHeightStandar
-        pnlSombra.Width = 900
-        pnlSombra.Margin = Padding.Empty
-        pnlSombra.Location = New Point(6, 23)
+        'pnlSombra.Dock = DockStyle.None
+        'pnlSombra.BackColor = _sombraBackColor
+        'pnlSombra.Height = AppLayout.PanelHeightStandar
+        'pnlSombra.Width = 900
+        'pnlSombra.Margin = Padding.Empty
+        'pnlSombra.Location = New Point(6, 23)
 
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
@@ -126,7 +158,7 @@ Public Class BaseTextBoxLabelUI
         pnlFondo.Margin = Padding.Empty
 
         txtCampo.BorderStyle = BorderStyle.None
-        txtCampo.Font = _fontField
+        txtCampo.Font = _fontFieldTexto
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
         txtCampo.TextAlign = HorizontalAlignment.Left
@@ -136,6 +168,7 @@ Public Class BaseTextBoxLabelUI
         pnlFondo.Controls.Add(txtCampo)
 
         lblError.Text = ""
+        lblError.Font = _fontFieldMsgError
         lblError.ForeColor = _colorError
         lblError.Dock = DockStyle.Top
         lblError.Height = AppLayout.ControlLabelHeight
@@ -157,7 +190,7 @@ Public Class BaseTextBoxLabelUI
         lblPlaceholder.Text = _placeholder
         lblPlaceholder.ForeColor = _placeholderColor
         lblPlaceholder.BackColor = Color.Transparent
-        lblPlaceholder.Font = txtCampo.Font
+        lblPlaceholder.Font = _fontFieldTexto
         lblPlaceholder.TextAlign = ContentAlignment.MiddleLeft
         lblPlaceholder.AutoSize = False
         lblPlaceholder.Location = txtCampo.Location
@@ -169,7 +202,7 @@ Public Class BaseTextBoxLabelUI
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
-        Me.Controls.Add(pnlSombra)
+        'Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
         ' Eventos
@@ -186,21 +219,58 @@ Public Class BaseTextBoxLabelUI
 
 #Region "DIBUJO"
     ' === Dibujar borde redondeado ===
+    'Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
+    '    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
+    '    Dim rect As Rectangle = pnlFondo.ClientRectangle
+    '    rect.Inflate(-1, -1)
+
+    '    Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
+    '        Using brush As New SolidBrush(pnlFondo.BackColor)
+    '            e.Graphics.FillPath(brush, path)
+    '        End Using
+    '        Dim penColor As Color = If(lblError.Visible, _borderColorError, _borderColor)
+    '        Using pen As New Pen(penColor, _borderSize)
+    '            e.Graphics.DrawPath(pen, path)
+    '        End Using
+    '    End Using
+    'End Sub
     Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-        Dim rect As Rectangle = pnlFondo.ClientRectangle
-        rect.Inflate(-1, -1)
 
-        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-            Using brush As New SolidBrush(pnlFondo.BackColor)
-                e.Graphics.FillPath(brush, path)
+        Dim r = Math.Min(_borderRadius, Math.Min(pnlFondo.Width, pnlFondo.Height) \ 2)
+
+        ' Rectángulo del panel principal (dejando espacio para sombra fuera)
+        Dim rectPanel As New Rectangle(0, 0, pnlFondo.Width - 6, pnlFondo.Height - 6)
+
+        ' === Sombra desplazada 3px abajo y derecha ===
+        If _shadowSize > 0 Then
+            Dim shadowRect As New Rectangle(rectPanel.X + 3, rectPanel.Y + 3, rectPanel.Width, rectPanel.Height)
+            Using pathShadow As GraphicsPath = RoundedPath(shadowRect, r)
+                Using brushShadow As New SolidBrush(_shadowColor)
+                    e.Graphics.FillPath(brushShadow, pathShadow)
+                End Using
             End Using
+        End If
+
+        ' === Fondo principal ===
+        Using pathPanel As GraphicsPath = RoundedPath(rectPanel, r)
+            Using brushPanel As New SolidBrush(pnlFondo.BackColor)
+                e.Graphics.FillPath(brushPanel, pathPanel)
+            End Using
+
+            ' === Borde ===
             Dim penColor As Color = If(lblError.Visible, _borderColorError, _borderColor)
-            Using pen As New Pen(penColor, _borderSize)
-                e.Graphics.DrawPath(pen, path)
-            End Using
+            If _borderSize > 0 Then
+                Using pen As New Pen(penColor, _borderSize)
+                    e.Graphics.DrawPath(pen, pathPanel)
+                End Using
+            End If
         End Using
+
+        ' NO cambiar pnlFondo.Region, para que la sombra quede visible fuera
+        ' pnlFondo.Region = New Region(pathPanel)
     End Sub
+
 
     Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
@@ -229,7 +299,6 @@ Public Class BaseTextBoxLabelUI
             _borderColor = AppColors._cBaseSuccess
             CapitalizarSiEsNecesario()
         End If
-        CapitalizarSiEsNecesario()
         pnlFondo.Invalidate()
         UpdatePlaceholderVisibility()
     End Sub
