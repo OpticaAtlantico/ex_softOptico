@@ -33,7 +33,7 @@ Public Class AlertPanelUI
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
 
-        Me.Size = New Size(400, 60)
+        Me.Size = New Size(800, 60)
         Me.BackColor = Color.Transparent
 
         _btnCerrar.Text = "✖"
@@ -42,7 +42,7 @@ Public Class AlertPanelUI
         _btnCerrar.AutoSize = False
         _btnCerrar.TextAlign = ContentAlignment.MiddleCenter
         _btnCerrar.Size = New Size(20, 20)
-        _btnCerrar.Location = New Point(Me.Width - 25, 12)
+        _btnCerrar.Location = New Point(Me.Width - 25, 5)
         _btnCerrar.Cursor = Cursors.Hand
         AddHandler _btnCerrar.Click, Sub() Me.Dispose()
         Me.Controls.Add(_btnCerrar)

@@ -9,7 +9,6 @@ Public Class DatePickerProUI
     ' === Controles Base ===
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
-    Private pnlSombra As New Panel()
     Private txtCampo As New MaskedTextBox("00/00/0000")
     Private lblError As New Label()
     Private iconoDerecho As New IconPictureBox()
@@ -27,6 +26,9 @@ Public Class DatePickerProUI
     Private _labelColor As Color = AppColors._cLabel
     Private _panelBackColor As Color = AppColors._cBlanco
     Private _textColor As Color = AppColors._cTexto
+
+    Private _shadowColor As Color = AppColors._cPanelSombracolor
+    Private _shadowSize As Integer = 3
 
     Private _fontFieldTitulo As Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
     Private _fontFieldTexto As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
@@ -261,13 +263,6 @@ Public Class DatePickerProUI
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = AppLayout.ControlLabelHeight
 
-        pnlSombra.Dock = DockStyle.None
-        pnlSombra.BackColor = AppColors._cSombra
-        pnlSombra.Height = AppLayout.PanelHeightStandar
-        pnlSombra.Width = 900
-        pnlSombra.Margin = Padding.Empty
-        pnlSombra.Location = New Point(6, 23)
-
         ' Panel fondo
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.Height = AppLayout.PanelHeightStandar
@@ -310,7 +305,6 @@ Public Class DatePickerProUI
         ' Añadir controles
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
-        Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
         _pnlCalendario.BackColor = AppColors._cBlancoOscuro
@@ -534,18 +528,39 @@ Public Class DatePickerProUI
     ' --- Dibujar borde redondeado ---
     Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-        Dim rect = pnlFondo.ClientRectangle
-        rect.Inflate(-1, -1)
 
-        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-            Using brush As New SolidBrush(pnlFondo.BackColor)
-                e.Graphics.FillPath(brush, path)
+        Dim r = Math.Min(_borderRadius, Math.Min(pnlFondo.Width, pnlFondo.Height) \ 2)
+
+        ' Rectángulo del panel principal (dejando espacio para sombra fuera)
+        Dim rectPanel As New Rectangle(0, 0, pnlFondo.Width - 6, pnlFondo.Height - 6)
+
+        ' === Sombra desplazada 3px abajo y derecha ===
+        If _shadowSize > 0 Then
+            Dim shadowRect As New Rectangle(rectPanel.X + 3, rectPanel.Y + 3, rectPanel.Width, rectPanel.Height)
+            Using pathShadow As GraphicsPath = RoundedPath(shadowRect, r)
+                Using brushShadow As New SolidBrush(_shadowColor)
+                    e.Graphics.FillPath(brushShadow, pathShadow)
+                End Using
             End Using
-            Dim colorBorde As Color = If(lblError.Visible, _colorError, _borderColor)
-            Using pen As New Pen(colorBorde, _borderSize)
-                e.Graphics.DrawPath(pen, path)
+        End If
+
+        ' === Fondo principal ===
+        Using pathPanel As GraphicsPath = RoundedPath(rectPanel, r)
+            Using brushPanel As New SolidBrush(pnlFondo.BackColor)
+                e.Graphics.FillPath(brushPanel, pathPanel)
             End Using
+
+            ' === Borde ===
+            Dim penColor As Color = If(lblError.Visible, _borderColorError, _borderColor)
+            If _borderSize > 0 Then
+                Using pen As New Pen(penColor, _borderSize)
+                    e.Graphics.DrawPath(pen, pathPanel)
+                End Using
+            End If
         End Using
+
+        ' NO cambiar pnlFondo.Region, para que la sombra quede visible fuera
+        ' pnlFondo.Region = New Region(pathPanel)
     End Sub
 
     Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath

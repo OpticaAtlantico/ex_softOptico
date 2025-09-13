@@ -445,7 +445,6 @@ Partial Class frmCompras
         txtDomicilio.PaddingAll = 10
         txtDomicilio.PanelBackColor = Color.White
         txtDomicilio.Size = New Size(293, 138)
-        txtDomicilio.SombraBackColor = Color.LightGray
         txtDomicilio.TabIndex = 5
         txtDomicilio.TextColor = Color.Black
         txtDomicilio.TextoUsuario = ""
@@ -551,7 +550,6 @@ Partial Class frmCompras
         txtObservacion.PaddingAll = 10
         txtObservacion.PanelBackColor = Color.White
         txtObservacion.Size = New Size(293, 138)
-        txtObservacion.SombraBackColor = Color.LightGray
         txtObservacion.TabIndex = 9
         txtObservacion.TextColor = Color.Black
         txtObservacion.TextoUsuario = ""

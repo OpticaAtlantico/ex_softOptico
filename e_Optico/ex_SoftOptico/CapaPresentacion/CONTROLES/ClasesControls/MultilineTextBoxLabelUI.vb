@@ -12,7 +12,6 @@ Public Class MultilineTextBoxLabelUI
     ' === Controles ===
     Private lblTitulo As New Label()
     Private pnlFondo As New Panel()
-    Private pnlSombra As New Panel()
     Private txtCampo As New TextBox()
     Private lblError As New Label()
     Private lblPlaceholder As New Label()
@@ -24,6 +23,9 @@ Public Class MultilineTextBoxLabelUI
     Private _borderColorFocus As Color = AppColors._cBordeSel 'Anaranjado
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _borderColorError As Color = AppColors._cMsgError
+
+    Private _shadowColor As Color = AppColors._cPanelSombracolor
+    Private _shadowSize As Integer = 3
 
     '=== Panel y texto ===
     Private _labelText As String = "Texto:"
@@ -96,17 +98,6 @@ Public Class MultilineTextBoxLabelUI
             _panelBackColor = value
             pnlFondo.BackColor = value
             txtCampo.BackColor = value
-        End Set
-    End Property
-
-    <Category("WilmerUI")>
-    Public Property SombraBackColor As Color
-        Get
-            Return _sombraBackColor
-        End Get
-        Set(value As Color)
-            _sombraBackColor = value
-            pnlSombra.BackColor = value
         End Set
     End Property
 
@@ -220,13 +211,11 @@ Public Class MultilineTextBoxLabelUI
         Set(value As Integer)
             _alturaMultilinea = value
             pnlFondo.Height = value
-            pnlSombra.Height = value + 0.3
             txtCampo.Multiline = True
             txtCampo.Height = value - (_paddingAll * 2)
             RecalcularAlineacion(Nothing, Nothing)
             pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
             pnlFondo.Invalidate()
-            pnlSombra.Invalidate()
         End Set
     End Property
 
@@ -334,13 +323,6 @@ Public Class MultilineTextBoxLabelUI
         lblTitulo.ForeColor = _textColor
         lblTitulo.Font = _fontFieldTitulo
 
-        pnlSombra.Dock = DockStyle.None
-        pnlSombra.BackColor = _sombraBackColor
-        pnlSombra.Height = _alturaMultilinea + 0.6
-        pnlSombra.Width = 1500
-        pnlSombra.Margin = Padding.Empty
-        pnlSombra.Location = New Point(6, 23)
-
         ' === Panel contenedor ===
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.Height = _alturaMultilinea ' usa respaldo privado
@@ -409,7 +391,6 @@ Public Class MultilineTextBoxLabelUI
                                             txtCampo.Size = New Size(pnlFondo.Width - _paddingAll - margenDerecho, 25)
                                             txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
                                         End If
-                                        pnlSombra.Size = New Size(pnlFondo.Width + 12, pnlFondo.Height - 0.3)
                                         ' Alinear el ícono a la derecha si está visible
                                         If iconoDerecho.Visible Then
                                             iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
@@ -418,7 +399,6 @@ Public Class MultilineTextBoxLabelUI
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
-        Me.Controls.Add(pnlSombra)
         Me.Controls.Add(lblTitulo)
 
         ' === Eventos ===
@@ -555,21 +535,41 @@ Public Class MultilineTextBoxLabelUI
 #End Region
 
 #Region "DIBUJO"
-    ' === Fondo redondeado orbital ===
     Private Sub DibujarFondoRedondeado(sender As Object, e As PaintEventArgs)
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
-        Dim rect = pnlFondo.ClientRectangle
-        rect.Inflate(-1, -1)
 
-        Using path As GraphicsPath = RoundedPath(rect, _borderRadius)
-            Using brush As New SolidBrush(pnlFondo.BackColor)
-                e.Graphics.FillPath(brush, path)
+        Dim r = Math.Min(_borderRadius, Math.Min(pnlFondo.Width, pnlFondo.Height) \ 2)
+
+        ' Rectángulo del panel principal (dejando espacio para sombra fuera)
+        Dim rectPanel As New Rectangle(0, 0, pnlFondo.Width - 6, pnlFondo.Height - 6)
+
+        ' === Sombra desplazada 3px abajo y derecha ===
+        If _shadowSize > 0 Then
+            Dim shadowRect As New Rectangle(rectPanel.X + 3, rectPanel.Y + 3, rectPanel.Width, rectPanel.Height)
+            Using pathShadow As GraphicsPath = RoundedPath(shadowRect, r)
+                Using brushShadow As New SolidBrush(_shadowColor)
+                    e.Graphics.FillPath(brushShadow, pathShadow)
+                End Using
             End Using
-            Dim colorBorde As Color = If(lblError.Visible, _borderColorError, _borderColor)
-            Using pen As New Pen(colorBorde, _borderSize)
-                e.Graphics.DrawPath(pen, path)
+        End If
+
+        ' === Fondo principal ===
+        Using pathPanel As GraphicsPath = RoundedPath(rectPanel, r)
+            Using brushPanel As New SolidBrush(pnlFondo.BackColor)
+                e.Graphics.FillPath(brushPanel, pathPanel)
             End Using
+
+            ' === Borde ===
+            Dim penColor As Color = If(lblError.Visible, _borderColorError, _borderColor)
+            If _borderSize > 0 Then
+                Using pen As New Pen(penColor, _borderSize)
+                    e.Graphics.DrawPath(pen, pathPanel)
+                End Using
+            End If
         End Using
+
+        ' NO cambiar pnlFondo.Region, para que la sombra quede visible fuera
+        ' pnlFondo.Region = New Region(pathPanel)
     End Sub
 
     Private Function RoundedPath(rect As Rectangle, radius As Integer) As GraphicsPath

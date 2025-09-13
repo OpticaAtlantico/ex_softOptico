@@ -103,7 +103,6 @@ Partial Class frmProveedor
         txtDireccion.PaddingAll = 10
         txtDireccion.PanelBackColor = Color.White
         txtDireccion.Size = New Size(1238, 86)
-        txtDireccion.SombraBackColor = Color.LightGray
         txtDireccion.TabIndex = 7
         txtDireccion.TextColor = Color.Black
         txtDireccion.TextoUsuario = ""

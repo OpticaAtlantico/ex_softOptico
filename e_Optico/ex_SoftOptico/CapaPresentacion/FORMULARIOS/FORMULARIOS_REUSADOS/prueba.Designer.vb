@@ -24,14 +24,13 @@ Partial Class prueba
     Private Sub InitializeComponent()
         TextOnlyTextBoxLabelui1 = New TextOnlyTextBoxLabelUI()
         Panel1 = New Panel()
-        TextOnlyTextBoxLabelui6 = New TextOnlyTextBoxLabelUI()
-        TextOnlyTextBoxLabelui5 = New TextOnlyTextBoxLabelUI()
-        TextOnlyTextBoxLabelui4 = New TextOnlyTextBoxLabelUI()
-        TextOnlyTextBoxLabelui3 = New TextOnlyTextBoxLabelUI()
-        TextOnlyTextBoxLabelui2 = New TextOnlyTextBoxLabelUI()
+        EmailTextBoxLabelui1 = New EmailTextBoxLabelUI()
+        DecimalTextBoxLabelui1 = New DecimalTextBoxLabelUI()
+        DatePickerProui1 = New DatePickerProUI()
         Panel2 = New Panel()
         Panelui2 = New PanelUI()
         CommandButtonui1 = New CommandButtonUI()
+        MultilineTextBoxLabelui1 = New MultilineTextBoxLabelUI()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
@@ -59,116 +58,85 @@ Partial Class prueba
         ' Panel1
         ' 
         Panel1.BackColor = Color.White
-        Panel1.Controls.Add(TextOnlyTextBoxLabelui6)
-        Panel1.Controls.Add(TextOnlyTextBoxLabelui5)
-        Panel1.Controls.Add(TextOnlyTextBoxLabelui4)
-        Panel1.Controls.Add(TextOnlyTextBoxLabelui3)
-        Panel1.Controls.Add(TextOnlyTextBoxLabelui2)
+        Panel1.Controls.Add(MultilineTextBoxLabelui1)
+        Panel1.Controls.Add(EmailTextBoxLabelui1)
+        Panel1.Controls.Add(DecimalTextBoxLabelui1)
+        Panel1.Controls.Add(DatePickerProui1)
         Panel1.Controls.Add(TextOnlyTextBoxLabelui1)
         Panel1.Location = New Point(12, 12)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(395, 431)
         Panel1.TabIndex = 4
         ' 
-        ' TextOnlyTextBoxLabelui6
+        ' EmailTextBoxLabelui1
         ' 
-        TextOnlyTextBoxLabelui6.BackColor = Color.Transparent
-        TextOnlyTextBoxLabelui6.CampoRequerido = True
-        TextOnlyTextBoxLabelui6.CapitalizarTexto = False
-        TextOnlyTextBoxLabelui6.CapitalizarTodasLasPalabras = False
-        TextOnlyTextBoxLabelui6.ColorTitulo = Color.DarkSlateGray
-        TextOnlyTextBoxLabelui6.Dock = DockStyle.Top
-        TextOnlyTextBoxLabelui6.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        TextOnlyTextBoxLabelui6.IconoDerechoChar = FontAwesome.Sharp.IconChar.Font
-        TextOnlyTextBoxLabelui6.Location = New Point(0, 365)
-        TextOnlyTextBoxLabelui6.MaxCaracteres = 0
-        TextOnlyTextBoxLabelui6.MensajeError = "Campo requerido."
-        TextOnlyTextBoxLabelui6.Name = "TextOnlyTextBoxLabelui6"
-        TextOnlyTextBoxLabelui6.Placeholder = "Ingrese datos"
-        TextOnlyTextBoxLabelui6.PlaceholderColor = Color.Gray
-        TextOnlyTextBoxLabelui6.Size = New Size(395, 73)
-        TextOnlyTextBoxLabelui6.TabIndex = 5
-        TextOnlyTextBoxLabelui6.TextoLabel = "Texto:"
+        EmailTextBoxLabelui1.BackColor = Color.Transparent
+        EmailTextBoxLabelui1.CampoRequerido = False
+        EmailTextBoxLabelui1.CapitalizarTexto = False
+        EmailTextBoxLabelui1.CapitalizarTodasLasPalabras = False
+        EmailTextBoxLabelui1.ColorTitulo = Color.DarkSlateGray
+        EmailTextBoxLabelui1.Dock = DockStyle.Top
+        EmailTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        EmailTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.Envelope
+        EmailTextBoxLabelui1.Location = New Point(0, 233)
+        EmailTextBoxLabelui1.MaxCaracteres = 0
+        EmailTextBoxLabelui1.MensajeError = "Este campo es requerido"
+        EmailTextBoxLabelui1.Name = "EmailTextBoxLabelui1"
+        EmailTextBoxLabelui1.Placeholder = "Escriba aquí..."
+        EmailTextBoxLabelui1.PlaceholderColor = Color.Gray
+        EmailTextBoxLabelui1.Size = New Size(395, 80)
+        EmailTextBoxLabelui1.TabIndex = 3
+        EmailTextBoxLabelui1.TextoLabel = "Correo electrónico:"
         ' 
-        ' TextOnlyTextBoxLabelui5
+        ' DecimalTextBoxLabelui1
         ' 
-        TextOnlyTextBoxLabelui5.BackColor = Color.Transparent
-        TextOnlyTextBoxLabelui5.CampoRequerido = True
-        TextOnlyTextBoxLabelui5.CapitalizarTexto = False
-        TextOnlyTextBoxLabelui5.CapitalizarTodasLasPalabras = False
-        TextOnlyTextBoxLabelui5.ColorTitulo = Color.DarkSlateGray
-        TextOnlyTextBoxLabelui5.Dock = DockStyle.Top
-        TextOnlyTextBoxLabelui5.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        TextOnlyTextBoxLabelui5.IconoDerechoChar = FontAwesome.Sharp.IconChar.Font
-        TextOnlyTextBoxLabelui5.Location = New Point(0, 292)
-        TextOnlyTextBoxLabelui5.MaxCaracteres = 0
-        TextOnlyTextBoxLabelui5.MensajeError = "Campo requerido."
-        TextOnlyTextBoxLabelui5.Name = "TextOnlyTextBoxLabelui5"
-        TextOnlyTextBoxLabelui5.Placeholder = "Ingrese datos"
-        TextOnlyTextBoxLabelui5.PlaceholderColor = Color.Gray
-        TextOnlyTextBoxLabelui5.Size = New Size(395, 73)
-        TextOnlyTextBoxLabelui5.TabIndex = 4
-        TextOnlyTextBoxLabelui5.TextoLabel = "Texto:"
+        DecimalTextBoxLabelui1.BackColor = Color.Transparent
+        DecimalTextBoxLabelui1.CampoRequerido = False
+        DecimalTextBoxLabelui1.CapitalizarTexto = False
+        DecimalTextBoxLabelui1.CapitalizarTodasLasPalabras = False
+        DecimalTextBoxLabelui1.ColorTitulo = Color.DarkSlateGray
+        DecimalTextBoxLabelui1.DecimalesPermitidos = 2
+        DecimalTextBoxLabelui1.Dock = DockStyle.Top
+        DecimalTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        DecimalTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
+        DecimalTextBoxLabelui1.Location = New Point(0, 159)
+        DecimalTextBoxLabelui1.MaxCaracteres = 0
+        DecimalTextBoxLabelui1.MensajeError = "Este campo es requerido"
+        DecimalTextBoxLabelui1.MensajeErrorNumeroInvalido = "Ingrese un número válido."
+        DecimalTextBoxLabelui1.MensajeErrorRango = "El valor está fuera del rango permitido."
+        DecimalTextBoxLabelui1.Name = "DecimalTextBoxLabelui1"
+        DecimalTextBoxLabelui1.NumeroMaximo = New Decimal(New Integer() {-1, -1, -1, 0})
+        DecimalTextBoxLabelui1.NumeroMinimo = New Decimal(New Integer() {-1, -1, -1, Integer.MinValue})
+        DecimalTextBoxLabelui1.Placeholder = "Ingrese un número decimal..."
+        DecimalTextBoxLabelui1.PlaceholderColor = Color.Gray
+        DecimalTextBoxLabelui1.Size = New Size(395, 74)
+        DecimalTextBoxLabelui1.TabIndex = 2
+        DecimalTextBoxLabelui1.TextoLabel = "Texto:"
+        DecimalTextBoxLabelui1.UsarSeparadorMiles = True
         ' 
-        ' TextOnlyTextBoxLabelui4
+        ' DatePickerProui1
         ' 
-        TextOnlyTextBoxLabelui4.BackColor = Color.Transparent
-        TextOnlyTextBoxLabelui4.CampoRequerido = True
-        TextOnlyTextBoxLabelui4.CapitalizarTexto = False
-        TextOnlyTextBoxLabelui4.CapitalizarTodasLasPalabras = False
-        TextOnlyTextBoxLabelui4.ColorTitulo = Color.DarkSlateGray
-        TextOnlyTextBoxLabelui4.Dock = DockStyle.Top
-        TextOnlyTextBoxLabelui4.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        TextOnlyTextBoxLabelui4.IconoDerechoChar = FontAwesome.Sharp.IconChar.Font
-        TextOnlyTextBoxLabelui4.Location = New Point(0, 219)
-        TextOnlyTextBoxLabelui4.MaxCaracteres = 0
-        TextOnlyTextBoxLabelui4.MensajeError = "Campo requerido."
-        TextOnlyTextBoxLabelui4.Name = "TextOnlyTextBoxLabelui4"
-        TextOnlyTextBoxLabelui4.Placeholder = "Ingrese datos"
-        TextOnlyTextBoxLabelui4.PlaceholderColor = Color.Gray
-        TextOnlyTextBoxLabelui4.Size = New Size(395, 73)
-        TextOnlyTextBoxLabelui4.TabIndex = 3
-        TextOnlyTextBoxLabelui4.TextoLabel = "Texto:"
-        ' 
-        ' TextOnlyTextBoxLabelui3
-        ' 
-        TextOnlyTextBoxLabelui3.BackColor = Color.Transparent
-        TextOnlyTextBoxLabelui3.CampoRequerido = True
-        TextOnlyTextBoxLabelui3.CapitalizarTexto = False
-        TextOnlyTextBoxLabelui3.CapitalizarTodasLasPalabras = False
-        TextOnlyTextBoxLabelui3.ColorTitulo = Color.DarkSlateGray
-        TextOnlyTextBoxLabelui3.Dock = DockStyle.Top
-        TextOnlyTextBoxLabelui3.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        TextOnlyTextBoxLabelui3.IconoDerechoChar = FontAwesome.Sharp.IconChar.Font
-        TextOnlyTextBoxLabelui3.Location = New Point(0, 146)
-        TextOnlyTextBoxLabelui3.MaxCaracteres = 0
-        TextOnlyTextBoxLabelui3.MensajeError = "Campo requerido."
-        TextOnlyTextBoxLabelui3.Name = "TextOnlyTextBoxLabelui3"
-        TextOnlyTextBoxLabelui3.Placeholder = "Ingrese datos"
-        TextOnlyTextBoxLabelui3.PlaceholderColor = Color.Gray
-        TextOnlyTextBoxLabelui3.Size = New Size(395, 73)
-        TextOnlyTextBoxLabelui3.TabIndex = 2
-        TextOnlyTextBoxLabelui3.TextoLabel = "Texto:"
-        ' 
-        ' TextOnlyTextBoxLabelui2
-        ' 
-        TextOnlyTextBoxLabelui2.BackColor = Color.Transparent
-        TextOnlyTextBoxLabelui2.CampoRequerido = True
-        TextOnlyTextBoxLabelui2.CapitalizarTexto = False
-        TextOnlyTextBoxLabelui2.CapitalizarTodasLasPalabras = False
-        TextOnlyTextBoxLabelui2.ColorTitulo = Color.DarkSlateGray
-        TextOnlyTextBoxLabelui2.Dock = DockStyle.Top
-        TextOnlyTextBoxLabelui2.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        TextOnlyTextBoxLabelui2.IconoDerechoChar = FontAwesome.Sharp.IconChar.Font
-        TextOnlyTextBoxLabelui2.Location = New Point(0, 73)
-        TextOnlyTextBoxLabelui2.MaxCaracteres = 0
-        TextOnlyTextBoxLabelui2.MensajeError = "Campo requerido."
-        TextOnlyTextBoxLabelui2.Name = "TextOnlyTextBoxLabelui2"
-        TextOnlyTextBoxLabelui2.Placeholder = "Ingrese datos"
-        TextOnlyTextBoxLabelui2.PlaceholderColor = Color.Gray
-        TextOnlyTextBoxLabelui2.Size = New Size(395, 73)
-        TextOnlyTextBoxLabelui2.TabIndex = 1
-        TextOnlyTextBoxLabelui2.TextoLabel = "Texto:"
+        DatePickerProui1.BackColor = Color.Transparent
+        DatePickerProui1.BorderColor = Color.FromArgb(CByte(76), CByte(175), CByte(80))
+        DatePickerProui1.BorderRadius = 8
+        DatePickerProui1.BorderSize = 1
+        DatePickerProui1.CampoRequerido = True
+        DatePickerProui1.Dock = DockStyle.Top
+        DatePickerProui1.FechaSeleccionada = New Date(2025, 9, 13, 0, 0, 0, 0)
+        DatePickerProui1.FontField = New Font("Microsoft Sans Serif", 12F)
+        DatePickerProui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        DatePickerProui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.None
+        DatePickerProui1.LabelColor = Color.DarkSlateGray
+        DatePickerProui1.LabelText = "Fecha"
+        DatePickerProui1.Location = New Point(0, 73)
+        DatePickerProui1.MensajeError = "Este campo es requerido"
+        DatePickerProui1.Name = "DatePickerProui1"
+        DatePickerProui1.PaddingAll = 10
+        DatePickerProui1.PanelBackColor = Color.White
+        DatePickerProui1.Size = New Size(395, 86)
+        DatePickerProui1.TabIndex = 1
+        DatePickerProui1.TextColor = Color.Black
+        DatePickerProui1.ValorFecha = New Date(2025, 9, 13, 0, 0, 0, 0)
         ' 
         ' Panel2
         ' 
@@ -207,7 +175,7 @@ Partial Class prueba
         CommandButtonui1.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
         CommandButtonui1.ColorTexto = Color.WhiteSmoke
         CommandButtonui1.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        CommandButtonui1.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        CommandButtonui1.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold)
         CommandButtonui1.Icono = FontAwesome.Sharp.IconChar.Bolt
         CommandButtonui1.Location = New Point(559, 334)
         CommandButtonui1.Name = "CommandButtonui1"
@@ -216,6 +184,35 @@ Partial Class prueba
         CommandButtonui1.TabIndex = 6
         CommandButtonui1.Text = "CommandButtonui1"
         CommandButtonui1.Texto = "Aceptar"
+        ' 
+        ' MultilineTextBoxLabelui1
+        ' 
+        MultilineTextBoxLabelui1.AlturaMultilinea = 80
+        MultilineTextBoxLabelui1.BackColor = Color.Transparent
+        MultilineTextBoxLabelui1.BorderColor = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        MultilineTextBoxLabelui1.BorderRadius = 8
+        MultilineTextBoxLabelui1.BorderSize = 1
+        MultilineTextBoxLabelui1.CampoRequerido = True
+        MultilineTextBoxLabelui1.CapitalizarTexto = False
+        MultilineTextBoxLabelui1.CapitalizarTodasLasPalabras = True
+        MultilineTextBoxLabelui1.ColorError = Color.Firebrick
+        MultilineTextBoxLabelui1.FontField = New Font("Microsoft Sans Serif", 12F)
+        MultilineTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MultilineTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
+        MultilineTextBoxLabelui1.LabelColor = Color.DarkSlateGray
+        MultilineTextBoxLabelui1.LabelText = "Texto:"
+        MultilineTextBoxLabelui1.Location = New Point(3, 319)
+        MultilineTextBoxLabelui1.MensajeError = "Este campo es requerido"
+        MultilineTextBoxLabelui1.Multilinea = True
+        MultilineTextBoxLabelui1.Name = "MultilineTextBoxLabelui1"
+        MultilineTextBoxLabelui1.PaddingAll = 10
+        MultilineTextBoxLabelui1.PanelBackColor = Color.White
+        MultilineTextBoxLabelui1.Placeholder = "Escribaaa aquí..."
+        MultilineTextBoxLabelui1.PlaceholderColor = Color.Gray
+        MultilineTextBoxLabelui1.Size = New Size(372, 109)
+        MultilineTextBoxLabelui1.TabIndex = 4
+        MultilineTextBoxLabelui1.TextColor = Color.Black
+        MultilineTextBoxLabelui1.TextoUsuario = ""
         ' 
         ' prueba
         ' 
@@ -234,13 +231,12 @@ Partial Class prueba
 
     Friend WithEvents TextOnlyTextBoxLabelui1 As TextOnlyTextBoxLabelUI
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents TextOnlyTextBoxLabelui6 As TextOnlyTextBoxLabelUI
-    Friend WithEvents TextOnlyTextBoxLabelui5 As TextOnlyTextBoxLabelUI
-    Friend WithEvents TextOnlyTextBoxLabelui4 As TextOnlyTextBoxLabelUI
-    Friend WithEvents TextOnlyTextBoxLabelui3 As TextOnlyTextBoxLabelUI
-    Friend WithEvents TextOnlyTextBoxLabelui2 As TextOnlyTextBoxLabelUI
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Panelui2 As PanelUI
     Friend WithEvents CommandButtonui1 As CommandButtonUI
+    Friend WithEvents DatePickerProui1 As DatePickerProUI
+    Friend WithEvents DecimalTextBoxLabelui1 As DecimalTextBoxLabelUI
+    Friend WithEvents EmailTextBoxLabelui1 As EmailTextBoxLabelUI
+    Friend WithEvents MultilineTextBoxLabelui1 As MultilineTextBoxLabelUI
 
 End Class
