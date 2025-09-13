@@ -1,6 +1,8 @@
 ﻿Imports System.Drawing.Drawing2D
 Imports System.Drawing
 Imports System.Windows.Forms
+Imports FontAwesome.Sharp
+
 Public Enum AlertType
     Success
     Warning
@@ -13,16 +15,14 @@ Public Class AlertPanelUI
 
     Private _tipo As AlertType = AlertType.Info
     Private _mensaje As String = "Mensaje de alerta"
-    Private _iconoUnicode As String = ChrW(&HF06A) ' fa-info-circle
-    Private _iconoColor As Color = AppColors._cBlancoOscuro
+    Private _iconChar As IconChar = IconChar.InfoCircle
+    Private _iconColor As Color = AppColors._cBlanco
     Private _fondoColor As Color = AppColors._cBasePrimary
-    Private _textoColor As Color = AppColors._cBlancoOscuro
-    Private _fontAwesome As New Font("Font Awesome 6 Free Solid", 20)
+    Private _textoColor As Color = AppColors._cBlanco
     Private _fadeTimer As New Timer()
     Private _vidaTimer As New Timer()
     Private _opacidad As Integer = 255
     Private _btnCerrar As New Label()
-
 
 #Region "CONSTRUCTOR"
     Public Sub New()
@@ -33,8 +33,9 @@ Public Class AlertPanelUI
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
 
-        Me.Size = New Size(400, 45)
+        Me.Size = New Size(400, 60)
         Me.BackColor = Color.Transparent
+
         _btnCerrar.Text = "✖"
         _btnCerrar.Font = New Font(AppFonts.Century, AppFonts.SizeMedium, AppFonts.Bold)
         _btnCerrar.ForeColor = AppColors._cBlanco
@@ -77,16 +78,16 @@ Public Class AlertPanelUI
             Select Case value
                 Case AlertType.Success
                     _fondoColor = AppColors._cBaseSuccess
-                    _iconoUnicode = ChrW(&HF00C) ' fa-check
+                    _iconChar = IconChar.CheckCircle
                 Case AlertType.Warning
                     _fondoColor = AppColors._cBaseWarning
-                    _iconoUnicode = ChrW(&HF071) ' fa-exclamation-triangle
+                    _iconChar = IconChar.ExclamationTriangle
                 Case AlertType.Errores
                     _fondoColor = AppColors._cBaseDanger
-                    _iconoUnicode = ChrW(&HF057) ' fa-times-circle
+                    _iconChar = IconChar.TimesCircle
                 Case AlertType.Info
                     _fondoColor = AppColors._cBaseInfo
-                    _iconoUnicode = ChrW(&HF06A) ' fa-info-circle
+                    _iconChar = IconChar.InfoCircle
             End Select
             Me.Invalidate()
         End Set
@@ -113,30 +114,62 @@ Public Class AlertPanelUI
 #End Region
 
 #Region "DIBUJO"
-    ' 🎨 Render personalizado
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         Dim g = pe.Graphics
         g.SmoothingMode = SmoothingMode.AntiAlias
         Dim rect = New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
+        Dim radio As Integer = 12
 
         Dim fondoColorFade = Color.FromArgb(_opacidad, _fondoColor)
         Dim textoColorFade = Color.FromArgb(_opacidad, _textoColor)
-        Dim iconColorFade = Color.FromArgb(_opacidad, _iconoColor)
+        Dim iconColorFade = Color.FromArgb(_opacidad, _iconColor)
 
-        g.FillRectangle(New SolidBrush(fondoColorFade), rect)
-        g.DrawRectangle(New Pen(Color.White, 1), rect)
+        ' --- 🎨 Sombra inclinada ---
+        'Using pathShadow As GraphicsPath = CrearPathRedondeado(New Rectangle(rect.X + 4, rect.Y + 4, rect.Width, rect.Height), radio)
+        '    Using br As New SolidBrush(Color.FromArgb(80, Color.Black))
+        '        g.FillPath(br, pathShadow)
+        '    End Using
+        'End Using
 
-        ' Ícono
-        TextRenderer.DrawText(g, _iconoUnicode, _fontAwesome, New Point(10, 12), iconColorFade)
+        ' --- 🎨 Fondo redondeado ---
+        Using path As GraphicsPath = CrearPathRedondeado(rect, radio)
+            Using br As New SolidBrush(fondoColorFade)
+                g.FillPath(br, path)
+            End Using
+            g.DrawPath(New Pen(Color.White, 1), path)
+        End Using
 
-        ' Mensaje
-        TextRenderer.DrawText(g, _mensaje, New Font(AppFonts.Century, AppFonts.SizeSmall), New Rectangle(40, 10, Me.Width - 60, 25), textoColorFade)
+        ' --- 🔹 Ícono FontAwesome ---
+        Dim icono As New IconPictureBox()
+        icono.IconChar = _iconChar
+        icono.IconColor = iconColorFade
+        icono.IconSize = 35
+        icono.BackColor = _fondoColor
+        Using bmp As New Bitmap(icono.Width, icono.Height)
+            icono.DrawToBitmap(bmp, New Rectangle(0, 0, bmp.Width, bmp.Height))
+            g.DrawImage(bmp, New Point(12, (Me.Height \ 2) - (bmp.Height \ 2)))
+        End Using
+
+        ' --- 🔹 Texto ---
+        TextRenderer.DrawText(g, _mensaje,
+                              New Font(AppFonts.Century, AppFonts.SizeSmall),
+                              New Rectangle(50, 5, Me.Width - 80, Me.Height - 10),
+                              textoColorFade,
+                              TextFormatFlags.VerticalCenter Or TextFormatFlags.Left)
     End Sub
+
+    Private Function CrearPathRedondeado(rect As Rectangle, radio As Integer) As GraphicsPath
+        Dim path As New GraphicsPath()
+        path.StartFigure()
+        path.AddArc(rect.X, rect.Y, radio, radio, 180, 90)
+        path.AddArc(rect.Right - radio, rect.Y, radio, radio, 270, 90)
+        path.AddArc(rect.Right - radio, rect.Bottom - radio, radio, radio, 0, 90)
+        path.AddArc(rect.X, rect.Bottom - radio, radio, radio, 90, 90)
+        path.CloseFigure()
+        Return path
+    End Function
 #End Region
 
 End Class
 
-'COMO USARLO 
-'HAY QUE UTILIZAR LA CLASE AlertManagerUI UBICADA EN LA CARPETA CLASESGENERICAS
-
-'AlertManagerUI.MostrarAlerta(Me, AlertType.Info, "hola")
+'AlertManagerUI.MostrarAlerta(Me, AlertType.Info, "hola ara todos")
