@@ -134,7 +134,7 @@ Public Class ComboBoxUI
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
-        Dim rect As New Rectangle(0, 0, Me.Width - 1, Me.Height - 1)
+        Dim rect As New Rectangle(0, 0, Me.Width - 1, Me.Height - 5)
         Dim shadowRect As New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
         Using shadowBrush As New SolidBrush(_shadowColor)
             pe.Graphics.FillRectangle(shadowBrush, shadowRect)

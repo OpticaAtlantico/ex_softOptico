@@ -2,13 +2,13 @@
 Imports System.Drawing.Drawing2D
 Imports FontAwesome.Sharp
 
-Public Class BaseTextBoxLabelUI
+Public Class BaseComboBoxUI
     Inherits UserControl
 
 #Region "CONTROLES Y ESTÉTICA"
     ' === Controles internos ===
     Protected Friend lblTitulo As New Label()
-    Protected Friend WithEvents txtCampo As New TextBox()
+    Protected Friend WithEvents cmbCampo As New ComboBoxUI()
     Protected Friend lblError As New Label()
     Protected Friend pnlFondo As New Panel()
     Protected Friend iconoDerecha As New IconPictureBox()
@@ -38,11 +38,8 @@ Public Class BaseTextBoxLabelUI
     Private _paddingAll As Integer = AppLayout.Padding10
     Private _labelText As String = "Texto:"
 
-    ' === EVENTO KEYPRESS ===
-    Public Event CampoKeyPress(sender As Object, e As KeyPressEventArgs)
-
     ' === Placeholder ===
-    Private _placeholder As String = "Escriba aquí..."
+    Private _placeholder As String = "Selecciona una Opción..."
     Private _placeholderColor As Color = AppColors._cPlaceHolder
     Private _textColorNormal As Color = Color.Black
 
@@ -55,40 +52,6 @@ Public Class BaseTextBoxLabelUI
 
     <Category("WilmerUI")>
     Public Property MensajeError As String = AppMensajes.msgCampoRequerido
-
-    <Category("WilmerUI")>
-    Public Property MaxCaracteres As Integer = 0
-
-    <Category("WilmerUI")>
-    Public Property CapitalizarTexto As Boolean = False
-
-    <Category("WilmerUI")>
-    Public Property CapitalizarTodasLasPalabras As Boolean = False
-
-    <Category("WilmerUI")>
-    Public Property IconoColor As Color
-        Get
-            Return iconoDerecha.IconColor
-        End Get
-        Set(value As Color)
-            iconoDerecha.IconColor = value
-            iconoDerecha.Invalidate()
-        End Set
-    End Property
-
-    'Ocultar icono si no esta asignado
-    <Category("WilmerUI")>
-    Public Property IconoDerechoChar As IconChar
-        Get
-            Return iconoDerecha.IconChar
-        End Get
-        Set(value As IconChar)
-            iconoDerecha.IconChar = value
-            iconoDerecha.Visible = (value <> IconChar.None)
-            pnlFondo.PerformLayout()  ' Recalcular alineación
-            pnlFondo.Invalidate()
-        End Set
-    End Property
 
     <Category("WilmerUI")>
     Public Property TextoLabel As String
@@ -162,15 +125,16 @@ Public Class BaseTextBoxLabelUI
         pnlFondo.Height = AppLayout.PanelHeightStandar
         pnlFondo.Margin = Padding.Empty
 
-        txtCampo.BorderStyle = BorderStyle.None
-        txtCampo.Font = _fontFieldTexto
-        txtCampo.ForeColor = _textColor
-        txtCampo.BackColor = _panelBackColor
-        txtCampo.TextAlign = HorizontalAlignment.Left
-        txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
-        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2 - 2)
-        txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
-        pnlFondo.Controls.Add(txtCampo)
+        cmbCampo.Dock = DockStyle.Fill
+        cmbCampo.ForeColor = Color.Black
+        'cmbCampo.Size = New Size(pnlFondo.Width, pnlFondo.Height - 20)
+        pnlFondo.Controls.Add(cmbCampo)
+        'AddHandler cmbCampo.Leave, Sub()
+        '                               If CampoRequerido Then ValidarCampo()
+        '                           End Sub
+        'AddHandler cmbCampo.SelectedIndexChanged, AddressOf cmbCampo_SelectedIndexChanged
+        'AddHandler cmbCampo.SelectionChangeCommitted, AddressOf cmbCampo_SelectionChangeCommitted
+
 
         lblError.Text = ""
         lblError.Font = _fontFieldMsgError
@@ -182,15 +146,6 @@ Public Class BaseTextBoxLabelUI
         lblError.TextAlign = ContentAlignment.MiddleRight
         lblError.BackColor = Color.Transparent
 
-        iconoDerecha.IconChar = IconChar.InfoCircle
-        iconoDerecha.IconColor = AppColors._cIcono
-        iconoDerecha.Size = New Size(AppLayout.IconMedium, AppLayout.IconMedium)
-        iconoDerecha.Location = New Point(pnlFondo.Width - iconoDerecha.Width - _paddingAll, (pnlFondo.Height - iconoDerecha.Height) \ 2)
-        iconoDerecha.Anchor = AnchorStyles.Right Or AnchorStyles.Top
-        iconoDerecha.BackColor = Color.Transparent
-        iconoDerecha.SizeMode = PictureBoxSizeMode.Zoom
-        pnlFondo.Controls.Add(iconoDerecha)
-
         ' === Placeholder ===
         lblPlaceholder.Text = _placeholder
         lblPlaceholder.ForeColor = _placeholderColor
@@ -198,22 +153,22 @@ Public Class BaseTextBoxLabelUI
         lblPlaceholder.Font = _fontFieldTexto
         lblPlaceholder.TextAlign = ContentAlignment.MiddleLeft
         lblPlaceholder.AutoSize = False
-        lblPlaceholder.Location = txtCampo.Location
-        lblPlaceholder.Size = txtCampo.Size
+        lblPlaceholder.Location = cmbCampo.Location
+        lblPlaceholder.Size = New Size(cmbCampo.Width - 20, cmbCampo.Height)
         lblPlaceholder.Enabled = False ' Para que no reciba foco ni eventos
-        pnlFondo.Controls.Add(lblPlaceholder)
-        lblPlaceholder.BringToFront()
-        UpdatePlaceholderVisibility()
+        'pnlFondo.Controls.Add(lblPlaceholder)
+        'lblPlaceholder.BringToFront()
+        'UpdatePlaceholderVisibility()
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
 
         ' Eventos
-        AddHandler txtCampo.Enter, AddressOf OnEnterCampo
-        AddHandler txtCampo.Leave, AddressOf OnLeaveCampo
-        AddHandler txtCampo.TextChanged, AddressOf OnTextChangedCampo
-        AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
+        'AddHandler txtCampo.Enter, AddressOf OnEnterCampo
+        'AddHandler txtCampo.Leave, AddressOf OnLeaveCampo
+        'AddHandler txtCampo.TextChanged, AddressOf OnTextChangedCampo
+        'AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, AddressOf OnPanelResize
         AddHandler Me.Resize, AddressOf OnPanelResize
@@ -270,28 +225,6 @@ Public Class BaseTextBoxLabelUI
         Return path
     End Function
 
-    Private Sub OnPanelResize(sender As Object, e As EventArgs)
-        ' Ajusta el txtCampo verticalmente
-        Dim tieneIcono As Boolean = iconoDerecha.Visible
-        Dim margenIcono = If(tieneIcono, iconoDerecha.Width + 10, 10)
-
-        ' Aquí se ajusta la posición Y, restando el valor para subir el campo
-        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2 - 2) ' Ajusta a tu necesidad (valor negativo mueve hacia arriba)
-
-        txtCampo.Width = pnlFondo.Width - margenIcono - 16
-
-        ' Actualiza la posición del placeholder
-        lblPlaceholder.ForeColor = AppColors._cTextoInfo
-        lblPlaceholder.Location = txtCampo.Location
-        lblPlaceholder.Size = New Size(txtCampo.Width, txtCampo.Height)
-        lblPlaceholder.BringToFront()
-
-        ' Reposicionar el icono si es visible
-        If tieneIcono Then
-            iconoDerecha.Location = New Point(pnlFondo.Width - iconoDerecha.Width - 8, (pnlFondo.Height - iconoDerecha.Height) \ 2)
-        End If
-    End Sub
-
 #End Region
 
 #Region "EVENTOS INTERNOS"
@@ -302,71 +235,37 @@ Public Class BaseTextBoxLabelUI
         UpdatePlaceholderVisibility()
     End Sub
 
-    Private Sub OnLeaveCampo(sender As Object, e As EventArgs)
-        If Not EsValido() Then
-            _borderColor = _borderColorError
-        Else
-            _borderColor = AppColors._cBaseSuccess
-            CapitalizarSiEsNecesario()
-        End If
-        pnlFondo.Invalidate()
-        UpdatePlaceholderVisibility()
-    End Sub
-
     Private Sub OnTextChangedCampo(sender As Object, e As EventArgs)
         UpdatePlaceholderVisibility()
     End Sub
 
-    Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
-        RaiseEvent CampoKeyPress(Me, e)
+    ' === Reposicionamiento (para placeholder e icono) ===
+    Private Sub OnPanelResize(sender As Object, e As EventArgs)
+        ' reajusta txtCampo ancho y posición
+        cmbCampo.Location = New Point(8, (pnlFondo.Height - cmbCampo.Height) \ 2)
+        cmbCampo.Width = pnlFondo.Width - 16
+
+        ' placeholder usa la misma geometría del textbox
+        lblPlaceholder.ForeColor = AppColors._cTextoInfo
+        lblPlaceholder.Location = cmbCampo.Location
+        lblPlaceholder.Size = New Size(cmbCampo.Width - 20, cmbCampo.Height)
+        lblPlaceholder.BringToFront()
+
     End Sub
+
 #End Region
 
 #Region "PROCEDIMIENTO"
     ' === Placeholder visibility update ===
     Private Sub UpdatePlaceholderVisibility()
-        lblPlaceholder.Visible = Not txtCampo.Focused AndAlso String.IsNullOrEmpty(txtCampo.Text)
+        lblPlaceholder.Visible = Not cmbCampo.Focused AndAlso String.IsNullOrEmpty(cmbCampo.Text)
     End Sub
-    Private Sub CapitalizarSiEsNecesario()
-        If Not CapitalizarTexto Then Exit Sub
 
-        Dim textoOriginal As String = txtCampo.Text.Trim()
-
-        If CapitalizarTodasLasPalabras Then
-            Dim palabras = textoOriginal.Split(" "c)
-            For i = 0 To palabras.Length - 1
-                If palabras(i).Length > 0 Then
-                    palabras(i) = Char.ToUpper(palabras(i)(0)) & palabras(i).Substring(1).ToLower()
-                End If
-            Next
-            txtCampo.Text = String.Join(" ", palabras)
-        Else
-            If textoOriginal.Length > 0 Then
-                txtCampo.Text = Char.ToUpper(textoOriginal(0)) & textoOriginal.Substring(1).ToLower()
-            End If
-        End If
-    End Sub
 #End Region
 
 #Region "VALIDACIONES"
     ' === Validación básica (sobrescribible) ===
-    Public Overridable Function EsValido() As Boolean
-        Dim texto = txtCampo.Text.Trim()
-        If CampoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
-            lblError.Text = MensajeError
-            lblError.Visible = True
-            Return False
-        End If
 
-        If MaxCaracteres > 0 AndAlso texto.Length > MaxCaracteres Then
-            lblError.Text = $"Máximo {MaxCaracteres} caracteres."
-            lblError.Visible = True
-            Return False
-        End If
-
-        lblError.Visible = False
-        Return True
-    End Function
     Protected Sub MostrarError(mensaje As String)
         lblError.Text = mensaje
         lblError.Visible = True
@@ -384,3 +283,4 @@ Public Class BaseTextBoxLabelUI
 #End Region
 
 End Class
+

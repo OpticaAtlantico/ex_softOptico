@@ -24,13 +24,15 @@ Partial Class prueba
     Private Sub InitializeComponent()
         TextOnlyTextBoxLabelui1 = New TextOnlyTextBoxLabelUI()
         Panel1 = New Panel()
+        MultilineTextBoxLabelui1 = New MultilineTextBoxLabelUI()
         EmailTextBoxLabelui1 = New EmailTextBoxLabelUI()
         DecimalTextBoxLabelui1 = New DecimalTextBoxLabelUI()
         DatePickerProui1 = New DatePickerProUI()
         Panel2 = New Panel()
         Panelui2 = New PanelUI()
         CommandButtonui1 = New CommandButtonUI()
-        MultilineTextBoxLabelui1 = New MultilineTextBoxLabelUI()
+        ComboBoxLabelui1 = New ComboBoxLabelUI()
+        Comboui1 = New ComboUI()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
@@ -67,6 +69,35 @@ Partial Class prueba
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(395, 431)
         Panel1.TabIndex = 4
+        ' 
+        ' MultilineTextBoxLabelui1
+        ' 
+        MultilineTextBoxLabelui1.AlturaMultilinea = 80
+        MultilineTextBoxLabelui1.BackColor = Color.Transparent
+        MultilineTextBoxLabelui1.BorderColor = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        MultilineTextBoxLabelui1.BorderRadius = 8
+        MultilineTextBoxLabelui1.BorderSize = 1
+        MultilineTextBoxLabelui1.CampoRequerido = True
+        MultilineTextBoxLabelui1.CapitalizarTexto = False
+        MultilineTextBoxLabelui1.CapitalizarTodasLasPalabras = True
+        MultilineTextBoxLabelui1.ColorError = Color.Firebrick
+        MultilineTextBoxLabelui1.FontField = New Font("Microsoft Sans Serif", 12F)
+        MultilineTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MultilineTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
+        MultilineTextBoxLabelui1.LabelColor = Color.DarkSlateGray
+        MultilineTextBoxLabelui1.LabelText = "Texto:"
+        MultilineTextBoxLabelui1.Location = New Point(3, 319)
+        MultilineTextBoxLabelui1.MensajeError = "Este campo es requerido"
+        MultilineTextBoxLabelui1.Multilinea = True
+        MultilineTextBoxLabelui1.Name = "MultilineTextBoxLabelui1"
+        MultilineTextBoxLabelui1.PaddingAll = 10
+        MultilineTextBoxLabelui1.PanelBackColor = Color.White
+        MultilineTextBoxLabelui1.Placeholder = "Escribaaa aquí..."
+        MultilineTextBoxLabelui1.PlaceholderColor = Color.Gray
+        MultilineTextBoxLabelui1.Size = New Size(372, 109)
+        MultilineTextBoxLabelui1.TabIndex = 4
+        MultilineTextBoxLabelui1.TextColor = Color.Black
+        MultilineTextBoxLabelui1.TextoUsuario = ""
         ' 
         ' EmailTextBoxLabelui1
         ' 
@@ -185,34 +216,39 @@ Partial Class prueba
         CommandButtonui1.Text = "CommandButtonui1"
         CommandButtonui1.Texto = "Aceptar"
         ' 
-        ' MultilineTextBoxLabelui1
+        ' ComboBoxLabelui1
         ' 
-        MultilineTextBoxLabelui1.AlturaMultilinea = 80
-        MultilineTextBoxLabelui1.BackColor = Color.Transparent
-        MultilineTextBoxLabelui1.BorderColor = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        MultilineTextBoxLabelui1.BorderRadius = 8
-        MultilineTextBoxLabelui1.BorderSize = 1
-        MultilineTextBoxLabelui1.CampoRequerido = True
-        MultilineTextBoxLabelui1.CapitalizarTexto = False
-        MultilineTextBoxLabelui1.CapitalizarTodasLasPalabras = True
-        MultilineTextBoxLabelui1.ColorError = Color.Firebrick
-        MultilineTextBoxLabelui1.FontField = New Font("Microsoft Sans Serif", 12F)
-        MultilineTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MultilineTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
-        MultilineTextBoxLabelui1.LabelColor = Color.DarkSlateGray
-        MultilineTextBoxLabelui1.LabelText = "Texto:"
-        MultilineTextBoxLabelui1.Location = New Point(3, 319)
-        MultilineTextBoxLabelui1.MensajeError = "Este campo es requerido"
-        MultilineTextBoxLabelui1.Multilinea = True
-        MultilineTextBoxLabelui1.Name = "MultilineTextBoxLabelui1"
-        MultilineTextBoxLabelui1.PaddingAll = 10
-        MultilineTextBoxLabelui1.PanelBackColor = Color.White
-        MultilineTextBoxLabelui1.Placeholder = "Escribaaa aquí..."
-        MultilineTextBoxLabelui1.PlaceholderColor = Color.Gray
-        MultilineTextBoxLabelui1.Size = New Size(372, 109)
-        MultilineTextBoxLabelui1.TabIndex = 4
-        MultilineTextBoxLabelui1.TextColor = Color.Black
-        MultilineTextBoxLabelui1.TextoUsuario = ""
+        ComboBoxLabelui1.BackColor = Color.Transparent
+        ComboBoxLabelui1.BackColorPnl = Color.White
+        ComboBoxLabelui1.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        ComboBoxLabelui1.BorderSize = 1
+        ComboBoxLabelui1.CampoRequerido = True
+        ComboBoxLabelui1.IndiceSeleccionado = -1
+        ComboBoxLabelui1.LabelColor = Color.DarkSlateGray
+        ComboBoxLabelui1.Location = New Point(493, 24)
+        ComboBoxLabelui1.MensajeError = "Este campo es requerido"
+        ComboBoxLabelui1.MostrarError = False
+        ComboBoxLabelui1.Name = "ComboBoxLabelui1"
+        ComboBoxLabelui1.RadioContornoPanel = 8
+        ComboBoxLabelui1.Size = New Size(323, 83)
+        ComboBoxLabelui1.SombraBackColor = Color.LightGray
+        ComboBoxLabelui1.TabIndex = 7
+        ComboBoxLabelui1.Titulo = "Selecciona una opción:"
+        ComboBoxLabelui1.ValorSeleccionado = Nothing
+        ' 
+        ' Comboui1
+        ' 
+        Comboui1.BackColor = Color.Transparent
+        Comboui1.CampoRequerido = False
+        Comboui1.ColorTitulo = Color.DarkSlateGray
+        Comboui1.Location = New Point(442, 183)
+        Comboui1.MensajeError = "Este campo es requerido"
+        Comboui1.Name = "Comboui1"
+        Comboui1.Placeholder = "Selecciones una Opcion..."
+        Comboui1.PlaceholderColor = Color.Gray
+        Comboui1.Size = New Size(344, 88)
+        Comboui1.TabIndex = 8
+        Comboui1.TextoLabel = "Texto:"
         ' 
         ' prueba
         ' 
@@ -220,6 +256,8 @@ Partial Class prueba
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.WhiteSmoke
         ClientSize = New Size(937, 512)
+        Controls.Add(Comboui1)
+        Controls.Add(ComboBoxLabelui1)
         Controls.Add(CommandButtonui1)
         Controls.Add(Panel2)
         Name = "prueba"
@@ -238,5 +276,7 @@ Partial Class prueba
     Friend WithEvents DecimalTextBoxLabelui1 As DecimalTextBoxLabelUI
     Friend WithEvents EmailTextBoxLabelui1 As EmailTextBoxLabelUI
     Friend WithEvents MultilineTextBoxLabelui1 As MultilineTextBoxLabelUI
+    Friend WithEvents ComboBoxLabelui1 As ComboBoxLabelUI
+    Friend WithEvents Comboui1 As ComboUI
 
 End Class
