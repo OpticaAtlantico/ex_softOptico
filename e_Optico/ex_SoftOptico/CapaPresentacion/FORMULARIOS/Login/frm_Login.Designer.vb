@@ -24,35 +24,90 @@ Partial Class frm_Login
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Login))
         pnlContenido = New Panel()
+        cmbLocal = New ComboUI()
+        txtPass = New PasswordTextBoxLabelUI()
+        txtUsuario = New TextOnlyTextBoxLabelUI()
         btnOlvidePass = New ButtonLinkUI()
         btnAceptar = New CommandButtonUI()
         btnSalir = New FontAwesome.Sharp.IconButton()
         btnMinimizar = New FontAwesome.Sharp.IconButton()
-        txtPass = New TextBoxLabelUI()
-        txtUsuario = New TextBoxLabelUI()
-        TextOnlyTextBoxLabelui1 = New TextOnlyTextBoxLabelUI()
-        PasswordTextBoxLabelui1 = New PasswordTextBoxLabelUI()
-        Comboui1 = New ComboUI()
         pnlContenido.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlContenido
         ' 
         pnlContenido.BackgroundImage = CType(resources.GetObject("pnlContenido.BackgroundImage"), Image)
-        pnlContenido.Controls.Add(Comboui1)
-        pnlContenido.Controls.Add(PasswordTextBoxLabelui1)
-        pnlContenido.Controls.Add(TextOnlyTextBoxLabelui1)
+        pnlContenido.Controls.Add(cmbLocal)
+        pnlContenido.Controls.Add(txtPass)
+        pnlContenido.Controls.Add(txtUsuario)
         pnlContenido.Controls.Add(btnOlvidePass)
         pnlContenido.Controls.Add(btnAceptar)
         pnlContenido.Controls.Add(btnSalir)
         pnlContenido.Controls.Add(btnMinimizar)
-        pnlContenido.Controls.Add(txtPass)
-        pnlContenido.Controls.Add(txtUsuario)
         pnlContenido.Dock = DockStyle.Fill
         pnlContenido.Location = New Point(0, 0)
         pnlContenido.Name = "pnlContenido"
         pnlContenido.Size = New Size(906, 555)
         pnlContenido.TabIndex = 0
+        ' 
+        ' cmbLocal
+        ' 
+        cmbLocal.BackColor = Color.Transparent
+        cmbLocal.CampoRequerido = False
+        cmbLocal.ColorTitulo = Color.DarkSlateGray
+        cmbLocal.Location = New Point(559, 310)
+        cmbLocal.MensajeError = "Este campo es requerido"
+        cmbLocal.MostrarError = False
+        cmbLocal.Name = "cmbLocal"
+        cmbLocal.Placeholder = "Selecciones una Opcion..."
+        cmbLocal.PlaceholderColor = Color.Gray
+        cmbLocal.Size = New Size(308, 80)
+        cmbLocal.TabIndex = 7
+        cmbLocal.TextoLabel = "Establecimiento:"
+        ' 
+        ' txtPass
+        ' 
+        txtPass.BackColor = Color.Transparent
+        txtPass.CampoRequerido = True
+        txtPass.CapitalizarTexto = False
+        txtPass.CapitalizarTodasLasPalabras = False
+        txtPass.ColorTitulo = Color.DarkSlateGray
+        txtPass.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtPass.IconoDerechoChar = FontAwesome.Sharp.IconChar.Fingerprint
+        txtPass.Location = New Point(559, 226)
+        txtPass.MaxCaracteres = 0
+        txtPass.MensajeError = "Campo requerido"
+        txtPass.Name = "txtPass"
+        txtPass.PaddingIzquierda = 8
+        txtPass.PaddingIzquierdaIcono = 10
+        txtPass.Placeholder = "Ingrese contraseña"
+        txtPass.PlaceholderColor = Color.Gray
+        txtPass.Size = New Size(308, 80)
+        txtPass.TabIndex = 6
+        txtPass.TextoLabel = "Contraseña:"
+        txtPass.TextoValue = ""
+        ' 
+        ' txtUsuario
+        ' 
+        txtUsuario.BackColor = Color.Transparent
+        txtUsuario.CampoRequerido = True
+        txtUsuario.CapitalizarTexto = False
+        txtUsuario.CapitalizarTodasLasPalabras = False
+        txtUsuario.ColorTitulo = Color.DarkSlateGray
+        txtUsuario.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtUsuario.IconoDerechoChar = FontAwesome.Sharp.IconChar.UserCheck
+        txtUsuario.Location = New Point(559, 142)
+        txtUsuario.MaxCaracteres = 0
+        txtUsuario.MensajeError = "Campo requerido"
+        txtUsuario.Name = "txtUsuario"
+        txtUsuario.PaddingIzquierda = 8
+        txtUsuario.PaddingIzquierdaIcono = 10
+        txtUsuario.Placeholder = "Ingrese datos"
+        txtUsuario.PlaceholderColor = Color.Gray
+        txtUsuario.Size = New Size(308, 80)
+        txtUsuario.TabIndex = 5
+        txtUsuario.TextoLabel = "Usuario:"
+        txtUsuario.TextoValue = ""
         ' 
         ' btnOlvidePass
         ' 
@@ -117,122 +172,6 @@ Partial Class frm_Login
         btnMinimizar.TabIndex = 2
         btnMinimizar.UseVisualStyleBackColor = True
         ' 
-        ' txtPass
-        ' 
-        txtPass.BackColor = Color.Transparent
-        txtPass.BorderColor = Color.LightGray
-        txtPass.BorderRadius = 5
-        txtPass.BorderSize = 1
-        txtPass.CampoRequerido = True
-        txtPass.CapitalizarTexto = False
-        txtPass.CapitalizarTodasLasPalabras = True
-        txtPass.CaracterContraseña = "*"c
-        txtPass.ColorError = Color.Firebrick
-        txtPass.FontField = New Font("Century Gothic", 12F)
-        txtPass.IconoColor = Color.White
-        txtPass.IconoDerechoChar = FontAwesome.Sharp.IconChar.Fingerprint
-        txtPass.LabelColor = Color.WhiteSmoke
-        txtPass.LabelText = "Contraseña"
-        txtPass.Location = New Point(231, 189)
-        txtPass.MensajeError = "La contraseña no puede quedar vacia..."
-        txtPass.Name = "txtPass"
-        txtPass.PaddingAll = 10
-        txtPass.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        txtPass.Size = New Size(302, 78)
-        txtPass.SombraBackColor = Color.Transparent
-        txtPass.TabIndex = 1
-        txtPass.TextColor = Color.WhiteSmoke
-        txtPass.TextoUsuario = ""
-        txtPass.UsarModoContraseña = True
-        txtPass.ValidarComoCorreo = False
-        ' 
-        ' txtUsuario
-        ' 
-        txtUsuario.BackColor = Color.Transparent
-        txtUsuario.BorderColor = Color.LightGray
-        txtUsuario.BorderRadius = 5
-        txtUsuario.BorderSize = 1
-        txtUsuario.CampoRequerido = True
-        txtUsuario.CapitalizarTexto = False
-        txtUsuario.CapitalizarTodasLasPalabras = True
-        txtUsuario.CaracterContraseña = "*"c
-        txtUsuario.ColorError = Color.Firebrick
-        txtUsuario.FontField = New Font("Century Gothic", 12F)
-        txtUsuario.ForeColor = SystemColors.ControlText
-        txtUsuario.IconoColor = Color.White
-        txtUsuario.IconoDerechoChar = FontAwesome.Sharp.IconChar.UserCheck
-        txtUsuario.LabelColor = Color.WhiteSmoke
-        txtUsuario.LabelText = "Usuario"
-        txtUsuario.Location = New Point(231, 67)
-        txtUsuario.MensajeError = "Usuario desconocido..."
-        txtUsuario.Name = "txtUsuario"
-        txtUsuario.PaddingAll = 10
-        txtUsuario.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        txtUsuario.Size = New Size(302, 76)
-        txtUsuario.SombraBackColor = Color.Transparent
-        txtUsuario.TabIndex = 0
-        txtUsuario.TextColor = Color.WhiteSmoke
-        txtUsuario.TextoUsuario = ""
-        txtUsuario.UsarModoContraseña = False
-        txtUsuario.ValidarComoCorreo = False
-        ' 
-        ' TextOnlyTextBoxLabelui1
-        ' 
-        TextOnlyTextBoxLabelui1.BackColor = Color.Transparent
-        TextOnlyTextBoxLabelui1.CampoRequerido = False
-        TextOnlyTextBoxLabelui1.CapitalizarTexto = False
-        TextOnlyTextBoxLabelui1.CapitalizarTodasLasPalabras = False
-        TextOnlyTextBoxLabelui1.ColorTitulo = Color.DarkSlateGray
-        TextOnlyTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        TextOnlyTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.UserCheck
-        TextOnlyTextBoxLabelui1.Location = New Point(559, 142)
-        TextOnlyTextBoxLabelui1.MaxCaracteres = 0
-        TextOnlyTextBoxLabelui1.MensajeError = "Campo requerido"
-        TextOnlyTextBoxLabelui1.Name = "TextOnlyTextBoxLabelui1"
-        TextOnlyTextBoxLabelui1.PaddingIzquierda = 8
-        TextOnlyTextBoxLabelui1.PaddingIzquierdaIcono = 10
-        TextOnlyTextBoxLabelui1.Placeholder = "Ingrese datos"
-        TextOnlyTextBoxLabelui1.PlaceholderColor = Color.Gray
-        TextOnlyTextBoxLabelui1.Size = New Size(308, 74)
-        TextOnlyTextBoxLabelui1.TabIndex = 5
-        TextOnlyTextBoxLabelui1.TextoLabel = "Usuario:"
-        ' 
-        ' PasswordTextBoxLabelui1
-        ' 
-        PasswordTextBoxLabelui1.BackColor = Color.Transparent
-        PasswordTextBoxLabelui1.CampoRequerido = False
-        PasswordTextBoxLabelui1.CapitalizarTexto = False
-        PasswordTextBoxLabelui1.CapitalizarTodasLasPalabras = False
-        PasswordTextBoxLabelui1.ColorTitulo = Color.DarkSlateGray
-        PasswordTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        PasswordTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.Fingerprint
-        PasswordTextBoxLabelui1.Location = New Point(558, 218)
-        PasswordTextBoxLabelui1.MaxCaracteres = 0
-        PasswordTextBoxLabelui1.MensajeError = "Campo requerido"
-        PasswordTextBoxLabelui1.Name = "PasswordTextBoxLabelui1"
-        PasswordTextBoxLabelui1.PaddingIzquierda = 8
-        PasswordTextBoxLabelui1.PaddingIzquierdaIcono = 10
-        PasswordTextBoxLabelui1.Placeholder = "Ingrese contraseña"
-        PasswordTextBoxLabelui1.PlaceholderColor = Color.Gray
-        PasswordTextBoxLabelui1.Size = New Size(309, 72)
-        PasswordTextBoxLabelui1.TabIndex = 6
-        PasswordTextBoxLabelui1.TextoLabel = "Contraseña:"
-        ' 
-        ' Comboui1
-        ' 
-        Comboui1.BackColor = Color.Transparent
-        Comboui1.CampoRequerido = False
-        Comboui1.ColorTitulo = Color.DarkSlateGray
-        Comboui1.Location = New Point(559, 296)
-        Comboui1.MensajeError = "Este campo es requerido"
-        Comboui1.MostrarError = False
-        Comboui1.Name = "Comboui1"
-        Comboui1.Placeholder = "Selecciones una Opcion..."
-        Comboui1.PlaceholderColor = Color.Gray
-        Comboui1.Size = New Size(308, 76)
-        Comboui1.TabIndex = 7
-        Comboui1.TextoLabel = "Local:"
-        ' 
         ' frm_Login
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -250,14 +189,12 @@ Partial Class frm_Login
     End Sub
 
     Friend WithEvents pnlContenido As Panel
-    Friend WithEvents txtPass As TextBoxLabelUI
-    Friend WithEvents txtUsuario As TextBoxLabelUI
     Friend WithEvents fadeTimer As Timer
     Friend WithEvents btnMinimizar As FontAwesome.Sharp.IconButton
     Friend WithEvents btnSalir As FontAwesome.Sharp.IconButton
     Friend WithEvents btnAceptar As CommandButtonUI
     Friend WithEvents btnOlvidePass As ButtonLinkUI
-    Friend WithEvents PasswordTextBoxLabelui1 As PasswordTextBoxLabelUI
-    Friend WithEvents TextOnlyTextBoxLabelui1 As TextOnlyTextBoxLabelUI
-    Friend WithEvents Comboui1 As ComboUI
+    Friend WithEvents txtPass As PasswordTextBoxLabelUI
+    Friend WithEvents txtUsuario As TextOnlyTextBoxLabelUI
+    Friend WithEvents cmbLocal As ComboUI
 End Class

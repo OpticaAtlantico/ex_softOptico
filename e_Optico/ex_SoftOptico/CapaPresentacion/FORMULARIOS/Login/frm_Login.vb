@@ -89,7 +89,7 @@ Public Class frm_Login
 
         'VALIDA LOS USUARIOS Y CONTRASEÑAS
         Dim userModel As New Repositorio_Login
-        Dim validUser = userModel.GetUserPass(txtUsuario.TextValue, txtPass.TextValue)
+        Dim validUser = userModel.GetUserPass(txtUsuario.TextoValue, txtPass.TextoValue)
         If validUser.IsNullOrEmpty Then
             MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
             txtUsuario.Text = vbEmpty
@@ -114,12 +114,12 @@ Public Class frm_Login
     End Sub
 
     Private Sub Logout(sender As Object, e As FormClosedEventArgs)
-        txtUsuario.TextoUsuario = ""
-        txtPass.TextoUsuario = ""
+        txtUsuario.TextoValue = ""
+        txtPass.TextoValue = ""
         Me.Show()
     End Sub
 
-    Private Sub txtPass_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPass.CampoKeyPress
+    Private Sub txtPass_CampoKeyPress(sender As Object, e As KeyPressEventArgs)
         If e.KeyChar = ChrW(Keys.Enter) Then
             e.Handled = True
             IniciarApp()
@@ -128,5 +128,9 @@ Public Class frm_Login
 
     Private Sub txtUsuario_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUsuario.CampoKeyPress
         AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+    Private Sub pnlContenido_Paint(sender As Object, e As PaintEventArgs) Handles pnlContenido.Paint
+
     End Sub
 End Class

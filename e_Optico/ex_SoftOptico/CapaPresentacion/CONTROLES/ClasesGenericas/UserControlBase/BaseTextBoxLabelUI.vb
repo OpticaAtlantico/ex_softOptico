@@ -106,6 +106,17 @@ Public Class BaseTextBoxLabelUI
     End Property
 
     <Category("WilmerUI")>
+    Public Property TextoValue As String
+        Get
+            Return txtCampo.Text
+        End Get
+        Set(value As String)
+            txtCampo.Text = value
+            Me.Invalidate()
+        End Set
+    End Property
+
+    <Category("WilmerUI")>
     Public Property ColorTitulo As Color
         Get
             Return _labelColor
