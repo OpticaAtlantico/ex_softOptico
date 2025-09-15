@@ -12,7 +12,9 @@ Public Class ComboBoxUI
     Private _hasFocus As Boolean = False
     Private _backgroundColor As Color = AppColors._cBlanco
     Private _textColor As Color = AppColors._cTexto
-    Private _shadowColor As Color = AppColors._cSombra
+
+    Private _shadowColor As Color = AppColors._cPanelSombracolor
+    Private _shadowSize As Integer = 3
 
 #Region "CONSTRUCTOR"
     Public Sub New()
@@ -28,7 +30,7 @@ Public Class ComboBoxUI
         Me.ItemHeight = 30
         Me.FlatStyle = FlatStyle.Flat
         Me.ForeColor = AppColors._cTexto
-        Me.Size = New Size(300, 30)
+        Me.Size = New Size(300, 36)
     End Sub
 #End Region
 
@@ -131,43 +133,56 @@ Public Class ComboBoxUI
 #End Region
 
 #Region "DIBUJO"
+
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
         pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
-        Dim rect As New Rectangle(0, 0, Me.Width - 1, Me.Height - 5)
-        Dim shadowRect As New Rectangle(rect.X + 1, rect.Y + 1, rect.Width, rect.Height)
-        Using shadowBrush As New SolidBrush(_shadowColor)
-            pe.Graphics.FillRectangle(shadowBrush, shadowRect)
+        Dim r = Math.Min(_borderRadius, Math.Min(Me.Width, Me.Height) \ 2)
+
+        ' Rect principal (card)
+        Dim rect As New Rectangle(0, 0, Me.Width - 3, Me.Height - 3)
+
+        ' 🔹 Sombra redondeada tipo BaseTextBoxUI
+        If _shadowSize > 0 Then
+            Dim shadowRect As New Rectangle(rect.X + 3, rect.Y + 3, rect.Width, rect.Height)
+            Using pathShadow As GraphicsPath = RoundedRectanglePath(shadowRect, r)
+                Using brushShadow As New SolidBrush(_shadowColor)
+                    pe.Graphics.FillPath(brushShadow, pathShadow)
+                End Using
+            End Using
+        End If
+
+        ' 🔹 Fondo del control
+        Using pathCard As GraphicsPath = RoundedRectanglePath(rect, r)
+            Using fondoBrush As New SolidBrush(_backgroundColor)
+                pe.Graphics.FillPath(fondoBrush, pathCard)
+            End Using
+
+            ' 🔹 Borde dinámico
+            Dim penColor = If(_hasFocus, _focusColor, _borderColor)
+            Using pen As New Pen(penColor, 1.5F)
+                pe.Graphics.DrawPath(pen, pathCard)
+            End Using
         End Using
 
-        Dim path = RoundedRectanglePath(rect, _borderRadius)
-
-        Using fondoBrush As New SolidBrush(_backgroundColor)
-            pe.Graphics.FillPath(fondoBrush, path)
-        End Using
-
-        Dim penColor = If(_hasFocus, _focusColor, _borderColor)
-        Using pen As New Pen(penColor, 1.5F)
-            pe.Graphics.DrawPath(pen, path)
-        End Using
-
-        ' Texto del ítem seleccionado
+        ' 🔹 Texto del ítem seleccionado
         If Me.SelectedIndex >= 0 Then
             Dim textRect As New Rectangle(10, 0, Me.Width - 30, Me.Height)
             TextRenderer.DrawText(pe.Graphics,
-                                  Me.GetItemText(Me.SelectedItem),
-                                  Me.Font, textRect,
-                                  Color.Black,
-                                  TextFormatFlags.VerticalCenter)
+                              Me.GetItemText(Me.SelectedItem),
+                              Me.Font,
+                              textRect,
+                              Color.Black,
+                              TextFormatFlags.VerticalCenter)
         End If
 
-        ' Flecha orbital dibujada manualmente
+        ' 🔹 Flecha orbital personalizada
         Dim cy = Me.Height \ 2
         Dim flecha() As Point = {
-            New Point(Me.Width - 18, cy - 4),
-            New Point(Me.Width - 10, cy - 4),
-            New Point(Me.Width - 14, cy + 2)
-        }
+        New Point(Me.Width - 18, cy - 4),
+        New Point(Me.Width - 10, cy - 4),
+        New Point(Me.Width - 14, cy + 2)
+    }
         Using brush As New SolidBrush(Color.FromArgb(57, 103, 208))
             pe.Graphics.FillPolygon(brush, flecha)
         End Using

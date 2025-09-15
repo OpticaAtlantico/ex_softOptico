@@ -46,13 +46,17 @@ Public Class BaseTextBoxLabelUI
     Private _placeholderColor As Color = AppColors._cPlaceHolder
     Private _textColorNormal As Color = Color.Black
 
+
 #End Region
 
 #Region "PROPIEDADES PÚBLICAS"
     ' === Propiedades comunes ===
     <Category("WilmerUI")>
     Public Property CampoRequerido As Boolean = False
-
+    <Category("WilmerUI")>
+    Public Property PaddingIzquierda As Integer = 8
+    <Category("WilmerUI")>
+    Public Property PaddingIzquierdaIcono As Integer = 10
     <Category("WilmerUI")>
     Public Property MensajeError As String = AppMensajes.msgCampoRequerido
 
@@ -167,8 +171,8 @@ Public Class BaseTextBoxLabelUI
         txtCampo.ForeColor = _textColor
         txtCampo.BackColor = _panelBackColor
         txtCampo.TextAlign = HorizontalAlignment.Left
-        txtCampo.Size = New Size(pnlFondo.Width - 40, 30) ' ajusta ancho para dejar espacio al ícono
-        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2 - 2)
+        txtCampo.Size = New Size(pnlFondo.Width - 30, 30) ' ajusta ancho para dejar espacio al ícono
+        txtCampo.Location = New Point(PaddingIzquierda, (pnlFondo.Height - txtCampo.Height) \ 2 - 2)
         txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
         pnlFondo.Controls.Add(txtCampo)
 
@@ -187,7 +191,7 @@ Public Class BaseTextBoxLabelUI
         iconoDerecha.Size = New Size(AppLayout.IconMedium, AppLayout.IconMedium)
         iconoDerecha.Location = New Point(pnlFondo.Width - iconoDerecha.Width - _paddingAll, (pnlFondo.Height - iconoDerecha.Height) \ 2)
         iconoDerecha.Anchor = AnchorStyles.Right Or AnchorStyles.Top
-        iconoDerecha.BackColor = Color.Transparent
+        iconoDerecha.BackColor = AppColors._cFondoTransparente
         iconoDerecha.SizeMode = PictureBoxSizeMode.Zoom
         pnlFondo.Controls.Add(iconoDerecha)
 
@@ -273,10 +277,10 @@ Public Class BaseTextBoxLabelUI
     Private Sub OnPanelResize(sender As Object, e As EventArgs)
         ' Ajusta el txtCampo verticalmente
         Dim tieneIcono As Boolean = iconoDerecha.Visible
-        Dim margenIcono = If(tieneIcono, iconoDerecha.Width + 10, 10)
+        Dim margenIcono = If(tieneIcono, iconoDerecha.Width + PaddingIzquierdaIcono, 10)
 
         ' Aquí se ajusta la posición Y, restando el valor para subir el campo
-        txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2 - 2) ' Ajusta a tu necesidad (valor negativo mueve hacia arriba)
+        txtCampo.Location = New Point(PaddingIzquierda, (pnlFondo.Height - txtCampo.Height) \ 2 - 2) ' Ajusta a tu necesidad (valor negativo mueve hacia arriba)
 
         txtCampo.Width = pnlFondo.Width - margenIcono - 16
 

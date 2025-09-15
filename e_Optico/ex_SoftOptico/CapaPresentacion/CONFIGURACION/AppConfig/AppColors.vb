@@ -87,5 +87,9 @@
     Public Shared ReadOnly _cPanelBorderColor As Color = Color.FromArgb(0, 188, 212)
     Public Shared ReadOnly _cPanelSombracolor As Color = Color.LightGray
 
+    'Texto Disable
+    Public Shared ReadOnly _cFondoDisable As Color = Color.DarkGray
+    Public Shared ReadOnly _cFondoTransparente As Color = Color.Transparent
+    Public Shared ReadOnly _cFondoSemi As Color = Color.FromArgb(0, 40, 74)
 
 End Class

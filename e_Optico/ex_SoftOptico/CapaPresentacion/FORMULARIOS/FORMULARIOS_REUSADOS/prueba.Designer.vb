@@ -31,8 +31,8 @@ Partial Class prueba
         Panel2 = New Panel()
         Panelui2 = New PanelUI()
         CommandButtonui1 = New CommandButtonUI()
-        ComboBoxLabelui1 = New ComboBoxLabelUI()
-        Comboui1 = New ComboUI()
+        PanelTituloui1 = New PanelTituloUI()
+        PanelTituloPieui1 = New PanelTituloPieUI()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
@@ -51,6 +51,8 @@ Partial Class prueba
         TextOnlyTextBoxLabelui1.MaxCaracteres = 0
         TextOnlyTextBoxLabelui1.MensajeError = "Campo requerido."
         TextOnlyTextBoxLabelui1.Name = "TextOnlyTextBoxLabelui1"
+        TextOnlyTextBoxLabelui1.PaddingIzquierda = 8
+        TextOnlyTextBoxLabelui1.PaddingIzquierdaIcono = 10
         TextOnlyTextBoxLabelui1.Placeholder = "Ingrese datos"
         TextOnlyTextBoxLabelui1.PlaceholderColor = Color.Gray
         TextOnlyTextBoxLabelui1.Size = New Size(395, 73)
@@ -113,6 +115,8 @@ Partial Class prueba
         EmailTextBoxLabelui1.MaxCaracteres = 0
         EmailTextBoxLabelui1.MensajeError = "Este campo es requerido"
         EmailTextBoxLabelui1.Name = "EmailTextBoxLabelui1"
+        EmailTextBoxLabelui1.PaddingIzquierda = 8
+        EmailTextBoxLabelui1.PaddingIzquierdaIcono = 10
         EmailTextBoxLabelui1.Placeholder = "Escriba aquí..."
         EmailTextBoxLabelui1.PlaceholderColor = Color.Gray
         EmailTextBoxLabelui1.Size = New Size(395, 80)
@@ -138,6 +142,8 @@ Partial Class prueba
         DecimalTextBoxLabelui1.Name = "DecimalTextBoxLabelui1"
         DecimalTextBoxLabelui1.NumeroMaximo = New Decimal(New Integer() {-1, -1, -1, 0})
         DecimalTextBoxLabelui1.NumeroMinimo = New Decimal(New Integer() {-1, -1, -1, Integer.MinValue})
+        DecimalTextBoxLabelui1.PaddingIzquierda = 8
+        DecimalTextBoxLabelui1.PaddingIzquierdaIcono = 10
         DecimalTextBoxLabelui1.Placeholder = "Ingrese un número decimal..."
         DecimalTextBoxLabelui1.PlaceholderColor = Color.Gray
         DecimalTextBoxLabelui1.Size = New Size(395, 74)
@@ -208,47 +214,49 @@ Partial Class prueba
         CommandButtonui1.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         CommandButtonui1.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold)
         CommandButtonui1.Icono = FontAwesome.Sharp.IconChar.Bolt
-        CommandButtonui1.Location = New Point(559, 334)
+        CommandButtonui1.Location = New Point(704, 441)
         CommandButtonui1.Name = "CommandButtonui1"
         CommandButtonui1.RadioBorde = 8
-        CommandButtonui1.Size = New Size(203, 57)
+        CommandButtonui1.Size = New Size(203, 41)
         CommandButtonui1.TabIndex = 6
         CommandButtonui1.Text = "CommandButtonui1"
         CommandButtonui1.Texto = "Aceptar"
         ' 
-        ' ComboBoxLabelui1
+        ' PanelTituloui1
         ' 
-        ComboBoxLabelui1.BackColor = Color.Transparent
-        ComboBoxLabelui1.BackColorPnl = Color.White
-        ComboBoxLabelui1.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        ComboBoxLabelui1.BorderSize = 1
-        ComboBoxLabelui1.CampoRequerido = True
-        ComboBoxLabelui1.IndiceSeleccionado = -1
-        ComboBoxLabelui1.LabelColor = Color.DarkSlateGray
-        ComboBoxLabelui1.Location = New Point(493, 24)
-        ComboBoxLabelui1.MensajeError = "Este campo es requerido"
-        ComboBoxLabelui1.MostrarError = False
-        ComboBoxLabelui1.Name = "ComboBoxLabelui1"
-        ComboBoxLabelui1.RadioContornoPanel = 8
-        ComboBoxLabelui1.Size = New Size(323, 83)
-        ComboBoxLabelui1.SombraBackColor = Color.LightGray
-        ComboBoxLabelui1.TabIndex = 7
-        ComboBoxLabelui1.Titulo = "Selecciona una opción:"
-        ComboBoxLabelui1.ValorSeleccionado = Nothing
+        PanelTituloui1.BackColor = Color.Transparent
+        PanelTituloui1.BackColorContenedor = Color.Transparent
+        PanelTituloui1.BackColorTitulo = Color.FromArgb(CByte(77), CByte(0), CByte(0), CByte(0))
+        PanelTituloui1.BorderColor = Color.Transparent
+        PanelTituloui1.BorderColorTitulo = Color.FromArgb(CByte(77), CByte(0), CByte(0), CByte(0))
+        PanelTituloui1.BorderRadius = 20
+        PanelTituloui1.BorderSize = 1
+        PanelTituloui1.CardBackColor = Color.White
+        PanelTituloui1.Estilo = PanelTituloUI.EstiloCard.None
+        PanelTituloui1.Location = New Point(470, 24)
+        PanelTituloui1.Name = "PanelTituloui1"
+        PanelTituloui1.ShadowColor = Color.LightGray
+        PanelTituloui1.Size = New Size(244, 147)
+        PanelTituloui1.TabIndex = 7
+        PanelTituloui1.Texto = ""
         ' 
-        ' Comboui1
+        ' PanelTituloPieui1
         ' 
-        Comboui1.BackColor = Color.Transparent
-        Comboui1.CampoRequerido = False
-        Comboui1.ColorTitulo = Color.DarkSlateGray
-        Comboui1.Location = New Point(442, 183)
-        Comboui1.MensajeError = "Este campo es requerido"
-        Comboui1.Name = "Comboui1"
-        Comboui1.Placeholder = "Selecciones una Opcion..."
-        Comboui1.PlaceholderColor = Color.Gray
-        Comboui1.Size = New Size(344, 88)
-        Comboui1.TabIndex = 8
-        Comboui1.TextoLabel = "Texto:"
+        PanelTituloPieui1.BackColor = Color.Transparent
+        PanelTituloPieui1.BackColorContenedor = Color.Transparent
+        PanelTituloPieui1.BackColorTitulo = Color.FromArgb(CByte(77), CByte(0), CByte(0), CByte(0))
+        PanelTituloPieui1.BorderColor = Color.Transparent
+        PanelTituloPieui1.BorderColorTitulo = Color.FromArgb(CByte(77), CByte(0), CByte(0), CByte(0))
+        PanelTituloPieui1.BorderRadius = 20
+        PanelTituloPieui1.BorderSize = 1
+        PanelTituloPieui1.CardBackColor = Color.White
+        PanelTituloPieui1.Estilo = PanelTituloPieUI.EstiloCard.None
+        PanelTituloPieui1.Location = New Point(457, 183)
+        PanelTituloPieui1.Name = "PanelTituloPieui1"
+        PanelTituloPieui1.ShadowColor = Color.LightGray
+        PanelTituloPieui1.Size = New Size(221, 311)
+        PanelTituloPieui1.TabIndex = 8
+        PanelTituloPieui1.Texto = ""
         ' 
         ' prueba
         ' 
@@ -256,8 +264,8 @@ Partial Class prueba
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.WhiteSmoke
         ClientSize = New Size(937, 512)
-        Controls.Add(Comboui1)
-        Controls.Add(ComboBoxLabelui1)
+        Controls.Add(PanelTituloPieui1)
+        Controls.Add(PanelTituloui1)
         Controls.Add(CommandButtonui1)
         Controls.Add(Panel2)
         Name = "prueba"
@@ -276,7 +284,7 @@ Partial Class prueba
     Friend WithEvents DecimalTextBoxLabelui1 As DecimalTextBoxLabelUI
     Friend WithEvents EmailTextBoxLabelui1 As EmailTextBoxLabelUI
     Friend WithEvents MultilineTextBoxLabelui1 As MultilineTextBoxLabelUI
-    Friend WithEvents ComboBoxLabelui1 As ComboBoxLabelUI
-    Friend WithEvents Comboui1 As ComboUI
+    Friend WithEvents PanelTituloui1 As PanelTituloUI
+    Friend WithEvents PanelTituloPieui1 As PanelTituloPieUI
 
 End Class

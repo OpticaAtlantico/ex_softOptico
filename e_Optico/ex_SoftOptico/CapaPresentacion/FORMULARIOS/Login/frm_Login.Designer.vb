@@ -70,7 +70,7 @@ Partial Class frm_Login
         btnAceptar.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
         btnAceptar.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
         btnAceptar.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
-        btnAceptar.ColorTexto = Color.White
+        btnAceptar.ColorTexto = Color.WhiteSmoke
         btnAceptar.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
         btnAceptar.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAceptar.Icono = FontAwesome.Sharp.IconChar.CheckCircle
@@ -156,12 +156,12 @@ Partial Class frm_Login
         txtUsuario.IconoDerechoChar = FontAwesome.Sharp.IconChar.UserCheck
         txtUsuario.LabelColor = Color.WhiteSmoke
         txtUsuario.LabelText = "Usuario"
-        txtUsuario.Location = New Point(558, 261)
+        txtUsuario.Location = New Point(558, 247)
         txtUsuario.MensajeError = "Usuario desconocido..."
         txtUsuario.Name = "txtUsuario"
         txtUsuario.PaddingAll = 10
         txtUsuario.PanelBackColor = Color.FromArgb(CByte(80), CByte(94), CByte(129))
-        txtUsuario.Size = New Size(302, 86)
+        txtUsuario.Size = New Size(302, 76)
         txtUsuario.SombraBackColor = Color.Transparent
         txtUsuario.TabIndex = 0
         txtUsuario.TextColor = Color.WhiteSmoke

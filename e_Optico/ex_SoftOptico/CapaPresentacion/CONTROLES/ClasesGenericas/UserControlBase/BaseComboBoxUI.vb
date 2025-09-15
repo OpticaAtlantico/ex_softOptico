@@ -8,7 +8,7 @@ Public Class BaseComboBoxUI
 #Region "CONTROLES Y ESTÉTICA"
     ' === Controles internos ===
     Protected Friend lblTitulo As New Label()
-    Protected Friend WithEvents cmbCampo As New ComboBoxUI()
+    Private cmbCampo As New ComboBoxUI()
     Protected Friend lblError As New Label()
     Protected Friend pnlFondo As New Panel()
     Protected Friend iconoDerecha As New IconPictureBox()
@@ -20,7 +20,7 @@ Public Class BaseComboBoxUI
     Private _borderColorError As Color = AppColors._cBordeError
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
-
+    Private _mostrarError As Boolean = False
     Private _shadowColor As Color = AppColors._cPanelSombracolor
     Private _shadowSize As Integer = 3
 
@@ -42,6 +42,10 @@ Public Class BaseComboBoxUI
     Private _placeholder As String = "Selecciona una Opción..."
     Private _placeholderColor As Color = AppColors._cPlaceHolder
     Private _textColorNormal As Color = Color.Black
+
+    Public Event SelectedIndexChangedCustom As EventHandler
+    Public Event SelectionChangeCommittedCustom As EventHandler
+    Private cargarCombo As Boolean = False ' Evitar eventos en carga
 
 #End Region
 
@@ -99,6 +103,16 @@ Public Class BaseComboBoxUI
             Me.Invalidate()
         End Set
     End Property
+    <Category("ControlUI")>
+    Public Property MostrarError As Boolean
+        Get
+            Return _mostrarError
+        End Get
+        Set(value As Boolean)
+            _mostrarError = value
+            lblError.Visible = value
+        End Set
+    End Property
 #End Region
 
 #Region "CONSTRUCTOR"
@@ -127,13 +141,12 @@ Public Class BaseComboBoxUI
 
         cmbCampo.Dock = DockStyle.Fill
         cmbCampo.ForeColor = Color.Black
-        'cmbCampo.Size = New Size(pnlFondo.Width, pnlFondo.Height - 20)
         pnlFondo.Controls.Add(cmbCampo)
-        'AddHandler cmbCampo.Leave, Sub()
-        '                               If CampoRequerido Then ValidarCampo()
-        '                           End Sub
-        'AddHandler cmbCampo.SelectedIndexChanged, AddressOf cmbCampo_SelectedIndexChanged
-        'AddHandler cmbCampo.SelectionChangeCommitted, AddressOf cmbCampo_SelectionChangeCommitted
+        AddHandler cmbCampo.Leave, Sub()
+                                       If CampoRequerido Then ValidarCampo()
+                                   End Sub
+        AddHandler cmbCampo.SelectedIndexChanged, AddressOf cmbCampo_SelectedIndexChanged
+        AddHandler cmbCampo.SelectionChangeCommitted, AddressOf cmbCampo_SelectionChangeCommitted
 
 
         lblError.Text = ""
@@ -154,11 +167,11 @@ Public Class BaseComboBoxUI
         lblPlaceholder.TextAlign = ContentAlignment.MiddleLeft
         lblPlaceholder.AutoSize = False
         lblPlaceholder.Location = cmbCampo.Location
-        lblPlaceholder.Size = New Size(cmbCampo.Width - 20, cmbCampo.Height)
+        lblPlaceholder.Size = New Size(cmbCampo.Width - 30, cmbCampo.Height - 10)
         lblPlaceholder.Enabled = False ' Para que no reciba foco ni eventos
-        'pnlFondo.Controls.Add(lblPlaceholder)
-        'lblPlaceholder.BringToFront()
-        'UpdatePlaceholderVisibility()
+        pnlFondo.Controls.Add(lblPlaceholder)
+        lblPlaceholder.BringToFront()
+        UpdatePlaceholderVisibility()
 
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
@@ -184,17 +197,17 @@ Public Class BaseComboBoxUI
         Dim r = Math.Min(_borderRadius, Math.Min(pnlFondo.Width, pnlFondo.Height) \ 2)
 
         ' Rectángulo del panel principal (dejando espacio para sombra fuera)
-        Dim rectPanel As New Rectangle(0, 0, pnlFondo.Width - 6, pnlFondo.Height - 6)
+        Dim rectPanel As New Rectangle(0, 0, pnlFondo.Width - 4, pnlFondo.Height - 4)
 
-        ' === Sombra desplazada 3px abajo y derecha ===
-        If _shadowSize > 0 Then
-            Dim shadowRect As New Rectangle(rectPanel.X + 3, rectPanel.Y + 3, rectPanel.Width, rectPanel.Height)
-            Using pathShadow As GraphicsPath = RoundedPath(shadowRect, r)
-                Using brushShadow As New SolidBrush(_shadowColor)
-                    e.Graphics.FillPath(brushShadow, pathShadow)
-                End Using
-            End Using
-        End If
+        '' === Sombra desplazada 3px abajo y derecha ===
+        'If _shadowSize > 0 Then
+        '    Dim shadowRect As New Rectangle(rectPanel.X + 3, rectPanel.Y + 3, rectPanel.Width, rectPanel.Height)
+        '    Using pathShadow As GraphicsPath = RoundedPath(shadowRect, r)
+        '        Using brushShadow As New SolidBrush(_shadowColor)
+        '            e.Graphics.FillPath(brushShadow, pathShadow)
+        '        End Using
+        '    End Using
+        'End If
 
         ' === Fondo principal ===
         Using pathPanel As GraphicsPath = RoundedPath(rectPanel, r)
@@ -228,18 +241,7 @@ Public Class BaseComboBoxUI
 #End Region
 
 #Region "EVENTOS INTERNOS"
-    ' === Eventos de foco ===
-    Private Sub OnEnterCampo(sender As Object, e As EventArgs)
-        _borderColor = _borderColorFocus
-        pnlFondo.Invalidate()
-        UpdatePlaceholderVisibility()
-    End Sub
-
-    Private Sub OnTextChangedCampo(sender As Object, e As EventArgs)
-        UpdatePlaceholderVisibility()
-    End Sub
-
-    ' === Reposicionamiento (para placeholder e icono) ===
+        '' === Reposicionamiento (para placeholder e icono) ===
     Private Sub OnPanelResize(sender As Object, e As EventArgs)
         ' reajusta txtCampo ancho y posición
         cmbCampo.Location = New Point(8, (pnlFondo.Height - cmbCampo.Height) \ 2)
@@ -247,8 +249,8 @@ Public Class BaseComboBoxUI
 
         ' placeholder usa la misma geometría del textbox
         lblPlaceholder.ForeColor = AppColors._cTextoInfo
-        lblPlaceholder.Location = cmbCampo.Location
-        lblPlaceholder.Size = New Size(cmbCampo.Width - 20, cmbCampo.Height)
+        lblPlaceholder.Location = New Point(2, 2)
+        lblPlaceholder.Size = New Size(cmbCampo.Width - 30, cmbCampo.Height - 10)
         lblPlaceholder.BringToFront()
 
     End Sub
@@ -261,24 +263,48 @@ Public Class BaseComboBoxUI
         lblPlaceholder.Visible = Not cmbCampo.Focused AndAlso String.IsNullOrEmpty(cmbCampo.Text)
     End Sub
 
+    Private Sub cmbCampo_SelectedIndexChanged(sender As Object, e As EventArgs)
+        If cargarCombo Then Exit Sub
+        RaiseEvent SelectedIndexChangedCustom(Me, e)
+    End Sub
+
+    Private Sub cmbCampo_SelectionChangeCommitted(sender As Object, e As EventArgs)
+        If cargarCombo Then Exit Sub
+        RaiseEvent SelectionChangeCommittedCustom(Me, e)
+    End Sub
+
 #End Region
 
-#Region "VALIDACIONES"
-    ' === Validación básica (sobrescribible) ===
-
-    Protected Sub MostrarError(mensaje As String)
-        lblError.Text = mensaje
-        lblError.Visible = True
-        _borderColor = _colorError
-        pnlFondo.Invalidate()
+#Region "Métodos Públicos"
+    Public Sub Limpiar()
+        cmbCampo.SelectedIndex = -1
+        cmbCampo.Text = ""
+        cmbCampo.Refresh()
     End Sub
 
-    Protected Sub OcultarError()
-        lblError.Text = ""
-        lblError.Visible = False
-        _borderColor = AppColors._cBasePrimary
-        pnlFondo.Invalidate()
+    Public Sub IniciarCarga()
+        cargarCombo = True
     End Sub
+
+    Public Sub FinalizarCarga()
+        cargarCombo = False
+    End Sub
+
+    Public Sub AddItems(item As LlenarComboBox.ComboItem, ParamArray items() As String)
+        ' Puedes ajustar para limpiar antes si quieres
+        cmbCampo.Items.AddRange(items)
+        Me.Invalidate()
+    End Sub
+
+
+    Public Function ValidarCampo(Optional mensajePersonalizado As String = "") As Boolean
+        Dim esValido As Boolean = cmbCampo.SelectedIndex >= 0
+        MostrarError = Not esValido
+        lblError.Text = If(esValido, "", If(String.IsNullOrEmpty(mensajePersonalizado), MensajeError, mensajePersonalizado))
+        cmbCampo.BorderColor = If(esValido, cmbCampo.FocusColor, Color.Firebrick)
+        cmbCampo.Invalidate()
+        Return esValido
+    End Function
 
 #End Region
 
