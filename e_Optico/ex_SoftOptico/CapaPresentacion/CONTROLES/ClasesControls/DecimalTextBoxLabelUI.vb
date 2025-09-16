@@ -2,6 +2,7 @@
 
 Public Class DecimalTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
+    Implements IValidable
 
     Private WithEvents txtDecimal As TextBox
 
@@ -67,7 +68,7 @@ Public Class DecimalTextBoxLabelUI
     End Sub
 
     ' === Validación principal ===
-    Public Overrides Function EsValido() As Boolean
+    Public Overloads Function EsValido() As Boolean
         Dim texto As String = txtDecimal.Text.Trim()
         Dim mensajeError As String = ""
         Dim _esValido As Boolean = True
@@ -96,5 +97,9 @@ Public Class DecimalTextBoxLabelUI
         End If
 
         Return _esValido
+    End Function
+
+    Private Function IValidable_EsValido() As Boolean Implements IValidable.EsValido
+        Return EsValido()
     End Function
 End Class

@@ -55,7 +55,7 @@ Public Class frm_Empleado
 
         Dim manager As New LlenarComboBox()
         Dim sql As String = "SELECT CargoEmpleadoID, Descripcion FROM VCargoEmpleado"
-        manager.Cargar(cmbCargo, sql, "Descripcion", "CargoEmpleadoID")
+        'manager.Cargar(cmbCargo, sql, "Descripcion", "CargoEmpleadoID")
         'cmbUno.OrbitalCombo.SelectedIndex = -1
 
 
@@ -79,9 +79,6 @@ Public Class frm_Empleado
         End With
     End Sub
 
-    Private Sub CommandButtonui1_Click(sender As Object, e As EventArgs)
-
-    End Sub
 
 
 

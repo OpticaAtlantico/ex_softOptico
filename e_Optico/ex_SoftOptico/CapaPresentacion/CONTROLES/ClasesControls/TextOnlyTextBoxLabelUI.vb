@@ -2,18 +2,22 @@
 
 Public Class TextOnlyTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
+    Implements IValidable
 
     Public Sub New()
         MyBase.New()
         lblTitulo.Text = "Texto:"
         iconoDerecha.IconChar = IconChar.Font
         Me.Placeholder = "Ingrese datos"
-        AddHandler txtCampo.KeyPress, AddressOf ValidarLetras
+        AddHandler txtCampo.KeyPress, AddressOf EsValido
     End Sub
-
-    Private Sub ValidarLetras(sender As Object, e As KeyPressEventArgs)
-        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsLetter(e.KeyChar) AndAlso e.KeyChar <> " "c Then
-            e.Handled = True
+    Public Function EsValido() As Boolean Implements IValidable.EsValido
+        If Not MyBase.EsValido() Then Return False
+        If txtCampo.Text.Length = 0 Then
+            MostrarError(AppMensajes.msgCampoRequerido)
+            Return False
         End If
-    End Sub
+        Return True
+    End Function
+
 End Class

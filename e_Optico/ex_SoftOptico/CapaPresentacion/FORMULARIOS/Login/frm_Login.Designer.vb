@@ -24,7 +24,7 @@ Partial Class frm_Login
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Login))
         pnlContenido = New Panel()
-        cmbLocal = New ComboUI()
+        cmbLocal = New ComboBoxLayoutUI()
         txtPass = New PasswordTextBoxLabelUI()
         txtUsuario = New TextOnlyTextBoxLabelUI()
         btnOlvidePass = New ButtonLinkUI()
@@ -57,9 +57,8 @@ Partial Class frm_Login
         cmbLocal.ColorTitulo = Color.DarkSlateGray
         cmbLocal.Location = New Point(559, 310)
         cmbLocal.MensajeError = "Este campo es requerido"
-        cmbLocal.MostrarError = False
         cmbLocal.Name = "cmbLocal"
-        cmbLocal.Placeholder = "Selecciones una Opcion..."
+        cmbLocal.Placeholder = "Selecciones una Opción..."
         cmbLocal.PlaceholderColor = Color.Gray
         cmbLocal.Size = New Size(308, 80)
         cmbLocal.TabIndex = 7
@@ -80,7 +79,7 @@ Partial Class frm_Login
         txtPass.Name = "txtPass"
         txtPass.PaddingIzquierda = 8
         txtPass.PaddingIzquierdaIcono = 10
-        txtPass.Placeholder = "Ingrese contraseña"
+        txtPass.Placeholder = "Ingrese la contraseña..."
         txtPass.PlaceholderColor = Color.Gray
         txtPass.Size = New Size(308, 80)
         txtPass.TabIndex = 6
@@ -102,7 +101,7 @@ Partial Class frm_Login
         txtUsuario.Name = "txtUsuario"
         txtUsuario.PaddingIzquierda = 8
         txtUsuario.PaddingIzquierdaIcono = 10
-        txtUsuario.Placeholder = "Ingrese datos"
+        txtUsuario.Placeholder = "Ingrese el usuario..."
         txtUsuario.PlaceholderColor = Color.Gray
         txtUsuario.Size = New Size(308, 80)
         txtUsuario.TabIndex = 5
@@ -134,7 +133,7 @@ Partial Class frm_Login
         btnAceptar.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
         btnAceptar.ColorTexto = Color.WhiteSmoke
         btnAceptar.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
-        btnAceptar.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnAceptar.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold)
         btnAceptar.Icono = FontAwesome.Sharp.IconChar.CheckCircle
         btnAceptar.Location = New Point(583, 464)
         btnAceptar.Name = "btnAceptar"
@@ -196,5 +195,5 @@ Partial Class frm_Login
     Friend WithEvents btnOlvidePass As ButtonLinkUI
     Friend WithEvents txtPass As PasswordTextBoxLabelUI
     Friend WithEvents txtUsuario As TextOnlyTextBoxLabelUI
-    Friend WithEvents cmbLocal As ComboUI
+    Friend WithEvents cmbLocal As ComboBoxLayoutUI
 End Class

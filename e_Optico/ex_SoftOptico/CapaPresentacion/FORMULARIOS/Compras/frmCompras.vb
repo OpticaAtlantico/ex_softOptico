@@ -39,14 +39,14 @@ Public Class frmCompras
         grvCompras.BringToFront()
         cmbProveedor.IniciarCarga()
 
-        llenarCombo.Cargar(cmbProveedor, llenarCombo.SQL_PROVEEDOR, "NombreEmpresa", "ProveedorID")
-        cmbProveedor.FinalizarCarga()
+        'llenarCombo.Cargar(cmbProveedor, llenarCombo.SQL_PROVEEDOR, "NombreEmpresa", "ProveedorID")
+        'cmbProveedor.FinalizarCarga()
 
-        llenarCombo.Cargar(cmbTipoPago, llenarCombo.SQL_TIPOPAGO, "Nombre", "TipoPagoID")
-        cmbTipoPago.FinalizarCarga()
+        'llenarCombo.Cargar(cmbTipoPago, llenarCombo.SQL_TIPOPAGO, "Nombre", "TipoPagoID")
+        'cmbTipoPago.FinalizarCarga()
 
-        llenarCombo.Cargar(cmbSucursal, llenarCombo.SQL_SUCURSALES, "NombreUbicacion", "UbicacionID")
-        cmbSucursal.FinalizarCarga()
+        'llenarCombo.Cargar(cmbSucursal, llenarCombo.SQL_SUCURSALES, "NombreUbicacion", "UbicacionID")
+        'cmbSucursal.FinalizarCarga()
 
         'Bloquea el panel de grid hasta que se agregue un producto
         pnlDataGrid.Enabled = False

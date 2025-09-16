@@ -8,7 +8,7 @@ Public Class BaseComboBoxUI
 #Region "CONTROLES Y ESTÉTICA"
     ' === Controles internos ===
     Protected Friend lblTitulo As New Label()
-    Private cmbCampo As New ComboBoxUI()
+    Public cmbCampo As New ComboBoxUI()
     Protected Friend lblError As New Label()
     Protected Friend pnlFondo As New Panel()
     Protected Friend iconoDerecha As New IconPictureBox()
@@ -103,16 +103,59 @@ Public Class BaseComboBoxUI
             Me.Invalidate()
         End Set
     End Property
+
     <Category("ControlUI")>
-    Public Property MostrarError As Boolean
+    Public ReadOnly Property ComboBoxUI As ComboBoxUI
         Get
-            Return _mostrarError
+            Return cmbCampo
         End Get
-        Set(value As Boolean)
-            _mostrarError = value
-            lblError.Visible = value
+    End Property
+
+    ' --- Equivalentes DisplayMember y ValueMember ---
+    <Browsable(False)>
+    Public Property ValorSeleccionado As Object
+        Get
+            Return cmbCampo.SelectedValue
+        End Get
+        Set(value As Object)
+            cmbCampo.SelectedValue = value
         End Set
     End Property
+
+    <Browsable(False)>
+    Public ReadOnly Property NombreSeleccionado As String
+        Get
+            Return cmbCampo.GetItemText(cmbCampo.SelectedItem)
+        End Get
+    End Property
+
+    ' Accesos rápidos
+    <Browsable(False)>
+    Public Property IndiceSeleccionado As Integer
+        Get
+            Return cmbCampo.SelectedIndex
+        End Get
+        Set(value As Integer)
+            If value >= 0 AndAlso value < cmbCampo.Items.Count Then
+                cmbCampo.SelectedIndex = value
+            End If
+        End Set
+    End Property
+
+    <Browsable(False)>
+    Public ReadOnly Property TextoSeleccionado As String
+        Get
+            Return cmbCampo.Text
+        End Get
+    End Property
+
+    <Browsable(False)>
+    Public ReadOnly Property ItemSeleccionado As Object
+        Get
+            Return cmbCampo.SelectedItem
+        End Get
+    End Property
+
 #End Region
 
 #Region "CONSTRUCTOR"
@@ -127,28 +170,26 @@ Public Class BaseComboBoxUI
         Me.Size = New Size(300, 100)
         Me.BackColor = Color.Transparent
 
+        ' === Label de título ===
         lblTitulo.Text = _labelText
         lblTitulo.Font = _fontFieldTitulo
         lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = AppLayout.ControlLabelHeight
 
+        ' === Panel de fondo ===
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(0)
         pnlFondo.Height = AppLayout.PanelHeightStandar
         pnlFondo.Margin = Padding.Empty
 
+        ' === ComboBox ===
         cmbCampo.Dock = DockStyle.Fill
         cmbCampo.ForeColor = Color.Black
         pnlFondo.Controls.Add(cmbCampo)
-        AddHandler cmbCampo.Leave, Sub()
-                                       If CampoRequerido Then ValidarCampo()
-                                   End Sub
-        AddHandler cmbCampo.SelectedIndexChanged, AddressOf cmbCampo_SelectedIndexChanged
-        AddHandler cmbCampo.SelectionChangeCommitted, AddressOf cmbCampo_SelectionChangeCommitted
 
-
+        ' === Label de error ===
         lblError.Text = ""
         lblError.Font = _fontFieldMsgError
         lblError.ForeColor = _colorError
@@ -173,18 +214,24 @@ Public Class BaseComboBoxUI
         lblPlaceholder.BringToFront()
         UpdatePlaceholderVisibility()
 
+        ' === Icono derecha (opcional) ===
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
 
         ' Eventos
-        'AddHandler txtCampo.Enter, AddressOf OnEnterCampo
-        'AddHandler txtCampo.Leave, AddressOf OnLeaveCampo
-        'AddHandler txtCampo.TextChanged, AddressOf OnTextChangedCampo
-        'AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, AddressOf OnPanelResize
         AddHandler Me.Resize, AddressOf OnPanelResize
+
+        AddHandler cmbCampo.Leave, Sub()
+                                       If CampoRequerido Then EsValido()
+                                   End Sub
+        AddHandler cmbCampo.Enter, Sub()
+                                       If cmbCampo.Focused Then UpdatePlaceholderVisibility()
+                                   End Sub
+        AddHandler cmbCampo.SelectedIndexChanged, AddressOf cmbCampo_SelectedIndexChanged
+        AddHandler cmbCampo.SelectionChangeCommitted, AddressOf cmbCampo_SelectionChangeCommitted
 
     End Sub
 #End Region
@@ -238,10 +285,7 @@ Public Class BaseComboBoxUI
         Return path
     End Function
 
-#End Region
-
-#Region "EVENTOS INTERNOS"
-        '' === Reposicionamiento (para placeholder e icono) ===
+    '' === Reposicionamiento (para placeholder e icono) ===
     Private Sub OnPanelResize(sender As Object, e As EventArgs)
         ' reajusta txtCampo ancho y posición
         cmbCampo.Location = New Point(8, (pnlFondo.Height - cmbCampo.Height) \ 2)
@@ -295,16 +339,38 @@ Public Class BaseComboBoxUI
         cmbCampo.Items.AddRange(items)
         Me.Invalidate()
     End Sub
+#End Region
 
+#Region "Validación"
+    ''' <summary>
+    ''' Valida si el campo es requerido y si está vacío, muestra el mensaje de error.
+    ''' </summary>
+    ''' <returns>True si es válido, False si no lo es.</returns>
 
-    Public Function ValidarCampo(Optional mensajePersonalizado As String = "") As Boolean
-        Dim esValido As Boolean = cmbCampo.SelectedIndex >= 0
-        MostrarError = Not esValido
-        lblError.Text = If(esValido, "", If(String.IsNullOrEmpty(mensajePersonalizado), MensajeError, mensajePersonalizado))
-        cmbCampo.BorderColor = If(esValido, cmbCampo.FocusColor, Color.Firebrick)
-        cmbCampo.Invalidate()
-        Return esValido
+    Public Overridable Function EsValido() As Boolean
+        Dim texto = cmbCampo.Text.Trim()
+        If CampoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
+            MostrarError(MensajeError)
+            Return False
+        Else
+            OcultarError()
+            Return True
+        End If
     End Function
+
+    Protected Sub MostrarError(mensaje As String)
+        lblError.Text = mensaje
+        lblError.Visible = True
+        _borderColor = _colorError
+        pnlFondo.Invalidate()
+    End Sub
+
+    Protected Sub OcultarError()
+        lblError.Text = ""
+        lblError.Visible = False
+        _borderColor = AppColors._cBaseSuccess
+        pnlFondo.Invalidate()
+    End Sub
 
 #End Region
 

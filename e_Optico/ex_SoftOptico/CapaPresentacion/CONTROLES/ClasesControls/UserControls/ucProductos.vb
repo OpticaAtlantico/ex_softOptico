@@ -15,7 +15,7 @@
                                            AvanzarEntrePestañas()
                                        End Sub
 
-        LlenarCombo.Cargar(cmbCategoria, LlenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
+        ' LlenarCombo.Cargar(cmbCategoria, LlenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
 
     End Sub
     Private Sub AvanzarEntrePestañas()

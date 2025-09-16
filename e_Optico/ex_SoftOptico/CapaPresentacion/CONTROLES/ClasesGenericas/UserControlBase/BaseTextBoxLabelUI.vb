@@ -165,18 +165,22 @@ Public Class BaseTextBoxLabelUI
         Me.Size = New Size(300, 100)
         Me.BackColor = Color.Transparent
 
+        ' === Configuración de controles ===
+        ' === Título ===
         lblTitulo.Text = _labelText
         lblTitulo.Font = _fontFieldTitulo
         lblTitulo.ForeColor = _labelColor
         lblTitulo.Dock = DockStyle.Top
         lblTitulo.Height = AppLayout.ControlLabelHeight
 
+        ' === Panel de fondo ===
         pnlFondo.Dock = DockStyle.Top
         pnlFondo.BackColor = _panelBackColor
         pnlFondo.Padding = New Padding(0)
         pnlFondo.Height = AppLayout.PanelHeightStandar
         pnlFondo.Margin = Padding.Empty
 
+        ' === TextBox ===
         txtCampo.BorderStyle = BorderStyle.None
         txtCampo.Font = _fontFieldTexto
         txtCampo.ForeColor = _textColor
@@ -187,6 +191,7 @@ Public Class BaseTextBoxLabelUI
         txtCampo.Anchor = AnchorStyles.Left Or AnchorStyles.Top
         pnlFondo.Controls.Add(txtCampo)
 
+        ' === Label de error ===
         lblError.Text = ""
         lblError.Font = _fontFieldMsgError
         lblError.ForeColor = _colorError
@@ -197,6 +202,7 @@ Public Class BaseTextBoxLabelUI
         lblError.TextAlign = ContentAlignment.MiddleRight
         lblError.BackColor = Color.Transparent
 
+        ' === Icono derecho ===
         iconoDerecha.IconChar = IconChar.InfoCircle
         iconoDerecha.IconColor = AppColors._cIcono
         iconoDerecha.Size = New Size(AppLayout.IconMedium, AppLayout.IconMedium)
@@ -220,6 +226,7 @@ Public Class BaseTextBoxLabelUI
         lblPlaceholder.BringToFront()
         UpdatePlaceholderVisibility()
 
+        ' === Agregar controles al UserControl ===
         Me.Controls.Add(lblError)
         Me.Controls.Add(pnlFondo)
         Me.Controls.Add(lblTitulo)
@@ -285,7 +292,7 @@ Public Class BaseTextBoxLabelUI
         Return path
     End Function
 
-    Private Sub OnPanelResize(sender As Object, e As EventArgs)
+    Public Sub OnPanelResize(sender As Object, e As EventArgs)
         ' Ajusta el txtCampo verticalmente
         Dim tieneIcono As Boolean = iconoDerecha.Visible
         Dim margenIcono = If(tieneIcono, iconoDerecha.Width + PaddingIzquierdaIcono, 10)
@@ -364,24 +371,23 @@ Public Class BaseTextBoxLabelUI
 #End Region
 
 #Region "VALIDACIONES"
-    ' === Validación básica (sobrescribible) ===
+
     Public Overridable Function EsValido() As Boolean
         Dim texto = txtCampo.Text.Trim()
         If CampoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
-            lblError.Text = MensajeError
-            lblError.Visible = True
+            MostrarError(MensajeError)
             Return False
         End If
 
         If MaxCaracteres > 0 AndAlso texto.Length > MaxCaracteres Then
-            lblError.Text = $"Máximo {MaxCaracteres} caracteres."
-            lblError.Visible = True
+            MostrarError($"No debe exceder {MaxCaracteres} caracteres.")
             Return False
         End If
 
         lblError.Visible = False
         Return True
     End Function
+
     Protected Sub MostrarError(mensaje As String)
         lblError.Text = mensaje
         lblError.Visible = True

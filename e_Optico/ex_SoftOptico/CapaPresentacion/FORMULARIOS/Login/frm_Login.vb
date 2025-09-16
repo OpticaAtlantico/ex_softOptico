@@ -4,6 +4,8 @@ Imports CapaEntidad
 Imports Microsoft.IdentityModel.Tokens
 Public Class frm_Login
 
+    Private llenarCombo As New LlenarComboBox
+
 #Region "Form Behaviors"
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
         MessageBoxUI.Mostrar("Cerrando el Sistema...", "Estas saliendo de la App Sistemas de Gestión para Óptica, Vuelve pronto... ", TipoMensaje.Informacion, Botones.Aceptar)
@@ -60,6 +62,8 @@ Public Class frm_Login
 
     Private Sub frm_Login_Load(sender As Object, e As EventArgs) Handles Me.Load
         FadeManagerUI.StartFade(Me, 0.02)
+        'LLENAR COMBO
+        llenarCombo.Cargar(cmbLocal, llenarCombo.SQL_LOCALIDAD, "NombreUbicacion", "UbicacionID")
     End Sub
 
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
@@ -68,24 +72,27 @@ Public Class frm_Login
 
     Private Sub IniciarApp()
         ' Validar todos los campos requeridos
-        Dim primerInvalido As TextBoxLabelUI = Nothing
+        Dim primerInvalido As Control = Nothing
         Dim esFormularioValido As Boolean = True
 
         For Each ctrl As Control In pnlContenido.Controls
-            If TypeOf ctrl Is TextBoxLabelUI Then
-                Dim campo As TextBoxLabelUI = CType(ctrl, TextBoxLabelUI)
+            ' Validamos si el control implementa la interfaz IValidable
+            If TypeOf ctrl Is IValidable Then
+                Dim campo As IValidable = CType(ctrl, IValidable)
                 If Not campo.EsValido() Then
                     esFormularioValido = False
-                    If primerInvalido Is Nothing Then primerInvalido = campo
+                    If primerInvalido Is Nothing Then primerInvalido = CType(ctrl, Control)
+                    Exit For
                 End If
             End If
         Next
 
         If Not esFormularioValido Then
-            MessageBoxUI.Mostrar("Campos Vacios...", "Hay campos obligatorios sin completar, por favor verifique", TipoMensaje.Advertencia, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Campos Vacíos...", "Hay campos obligatorios sin completar, por favor verifique", TipoMensaje.Advertencia, Botones.Aceptar)
             primerInvalido?.Focus()
             Exit Sub
         End If
+
 
         'VALIDA LOS USUARIOS Y CONTRASEÑAS
         Dim userModel As New Repositorio_Login
@@ -94,6 +101,7 @@ Public Class frm_Login
             MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
             txtUsuario.Text = vbEmpty
             txtPass.Text = vbEmpty
+            cmbLocal.cmbCampo.SelectedIndex = -1
             txtUsuario.Focus()
             Exit Sub
         End If
@@ -116,13 +124,14 @@ Public Class frm_Login
     Private Sub Logout(sender As Object, e As FormClosedEventArgs)
         txtUsuario.TextoValue = ""
         txtPass.TextoValue = ""
+        cmbLocal.cmbCampo.SelectedIndex = -1
         Me.Show()
     End Sub
 
-    Private Sub txtPass_CampoKeyPress(sender As Object, e As KeyPressEventArgs)
+    Private Sub txtPass_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUsuario.CampoKeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             e.Handled = True
-            IniciarApp()
+            cmbLocal.cmbCampo.Focus()
         End If
     End Sub
 
@@ -130,7 +139,5 @@ Public Class frm_Login
         AvanzarConEnter(e, CType(sender, Control), Me)
     End Sub
 
-    Private Sub pnlContenido_Paint(sender As Object, e As PaintEventArgs) Handles pnlContenido.Paint
 
-    End Sub
 End Class

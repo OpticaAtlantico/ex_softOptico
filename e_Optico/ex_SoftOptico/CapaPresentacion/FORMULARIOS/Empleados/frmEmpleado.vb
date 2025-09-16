@@ -142,7 +142,7 @@ Public Class frmEmpleado
         CargarCombos.CargarComboDesacoplado(cmbZona, GetType(Zona))
 
         'LLENAR COMBO
-        llenarCombo.Cargar(cmbCargo, llenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
+        'llenarCombo.Cargar(cmbCargo, llenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
     End Sub
 
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click

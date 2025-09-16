@@ -2,14 +2,9 @@
 
 Public Class EmailTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
+    Implements IValidable
 
-    Public Sub New()
-        MyBase.New()
-        lblTitulo.Text = "Correo electrónico:"
-        iconoDerecha.IconChar = IconChar.Envelope
-    End Sub
-
-    Public Overrides Function EsValido() As Boolean
+    Public Function EsValido() As Boolean Implements IValidable.EsValido
         If Not MyBase.EsValido() Then Return False
         Try
             Dim addr As New Net.Mail.MailAddress(txtCampo.Text.Trim())
@@ -20,4 +15,11 @@ Public Class EmailTextBoxLabelUI
             Return False
         End Try
     End Function
+
+    Public Sub New()
+        MyBase.New()
+        lblTitulo.Text = "Correo electrónico:"
+        iconoDerecha.IconChar = IconChar.Envelope
+    End Sub
+
 End Class
