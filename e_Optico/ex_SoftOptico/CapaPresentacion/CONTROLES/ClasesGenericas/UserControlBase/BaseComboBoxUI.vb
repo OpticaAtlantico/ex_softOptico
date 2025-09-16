@@ -304,7 +304,7 @@ Public Class BaseComboBoxUI
 #Region "PROCEDIMIENTO"
     ' === Placeholder visibility update ===
     Private Sub UpdatePlaceholderVisibility()
-        lblPlaceholder.Visible = Not cmbCampo.Focused AndAlso String.IsNullOrEmpty(cmbCampo.Text)
+        lblPlaceholder.Visible = (Not cmbCampo.Focused) AndAlso String.IsNullOrEmpty(cmbCampo.Text)
     End Sub
 
     Private Sub cmbCampo_SelectedIndexChanged(sender As Object, e As EventArgs)

@@ -60,6 +60,8 @@ Public Class frm_Login
 
 #End Region
 
+#Region "Formulario y Controles"
+
     Private Sub frm_Login_Load(sender As Object, e As EventArgs) Handles Me.Load
         FadeManagerUI.StartFade(Me, 0.02)
         'LLENAR COMBO
@@ -69,6 +71,22 @@ Public Class frm_Login
     Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         IniciarApp()
     End Sub
+    Private Sub Logout(sender As Object, e As FormClosedEventArgs)
+        txtUsuario.TextoValue = ""
+        txtPass.TextoValue = ""
+        cmbLocal.Limpiar()
+        Me.Show()
+    End Sub
+
+    Private Sub txtPass_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPass.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+    Private Sub txtUsuario_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUsuario.CampoKeyPress
+        AvanzarConEnter(e, CType(sender, Control), Me)
+    End Sub
+
+#End Region
 
     Private Sub IniciarApp()
         ' Validar todos los campos requeridos
@@ -93,15 +111,21 @@ Public Class frm_Login
             Exit Sub
         End If
 
-
         'VALIDA LOS USUARIOS Y CONTRASEÑAS
+        If cmbLocal.cmbCampo.SelectedIndex = -1 Then
+            MessageBoxUI.Mostrar("Datos incorrectos...", "Debe seleccionar una ubicación", TipoMensaje.Errors, Botones.Aceptar)
+            cmbLocal.Focus()
+            Exit Sub
+        End If
+
+        'Valida los datos del usuario
         Dim userModel As New Repositorio_Login
         Dim validUser = userModel.GetUserPass(txtUsuario.TextoValue, txtPass.TextoValue)
         If validUser.IsNullOrEmpty Then
             MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
             txtUsuario.Text = vbEmpty
             txtPass.Text = vbEmpty
-            cmbLocal.cmbCampo.SelectedIndex = -1
+            cmbLocal.Limpiar()
             txtUsuario.Focus()
             Exit Sub
         End If
@@ -114,6 +138,7 @@ Public Class frm_Login
         Sesion.NombreRol = Usuario.Permisos
         Sesion.NombreUbicacion = Usuario.Central
         Sesion.UsuarioID = Usuario.ID
+        Sesion.UbicacionID = cmbLocal.ValorSeleccionado
 
         Dim frm As New frm_Principal
         frm.Show()
@@ -121,23 +146,7 @@ Public Class frm_Login
         Hide()
     End Sub
 
-    Private Sub Logout(sender As Object, e As FormClosedEventArgs)
-        txtUsuario.TextoValue = ""
-        txtPass.TextoValue = ""
-        cmbLocal.cmbCampo.SelectedIndex = -1
-        Me.Show()
-    End Sub
 
-    Private Sub txtPass_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUsuario.CampoKeyPress
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            e.Handled = True
-            cmbLocal.cmbCampo.Focus()
-        End If
-    End Sub
-
-    Private Sub txtUsuario_CampoKeyPress(sender As Object, e As KeyPressEventArgs) Handles txtUsuario.CampoKeyPress
-        AvanzarConEnter(e, CType(sender, Control), Me)
-    End Sub
 
 
 End Class

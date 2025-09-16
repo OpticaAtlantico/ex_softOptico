@@ -55,14 +55,16 @@ Partial Class frm_Login
         cmbLocal.BackColor = Color.Transparent
         cmbLocal.CampoRequerido = False
         cmbLocal.ColorTitulo = Color.DarkSlateGray
+        cmbLocal.IndiceSeleccionado = -1
         cmbLocal.Location = New Point(559, 310)
         cmbLocal.MensajeError = "Este campo es requerido"
         cmbLocal.Name = "cmbLocal"
         cmbLocal.Placeholder = "Selecciones una Opción..."
         cmbLocal.PlaceholderColor = Color.Gray
         cmbLocal.Size = New Size(308, 80)
-        cmbLocal.TabIndex = 7
+        cmbLocal.TabIndex = 2
         cmbLocal.TextoLabel = "Establecimiento:"
+        cmbLocal.ValorSeleccionado = Nothing
         ' 
         ' txtPass
         ' 
@@ -82,9 +84,10 @@ Partial Class frm_Login
         txtPass.Placeholder = "Ingrese la contraseña..."
         txtPass.PlaceholderColor = Color.Gray
         txtPass.Size = New Size(308, 80)
-        txtPass.TabIndex = 6
+        txtPass.TabIndex = 1
         txtPass.TextoLabel = "Contraseña:"
         txtPass.TextoValue = ""
+        txtPass.ValidarComoCorreo = False
         ' 
         ' txtUsuario
         ' 
@@ -104,9 +107,10 @@ Partial Class frm_Login
         txtUsuario.Placeholder = "Ingrese el usuario..."
         txtUsuario.PlaceholderColor = Color.Gray
         txtUsuario.Size = New Size(308, 80)
-        txtUsuario.TabIndex = 5
+        txtUsuario.TabIndex = 0
         txtUsuario.TextoLabel = "Usuario:"
         txtUsuario.TextoValue = ""
+        txtUsuario.ValidarComoCorreo = False
         ' 
         ' btnOlvidePass
         ' 
@@ -139,7 +143,7 @@ Partial Class frm_Login
         btnAceptar.Name = "btnAceptar"
         btnAceptar.RadioBorde = 12
         btnAceptar.Size = New Size(266, 42)
-        btnAceptar.TabIndex = 2
+        btnAceptar.TabIndex = 3
         btnAceptar.Text = "CommandButtonui1"
         btnAceptar.Texto = "Aceptar"
         ' 

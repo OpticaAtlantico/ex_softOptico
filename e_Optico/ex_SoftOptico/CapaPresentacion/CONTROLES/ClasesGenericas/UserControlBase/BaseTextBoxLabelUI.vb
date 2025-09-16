@@ -18,6 +18,7 @@ Public Class BaseTextBoxLabelUI
     Private _borderColor As Color = AppColors._cBasePrimary
     Private _borderColorFocus As Color = AppColors._cBordeSel
     Private _borderColorError As Color = AppColors._cBordeError
+    Private _borderColorSuccess As Color = AppColors._cBaseSuccess
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
 
@@ -46,6 +47,7 @@ Public Class BaseTextBoxLabelUI
     Private _placeholderColor As Color = AppColors._cPlaceHolder
     Private _textColorNormal As Color = Color.Black
 
+    Private _validarComoCorreo As Boolean = False
 
 #End Region
 
@@ -62,6 +64,9 @@ Public Class BaseTextBoxLabelUI
 
     <Category("WilmerUI")>
     Public Property MaxCaracteres As Integer = 0
+
+    <Category("WilmerUI")>
+    Public Property MinCaracteres As Integer = 0
 
     <Category("WilmerUI")>
     Public Property CapitalizarTexto As Boolean = False
@@ -151,6 +156,17 @@ Public Class BaseTextBoxLabelUI
             Me.Invalidate()
         End Set
     End Property
+
+    'Validar el correo
+    Public Property ValidarComoCorreo As Boolean
+        Get
+            Return _validarComoCorreo
+        End Get
+        Set(value As Boolean)
+            _validarComoCorreo = value
+        End Set
+    End Property
+
 #End Region
 
 #Region "CONSTRUCTOR"
@@ -233,13 +249,15 @@ Public Class BaseTextBoxLabelUI
 
         ' Eventos
         AddHandler txtCampo.Enter, AddressOf OnEnterCampo
-        AddHandler txtCampo.Leave, AddressOf OnLeaveCampo
-        AddHandler txtCampo.TextChanged, AddressOf OnTextChangedCampo
+        AddHandler txtCampo.Leave, AddressOf ValidarCampoFinal
+        AddHandler txtCampo.TextChanged, AddressOf ValidarEnTiempoReal ' Para validar al cambiar texto
         AddHandler txtCampo.KeyPress, AddressOf OnKeyPressPropagado
         AddHandler pnlFondo.Paint, AddressOf DibujarFondoRedondeado
         AddHandler pnlFondo.Resize, AddressOf OnPanelResize
         AddHandler Me.Resize, AddressOf OnPanelResize
 
+        AddHandler txtCampo.Leave, AddressOf OnLeaveCampo ' Para validar al perder foco
+        AddHandler txtCampo.TextChanged, AddressOf OnTextChangedCampo
     End Sub
 #End Region
 
@@ -320,23 +338,27 @@ Public Class BaseTextBoxLabelUI
     ' === Eventos de foco ===
     Private Sub OnEnterCampo(sender As Object, e As EventArgs)
         _borderColor = _borderColorFocus
-        pnlFondo.Invalidate()
         UpdatePlaceholderVisibility()
+        pnlFondo.Invalidate()
     End Sub
 
     Private Sub OnLeaveCampo(sender As Object, e As EventArgs)
-        If Not EsValido() Then
+        EsValido()
+        If lblError.Visible Then
             _borderColor = _borderColorError
         Else
             _borderColor = AppColors._cBaseSuccess
             CapitalizarSiEsNecesario()
         End If
-        pnlFondo.Invalidate()
         UpdatePlaceholderVisibility()
+        pnlFondo.Invalidate()
     End Sub
 
     Private Sub OnTextChangedCampo(sender As Object, e As EventArgs)
-        UpdatePlaceholderVisibility()
+        If Not String.IsNullOrWhiteSpace(txtCampo.Text) Then
+            EsValido()
+        End If
+        'UpdatePlaceholderVisibility()
     End Sub
 
     Private Sub OnKeyPressPropagado(sender As Object, e As KeyPressEventArgs)
@@ -347,7 +369,7 @@ Public Class BaseTextBoxLabelUI
 #Region "PROCEDIMIENTO"
     ' === Placeholder visibility update ===
     Private Sub UpdatePlaceholderVisibility()
-        lblPlaceholder.Visible = Not txtCampo.Focused AndAlso String.IsNullOrEmpty(txtCampo.Text)
+        lblPlaceholder.Visible = (Not txtCampo.Focused) AndAlso String.IsNullOrEmpty(txtCampo.Text)
     End Sub
     Private Sub CapitalizarSiEsNecesario()
         If Not CapitalizarTexto Then Exit Sub
@@ -368,24 +390,63 @@ Public Class BaseTextBoxLabelUI
             End If
         End If
     End Sub
+    Private Function EsCorreoValido(correo As String) As Boolean
+        Try
+            Dim addr As New System.Net.Mail.MailAddress(correo)
+            Return addr.Address = correo
+        Catch
+            Return False
+        End Try
+    End Function
+    Private Sub ValidarCampoFinal(sender As Object, e As EventArgs)
+        CapitalizarSiEsNecesario()
+        EsValido()
+    End Sub
+    Private Sub ValidarEnTiempoReal(sender As Object, e As EventArgs)
+        EsValido()
+    End Sub
 #End Region
 
 #Region "VALIDACIONES"
 
     Public Overridable Function EsValido() As Boolean
-        Dim texto = txtCampo.Text.Trim()
-        If CampoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
-            MostrarError(MensajeError)
-            Return False
+        Dim texto As String = txtCampo.Text.Trim()
+        Dim mensajeError As String = ""
+        Dim _esValido As Boolean = True
+
+        ' === Campo requerido ===
+        If _CampoRequerido AndAlso String.IsNullOrWhiteSpace(texto) Then
+            mensajeError = _MensajeError
+            _esValido = False
+
+            ' === Validar como correo si aplica ===
+        ElseIf ValidarComoCorreo AndAlso Not EsCorreoValido(texto) Then
+            mensajeError = AppMensajes.msgCorreoInvalido
+            _esValido = False
+
+            ' === Validar longitud máxima ===
+        ElseIf _MaxCaracteres > 0 AndAlso texto.Length > _MaxCaracteres Then
+            mensajeError = $"Máximo {_MaxCaracteres} caracteres."
+            _esValido = False
+
+            ' === Validar longitud mínima ===
+        ElseIf _MinCaracteres > 0 AndAlso texto.Length < _MinCaracteres Then
+            mensajeError = $"Mínimo {_MinCaracteres} caracteres."
+            _esValido = False
         End If
 
-        If MaxCaracteres > 0 AndAlso texto.Length > MaxCaracteres Then
-            MostrarError($"No debe exceder {MaxCaracteres} caracteres.")
-            Return False
+        ' === Mostrar resultado visual ===
+        If Not _esValido Then
+            lblError.Text = mensajeError
+            lblError.Visible = True
+            _borderColor = _colorError
+        Else
+            lblError.Visible = False
+            _borderColor = _borderColorSuccess
         End If
 
-        lblError.Visible = False
-        Return True
+        pnlFondo.Invalidate()
+        Return _esValido
     End Function
 
     Protected Sub MostrarError(mensaje As String)
@@ -398,7 +459,7 @@ Public Class BaseTextBoxLabelUI
     Protected Sub OcultarError()
         lblError.Text = ""
         lblError.Visible = False
-        _borderColor = AppColors._cBasePrimary
+        _borderColor = _borderColorSuccess
         pnlFondo.Invalidate()
     End Sub
 

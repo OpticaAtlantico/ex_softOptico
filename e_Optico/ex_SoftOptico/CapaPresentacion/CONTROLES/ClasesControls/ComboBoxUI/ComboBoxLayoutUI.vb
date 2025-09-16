@@ -12,7 +12,18 @@ Public Class ComboBoxLayoutUI
         lblTitulo.Text = "Texto:"
         Me.Placeholder = "Selecciones una Opcion..."
     End Sub
+#End Region
 
+#Region "PROCEDIMIENTOS DEL COMBO"
+    Protected Overrides Sub OnEnter(e As EventArgs)
+        MyBase.OnEnter(e)
+        ' 🔹 Siempre que el control compuesto recibe el foco, 
+        ' lo pasamos directamente al cmbCampo
+        cmbCampo.Focus()
+    End Sub
+#End Region
+
+#Region "VALIDACIONES"
     Public Function EsValido() As Boolean Implements IValidable.EsValido
         If Not MyBase.EsValido() Then Return False
         If cmbCampo.Text.Length < 5 Then
@@ -24,6 +35,7 @@ Public Class ComboBoxLayoutUI
         End If
         Return True
     End Function
+
 #End Region
 
 
