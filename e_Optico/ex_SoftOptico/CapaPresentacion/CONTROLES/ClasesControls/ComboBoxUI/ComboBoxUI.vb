@@ -6,15 +6,26 @@ Imports System.Windows.Forms
 Public Class ComboBoxUI
     Inherits ComboBox
 
+    Public Enum BorderState
+        Normal
+        Focus
+        Success
+        ErrorState
+    End Enum
+
     Private _borderColor As Color = AppColors._cBorde
     Private _focusColor As Color = AppColors._cBordeSel
+    Private _successColor As Color = AppColors._cBaseSuccess
+    Private _errorColor As Color = AppColors._cBordeError
+
     Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
-    Private _hasFocus As Boolean = False
     Private _backgroundColor As Color = AppColors._cBlanco
     Private _textColor As Color = AppColors._cTexto
 
     Private _shadowColor As Color = AppColors._cPanelSombracolor
     Private _shadowSize As Integer = 3
+
+    Private _state As BorderState = BorderState.Normal
 
 #Region "CONSTRUCTOR"
     Public Sub New()
@@ -36,6 +47,16 @@ Public Class ComboBoxUI
 
 #Region "PROPIEDADES"
     ' Propiedades orbitales
+    <Category("UI Estilo")>
+    Public Property BorderMode As BorderState
+        Get
+            Return _state
+        End Get
+        Set(value As BorderState)
+            _state = value
+            Me.Invalidate()
+        End Set
+    End Property
     <Category("UI Estilo")>
     Public Property BorderColor As Color
         Get
@@ -130,6 +151,27 @@ Public Class ComboBoxUI
         End Get
     End Property
 
+    <Category("UI Estilo")>
+    Public Property SuccessColor As Color
+        Get
+            Return _successColor
+        End Get
+        Set(value As Color)
+            _successColor = value
+            Me.Invalidate()
+        End Set
+    End Property
+
+    <Category("UI Estilo")>
+    Public Property ErrorColor As Color
+        Get
+            Return _errorColor
+        End Get
+        Set(value As Color)
+            _errorColor = value
+            Me.Invalidate()
+        End Set
+    End Property
 #End Region
 
 #Region "DIBUJO"
@@ -158,9 +200,16 @@ Public Class ComboBoxUI
                 pe.Graphics.FillPath(fondoBrush, pathCard)
             End Using
 
-            ' 🔹 Borde dinámico
-            Dim penColor = If(_hasFocus, _focusColor, _borderColor)
-            Using pen As New Pen(penColor, 1.5F)
+            ' 🔹 Borde según estado
+            Dim penColor As Color
+            Select Case _state
+                Case BorderState.Focus : penColor = _focusColor
+                Case BorderState.Success : penColor = _successColor
+                Case BorderState.ErrorState : penColor = _errorColor
+                Case Else : penColor = _borderColor
+            End Select
+
+            Using pen As New Pen(penColor, 1)
                 pe.Graphics.DrawPath(pen, pathCard)
             End Using
         End Using
@@ -169,11 +218,11 @@ Public Class ComboBoxUI
         If Me.SelectedIndex >= 0 Then
             Dim textRect As New Rectangle(10, 0, Me.Width - 30, Me.Height)
             TextRenderer.DrawText(pe.Graphics,
-                              Me.GetItemText(Me.SelectedItem),
-                              Me.Font,
-                              textRect,
-                              Color.Black,
-                              TextFormatFlags.VerticalCenter)
+                                  Me.GetItemText(Me.SelectedItem),
+                                  Me.Font,
+                                  textRect,
+                                  _textColor,
+                                  TextFormatFlags.VerticalCenter)
         End If
 
         ' 🔹 Flecha orbital personalizada
@@ -204,7 +253,7 @@ Public Class ComboBoxUI
         TextRenderer.DrawText(e.Graphics, itemText, Me.Font, e.Bounds, _textColor, TextFormatFlags.Left Or TextFormatFlags.VerticalCenter)
 
         ' Opcional: borde inferior orbital entre ítems
-        Using bordePen As New Pen(Color.LightGray)
+        Using bordePen As New Pen(_borderColor)
             e.Graphics.DrawLine(bordePen, e.Bounds.Left, e.Bounds.Bottom - 1, e.Bounds.Right, e.Bounds.Bottom - 1)
         End Using
 
@@ -226,14 +275,16 @@ Public Class ComboBoxUI
 #Region "EVENTOS INTERNOS"
     Protected Overrides Sub OnGotFocus(e As EventArgs)
         MyBase.OnGotFocus(e)
-        _hasFocus = True
-        Me.Invalidate()
+        Me.BorderMode = BorderState.Focus
     End Sub
 
     Protected Overrides Sub OnLostFocus(e As EventArgs)
         MyBase.OnLostFocus(e)
-        _hasFocus = False
-        Me.Invalidate()
+        If Me.SelectedIndex >= 0 Then
+            Me.BorderMode = BorderState.Success
+        Else
+            Me.BorderMode = BorderState.Normal
+        End If
     End Sub
 #End Region
 

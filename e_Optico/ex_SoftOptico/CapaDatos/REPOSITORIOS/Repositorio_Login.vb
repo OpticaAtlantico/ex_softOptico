@@ -54,7 +54,9 @@ Public Class Repositorio_Login
                 .Cargo = Convert.ToString(row("Cargo")),
                 .Correo = Convert.ToString(row("Correo")),
                 .Central = Convert.ToString(row("Central")),
+                .UbicacionID = Convert.ToString(row("UbicacionID")),
                 .Clasificacion = Convert.ToString(row("Clasificacion")),
+                .Direccion = Convert.ToString(row("Direccion")),
                 .Permisos = Convert.ToString(row("Permisos")),
                 .Estado = Convert.ToBoolean(row("Estado"))
             }

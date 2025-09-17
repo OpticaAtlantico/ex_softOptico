@@ -58,6 +58,8 @@ CREATE OR ALTER VIEW VLogin AS
             , E.Apellido
             , C.Descripcion AS Cargo
             , E.Correo
+            , U.UbicacionID
+            , U.Direccion 
             , U.NombreUbicacion AS Central
             , U.TipoUbicacion AS Clasificacion
             , R.Descripcion AS Permisos

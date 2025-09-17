@@ -26,13 +26,6 @@ Public Class ComboBoxLayoutUI
 #Region "VALIDACIONES"
     Public Function EsValido() As Boolean Implements IValidable.EsValido
         If Not MyBase.EsValido() Then Return False
-        If cmbCampo.Text.Length < 5 Then
-            MostrarError("Debe tener al menos 5 caracteres.")
-            Return False
-        ElseIf cmbCampo.Text.Length = 0 Then
-            MostrarError(AppMensajes.msgCampoRequerido)
-            Return False
-        End If
         Return True
     End Function
 

@@ -13,10 +13,6 @@ Public Class TextOnlyTextBoxLabelUI
     End Sub
     Public Function EsValido() As Boolean Implements IValidable.EsValido
         If Not MyBase.EsValido() Then Return False
-        'If txtCampo.Text.Length = 0 Then
-        '    MostrarError(AppMensajes.msgCampoRequerido)
-        '    Return False
-        'End If
         Return True
     End Function
 

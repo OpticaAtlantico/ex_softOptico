@@ -25,6 +25,9 @@ Partial Class frm_Principal
         components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Principal))
         pnlEncabezado = New Panel()
+        Panel1 = New Panel()
+        lblDireccion = New Label()
+        lblLocal = New Label()
         pnlBotones = New Panel()
         btnSalir = New FontAwesome.Sharp.IconButton()
         btnMaximizar = New FontAwesome.Sharp.IconButton()
@@ -55,6 +58,7 @@ Partial Class frm_Principal
         pnlContenedor = New Panel()
         DrawerTimer = New Timer(components)
         pnlEncabezado.SuspendLayout()
+        Panel1.SuspendLayout()
         pnlBotones.SuspendLayout()
         pnlRol.SuspendLayout()
         pnlLogoUser.SuspendLayout()
@@ -68,6 +72,7 @@ Partial Class frm_Principal
         ' pnlEncabezado
         ' 
         pnlEncabezado.BackColor = Color.FromArgb(CByte(54), CByte(116), CByte(164))
+        pnlEncabezado.Controls.Add(Panel1)
         pnlEncabezado.Controls.Add(pnlBotones)
         pnlEncabezado.Controls.Add(pnlRol)
         pnlEncabezado.Controls.Add(pnlLogoUser)
@@ -78,8 +83,40 @@ Partial Class frm_Principal
         pnlEncabezado.Location = New Point(0, 0)
         pnlEncabezado.Name = "pnlEncabezado"
         pnlEncabezado.Padding = New Padding(5)
-        pnlEncabezado.Size = New Size(1274, 64)
+        pnlEncabezado.Size = New Size(1367, 64)
         pnlEncabezado.TabIndex = 0
+        ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(lblDireccion)
+        Panel1.Controls.Add(lblLocal)
+        Panel1.Dock = DockStyle.Left
+        Panel1.Location = New Point(890, 5)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(270, 54)
+        Panel1.TabIndex = 6
+        ' 
+        ' lblDireccion
+        ' 
+        lblDireccion.AutoSize = True
+        lblDireccion.Font = New Font("Segoe UI Light", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblDireccion.ForeColor = Color.WhiteSmoke
+        lblDireccion.Location = New Point(14, 30)
+        lblDireccion.Name = "lblDireccion"
+        lblDireccion.Size = New Size(52, 15)
+        lblDireccion.TabIndex = 0
+        lblDireccion.Text = "Dirección"
+        ' 
+        ' lblLocal
+        ' 
+        lblLocal.AutoSize = True
+        lblLocal.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        lblLocal.ForeColor = Color.WhiteSmoke
+        lblLocal.Location = New Point(14, 10)
+        lblLocal.Name = "lblLocal"
+        lblLocal.Size = New Size(52, 17)
+        lblLocal.TabIndex = 0
+        lblLocal.Text = "Local:"
         ' 
         ' pnlBotones
         ' 
@@ -87,7 +124,7 @@ Partial Class frm_Principal
         pnlBotones.Controls.Add(btnMaximizar)
         pnlBotones.Controls.Add(btnMinimizar)
         pnlBotones.Dock = DockStyle.Right
-        pnlBotones.Location = New Point(1139, 5)
+        pnlBotones.Location = New Point(1232, 5)
         pnlBotones.Name = "pnlBotones"
         pnlBotones.Size = New Size(130, 54)
         pnlBotones.TabIndex = 5
@@ -146,13 +183,13 @@ Partial Class frm_Principal
         pnlRol.Dock = DockStyle.Left
         pnlRol.Location = New Point(620, 5)
         pnlRol.Name = "pnlRol"
-        pnlRol.Size = New Size(439, 54)
+        pnlRol.Size = New Size(270, 54)
         pnlRol.TabIndex = 4
         ' 
         ' lblCargo
         ' 
         lblCargo.AutoSize = True
-        lblCargo.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        lblCargo.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         lblCargo.ForeColor = Color.WhiteSmoke
         lblCargo.Location = New Point(14, 30)
         lblCargo.Name = "lblCargo"
@@ -163,11 +200,11 @@ Partial Class frm_Principal
         ' lblUsuario
         ' 
         lblUsuario.AutoSize = True
-        lblUsuario.Font = New Font("Century Gothic", 10.0F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
+        lblUsuario.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
         lblUsuario.ForeColor = Color.WhiteSmoke
         lblUsuario.Location = New Point(14, 10)
         lblUsuario.Name = "lblUsuario"
-        lblUsuario.Size = New Size(68, 17)
+        lblUsuario.Size = New Size(69, 17)
         lblUsuario.TabIndex = 0
         lblUsuario.Text = "Nombre:"
         ' 
@@ -189,7 +226,7 @@ Partial Class frm_Principal
         imgUser.IconChar = FontAwesome.Sharp.IconChar.UserShield
         imgUser.IconColor = Color.WhiteSmoke
         imgUser.IconFont = FontAwesome.Sharp.IconFont.Solid
-        imgUser.IconSize = 60
+        imgUser.IconSize = 54
         imgUser.Location = New Point(0, 0)
         imgUser.Margin = New Padding(0)
         imgUser.Name = "imgUser"
@@ -212,7 +249,7 @@ Partial Class frm_Principal
         lblTitulo.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblTitulo.ColorTexto = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Fill
-        lblTitulo.Font = New Font("Century Gothic", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblTitulo.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTitulo.Icono = FontAwesome.Sharp.IconChar.Eye
         lblTitulo.Location = New Point(0, 0)
         lblTitulo.MostrarSeparador = False
@@ -288,7 +325,7 @@ Partial Class frm_Principal
         pnlMenu.Controls.Add(btnVenta)
         pnlMenu.Controls.Add(btnInventario)
         pnlMenu.Dock = DockStyle.Left
-        pnlMenu.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        pnlMenu.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         pnlMenu.Location = New Point(0, 64)
         pnlMenu.Name = "pnlMenu"
         pnlMenu.Size = New Size(55, 562)
@@ -299,7 +336,7 @@ Partial Class frm_Principal
         btnAjustes.Dock = DockStyle.Top
         btnAjustes.FlatAppearance.BorderSize = 0
         btnAjustes.FlatStyle = FlatStyle.Flat
-        btnAjustes.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAjustes.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAjustes.ForeColor = Color.WhiteSmoke
         btnAjustes.IconChar = FontAwesome.Sharp.IconChar.Cog
         btnAjustes.IconColor = Color.WhiteSmoke
@@ -318,7 +355,7 @@ Partial Class frm_Principal
         btnAnalisis.Dock = DockStyle.Top
         btnAnalisis.FlatAppearance.BorderSize = 0
         btnAnalisis.FlatStyle = FlatStyle.Flat
-        btnAnalisis.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAnalisis.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAnalisis.ForeColor = Color.WhiteSmoke
         btnAnalisis.IconChar = FontAwesome.Sharp.IconChar.ListAlt
         btnAnalisis.IconColor = Color.WhiteSmoke
@@ -337,7 +374,7 @@ Partial Class frm_Principal
         btnReporte.Dock = DockStyle.Top
         btnReporte.FlatAppearance.BorderSize = 0
         btnReporte.FlatStyle = FlatStyle.Flat
-        btnReporte.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnReporte.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnReporte.ForeColor = Color.WhiteSmoke
         btnReporte.IconChar = FontAwesome.Sharp.IconChar.Newspaper
         btnReporte.IconColor = Color.WhiteSmoke
@@ -356,7 +393,7 @@ Partial Class frm_Principal
         btnNomina.Dock = DockStyle.Top
         btnNomina.FlatAppearance.BorderSize = 0
         btnNomina.FlatStyle = FlatStyle.Flat
-        btnNomina.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnNomina.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnNomina.ForeColor = Color.WhiteSmoke
         btnNomina.IconChar = FontAwesome.Sharp.IconChar.ContactBook
         btnNomina.IconColor = Color.WhiteSmoke
@@ -375,7 +412,7 @@ Partial Class frm_Principal
         btnComision.Dock = DockStyle.Top
         btnComision.FlatAppearance.BorderSize = 0
         btnComision.FlatStyle = FlatStyle.Flat
-        btnComision.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnComision.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnComision.ForeColor = Color.WhiteSmoke
         btnComision.IconChar = FontAwesome.Sharp.IconChar.MoneyCheck
         btnComision.IconColor = Color.WhiteSmoke
@@ -394,7 +431,7 @@ Partial Class frm_Principal
         btnEmpleado.Dock = DockStyle.Top
         btnEmpleado.FlatAppearance.BorderSize = 0
         btnEmpleado.FlatStyle = FlatStyle.Flat
-        btnEmpleado.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnEmpleado.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEmpleado.ForeColor = Color.WhiteSmoke
         btnEmpleado.IconChar = FontAwesome.Sharp.IconChar.Users
         btnEmpleado.IconColor = Color.WhiteSmoke
@@ -413,7 +450,7 @@ Partial Class frm_Principal
         btnProveedor.Dock = DockStyle.Top
         btnProveedor.FlatAppearance.BorderSize = 0
         btnProveedor.FlatStyle = FlatStyle.Flat
-        btnProveedor.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnProveedor.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnProveedor.ForeColor = Color.WhiteSmoke
         btnProveedor.IconChar = FontAwesome.Sharp.IconChar.Handshake
         btnProveedor.IconColor = Color.WhiteSmoke
@@ -432,7 +469,7 @@ Partial Class frm_Principal
         btnCompra.Dock = DockStyle.Top
         btnCompra.FlatAppearance.BorderSize = 0
         btnCompra.FlatStyle = FlatStyle.Flat
-        btnCompra.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCompra.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnCompra.ForeColor = Color.WhiteSmoke
         btnCompra.IconChar = FontAwesome.Sharp.IconChar.ShoppingBag
         btnCompra.IconColor = Color.WhiteSmoke
@@ -451,7 +488,7 @@ Partial Class frm_Principal
         btnVenta.Dock = DockStyle.Top
         btnVenta.FlatAppearance.BorderSize = 0
         btnVenta.FlatStyle = FlatStyle.Flat
-        btnVenta.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnVenta.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnVenta.ForeColor = Color.WhiteSmoke
         btnVenta.IconChar = FontAwesome.Sharp.IconChar.CartShopping
         btnVenta.IconColor = Color.WhiteSmoke
@@ -470,7 +507,7 @@ Partial Class frm_Principal
         btnInventario.Dock = DockStyle.Top
         btnInventario.FlatAppearance.BorderSize = 0
         btnInventario.FlatStyle = FlatStyle.Flat
-        btnInventario.Font = New Font("Century Gothic", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnInventario.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnInventario.ForeColor = Color.WhiteSmoke
         btnInventario.IconChar = FontAwesome.Sharp.IconChar.Truck
         btnInventario.IconColor = Color.WhiteSmoke
@@ -501,7 +538,7 @@ Partial Class frm_Principal
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(55, 64)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1219, 562)
+        pnlContenedor.Size = New Size(1312, 562)
         pnlContenedor.TabIndex = 3
         ' 
         ' DrawerTimer
@@ -512,7 +549,7 @@ Partial Class frm_Principal
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1274, 626)
+        ClientSize = New Size(1367, 626)
         Controls.Add(pnlContenedor)
         Controls.Add(pnlDrawer)
         Controls.Add(pnlMenu)
@@ -522,6 +559,8 @@ Partial Class frm_Principal
         Text = "Principal"
         WindowState = FormWindowState.Maximized
         pnlEncabezado.ResumeLayout(False)
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
         pnlBotones.ResumeLayout(False)
         pnlRol.ResumeLayout(False)
         pnlRol.PerformLayout()
@@ -564,4 +603,7 @@ Partial Class frm_Principal
     Friend WithEvents btnSalir As FontAwesome.Sharp.IconButton
     Friend WithEvents btnAjustes As FontAwesome.Sharp.IconButton
     Friend WithEvents btnAnalisis As FontAwesome.Sharp.IconButton
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents lblDireccion As Label
+    Friend WithEvents lblLocal As Label
 End Class

@@ -138,7 +138,7 @@ Public Class frm_Login
         Sesion.NombreRol = Usuario.Permisos
         Sesion.NombreUbicacion = Usuario.Central
         Sesion.UsuarioID = Usuario.ID
-        Sesion.UbicacionID = cmbLocal.ValorSeleccionado
+        Sesion.UbicacionID = Usuario.UbicacionID
 
         Dim frm As New frm_Principal
         frm.Show()

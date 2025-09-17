@@ -697,6 +697,8 @@ Public Class frm_Principal
 
         lblUsuario.Text = Sesion.NombreUsuario
         lblCargo.Text = Sesion.Cargo
+        lblLocal.Text = Sesion.NombreUbicacion
+        lblDireccion.Text = Sesion.Direccion
 
         lblTitulo.Icono = IconChar.Eye
 

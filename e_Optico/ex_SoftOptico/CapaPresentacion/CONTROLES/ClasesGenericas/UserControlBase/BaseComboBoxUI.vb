@@ -18,6 +18,7 @@ Public Class BaseComboBoxUI
     Private _borderColor As Color = AppColors._cBasePrimary
     Private _borderColorFocus As Color = AppColors._cBordeSel
     Private _borderColorError As Color = AppColors._cBordeError
+    Private _borderColorSuccess As Color = AppColors._cBaseSuccess
     Private _borderSize As Integer = AppLayout.BorderSizeMediun
     Private _borderRadius As Integer = AppLayout.BorderRadiusStandar
     Private _mostrarError As Boolean = False
@@ -187,6 +188,7 @@ Public Class BaseComboBoxUI
         ' === ComboBox ===
         cmbCampo.Dock = DockStyle.Fill
         cmbCampo.ForeColor = Color.Black
+        cmbCampo.BorderColor = _borderColor  ' Sin borde propio
         pnlFondo.Controls.Add(cmbCampo)
 
         ' === Label de error ===
@@ -224,12 +226,16 @@ Public Class BaseComboBoxUI
         AddHandler pnlFondo.Resize, AddressOf OnPanelResize
         AddHandler Me.Resize, AddressOf OnPanelResize
 
+        AddHandler cmbCampo.Enter, Sub()
+                                       UpdatePlaceholderVisibility()
+                                       pnlFondo.Invalidate()
+                                   End Sub
+
         AddHandler cmbCampo.Leave, Sub()
                                        If CampoRequerido Then EsValido()
+                                       pnlFondo.Invalidate()
                                    End Sub
-        AddHandler cmbCampo.Enter, Sub()
-                                       If cmbCampo.Focused Then UpdatePlaceholderVisibility()
-                                   End Sub
+
         AddHandler cmbCampo.SelectedIndexChanged, AddressOf cmbCampo_SelectedIndexChanged
         AddHandler cmbCampo.SelectionChangeCommitted, AddressOf cmbCampo_SelectionChangeCommitted
 
@@ -263,7 +269,18 @@ Public Class BaseComboBoxUI
             End Using
 
             ' === Borde ===
-            Dim penColor As Color = If(lblError.Visible, _borderColorError, _borderColor)
+            Dim penColor As Color
+
+            If lblError.Visible Then
+                penColor = _borderColorError
+            ElseIf cmbCampo.SelectedIndex >= 0 Then
+                penColor = _borderColorSuccess   ' ✅ Verde cuando hay selección
+            ElseIf cmbCampo.Focused Then
+                penColor = _borderColorFocus     ' ✅ Azul cuando tiene foco pero aún no seleccionaste
+            Else
+                penColor = _borderColor          ' ✅ Color base
+            End If
+
             If _borderSize > 0 Then
                 Using pen As New Pen(penColor, _borderSize)
                     e.Graphics.DrawPath(pen, pathPanel)
@@ -307,16 +324,18 @@ Public Class BaseComboBoxUI
         lblPlaceholder.Visible = (Not cmbCampo.Focused) AndAlso String.IsNullOrEmpty(cmbCampo.Text)
     End Sub
 
-    Private Sub cmbCampo_SelectedIndexChanged(sender As Object, e As EventArgs)
-        If cargarCombo Then Exit Sub
-        RaiseEvent SelectedIndexChangedCustom(Me, e)
-    End Sub
-
     Private Sub cmbCampo_SelectionChangeCommitted(sender As Object, e As EventArgs)
         If cargarCombo Then Exit Sub
         RaiseEvent SelectionChangeCommittedCustom(Me, e)
     End Sub
+    Private Sub cmbCampo_SelectedIndexChanged(sender As Object, e As EventArgs)
+        If cargarCombo Then Exit Sub
 
+        ' 🔹 Repinta el borde al seleccionar
+        pnlFondo.Invalidate()
+
+        RaiseEvent SelectedIndexChangedCustom(Me, e)
+    End Sub
 #End Region
 
 #Region "Métodos Públicos"
@@ -361,14 +380,14 @@ Public Class BaseComboBoxUI
     Protected Sub MostrarError(mensaje As String)
         lblError.Text = mensaje
         lblError.Visible = True
-        _borderColor = _colorError
+        cmbCampo.BorderMode = ComboBoxUI.BorderState.ErrorState
         pnlFondo.Invalidate()
     End Sub
 
     Protected Sub OcultarError()
         lblError.Text = ""
         lblError.Visible = False
-        _borderColor = AppColors._cBaseSuccess
+        cmbCampo.BorderMode = ComboBoxUI.BorderState.Success
         pnlFondo.Invalidate()
     End Sub
 
