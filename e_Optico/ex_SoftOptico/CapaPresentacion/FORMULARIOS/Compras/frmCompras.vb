@@ -82,11 +82,11 @@ Public Class frmCompras
                     txtNumeroFactura.TextoUsuario = ._nFactura.ToString()
                     txtFechaEmision.FechaSeleccionada = ._fecha
                     cmbProveedor.OrbitalCombo.Text = ._proveedor.ToString()
-                    txtDomicilio.TextoUsuario = ._direccion.ToString()
+                    txtDomicilio.TextString = ._direccion.ToString()
                     txtRifCI.TextoUsuario = ._rif.ToString()
                     txtTelefonos.TextoUsuario = ._telefono.ToString()
                     cmbTipoPago.OrbitalCombo.Text = ._tPago.ToString()
-                    txtObservacion.TextoUsuario = ._observacion.ToString()
+                    txtObservacion.TextString = ._observacion.ToString()
 
                     ' --- DETALLE ---
                     grvCompras.LimpiarGrid()
@@ -151,12 +151,12 @@ Public Class frmCompras
                 If datos IsNot Nothing Then
                     txtTelefonos.TextoUsuario = datos._telefono
                     txtRifCI.TextoUsuario = datos._rif
-                    txtDomicilio.TextoUsuario = datos._direccion
+                    txtDomicilio.TextString = datos._direccion
                 Else
                     ' Limpiar campos si no se encuentra el proveedor
                     txtTelefonos.TextoUsuario = String.Empty
                     txtRifCI.TextoUsuario = String.Empty
-                    txtDomicilio.TextoUsuario = String.Empty
+                    txtDomicilio.TextString = String.Empty
                 End If
 
             End If
@@ -196,7 +196,7 @@ Public Class frmCompras
             Dim nfactura = txtNumeroFactura.TextoUsuario.Trim
             Dim fecha As Date = txtFechaEmision.FechaSeleccionada
             Dim proveedor = cmbProveedor.TextoSeleccionado.Trim
-            Dim domicilio = txtDomicilio.TextoUsuario.Trim
+            Dim domicilio = txtDomicilio.TextString.Trim
             Dim rif = txtRifCI.TextoUsuario.Trim
             Dim telefono = txtTelefonos.TextoUsuario.Trim
             Dim tipoPago = cmbTipoPago.TextoSeleccionado.Trim
@@ -268,7 +268,7 @@ Public Class frmCompras
 
             ElseIf TypeOf ctrl Is MultilineTextBoxLabelUI Then
                 Dim c = CType(ctrl, MultilineTextBoxLabelUI)
-                c.TextoUsuario = ""
+                c.TextString = ""
 
             ElseIf TypeOf ctrl Is ToggleSwitchUI Then
                 CType(ctrl, ToggleSwitchUI).Checked = False
@@ -352,7 +352,7 @@ Public Class frmCompras
                     .UbicacionDestinoID = CInt(cmbSucursal.ItemSeleccionado.Valor),
                     .ProveedorID = CInt(cmbProveedor.ItemSeleccionado.Valor),
                     .TipoPagoID = CInt(cmbTipoPago.ItemSeleccionado.Valor),
-                    .Observacion = txtObservacion.TextoUsuario.Trim(),
+                    .Observacion = txtObservacion.TextString.Trim(),
                     .TotalCompra = grvCompras.CalcularTotal(),
                     .Detalle = grvCompras.GetDetalleList()
                 }

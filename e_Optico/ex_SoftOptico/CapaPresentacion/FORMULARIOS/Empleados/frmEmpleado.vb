@@ -142,7 +142,7 @@ Public Class frmEmpleado
         CargarCombos.CargarComboDesacoplado(cmbZona, GetType(Zona))
 
         'LLENAR COMBO
-        'llenarCombo.Cargar(cmbCargo, llenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
+        llenarCombo.Cargar(cmbCargo, llenarCombo.SQL_CARGOEMPLEADOS, "Descripcion", "CargoEmpleadoID")
     End Sub
 
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
@@ -196,38 +196,54 @@ Public Class frmEmpleado
         End Select
     End Sub
 
-    Private Sub LimpiarControles(container As Control)
-        container.SuspendLayout()
+    'Private Sub LimpiarControles(container As Control)
+    '    container.SuspendLayout()
 
-        For Each ctrl As Control In container.Controls
-            If TypeOf ctrl Is TextBoxLabelUI Then
-                Dim c = CType(ctrl, TextBoxLabelUI)
-                c.TextoUsuario = ""
+    '    'For Each ctrl As Control In container.Controls
+    '    '    If TypeOf ctrl Is NumericTextBoxLabelUI Then
+    '    '        Dim c = CType(ctrl, NumericTextBoxLabelUI)
+    '    '        c.TextString = ""
 
-            ElseIf TypeOf ctrl Is ComboBoxLabelUI Then
-                Dim c = CType(ctrl, ComboBoxLabelUI)
-                c.Limpiar()
+    '    '    ElseIf TypeOf ctrl Is TextOnlyTextBoxLabelUI Then
+    '    '        Dim c = CType(ctrl, TextOnlyTextBoxLabelUI)
+    '    '        c.TextString = ""
 
-            ElseIf TypeOf ctrl Is MaskedTextBoxLabelUI Then
-                Dim c = CType(ctrl, MaskedTextBoxLabelUI)
-                c.TextoUsuario = ""
+    '    '    ElseIf TypeOf ctrl Is EmailTextBoxLabelUI Then
+    '    '        Dim c = CType(ctrl, EmailTextBoxLabelUI)
+    '    '        c.TextString = ""
 
-            ElseIf TypeOf ctrl Is MultilineTextBoxLabelUI Then
-                Dim c = CType(ctrl, MultilineTextBoxLabelUI)
-                c.TextoUsuario = ""
+    '    '    ElseIf TypeOf ctrl Is ComboBoxLayoutUI Then
+    '    '        Dim c = CType(ctrl, ComboBoxLayoutUI)
+    '    '        c.Limpiar()
 
-            ElseIf TypeOf ctrl Is ToggleSwitchUI Then
-                CType(ctrl, ToggleSwitchUI).Checked = False
+    '    '    ElseIf TypeOf ctrl Is MultilineTextBoxLabelUI Then
+    '    '        Dim c = CType(ctrl, MultilineTextBoxLabelUI)
+    '    '        c.TextString = ""
 
-            ElseIf ctrl.HasChildren Then
-                ' Llamada recursiva para paneles o groupboxes
-                LimpiarControles(ctrl)
-            End If
-        Next
+    '    '    ElseIf TypeOf ctrl Is CheckBoxLabelUI Then
+    '    '        CType(ctrl, CheckBoxLabelUI).Checked = False
 
-        container.ResumeLayout()
-        container.PerformLayout()
-    End Sub
+    '    '    ElseIf ctrl.HasChildren Then
+    '    '        ' Llamada recursiva para paneles o groupboxes
+    '    '        LimpiarControles(ctrl)
+    '    '    End If
+    '    'Next
+
+    '    For Each ctrl As Control In container.Controls
+    '        ' Si el control implementa ILimpiable, lo limpiamos
+    '        If TypeOf ctrl Is ILimpiable Then
+    '            DirectCast(ctrl, ILimpiable).Limpiar()
+    '        End If
+
+    '        ' Si tiene hijos, entramos en ellos
+    '        If ctrl.HasChildren Then
+    '            LimpiarControles(ctrl)
+    '        End If
+    '    Next
+
+    '    container.ResumeLayout()
+    '    container.PerformLayout()
+    'End Sub
 
     Private Sub limpiarImagen()
         imgFoto.BackgroundImage = Nothing
@@ -246,23 +262,23 @@ Public Class frmEmpleado
         If empleado IsNot Nothing Then
             ' Asignamos los datos del objeto a los controles
             With Me
-                .txtCedula.TextoUsuario = empleado._cedula
-                .txtNombre.TextoUsuario = empleado._nombre
-                .txtApellido.TextoUsuario = empleado._apellido
-                .txtEdad.TextoUsuario = empleado._edad
-                .cmbNacionalidad.OrbitalCombo.Text = empleado._nacionalidad ' Asumiendo que el índice comienza en 0
-                .cmbEstadoCivil.OrbitalCombo.Text = empleado._estadoCivil
-                .cmbSexo.OrbitalCombo.Text = empleado._sexo
+                .txtCedula.TextString = empleado._cedula
+                .txtNombre.TextString = empleado._nombre
+                .txtApellido.TextString = empleado._apellido
+                .txtEdad.TextString = empleado._edad
+                .cmbNacionalidad.cmbCampo.Text = empleado._nacionalidad ' Asumiendo que el índice comienza en 0
+                .cmbEstadoCivil.cmbCampo.Text = empleado._estadoCivil
+                .cmbSexo.cmbCampo.Text = empleado._sexo
                 .txtFechaNac.FechaSeleccionada = empleado._fechaNacimiento
-                .cmbCargo.OrbitalCombo.Text = empleado._cargo
-                .txtCorreo.TextoUsuario = empleado._correo
-                .txtTelefono.TextoUsuario = empleado._telefono
-                .cmbZona.OrbitalCombo.Text = empleado._zona
-                .txtDireccion.TextoUsuario = empleado._direccion
-                .swAsesor.Checked = If(empleado._asesor = "True", True, False)
-                .swOptometrista.Checked = If(empleado._optometrista = "True", True, False)
-                .swGerente.Checked = If(empleado._gerente = "True", True, False)
-                .swMarketing.Checked = If(empleado._marketing = "True", True, False)
+                .cmbCargo.cmbCampo.Text = empleado._cargo
+                .txtCorreo.TextString = empleado._correo
+                .txtTelefono.TextString = empleado._telefono
+                .cmbZona.cmbCampo.Text = empleado._zona
+                .txtDireccion.TextString = empleado._direccion
+                .chkAsesor.Checked = If(empleado._asesor = "True", True, False)
+                .chkOptometrista.Checked = If(empleado._optometrista = "True", True, False)
+                .chkGerente.Checked = If(empleado._gerente = "True", True, False)
+                .chkMarketing.Checked = If(empleado._marketing = "True", True, False)
                 ' Si tienes un control para mostrar la foto, lo asignas aquí
                 If Not String.IsNullOrEmpty(empleado._foto) Then
                     Try
@@ -339,10 +355,10 @@ Public Class frmEmpleado
             .FechaNacimiento = fechaNacimiento,
             .Cargo = Convert.ToInt32(cargo),
             .Zona = Convert.ToInt32(zona),
-            .Asesor = swAsesor.Checked.ToString(),
-            .Optometrista = swOptometrista.Checked.ToString(),
-            .Gerente = swGerente.Checked.ToString(),
-            .Marketing = swMarketing.Checked.ToString(),
+            .Asesor = chkAsesor.Checked.ToString(),
+            .Optometrista = chkOptometrista.Checked.ToString(),
+            .Gerente = chkGerente.Checked.ToString(),
+            .Marketing = chkMarketing.Checked.ToString(),
             .Estado = 1,
             .Foto = If(String.IsNullOrWhiteSpace(rutaRelativa), "", rutaRelativa)
         }
@@ -411,6 +427,9 @@ Public Class frmEmpleado
         End Try
     End Sub
 
+    Private Sub Panel1_Click(sender As Object, e As EventArgs) Handles Panel1.Click
+        LimpiarControles(Me)
+    End Sub
 
 #End Region
 

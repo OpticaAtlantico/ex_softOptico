@@ -447,7 +447,7 @@ Partial Class frmCompras
         txtDomicilio.Size = New Size(293, 138)
         txtDomicilio.TabIndex = 5
         txtDomicilio.TextColor = Color.Black
-        txtDomicilio.TextoUsuario = ""
+        txtDomicilio.TextString = ""
         ' 
         ' txtRifCI
         ' 
@@ -552,7 +552,7 @@ Partial Class frmCompras
         txtObservacion.Size = New Size(293, 138)
         txtObservacion.TabIndex = 9
         txtObservacion.TextColor = Color.Black
-        txtObservacion.TextoUsuario = ""
+        txtObservacion.TextString = ""
         ' 
         ' btnLimpiarCeldas
         ' 

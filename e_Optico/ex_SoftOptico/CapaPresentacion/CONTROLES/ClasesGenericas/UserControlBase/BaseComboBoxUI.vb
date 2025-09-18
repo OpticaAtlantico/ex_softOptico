@@ -339,7 +339,7 @@ Public Class BaseComboBoxUI
 #End Region
 
 #Region "Métodos Públicos"
-    Public Sub Limpiar()
+    Public Sub LimpiarComboBox()
         cmbCampo.SelectedIndex = -1
         cmbCampo.Text = ""
         cmbCampo.Refresh()

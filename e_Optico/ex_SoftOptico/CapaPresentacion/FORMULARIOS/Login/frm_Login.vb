@@ -72,8 +72,8 @@ Public Class frm_Login
         IniciarApp()
     End Sub
     Private Sub Logout(sender As Object, e As FormClosedEventArgs)
-        txtUsuario.TextoValue = ""
-        txtPass.TextoValue = ""
+        txtUsuario.TextString = ""
+        txtPass.TextString = ""
         cmbLocal.Limpiar()
         Me.Show()
     End Sub
@@ -88,6 +88,8 @@ Public Class frm_Login
 
 #End Region
 
+
+#Region "Procedimiento"
     Private Sub IniciarApp()
         ' Validar todos los campos requeridos
         Dim primerInvalido As Control = Nothing
@@ -111,7 +113,7 @@ Public Class frm_Login
             Exit Sub
         End If
 
-        'VALIDA LOS USUARIOS Y CONTRASEÑAS
+        'VALIDA EL CAMPO LOCALIAD
         If cmbLocal.cmbCampo.SelectedIndex = -1 Then
             MessageBoxUI.Mostrar("Datos incorrectos...", "Debe seleccionar una ubicación", TipoMensaje.Errors, Botones.Aceptar)
             cmbLocal.Focus()
@@ -120,12 +122,12 @@ Public Class frm_Login
 
         'Valida los datos del usuario
         Dim userModel As New Repositorio_Login
-        Dim validUser = userModel.GetUserPass(txtUsuario.TextoValue, txtPass.TextoValue)
+        Dim validUser = userModel.GetUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
             MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
-            txtUsuario.Text = vbEmpty
-            txtPass.Text = vbEmpty
-            cmbLocal.Limpiar()
+            txtUsuario.TextString = vbEmpty
+            txtPass.TextString = vbEmpty
+            cmbLocal.LimpiarComboBox()
             txtUsuario.Focus()
             Exit Sub
         End If
@@ -146,7 +148,7 @@ Public Class frm_Login
         Hide()
     End Sub
 
-
+#End Region
 
 
 End Class

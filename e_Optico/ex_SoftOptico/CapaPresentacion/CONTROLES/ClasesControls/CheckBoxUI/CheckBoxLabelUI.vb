@@ -1,5 +1,8 @@
 ﻿Public Class CheckBoxLabelUI
     Inherits UserControl
+    Implements ILimpiable
+
+    Public Property Checkeds As Boolean
 
     Private _Texto As String = "Etiqueta"
     Private _CheckedColor As Color = Color.MediumSlateBlue
@@ -94,6 +97,9 @@
 
     Private Sub chk_CheckedChanged(sender As Object, e As EventArgs) Handles chk.CheckedChanged
         RaiseEvent CheckedChanged(Me, EventArgs.Empty)
+    End Sub
+    Public Sub Limpiar() Implements ILimpiable.Limpiar
+        Me.Checkeds = False
     End Sub
 #End Region
 

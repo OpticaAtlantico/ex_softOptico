@@ -99,7 +99,7 @@ Partial Class prueba
         MultilineTextBoxLabelui1.Size = New Size(372, 109)
         MultilineTextBoxLabelui1.TabIndex = 4
         MultilineTextBoxLabelui1.TextColor = Color.Black
-        MultilineTextBoxLabelui1.TextoUsuario = ""
+        MultilineTextBoxLabelui1.TextString = ""
         ' 
         ' EmailTextBoxLabelui1
         ' 

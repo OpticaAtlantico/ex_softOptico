@@ -110,16 +110,22 @@ Public Class BaseTextBoxLabelUI
         End Set
     End Property
 
-    <Category("WilmerUI")>
-    Public Property TextoValue As String
+    Public ReadOnly Property TextValue As String
+        Get
+            Return txtCampo.Text
+        End Get
+    End Property
+
+    <Browsable(False)>
+    Public Property TextString As String
         Get
             Return txtCampo.Text
         End Get
         Set(value As String)
             txtCampo.Text = value
-            Me.Invalidate()
         End Set
     End Property
+
 
     <Category("WilmerUI")>
     Public Property ColorTitulo As Color
@@ -398,6 +404,7 @@ Public Class BaseTextBoxLabelUI
             Return False
         End Try
     End Function
+
     Private Sub ValidarCampoFinal(sender As Object, e As EventArgs)
         CapitalizarSiEsNecesario()
         EsValido()
@@ -433,6 +440,7 @@ Public Class BaseTextBoxLabelUI
         ElseIf _MinCaracteres > 0 AndAlso texto.Length < _MinCaracteres Then
             mensajeError = $"Mínimo {_MinCaracteres} caracteres."
             _esValido = False
+
         End If
 
         ' === Mostrar resultado visual ===

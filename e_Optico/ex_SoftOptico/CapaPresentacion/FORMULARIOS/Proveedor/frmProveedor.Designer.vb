@@ -105,7 +105,7 @@ Partial Class frmProveedor
         txtDireccion.Size = New Size(1238, 86)
         txtDireccion.TabIndex = 7
         txtDireccion.TextColor = Color.Black
-        txtDireccion.TextoUsuario = ""
+        txtDireccion.TextString = ""
         ' 
         ' TableLayoutPanel1
         ' 

@@ -3,8 +3,8 @@ Imports MaterialSkin3.Controls
 
 Public Class PasswordTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
-    Implements IValidable
-
+    Implements IValidable, ILimpiable
+    Public Property TextString As String
     Public Sub New()
         MyBase.New()
         lblTitulo.Text = "Contraseña:"
@@ -26,5 +26,8 @@ Public Class PasswordTextBoxLabelUI
         If Not MyBase.EsValido() Then Return False
         Return True
     End Function
+    Public Sub Limpiar() Implements ILimpiable.Limpiar
+        Me.TextString = ""
+    End Sub
 
 End Class

@@ -36,7 +36,7 @@ Public Class CargarCombos
         Return [Enum].GetValues(tipoEnum).Cast(Of Integer)().ToArray()
     End Function
 
-    Public Shared Sub CargarComboDesacoplado(controlUI As ComboBoxLabelUI, tipoEnum As Type)
+    Public Shared Sub CargarComboDesacoplado(controlUI As ComboBoxLayoutUI, tipoEnum As Type)
         If controlUI Is Nothing OrElse tipoEnum Is Nothing Then Exit Sub
         Dim nombres As String() = [Enum].GetNames(tipoEnum)
         controlUI.AddItems(Nothing, nombres)

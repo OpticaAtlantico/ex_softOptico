@@ -78,6 +78,7 @@ Partial Class frm_Login
         txtPass.Location = New Point(559, 226)
         txtPass.MaxCaracteres = 0
         txtPass.MensajeError = "Campo requerido"
+        txtPass.MinCaracteres = 6
         txtPass.Name = "txtPass"
         txtPass.PaddingIzquierda = 8
         txtPass.PaddingIzquierdaIcono = 10
@@ -86,7 +87,7 @@ Partial Class frm_Login
         txtPass.Size = New Size(308, 80)
         txtPass.TabIndex = 1
         txtPass.TextoLabel = "Contraseña:"
-        txtPass.TextoValue = ""
+        txtPass.TextString = ""
         txtPass.ValidarComoCorreo = False
         ' 
         ' txtUsuario
@@ -101,6 +102,7 @@ Partial Class frm_Login
         txtUsuario.Location = New Point(559, 142)
         txtUsuario.MaxCaracteres = 0
         txtUsuario.MensajeError = "Campo requerido"
+        txtUsuario.MinCaracteres = 0
         txtUsuario.Name = "txtUsuario"
         txtUsuario.PaddingIzquierda = 8
         txtUsuario.PaddingIzquierdaIcono = 10
@@ -109,7 +111,7 @@ Partial Class frm_Login
         txtUsuario.Size = New Size(308, 80)
         txtUsuario.TabIndex = 0
         txtUsuario.TextoLabel = "Usuario:"
-        txtUsuario.TextoValue = ""
+        txtUsuario.TextString = ""
         txtUsuario.ValidarComoCorreo = False
         ' 
         ' btnOlvidePass

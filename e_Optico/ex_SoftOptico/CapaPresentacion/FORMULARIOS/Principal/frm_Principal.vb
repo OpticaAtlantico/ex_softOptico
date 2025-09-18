@@ -45,7 +45,6 @@ Public Class frm_Principal
             .pnlMenu.BackColor = AppColors._cMenu1
             .pnlEncabezado.BackColor = AppColors._cFondo
             .pnlBotones.BackColor = AppColors._cFondo
-            .pnlRol.BackColor = AppColors._cFondo
             .pnlSalirfrm.BackColor = AppColors._cFondo
             'Boton regresar
             .btnSalirFrmHijo.IconColor = AppColors._cBlanco
@@ -695,12 +694,29 @@ Public Class frm_Principal
             .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
         End With
 
-        lblUsuario.Text = Sesion.NombreUsuario
-        lblCargo.Text = Sesion.Cargo
-        lblLocal.Text = Sesion.NombreUbicacion
-        lblDireccion.Text = Sesion.Direccion
+        With Me.lblTitulo
+            .Icono = IconChar.Eye
+            .Titulo = "SISTEMA INTEGRAL DE GESTIÓN OPTICA"
+            .Subtitulo = "Administracion, Gestión y Control de Ópticas "
+            .ColorFondo = AppColors._cFondo
+            .ColorTexto = AppColors._cBlancoOscuro
+        End With
 
-        lblTitulo.Icono = IconChar.Eye
+        With Me.lblEmpleado
+            .Icono = IconChar.UsersViewfinder
+            .Titulo = Sesion.NombreUsuario
+            .Subtitulo = Sesion.Cargo
+            .ColorFondo = AppColors._cFondo
+            .ColorTexto = AppColors._cBlancoOscuro
+        End With
+
+        With Me.lblLocalidad
+            .Icono = IconChar.LocationDot
+            .Titulo = Sesion.NombreUbicacion
+            .Subtitulo = Sesion.Direccion
+            .ColorFondo = AppColors._cFondo
+            .ColorTexto = AppColors._cBlancoOscuro
+        End With
 
         WindowState = FormWindowState.Maximized
     End Sub

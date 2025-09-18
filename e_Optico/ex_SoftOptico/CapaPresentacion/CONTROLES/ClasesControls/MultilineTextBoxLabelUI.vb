@@ -7,6 +7,8 @@ Imports FontAwesome.Sharp
 
 Public Class MultilineTextBoxLabelUI
     Inherits UserControl
+    Implements ILimpiable
+
 
 #Region "CONTROLES Y PROPIEDADES"
     ' === Controles ===
@@ -57,6 +59,8 @@ Public Class MultilineTextBoxLabelUI
 
 #Region "PROPIEDADES"
     ' === Propiedades orbitales ===
+
+    Public Property TextoString As String
 
     ' Capitaliza al perder el foco
     Public Property CapitalizarTexto As Boolean
@@ -226,7 +230,7 @@ Public Class MultilineTextBoxLabelUI
     End Property
 
     <Browsable(False)>
-    Public Property TextoUsuario As String
+    Public Property TextString As String
         Get
             Return txtCampo.Text
         End Get
@@ -532,6 +536,10 @@ Public Class MultilineTextBoxLabelUI
             End If
         End If
     End Sub
+
+    Public Sub Limpiar() Implements ILimpiable.Limpiar
+        Me.TextoString = ""
+    End Sub
 #End Region
 
 #Region "DIBUJO"
@@ -581,6 +589,7 @@ Public Class MultilineTextBoxLabelUI
         path.CloseFigure()
         Return path
     End Function
+
 #End Region
 
 End Class

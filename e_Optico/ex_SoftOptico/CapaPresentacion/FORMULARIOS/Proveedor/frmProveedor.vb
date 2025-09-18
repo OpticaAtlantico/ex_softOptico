@@ -34,7 +34,7 @@ Public Class frmProveedor
 #Region "EVENTOS DE FORMULARIO"
     Private Sub frmProveedor_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-        CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
+        'CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
 
         If DatosProveedor IsNot Nothing Then
             CargarDatos(DatosProveedor)
@@ -156,7 +156,7 @@ Public Class frmProveedor
 
             ElseIf TypeOf ctrl Is MultilineTextBoxLabelUI Then
                 Dim c = CType(ctrl, MultilineTextBoxLabelUI)
-                c.TextoUsuario = ""
+                c.TextString = ""
 
             ElseIf TypeOf ctrl Is ToggleSwitchUI Then
                 CType(ctrl, ToggleSwitchUI).Checked = False
@@ -184,7 +184,7 @@ Public Class frmProveedor
                 txtRif.TextoUsuario = proveedor._rif
                 txtTelefono.TextoUsuario = proveedor._telefono
                 txtContacto.TextoUsuario = proveedor._contacto
-                txtDireccion.TextoUsuario = proveedor._direccion
+                txtDireccion.TextString = proveedor._direccion
             End With
         End If
     End Sub

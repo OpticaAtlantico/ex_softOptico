@@ -25,22 +25,16 @@ Partial Class frm_Principal
         components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Principal))
         pnlEncabezado = New Panel()
-        Panel1 = New Panel()
-        lblDireccion = New Label()
-        lblLocal = New Label()
+        tlySuperior = New TableLayoutPanel()
         pnlBotones = New Panel()
         btnSalir = New FontAwesome.Sharp.IconButton()
         btnMaximizar = New FontAwesome.Sharp.IconButton()
         btnMinimizar = New FontAwesome.Sharp.IconButton()
-        pnlRol = New Panel()
-        lblCargo = New Label()
-        lblUsuario = New Label()
-        pnlLogoUser = New Panel()
-        imgUser = New FontAwesome.Sharp.IconPictureBox()
-        pnlTitulo = New Panel()
-        lblTitulo = New HeaderUI()
+        lblLocalidad = New HeaderUI()
+        lblEmpleado = New HeaderUI()
         pnlSalirfrm = New Panel()
         btnSalirFrmHijo = New FontAwesome.Sharp.IconButton()
+        lblTitulo = New HeaderUI()
         pnlBars = New Panel()
         btnMostrarMenu = New FontAwesome.Sharp.IconButton()
         pnlMenu = New Panel()
@@ -58,12 +52,8 @@ Partial Class frm_Principal
         pnlContenedor = New Panel()
         DrawerTimer = New Timer(components)
         pnlEncabezado.SuspendLayout()
-        Panel1.SuspendLayout()
+        tlySuperior.SuspendLayout()
         pnlBotones.SuspendLayout()
-        pnlRol.SuspendLayout()
-        pnlLogoUser.SuspendLayout()
-        CType(imgUser, ComponentModel.ISupportInitialize).BeginInit()
-        pnlTitulo.SuspendLayout()
         pnlSalirfrm.SuspendLayout()
         pnlBars.SuspendLayout()
         pnlMenu.SuspendLayout()
@@ -72,61 +62,45 @@ Partial Class frm_Principal
         ' pnlEncabezado
         ' 
         pnlEncabezado.BackColor = Color.FromArgb(CByte(54), CByte(116), CByte(164))
-        pnlEncabezado.Controls.Add(Panel1)
-        pnlEncabezado.Controls.Add(pnlBotones)
-        pnlEncabezado.Controls.Add(pnlRol)
-        pnlEncabezado.Controls.Add(pnlLogoUser)
-        pnlEncabezado.Controls.Add(pnlTitulo)
-        pnlEncabezado.Controls.Add(pnlSalirfrm)
-        pnlEncabezado.Controls.Add(pnlBars)
+        pnlEncabezado.Controls.Add(tlySuperior)
         pnlEncabezado.Dock = DockStyle.Top
         pnlEncabezado.Location = New Point(0, 0)
         pnlEncabezado.Name = "pnlEncabezado"
-        pnlEncabezado.Padding = New Padding(5)
-        pnlEncabezado.Size = New Size(1367, 64)
+        pnlEncabezado.Size = New Size(1370, 64)
         pnlEncabezado.TabIndex = 0
         ' 
-        ' Panel1
+        ' tlySuperior
         ' 
-        Panel1.Controls.Add(lblDireccion)
-        Panel1.Controls.Add(lblLocal)
-        Panel1.Dock = DockStyle.Left
-        Panel1.Location = New Point(890, 5)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(270, 54)
-        Panel1.TabIndex = 6
-        ' 
-        ' lblDireccion
-        ' 
-        lblDireccion.AutoSize = True
-        lblDireccion.Font = New Font("Segoe UI Light", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblDireccion.ForeColor = Color.WhiteSmoke
-        lblDireccion.Location = New Point(14, 30)
-        lblDireccion.Name = "lblDireccion"
-        lblDireccion.Size = New Size(52, 15)
-        lblDireccion.TabIndex = 0
-        lblDireccion.Text = "Dirección"
-        ' 
-        ' lblLocal
-        ' 
-        lblLocal.AutoSize = True
-        lblLocal.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
-        lblLocal.ForeColor = Color.WhiteSmoke
-        lblLocal.Location = New Point(14, 10)
-        lblLocal.Name = "lblLocal"
-        lblLocal.Size = New Size(52, 17)
-        lblLocal.TabIndex = 0
-        lblLocal.Text = "Local:"
+        tlySuperior.ColumnCount = 6
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 60F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 80F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 420.0F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 330.0F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 330.0F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 170.0F))
+        tlySuperior.Controls.Add(pnlBotones, 5, 0)
+        tlySuperior.Controls.Add(lblLocalidad, 4, 0)
+        tlySuperior.Controls.Add(lblEmpleado, 3, 0)
+        tlySuperior.Controls.Add(pnlSalirfrm, 1, 0)
+        tlySuperior.Controls.Add(lblTitulo, 2, 0)
+        tlySuperior.Controls.Add(pnlBars, 0, 0)
+        tlySuperior.Dock = DockStyle.Fill
+        tlySuperior.Location = New Point(0, 0)
+        tlySuperior.Name = "tlySuperior"
+        tlySuperior.RowCount = 1
+        tlySuperior.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
+        tlySuperior.Size = New Size(1370, 64)
+        tlySuperior.TabIndex = 1
         ' 
         ' pnlBotones
         ' 
         pnlBotones.Controls.Add(btnSalir)
         pnlBotones.Controls.Add(btnMaximizar)
         pnlBotones.Controls.Add(btnMinimizar)
-        pnlBotones.Dock = DockStyle.Right
-        pnlBotones.Location = New Point(1232, 5)
+        pnlBotones.Dock = DockStyle.Fill
+        pnlBotones.Location = New Point(1223, 3)
         pnlBotones.Name = "pnlBotones"
-        pnlBotones.Size = New Size(130, 54)
+        pnlBotones.Size = New Size(164, 58)
         pnlBotones.TabIndex = 5
         ' 
         ' btnSalir
@@ -176,103 +150,52 @@ Partial Class frm_Principal
         btnMinimizar.TabIndex = 0
         btnMinimizar.UseVisualStyleBackColor = False
         ' 
-        ' pnlRol
+        ' lblLocalidad
         ' 
-        pnlRol.Controls.Add(lblCargo)
-        pnlRol.Controls.Add(lblUsuario)
-        pnlRol.Dock = DockStyle.Left
-        pnlRol.Location = New Point(620, 5)
-        pnlRol.Name = "pnlRol"
-        pnlRol.Size = New Size(270, 54)
-        pnlRol.TabIndex = 4
+        lblLocalidad.BackColor = Color.Transparent
+        lblLocalidad.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
+        lblLocalidad.ColorTexto = Color.WhiteSmoke
+        lblLocalidad.Dock = DockStyle.Fill
+        lblLocalidad.Font = New Font("Microsoft Sans Serif", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblLocalidad.Icono = FontAwesome.Sharp.IconChar.Eye
+        lblLocalidad.Location = New Point(893, 3)
+        lblLocalidad.MostrarSeparador = False
+        lblLocalidad.Name = "lblLocalidad"
+        lblLocalidad.Size = New Size(324, 58)
+        lblLocalidad.Subtitulo = "Óptica Atlantico "
+        lblLocalidad.TabIndex = 3
+        lblLocalidad.Titulo = "Sistema de Integral de Gestion"
         ' 
-        ' lblCargo
+        ' lblEmpleado
         ' 
-        lblCargo.AutoSize = True
-        lblCargo.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
-        lblCargo.ForeColor = Color.WhiteSmoke
-        lblCargo.Location = New Point(14, 30)
-        lblCargo.Name = "lblCargo"
-        lblCargo.Size = New Size(51, 17)
-        lblCargo.TabIndex = 0
-        lblCargo.Text = "Cargo"
-        ' 
-        ' lblUsuario
-        ' 
-        lblUsuario.AutoSize = True
-        lblUsuario.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point, CByte(0))
-        lblUsuario.ForeColor = Color.WhiteSmoke
-        lblUsuario.Location = New Point(14, 10)
-        lblUsuario.Name = "lblUsuario"
-        lblUsuario.Size = New Size(69, 17)
-        lblUsuario.TabIndex = 0
-        lblUsuario.Text = "Nombre:"
-        ' 
-        ' pnlLogoUser
-        ' 
-        pnlLogoUser.Controls.Add(imgUser)
-        pnlLogoUser.Dock = DockStyle.Left
-        pnlLogoUser.Location = New Point(560, 5)
-        pnlLogoUser.Margin = New Padding(0)
-        pnlLogoUser.Name = "pnlLogoUser"
-        pnlLogoUser.Size = New Size(60, 54)
-        pnlLogoUser.TabIndex = 3
-        ' 
-        ' imgUser
-        ' 
-        imgUser.BackColor = Color.FromArgb(CByte(54), CByte(116), CByte(164))
-        imgUser.Dock = DockStyle.Fill
-        imgUser.ForeColor = Color.WhiteSmoke
-        imgUser.IconChar = FontAwesome.Sharp.IconChar.UserShield
-        imgUser.IconColor = Color.WhiteSmoke
-        imgUser.IconFont = FontAwesome.Sharp.IconFont.Solid
-        imgUser.IconSize = 54
-        imgUser.Location = New Point(0, 0)
-        imgUser.Margin = New Padding(0)
-        imgUser.Name = "imgUser"
-        imgUser.Size = New Size(60, 54)
-        imgUser.TabIndex = 0
-        imgUser.TabStop = False
-        ' 
-        ' pnlTitulo
-        ' 
-        pnlTitulo.Controls.Add(lblTitulo)
-        pnlTitulo.Dock = DockStyle.Left
-        pnlTitulo.Location = New Point(160, 5)
-        pnlTitulo.Name = "pnlTitulo"
-        pnlTitulo.Size = New Size(400, 54)
-        pnlTitulo.TabIndex = 2
-        ' 
-        ' lblTitulo
-        ' 
-        lblTitulo.BackColor = Color.Transparent
-        lblTitulo.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
-        lblTitulo.ColorTexto = Color.WhiteSmoke
-        lblTitulo.Dock = DockStyle.Fill
-        lblTitulo.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblTitulo.Icono = FontAwesome.Sharp.IconChar.Eye
-        lblTitulo.Location = New Point(0, 0)
-        lblTitulo.MostrarSeparador = False
-        lblTitulo.Name = "lblTitulo"
-        lblTitulo.Size = New Size(400, 54)
-        lblTitulo.Subtitulo = "Óptica Atlantico "
-        lblTitulo.TabIndex = 0
-        lblTitulo.Titulo = "Sistema de Integral de Gestion"
+        lblEmpleado.BackColor = Color.Transparent
+        lblEmpleado.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
+        lblEmpleado.ColorTexto = Color.WhiteSmoke
+        lblEmpleado.Dock = DockStyle.Fill
+        lblEmpleado.Font = New Font("Microsoft Sans Serif", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblEmpleado.Icono = FontAwesome.Sharp.IconChar.Eye
+        lblEmpleado.Location = New Point(563, 3)
+        lblEmpleado.MostrarSeparador = False
+        lblEmpleado.Name = "lblEmpleado"
+        lblEmpleado.Size = New Size(324, 58)
+        lblEmpleado.Subtitulo = "Óptica Atlantico "
+        lblEmpleado.TabIndex = 2
+        lblEmpleado.Titulo = "Sistema de Integral de Gestion"
         ' 
         ' pnlSalirfrm
         ' 
         pnlSalirfrm.BackColor = Color.FromArgb(CByte(45), CByte(45), CByte(45))
         pnlSalirfrm.Controls.Add(btnSalirFrmHijo)
-        pnlSalirfrm.Dock = DockStyle.Left
-        pnlSalirfrm.Location = New Point(60, 5)
+        pnlSalirfrm.Dock = DockStyle.Fill
+        pnlSalirfrm.Location = New Point(63, 3)
         pnlSalirfrm.Name = "pnlSalirfrm"
-        pnlSalirfrm.Size = New Size(100, 54)
+        pnlSalirfrm.Size = New Size(74, 58)
         pnlSalirfrm.TabIndex = 1
         ' 
         ' btnSalirFrmHijo
         ' 
-        btnSalirFrmHijo.BackColor = Color.FromArgb(CByte(6), CByte(91), CByte(210))
-        btnSalirFrmHijo.Dock = DockStyle.Left
+        btnSalirFrmHijo.BackColor = Color.FromArgb(CByte(53), CByte(113), CByte(165))
+        btnSalirFrmHijo.Dock = DockStyle.Fill
         btnSalirFrmHijo.FlatAppearance.BorderSize = 0
         btnSalirFrmHijo.FlatStyle = FlatStyle.Flat
         btnSalirFrmHijo.IconChar = FontAwesome.Sharp.IconChar.Reply
@@ -281,19 +204,35 @@ Partial Class frm_Principal
         btnSalirFrmHijo.IconSize = 40
         btnSalirFrmHijo.Location = New Point(0, 0)
         btnSalirFrmHijo.Name = "btnSalirFrmHijo"
-        btnSalirFrmHijo.Size = New Size(56, 54)
+        btnSalirFrmHijo.Size = New Size(74, 58)
         btnSalirFrmHijo.TabIndex = 0
         btnSalirFrmHijo.UseVisualStyleBackColor = False
+        ' 
+        ' lblTitulo
+        ' 
+        lblTitulo.BackColor = Color.Transparent
+        lblTitulo.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
+        lblTitulo.ColorTexto = Color.WhiteSmoke
+        lblTitulo.Dock = DockStyle.Fill
+        lblTitulo.Font = New Font("Microsoft Sans Serif", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblTitulo.Icono = FontAwesome.Sharp.IconChar.Eye
+        lblTitulo.Location = New Point(143, 3)
+        lblTitulo.MostrarSeparador = False
+        lblTitulo.Name = "lblTitulo"
+        lblTitulo.Size = New Size(414, 58)
+        lblTitulo.Subtitulo = "Óptica Atlantico "
+        lblTitulo.TabIndex = 0
+        lblTitulo.Titulo = "Sistema de Integral de Gestion"
         ' 
         ' pnlBars
         ' 
         pnlBars.BackColor = Color.FromArgb(CByte(51), CByte(51), CByte(76))
         pnlBars.Controls.Add(btnMostrarMenu)
-        pnlBars.Dock = DockStyle.Left
-        pnlBars.Location = New Point(5, 5)
+        pnlBars.Dock = DockStyle.Fill
+        pnlBars.Location = New Point(0, 0)
         pnlBars.Margin = New Padding(0)
         pnlBars.Name = "pnlBars"
-        pnlBars.Size = New Size(55, 54)
+        pnlBars.Size = New Size(60, 64)
         pnlBars.TabIndex = 0
         ' 
         ' btnMostrarMenu
@@ -307,7 +246,7 @@ Partial Class frm_Principal
         btnMostrarMenu.IconFont = FontAwesome.Sharp.IconFont.Auto
         btnMostrarMenu.Location = New Point(0, 0)
         btnMostrarMenu.Name = "btnMostrarMenu"
-        btnMostrarMenu.Size = New Size(55, 54)
+        btnMostrarMenu.Size = New Size(60, 64)
         btnMostrarMenu.TabIndex = 0
         btnMostrarMenu.UseVisualStyleBackColor = False
         ' 
@@ -538,7 +477,7 @@ Partial Class frm_Principal
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(55, 64)
         pnlContenedor.Name = "pnlContenedor"
-        pnlContenedor.Size = New Size(1312, 562)
+        pnlContenedor.Size = New Size(1315, 562)
         pnlContenedor.TabIndex = 3
         ' 
         ' DrawerTimer
@@ -549,7 +488,7 @@ Partial Class frm_Principal
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1367, 626)
+        ClientSize = New Size(1370, 626)
         Controls.Add(pnlContenedor)
         Controls.Add(pnlDrawer)
         Controls.Add(pnlMenu)
@@ -559,14 +498,8 @@ Partial Class frm_Principal
         Text = "Principal"
         WindowState = FormWindowState.Maximized
         pnlEncabezado.ResumeLayout(False)
-        Panel1.ResumeLayout(False)
-        Panel1.PerformLayout()
+        tlySuperior.ResumeLayout(False)
         pnlBotones.ResumeLayout(False)
-        pnlRol.ResumeLayout(False)
-        pnlRol.PerformLayout()
-        pnlLogoUser.ResumeLayout(False)
-        CType(imgUser, ComponentModel.ISupportInitialize).EndInit()
-        pnlTitulo.ResumeLayout(False)
         pnlSalirfrm.ResumeLayout(False)
         pnlBars.ResumeLayout(False)
         pnlMenu.ResumeLayout(False)
@@ -575,17 +508,11 @@ Partial Class frm_Principal
 
     Friend WithEvents pnlEncabezado As Panel
     Friend WithEvents pnlBars As Panel
-    Friend WithEvents pnlLogoUser As Panel
-    Friend WithEvents pnlTitulo As Panel
     Friend WithEvents pnlSalirfrm As Panel
-    Friend WithEvents pnlRol As Panel
     Friend WithEvents pnlBotones As Panel
-    Friend WithEvents imgUser As FontAwesome.Sharp.IconPictureBox
     Friend WithEvents btnMostrarMenu As FontAwesome.Sharp.IconButton
     Friend WithEvents btnSalirFrmHijo As FontAwesome.Sharp.IconButton
     Friend WithEvents lblTitulo As HeaderUI
-    Friend WithEvents lblUsuario As Label
-    Friend WithEvents lblCargo As Label
     Friend WithEvents btnMinimizar As FontAwesome.Sharp.IconButton
     Friend WithEvents btnMaximizar As FontAwesome.Sharp.IconButton
     Friend WithEvents pnlMenu As Panel
@@ -604,6 +531,8 @@ Partial Class frm_Principal
     Friend WithEvents btnAjustes As FontAwesome.Sharp.IconButton
     Friend WithEvents btnAnalisis As FontAwesome.Sharp.IconButton
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents lblDireccion As Label
-    Friend WithEvents lblLocal As Label
+    Friend WithEvents pnlRol As Panel
+    Friend WithEvents tlySuperior As TableLayoutPanel
+    Friend WithEvents lblLocalidad As HeaderUI
+    Friend WithEvents lblEmpleado As HeaderUI
 End Class

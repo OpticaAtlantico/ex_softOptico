@@ -2,7 +2,9 @@
 
 Public Class EmailTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
-    Implements IValidable
+    Implements IValidable, ILimpiable
+
+    Public Property TextString As String
 
     Public Function EsValido() As Boolean Implements IValidable.EsValido
         If Not MyBase.EsValido() Then Return False
@@ -21,5 +23,7 @@ Public Class EmailTextBoxLabelUI
         lblTitulo.Text = "Correo electrónico:"
         iconoDerecha.IconChar = IconChar.Envelope
     End Sub
-
+    Public Sub Limpiar() Implements ILimpiable.Limpiar
+        Me.TextString = ""
+    End Sub
 End Class
