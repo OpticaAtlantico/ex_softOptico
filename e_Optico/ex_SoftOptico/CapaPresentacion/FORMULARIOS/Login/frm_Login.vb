@@ -72,9 +72,8 @@ Public Class frm_Login
         IniciarApp()
     End Sub
     Private Sub Logout(sender As Object, e As FormClosedEventArgs)
-        txtUsuario.TextString = ""
-        txtPass.TextString = ""
-        cmbLocal.Limpiar()
+        LimpiarControles(Me)
+        ResetearControles(Me)
         Me.Show()
     End Sub
 
@@ -125,9 +124,8 @@ Public Class frm_Login
         Dim validUser = userModel.GetUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
             MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
-            txtUsuario.TextString = vbEmpty
-            txtPass.TextString = vbEmpty
-            cmbLocal.LimpiarComboBox()
+            LimpiarControles(Me)
+            ResetearControles(Me)
             txtUsuario.Focus()
             Exit Sub
         End If

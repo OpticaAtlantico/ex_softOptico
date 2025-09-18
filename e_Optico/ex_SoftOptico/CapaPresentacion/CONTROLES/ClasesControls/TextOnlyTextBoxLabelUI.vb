@@ -1,8 +1,9 @@
-﻿Imports FontAwesome.Sharp
+﻿Imports DocumentFormat.OpenXml.Office2010.Excel
+Imports FontAwesome.Sharp
 
 Public Class TextOnlyTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
-    Implements IValidable, ILimpiable
+    Implements IValidable
     Public Sub New()
         MyBase.New()
         lblTitulo.Text = "Texto:"
@@ -22,7 +23,4 @@ Public Class TextOnlyTextBoxLabelUI
         txtCampo.Focus()
     End Sub
 
-    Public Sub Limpiar() Implements ILimpiable.Limpiar
-        Me.TextString = ""
-    End Sub
 End Class

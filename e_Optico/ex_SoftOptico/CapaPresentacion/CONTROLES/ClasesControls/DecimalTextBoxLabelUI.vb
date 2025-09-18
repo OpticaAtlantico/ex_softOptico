@@ -2,9 +2,7 @@
 
 Public Class DecimalTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
-    Implements IValidable, ILimpiable
-
-    Public Property TextString As String
+    Implements IValidable
 
     Private WithEvents txtDecimal As TextBox
 
@@ -104,7 +102,5 @@ Public Class DecimalTextBoxLabelUI
     Private Function IValidable_EsValido() As Boolean Implements IValidable.EsValido
         Return EsValido()
     End Function
-    Public Sub Limpiar() Implements ILimpiable.Limpiar
-        Me.TextString = ""
-    End Sub
+
 End Class

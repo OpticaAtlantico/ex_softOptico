@@ -9,7 +9,6 @@ Public Class MultilineTextBoxLabelUI
     Inherits UserControl
     Implements ILimpiable
 
-
 #Region "CONTROLES Y PROPIEDADES"
     ' === Controles ===
     Private lblTitulo As New Label()
@@ -537,8 +536,24 @@ Public Class MultilineTextBoxLabelUI
         End If
     End Sub
 
+#End Region
+
+#Region "ILimpiable"
     Public Sub Limpiar() Implements ILimpiable.Limpiar
-        Me.TextoString = ""
+        ' Borra solo el contenido
+        Me.TextString = ""
+        lblPlaceholder.Visible = True
+        pnlFondo.Invalidate()
+    End Sub
+
+    Public Sub Resetear() Implements ILimpiable.Resetear
+        ' Estado inicial: sin texto, sin error, borde normal
+        Me.TextString = ""
+        lblError.Text = ""
+        lblError.Visible = False
+        lblPlaceholder.Visible = True
+        _borderColor = AppColors._cBasePrimary
+        pnlFondo.Invalidate()
     End Sub
 #End Region
 

@@ -101,6 +101,11 @@
     Public Sub Limpiar() Implements ILimpiable.Limpiar
         Me.Checkeds = False
     End Sub
+
+    Public Sub Resetear() Implements ILimpiable.Resetear
+        Me.Checkeds = False
+    End Sub
+
 #End Region
 
 End Class

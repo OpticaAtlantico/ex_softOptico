@@ -2,8 +2,6 @@
 
 Public Class NumericTextBoxLabelUI
     Inherits BaseTextBoxLabelUI
-    Implements ILimpiable
-    Public Property TextString As String
 
     Public Sub New()
         MyBase.New()
@@ -25,7 +23,5 @@ Public Class NumericTextBoxLabelUI
         ' lo pasamos directamente al txtCampo
         txtCampo.Focus()
     End Sub
-    Public Sub Limpiar() Implements ILimpiable.Limpiar
-        Me.TextString = ""
-    End Sub
+
 End Class

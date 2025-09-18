@@ -1,4 +1,4 @@
 ﻿Public Interface ILimpiable
     Sub Limpiar()
-    'Sub Resetear()
+    Sub Resetear()
 End Interface

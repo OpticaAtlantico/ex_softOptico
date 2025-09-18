@@ -4,7 +4,7 @@ Imports FontAwesome.Sharp
 
 Public Class ComboBoxLayoutUI
     Inherits BaseComboBoxUI
-    Implements IValidable, ILimpiable
+    Implements IValidable
 
 #Region "CONSTRUCTOR"
     Public Sub New()
@@ -22,9 +22,6 @@ Public Class ComboBoxLayoutUI
         cmbCampo.Focus()
     End Sub
 
-    Public Sub Limpiar() Implements ILimpiable.Limpiar
-        Me.LimpiarComboBox()
-    End Sub
 #End Region
 
 #Region "VALIDACIONES"

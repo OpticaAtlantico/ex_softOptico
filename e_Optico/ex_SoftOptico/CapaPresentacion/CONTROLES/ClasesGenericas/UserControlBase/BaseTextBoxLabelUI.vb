@@ -4,6 +4,7 @@ Imports FontAwesome.Sharp
 
 Public Class BaseTextBoxLabelUI
     Inherits UserControl
+    Implements ILimpiable
 
 #Region "CONTROLES Y ESTÉTICA"
     ' === Controles internos ===
@@ -31,6 +32,7 @@ Public Class BaseTextBoxLabelUI
     Private _sombraBackColor As Color = AppColors._cSombra
     Private _textColor As Color = AppColors._cTexto
     Private _colorError As Color = AppColors._cMsgError
+    Public _mostrarError As Boolean = False
 
     Private _fontFieldTexto As Font = New Font(AppFonts.Century, AppFonts.SizeMedium)
     Private _fontFieldTitulo As Font = New Font(AppFonts.Century, AppFonts.SizeSmall)
@@ -468,6 +470,44 @@ Public Class BaseTextBoxLabelUI
         lblError.Text = ""
         lblError.Visible = False
         _borderColor = _borderColorSuccess
+        pnlFondo.Invalidate()
+    End Sub
+#End Region
+
+#Region "ILimpiable"
+
+    ''' <summary>
+    ''' Limpia solo el contenido del campo (texto).
+    ''' Mantiene errores o estado visual si ya estaban.
+    ''' </summary>
+    Public Overridable Sub Limpiar() Implements ILimpiable.Limpiar
+        Me.TextString = ""
+        lblPlaceholder.Visible = True
+        pnlFondo.Invalidate()
+    End Sub
+
+    ''' <summary>
+    ''' Restablece el control a su estado inicial: sin texto, sin error, sin borde rojo.
+    ''' </summary>
+    Public Overridable Sub Resetear() Implements ILimpiable.Resetear
+        ' 🔹 Borrar texto
+        Me.TextString = ""
+
+        ' 🔹 Quitar error
+        lblError.Text = ""
+        lblError.Visible = False
+
+        ' 🔹 Placeholder visible
+        UpdatePlaceholderVisibility()
+
+        ' 🔹 Borde normal
+        txtCampo.BackColor = Color.White
+        txtCampo.ForeColor = Color.Black
+
+        ' 🔹 Color del fondo del border del panel
+        _borderColor = AppColors._cBasePrimary
+
+        ' 🔹 Forzar repintado
         pnlFondo.Invalidate()
     End Sub
 

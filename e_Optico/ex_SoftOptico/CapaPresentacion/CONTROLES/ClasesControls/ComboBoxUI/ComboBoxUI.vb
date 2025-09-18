@@ -292,6 +292,7 @@ Public Class ComboBoxUI
     Public Sub AddItem(item As Object)
         Me.Items.Add(item)
     End Sub
+
 #End Region
 
 End Class

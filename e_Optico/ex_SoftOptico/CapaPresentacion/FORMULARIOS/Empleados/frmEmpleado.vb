@@ -399,6 +399,7 @@ Public Class frmEmpleado
                 mensaje.Mostrar()
 
                 LimpiarControles(Me)
+                ResetearControles(Me)
                 limpiarImagen()
 
             Else
@@ -429,6 +430,7 @@ Public Class frmEmpleado
 
     Private Sub Panel1_Click(sender As Object, e As EventArgs) Handles Panel1.Click
         LimpiarControles(Me)
+        ResetearControles(Me)
     End Sub
 
 #End Region

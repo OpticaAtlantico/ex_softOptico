@@ -4,6 +4,7 @@ Imports FontAwesome.Sharp
 
 Public Class BaseComboBoxUI
     Inherits UserControl
+    Implements ILimpiable
 
 #Region "CONTROLES Y ESTÉTICA"
     ' === Controles internos ===
@@ -339,11 +340,6 @@ Public Class BaseComboBoxUI
 #End Region
 
 #Region "Métodos Públicos"
-    Public Sub LimpiarComboBox()
-        cmbCampo.SelectedIndex = -1
-        cmbCampo.Text = ""
-        cmbCampo.Refresh()
-    End Sub
 
     Public Sub IniciarCarga()
         cargarCombo = True
@@ -389,6 +385,41 @@ Public Class BaseComboBoxUI
         lblError.Visible = False
         cmbCampo.BorderMode = ComboBoxUI.BorderState.Success
         pnlFondo.Invalidate()
+    End Sub
+
+#End Region
+#Region "ILimpiable"
+
+    ''' <summary>
+    ''' Limpia únicamente la selección y el texto del ComboBox.
+    ''' </summary>
+    Public Sub Limpiar() Implements ILimpiable.Limpiar
+        cmbCampo.SelectedIndex = -1
+        cmbCampo.Text = ""
+        UpdatePlaceholderVisibility()
+        pnlFondo.Invalidate()
+    End Sub
+
+    ''' <summary>
+    ''' Restaura el estado inicial del control: sin selección, sin error, 
+    ''' borde base y placeholder visible.
+    ''' </summary>
+    Public Sub Resetear() Implements ILimpiable.Resetear
+        ' Vaciar contenido
+        cmbCampo.SelectedIndex = -1
+        cmbCampo.Text = ""
+
+        ' Quitar mensajes de error
+        lblError.Text = ""
+        lblError.Visible = False
+
+        ' Restaurar placeholder
+        UpdatePlaceholderVisibility()
+
+        ' Restaurar bordes
+        cmbCampo.BorderMode = ComboBoxUI.BorderState.Normal
+        pnlFondo.Invalidate()
+
     End Sub
 
 #End Region
