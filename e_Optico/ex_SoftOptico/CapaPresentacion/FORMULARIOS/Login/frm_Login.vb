@@ -87,7 +87,6 @@ Public Class frm_Login
 
 #End Region
 
-
 #Region "Procedimiento"
     Private Sub IniciarApp()
         ' Validar todos los campos requeridos
