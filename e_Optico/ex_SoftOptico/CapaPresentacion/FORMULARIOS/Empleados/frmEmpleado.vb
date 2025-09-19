@@ -266,14 +266,14 @@ Public Class frmEmpleado
                 .txtNombre.TextString = empleado._nombre
                 .txtApellido.TextString = empleado._apellido
                 .txtEdad.TextString = empleado._edad
-                .cmbNacionalidad.cmbCampo.Text = empleado._nacionalidad ' Asumiendo que el índice comienza en 0
-                .cmbEstadoCivil.cmbCampo.Text = empleado._estadoCivil
-                .cmbSexo.cmbCampo.Text = empleado._sexo
+                .cmbNacionalidad.Texto = empleado._nacionalidad ' Asumiendo que el índice comienza en 0
+                .cmbEstadoCivil.Texto = empleado._estadoCivil
+                .cmbSexo.Texto = empleado._sexo
                 .txtFechaNac.FechaSeleccionada = empleado._fechaNacimiento
-                .cmbCargo.cmbCampo.Text = empleado._cargo
+                .cmbCargo.Texto = empleado._cargo
                 .txtCorreo.TextString = empleado._correo
                 .txtTelefono.TextString = empleado._telefono
-                .cmbZona.cmbCampo.Text = empleado._zona
+                .cmbZona.Texto = empleado._zona
                 .txtDireccion.TextString = empleado._direccion
                 .chkAsesor.Checked = If(empleado._asesor = "True", True, False)
                 .chkOptometrista.Checked = If(empleado._optometrista = "True", True, False)

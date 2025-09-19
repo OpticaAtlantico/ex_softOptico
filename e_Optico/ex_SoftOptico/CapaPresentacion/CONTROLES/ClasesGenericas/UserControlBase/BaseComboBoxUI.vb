@@ -49,6 +49,8 @@ Public Class BaseComboBoxUI
     Public Event SelectionChangeCommittedCustom As EventHandler
     Private cargarCombo As Boolean = False ' Evitar eventos en carga
 
+    'Para el placeholder
+    Private _placeholderVisible As Boolean = True
 #End Region
 
 #Region "PROPIEDADES PÚBLICAS"
@@ -121,6 +123,7 @@ Public Class BaseComboBoxUI
         End Get
         Set(value As Object)
             cmbCampo.SelectedValue = value
+            ActualizarPlaceholder()
         End Set
     End Property
 
@@ -141,6 +144,7 @@ Public Class BaseComboBoxUI
             If value >= 0 AndAlso value < cmbCampo.Items.Count Then
                 cmbCampo.SelectedIndex = value
             End If
+            ActualizarPlaceholder()
         End Set
     End Property
 
@@ -156,6 +160,17 @@ Public Class BaseComboBoxUI
         Get
             Return cmbCampo.SelectedItem
         End Get
+    End Property
+
+    <Browsable(False)>
+    Public Property Texto As String
+        Get
+            Return cmbCampo.Text
+        End Get
+        Set(value As String)
+            cmbCampo.Text = value
+            ActualizarPlaceholder() ' 🔹 Aquí
+        End Set
     End Property
 
 #End Region
@@ -322,7 +337,14 @@ Public Class BaseComboBoxUI
 #Region "PROCEDIMIENTO"
     ' === Placeholder visibility update ===
     Private Sub UpdatePlaceholderVisibility()
-        lblPlaceholder.Visible = (Not cmbCampo.Focused) AndAlso String.IsNullOrEmpty(cmbCampo.Text)
+        'lblPlaceholder.Visible = (Not cmbCampo.Focused) AndAlso String.IsNullOrEmpty(cmbCampo.Text)
+        Dim debeMostrar As Boolean = String.IsNullOrWhiteSpace(cmbCampo.Text) AndAlso Not cmbCampo.Focused
+
+        ' Solo repintar si hay cambio real
+        If debeMostrar <> _placeholderVisible Then
+            lblPlaceholder.Visible = debeMostrar
+            _placeholderVisible = debeMostrar
+        End If
     End Sub
 
     Private Sub cmbCampo_SelectionChangeCommitted(sender As Object, e As EventArgs)
@@ -337,6 +359,10 @@ Public Class BaseComboBoxUI
 
         RaiseEvent SelectedIndexChangedCustom(Me, e)
     End Sub
+    Public Sub ActualizarPlaceholder()
+        UpdatePlaceholderVisibility()
+    End Sub
+
 #End Region
 
 #Region "Métodos Públicos"

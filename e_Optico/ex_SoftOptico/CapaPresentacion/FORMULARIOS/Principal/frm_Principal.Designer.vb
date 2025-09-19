@@ -74,10 +74,10 @@ Partial Class frm_Principal
         tlySuperior.ColumnCount = 6
         tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 60F))
         tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 80F))
-        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 420.0F))
-        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 330.0F))
-        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 330.0F))
-        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 170.0F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 420F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 330F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 330F))
+        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 170F))
         tlySuperior.Controls.Add(pnlBotones, 5, 0)
         tlySuperior.Controls.Add(lblLocalidad, 4, 0)
         tlySuperior.Controls.Add(lblEmpleado, 3, 0)
@@ -88,7 +88,7 @@ Partial Class frm_Principal
         tlySuperior.Location = New Point(0, 0)
         tlySuperior.Name = "tlySuperior"
         tlySuperior.RowCount = 1
-        tlySuperior.RowStyles.Add(New RowStyle(SizeType.Percent, 100.0F))
+        tlySuperior.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
         tlySuperior.Size = New Size(1370, 64)
         tlySuperior.TabIndex = 1
         ' 
@@ -97,7 +97,7 @@ Partial Class frm_Principal
         pnlBotones.Controls.Add(btnSalir)
         pnlBotones.Controls.Add(btnMaximizar)
         pnlBotones.Controls.Add(btnMinimizar)
-        pnlBotones.Dock = DockStyle.Fill
+        pnlBotones.Dock = DockStyle.Right
         pnlBotones.Location = New Point(1223, 3)
         pnlBotones.Name = "pnlBotones"
         pnlBotones.Size = New Size(164, 58)
@@ -156,7 +156,7 @@ Partial Class frm_Principal
         lblLocalidad.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblLocalidad.ColorTexto = Color.WhiteSmoke
         lblLocalidad.Dock = DockStyle.Fill
-        lblLocalidad.Font = New Font("Microsoft Sans Serif", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblLocalidad.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblLocalidad.Icono = FontAwesome.Sharp.IconChar.Eye
         lblLocalidad.Location = New Point(893, 3)
         lblLocalidad.MostrarSeparador = False
@@ -172,7 +172,7 @@ Partial Class frm_Principal
         lblEmpleado.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblEmpleado.ColorTexto = Color.WhiteSmoke
         lblEmpleado.Dock = DockStyle.Fill
-        lblEmpleado.Font = New Font("Microsoft Sans Serif", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblEmpleado.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblEmpleado.Icono = FontAwesome.Sharp.IconChar.Eye
         lblEmpleado.Location = New Point(563, 3)
         lblEmpleado.MostrarSeparador = False
@@ -214,7 +214,7 @@ Partial Class frm_Principal
         lblTitulo.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblTitulo.ColorTexto = Color.WhiteSmoke
         lblTitulo.Dock = DockStyle.Fill
-        lblTitulo.Font = New Font("Microsoft Sans Serif", 12.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblTitulo.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTitulo.Icono = FontAwesome.Sharp.IconChar.Eye
         lblTitulo.Location = New Point(143, 3)
         lblTitulo.MostrarSeparador = False

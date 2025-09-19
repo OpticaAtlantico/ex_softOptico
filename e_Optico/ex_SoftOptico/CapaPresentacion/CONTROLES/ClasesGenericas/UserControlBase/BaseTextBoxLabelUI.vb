@@ -50,7 +50,7 @@ Public Class BaseTextBoxLabelUI
     Private _textColorNormal As Color = Color.Black
 
     Private _validarComoCorreo As Boolean = False
-
+    Private _placeholderVisible As Boolean = True
 #End Region
 
 #Region "PROPIEDADES PÚBLICAS"
@@ -125,6 +125,7 @@ Public Class BaseTextBoxLabelUI
         End Get
         Set(value As String)
             txtCampo.Text = value
+            UpdatePlaceholderVisibility()
         End Set
     End Property
 
@@ -377,7 +378,14 @@ Public Class BaseTextBoxLabelUI
 #Region "PROCEDIMIENTO"
     ' === Placeholder visibility update ===
     Private Sub UpdatePlaceholderVisibility()
-        lblPlaceholder.Visible = (Not txtCampo.Focused) AndAlso String.IsNullOrEmpty(txtCampo.Text)
+        'lblPlaceholder.Visible = (Not txtCampo.Focused) AndAlso String.IsNullOrEmpty(txtCampo.Text)
+        Dim debeMostrar As Boolean = String.IsNullOrWhiteSpace(txtCampo.Text) AndAlso Not txtCampo.Focused
+
+        ' Solo repintar si hay cambio real
+        If debeMostrar <> _placeholderVisible Then
+            lblPlaceholder.Visible = debeMostrar
+            _placeholderVisible = debeMostrar
+        End If
     End Sub
     Private Sub CapitalizarSiEsNecesario()
         If Not CapitalizarTexto Then Exit Sub
