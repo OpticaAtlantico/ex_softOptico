@@ -99,11 +99,11 @@
         RaiseEvent CheckedChanged(Me, EventArgs.Empty)
     End Sub
     Public Sub Limpiar() Implements ILimpiable.Limpiar
-        Me.Checkeds = False
+        Me.Checked = False
     End Sub
 
     Public Sub Resetear() Implements ILimpiable.Resetear
-        Me.Checkeds = False
+        Me.Checked = False
     End Sub
 
 #End Region

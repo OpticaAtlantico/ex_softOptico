@@ -1,5 +1,4 @@
-﻿Imports System.Windows.Forms.Control.DoubleBuffered
-Public Class FormStylerUI
+﻿Public Class FormStylerUI
 
     ''' <summary>
     ''' Aplica configuración visual estándar: Opacity, DoubleBuffering y estilos de pintura.

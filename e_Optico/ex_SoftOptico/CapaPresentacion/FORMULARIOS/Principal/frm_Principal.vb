@@ -1,10 +1,7 @@
 ﻿Imports System.Runtime.InteropServices
-Imports DocumentFormat.OpenXml.Presentation
-Imports FontAwesome.Sharp
-Imports Microsoft.Windows.Themes
-Imports CapaEntidad
-Imports ClosedXML.Excel
 Imports CapaDatos
+Imports CapaEntidad
+Imports FontAwesome.Sharp
 
 Public Class frm_Principal
     Private drawerAbierto As Boolean = False
@@ -81,7 +78,7 @@ Public Class frm_Principal
     Private Sub btnSalirFrmHijo_Click(sender As Object, e As EventArgs) Handles btnSalirFrmHijo.Click
         If (Not (activeForms) Is Nothing) Then
             activeForms.Close()
-            DrawerTimer.Start()
+            'DrawerTimer.Start()
         End If
         Reset()
     End Sub

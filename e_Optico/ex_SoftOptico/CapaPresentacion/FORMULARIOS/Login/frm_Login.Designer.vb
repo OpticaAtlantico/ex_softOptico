@@ -63,6 +63,7 @@ Partial Class frm_Login
         cmbLocal.PlaceholderColor = Color.Gray
         cmbLocal.Size = New Size(308, 80)
         cmbLocal.TabIndex = 2
+        cmbLocal.Texto = ""
         cmbLocal.TextoLabel = "Establecimiento:"
         cmbLocal.ValorSeleccionado = Nothing
         ' 

@@ -199,7 +199,7 @@ Partial Class frmEmpleado
         txtDireccion.CapitalizarTexto = True
         txtDireccion.CapitalizarTodasLasPalabras = False
         txtDireccion.ColorError = Color.Firebrick
-        txtDireccion.FontField = New Font("Century Gothic", 12F)
+        txtDireccion.FontField = New Font("Microsoft Sans Serif", 12F)
         txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDireccion.LabelColor = Color.DarkSlateGray
@@ -210,7 +210,7 @@ Partial Class frmEmpleado
         txtDireccion.Name = "txtDireccion"
         txtDireccion.PaddingAll = 10
         txtDireccion.PanelBackColor = Color.White
-        txtDireccion.Placeholder = "Escribaaa aquí..."
+        txtDireccion.Placeholder = "Escriba una breve descripción aquí..."
         txtDireccion.PlaceholderColor = Color.Gray
         txtDireccion.Size = New Size(742, 126)
         txtDireccion.TabIndex = 12
@@ -376,6 +376,7 @@ Partial Class frmEmpleado
         cmbNacionalidad.PlaceholderColor = Color.Gray
         cmbNacionalidad.Size = New Size(332, 84)
         cmbNacionalidad.TabIndex = 4
+        cmbNacionalidad.Texto = ""
         cmbNacionalidad.TextoLabel = "Nacionaliad:"
         cmbNacionalidad.ValorSeleccionado = Nothing
         ' 
@@ -393,6 +394,7 @@ Partial Class frmEmpleado
         cmbEstadoCivil.PlaceholderColor = Color.Gray
         cmbEstadoCivil.Size = New Size(333, 84)
         cmbEstadoCivil.TabIndex = 5
+        cmbEstadoCivil.Texto = ""
         cmbEstadoCivil.TextoLabel = "Estado Civil:"
         cmbEstadoCivil.ValorSeleccionado = Nothing
         ' 
@@ -410,6 +412,7 @@ Partial Class frmEmpleado
         cmbSexo.PlaceholderColor = Color.Gray
         cmbSexo.Size = New Size(332, 84)
         cmbSexo.TabIndex = 6
+        cmbSexo.Texto = ""
         cmbSexo.TextoLabel = "Sexo:"
         cmbSexo.ValorSeleccionado = Nothing
         ' 
@@ -422,7 +425,7 @@ Partial Class frmEmpleado
         txtFechaNac.CampoRequerido = True
         txtFechaNac.Dock = DockStyle.Fill
         txtFechaNac.FechaSeleccionada = New Date(2025, 9, 17, 0, 0, 0, 0)
-        txtFechaNac.FontField = New Font("Century Gothic", 12F)
+        txtFechaNac.FontField = New Font("Microsoft Sans Serif", 12F)
         txtFechaNac.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtFechaNac.IconoDerechoChar = FontAwesome.Sharp.IconChar.None
         txtFechaNac.LabelColor = Color.DarkSlateGray
@@ -451,6 +454,7 @@ Partial Class frmEmpleado
         cmbCargo.PlaceholderColor = Color.Gray
         cmbCargo.Size = New Size(333, 84)
         cmbCargo.TabIndex = 8
+        cmbCargo.Texto = ""
         cmbCargo.TextoLabel = "Cargo:"
         cmbCargo.ValorSeleccionado = Nothing
         ' 
@@ -518,6 +522,7 @@ Partial Class frmEmpleado
         cmbZona.PlaceholderColor = Color.Gray
         cmbZona.Size = New Size(333, 84)
         cmbZona.TabIndex = 11
+        cmbZona.Texto = ""
         cmbZona.TextoLabel = "Zona:"
         cmbZona.ValorSeleccionado = Nothing
         ' 
@@ -588,7 +593,7 @@ Partial Class frmEmpleado
         btnGuardarFoto.Dock = DockStyle.Fill
         btnGuardarFoto.FlatAppearance.BorderSize = 0
         btnGuardarFoto.FlatStyle = FlatStyle.Flat
-        btnGuardarFoto.Font = New Font("Century Gothic", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnGuardarFoto.Font = New Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnGuardarFoto.IconChar = FontAwesome.Sharp.IconChar.FolderOpen
         btnGuardarFoto.IconColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         btnGuardarFoto.IconFont = FontAwesome.Sharp.IconFont.Auto
@@ -606,7 +611,7 @@ Partial Class frmEmpleado
         btnEliminarFoto.Dock = DockStyle.Fill
         btnEliminarFoto.FlatAppearance.BorderSize = 0
         btnEliminarFoto.FlatStyle = FlatStyle.Flat
-        btnEliminarFoto.Font = New Font("Century Gothic", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnEliminarFoto.Font = New Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEliminarFoto.IconChar = FontAwesome.Sharp.IconChar.TrashRestore
         btnEliminarFoto.IconColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         btnEliminarFoto.IconFont = FontAwesome.Sharp.IconFont.Auto
@@ -657,7 +662,7 @@ Partial Class frmEmpleado
         btnAccion.ColorTexto = Color.WhiteSmoke
         btnAccion.Cursor = Cursors.Hand
         btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Warning
-        btnAccion.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnAccion.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold)
         btnAccion.Icono = FontAwesome.Sharp.IconChar.Warning
         btnAccion.Location = New Point(1114, 12)
         btnAccion.Name = "btnAccion"

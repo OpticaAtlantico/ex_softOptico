@@ -6,6 +6,9 @@ Imports Microsoft.Data.SqlClient
 Public Class frmEmpleado
     Inherits Form
 
+    Private fadeTimer As New Timer()
+    Private fadeStep As Double = 0.05
+
     Private rutaImagenSeleccionada As String = ""
     Private llenarCombo As New LlenarComboBox
     Public Property DatosEmpleados As VEmpleados = Nothing
@@ -17,7 +20,7 @@ Public Class frmEmpleado
         ' This call is required by the designer.
         InitializeComponent()
         FormStylerUI.Apply(Me)
-
+        PrepararUI()
         ' Add any initialization after the InitializeComponent() call.
     End Sub
 
@@ -35,8 +38,8 @@ Public Class frmEmpleado
 #Region "EVENTOS DEL FORMULARIO"
     Private Sub frmEmpleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initialize form components or load data if necessary
+        FadeManagerUI.StartFade(Me, 0.05)
         Me.SuspendLayout()
-        PrepararUI()
 
         If DatosEmpleados IsNot Nothing Then
             CargarDatos(DatosEmpleados)
@@ -64,7 +67,7 @@ Public Class frmEmpleado
             .ColorTexto = Color.WhiteSmoke
         End With
         Me.ResumeLayout()
-        FadeManagerUI.StartFade(Me, 0.05)
+
 
     End Sub
 
@@ -426,11 +429,6 @@ Public Class frmEmpleado
                                  Botones.Aceptar
                                 )
         End Try
-    End Sub
-
-    Private Sub Panel1_Click(sender As Object, e As EventArgs) Handles Panel1.Click
-        LimpiarControles(Me)
-        ResetearControles(Me)
     End Sub
 
 #End Region

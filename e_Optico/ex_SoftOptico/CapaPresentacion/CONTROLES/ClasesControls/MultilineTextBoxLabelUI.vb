@@ -52,7 +52,7 @@ Public Class MultilineTextBoxLabelUI
     Private alturaAnimadaActual As Integer = 40
 
     ' === Placeholder ===
-    Private _placeholder As String = "Escribaaa aquí..."
+    Private _placeholder As String = "Escriba aquí..."
     Private _placeholderColor As Color = AppColors._cPlaceHolder
 #End Region
 
@@ -369,10 +369,8 @@ Public Class MultilineTextBoxLabelUI
         lblPlaceholder.ForeColor = _placeholderColor
         lblPlaceholder.BackColor = Color.Transparent
         lblPlaceholder.Font = txtCampo.Font
-        lblPlaceholder.TextAlign = ContentAlignment.MiddleLeft
+        lblPlaceholder.TextAlign = ContentAlignment.TopLeft ' 🔹 Mejor para multilinea
         lblPlaceholder.AutoSize = False
-        lblPlaceholder.Location = txtCampo.Location
-        lblPlaceholder.Size = txtCampo.Size
         lblPlaceholder.Enabled = False ' Para que no reciba foco ni eventos
         pnlFondo.Controls.Add(lblPlaceholder)
         lblPlaceholder.BringToFront()
@@ -380,6 +378,12 @@ Public Class MultilineTextBoxLabelUI
 
         AddHandler pnlFondo.Resize, Sub()
                                         pnlFondo.Region = New Region(RoundedPath(pnlFondo.ClientRectangle, _borderRadius))
+                                    End Sub
+
+        ' 🔹 Vincular placeholder al tamaño del txtCampo
+        AddHandler txtCampo.Resize, Sub()
+                                        lblPlaceholder.Location = txtCampo.Location
+                                        lblPlaceholder.Size = txtCampo.Size
                                     End Sub
 
         AddHandler pnlFondo.Resize, Sub()
