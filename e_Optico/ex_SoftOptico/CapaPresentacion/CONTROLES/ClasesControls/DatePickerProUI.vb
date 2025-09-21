@@ -5,6 +5,7 @@ Imports FontAwesome.Sharp
 
 Public Class DatePickerProUI
     Inherits UserControl
+    Implements ILimpiable
 
     ' === Controles Base ===
     Private lblTitulo As New Label()
@@ -482,8 +483,6 @@ Public Class DatePickerProUI
         txtCampo.Location = New Point(_paddingAll, (pnlFondo.Height - txtCampo.Height) \ 2)
         iconoDerecho.Location = New Point(pnlFondo.Width - iconoDerecho.Width - _paddingAll, (pnlFondo.Height - iconoDerecho.Height) \ 2)
     End Sub
-
-
 #End Region
 
 #Region "EVENTOS INTERNOS DEL CALENDARIO"
@@ -572,6 +571,36 @@ Public Class DatePickerProUI
         path.CloseFigure()
         Return path
     End Function
+
+
+
+#End Region
+
+#Region "ILimpiable"
+
+    ''' <summary>
+    ''' Limpia el contenido del campo y restablece estado visual (sin errores, borde normal, placeholder).
+    ''' </summary>
+    Public Sub Limpiar() Implements ILimpiable.Limpiar
+        ' Limpiar texto y valor de fecha
+        txtCampo.Clear()
+        _fechaSeleccionada = Nothing
+        _fechaActual = Date.Today
+
+        ' Ocultar error
+        lblError.Text = ""
+        lblError.Visible = False
+
+    End Sub
+
+    Public Sub Resetear() Implements ILimpiable.Resetear
+        ' Restaurar colores al estado inicial
+        _borderColor = _borderColorNormal
+        pnlFondo.Invalidate()
+
+        ' Refrescar calendario
+        RenderCalendario()
+    End Sub
 
 #End Region
 

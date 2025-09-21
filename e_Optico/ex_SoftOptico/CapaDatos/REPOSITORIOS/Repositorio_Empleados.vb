@@ -183,7 +183,7 @@ Public Class Repositorio_Empleados
             New SqlParameter("@Estado", entity.Estado),
             New SqlParameter("@Telefono", entity.Telefono),
             New SqlParameter("@Zona", entity.Zona),
-            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), "Sin Foto", entity.Foto))
+            New SqlParameter("@Foto", If(String.IsNullOrWhiteSpace(entity.Foto), "0", entity.Foto))
         }
         Return ExecuteNonQuery(Actualizar)
     End Function

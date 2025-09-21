@@ -14,6 +14,8 @@ Public Class frmEmpleado
     Public Property DatosEmpleados As VEmpleados = Nothing
     Public Property NombreBoton As String = String.Empty
 
+    Public Event CerrarEmpleado As EventHandler
+
 #Region "CONSTRUCTOR"
 
     Public Sub New()
@@ -67,7 +69,6 @@ Public Class frmEmpleado
             .ColorTexto = Color.WhiteSmoke
         End With
         Me.ResumeLayout()
-
 
     End Sub
 
@@ -199,55 +200,6 @@ Public Class frmEmpleado
         End Select
     End Sub
 
-    'Private Sub LimpiarControles(container As Control)
-    '    container.SuspendLayout()
-
-    '    'For Each ctrl As Control In container.Controls
-    '    '    If TypeOf ctrl Is NumericTextBoxLabelUI Then
-    '    '        Dim c = CType(ctrl, NumericTextBoxLabelUI)
-    '    '        c.TextString = ""
-
-    '    '    ElseIf TypeOf ctrl Is TextOnlyTextBoxLabelUI Then
-    '    '        Dim c = CType(ctrl, TextOnlyTextBoxLabelUI)
-    '    '        c.TextString = ""
-
-    '    '    ElseIf TypeOf ctrl Is EmailTextBoxLabelUI Then
-    '    '        Dim c = CType(ctrl, EmailTextBoxLabelUI)
-    '    '        c.TextString = ""
-
-    '    '    ElseIf TypeOf ctrl Is ComboBoxLayoutUI Then
-    '    '        Dim c = CType(ctrl, ComboBoxLayoutUI)
-    '    '        c.Limpiar()
-
-    '    '    ElseIf TypeOf ctrl Is MultilineTextBoxLabelUI Then
-    '    '        Dim c = CType(ctrl, MultilineTextBoxLabelUI)
-    '    '        c.TextString = ""
-
-    '    '    ElseIf TypeOf ctrl Is CheckBoxLabelUI Then
-    '    '        CType(ctrl, CheckBoxLabelUI).Checked = False
-
-    '    '    ElseIf ctrl.HasChildren Then
-    '    '        ' Llamada recursiva para paneles o groupboxes
-    '    '        LimpiarControles(ctrl)
-    '    '    End If
-    '    'Next
-
-    '    For Each ctrl As Control In container.Controls
-    '        ' Si el control implementa ILimpiable, lo limpiamos
-    '        If TypeOf ctrl Is ILimpiable Then
-    '            DirectCast(ctrl, ILimpiable).Limpiar()
-    '        End If
-
-    '        ' Si tiene hijos, entramos en ellos
-    '        If ctrl.HasChildren Then
-    '            LimpiarControles(ctrl)
-    '        End If
-    '    Next
-
-    '    container.ResumeLayout()
-    '    container.PerformLayout()
-    'End Sub
-
     Private Sub limpiarImagen()
         imgFoto.BackgroundImage = Nothing
 
@@ -309,7 +261,6 @@ Public Class frmEmpleado
 #End Region
 
 #Region "SQL"
-
     Private Function ObtenerDatosEmpleado(Optional ByVal incluirID As Boolean = False) As ResultadoEmpleados
         Dim resultado As New ResultadoEmpleados()
 
@@ -328,6 +279,7 @@ Public Class frmEmpleado
             Dim sexo = Convert.ToInt32(cmbSexo.IndiceSeleccionado)
             Dim cargo = Convert.ToInt32(cmbCargo.IndiceSeleccionado) + 1 ' Asumiendo que el índice comienza en 0
             Dim zona = Convert.ToInt32(cmbZona.IndiceSeleccionado)
+
 
             If {cedula, nombre, apellido, edad, nacionalidad, estadoCivil, sexo, telefono, correo, direccion, cargo}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
@@ -399,11 +351,9 @@ Public Class frmEmpleado
             If exito Then
                 Dim mensaje As New ToastUI(If(esNuevo, MensajesUI.RegistroExitoso,
                                                        MensajesUI.ActualizacionExitosa), TipoToastUI.Success)
-                mensaje.Mostrar()
 
-                LimpiarControles(Me)
-                ResetearControles(Me)
-                limpiarImagen()
+                Me.Close()
+                mensaje.Mostrar()
 
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
@@ -429,6 +379,10 @@ Public Class frmEmpleado
                                  Botones.Aceptar
                                 )
         End Try
+    End Sub
+
+    Private Sub frmEmpleado_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        RaiseEvent CerrarEmpleado(Me, EventArgs.Empty)
     End Sub
 
 #End Region

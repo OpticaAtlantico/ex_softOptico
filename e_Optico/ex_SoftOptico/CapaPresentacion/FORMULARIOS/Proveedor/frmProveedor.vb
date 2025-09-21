@@ -10,6 +10,8 @@ Public Class frmProveedor
     Public Property DatosProveedor As VProveedor = Nothing
     Public Property NombreBoton As String = String.Empty
 
+    Public Event CerrarProveedor As EventHandler
+
 #Region "CONSTRUCTOR"
 
     Public Sub New()
@@ -283,6 +285,10 @@ Public Class frmProveedor
                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
                                 TipoMensaje.Errors, Botones.Aceptar)
         End Try
+    End Sub
+
+    Private Sub frmProveedor_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        RaiseEvent CerrarProveedor(Me, EventArgs.Empty)
     End Sub
 
 #End Region

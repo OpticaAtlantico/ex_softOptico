@@ -3,6 +3,8 @@ Imports FontAwesome.Sharp
 
 Public Class InputBoxUI
     Inherits Form
+
+#Region "Propiedades públicas"
     Public Property Placeholder As String
     Public Property Titulo As String
     Public Property TipoDato As TipoValidacion = TipoValidacion.Texto
@@ -11,15 +13,17 @@ Public Class InputBoxUI
 
     Public Property ValorIngresado As String = ""
     Public Property Resultado As Boolean = False
+#End Region
 
+#Region "Controles internos"
     Private lblTitulo As New Label()
-    Private txtInput As New TextBox()
     Private lblError As New Label()
     Private btnAceptar As New Button()
     Private btnCancelar As New Button()
     Private iconoDecorativo As New IconPictureBox()
     Private fondoPanel As New Panel()
-    Private pnlTextBox As New Panel()
+    Private txtInputUI As New TextOnlyTextBoxLabelUI() ' 🚀 Tu control ajustado
+#End Region
 
     Public Enum TipoValidacion
         Texto
@@ -28,11 +32,12 @@ Public Class InputBoxUI
         Correo
     End Enum
 
+#Region "Constructor"
     Public Sub New()
         Me.FormBorderStyle = FormBorderStyle.None
         Me.StartPosition = FormStartPosition.CenterScreen
         Me.BackColor = Color.AliceBlue
-        Me.Opacity = 0.9R ' Nivel de transparencia
+        Me.Opacity = 0.95R
         Me.Size = New Size(445, 225)
         Me.ShowInTaskbar = False
         Me.TopMost = True
@@ -40,82 +45,77 @@ Public Class InputBoxUI
 
         CrearControles()
     End Sub
+#End Region
 
+#Region "Inicializar UI"
     Private Sub CrearControles()
+        ' === Panel de fondo ===
         fondoPanel.Size = New Size(440, 220)
         fondoPanel.Location = New Point((Me.Width - fondoPanel.Width) \ 2, (Me.Height - fondoPanel.Height) \ 2)
         fondoPanel.BackColor = Color.White
         fondoPanel.Region = New Region(GetRoundedRectPath(fondoPanel.ClientRectangle, 18))
-        fondoPanel.Anchor = AnchorStyles.None
-        fondoPanel.BorderStyle = BorderStyle.None
         Me.Controls.Add(fondoPanel)
 
+        ' === Título ===
         lblTitulo.Text = "Título"
         lblTitulo.Font = New Font("Century Gothic", 12, FontStyle.Regular)
         lblTitulo.ForeColor = Color.FromArgb(40, 40, 40)
-        lblTitulo.Location = New Point(((Me.Width - fondoPanel.Width) \ 2) + 17, (Me.Top + 65))
+        lblTitulo.Location = New Point(20, 20)
         lblTitulo.AutoSize = True
         fondoPanel.Controls.Add(lblTitulo)
 
-        iconoDecorativo.IconChar = icono
+        ' === Icono ===
+        iconoDecorativo.IconChar = Icono
         iconoDecorativo.IconColor = Color.DodgerBlue
-        iconoDecorativo.IconSize = 50
-        iconoDecorativo.Location = New Point(15, 20)
+        iconoDecorativo.IconSize = 40
+        iconoDecorativo.Location = New Point(fondoPanel.Width - 60, 15)
         iconoDecorativo.Size = New Size(40, 40)
         fondoPanel.Controls.Add(iconoDecorativo)
 
-        ' === Panel redondeado para textbox ===
-        pnlTextBox.Size = New Size(400, 38)
-        pnlTextBox.Location = New Point(20, 95)
-        pnlTextBox.BackColor = Color.LightSkyBlue
-        pnlTextBox.Region = New Region(GetRoundedRectPath(New Rectangle(0, 0, pnlTextBox.Width, pnlTextBox.Height), 15))
-        pnlTextBox.BorderStyle = BorderStyle.None
-        pnlTextBox.Padding = New Padding(0)
-        pnlTextBox.Anchor = AnchorStyles.Top Or AnchorStyles.Left
-        fondoPanel.Controls.Add(pnlTextBox)
+        ' === TextOnlyTextBoxLabelUI ===
+        txtInputUI.Name = "txtInputUI"
+        txtInputUI.Size = New Size(380, 80)
+        txtInputUI.Location = New Point(30, 70)
+        txtInputUI.Placeholder = Placeholder
+        txtInputUI.TextString = ""
+        fondoPanel.Controls.Add(txtInputUI)
 
-        ' === TextBox dentro del panel ===
-        txtInput.Font = New Font("Century Gothic", 11)
-        txtInput.ForeColor = Color.White
-        txtInput.BackColor = Color.LightSkyBlue
-        txtInput.BorderStyle = BorderStyle.None
-        txtInput.Location = New Point(10, 9) ' Centramos manualmente el texto verticalmente
-        txtInput.Size = New Size(380, 22)
-        txtInput.Multiline = False
-        txtInput.TextAlign = HorizontalAlignment.Left
-        pnlTextBox.Controls.Add(txtInput)
-
+        ' === Label error ===
         lblError.Text = ""
         lblError.ForeColor = Color.Red
-        lblError.Location = New Point(20, 145)
+        lblError.Location = New Point(35, 115)
         lblError.AutoSize = True
         fondoPanel.Controls.Add(lblError)
 
+        ' === Botón Aceptar ===
         btnAceptar.Text = "Aceptar"
         btnAceptar.BackColor = Color.DodgerBlue
         btnAceptar.ForeColor = Color.White
         btnAceptar.FlatStyle = FlatStyle.Flat
         btnAceptar.Location = New Point(40, 155)
         btnAceptar.Size = New Size(150, 40)
-        btnAceptar.Font = New Font("Century Gothic", 12, FontStyle.Regular)
+        btnAceptar.Font = New Font("Century Gothic", 11, FontStyle.Regular)
         AddHandler btnAceptar.Click, AddressOf BtnAceptar_Click
         fondoPanel.Controls.Add(btnAceptar)
 
+        ' === Botón Cancelar ===
         btnCancelar.Text = "Cancelar"
         btnCancelar.BackColor = Color.OrangeRed
         btnCancelar.ForeColor = Color.WhiteSmoke
         btnCancelar.FlatStyle = FlatStyle.Flat
         btnCancelar.Location = New Point(240, 155)
         btnCancelar.Size = New Size(150, 40)
-        btnCancelar.Font = New Font("Century Gothic", 12, FontStyle.Regular)
+        btnCancelar.Font = New Font("Century Gothic", 11, FontStyle.Regular)
         AddHandler btnCancelar.Click, AddressOf BtnCancelar_Click
         fondoPanel.Controls.Add(btnCancelar)
     End Sub
+#End Region
 
+#Region "Eventos botones"
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs)
         If ValidarEntrada() Then
             Resultado = True
-            ValorIngresado = txtInput.Text.Trim()
+            ValorIngresado = txtInputUI.TextString.Trim()
             Me.Close()
         End If
     End Sub
@@ -124,9 +124,11 @@ Public Class InputBoxUI
         Resultado = False
         Me.Close()
     End Sub
+#End Region
 
+#Region "Validación"
     Private Function ValidarEntrada() As Boolean
-        Dim texto = txtInput.Text.Trim()
+        Dim texto = txtInputUI.TextString.Trim()
 
         If EsObligatorio AndAlso String.IsNullOrEmpty(texto) Then
             lblError.Text = "Este campo es obligatorio."
@@ -154,7 +156,9 @@ Public Class InputBoxUI
         lblError.Text = ""
         Return True
     End Function
+#End Region
 
+#Region "Funciones auxiliares"
     Private Function GetRoundedRectPath(rect As Rectangle, radius As Integer) As GraphicsPath
         Dim path As New GraphicsPath()
         path.StartFigure()
@@ -165,41 +169,39 @@ Public Class InputBoxUI
         path.CloseFigure()
         Return path
     End Function
+#End Region
 
+#Region "Método Mostrar"
     Public Shared Function Mostrar(titulo As String,
                                    placeholder As String,
                                    tipoDato As TipoValidacion,
                                    Optional icono As IconChar = IconChar.Pen,
                                    Optional obligatorio As Boolean = True) As (Aceptado As Boolean, Valor As String)
 
-
         Using frm As New InputBoxUI()
             frm.Titulo = titulo
             frm.Placeholder = placeholder
             frm.TipoDato = tipoDato
-            frm.icono = icono
+            frm.Icono = icono
             frm.EsObligatorio = obligatorio
 
             frm.lblTitulo.Text = titulo
-            frm.txtInput.PlaceholderText = placeholder
+            frm.txtInputUI.Placeholder = placeholder
             frm.iconoDecorativo.IconChar = icono
 
             frm.ShowDialog()
 
             Return (frm.Resultado, frm.ValorIngresado)
-
         End Using
     End Function
-
+#End Region
 End Class
 
-
-' Example usage:
 'Dim resultado = InputBoxUI.Mostrar(
-'    titulo:="Ingrese su correo",
-'    placeholder:="ejemplo@correo.com",
-'    tipoDato:=InputBoxUI.TipoValidacion.Correo,
-'    icono:=FontAwesome.Sharp.IconChar.At,
+'    titulo:="Ingrese su nombre",
+'    placeholder:="Ejemplo: Wilmer",
+'    tipoDato:=InputBoxUI.TipoValidacion.Texto,
+'    icono:=FontAwesome.Sharp.IconChar.User,
 '    obligatorio:=True
 ')
 
@@ -208,3 +210,5 @@ End Class
 'Else
 'MessageBox.Show("El usuario canceló.")
 'End If
+
+

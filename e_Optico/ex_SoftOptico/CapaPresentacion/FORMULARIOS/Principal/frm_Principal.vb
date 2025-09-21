@@ -165,8 +165,23 @@ Public Class frm_Principal
 
         If Not abierto Then
             EfectoBotonInActivo()
-            OpenChildForm(New frmEmpleado)
+            Dim formularioHijo As New frmEmpleado()
+            formularioHijo.NombreBoton = "Guardar..."
+
+            ' 🔹 Aquí conectas el evento de cierre del hijo con la acción del principal
+            AddHandler formularioHijo.CerrarEmpleado, Sub()
+                                                          btnSalirFrmHijo.Visible = False
+                                                      End Sub
+
+            ' 🔹 Abres el hijo
+            OpenChildForm(formularioHijo)
+
+            ' 🔹 Al abrirlo, muestras el botón salir
+            btnSalirFrmHijo.Visible = True
+
         End If
+
+        DrawerTimer.Start()
         Me.ResumeLayout()
     End Sub
 
@@ -720,25 +735,17 @@ Public Class frm_Principal
 
     Private Sub enviarDatosEmpleados(cedula As Integer, opcion As Integer)
 
-        '--- CÓDIGO CORRECTO ---
         Dim repositorio As New Repositorio_Empleados()
-        Dim cedulaE As String = cedula ' Asumiendo que 'cedula' es un TextBox
+        Dim cedulaE As String = cedula
         Dim texto As String = String.Empty
 
-        ' 1. Llama a la función y guarda el resultado en una lista.
-        Dim listaResultados As IEnumerable(Of VEmpleados) = repositorio.GetByCedula(cedulaE)
-
-        ' 2. Selecciona el PRIMER resultado de la lista y guárdalo en tu propiedad.
-        '    FirstOrDefault() es seguro: si no encuentra nada, asigna 'Nothing'.
-
         Try
-            Me.EmpleadoEncontrado = listaResultados.FirstOrDefault()
+            Me.EmpleadoEncontrado = repositorio.GetByCedula(cedulaE).FirstOrDefault()
 
-            ' 3. Comprueba si se encontró un empleado antes de continuar.
             If Me.EmpleadoEncontrado IsNot Nothing Then
-                ' 4. Ahora puedes pasar el objeto al formulario hijo.
                 Dim formularioHijo As New frmEmpleado()
                 formularioHijo.DatosEmpleados = Me.EmpleadoEncontrado
+
                 Select Case opcion
                     Case 0
                         texto = "Actualizar..."
@@ -746,25 +753,37 @@ Public Class frm_Principal
                         texto = "Eliminar..."
                 End Select
 
-                formularioHijo.NombreBoton = texto.ToString()
+                formularioHijo.NombreBoton = texto
+
+                ' 🔹 Aquí conectas el evento de cierre del hijo con la acción del principal
+                AddHandler formularioHijo.CerrarEmpleado, Sub()
+                                                              btnSalirFrmHijo.Visible = False
+                                                          End Sub
+
+                ' 🔹 Abres el hijo
                 OpenChildForm(formularioHijo)
+
+                ' 🔹 Al abrirlo, muestras el botón salir
+                btnSalirFrmHijo.Visible = True
 
             Else
                 MessageBoxUI.Mostrar(
-                                     "Datos no existe...",
-                                     "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
-                                     TipoMensaje.Advertencia,
-                                     Botones.Aceptar
-                                     )
+                "Datos no existe...",
+                "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
+                TipoMensaje.Advertencia,
+                Botones.Aceptar
+            )
             End If
+
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error",
-                                 "Ocurrió un error al buscar el empleado. Por favor, intente nuevamente. " & ex.Message,
-                                 TipoMensaje.Errors,
-                                 Botones.Aceptar)
+                             "Ocurrió un error al buscar el empleado. Por favor, intente nuevamente. " & ex.Message,
+                             TipoMensaje.Errors,
+                             Botones.Aceptar)
         End Try
 
     End Sub
+
 
     Private Sub enviarDatosProveedor(nombre As String, opcion As Integer)
 
@@ -792,8 +811,18 @@ Public Class frm_Principal
                     Case 1
                         texto = "Eliminar..."
                 End Select
-                formularioHijo.NombreBoton = texto.ToString()
+                formularioHijo.NombreBoton = texto
+
+                ' 🔹 Aquí conectas el evento de cierre del hijo con la acción del principal
+                AddHandler formularioHijo.CerrarProveedor, Sub()
+                                                               btnSalirFrmHijo.Visible = False
+                                                           End Sub
+
+                ' 🔹 Abres el hijo
                 OpenChildForm(formularioHijo)
+
+                ' 🔹 Al abrirlo, muestras el botón salir
+                btnSalirFrmHijo.Visible = True
             Else
                 MessageBoxUI.Mostrar("Datos no existe...",
                                      "No hay ningún proveedor con ese nombre, por favor verifique bien los datos",
