@@ -1,6 +1,8 @@
 ﻿Imports System.Drawing
 Imports CapaDatos
 Imports CapaEntidad
+Imports CapaNegocio
+Imports DocumentFormat.OpenXml.Wordprocessing
 Imports FontAwesome.Sharp
 Imports Microsoft.Data.SqlClient
 Public Class frmEmpleado
@@ -162,21 +164,41 @@ Public Class frmEmpleado
                 End If
             Case "Eliminar..."
                 ' Aquí puedes implementar la lógica para eliminar el empleado
-                Dim empleadoId As Integer = DatosEmpleados._empleadoID
-                Dim rutaFoto As String = DatosEmpleados._foto ' Ejemplo: "Fotos/empleado_1234.jpg"
+                'Dim empleadoId As Integer = DatosEmpleados._empleadoID
+                'Dim rutaFoto As String = DatosEmpleados._foto ' Ejemplo: "Fotos/empleado_1234.jpg"
 
-                Dim confirmacion = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
-                                                         MensajesUI.ConfirmarAccion,
-                                                         TipoMensaje.Informacion,
-                                                         Botones.AceptarCancelar
-                                                       )
+                'Dim confirmacion = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                '                                         MensajesUI.ConfirmarAccion,
+                '                                         TipoMensaje.Informacion,
+                '                                         Botones.AceptarCancelar
+                '                                       )
 
-                ' Verifica si el usuario confirmó la eliminación
-                If confirmacion = DialogResult.Yes Then
-                    EliminarEmpleado(empleadoId, rutaFoto)
-                    Me.Close() ' Cierra el formulario después de eliminar
-                    frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal  
-                End If
+                '' Verifica si el usuario confirmó la eliminación
+                'If confirmacion = DialogResult.Yes Then
+                '    EliminarEmpleado(empleadoId, rutaFoto)
+                '    Me.Close() ' Cierra el formulario después de eliminar
+                '    frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal  
+                'End If
+
+
+                Try
+                    Dim id As Integer = Convert.ToInt32(txtId.Text)
+                    Dim rutaFoto As String = txtRutaFoto.Text ' asumiendo que guardas la ruta en un campo oculto o label
+
+                    Dim service As New ServiceEmpleado()
+                    Dim ok As Boolean = service.Eliminar(id, rutaFoto)
+
+                    If ok Then
+                        Dim toast As New ToastUI("Empleado eliminado correctamente.", TipoToastUI.Success)
+                        toast.Mostrar()
+                    Else
+                        Dim toast As New ToastUI("No se pudo eliminar el empleado o su foto.", TipoToastUI.Warning)
+                        toast.Mostrar()
+                    End If
+
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
 
             Case "Guardar..."
                 ' Aquí puedes implementar la lógica para guardar un nuevo empleado
@@ -293,7 +315,7 @@ Public Class frmEmpleado
             End If
 
             ' Ruta de imagen
-            Dim rutaRelativa As String = GuardarImagenEmpleado(rutaImagenSeleccionada, $"empleado_{cedula}")
+            Dim rutaRelativa As String = GuardarImagenEmpleado(rutaImagenSeleccionada, $"e_{cedula}")
 
             resultado.Empleado = New TEmpleados With {
             .EmpleadoID = id,
@@ -337,47 +359,34 @@ Public Class frmEmpleado
 
         If Not datos.EsValido Then Exit Sub
 
-        Dim repositorio As New Repositorio_Empleados()
-
-        Dim exito As Boolean = False
+        Dim service As New ServiceEmpleado()
 
         Try
+            Dim exito As Boolean
             If esNuevo Then
-                exito = repositorio.Add(datos.Empleado)
+                exito = service.Guardar(datos.Empleado)
             Else
-                exito = repositorio.Edit(datos.Empleado)
+                exito = service.Actualizar(datos.Empleado)
             End If
 
             If exito Then
                 Dim mensaje As New ToastUI(If(esNuevo, MensajesUI.RegistroExitoso,
-                                                       MensajesUI.ActualizacionExitosa), TipoToastUI.Success)
-
+                                                   MensajesUI.ActualizacionExitosa),
+                                                   TipoToastUI.Success)
                 Me.Close()
                 mensaje.Mostrar()
-
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                    MensajesUI.ErrorInesperado,
-                                    TipoMensaje.Errors,
-                                    Botones.Aceptar
-                                    )
-            End If
-        Catch ex As Exception
-            If TypeOf ex.InnerException Is SqlException Then
-                Dim sqlEx = CType(ex.InnerException, SqlException)
-                If sqlEx.Number = 2627 Then
-                    MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
-                                         MensajesUI.RegistroDuplicado,
-                                         TipoMensaje.Errors, Botones.Aceptar)
-                    Exit Sub
-                End If
+                                 MensajesUI.OperacionFallida,
+                                 TipoMensaje.Errors,
+                                 Botones.Aceptar)
             End If
 
+        Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors,
-                                 Botones.Aceptar
-                                )
+                             ex.Message,
+                             TipoMensaje.Errors,
+                             Botones.Aceptar)
         End Try
     End Sub
 
