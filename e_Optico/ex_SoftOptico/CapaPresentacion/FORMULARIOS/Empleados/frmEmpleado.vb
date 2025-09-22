@@ -1,8 +1,6 @@
-﻿Imports System.Drawing
-Imports CapaDatos
+﻿Imports CapaDatos
 Imports CapaEntidad
 Imports CapaNegocio
-Imports DocumentFormat.OpenXml.Wordprocessing
 Imports FontAwesome.Sharp
 Imports Microsoft.Data.SqlClient
 Public Class frmEmpleado
@@ -162,28 +160,12 @@ Public Class frmEmpleado
                                          MensajesUI.SinResultados,
                                          TipoMensaje.Advertencia, Botones.Aceptar)
                 End If
+
             Case "Eliminar..."
-                ' Aquí puedes implementar la lógica para eliminar el empleado
-                'Dim empleadoId As Integer = DatosEmpleados._empleadoID
-                'Dim rutaFoto As String = DatosEmpleados._foto ' Ejemplo: "Fotos/empleado_1234.jpg"
-
-                'Dim confirmacion = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
-                '                                         MensajesUI.ConfirmarAccion,
-                '                                         TipoMensaje.Informacion,
-                '                                         Botones.AceptarCancelar
-                '                                       )
-
-                '' Verifica si el usuario confirmó la eliminación
-                'If confirmacion = DialogResult.Yes Then
-                '    EliminarEmpleado(empleadoId, rutaFoto)
-                '    Me.Close() ' Cierra el formulario después de eliminar
-                '    frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal  
-                'End If
-
 
                 Try
-                    Dim id As Integer = Convert.ToInt32(txtId.Text)
-                    Dim rutaFoto As String = txtRutaFoto.Text ' asumiendo que guardas la ruta en un campo oculto o label
+                    Dim id As Integer = Convert.ToInt32(DatosEmpleados._empleadoID)
+                    Dim rutaFoto As String = DatosEmpleados._foto ' asumiendo que guardas la ruta en un campo oculto o label
 
                     Dim service As New ServiceEmpleado()
                     Dim ok As Boolean = service.Eliminar(id, rutaFoto)
@@ -197,10 +179,15 @@ Public Class frmEmpleado
                     End If
 
                 Catch ex As Exception
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                    TipoMensaje.Errors,
+                                    Botones.Aceptar
+                                    )
                 End Try
 
             Case "Guardar..."
+
                 ' Aquí puedes implementar la lógica para guardar un nuevo empleado
                 If DatosEmpleados Is Nothing Then
                     ProcesarEmpleado(esNuevo:=True)
@@ -213,6 +200,7 @@ Public Class frmEmpleado
                                          )
 
                 End If
+
             Case Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                      MensajesUI.OperacionFallida,

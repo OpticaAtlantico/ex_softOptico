@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Data.SqlClient
-
 Public Class Repositorio_Maestro
     Inherits Repositorio_Conexion
 
@@ -33,9 +32,7 @@ Public Class Repositorio_Maestro
             End Using
 
         Catch ex As SqlException
-            ' Logging profesional podría integrarse aquí
-            Throw New ApplicationException("Error al ejecutar la transacción SQL.", ex)
-
+            Throw
         Catch ex As Exception
             Throw
         End Try
@@ -74,8 +71,7 @@ Public Class Repositorio_Maestro
             End Using
 
         Catch ex As SqlException
-            Throw New ApplicationException("Error al ejecutar la consulta SQL.", ex)
-
+            Throw New Exception(SqlExceptionUI.ObtenerMensajeSql(ex))
         Catch ex As Exception
             Throw
         End Try

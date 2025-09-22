@@ -17,10 +17,8 @@ Public Class ServiceEmpleado
         Try
             Return _repo.Add(empleado)
         Catch ex As SqlException
-            If ex.Number = 2627 Then ' Duplicado
-                Throw New Exception("La cédula ya está registrada.")
-            End If
-            Throw
+            Dim mensaje As String = SqlExceptionUI.ObtenerMensajeSql(ex)
+            Throw New Exception(mensaje)
         End Try
     End Function
 #End Region
@@ -86,15 +84,14 @@ Public Class ServiceEmpleado
         If String.IsNullOrWhiteSpace(emp.Cedula) Then Throw New Exception("La cédula es obligatoria.")
         If String.IsNullOrWhiteSpace(emp.Nombre) Then Throw New Exception("El nombre es obligatorio.")
         If String.IsNullOrWhiteSpace(emp.Apellido) Then Throw New Exception("El apellido es obligatorio.")
-        If String.IsNullOrWhiteSpace(emp.Correo) OrElse Not emp.Correo.Contains("@") Then
-            Throw New Exception("Correo electrónico inválido.")
-        End If
-        If Not Integer.TryParse(emp.Edad, Nothing) OrElse Convert.ToInt32(emp.Edad) <= 0 Then
-            Throw New Exception("La edad debe ser un número válido mayor que cero.")
-        End If
+        If String.IsNullOrWhiteSpace(emp.Correo) OrElse Not emp.Correo.Contains("@") Then Throw New Exception("Correo electrónico inválido.")
+        If Not Integer.TryParse(emp.Edad, Nothing) OrElse Convert.ToInt32(emp.Edad) <= 0 Then Throw New Exception("La edad debe ser un número válido mayor que cero.")
         If emp.FechaNacimiento = Date.MinValue Then Throw New Exception("Debe seleccionar una fecha de nacimiento.")
         If emp.Cargo <= 0 Then Throw New Exception("Seleccione un cargo válido.")
-        If emp.Zona <= 0 Then Throw New Exception("Seleccione una zona válida.")
+        If emp.Zona < 0 Then Throw New Exception("Seleccione una zona válida.")
+        If emp.EstadoCivil < 0 Then Throw New Exception("Seleccione un estado civil válido.")
+        If emp.Sexo < 0 Then Throw New Exception("Seleccione un sexo válido.")
+        If emp.Nacionalidad < 0 Then Throw New Exception("Seleccione una nacionalidad válida.")
 
         If String.IsNullOrWhiteSpace(emp.Telefono) Then Throw New Exception("El teléfono es obligatorio.")
 
