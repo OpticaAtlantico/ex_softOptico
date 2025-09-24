@@ -28,4 +28,14 @@
         Next
     End Sub
 
+    Public Sub MaximizarFrm(frm As Form)
+        frm.WindowState = FormWindowState.Maximized
+        frm.FormBorderStyle = FormBorderStyle.None
+
+        ' Forzamos que ocupe toda la pantalla
+        frm.Bounds = Screen.PrimaryScreen.Bounds
+    End Sub
+
+
+
 End Module

@@ -34,30 +34,31 @@ Public Class frm_Principal
         InitializeComponent()
         FormStylerUI.Apply(Me)
         ' Maximizamos el formulario
-        Me.WindowState = FormWindowState.Maximized
-        Me.FormBorderStyle = FormBorderStyle.None
 
-        ' Forzamos que ocupe toda la pantalla
-        Me.Bounds = Screen.PrimaryScreen.Bounds
         CustomerComponent()
         pnlDrawer.BringToFront()
     End Sub
 
     Private Sub CustomerComponent()
+        MaximizarFrm(Me)
         With Me
             .pnlMenu.BackColor = AppColors._cMenu1
             .pnlEncabezado.BackColor = AppColors._cFondo
             .pnlBotones.BackColor = AppColors._cFondo
             .pnlSalirfrm.BackColor = AppColors._cFondo
+
             'Boton regresar
             .btnSalirFrmHijo.IconColor = AppColors._cBlanco
             .btnSalirFrmHijo.BackColor = AppColors._cFondo
+
             'Boton para mostrar el menu
             .btnMostrarMenu.IconColor = AppColors._cHeaderTexto
+
             'Botones de formulario
             .btnSalir.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
             .btnMinimizar.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
             .btnMaximizar.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
+
         End With
     End Sub
 
@@ -119,9 +120,10 @@ Public Class frm_Principal
 
     Private Sub btnMaximizar_Click(sender As Object, e As EventArgs) Handles btnMaximizar.Click
         If Me.WindowState = FormWindowState.Normal Then
-            Me.WindowState = FormWindowState.Maximized
+            MaximizarFrm(Me)
         Else
             Me.WindowState = FormWindowState.Normal
+            Me.Bounds = Screen.PrimaryScreen.WorkingArea
         End If
     End Sub
 
@@ -130,6 +132,7 @@ Public Class frm_Principal
             Me.WindowState = FormWindowState.Minimized
         Else
             Me.WindowState = FormWindowState.Normal
+            Me.Bounds = Screen.PrimaryScreen.WorkingArea
         End If
     End Sub
 

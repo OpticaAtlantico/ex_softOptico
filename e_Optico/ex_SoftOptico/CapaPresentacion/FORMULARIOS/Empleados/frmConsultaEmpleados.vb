@@ -17,9 +17,9 @@ Public Class frmConsultaEmpleados
 
         With Me.dgvDatosEmpleado.lblTitulo
             .Titulo = "Consulta de Empleados"
-            .Subtitulo = "Lista de empleados registrados"
-            .ForeColor = Color.FromArgb(57, 103, 208)
-            .ColorTexto = Color.FromArgb(57, 103, 208)
+            .Subtitulo = "Listado de empleados registrados..."
+            .ForeColor = AppColors._cBlanco
+            .Dimension = AppFonts.SizeLarge
             .Icono = IconChar.Users
         End With
 

@@ -26,6 +26,9 @@ Public Class HeaderUI
 
     <Category("Estilo UI")>
     Public Property MostrarSeparador As Boolean = True
+
+    <Category("Contenido UI")>
+    Public Property Dimension As Integer = AppFonts.SizeMedium
 #End Region
 
 #Region "CONSTRUCTOR"
@@ -56,13 +59,13 @@ Public Class HeaderUI
         g.Clear(ColorFondo)
 
         ' 🟪 Título
-        Dim tituloFont = New Font(AppFonts.Century, AppFonts.SizeMedium, AppFonts.Bold)
+        Dim tituloFont = New Font(AppFonts.Century, Dimension, AppFonts.Bold)
         Using brush As New SolidBrush(ColorTexto)
             g.DrawString(Titulo, tituloFont, brush, 45, 8)
         End Using
 
         ' 🔹 Subtítulo
-        Dim subtituloFont = New Font(AppFonts.Century, AppFonts.SizeMini, AppFonts.Regular)
+        Dim subtituloFont = New Font(AppFonts.Century, (Dimension - 4), AppFonts.Regular)
         Using brush As New SolidBrush(ColorTexto)
             g.DrawString(Subtitulo, subtituloFont, brush, 45, 28)
         End Using

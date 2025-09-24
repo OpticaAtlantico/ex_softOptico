@@ -135,7 +135,7 @@ Public Class DataGridViewUI
 #Region "BOTONES Y HEADER"
     ' 🎨 Botones y encabezado
     Private btnNuevo As New CommandButtonUI() With {
-        .Texto = "Nuevo",
+        .Texto = "Nuevo registro",
         .EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary,
         .Icono = IconChar.Plus
     }
@@ -145,21 +145,21 @@ Public Class DataGridViewUI
         .Icono = IconChar.SyncAlt
     }
     Private btnExportarGrid As New CommandButtonUI() With {
-        .Texto = "Exportar Grid",
+        .Texto = "Exportar datos",
         .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info,
         .Icono = IconChar.FileExcel
     }
     Private btnExportarTabla As New CommandButtonUI() With {
-        .Texto = "Exportar Tabla",
-        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Info,
-        .Icono = IconChar.FileExcel
+        .Texto = "Exportar todo",
+        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Dark,
+        .Icono = IconChar.RedditSquare
     }
 
     Private headerUI As New HeaderUI() With {
         .Dock = DockStyle.Fill,
-        .ColorFondo = Color.White,
-        .ColorTexto = Color.FromArgb(45, 45, 45),
-        .Font = New Font("Century Gothic", 10, FontStyle.Bold),
+        .ColorFondo = AppColors._cBlanco,
+        .ColorTexto = AppColors._cSeleccionTexto,
+        .Font = New Font(AppFonts.Century, AppFonts.SizeMedium, AppFonts.Bold),
         .Icono = IconChar.CircleInfo,
         .Titulo = "Registros Orbitales",
         .Subtitulo = "Gestión de registros con paginación y filtros",
@@ -446,33 +446,33 @@ Public Class DataGridViewUI
     Public Sub AgregarColumnasBotones()
         If Not dgvOrbital.Columns.Contains("Agregar") Then
             Dim colAgregar As New DataGridViewImageColumn() With {
-            .Name = "Agregar",
-            .HeaderText = "",
-            .Width = AppLayout.IconDataG,
-            .ImageLayout = DataGridViewImageCellLayout.Zoom
-        }
+                        .Name = "Agregar",
+                        .HeaderText = "",
+                        .Width = AppLayout.IconDataG,
+                        .ImageLayout = DataGridViewImageCellLayout.Zoom
+                    }
             colAgregar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             dgvOrbital.Columns.Add(colAgregar)
         End If
 
         If Not dgvOrbital.Columns.Contains("Editar") Then
             Dim colEditar As New DataGridViewImageColumn() With {
-            .Name = "Editar",
-            .HeaderText = "",
-            .Width = AppLayout.IconDataG,
-            .ImageLayout = DataGridViewImageCellLayout.Zoom
-        }
+                        .Name = "Editar",
+                        .HeaderText = "",
+                        .Width = AppLayout.IconDataG,
+                        .ImageLayout = DataGridViewImageCellLayout.Zoom
+                    }
             colEditar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             dgvOrbital.Columns.Add(colEditar)
         End If
 
         If Not dgvOrbital.Columns.Contains("Eliminar") Then
             Dim colEliminar As New DataGridViewImageColumn() With {
-            .Name = "Eliminar",
-            .HeaderText = "",
-            .Width = AppLayout.IconDataG,
-            .ImageLayout = DataGridViewImageCellLayout.Zoom
-        }
+                        .Name = "Eliminar",
+                        .HeaderText = "",
+                        .Width = AppLayout.IconDataG,
+                        .ImageLayout = DataGridViewImageCellLayout.Zoom
+                    }
             colEliminar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             dgvOrbital.Columns.Add(colEliminar)
         End If

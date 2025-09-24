@@ -29,12 +29,15 @@ Public Class MessageBoxUI
     End Enum
 
     Private _resultado As DialogResult = DialogResult.None
-    Private _borderRadius As Integer = 15
+    Private _borderRadius As Integer = AppLayout.BorderRadiusMsg
 
 #Region "CONSTRUCTOR"
     Public Sub New()
         Me.DoubleBuffered = True
-        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
+        Me.SetStyle(ControlStyles.SupportsTransparentBackColor Or
+                    ControlStyles.UserPaint Or
+                    ControlStyles.AllPaintingInWmPaint Or
+                    ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
 
         ' 🪟 Configuración del Form
