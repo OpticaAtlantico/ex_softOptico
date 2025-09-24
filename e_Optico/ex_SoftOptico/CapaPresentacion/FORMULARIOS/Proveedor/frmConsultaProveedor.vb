@@ -143,12 +143,14 @@ Public Class frmConsultaProveedor
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                      MensajesUI.OperacionFallida,
-                                     TipoMensaje.Informacion, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Informacion,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 
@@ -156,7 +158,8 @@ Public Class frmConsultaProveedor
         Try
             Dim confirmar = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                                 MensajesUI.ConfirmarAccion,
-                                                 TipoMensaje.Advertencia, Botones.SiNo)
+                                                MessageBoxUI.TipoMensaje.Advertencia,
+                                                MessageBoxUI.TipoBotones.SiNo)
 
             If confirmar = DialogResult.No Then Exit Sub
 
@@ -166,7 +169,8 @@ Public Class frmConsultaProveedor
             If proveedor Is Nothing Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                      MensajesUI.SinResultados,
-                                     TipoMensaje.Errors, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
                 Exit Sub
             End If
 
@@ -175,18 +179,22 @@ Public Class frmConsultaProveedor
             If eliminar Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloExito,
                                      MensajesUI.EliminacionExitosa,
-                                     TipoMensaje.Exito, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Exito,
+                                     MessageBoxUI.TipoBotones.Aceptar)
+
                 CargarDatosProveedores()
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                      MensajesUI.OperacionFallida,
-                                     TipoMensaje.Errors, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
 
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 

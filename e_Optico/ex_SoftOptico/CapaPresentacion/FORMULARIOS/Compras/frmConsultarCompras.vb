@@ -147,12 +147,14 @@ Public Class frmConsultarCompras
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                      MensajesUI.OperacionFallida,
-                                     TipoMensaje.Informacion, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Informacion,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                TipoMensaje.Errors, Botones.Aceptar)
+                                MessageBoxUI.TipoMensaje.Errorr,
+                                MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 
@@ -160,7 +162,8 @@ Public Class frmConsultarCompras
         Try
             Dim confirmar = MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                                  MensajesUI.ConfirmarAccion,
-                                                 TipoMensaje.Advertencia, Botones.SiNo)
+                                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                                 MessageBoxUI.TipoBotones.SiNo)
 
             If confirmar = DialogResult.No Then Exit Sub
 
@@ -170,7 +173,8 @@ Public Class frmConsultarCompras
             If compra Is Nothing Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                      MensajesUI.OperacionFallida,
-                                     TipoMensaje.Errors, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
                 Exit Sub
             End If
 
@@ -179,20 +183,24 @@ Public Class frmConsultarCompras
             If eliminar Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloExito,
                                      MensajesUI.EliminacionExitosa,
-                                     TipoMensaje.Exito, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Exito,
+                                     MessageBoxUI.TipoBotones.Aceptar)
 
                 'Actualizar datos de la tabla
                 CargarDatosCompras()
 
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
-                                     MensajesUI.OperacionFallida, TipoMensaje.Errors, Botones.Aceptar)
+                                     MensajesUI.OperacionFallida,
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
 
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 

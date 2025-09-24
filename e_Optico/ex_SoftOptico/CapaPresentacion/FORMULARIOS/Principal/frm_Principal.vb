@@ -33,6 +33,12 @@ Public Class frm_Principal
 
         InitializeComponent()
         FormStylerUI.Apply(Me)
+        ' Maximizamos el formulario
+        Me.WindowState = FormWindowState.Maximized
+        Me.FormBorderStyle = FormBorderStyle.None
+
+        ' Forzamos que ocupe toda la pantalla
+        Me.Bounds = Screen.PrimaryScreen.Bounds
         CustomerComponent()
         pnlDrawer.BringToFront()
     End Sub
@@ -101,12 +107,13 @@ Public Class frm_Principal
         Me.SuspendLayout()
         Dim confirmacion = MessageBoxUI.Mostrar("Cerrar...",
                                                  "Saliendo del Sistema de gestión de datos",
-                                                 TipoMensaje.Exito,
-                                                 Botones.Aceptar)
-        If confirmacion = DialogResult.OK Then
-            listLogin.Clear()
-            Me.Close() ' Cierra el formulario después de eliminar
-        End If
+                                                 MessageBoxUI.TipoMensaje.Exito,
+                                                 MessageBoxUI.TipoBotones.AceptarCancelar)
+
+        If confirmacion = DialogResult.Cancel Then Exit Sub
+
+        listLogin.Clear()
+        Me.Close() ' Cierra el formulario después de eliminar
         Me.ResumeLayout()
     End Sub
 
@@ -207,9 +214,9 @@ Public Class frm_Principal
             MessageBoxUI.Mostrar(
                                  "Cerrar...",
                                  "Saliendo de control de entrada de datos",
-                                 TipoMensaje.Advertencia,
-                                 Botones.Aceptar
-                                 )
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.TipoBotones.Aceptar)
+
         End If
         DrawerTimer.Start()
         Me.ResumeLayout()
@@ -237,9 +244,8 @@ Public Class frm_Principal
             MessageBoxUI.Mostrar(
                                  "Cerrar...",
                                  "Saliendo de control de entrada de datos",
-                                 TipoMensaje.Advertencia,
-                                 Botones.Aceptar
-                                 )
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End If
         DrawerTimer.Start()
         Me.ResumeLayout()
@@ -484,8 +490,8 @@ Public Class frm_Principal
             enviarDatosProveedor(resultado.Valor, 0)
         Else
             MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
-                                 TipoMensaje.Advertencia,
-                                 Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End If
         DrawerTimer.Start()
     End Sub
@@ -510,8 +516,8 @@ Public Class frm_Principal
         Else
             MessageBoxUI.Mostrar("Cerrar...",
                                  "Saliendo de control de entrada de datos",
-                                 TipoMensaje.Advertencia,
-                                 Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End If
         DrawerTimer.Start()
     End Sub
@@ -767,19 +773,17 @@ Public Class frm_Principal
                 btnSalirFrmHijo.Visible = True
 
             Else
-                MessageBoxUI.Mostrar(
-                "Datos no existe...",
-                "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
-                TipoMensaje.Advertencia,
-                Botones.Aceptar
-            )
+                MessageBoxUI.Mostrar("Datos no existe...",
+                                     "No hay ningún empleado con ese número de cédula, por favor verifique bien los datos",
+                                     MessageBoxUI.TipoMensaje.Advertencia,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
 
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error",
-                             "Ocurrió un error al buscar el empleado. Por favor, intente nuevamente. " & ex.Message,
-                             TipoMensaje.Errors,
-                             Botones.Aceptar)
+                                 "Ocurrió un error al buscar el empleado. Por favor, intente nuevamente. " & ex.Message,
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
 
     End Sub
@@ -826,15 +830,14 @@ Public Class frm_Principal
             Else
                 MessageBoxUI.Mostrar("Datos no existe...",
                                      "No hay ningún proveedor con ese nombre, por favor verifique bien los datos",
-                                     TipoMensaje.Advertencia,
-                                     Botones.Aceptar
-                                     )
+                                     MessageBoxUI.TipoMensaje.Advertencia,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error",
                                  "Ocurrió un error al buscar el proveedor. Por favor, intente nuevamente. " & ex.Message,
-                                 TipoMensaje.Errors,
-                                 Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
 
 
@@ -866,16 +869,14 @@ Public Class frm_Principal
             Else
                 MessageBoxUI.Mostrar("Datos inexistentes...",
                                      "No hay ninguna compra con ese número de identificador, por favor verifique bien los datos",
-                                     TipoMensaje.Advertencia,
-                                     Botones.Aceptar
-                                    )
+                                     MessageBoxUI.TipoMensaje.Advertencia,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error",
-                                    "Ocurrió un error al buscar la compra. Por favor, intente nuevamente. " & ex.Message,
-                                    TipoMensaje.Errors,
-                                    Botones.Aceptar
-                                )
+                                "Ocurrió un error al buscar la compra. Por favor, intente nuevamente. " & ex.Message,
+                                MessageBoxUI.TipoMensaje.Errorr,
+                                MessageBoxUI.TipoBotones.Aceptar)
         End Try
 
     End Sub
@@ -901,22 +902,23 @@ Public Class frm_Principal
                 If Not Integer.TryParse(resultado.Valor, idCompra) Then
                     MessageBoxUI.Mostrar("Entrada inválida",
                                          "Por favor, ingrese un número válido para el Id de la Compra.",
-                                         TipoMensaje.Advertencia,
-                                         Botones.Aceptar)
+                                         MessageBoxUI.TipoMensaje.Advertencia,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                     Exit Sub
                 End If
 
                 enviarDatosCompra(idCompra, opcion)
             Else
-                MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
-                                     TipoMensaje.Advertencia,
-                                     Botones.Aceptar)
+                MessageBoxUI.Mostrar("Cerrar...",
+                                     "Saliendo de control de entrada de datos",
+                                     MessageBoxUI.TipoMensaje.Advertencia,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar("Error",
                                  "Ocurrió un error al procesar la entrada. Por favor, intente nuevamente. " & ex.Message,
-                                 TipoMensaje.Errors,
-                                 Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
 
         DrawerTimer.Start()

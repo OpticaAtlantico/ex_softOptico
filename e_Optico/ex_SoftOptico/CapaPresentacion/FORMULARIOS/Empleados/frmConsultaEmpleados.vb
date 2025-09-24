@@ -25,7 +25,13 @@ Public Class frmConsultaEmpleados
 
         CargarDatosEmpleados()
     End Sub
-
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp As CreateParams = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000  ' WS_EX_COMPOSITED
+            Return cp
+        End Get
+    End Property
 #End Region
 
 #Region "EVENTOS DEL FORMULARIO"
@@ -150,12 +156,14 @@ Public Class frmConsultaEmpleados
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                      MensajesUI.OperacionFallida,
-                                     TipoMensaje.Informacion, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Informacion,
+                                     MessageBoxUI.TipoBotones.Aceptar)
             End If
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Advertencia, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 
@@ -163,7 +171,8 @@ Public Class frmConsultaEmpleados
         Try
             Dim confirmar = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                                  MensajesUI.ConfirmarAccion,
-                                                 TipoMensaje.Errors, Botones.AceptarCancelar)
+                                                 MessageBoxUI.TipoMensaje.Errorr,
+                                                 MessageBoxUI.TipoBotones.SiNo)
 
             If confirmar = DialogResult.No Then Exit Sub
 
@@ -173,7 +182,8 @@ Public Class frmConsultaEmpleados
             If empleado Is Nothing Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                      MensajesUI.OperacionFallida,
-                                     TipoMensaje.Errors, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
                 Exit Sub
             End If
 
@@ -184,7 +194,8 @@ Public Class frmConsultaEmpleados
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 

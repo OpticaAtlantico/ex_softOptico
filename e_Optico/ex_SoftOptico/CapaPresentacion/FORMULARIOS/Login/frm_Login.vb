@@ -8,7 +8,10 @@ Public Class frm_Login
 
 #Region "Form Behaviors"
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        MessageBoxUI.Mostrar("Cerrando el Sistema...", "Estas saliendo de la App Sistemas de Gestión para Óptica, Vuelve pronto... ", TipoMensaje.Informacion, Botones.Aceptar)
+        MessageBoxUI.Mostrar("Cerrando el Sistema...",
+                             "Estas saliendo de la App Sistemas de Gestión para Óptica, Vuelve pronto... ",
+                             MessageBoxUI.TipoMensaje.Advertencia,
+                             MessageBoxUI.TipoBotones.Aceptar)
         'Application.Exit()
         Me.Close()
     End Sub
@@ -106,14 +109,22 @@ Public Class frm_Login
         Next
 
         If Not esFormularioValido Then
-            MessageBoxUI.Mostrar("Campos Vacíos...", "Hay campos obligatorios sin completar, por favor verifique", TipoMensaje.Advertencia, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Campos Vacíos...",
+                                 "Hay campos obligatorios sin completar, por favor verifique",
+                                 MessageBoxUI.TipoMensaje.Advertencia,
+                                 MessageBoxUI.TipoBotones.Aceptar)
+
             primerInvalido?.Focus()
             Exit Sub
         End If
 
         'VALIDA EL CAMPO LOCALIAD
         If cmbLocal.cmbCampo.SelectedIndex = -1 Then
-            MessageBoxUI.Mostrar("Datos incorrectos...", "Debe seleccionar una ubicación", TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Datos incorrectos...",
+                                 "Debe seleccionar una ubicación",
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
+
             cmbLocal.Focus()
             Exit Sub
         End If
@@ -122,7 +133,10 @@ Public Class frm_Login
         Dim userModel As New Repositorio_Login
         Dim validUser = userModel.GetUserPass(txtUsuario.TextValue, txtPass.TextValue)
         If validUser.IsNullOrEmpty Then
-            MessageBoxUI.Mostrar("Datos incorrectos...", "Nombre de usuario o contraseña incorrecto", TipoMensaje.Errors, Botones.Aceptar)
+            MessageBoxUI.Mostrar("Datos incorrectos...",
+                                 "Nombre de usuario o contraseña incorrecto",
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
             LimpiarControles(Me)
             ResetearControles(Me)
             txtUsuario.Focus()

@@ -72,6 +72,7 @@
     Public Const IconSmall As Integer = 15
     Public Const IconMedium As Integer = 24
     Public Const IconLarge As Integer = 35
+    Public Const IconDataG As Integer = 40
     Public Const IconMax As Integer = 45
     Public Const IconMsg As Integer = 55
 

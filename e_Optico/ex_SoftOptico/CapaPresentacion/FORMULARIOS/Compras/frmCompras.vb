@@ -117,7 +117,8 @@ Public Class frmCompras
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
 
         End Try
         FadeManagerUI.StartFade(Me, 0.05)
@@ -163,7 +164,8 @@ Public Class frmCompras
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 
@@ -205,7 +207,8 @@ Public Class frmCompras
                         }.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                      MensajesUI.DatosIncompletos,
-                                     TipoMensaje.Errors, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
 
             Else
 
@@ -216,7 +219,8 @@ Public Class frmCompras
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 
@@ -289,7 +293,8 @@ Public Class frmCompras
         If grvCompras.TieneDatos Then
             Dim resultado = MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                                  MensajesUI.ConfirmarAccion,
-                                                 TipoMensaje.Informacion, Botones.SiNo)
+                                                 MessageBoxUI.TipoMensaje.Informacion,
+                                                 MessageBoxUI.TipoBotones.SiNo)
             If resultado = DialogResult.Yes Then
                 grvCompras.LimpiarGrid()
                 ActivarControles(3) ' Activar controles para nueva compra)
@@ -297,7 +302,8 @@ Public Class frmCompras
         Else
             MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                  MensajesUI.GridSinDatos,
-                                 TipoMensaje.Informacion, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Informacion,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End If
     End Sub
 
@@ -309,7 +315,9 @@ Public Class frmCompras
                 ' Case 0: Registrar nueva compra
                 If Not grvCompras.TieneDatos Then
                     MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
-                                         MensajesUI.GridSinDatos, TipoMensaje.Advertencia, Botones.Aceptar)
+                                         MensajesUI.GridSinDatos,
+                                         MessageBoxUI.TipoMensaje.Advertencia,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                     Return
                 End If
 
@@ -318,7 +326,8 @@ Public Class frmCompras
                 If Not grvCompras.TieneDatos Then
                     MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                          MensajesUI.CompletarDatos,
-                                         TipoMensaje.Advertencia, Botones.Aceptar)
+                                         MessageBoxUI.TipoMensaje.Advertencia,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                     Return
                 End If
             Case 2 ' Eliminar compra existente
@@ -328,14 +337,16 @@ Public Class frmCompras
                 If resultado Then
                     MessageBoxUI.Mostrar(MensajesUI.TituloExito,
                                          MensajesUI.EliminacionExitosa,
-                                         TipoMensaje.Exito, Botones.Aceptar)
+                                         MessageBoxUI.TipoMensaje.Exito,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                     LimpiarCeldas()
                     ActivarControles(2)
                     Return
                 Else
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                          MensajesUI.OperacionFallida,
-                                         TipoMensaje.Errors, Botones.Aceptar)
+                                         MessageBoxUI.TipoMensaje.Errorr,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                     Return
                 End If
         End Select
@@ -366,23 +377,29 @@ Public Class frmCompras
                     If resultado > 0 And resultado <> -2627 Then
                         MessageBoxUI.Mostrar(MensajesUI.TituloExito,
                                              MensajesUI.RegistroExitoso,
-                                             TipoMensaje.Exito, Botones.Aceptar)
+                                             MessageBoxUI.TipoMensaje.Exito,
+                                             MessageBoxUI.TipoBotones.Aceptar)
 
                         ObtenerNumeroOrdenCompra()
                         LimpiarCeldas()
                         ActivarControles(2)
+
                     ElseIf resultado = -2627 Then 'Si es duplicado mostrar el mensaje de error de duplicado
                         MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                              MensajesUI.RegistroDuplicado,
-                                             TipoMensaje.Informacion, Botones.Aceptar)
+                                             MessageBoxUI.TipoMensaje.Informacion,
+                                             MessageBoxUI.TipoBotones.Aceptar)
+
                     ElseIf resultado = -547 Then 'Si el valor co coincide en la base de datos
                         MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                              MensajesUI.OperacionFallida,
-                                             TipoMensaje.Informacion, Botones.Aceptar)
+                                             MessageBoxUI.TipoMensaje.Informacion,
+                                             MessageBoxUI.TipoBotones.Aceptar)
                     Else
                         MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                              MensajesUI.OperacionFallida,
-                                             TipoMensaje.Errors, Botones.Aceptar)
+                                             MessageBoxUI.TipoMensaje.Errorr,
+                                             MessageBoxUI.TipoBotones.Aceptar)
                     End If
                 Case 1
                     ' Case 1: Actualizar compra existente
@@ -390,7 +407,8 @@ Public Class frmCompras
                     If resultado Then
                         MessageBoxUI.Mostrar(MensajesUI.TituloExito,
                                              MensajesUI.ActualizacionExitosa,
-                                             TipoMensaje.Exito, Botones.Aceptar)
+                                             MessageBoxUI.TipoMensaje.Exito,
+                                             MessageBoxUI.TipoBotones.Aceptar)
 
                         ObtenerNumeroOrdenCompra()
                         LimpiarCeldas()
@@ -398,14 +416,16 @@ Public Class frmCompras
                     Else
                         MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                              MensajesUI.OperacionFallida,
-                                             TipoMensaje.Errors, Botones.Aceptar)
+                                             MessageBoxUI.TipoMensaje.Errorr,
+                                             MessageBoxUI.TipoBotones.Aceptar)
                     End If
             End Select
 
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
         End Try
 
     End Sub

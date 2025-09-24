@@ -32,7 +32,6 @@ Public Class AlertPanelUI
                     ControlStyles.AllPaintingInWmPaint Or
                     ControlStyles.OptimizedDoubleBuffer, True)
         Me.UpdateStyles()
-
         Me.Size = New Size(800, 60)
         Me.BackColor = Color.Transparent
 

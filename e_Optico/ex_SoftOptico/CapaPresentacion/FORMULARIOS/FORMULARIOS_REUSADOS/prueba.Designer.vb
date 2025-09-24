@@ -33,6 +33,7 @@ Partial Class prueba
         CommandButtonui1 = New CommandButtonUI()
         PanelTituloui1 = New PanelTituloUI()
         PanelTituloPieui1 = New PanelTituloPieUI()
+        Button1 = New Button()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
@@ -50,6 +51,7 @@ Partial Class prueba
         TextOnlyTextBoxLabelui1.Location = New Point(0, 0)
         TextOnlyTextBoxLabelui1.MaxCaracteres = 0
         TextOnlyTextBoxLabelui1.MensajeError = "Campo requerido."
+        TextOnlyTextBoxLabelui1.MinCaracteres = 0
         TextOnlyTextBoxLabelui1.Name = "TextOnlyTextBoxLabelui1"
         TextOnlyTextBoxLabelui1.PaddingIzquierda = 8
         TextOnlyTextBoxLabelui1.PaddingIzquierdaIcono = 10
@@ -58,6 +60,8 @@ Partial Class prueba
         TextOnlyTextBoxLabelui1.Size = New Size(395, 73)
         TextOnlyTextBoxLabelui1.TabIndex = 0
         TextOnlyTextBoxLabelui1.TextoLabel = "Texto:"
+        TextOnlyTextBoxLabelui1.TextString = ""
+        TextOnlyTextBoxLabelui1.ValidarComoCorreo = False
         ' 
         ' Panel1
         ' 
@@ -99,6 +103,7 @@ Partial Class prueba
         MultilineTextBoxLabelui1.Size = New Size(372, 109)
         MultilineTextBoxLabelui1.TabIndex = 4
         MultilineTextBoxLabelui1.TextColor = Color.Black
+        MultilineTextBoxLabelui1.TextoString = Nothing
         MultilineTextBoxLabelui1.TextString = ""
         ' 
         ' EmailTextBoxLabelui1
@@ -114,6 +119,7 @@ Partial Class prueba
         EmailTextBoxLabelui1.Location = New Point(0, 233)
         EmailTextBoxLabelui1.MaxCaracteres = 0
         EmailTextBoxLabelui1.MensajeError = "Este campo es requerido"
+        EmailTextBoxLabelui1.MinCaracteres = 0
         EmailTextBoxLabelui1.Name = "EmailTextBoxLabelui1"
         EmailTextBoxLabelui1.PaddingIzquierda = 8
         EmailTextBoxLabelui1.PaddingIzquierdaIcono = 10
@@ -122,6 +128,8 @@ Partial Class prueba
         EmailTextBoxLabelui1.Size = New Size(395, 80)
         EmailTextBoxLabelui1.TabIndex = 3
         EmailTextBoxLabelui1.TextoLabel = "Correo electrónico:"
+        EmailTextBoxLabelui1.TextString = ""
+        EmailTextBoxLabelui1.ValidarComoCorreo = False
         ' 
         ' DecimalTextBoxLabelui1
         ' 
@@ -139,6 +147,7 @@ Partial Class prueba
         DecimalTextBoxLabelui1.MensajeError = "Este campo es requerido"
         DecimalTextBoxLabelui1.MensajeErrorNumeroInvalido = "Ingrese un número válido."
         DecimalTextBoxLabelui1.MensajeErrorRango = "El valor está fuera del rango permitido."
+        DecimalTextBoxLabelui1.MinCaracteres = 0
         DecimalTextBoxLabelui1.Name = "DecimalTextBoxLabelui1"
         DecimalTextBoxLabelui1.NumeroMaximo = New Decimal(New Integer() {-1, -1, -1, 0})
         DecimalTextBoxLabelui1.NumeroMinimo = New Decimal(New Integer() {-1, -1, -1, Integer.MinValue})
@@ -149,7 +158,9 @@ Partial Class prueba
         DecimalTextBoxLabelui1.Size = New Size(395, 74)
         DecimalTextBoxLabelui1.TabIndex = 2
         DecimalTextBoxLabelui1.TextoLabel = "Texto:"
+        DecimalTextBoxLabelui1.TextString = ""
         DecimalTextBoxLabelui1.UsarSeparadorMiles = True
+        DecimalTextBoxLabelui1.ValidarComoCorreo = False
         ' 
         ' DatePickerProui1
         ' 
@@ -258,12 +269,23 @@ Partial Class prueba
         PanelTituloPieui1.TabIndex = 8
         PanelTituloPieui1.Texto = ""
         ' 
+        ' Button1
+        ' 
+        Button1.BackColor = Color.DarkSlateGray
+        Button1.Location = New Point(759, 213)
+        Button1.Name = "Button1"
+        Button1.Size = New Size(117, 115)
+        Button1.TabIndex = 9
+        Button1.Text = "Button1"
+        Button1.UseVisualStyleBackColor = False
+        ' 
         ' prueba
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.WhiteSmoke
         ClientSize = New Size(937, 512)
+        Controls.Add(Button1)
         Controls.Add(PanelTituloPieui1)
         Controls.Add(PanelTituloui1)
         Controls.Add(CommandButtonui1)
@@ -286,5 +308,6 @@ Partial Class prueba
     Friend WithEvents MultilineTextBoxLabelui1 As MultilineTextBoxLabelUI
     Friend WithEvents PanelTituloui1 As PanelTituloUI
     Friend WithEvents PanelTituloPieui1 As PanelTituloPieUI
+    Friend WithEvents Button1 As Button
 
 End Class

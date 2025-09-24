@@ -102,16 +102,17 @@ Public Class frmProveedor
                 Else
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                          MensajesUI.OperacionFallida,
-                                         TipoMensaje.Errors, Botones.Aceptar)
+                                         MessageBoxUI.TipoMensaje.Errorr,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                 End If
             Case "Eliminar..."
                 ' Aquí puedes implementar la lógica para eliminar el empleado
                 Dim ProveedorId As Integer = DatosProveedor._proveedorID
                 Dim confirmacion = MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                                         MensajesUI.ConfirmarAccion,
-                                                        TipoMensaje.Advertencia,
-                                                        Botones.AceptarCancelar
-                                                        )
+                                                        MessageBoxUI.TipoMensaje.Advertencia,
+                                                        MessageBoxUI.TipoBotones.AceptarCancelar)
+
                 If confirmacion = DialogResult.Yes Then
                     'EliminarProveedor(empleadoId)
                     Me.Close() ' Cierra el formulario después de eliminar
@@ -125,16 +126,14 @@ Public Class frmProveedor
                 Else
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                          MensajesUI.RegistroDuplicado,
-                                         TipoMensaje.Errors,
-                                         Botones.Aceptar
-                                       )
+                                         MessageBoxUI.TipoMensaje.Errorr,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                 End If
             Case Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                      MensajesUI.OperacionFallida,
-                                     TipoMensaje.Errors,
-                                     Botones.Aceptar
-                                    )
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
         End Select
     End Sub
 
@@ -210,7 +209,8 @@ Public Class frmProveedor
             If {id, nombre, razonSocial, correo, sigla, rif, telefono, contacto, direccion}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                      MensajesUI.DatosIncompletos,
-                                      TipoMensaje.Errors, Botones.Aceptar)
+                                     MessageBoxUI.TipoMensaje.Errorr,
+                                     MessageBoxUI.TipoBotones.Aceptar)
 
                 resultado.EsValido = False
                 Return resultado
@@ -233,7 +233,8 @@ Public Class frmProveedor
 
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                 TipoMensaje.Errors, Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
 
             resultado.EsValido = False
         End Try
@@ -269,7 +270,8 @@ Public Class frmProveedor
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                     MensajesUI.ErrorInesperado,
-                                    TipoMensaje.Errors, Botones.Aceptar)
+                                    MessageBoxUI.TipoMensaje.Errorr,
+                                    MessageBoxUI.TipoBotones.Aceptar)
             End If
         Catch ex As Exception
             If TypeOf ex.InnerException Is SqlException Then
@@ -277,13 +279,15 @@ Public Class frmProveedor
                 If sqlEx.Number = 2627 Then
                     MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                              MensajesUI.RegistroDuplicado,
-                                             TipoMensaje.Errors, Botones.Aceptar)
+                                             MessageBoxUI.TipoMensaje.Errorr,
+                                             MessageBoxUI.TipoBotones.Aceptar)
                     Exit Sub
                 End If
             End If
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                TipoMensaje.Errors, Botones.Aceptar)
+                                MessageBoxUI.TipoMensaje.Errorr,
+                                MessageBoxUI.TipoBotones.Aceptar)
         End Try
     End Sub
 

@@ -91,7 +91,8 @@ Public Class frmEmpleado
                 Catch ex As Exception
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                          String.Format(MensajesUI.ErrorCargarFotos, ex.Message),
-                                         TipoMensaje.Errors, Botones.Aceptar)
+                                         MessageBoxUI.TipoMensaje.Errorr,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                 End Try
             End If
         End Using
@@ -158,7 +159,8 @@ Public Class frmEmpleado
                 Else
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                          MensajesUI.SinResultados,
-                                         TipoMensaje.Advertencia, Botones.Aceptar)
+                                         MessageBoxUI.TipoMensaje.Advertencia,
+                                         MessageBoxUI.TipoBotones.Aceptar)
                 End If
 
             Case "Eliminar..."
@@ -181,9 +183,8 @@ Public Class frmEmpleado
                 Catch ex As Exception
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                    TipoMensaje.Errors,
-                                    Botones.Aceptar
-                                    )
+                                    MessageBoxUI.TipoMensaje.Errorr,
+                                    MessageBoxUI.TipoBotones.Aceptar)
                 End Try
 
             Case "Guardar..."
@@ -195,18 +196,17 @@ Public Class frmEmpleado
                     ' Si ya hay datos de empleados, muestra un mensaje de advertencia
                     MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                          MensajesUI.RegistroDuplicado,
-                                         TipoMensaje.Advertencia,
-                                         Botones.Aceptar
-                                         )
+                                         MessageBoxUI.TipoMensaje.Advertencia,
+                                         MessageBoxUI.TipoBotones.Aceptar)
 
                 End If
 
             Case Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                      MensajesUI.OperacionFallida,
-                                    TipoMensaje.Informacion,
-                                    Botones.Aceptar
-                                    )
+                                    MessageBoxUI.TipoMensaje.Informacion,
+                                    MessageBoxUI.TipoBotones.Aceptar)
+
         End Select
     End Sub
 
@@ -255,9 +255,9 @@ Public Class frmEmpleado
 
                         MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                              String.Format(MensajesUI.ErrorCargarFotos, ex.Message),
-                                             TipoMensaje.Errors,
-                                             Botones.Aceptar
-                                            )
+                                             MessageBoxUI.TipoMensaje.Errorr,
+                                             MessageBoxUI.TipoBotones.Aceptar)
+
                     End Try
                 Else
                     .limpiarImagen() ' Limpia la imagen si no hay foto
@@ -294,9 +294,8 @@ Public Class frmEmpleado
             If {cedula, nombre, apellido, edad, nacionalidad, estadoCivil, sexo, telefono, correo, direccion, cargo}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
                                     MensajesUI.DatosIncompletos,
-                                    TipoMensaje.Advertencia,
-                                    Botones.Aceptar
-                                    )
+                                    MessageBoxUI.TipoMensaje.Advertencia,
+                                    MessageBoxUI.TipoBotones.Aceptar)
 
                 resultado.EsValido = False
                 Return resultado
@@ -332,9 +331,8 @@ Public Class frmEmpleado
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                    TipoMensaje.Errors,
-                                    Botones.Aceptar
-                                    )
+                                    MessageBoxUI.TipoMensaje.Errorr,
+                                    MessageBoxUI.TipoBotones.Aceptar)
 
             resultado.EsValido = False
         End Try
@@ -366,15 +364,16 @@ Public Class frmEmpleado
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
                                  MensajesUI.OperacionFallida,
-                                 TipoMensaje.Errors,
-                                 Botones.Aceptar)
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
             End If
 
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
                              ex.Message,
-                             TipoMensaje.Errors,
-                             Botones.Aceptar)
+                             MessageBoxUI.TipoMensaje.Errorr,
+                             MessageBoxUI.TipoBotones.Aceptar)
+
         End Try
     End Sub
 

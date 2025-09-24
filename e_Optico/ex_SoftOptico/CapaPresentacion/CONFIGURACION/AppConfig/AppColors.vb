@@ -92,4 +92,11 @@
     Public Shared ReadOnly _cFondoTransparente As Color = Color.Transparent
     Public Shared ReadOnly _cFondoSemi As Color = Color.FromArgb(0, 40, 74)
 
+
+    'Datagrids
+    Public Shared ReadOnly _cGris As Color = Color.DarkGray
+    Public Shared ReadOnly _cSeleccionFondo As Color = Color.LightSteelBlue
+    Public Shared ReadOnly _cSeleccionTexto As Color = Color.DarkSlateGray
+    Public Shared ReadOnly _cTextoNormal As Color = Color.Black
+    Public Shared ReadOnly _cGridLine As Color = Color.LightBlue
 End Class

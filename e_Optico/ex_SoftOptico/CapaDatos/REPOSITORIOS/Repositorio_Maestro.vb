@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Data.SqlClient
+﻿Imports CapaEntidad
+Imports Microsoft.Data.SqlClient
 Public Class Repositorio_Maestro
     Inherits Repositorio_Conexion
 
