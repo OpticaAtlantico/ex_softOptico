@@ -58,7 +58,6 @@ Public Class frmConsultaEmpleados
 #End Region
 
 #Region "PROCEDIMIENTOS"
-
     Private Sub CargarDatosEmpleados()
         ' === Reiniciar propiedades internas ===
         dgvDatosEmpleado.DataOriginal = Nothing
@@ -103,7 +102,6 @@ Public Class frmConsultaEmpleados
         dgv.Columns("Editar").ToolTipText = "Editar este registro"
         dgv.Columns("Eliminar").ToolTipText = "Eliminar este registro"
     End Sub
-
     Private Sub AgregarColumnasBotonesSiFaltan()
         Dim dgv = dgvDatosEmpleado.GrvOrbital
 
