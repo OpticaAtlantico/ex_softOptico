@@ -27,7 +27,15 @@ Public Class CommandButtonUI
     Public Property Texto As String = "Aceptar"
 
     <Category("Apariencia Orbital")>
-    Public Property Icono As IconChar = IconChar.Check
+    Public Property Icono As IconChar
+        Get
+            Return iconControl.IconChar
+        End Get
+        Set(value As IconChar)
+            iconControl.IconChar = value
+            Me.Invalidate()
+        End Set
+    End Property
 
     <Category("Apariencia Orbital")>
     Public Property ColorBase As Color = AppColors._cBasePrimary
@@ -90,7 +98,7 @@ Public Class CommandButtonUI
         iconControl.SizeMode = PictureBoxSizeMode.CenterImage
         iconControl.BackColor = Color.Transparent
         iconControl.Enabled = False
-        iconControl.IconChar = Icono
+        'iconControl.IconChar = Icono
         iconControl.IconColor = ColorTexto
         Me.Controls.Add(iconControl)
 

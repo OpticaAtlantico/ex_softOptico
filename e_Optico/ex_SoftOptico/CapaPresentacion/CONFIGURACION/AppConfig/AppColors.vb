@@ -81,6 +81,7 @@
     Public Shared ReadOnly _cOptionButton As Color = Color.MediumSlateBlue
 
     Public Shared ReadOnly _cPlaceHolder As Color = Color.Gray
+    Public Shared ReadOnly _cIconoDefault As Color = Color.Gray
 
     'Panel
     Public Shared ReadOnly _cPanelBackColor As Color = _cBlanco

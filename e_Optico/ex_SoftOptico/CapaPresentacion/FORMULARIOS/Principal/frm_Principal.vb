@@ -18,6 +18,7 @@ Public Class frm_Principal
 
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.05
+
     Public Property EmpleadoEncontrado As VEmpleados = Nothing
     Public Property ProveedorEncontrado As VProveedor = Nothing
     Public Property CompraEncontrado As VCompras = Nothing
@@ -267,6 +268,7 @@ Public Class frm_Principal
             OpenChildForm(consultaEmpleadosForm)
 
         End If
+        DrawerTimer.Start()
         Me.ResumeLayout()
     End Sub
 

@@ -137,10 +137,10 @@ Public Class DataGridViewUI
     Private btnNuevo As New CommandButtonUI() With {
         .Texto = "Nuevo registro",
         .EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary,
-        .Icono = IconChar.Plus
+        .Icono = IconChar.UserPlus
     }
     Private btnRefrescar As New CommandButtonUI() With {
-        .Texto = "Refrescar",
+        .Texto = "Actualizar lista",
         .EstiloBoton = CommandButtonUI.EstiloBootstrap.Success,
         .Icono = IconChar.SyncAlt
     }
@@ -151,8 +151,8 @@ Public Class DataGridViewUI
     }
     Private btnExportarTabla As New CommandButtonUI() With {
         .Texto = "Exportar todo",
-        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Dark,
-        .Icono = IconChar.RedditSquare
+        .EstiloBoton = CommandButtonUI.EstiloBootstrap.Warning,
+        .Icono = IconChar.ReplyAll
     }
 
     Private headerUI As New HeaderUI() With {
@@ -310,7 +310,7 @@ Public Class DataGridViewUI
 
         dgvOrbital.EnableHeadersVisualStyles = False
         dgvOrbital.ColumnHeadersDefaultCellStyle = New DataGridViewCellStyle With {
-        .Font = New Font("Century Gothic", 10, FontStyle.Bold),
+        .Font = New Font(AppFonts.Century, AppFonts.SizeSmall, AppFonts.Bold),
         .Alignment = DataGridViewContentAlignment.MiddleLeft,
         .Padding = New Padding(6, 10, 6, 10),
         .BackColor = Color.FromArgb(220, 240, 255),
@@ -318,7 +318,7 @@ Public Class DataGridViewUI
     }
 
         dgvOrbital.DefaultCellStyle = New DataGridViewCellStyle With {
-        .Font = New Font("Century Gothic", 10),
+        .Font = New Font(AppFonts.Century, AppFonts.SizeSmall),
         .ForeColor = AppColors._cSeleccionTexto,
         .BackColor = AppColors._cBlanco,
         .SelectionBackColor = AppColors._cSeleccionFondo,
@@ -331,7 +331,6 @@ Public Class DataGridViewUI
         dgvOrbital.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing
         dgvOrbital.ColumnHeadersHeight = 38
     End Sub
-
 
     Public Sub ConfigurarColumnasVisualesPorTipo(tabla As DataTable,
                                              columnasVisibles As String(),
@@ -433,10 +432,10 @@ Public Class DataGridViewUI
 
     Private Function ObtenerColor(nombreColumna As String) As Color
         Select Case nombreColumna
-            Case "Agregar" : Return Color.SeaGreen
-            Case "Editar" : Return Color.SteelBlue
-            Case "Eliminar" : Return Color.Firebrick
-            Case Else : Return Color.Gray
+            Case "Agregar" : Return AppColors._cBaseSuccess
+            Case "Editar" : Return AppColors._cBasePrimary
+            Case "Eliminar" : Return AppColors._cBaseDanger
+            Case Else : Return AppColors._cIconoDefault
         End Select
     End Function
     Private Sub MostrarToast(mensaje As String, tipo As TipoToastUI)
