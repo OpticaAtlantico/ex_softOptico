@@ -21,7 +21,7 @@ Public Class DrawerControlUI
     Private botonActivo As Button = Nothing
     Private DarkMode As Boolean = False
     Private ExpandedWidth As Integer = 200
-    Private CollapsedWidth As Integer = 60
+    Private CollapsedWidth As Integer = 60 'Tamaño de panel de botones
     Private isExpanded As Boolean = True
     Private animTimer As Timer
 
@@ -76,7 +76,7 @@ Public Class DrawerControlUI
             .Tag = texto
         }
         btn.FlatAppearance.BorderSize = 0
-        btn.Padding = New Padding(5, 0, 0, 0)
+        btn.Padding = New Padding(25, 0, 0, 0)
 
         Dim ico As New IconPictureBox With {
             .IconChar = icono,
