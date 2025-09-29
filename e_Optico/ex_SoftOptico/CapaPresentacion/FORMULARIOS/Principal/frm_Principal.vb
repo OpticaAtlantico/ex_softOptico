@@ -1,45 +1,54 @@
-﻿Imports System.Runtime.InteropServices
+﻿Imports System.Drawing.Drawing2D
+Imports System.Runtime.InteropServices
 Imports CapaDatos
 Imports CapaEntidad
 Imports FontAwesome.Sharp
 
 Public Class frm_Principal
+
+#Region "Variables Drawer"
     Private drawerAbierto As Boolean = False
     Private drawerControl As New DrawerControl()
 
-    Private DrawerExpandido As Boolean = True
-    Private DrawerObjetivoWidth As Integer = 160
-    Private DrawerVelocidad As Integer = 30
-
-    'Para procedimeintos de botones 
-    Private currentButton As Button
-    Private activeForms As Form = Nothing  ' Formulario activo
-    Dim loginmodelo = listLogin
-
+    Private DrawerExpandido As Boolean = False
+    Private DrawerObjetivoWidth As Integer = 200
+    Private CollapsedWidth As Integer = 0
+    Private DrawerVelocidad As Integer = 15
     Private fadeTimer As New Timer()
     Private fadeStep As Double = 0.05
 
-    Public Property EmpleadoEncontrado As VEmpleados = Nothing
-    Public Property ProveedorEncontrado As VProveedor = Nothing
-    Public Property CompraEncontrado As VCompras = Nothing
+#End Region
 
+#Region "Variables formulario"
+    'Para procedimeintos de botones 
+    Private currentButton As Button
+    Private activeForms As Form = Nothing  ' Formulario activo
+    Private loginmodelo = listLogin
     Public Event AbrirFormularioHijoSolicitado As Action(Of Form)
     Private formularioHijoActual As Form
 
+    Private botonActivo As Button = Nothing
+#End Region
+
+#Region "Propiedades"
+    Public Property EmpleadoEncontrado As VEmpleados = Nothing
+    Public Property ProveedorEncontrado As VProveedor = Nothing
+    Public Property CompraEncontrado As VCompras = Nothing
+#End Region
+
 #Region "CONSTRUCTOR"
-
     Public Sub New()
-
-        ' Esta llamada es exigida por el diseñador.
-
         InitializeComponent()
         FormStylerUI.Apply(Me)
-        ' Maximizamos el formulario
-
         CustomerComponent()
+        InicializarTimer()
+        AddHandler fadeTimer.Tick, AddressOf DrawerTimer_Tick
         pnlDrawer.BringToFront()
     End Sub
 
+    Private Sub InicializarTimer()
+        fadeTimer = New Timer With {.Interval = 15}
+    End Sub
     Private Sub CustomerComponent()
         MaximizarFrm(Me)
         With Me
@@ -99,7 +108,6 @@ Public Class frm_Principal
     Private Sub frm_Principal_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.SuspendLayout()
         PrepararUI()
-
         AddHandler AbrirFormularioHijoSolicitado, AddressOf OpenChildForm
         Me.ResumeLayout()
         FadeManagerUI.StartFade(Me, 0.08)
@@ -162,10 +170,9 @@ Public Class frm_Principal
 
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
-        'pnlDrawer.Visible = True
-        If pnlDrawer.Visible = False Then DrawerTimer.Start()
-        'End If
-        'drawerAbierto = True
+        If pnlDrawer.Width = 0 Then
+            AbrirDrawer()
+        End If
     End Sub
 
     Private Sub SubNuevoE_Click(sender As Object, e As EventArgs)
@@ -192,12 +199,12 @@ Public Class frm_Principal
 
         End If
 
-        DrawerTimer.Start()
         Me.ResumeLayout()
     End Sub
 
     Private Sub SubEditarE_Click(sender As Object, e As EventArgs)
         Me.SuspendLayout()
+
         CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
@@ -222,12 +229,12 @@ Public Class frm_Principal
                                  MessageBoxUI.TipoBotones.Aceptar)
 
         End If
-        DrawerTimer.Start()
         Me.ResumeLayout()
     End Sub
 
     Private Sub SubEliminarE_Click(sender As Object, e As EventArgs)
         Me.SuspendLayout()
+
         CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
@@ -251,7 +258,6 @@ Public Class frm_Principal
                                  MessageBoxUI.TipoMensaje.Advertencia,
                                  MessageBoxUI.TipoBotones.Aceptar)
         End If
-        DrawerTimer.Start()
         Me.ResumeLayout()
     End Sub
 
@@ -268,14 +274,13 @@ Public Class frm_Principal
             OpenChildForm(consultaEmpleadosForm)
 
         End If
-        DrawerTimer.Start()
         Me.ResumeLayout()
     End Sub
 
 
     Private Sub SubReportesE_Click(sender As Object, e As EventArgs)
         'MostrarContenido(New PegarControl())
-        DrawerTimer.Start()
+        CerrarDrawer()
     End Sub
 
 #End Region
@@ -315,9 +320,9 @@ Public Class frm_Principal
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
         'pnlDrawer.Visible = True
-        If pnlDrawer.Visible = False Then DrawerTimer.Start()
-        'End If
-        'drawerAbierto = True
+        If pnlDrawer.Width = 0 Then
+            AbrirDrawer()
+        End If
     End Sub
 
     Private Sub SubReportesInv_Click(sender As Object, e As EventArgs)
@@ -336,6 +341,7 @@ Public Class frm_Principal
             AddHandler consultaCompraForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
             OpenChildForm(consultaCompraForm)
         End If
+
         Me.ResumeLayout()
     End Sub
 
@@ -389,9 +395,9 @@ Public Class frm_Principal
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
         'pnlDrawer.Visible = True
-        If pnlDrawer.Visible = False Then DrawerTimer.Start()
-        'End If
-        'drawerAbierto = True
+        If pnlDrawer.Width = 0 Then
+            AbrirDrawer()
+        End If
     End Sub
 
     Private Sub SubReportesC_Click(sender As Object, e As EventArgs)
@@ -458,12 +464,13 @@ Public Class frm_Principal
         ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
         'pnlDrawer.Visible = True
-        If pnlDrawer.Visible = False Then DrawerTimer.Start()
-        'End If
-        'drawerAbierto = True
+        If pnlDrawer.Width = 0 Then
+            AbrirDrawer()
+        End If
     End Sub
 
     Private Sub SubNuevoPv_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
         Dim abierto As Boolean = Application.OpenForms().OfType(Of frmProveedor).Any()
 
         CerrarDrawer()
@@ -472,11 +479,11 @@ Public Class frm_Principal
             OpenChildForm(New frmProveedor)
             EfectoBotonInActivo()
         End If
-
+        Me.ResumeLayout()
     End Sub
 
     Private Sub SubEditarPv_Click(sender As Object, e As EventArgs)
-
+        Me.SuspendLayout()
         CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
@@ -498,10 +505,11 @@ Public Class frm_Principal
                                  MessageBoxUI.TipoMensaje.Advertencia,
                                  MessageBoxUI.TipoBotones.Aceptar)
         End If
-        DrawerTimer.Start()
+        Me.ResumeLayout()
     End Sub
 
     Private Sub SubEliminarPv_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
         CerrarDrawer()
 
         Dim overlay As New FondoOverlayUI()
@@ -524,10 +532,11 @@ Public Class frm_Principal
                                  MessageBoxUI.TipoMensaje.Advertencia,
                                  MessageBoxUI.TipoBotones.Aceptar)
         End If
-        DrawerTimer.Start()
+        Me.ResumeLayout()
     End Sub
 
     Private Sub SubConsultarPv_Click(sender As Object, e As EventArgs)
+        Me.SuspendLayout()
         Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultaProveedor).Any()
 
         CerrarDrawer()
@@ -539,12 +548,13 @@ Public Class frm_Principal
             OpenChildForm(consultaProveedorForm)
 
         End If
+        Me.ResumeLayout()
     End Sub
 
 
     Private Sub SubReportesPv_Click(sender As Object, e As EventArgs)
         'MostrarContenido(New PegarControl())
-        DrawerTimer.Start()
+        CerrarDrawer()
     End Sub
 
 #End Region
@@ -611,7 +621,7 @@ Public Class frm_Principal
         If Not DrawerExpandido Then
             ' Expandiendo
             If pnlDrawer.Width < DrawerObjetivoWidth Then
-                pnlDrawer.Visible = True
+                'pnlDrawer.Visible = True
                 pnlDrawer.Width += DrawerVelocidad
             Else
                 DrawerTimer.Stop()
@@ -620,13 +630,14 @@ Public Class frm_Principal
         Else
             ' Contrayendo
             If pnlDrawer.Width > 0 Then
-                pnlDrawer.Width = 0 'DrawerVelocidad
+                pnlDrawer.Width -= DrawerVelocidad 'DrawerVelocidad
             Else
                 DrawerTimer.Stop()
-                pnlDrawer.Visible = False
+                'pnlDrawer.Visible = False
                 DrawerExpandido = False
             End If
         End If
+
         Me.ResumeLayout()
     End Sub
 
@@ -634,11 +645,22 @@ Public Class frm_Principal
         DrawerTimer.Start()
     End Sub
 
-
 #End Region
 
 #Region "PROCEDIMIENTO"
+    'Public Sub MarcarBotonActivo(opcion As String, ByRef botonAnterior As Button)
+    '    If botonAnterior IsNot Nothing Then
+    '        botonAnterior.BackColor = Me.BackColor
+    '        botonAnterior.ForeColor = Color.Black
+    '    End If
 
+    '    botonActivo = botones.Find(Function(b) b.Tag.ToString() = opcion)
+    '    If botonActivo IsNot Nothing Then
+    '        botonActivo.BackColor = If(DarkMode, Color.FromArgb(0, 120, 215), Color.LightBlue)
+    '        botonActivo.ForeColor = Color.White
+    '        botonAnterior = botonActivo
+    '    End If
+    'End Sub
     Private Sub EfectoBotonActivo(sender As Object)
         EfectoBotonInActivo()
         If sender IsNot Nothing Then
@@ -669,9 +691,17 @@ Public Class frm_Principal
     End Sub
 
     Private Sub CerrarDrawer()
-        If pnlDrawer.Visible Then
+        If pnlDrawer.Width > 0 Then
             pnlDrawer.Width = 0
+            drawerAbierto = True
+            DrawerTimer.Start()
+        End If
+    End Sub
+
+    Private Sub AbrirDrawer()
+        If pnlDrawer.Width = 0 Then
             drawerAbierto = False
+            DrawerTimer.Start()
         End If
     End Sub
 
@@ -709,7 +739,7 @@ Public Class frm_Principal
     Private Sub PrepararUI()
         pnlDrawer.Controls.Add(drawerControl)
         pnlDrawer.BackColor = Color.Azure
-        DrawerTimer.Start()
+        CerrarDrawer()
         With Me
             btnSalirFrmHijo.Visible = False
             .Text = String.Empty
