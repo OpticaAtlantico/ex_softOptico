@@ -155,6 +155,7 @@ Partial Class frm_Principal
         lblLocalidad.BackColor = Color.Transparent
         lblLocalidad.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblLocalidad.ColorTexto = Color.WhiteSmoke
+        lblLocalidad.Dimension = 12
         lblLocalidad.Dock = DockStyle.Fill
         lblLocalidad.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblLocalidad.Icono = FontAwesome.Sharp.IconChar.Eye
@@ -171,6 +172,7 @@ Partial Class frm_Principal
         lblEmpleado.BackColor = Color.Transparent
         lblEmpleado.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblEmpleado.ColorTexto = Color.WhiteSmoke
+        lblEmpleado.Dimension = 12
         lblEmpleado.Dock = DockStyle.Fill
         lblEmpleado.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblEmpleado.Icono = FontAwesome.Sharp.IconChar.Eye
@@ -213,6 +215,7 @@ Partial Class frm_Principal
         lblTitulo.BackColor = Color.Transparent
         lblTitulo.ColorFondo = Color.FromArgb(CByte(54), CByte(116), CByte(164))
         lblTitulo.ColorTexto = Color.WhiteSmoke
+        lblTitulo.Dimension = 12
         lblTitulo.Dock = DockStyle.Fill
         lblTitulo.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTitulo.Icono = FontAwesome.Sharp.IconChar.Eye
@@ -248,6 +251,7 @@ Partial Class frm_Principal
         btnMostrarMenu.Name = "btnMostrarMenu"
         btnMostrarMenu.Size = New Size(60, 64)
         btnMostrarMenu.TabIndex = 0
+        btnMostrarMenu.Tag = "Menu"
         btnMostrarMenu.UseVisualStyleBackColor = False
         ' 
         ' pnlMenu
@@ -285,6 +289,7 @@ Partial Class frm_Principal
         btnAjustes.Name = "btnAjustes"
         btnAjustes.Size = New Size(55, 55)
         btnAjustes.TabIndex = 9
+        btnAjustes.Tag = "Ajuste"
         btnAjustes.Text = "Ajustes"
         btnAjustes.TextImageRelation = TextImageRelation.ImageAboveText
         btnAjustes.UseVisualStyleBackColor = True
@@ -304,6 +309,7 @@ Partial Class frm_Principal
         btnAnalisis.Name = "btnAnalisis"
         btnAnalisis.Size = New Size(55, 55)
         btnAnalisis.TabIndex = 8
+        btnAnalisis.Tag = "Analisis"
         btnAnalisis.Text = "Analisis"
         btnAnalisis.TextImageRelation = TextImageRelation.ImageAboveText
         btnAnalisis.UseVisualStyleBackColor = True
@@ -323,6 +329,7 @@ Partial Class frm_Principal
         btnReporte.Name = "btnReporte"
         btnReporte.Size = New Size(55, 55)
         btnReporte.TabIndex = 7
+        btnReporte.Tag = "Reporte"
         btnReporte.Text = "Reporte"
         btnReporte.TextImageRelation = TextImageRelation.ImageAboveText
         btnReporte.UseVisualStyleBackColor = True
@@ -342,6 +349,7 @@ Partial Class frm_Principal
         btnNomina.Name = "btnNomina"
         btnNomina.Size = New Size(55, 55)
         btnNomina.TabIndex = 6
+        btnNomina.Tag = "Nomina"
         btnNomina.Text = "Nomina"
         btnNomina.TextImageRelation = TextImageRelation.ImageAboveText
         btnNomina.UseVisualStyleBackColor = True
@@ -361,6 +369,7 @@ Partial Class frm_Principal
         btnComision.Name = "btnComision"
         btnComision.Size = New Size(55, 55)
         btnComision.TabIndex = 5
+        btnComision.Tag = "Comision"
         btnComision.Text = "Comisión"
         btnComision.TextImageRelation = TextImageRelation.ImageAboveText
         btnComision.UseVisualStyleBackColor = True
@@ -380,6 +389,7 @@ Partial Class frm_Principal
         btnEmpleado.Name = "btnEmpleado"
         btnEmpleado.Size = New Size(55, 55)
         btnEmpleado.TabIndex = 4
+        btnEmpleado.Tag = "Empleado"
         btnEmpleado.Text = "Empleado"
         btnEmpleado.TextImageRelation = TextImageRelation.ImageAboveText
         btnEmpleado.UseVisualStyleBackColor = True
@@ -399,6 +409,7 @@ Partial Class frm_Principal
         btnProveedor.Name = "btnProveedor"
         btnProveedor.Size = New Size(55, 55)
         btnProveedor.TabIndex = 3
+        btnProveedor.Tag = "Proveedor"
         btnProveedor.Text = "Proveedor"
         btnProveedor.TextImageRelation = TextImageRelation.ImageAboveText
         btnProveedor.UseVisualStyleBackColor = True
@@ -418,6 +429,7 @@ Partial Class frm_Principal
         btnCompra.Name = "btnCompra"
         btnCompra.Size = New Size(55, 55)
         btnCompra.TabIndex = 2
+        btnCompra.Tag = "Compra"
         btnCompra.Text = "Compra"
         btnCompra.TextImageRelation = TextImageRelation.ImageAboveText
         btnCompra.UseVisualStyleBackColor = True
@@ -437,6 +449,7 @@ Partial Class frm_Principal
         btnVenta.Name = "btnVenta"
         btnVenta.Size = New Size(55, 55)
         btnVenta.TabIndex = 1
+        btnVenta.Tag = "Venta"
         btnVenta.Text = "Venta"
         btnVenta.TextImageRelation = TextImageRelation.ImageAboveText
         btnVenta.UseVisualStyleBackColor = True
@@ -456,6 +469,7 @@ Partial Class frm_Principal
         btnInventario.Name = "btnInventario"
         btnInventario.Size = New Size(55, 55)
         btnInventario.TabIndex = 0
+        btnInventario.Tag = "Inventario"
         btnInventario.Text = "Inventario"
         btnInventario.TextImageRelation = TextImageRelation.ImageAboveText
         btnInventario.UseVisualStyleBackColor = True

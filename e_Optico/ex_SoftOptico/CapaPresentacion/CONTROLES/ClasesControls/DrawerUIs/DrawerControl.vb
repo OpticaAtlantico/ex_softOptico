@@ -12,6 +12,7 @@ Public Class DrawerControl
 
     Public Sub CargarOpciones(opciones As List(Of Tuple(Of String, IconChar, EventHandler)))
         pnlOpciones.Controls.Clear()
+        Me.SuspendLayout()
 
         For Each opcion In opciones
             Dim btn As New IconButton With {
@@ -39,5 +40,6 @@ Public Class DrawerControl
 
             pnlOpciones.Controls.Add(btn)
         Next
+        Me.ResumeLayout()
     End Sub
 End Class

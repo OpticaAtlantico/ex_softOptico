@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing.Drawing2D
+Imports System.Printing
 Imports System.Runtime.InteropServices
 Imports CapaDatos
 Imports CapaEntidad
@@ -188,7 +189,7 @@ Public Class frm_Principal
 
 #End Region
 
-#Region "=== Botones Menú Empleados ==="
+#Region "=== BOTONES MENU EMPLEADOS ==="
 
     Private Sub BotonMenuEmpleados()
         Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler)) From {
@@ -208,7 +209,7 @@ Public Class frm_Principal
         CerrarDrawer()
 
         If Not Application.OpenForms().OfType(Of frmEmpleado).Any() Then
-            EfectoBotonInactivo()
+            'EfectoBotonInactivo()
             Dim frm As New frmEmpleado With {.NombreBoton = "Guardar..."}
             AddHandler frm.CerrarEmpleado, Sub() btnSalirFrmHijo.Visible = False
             OpenChildForm(frm)
@@ -231,7 +232,7 @@ Public Class frm_Principal
         CerrarDrawer()
 
         If Not Application.OpenForms().OfType(Of frmConsultaEmpleados).Any() Then
-            EfectoBotonInactivo()
+            'EfectoBotonInactivo()
             Dim frm As New frmConsultaEmpleados()
             AddHandler frm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
             OpenChildForm(frm)
@@ -257,7 +258,7 @@ Public Class frm_Principal
         obligatorio:=True)
         overlay.Close()
 
-        EfectoBotonInactivo()
+        'EfectoBotonInactivo()
 
         If resultado.Aceptado Then
             accionSiValido(resultado.Valor)
@@ -357,7 +358,7 @@ Public Class frm_Principal
         CerrarDrawer()
 
         If Not abierto Then
-            EfectoBotonInActivo()
+            'EfectoBotonInActivo()
             Dim consultaCompraForm As New frmConsultarCompras()
             AddHandler consultaCompraForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
             OpenChildForm(consultaCompraForm)
@@ -380,7 +381,7 @@ Public Class frm_Principal
 
         If Not abierto Then
             OpenChildForm(New frmCompras)
-            EfectoBotonInActivo()
+            'EfectoBotonInActivo()
         End If
     End Sub
 
@@ -423,7 +424,7 @@ Public Class frm_Principal
 
         If Not abierto Then
             OpenChildForm(New frmProveedor)
-            EfectoBotonInActivo()
+            'EfectoBotonInActivo()
         End If
         Me.ResumeLayout()
     End Sub
@@ -442,7 +443,7 @@ Public Class frm_Principal
             obligatorio:=True
         )
         overlay.Close()
-        EfectoBotonInActivo()
+        'EfectoBotonInActivo()
 
         If resultado.Aceptado Then
             enviarDatosProveedor(resultado.Valor, 0)
@@ -468,7 +469,7 @@ Public Class frm_Principal
             obligatorio:=True
         )
         overlay.Close()
-        EfectoBotonInActivo()
+        'EfectoBotonInActivo()
 
         If resultado.Aceptado Then
             enviarDatosProveedor(resultado.Valor, 1)
@@ -488,7 +489,7 @@ Public Class frm_Principal
         CerrarDrawer()
 
         If Not abierto Then
-            EfectoBotonInActivo()
+            'EfectoBotonInActivo()
             Dim consultaProveedorForm As New frmConsultaProveedor()
             AddHandler consultaProveedorForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
             OpenChildForm(consultaProveedorForm)
@@ -509,8 +510,16 @@ Public Class frm_Principal
 
     Private Sub Boton_Click(sender As Object, e As EventArgs)
         Dim btn As Button = CType(sender, Button)
-        MarcarBotonActivo(btn.Name.ToString(), botonActivo)
-        'RaiseEvent OpcionSeleccionada(btn.Tag.ToString())
+        MarcarBotonActivo(btn.Tag.ToString(), botonActivo)
+        OpcionSeleccionada(btn.Tag.ToString())
+    End Sub
+
+    Private Sub OpcionSeleccionada(opcion As String)
+        Select Case opcion
+            Case ""
+
+
+        End Select
     End Sub
 
     'Private Sub btnInventario_Click(sender As Object, e As EventArgs) Handles btnInventario.Click
@@ -570,8 +579,8 @@ Public Class frm_Principal
 
 #Region "=== DRAWER ==="
     Private Sub btnMostrarMenu_Click(sender As Object, e As EventArgs) Handles btnMostrarMenu.Click
+        Boton_Click(sender, e)
         DrawerTimer.Start()
-        EfectoBotonInactivo()
     End Sub
 
     Private Sub DrawerTimer_Tick(sender As Object, e As EventArgs) Handles DrawerTimer.Tick
@@ -581,6 +590,7 @@ Public Class frm_Principal
             ' Expandir
             If pnlDrawer.Width < DrawerObjetivoWidth Then
                 pnlDrawer.Width += DrawerVelocidad
+                ActualizarBotonesTexto(True)
             Else
                 DrawerTimer.Stop()
                 DrawerExpandido = True
@@ -588,8 +598,8 @@ Public Class frm_Principal
         Else
             ' Contraer
             If pnlDrawer.Width > 0 Then
-                'pnlDrawer.Width -= (DrawerVelocidad / 0.5)
-                pnlDrawer.Width = 0
+                pnlDrawer.Width -= DrawerVelocidad + 50
+                ActualizarBotonesTexto(False)
             Else
                 DrawerTimer.Stop()
                 DrawerExpandido = False
@@ -601,8 +611,8 @@ Public Class frm_Principal
 
     Private Sub CerrarDrawer()
         If pnlDrawer.Width > 0 Then
-            'pnlDrawer.Width = 0
             DrawerExpandido = True
+            DrawerTimer.Start()
         End If
     End Sub
 
@@ -611,6 +621,15 @@ Public Class frm_Principal
             DrawerExpandido = False
             DrawerTimer.Start()
         End If
+    End Sub
+    Private Sub ActualizarBotonesTexto(expanded As Boolean)
+        For Each btn In drawerControl.Controls
+            If expanded Then
+                btn.Text = "  "
+            Else
+                btn.Text = ""
+            End If
+        Next
     End Sub
 #End Region
 
@@ -659,7 +678,7 @@ Public Class frm_Principal
             botonAnterior.IconColor = AppColors._cBlancoOscuro
         End If
 
-        botonActivo = botones.Find(Function(b) b.Name.ToString() = nombre)
+        botonActivo = botones.Find(Function(b) b.Tag.ToString() = nombre)
         If botonActivo IsNot Nothing Then
             botonActivo.BackColor = AppColors._cBlancoOscuro
             botonActivo.ForeColor = AppColors._cTexto
@@ -668,23 +687,23 @@ Public Class frm_Principal
         End If
     End Sub
 
-    Private Sub EfectoBotonActivo(sender As Object)
-        EfectoBotonInActivo()
-        If sender IsNot Nothing Then
-            sender.BackColor = Color.White
-            sender.ForeColor = Color.Black
-            sender.IconColor = Color.Black
-        End If
-    End Sub
-    Private Sub EfectoBotonInactivo()
-        For Each btn In pnlMenu.Controls
-            If TypeOf btn Is IconButton Then
-                CType(btn, IconButton).IconColor = Color.WhiteSmoke
-                CType(btn, IconButton).ForeColor = Color.WhiteSmoke
-                CType(btn, IconButton).BackColor = Color.FromArgb(51, 51, 76)
-            End If
-        Next
-    End Sub
+    'Private Sub EfectoBotonActivo(sender As Object)
+    '    EfectoBotonInActivo()
+    '    If sender IsNot Nothing Then
+    '        sender.BackColor = Color.White
+    '        sender.ForeColor = Color.Black
+    '        sender.IconColor = Color.Black
+    '    End If
+    'End Sub
+    'Private Sub EfectoBotonInactivo()
+    '    For Each btn In pnlMenu.Controls
+    '        If TypeOf btn Is IconButton Then
+    '            CType(btn, IconButton).IconColor = Color.WhiteSmoke
+    '            CType(btn, IconButton).ForeColor = Color.WhiteSmoke
+    '            CType(btn, IconButton).BackColor = Color.FromArgb(51, 51, 76)
+    '        End If
+    '    Next
+    'End Sub
     Private Sub ActivateButton()
         btnSalirFrmHijo.Visible = True
     End Sub
@@ -854,7 +873,7 @@ Public Class frm_Principal
             obligatorio:=True
         )
         overlay.Close()
-        EfectoBotonInActivo()
+        'EfectoBotonInActivo()
         Try
             If resultado.Aceptado Then
 
