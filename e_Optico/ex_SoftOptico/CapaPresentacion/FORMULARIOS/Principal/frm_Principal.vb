@@ -209,7 +209,7 @@ Public Class frm_Principal
         CerrarDrawer()
 
         If Not Application.OpenForms().OfType(Of frmEmpleado).Any() Then
-            'EfectoBotonInactivo()
+            MarcarBotonActivo("Empleado", botonActivo)
             Dim frm As New frmEmpleado With {.NombreBoton = "Guardar..."}
             AddHandler frm.CerrarEmpleado, Sub() btnSalirFrmHijo.Visible = False
             OpenChildForm(frm)
@@ -507,7 +507,6 @@ Public Class frm_Principal
 #End Region
 
 #Region "=== BOTONES DEL MENU ==="
-
     Private Sub Boton_Click(sender As Object, e As EventArgs)
         Dim btn As Button = CType(sender, Button)
         MarcarBotonActivo(btn.Tag.ToString(), botonActivo)
@@ -516,64 +515,25 @@ Public Class frm_Principal
 
     Private Sub OpcionSeleccionada(opcion As String)
         Select Case opcion
-            Case ""
-
+            Case "Empleado" : BotonMenuEmpleados()
+            Case "Inventario" : BotonMenuInventario()
+            Case "Venta" 'BotonMenuInventario()
+            Case "Compra" : BotonMenuCompra()
+            Case "Proveedor" : BotonMenuProveedor()
+            Case "Analisis"  'BotonMenuInventario()
+            Case "Nomina"
+                'BotonMenuInventario()
+            Case "Comision"
+                'BotonMenuInventario()
+            Case "Reporte"
+                'BotonMenuInventario()
+            Case "Ajustes"
+                'BotonMenuInventario()
+            Case Else
+                ' Manejo de caso por defecto si es necesario
 
         End Select
     End Sub
-
-    'Private Sub btnInventario_Click(sender As Object, e As EventArgs) Handles btnInventario.Click
-    '    EfectoBotonActivo(sender)
-    '    BotonMenuInventario()
-    'End Sub
-
-    'Private Sub btnVenta_Click(sender As Object, e As EventArgs) Handles btnVenta.Click
-    '    'BotonMenuInventario()
-    '    EfectoBotonActivo(sender)
-    'End Sub
-
-    'Private Sub btnCompra_Click(sender As Object, e As EventArgs) Handles btnCompra.Click
-    '    EfectoBotonActivo(sender)
-    '    BotonMenuCompra()
-    'End Sub
-
-    'Private Sub btnProveedor_Click(sender As Object, e As EventArgs) Handles btnProveedor.Click
-    'Boton_Click(sender, e)
-    'EfectoBotonActivo(sender)
-    'BotonMenuProveedor()
-    'End Sub
-
-    'Private Sub btnEmpleado_Click(sender As Object, e As EventArgs) Handles btnEmpleado.Click
-    'Boton_Click(sender, e)
-    'EfectoBotonActivo(sender)
-    'BotonMenuEmpleados()
-    'End Sub
-
-    'Private Sub btnComision_Click(sender As Object, e As EventArgs) Handles btnComision.Click
-    '    'BotonMenuInventario()
-    '    EfectoBotonActivo(sender)
-    'End Sub
-
-    'Private Sub btnNomina_Click(sender As Object, e As EventArgs) Handles btnNomina.Click
-    '    'BotonMenuInventario()
-    '    EfectoBotonActivo(sender)
-    'End Sub
-
-    'Private Sub btnReporte_Click(sender As Object, e As EventArgs) Handles btnReporte.Click
-    '    'BotonMenuInventario()
-    '    EfectoBotonActivo(sender)
-    'End Sub
-
-    'Private Sub btnAnalisis_Click(sender As Object, e As EventArgs) Handles btnAnalisis.Click
-    '    'BotonMenuInventario()
-    '    EfectoBotonActivo(sender)
-    'End Sub
-
-    'Private Sub btnAjustes_Click(sender As Object, e As EventArgs) Handles btnAjustes.Click
-    '    'BotonMenuInventario()
-    '    EfectoBotonActivo(sender)
-    'End Sub
-
 
 #End Region
 
@@ -598,7 +558,7 @@ Public Class frm_Principal
         Else
             ' Contraer
             If pnlDrawer.Width > 0 Then
-                pnlDrawer.Width -= DrawerVelocidad + 50
+                pnlDrawer.Width -= DrawerVelocidad * 8
                 ActualizarBotonesTexto(False)
             Else
                 DrawerTimer.Stop()
@@ -638,7 +598,7 @@ Public Class frm_Principal
         ' Si ya hay un formulario activo del mismo tipo, tráelo al frente y no crees otro
         If activeForms IsNot Nothing AndAlso activeForms.GetType() = childForm.GetType() Then
             activeForms.BringToFront()
-            Return
+            'Return
         End If
 
         ' Cerrar el anterior si es distinto
@@ -670,7 +630,6 @@ Public Class frm_Principal
 #End Region
 
 #Region "=== ESTILO BOTONES ==="
-
     Public Sub MarcarBotonActivo(nombre As String, ByRef botonAnterior As IconButton)
         If botonAnterior IsNot Nothing Then
             botonAnterior.BackColor = AppColors._cMenu1
@@ -686,24 +645,6 @@ Public Class frm_Principal
             botonAnterior = botonActivo
         End If
     End Sub
-
-    'Private Sub EfectoBotonActivo(sender As Object)
-    '    EfectoBotonInActivo()
-    '    If sender IsNot Nothing Then
-    '        sender.BackColor = Color.White
-    '        sender.ForeColor = Color.Black
-    '        sender.IconColor = Color.Black
-    '    End If
-    'End Sub
-    'Private Sub EfectoBotonInactivo()
-    '    For Each btn In pnlMenu.Controls
-    '        If TypeOf btn Is IconButton Then
-    '            CType(btn, IconButton).IconColor = Color.WhiteSmoke
-    '            CType(btn, IconButton).ForeColor = Color.WhiteSmoke
-    '            CType(btn, IconButton).BackColor = Color.FromArgb(51, 51, 76)
-    '        End If
-    '    Next
-    'End Sub
     Private Sub ActivateButton()
         btnSalirFrmHijo.Visible = True
     End Sub
