@@ -26,7 +26,7 @@ Public Class frmPrincipal
         ' Botón hamburguesa
         btnHamburguesa.IconChar = IconChar.Bars
         btnHamburguesa.IconColor = Color.White
-        btnHamburguesa.IconSize = 24
+        btnHamburguesa.IconSize = 25
         btnHamburguesa.Dock = DockStyle.Left
         btnHamburguesa.FlatStyle = FlatStyle.Flat
         btnHamburguesa.FlatAppearance.BorderSize = 0
@@ -71,5 +71,9 @@ Public Class frmPrincipal
     Private Sub Drawer_OpcionSeleccionada(opcion As String)
         MessageBox.Show("Seleccionaste: " & opcion)
         ' Aquí iría: OpenChildForm(New frmXxx(), opcion)
+    End Sub
+
+    Private Sub frmPrincipal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     End Sub
 End Class

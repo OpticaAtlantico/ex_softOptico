@@ -28,8 +28,14 @@ Public Class DrawerControlUI
     Private WithEvents drawerTimer As New Timer With {.Interval = 15}
     Private isExpanded As Boolean = True
     Private expandedWidth As Integer = 220
-    Private collapsedWidth As Integer = 60
+    Private collapsedWidth As Integer = 50
     Private drawerTargetWidth As Integer
+
+    ' Timer para auto-compactar al salir
+    Private WithEvents autoCollapseTimer As New Timer With {.Interval = 1000} ' 1
+
+    ' === Retardo ===
+    Private WithEvents closeDelayTimer As New Timer() With {.Interval = 1000} ' 1 segundo
 
     Public Sub New()
         Me.Dock = DockStyle.Left
@@ -48,6 +54,14 @@ Public Class DrawerControlUI
         AddHandler flpMenu.SizeChanged, AddressOf OnMenuSizeChanged
         AddHandler Me.Load, Sub() UpdateAllItemWidths()
 
+        ' Manejar evento Leave (cuando el mouse sale del Drawer)
+        AddHandler Me.Leave, AddressOf Drawer_Leave
+
+        AddHandler closeDelayTimer.Tick, AddressOf CloseDelayTimer_Tick
+        AddHandler Me.MouseEnter, AddressOf Drawer_MouseEnter
+        AddHandler Me.MouseLeave, AddressOf Drawer_MouseLeave
+
+
         ' EJEMPLO: (puedes quitar/editar estas líneas en tu proyecto)
         AgregarOpcion("Empleados", IconChar.Users, New List(Of String) From {"Gestión de Empleados", "Horarios"})
         AgregarOpcion("Compras", IconChar.ShoppingCart, New List(Of String) From {"Nueva Compra", "Proveedores"})
@@ -61,10 +75,12 @@ Public Class DrawerControlUI
     Public Sub ToggleDrawer()
         If isExpanded Then
             drawerTargetWidth = collapsedWidth
+            drawerTimer.Start()
+            CollapseAllSubmenus() ' <--- aquí lo cerramos todo
         Else
             drawerTargetWidth = expandedWidth
+            drawerTimer.Start()
         End If
-        drawerTimer.Start()
     End Sub
 
     ' Agrega una opción principal (texto+ícono) y su lista de subopciones
@@ -136,6 +152,8 @@ Public Class DrawerControlUI
                 AddHandler b.Click, Sub(sender, e)
                                         MarcarBotonActivo(s)
                                         RaiseEvent OpcionSeleccionada(s)
+                                        ' Compactar luego de seleccionar subopción
+                                        If isExpanded Then ToggleDrawer()
                                     End Sub
                 pnlSub.Controls.Add(b)
                 pnlSub.Controls.SetChildIndex(b, 0) ' para que se agreguen en orden correcto
@@ -153,6 +171,10 @@ Public Class DrawerControlUI
 
         ' Manejar clicks: clic en panel o en cualquiera de sus hijos actúa como clic principal
         Dim clickHandler As EventHandler = Sub(s, e)
+                                               ' Si está compacto → expandir primero
+                                               If Not isExpanded Then
+                                                   ToggleDrawer()
+                                               End If
                                                ToggleSubmenu(DirectCast(pnlSub, Panel), pnlItem)
                                            End Sub
         AddHandler pnlItem.Click, clickHandler
@@ -294,6 +316,72 @@ Public Class DrawerControlUI
     End Sub
 
     ' ---------------------
+    ' Auto compactar al Leave
+    ' ---------------------
+    Private Sub Drawer_Leave(sender As Object, e As EventArgs)
+        If isExpanded Then
+            autoCollapseTimer.Start()
+        End If
+    End Sub
+
+    Private Sub autoCollapseTimer_Tick(sender As Object, e As EventArgs) Handles autoCollapseTimer.Tick
+        autoCollapseTimer.Stop()
+        If isExpanded Then
+            ToggleDrawer()
+        End If
+    End Sub
+
+    ' Mouse entra en el drawer
+    Private Sub Drawer_MouseEnter(sender As Object, e As EventArgs) Handles Me.MouseEnter
+        closeDelayTimer.Stop() ' cancelar cierre mientras el mouse esté dentro
+    End Sub
+
+    ' Mouse sale del drawer
+    Private Sub Drawer_MouseLeave(sender As Object, e As EventArgs) Handles Me.MouseLeave
+        closeDelayTimer.Start() ' iniciar delay para cerrar
+    End Sub
+
+    ' Cuando el timer termina
+    Private Sub closeDelayTimer_Tick(sender As Object, e As EventArgs) Handles closeDelayTimer.Tick
+        closeDelayTimer.Stop()
+        If isExpanded Then
+            drawerTargetWidth = collapsedWidth
+            drawerTimer.Start()
+            CollapseAllSubmenus() ' cerrar todos los submenús
+        End If
+    End Sub
+
+    Private Sub CollapseAllSubmenus()
+        For Each ctrl As Control In flpMenu.Controls
+            If TypeOf ctrl Is Panel Then
+                Dim pnlItem = DirectCast(ctrl, Panel)
+
+                ' Solo colapsar si es subpanel (los de fondo gris oscuro)
+                If pnlItem.BackColor = Color.FromArgb(60, 60, 64) Then
+                    pnlItem.Height = 0
+                    pnlItem.Visible = False
+                End If
+
+                ' Restaurar flechas de todos los ítems
+                Dim chevron = pnlItem.Controls.OfType(Of FontAwesome.Sharp.IconPictureBox)().
+                          FirstOrDefault(Function(x) x.IconChar = IconChar.ChevronDown Or x.IconChar = IconChar.ChevronRight)
+                If chevron IsNot Nothing Then
+                    chevron.IconChar = IconChar.ChevronRight
+                End If
+
+                ' Restaurar fondo de los ítems principales
+                If pnlItem.BackColor = Color.FromArgb(40, 40, 60) Then
+                    pnlItem.BackColor = Color.FromArgb(28, 28, 30)
+                End If
+            End If
+        Next
+
+        ' Resetear variables de animación de submenús
+        targetSubmenu = Nothing
+        nextSubmenuToOpen = Nothing
+    End Sub
+
+    ' ---------------------
     ' Actualizar tamaños/posiciones de items
     ' ---------------------
     Private Sub UpdateItemSizes(item As Panel, subPanel As Panel)
@@ -343,6 +431,8 @@ Public Class DrawerControlUI
     ' Actualiza el estilo visual del Drawer en
     ' modo compacto (solo íconos) o expandido.
     ' ========================================
+    ' Ajusta visuales (centrar icono y esconder texto) según modo compacto
+    ' Ajusta visuales (manteniendo el icono SIEMPRE a la izquierda)
     Private Sub UpdateCompactVisuals(compact As Boolean)
         For Each ctrl As Control In flpMenu.Controls
             If TypeOf ctrl Is Panel Then
@@ -351,15 +441,15 @@ Public Class DrawerControlUI
 
                 ' Buscar controles dentro del item
                 Dim iconMain As IconPictureBox =
-                    pnlItem.Controls.OfType(Of IconPictureBox)().
-                        FirstOrDefault(Function(x) x IsNot Nothing AndAlso
-                                                  x.IconChar <> IconChar.ChevronRight AndAlso
-                                                  x.IconChar <> IconChar.ChevronDown)
+                pnlItem.Controls.OfType(Of IconPictureBox)().
+                    FirstOrDefault(Function(x) x IsNot Nothing AndAlso
+                                              x.IconChar <> IconChar.ChevronRight AndAlso
+                                              x.IconChar <> IconChar.ChevronDown)
 
                 Dim chevron As IconPictureBox =
-                    pnlItem.Controls.OfType(Of IconPictureBox)().
-                        FirstOrDefault(Function(x) x IsNot Nothing AndAlso
-                                                  (x.IconChar = IconChar.ChevronRight OrElse x.IconChar = IconChar.ChevronDown))
+                pnlItem.Controls.OfType(Of IconPictureBox)().
+                    FirstOrDefault(Function(x) x IsNot Nothing AndAlso
+                                              (x.IconChar = IconChar.ChevronRight OrElse x.IconChar = IconChar.ChevronDown))
 
                 Dim lbl As Label = pnlItem.Controls.OfType(Of Label)().FirstOrDefault()
 
@@ -368,12 +458,9 @@ Public Class DrawerControlUI
                     If lbl IsNot Nothing Then lbl.Visible = False
                     If chevron IsNot Nothing Then chevron.Visible = False
 
-                    ' Centrar ícono principal
+                    ' Icono SIEMPRE a la izquierda (no se centra)
                     If iconMain IsNot Nothing Then
-                        iconMain.Location = New Point(
-                            (pnlItem.Width - iconMain.Width) \ 2,
-                            (pnlItem.Height - iconMain.Height) \ 2
-                        )
+                        iconMain.Location = New Point(12, (pnlItem.Height - iconMain.Height) \ 2)
                     End If
 
                     ' Ajustar ancho del subpanel
@@ -391,9 +478,9 @@ Public Class DrawerControlUI
                         chevron.Visible = True
                     End If
 
-                    ' Colocar ícono principal a la izquierda
+                    ' Icono sigue fijo a la izquierda
                     If iconMain IsNot Nothing Then
-                        iconMain.Location = New Point(10, (pnlItem.Height - iconMain.Height) \ 2)
+                        iconMain.Location = New Point(12, (pnlItem.Height - iconMain.Height) \ 2)
                     End If
 
                     If subPanel IsNot Nothing Then
@@ -403,5 +490,6 @@ Public Class DrawerControlUI
             End If
         Next
     End Sub
+
 
 End Class
