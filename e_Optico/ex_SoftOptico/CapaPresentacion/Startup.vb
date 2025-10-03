@@ -4,6 +4,6 @@ Module Startup
     Sub Main()
         Application.EnableVisualStyles()
         Application.SetCompatibleTextRenderingDefault(False)
-        Application.Run(New prueba())
+        Application.Run(New frmPrincipal())
     End Sub
 End Module

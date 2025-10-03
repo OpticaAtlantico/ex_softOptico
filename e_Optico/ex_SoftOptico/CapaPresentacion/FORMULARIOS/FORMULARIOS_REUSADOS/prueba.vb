@@ -98,7 +98,7 @@ Public Class prueba
         drawer.BringToFront()
 
         ' === Evento: opción seleccionada en el drawer ===
-        AddHandler drawer.OpcionSeleccionada, AddressOf AbrirFormularioDesdeMenu
+        'AddHandler drawer.OpcionSeleccionada, AddressOf AbrirFormularioDesdeMenu
     End Sub
 
     ' ======================================================
