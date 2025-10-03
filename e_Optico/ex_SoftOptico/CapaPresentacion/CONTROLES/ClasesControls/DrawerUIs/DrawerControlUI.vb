@@ -288,6 +288,9 @@ Public Class DrawerControlUI
                 UpdateCompactVisuals(True)
             End If
         End If
+        If Me.Parent IsNot Nothing Then
+            Me.Parent.Width = Me.Width
+        End If
     End Sub
 
     ' ---------------------
