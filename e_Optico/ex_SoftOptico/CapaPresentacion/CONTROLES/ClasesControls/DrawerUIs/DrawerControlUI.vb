@@ -60,6 +60,7 @@ Public Class DrawerControlUI
         AddHandler closeDelayTimer.Tick, AddressOf CloseDelayTimer_Tick
         AddHandler Me.MouseEnter, AddressOf Drawer_MouseEnter
         AddHandler Me.MouseLeave, AddressOf Drawer_MouseLeave
+        AddHandler Me.MouseClick, AddressOf Drawer_MouseClick
 
 
         ' EJEMPLO: (puedes quitar/editar estas líneas en tu proyecto)
@@ -319,6 +320,12 @@ Public Class DrawerControlUI
     ' Auto compactar al Leave
     ' ---------------------
     Private Sub Drawer_Leave(sender As Object, e As EventArgs)
+        If isExpanded Then
+            autoCollapseTimer.Start()
+        End If
+    End Sub
+
+    Private Sub Drawer_MouseClick(sender As Object, e As EventArgs)
         If isExpanded Then
             autoCollapseTimer.Start()
         End If

@@ -11,6 +11,9 @@ Public Class frmPrincipal
     Private btnHamburguesa As New IconButton()
     Private drawer As DrawerControlUI
 
+    ' === Formulario hijo activo ===
+    Private currentChildForm As Form = Nothing
+
     ' === Constructor ===
     Public Sub New()
         Me.Text = "Sistema Óptica - Principal"
@@ -54,6 +57,7 @@ Public Class frmPrincipal
         Me.Controls.Add(pnlMenu)
         pnlEncabezado.Controls.Add(btnHamburguesa)
         Me.Controls.Add(pnlEncabezado)
+
         ' Eventos
         AddHandler btnHamburguesa.Click, AddressOf ToggleMenu
         AddHandler drawer.OpcionSeleccionada, AddressOf Drawer_OpcionSeleccionada
@@ -64,16 +68,42 @@ Public Class frmPrincipal
     ' =======================
     Private Sub ToggleMenu(sender As Object, e As EventArgs)
         drawer.ToggleDrawer()
-        ' expandir/colapsar el pnlMenu junto con el drawer
-        pnlMenu.Width = drawer.Width
+        pnlMenu.Width = drawer.Width ' sincronizar ancho
     End Sub
 
     Private Sub Drawer_OpcionSeleccionada(opcion As String)
-        MessageBox.Show("Seleccionaste: " & opcion)
-        ' Aquí iría: OpenChildForm(New frmXxx(), opcion)
+        Select Case opcion
+            Case "Gestión de Empleados"
+                OpenChildForm(New frmEmpleado())
+            Case "Nueva Compra"
+                OpenChildForm(New frmCompras())
+            Case "Nueva Venta"
+                OpenChildForm(New frmConsultaEmpleados())
+            Case Else
+                MessageBox.Show("Seleccionaste: " & opcion)
+        End Select
     End Sub
 
-    Private Sub frmPrincipal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    ' =======================
+    ' Método para abrir hijos
+    ' =======================
+    Private Sub OpenChildForm(childForm As Form)
+        ' Cierra el form activo si existe
+        If currentChildForm IsNot Nothing Then
+            currentChildForm.Close()
+        End If
 
+        currentChildForm = childForm
+        With childForm
+            .TopLevel = False
+            .FormBorderStyle = FormBorderStyle.None
+            .Dock = DockStyle.Fill
+        End With
+
+        pnlContenedor.Controls.Clear()
+        pnlContenedor.Controls.Add(childForm)
+        pnlContenedor.Tag = childForm
+        childForm.BringToFront()
+        childForm.Show()
     End Sub
 End Class
