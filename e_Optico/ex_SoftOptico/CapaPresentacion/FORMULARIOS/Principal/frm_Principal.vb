@@ -64,15 +64,15 @@ Public Class frm_Principal
         MaximizarFrm(Me)
 
         ' Colores principales
-        pnlMenu.BackColor = AppColors._cMenu1
+        pnlMenu.BackColor = AppColors._cFondo
         pnlEncabezado.BackColor = AppColors._cFondo
+        pnlEncabezado.Height = 50
         pnlBotones.BackColor = AppColors._cFondo
-        pnlSalirfrm.BackColor = AppColors._cFondo
 
         ' Botones de encabezado
         btnSalirFrmHijo.IconColor = AppColors._cBlanco
         btnSalirFrmHijo.BackColor = AppColors._cFondo
-        btnMostrarMenu.IconColor = AppColors._cHeaderTexto
+        btnMostrarMenu.IconColor = AppColors._cBlanco
 
         btnSalir.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
         btnMinimizar.FlatAppearance.MouseOverBackColor = AppColors._cBotonFrm
@@ -102,24 +102,24 @@ Public Class frm_Principal
             .Icono = IconChar.Eye
             .Titulo = "SISTEMA INTEGRAL DE GESTIÓN OPTICA"
             .Subtitulo = "Administracion, Gestión y Control de Ópticas "
-            .ColorFondo = AppColors._cFondo
-            .ColorTexto = AppColors._cBlancoOscuro
+            .ColorFondo = AppColors._cBlanco
+            .ColorTexto = AppColors._cTexto
         End With
 
         With Me.lblEmpleado
             .Icono = IconChar.UsersViewfinder
             .Titulo = Sesion.NombreUsuario
             .Subtitulo = Sesion.Cargo
-            .ColorFondo = AppColors._cFondo
-            .ColorTexto = AppColors._cBlancoOscuro
+            .ColorFondo = AppColors._cBlanco
+            .ColorTexto = AppColors._cTexto
         End With
 
         With Me.lblLocalidad
             .Icono = IconChar.LocationDot
             .Titulo = Sesion.NombreUbicacion
             .Subtitulo = Sesion.Direccion
-            .ColorFondo = AppColors._cFondo
-            .ColorTexto = AppColors._cBlancoOscuro
+            .ColorFondo = AppColors._cBlanco
+            .ColorTexto = AppColors._cTexto
         End With
 
         WindowState = FormWindowState.Maximized
@@ -161,7 +161,7 @@ Public Class frm_Principal
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
-        Me.SuspendLayout()
+        SuspendLayout()
         Dim confirmacion = MessageBoxUI.Mostrar("Cerrar...",
                                                  "Saliendo del Sistema de gestión de datos",
                                                  MessageBoxUI.TipoMensaje.Exito,
@@ -169,22 +169,22 @@ Public Class frm_Principal
 
         If confirmacion = DialogResult.Cancel Then Exit Sub
 
-        listLogin.Clear()
-        Me.Close() ' Cierra el formulario después de eliminar
-        Me.ResumeLayout()
+        listLogin.Clear
+        Close() ' Cierra el formulario después de eliminar
+        ResumeLayout()
     End Sub
 
     Private Sub btnMaximizar_Click(sender As Object, e As EventArgs) Handles btnMaximizar.Click
-        If Me.WindowState = FormWindowState.Normal Then
+        If WindowState = FormWindowState.Normal Then
             MaximizarFrm(Me)
         Else
-            Me.WindowState = FormWindowState.Normal
-            Me.Bounds = Screen.PrimaryScreen.WorkingArea
+            WindowState = FormWindowState.Normal
+            Bounds = Screen.PrimaryScreen.WorkingArea
         End If
     End Sub
 
-    Private Sub btnminimizar_Click(sender As Object, e As EventArgs) Handles btnMinimizar.Click
-        Me.WindowState = FormWindowState.Minimized
+    Private Sub btnMinimizar_Click(sender As Object, e As EventArgs) Handles btnMinimizar.Click
+        WindowState = FormWindowState.Minimized
     End Sub
 
 #End Region
@@ -540,7 +540,7 @@ Public Class frm_Principal
 #Region "=== DRAWER ==="
     Private Sub btnMostrarMenu_Click(sender As Object, e As EventArgs) Handles btnMostrarMenu.Click
         Boton_Click(sender, e)
-        DrawerTimer.Start()
+        DrawerTimer.Start
     End Sub
 
     Private Sub DrawerTimer_Tick(sender As Object, e As EventArgs) Handles DrawerTimer.Tick
@@ -632,7 +632,7 @@ Public Class frm_Principal
 #Region "=== ESTILO BOTONES ==="
     Public Sub MarcarBotonActivo(nombre As String, ByRef botonAnterior As IconButton)
         If botonAnterior IsNot Nothing Then
-            botonAnterior.BackColor = AppColors._cMenu1
+            botonAnterior.BackColor = AppColors._cFondo
             botonAnterior.ForeColor = AppColors._cBlancoOscuro
             botonAnterior.IconColor = AppColors._cBlancoOscuro
         End If
@@ -842,6 +842,10 @@ Public Class frm_Principal
         End Try
 
         DrawerTimer.Start()
+    End Sub
+
+    Private Sub btnSalir_Click_1(sender As Object, e As EventArgs) Handles btnSalir.Click
+
     End Sub
 
 #End Region

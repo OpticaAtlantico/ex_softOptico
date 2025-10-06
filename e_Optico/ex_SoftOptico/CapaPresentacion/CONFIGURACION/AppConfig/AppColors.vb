@@ -11,7 +11,7 @@
     Public Shared ReadOnly _cMenu1 As Color = Color.FromArgb(51, 51, 76)
 
     'Color formulario principal
-    Public Shared ReadOnly _cFondo As Color = Color.FromArgb(53, 113, 165)
+    Public Shared ReadOnly _cFondo As Color = Color.FromArgb(45, 45, 48)
 
     'Color de formulario secundarios
     Public Shared ReadOnly _cEncabezado As Color = Color.FromArgb(168, 187, 150)
@@ -64,7 +64,7 @@
     Public Shared ReadOnly _cHeaderSubTitulo As Color = Color.FromArgb(45, 45, 45)
 
     Public Shared ReadOnly _cHeaderTexto As Color = Color.FromArgb(45, 45, 45)
-    Public Shared ReadOnly _cBotonFrm As Color = Color.LightSkyBlue
+    Public Shared ReadOnly _cBotonFrm As Color = Color.Gray
 
     'Color de controles de entrada de datos
     Public Shared ReadOnly _cLabel As Color = Color.DarkSlateGray
