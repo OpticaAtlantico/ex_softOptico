@@ -14,6 +14,7 @@ Public Class frm_Principal
     Private DrawerExpandido As Boolean = False
     Private DrawerObjetivoWidth As Integer = 220
     Private DrawerVelocidad As Integer = 15
+    Private IconoDrawer As IconChar = IconChar.CircleChevronRight
 
     ' Timers
     Private fadeTimer As New Timer() With {.Interval = 15}
@@ -86,40 +87,18 @@ Public Class frm_Principal
             End If
         Next
 
+        VisualizarDashBoar()
+
     End Sub
     Private Sub PrepararUI()
         pnlDrawer.Controls.Add(drawerControl)
-        pnlDrawer.BackColor = Color.Azure
+        pnlDrawer.BackColor = AppColors._cBlancoOscuro
         CerrarDrawer()
         With Me
             btnSalirFrmHijo.Visible = False
             .Text = String.Empty
             .ControlBox = False
             .MaximizedBounds = Screen.FromHandle(Me.Handle).WorkingArea
-        End With
-
-        With Me.lblTitulo
-            .Icono = IconChar.Eye
-            .Titulo = "SISTEMA INTEGRAL DE GESTIÓN OPTICA"
-            .Subtitulo = "Administracion, Gestión y Control de Ópticas "
-            .ColorFondo = AppColors._cBlanco
-            .ColorTexto = AppColors._cTexto
-        End With
-
-        With Me.lblEmpleado
-            .Icono = IconChar.UsersViewfinder
-            .Titulo = Sesion.NombreUsuario
-            .Subtitulo = Sesion.Cargo
-            .ColorFondo = AppColors._cBlanco
-            .ColorTexto = AppColors._cTexto
-        End With
-
-        With Me.lblLocalidad
-            .Icono = IconChar.LocationDot
-            .Titulo = Sesion.NombreUbicacion
-            .Subtitulo = Sesion.Direccion
-            .ColorFondo = AppColors._cBlanco
-            .ColorTexto = AppColors._cTexto
         End With
 
         WindowState = FormWindowState.Maximized
@@ -193,11 +172,11 @@ Public Class frm_Principal
 
     Private Sub BotonMenuEmpleados()
         Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler)) From {
-        Tuple.Create("Reportes", IconChar.ListCheck, New EventHandler(AddressOf SubReportesE_Click)),
-        Tuple.Create("Consultar", IconChar.ListNumeric, New EventHandler(AddressOf SubConsultarE_Click)),
-        Tuple.Create("Eliminar Datos", IconChar.TrashArrowUp, New EventHandler(AddressOf SubEliminarE_Click)),
-        Tuple.Create("Editar Datos", IconChar.FilePen, New EventHandler(AddressOf SubEditarE_Click)),
-        Tuple.Create("Nuevo Registro", IconChar.Save, New EventHandler(AddressOf SubNuevoE_Click))
+        Tuple.Create("Reportes", IconoDrawer, New EventHandler(AddressOf SubReportesE_Click)),
+        Tuple.Create("Consultar", IconoDrawer, New EventHandler(AddressOf SubConsultarE_Click)),
+        Tuple.Create("Eliminar Datos", IconoDrawer, New EventHandler(AddressOf SubEliminarE_Click)),
+        Tuple.Create("Editar Datos", IconoDrawer, New EventHandler(AddressOf SubEditarE_Click)),
+        Tuple.Create("Nuevo Registro", IconoDrawer, New EventHandler(AddressOf SubNuevoE_Click))
     }
 
         drawerControl.CargarOpciones(opciones)
@@ -250,11 +229,12 @@ Public Class frm_Principal
         Dim overlay As New FondoOverlayUI()
         overlay.Show()
         Dim resultado = InputBoxUI.Mostrar(
-        titulo:=titulo,
-        placeholder:="12345678",
-        tipoDato:=InputBoxUI.TipoValidacion.Numero,
-        icono:=FontAwesome.Sharp.IconChar.UserAlt,
-        obligatorio:=True)
+                                        titulo:=titulo,
+                                        placeholder:="12345678",
+                                        tipoDato:=InputBoxUI.TipoValidacion.Numero,
+                                        icono:=FontAwesome.Sharp.IconChar.UserAlt,
+                                        obligatorio:=True
+                                        )
         overlay.Close()
 
         'EfectoBotonInactivo()
@@ -626,6 +606,13 @@ Public Class frm_Principal
     Public Sub SolicitarAbrirFormularioHijo(childForm As Form)
         RaiseEvent AbrirFormularioHijoSolicitado(childForm)
     End Sub
+
+    Private Sub VisualizarDashBoar()
+        Dim frm As New DashBoard
+        'AddHandler frm.CerrarFrm, Sub() btnSalirFrmHijo.Visible = False
+        OpenChildForm(frm)
+        btnSalirFrmHijo.Visible = False
+    End Sub
 #End Region
 
 #Region "=== ESTILO BOTONES ==="
@@ -654,6 +641,8 @@ Public Class frm_Principal
         currentButton = New Button()
         Boton_Click(sender, e)
         DisableButton()
+        VisualizarDashBoar()
+
     End Sub
 
 #End Region

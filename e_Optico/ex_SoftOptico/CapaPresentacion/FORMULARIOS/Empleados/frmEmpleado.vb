@@ -383,5 +383,4 @@ Public Class frmEmpleado
 
 #End Region
 
-
 End Class

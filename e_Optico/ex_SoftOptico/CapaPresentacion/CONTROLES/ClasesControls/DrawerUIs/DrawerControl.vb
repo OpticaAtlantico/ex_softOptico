@@ -18,7 +18,7 @@ Public Class DrawerControl
             Dim btn As New IconButton With {
                 .Text = opcion.Item1,
                 .IconChar = opcion.Item2,
-                .IconColor = Color.DarkGray,
+                .IconColor = Color.Red,
                 .TextImageRelation = TextImageRelation.ImageBeforeText,
                 .TextAlign = ContentAlignment.MiddleLeft,
                 .ImageAlign = ContentAlignment.MiddleLeft,
@@ -27,7 +27,7 @@ Public Class DrawerControl
                 .Height = 40,
                 .FlatStyle = FlatStyle.Flat,
                 .Font = New Font("Century Gothic", 9, FontStyle.Regular),
-                .BackColor = Color.White,
+                .BackColor = Color.Transparent,
                 .ForeColor = Color.Black,
                 .IconSize = 20,
                 .AutoSize = False,
@@ -43,4 +43,6 @@ Public Class DrawerControl
         Next
         Me.ResumeLayout()
     End Sub
+
+
 End Class

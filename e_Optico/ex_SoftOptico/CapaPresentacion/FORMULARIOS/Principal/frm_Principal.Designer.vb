@@ -30,10 +30,6 @@ Partial Class frm_Principal
         btnMaximizar = New FontAwesome.Sharp.IconButton()
         btnMinimizar = New FontAwesome.Sharp.IconButton()
         btnMostrarMenu = New FontAwesome.Sharp.IconButton()
-        tlySuperior = New TableLayoutPanel()
-        lblLocalidad = New HeaderUI()
-        lblEmpleado = New HeaderUI()
-        lblTitulo = New HeaderUI()
         pnlMenu = New Panel()
         btnAjustes = New FontAwesome.Sharp.IconButton()
         btnAnalisis = New FontAwesome.Sharp.IconButton()
@@ -50,9 +46,7 @@ Partial Class frm_Principal
         DrawerTimer = New Timer(components)
         pnlEncabezado.SuspendLayout()
         pnlBotones.SuspendLayout()
-        tlySuperior.SuspendLayout()
         pnlMenu.SuspendLayout()
-        pnlContenedor.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlEncabezado
@@ -157,74 +151,6 @@ Partial Class frm_Principal
         btnMostrarMenu.TabIndex = 7
         btnMostrarMenu.Tag = "BotonMenu"
         ' 
-        ' tlySuperior
-        ' 
-        tlySuperior.ColumnCount = 3
-        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        tlySuperior.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333321F))
-        tlySuperior.Controls.Add(lblLocalidad, 2, 0)
-        tlySuperior.Controls.Add(lblEmpleado, 1, 0)
-        tlySuperior.Controls.Add(lblTitulo, 0, 0)
-        tlySuperior.Dock = DockStyle.Top
-        tlySuperior.Location = New Point(0, 0)
-        tlySuperior.Name = "tlySuperior"
-        tlySuperior.RowCount = 1
-        tlySuperior.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        tlySuperior.Size = New Size(1315, 64)
-        tlySuperior.TabIndex = 1
-        ' 
-        ' lblLocalidad
-        ' 
-        lblLocalidad.BackColor = Color.Transparent
-        lblLocalidad.ColorFondo = Color.White
-        lblLocalidad.ColorTexto = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        lblLocalidad.Dimension = 12
-        lblLocalidad.Dock = DockStyle.Fill
-        lblLocalidad.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblLocalidad.Icono = FontAwesome.Sharp.IconChar.Eye
-        lblLocalidad.Location = New Point(879, 3)
-        lblLocalidad.MostrarSeparador = False
-        lblLocalidad.Name = "lblLocalidad"
-        lblLocalidad.Size = New Size(433, 58)
-        lblLocalidad.Subtitulo = "Óptica Atlantico "
-        lblLocalidad.TabIndex = 3
-        lblLocalidad.Titulo = "Sistema de Integral de Gestion"
-        ' 
-        ' lblEmpleado
-        ' 
-        lblEmpleado.BackColor = Color.Transparent
-        lblEmpleado.ColorFondo = Color.White
-        lblEmpleado.ColorTexto = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        lblEmpleado.Dimension = 12
-        lblEmpleado.Dock = DockStyle.Fill
-        lblEmpleado.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblEmpleado.Icono = FontAwesome.Sharp.IconChar.Eye
-        lblEmpleado.Location = New Point(441, 3)
-        lblEmpleado.MostrarSeparador = False
-        lblEmpleado.Name = "lblEmpleado"
-        lblEmpleado.Size = New Size(432, 58)
-        lblEmpleado.Subtitulo = "Óptica Atlantico "
-        lblEmpleado.TabIndex = 2
-        lblEmpleado.Titulo = "Sistema de Integral de Gestion"
-        ' 
-        ' lblTitulo
-        ' 
-        lblTitulo.BackColor = Color.Transparent
-        lblTitulo.ColorFondo = Color.White
-        lblTitulo.ColorTexto = Color.FromArgb(CByte(64), CByte(64), CByte(64))
-        lblTitulo.Dimension = 12
-        lblTitulo.Dock = DockStyle.Fill
-        lblTitulo.Font = New Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblTitulo.Icono = FontAwesome.Sharp.IconChar.Eye
-        lblTitulo.Location = New Point(3, 3)
-        lblTitulo.MostrarSeparador = False
-        lblTitulo.Name = "lblTitulo"
-        lblTitulo.Size = New Size(432, 58)
-        lblTitulo.Subtitulo = "Óptica Atlantico "
-        lblTitulo.TabIndex = 0
-        lblTitulo.Titulo = "Sistema de Integral de Gestion"
-        ' 
         ' pnlMenu
         ' 
         pnlMenu.BackColor = Color.FromArgb(CByte(45), CByte(45), CByte(48))
@@ -239,7 +165,7 @@ Partial Class frm_Principal
         pnlMenu.Controls.Add(btnVenta)
         pnlMenu.Controls.Add(btnInventario)
         pnlMenu.Dock = DockStyle.Left
-        pnlMenu.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        pnlMenu.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         pnlMenu.Location = New Point(0, 50)
         pnlMenu.Name = "pnlMenu"
         pnlMenu.Size = New Size(55, 576)
@@ -250,7 +176,7 @@ Partial Class frm_Principal
         btnAjustes.Dock = DockStyle.Top
         btnAjustes.FlatAppearance.BorderSize = 0
         btnAjustes.FlatStyle = FlatStyle.Flat
-        btnAjustes.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAjustes.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAjustes.ForeColor = Color.WhiteSmoke
         btnAjustes.IconChar = FontAwesome.Sharp.IconChar.Cog
         btnAjustes.IconColor = Color.WhiteSmoke
@@ -270,7 +196,7 @@ Partial Class frm_Principal
         btnAnalisis.Dock = DockStyle.Top
         btnAnalisis.FlatAppearance.BorderSize = 0
         btnAnalisis.FlatStyle = FlatStyle.Flat
-        btnAnalisis.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAnalisis.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAnalisis.ForeColor = Color.WhiteSmoke
         btnAnalisis.IconChar = FontAwesome.Sharp.IconChar.ListAlt
         btnAnalisis.IconColor = Color.WhiteSmoke
@@ -290,7 +216,7 @@ Partial Class frm_Principal
         btnReporte.Dock = DockStyle.Top
         btnReporte.FlatAppearance.BorderSize = 0
         btnReporte.FlatStyle = FlatStyle.Flat
-        btnReporte.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnReporte.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnReporte.ForeColor = Color.WhiteSmoke
         btnReporte.IconChar = FontAwesome.Sharp.IconChar.Newspaper
         btnReporte.IconColor = Color.WhiteSmoke
@@ -310,7 +236,7 @@ Partial Class frm_Principal
         btnNomina.Dock = DockStyle.Top
         btnNomina.FlatAppearance.BorderSize = 0
         btnNomina.FlatStyle = FlatStyle.Flat
-        btnNomina.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnNomina.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnNomina.ForeColor = Color.WhiteSmoke
         btnNomina.IconChar = FontAwesome.Sharp.IconChar.ContactBook
         btnNomina.IconColor = Color.WhiteSmoke
@@ -330,7 +256,7 @@ Partial Class frm_Principal
         btnComision.Dock = DockStyle.Top
         btnComision.FlatAppearance.BorderSize = 0
         btnComision.FlatStyle = FlatStyle.Flat
-        btnComision.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnComision.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnComision.ForeColor = Color.WhiteSmoke
         btnComision.IconChar = FontAwesome.Sharp.IconChar.MoneyCheck
         btnComision.IconColor = Color.WhiteSmoke
@@ -350,7 +276,7 @@ Partial Class frm_Principal
         btnEmpleado.Dock = DockStyle.Top
         btnEmpleado.FlatAppearance.BorderSize = 0
         btnEmpleado.FlatStyle = FlatStyle.Flat
-        btnEmpleado.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnEmpleado.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEmpleado.ForeColor = Color.WhiteSmoke
         btnEmpleado.IconChar = FontAwesome.Sharp.IconChar.Users
         btnEmpleado.IconColor = Color.WhiteSmoke
@@ -370,7 +296,7 @@ Partial Class frm_Principal
         btnProveedor.Dock = DockStyle.Top
         btnProveedor.FlatAppearance.BorderSize = 0
         btnProveedor.FlatStyle = FlatStyle.Flat
-        btnProveedor.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnProveedor.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnProveedor.ForeColor = Color.WhiteSmoke
         btnProveedor.IconChar = FontAwesome.Sharp.IconChar.Handshake
         btnProveedor.IconColor = Color.WhiteSmoke
@@ -390,7 +316,7 @@ Partial Class frm_Principal
         btnCompra.Dock = DockStyle.Top
         btnCompra.FlatAppearance.BorderSize = 0
         btnCompra.FlatStyle = FlatStyle.Flat
-        btnCompra.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCompra.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnCompra.ForeColor = Color.WhiteSmoke
         btnCompra.IconChar = FontAwesome.Sharp.IconChar.ShoppingBag
         btnCompra.IconColor = Color.WhiteSmoke
@@ -410,7 +336,7 @@ Partial Class frm_Principal
         btnVenta.Dock = DockStyle.Top
         btnVenta.FlatAppearance.BorderSize = 0
         btnVenta.FlatStyle = FlatStyle.Flat
-        btnVenta.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnVenta.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnVenta.ForeColor = Color.WhiteSmoke
         btnVenta.IconChar = FontAwesome.Sharp.IconChar.CartShopping
         btnVenta.IconColor = Color.WhiteSmoke
@@ -430,7 +356,7 @@ Partial Class frm_Principal
         btnInventario.Dock = DockStyle.Top
         btnInventario.FlatAppearance.BorderSize = 0
         btnInventario.FlatStyle = FlatStyle.Flat
-        btnInventario.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnInventario.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnInventario.ForeColor = Color.WhiteSmoke
         btnInventario.IconChar = FontAwesome.Sharp.IconChar.Truck
         btnInventario.IconColor = Color.WhiteSmoke
@@ -458,7 +384,6 @@ Partial Class frm_Principal
         ' 
         pnlContenedor.BackColor = Color.White
         pnlContenedor.BackgroundImageLayout = ImageLayout.Stretch
-        pnlContenedor.Controls.Add(tlySuperior)
         pnlContenedor.Dock = DockStyle.Fill
         pnlContenedor.Location = New Point(55, 50)
         pnlContenedor.Name = "pnlContenedor"
@@ -471,7 +396,7 @@ Partial Class frm_Principal
         ' 
         ' frm_Principal
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1370, 626)
         Controls.Add(pnlContenedor)
@@ -484,9 +409,7 @@ Partial Class frm_Principal
         WindowState = FormWindowState.Maximized
         pnlEncabezado.ResumeLayout(False)
         pnlBotones.ResumeLayout(False)
-        tlySuperior.ResumeLayout(False)
         pnlMenu.ResumeLayout(False)
-        pnlContenedor.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
@@ -497,7 +420,6 @@ Partial Class frm_Principal
     Friend WithEvents btnSalir As FontAwesome.Sharp.IconButton
     Friend WithEvents btnMaximizar As FontAwesome.Sharp.IconButton
     Friend WithEvents btnMinimizar As FontAwesome.Sharp.IconButton
-    Friend WithEvents lblTitulo As HeaderUI
     Friend WithEvents pnlMenu As Panel
     Friend WithEvents pnlDrawer As Panel
     Friend WithEvents pnlContenedor As Panel
@@ -514,9 +436,5 @@ Partial Class frm_Principal
     Friend WithEvents btnAnalisis As FontAwesome.Sharp.IconButton
     Friend WithEvents Panel1 As Panel
     Friend WithEvents pnlRol As Panel
-    Friend WithEvents tlySuperior As TableLayoutPanel
-    Friend WithEvents lblLocalidad As HeaderUI
-    Friend WithEvents lblEmpleado As HeaderUI
     Friend WithEvents btnSalirFrmHijo As FontAwesome.Sharp.IconButton
-    'Friend WithEvents btnMostrarMenu As FontAwesome.Sharp.IconButton
 End Class
