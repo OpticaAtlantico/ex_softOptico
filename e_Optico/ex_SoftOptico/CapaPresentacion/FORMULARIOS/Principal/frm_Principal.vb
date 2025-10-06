@@ -12,7 +12,7 @@ Public Class frm_Principal
     Private drawerAbierto As Boolean = False
     Private drawerControl As New DrawerControl()
     Private DrawerExpandido As Boolean = False
-    Private DrawerObjetivoWidth As Integer = 200
+    Private DrawerObjetivoWidth As Integer = 220
     Private DrawerVelocidad As Integer = 15
 
     ' Timers
@@ -66,7 +66,7 @@ Public Class frm_Principal
         ' Colores principales
         pnlMenu.BackColor = AppColors._cFondo
         pnlEncabezado.BackColor = AppColors._cFondo
-        pnlEncabezado.Height = 50
+        pnlEncabezado.Height = 45
         pnlBotones.BackColor = AppColors._cFondo
 
         ' Botones de encabezado
@@ -157,7 +157,7 @@ Public Class frm_Principal
 #Region "=== BOTONES ENCABEZADO ==="
     Private Sub btnSalirFrmHijo_Click(sender As Object, e As EventArgs) Handles btnSalirFrmHijo.Click
         If activeForms IsNot Nothing Then activeForms.Close()
-        Reset()
+        Reset(sender, e)
     End Sub
 
     Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -207,7 +207,6 @@ Public Class frm_Principal
     Private Sub SubNuevoE_Click(sender As Object, e As EventArgs)
         Me.SuspendLayout()
         CerrarDrawer()
-
         If Not Application.OpenForms().OfType(Of frmEmpleado).Any() Then
             MarcarBotonActivo("Empleado", botonActivo)
             Dim frm As New frmEmpleado With {.NombreBoton = "Guardar..."}
@@ -549,7 +548,7 @@ Public Class frm_Principal
         If Not DrawerExpandido Then
             ' Expandir
             If pnlDrawer.Width < DrawerObjetivoWidth Then
-                pnlDrawer.Width += DrawerVelocidad
+                pnlDrawer.Width = DrawerObjetivoWidth
                 ActualizarBotonesTexto(True)
             Else
                 DrawerTimer.Stop()
@@ -558,7 +557,7 @@ Public Class frm_Principal
         Else
             ' Contraer
             If pnlDrawer.Width > 0 Then
-                pnlDrawer.Width -= DrawerVelocidad * 8
+                pnlDrawer.Width = 0
                 ActualizarBotonesTexto(False)
             Else
                 DrawerTimer.Stop()
@@ -651,8 +650,9 @@ Public Class frm_Principal
     Private Sub DisableButton()
         btnSalirFrmHijo.Visible = False
     End Sub
-    Public Sub Reset()
+    Public Sub Reset(sender As Object, e As EventArgs)
         currentButton = New Button()
+        Boton_Click(sender, e)
         DisableButton()
     End Sub
 
@@ -842,10 +842,6 @@ Public Class frm_Principal
         End Try
 
         DrawerTimer.Start()
-    End Sub
-
-    Private Sub btnSalir_Click_1(sender As Object, e As EventArgs) Handles btnSalir.Click
-
     End Sub
 
 #End Region

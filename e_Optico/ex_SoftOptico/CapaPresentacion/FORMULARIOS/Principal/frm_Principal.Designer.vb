@@ -81,6 +81,7 @@ Partial Class frm_Principal
         btnSalirFrmHijo.Name = "btnSalirFrmHijo"
         btnSalirFrmHijo.Size = New Size(74, 50)
         btnSalirFrmHijo.TabIndex = 8
+        btnSalirFrmHijo.Tag = "btnSalirHijo"
         btnSalirFrmHijo.UseVisualStyleBackColor = False
         ' 
         ' pnlBotones

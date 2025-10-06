@@ -30,7 +30,8 @@ Public Class DrawerControl
                 .BackColor = Color.White,
                 .ForeColor = Color.Black,
                 .IconSize = 20,
-                .AutoSize = False
+                .AutoSize = False,
+                .Tag = opcion.Item1
             }
             btn.FlatAppearance.BorderSize = 0
 
