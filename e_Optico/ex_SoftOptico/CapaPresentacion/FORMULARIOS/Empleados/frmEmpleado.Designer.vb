@@ -30,9 +30,9 @@ Partial Class frmEmpleado
         chkMarketing = New CheckBoxLabelUI()
         chkAsesor = New CheckBoxLabelUI()
         chkGerente = New CheckBoxLabelUI()
-        Panelui4 = New PanelUI()
+        pnlDatos3 = New PanelUI()
         txtDireccion = New MultilineTextBoxLabelUI()
-        Panelui3 = New PanelUI()
+        pnlDatos2 = New PanelUI()
         TableLayoutPanel1 = New TableLayoutPanel()
         txtCedula = New NumericTextBoxLabelUI()
         txtNombre = New TextOnlyTextBoxLabelUI()
@@ -46,13 +46,13 @@ Partial Class frmEmpleado
         txtCorreo = New EmailTextBoxLabelUI()
         txtTelefono = New TextOnlyTextBoxLabelUI()
         cmbZona = New ComboBoxLayoutUI()
-        Panelui2 = New PanelUI()
+        pnlDatos1 = New PanelUI()
         TableLayoutPanel2 = New TableLayoutPanel()
         imgFoto = New FontAwesome.Sharp.IconPictureBox()
         TableLayoutPanel3 = New TableLayoutPanel()
         btnGuardarFoto = New FontAwesome.Sharp.IconButton()
         btnEliminarFoto = New FontAwesome.Sharp.IconButton()
-        Panelui1 = New PanelUI()
+        pnlFoto = New PanelUI()
         pnlEncabezado = New Panel()
         btnAccion = New CommandButtonUI()
         Headerui1 = New HeaderUI()
@@ -79,7 +79,7 @@ Partial Class frmEmpleado
         ' 
         ' Panel1
         ' 
-        Panel1.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        Panel1.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         Panel1.Dock = DockStyle.Bottom
         Panel1.Location = New Point(0, 605)
         Panel1.Name = "Panel1"
@@ -90,13 +90,13 @@ Partial Class frmEmpleado
         ' 
         pnlContenido.AutoScroll = True
         pnlContenido.Controls.Add(Panel2)
-        pnlContenido.Controls.Add(Panelui4)
+        pnlContenido.Controls.Add(pnlDatos3)
         pnlContenido.Controls.Add(txtDireccion)
-        pnlContenido.Controls.Add(Panelui3)
+        pnlContenido.Controls.Add(pnlDatos2)
         pnlContenido.Controls.Add(TableLayoutPanel1)
-        pnlContenido.Controls.Add(Panelui2)
+        pnlContenido.Controls.Add(pnlDatos1)
         pnlContenido.Controls.Add(TableLayoutPanel2)
-        pnlContenido.Controls.Add(Panelui1)
+        pnlContenido.Controls.Add(pnlFoto)
         pnlContenido.Dock = DockStyle.Fill
         pnlContenido.Location = New Point(0, 60)
         pnlContenido.Margin = New Padding(3, 30, 3, 3)
@@ -172,21 +172,21 @@ Partial Class frmEmpleado
         chkGerente.Texto = "Gerente"
         chkGerente.UncheckedColor = Color.WhiteSmoke
         ' 
-        ' Panelui4
+        ' pnlDatos3
         ' 
-        Panelui4.BackColor = Color.Transparent
-        Panelui4.BackColorContenedor = Color.Transparent
-        Panelui4.BorderColor = Color.Silver
-        Panelui4.BorderRadius = 20
-        Panelui4.BorderSize = 1
-        Panelui4.CardBackColor = Color.White
-        Panelui4.Estilo = PanelUI.EstiloCard.None
-        Panelui4.Location = New Point(780, 395)
-        Panelui4.Name = "Panelui4"
-        Panelui4.ShadowColor = Color.FromArgb(CByte(0), CByte(188), CByte(212))
-        Panelui4.Size = New Size(512, 144)
-        Panelui4.TabIndex = 41
-        Panelui4.Texto = ""
+        pnlDatos3.BackColor = Color.Transparent
+        pnlDatos3.BackColorContenedor = Color.Transparent
+        pnlDatos3.BorderColor = Color.Silver
+        pnlDatos3.BorderRadius = 20
+        pnlDatos3.BorderSize = 1
+        pnlDatos3.CardBackColor = Color.White
+        pnlDatos3.Estilo = PanelUI.EstiloCard.None
+        pnlDatos3.Location = New Point(780, 395)
+        pnlDatos3.Name = "pnlDatos3"
+        pnlDatos3.ShadowColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        pnlDatos3.Size = New Size(512, 144)
+        pnlDatos3.TabIndex = 41
+        pnlDatos3.Texto = ""
         ' 
         ' txtDireccion
         ' 
@@ -204,7 +204,7 @@ Partial Class frmEmpleado
         txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDireccion.LabelColor = Color.DarkSlateGray
         txtDireccion.LabelText = "Dirección de habitación:"
-        txtDireccion.Location = New Point(21, 402)
+        txtDireccion.Location = New Point(15, 402)
         txtDireccion.MensajeError = "Este campo es obligatorio."
         txtDireccion.Multilinea = True
         txtDireccion.Name = "txtDireccion"
@@ -212,27 +212,27 @@ Partial Class frmEmpleado
         txtDireccion.PanelBackColor = Color.White
         txtDireccion.Placeholder = "Escriba una breve descripción aquí..."
         txtDireccion.PlaceholderColor = Color.Gray
-        txtDireccion.Size = New Size(742, 126)
+        txtDireccion.Size = New Size(748, 126)
         txtDireccion.TabIndex = 12
         txtDireccion.TextColor = Color.Black
         txtDireccion.TextoString = Nothing
         txtDireccion.TextString = ""
         ' 
-        ' Panelui3
+        ' pnlDatos2
         ' 
-        Panelui3.BackColor = Color.Transparent
-        Panelui3.BackColorContenedor = Color.Transparent
-        Panelui3.BorderColor = Color.Silver
-        Panelui3.BorderRadius = 20
-        Panelui3.BorderSize = 1
-        Panelui3.CardBackColor = Color.White
-        Panelui3.Estilo = PanelUI.EstiloCard.None
-        Panelui3.Location = New Point(15, 395)
-        Panelui3.Name = "Panelui3"
-        Panelui3.ShadowColor = Color.FromArgb(CByte(0), CByte(192), CByte(190))
-        Panelui3.Size = New Size(759, 144)
-        Panelui3.TabIndex = 40
-        Panelui3.Texto = ""
+        pnlDatos2.BackColor = Color.Transparent
+        pnlDatos2.BackColorContenedor = Color.Transparent
+        pnlDatos2.BorderColor = Color.Silver
+        pnlDatos2.BorderRadius = 20
+        pnlDatos2.BorderSize = 1
+        pnlDatos2.CardBackColor = Color.White
+        pnlDatos2.Estilo = PanelUI.EstiloCard.None
+        pnlDatos2.Location = New Point(7, 395)
+        pnlDatos2.Name = "pnlDatos2"
+        pnlDatos2.ShadowColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        pnlDatos2.Size = New Size(767, 144)
+        pnlDatos2.TabIndex = 40
+        pnlDatos2.Texto = ""
         ' 
         ' TableLayoutPanel1
         ' 
@@ -526,21 +526,21 @@ Partial Class frmEmpleado
         cmbZona.TextoLabel = "Zona:"
         cmbZona.ValorSeleccionado = Nothing
         ' 
-        ' Panelui2
+        ' pnlDatos1
         ' 
-        Panelui2.BackColor = Color.Transparent
-        Panelui2.BackColorContenedor = Color.Transparent
-        Panelui2.BorderColor = Color.Silver
-        Panelui2.BorderRadius = 20
-        Panelui2.BorderSize = 1
-        Panelui2.CardBackColor = Color.White
-        Panelui2.Estilo = PanelUI.EstiloCard.None
-        Panelui2.Location = New Point(259, 6)
-        Panelui2.Name = "Panelui2"
-        Panelui2.ShadowColor = Color.FromArgb(CByte(0), CByte(192), CByte(190))
-        Panelui2.Size = New Size(1033, 380)
-        Panelui2.TabIndex = 39
-        Panelui2.Texto = ""
+        pnlDatos1.BackColor = Color.Transparent
+        pnlDatos1.BackColorContenedor = Color.Transparent
+        pnlDatos1.BorderColor = Color.Silver
+        pnlDatos1.BorderRadius = 20
+        pnlDatos1.BorderSize = 1
+        pnlDatos1.CardBackColor = Color.White
+        pnlDatos1.Estilo = PanelUI.EstiloCard.None
+        pnlDatos1.Location = New Point(259, 6)
+        pnlDatos1.Name = "pnlDatos1"
+        pnlDatos1.ShadowColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        pnlDatos1.Size = New Size(1033, 380)
+        pnlDatos1.TabIndex = 39
+        pnlDatos1.Texto = ""
         ' 
         ' TableLayoutPanel2
         ' 
@@ -624,21 +624,21 @@ Partial Class frmEmpleado
         btnEliminarFoto.TextImageRelation = TextImageRelation.ImageAboveText
         btnEliminarFoto.UseVisualStyleBackColor = True
         ' 
-        ' Panelui1
+        ' pnlFoto
         ' 
-        Panelui1.BackColor = Color.Transparent
-        Panelui1.BackColorContenedor = Color.Transparent
-        Panelui1.BorderColor = Color.Silver
-        Panelui1.BorderRadius = 20
-        Panelui1.BorderSize = 1
-        Panelui1.CardBackColor = Color.White
-        Panelui1.Estilo = PanelUI.EstiloCard.None
-        Panelui1.Location = New Point(7, 6)
-        Panelui1.Name = "Panelui1"
-        Panelui1.ShadowColor = Color.FromArgb(CByte(0), CByte(192), CByte(190))
-        Panelui1.Size = New Size(245, 380)
-        Panelui1.TabIndex = 37
-        Panelui1.Texto = ""
+        pnlFoto.BackColor = Color.Transparent
+        pnlFoto.BackColorContenedor = Color.Transparent
+        pnlFoto.BorderColor = Color.Silver
+        pnlFoto.BorderRadius = 20
+        pnlFoto.BorderSize = 1
+        pnlFoto.CardBackColor = Color.White
+        pnlFoto.Estilo = PanelUI.EstiloCard.None
+        pnlFoto.Location = New Point(7, 6)
+        pnlFoto.Name = "pnlFoto"
+        pnlFoto.ShadowColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        pnlFoto.Size = New Size(245, 380)
+        pnlFoto.TabIndex = 37
+        pnlFoto.Texto = ""
         ' 
         ' pnlEncabezado
         ' 
@@ -654,7 +654,7 @@ Partial Class frmEmpleado
         ' 
         btnAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAccion.AnimarHover = True
-        btnAccion.BackColor = Color.FromArgb(CByte(0), CByte(191), CByte(192))
+        btnAccion.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         btnAccion.ColorBase = Color.FromArgb(CByte(255), CByte(193), CByte(7))
         btnAccion.ColorHover = Color.FromArgb(CByte(255), CByte(179), CByte(0))
         btnAccion.ColorInternoFondo = Color.FromArgb(CByte(255), CByte(193), CByte(7))
@@ -673,9 +673,10 @@ Partial Class frmEmpleado
         ' 
         ' Headerui1
         ' 
-        Headerui1.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(190))
-        Headerui1.ColorFondo = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        Headerui1.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        Headerui1.ColorFondo = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         Headerui1.ColorTexto = Color.WhiteSmoke
+        Headerui1.Dimension = 12
         Headerui1.Dock = DockStyle.Fill
         Headerui1.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         Headerui1.Icono = FontAwesome.Sharp.IconChar.CircleInfo
@@ -733,12 +734,12 @@ Partial Class frmEmpleado
     Friend WithEvents txtTelefono As TextOnlyTextBoxLabelUI
     Friend WithEvents cmbZona As ComboBoxLayoutUI
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
-    Friend WithEvents Panelui1 As PanelUI
+    Friend WithEvents pnlFoto As PanelUI
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
-    Friend WithEvents Panelui2 As PanelUI
+    Friend WithEvents pnlDatos1 As PanelUI
     Friend WithEvents txtDireccion As MultilineTextBoxLabelUI
-    Friend WithEvents Panelui3 As PanelUI
-    Friend WithEvents Panelui4 As PanelUI
+    Friend WithEvents pnlDatos2 As PanelUI
+    Friend WithEvents pnlDatos3 As PanelUI
     Friend WithEvents Panel2 As Panel
     Friend WithEvents chkGerente As CheckBoxLabelUI
     Friend WithEvents chkOptometrista As CheckBoxLabelUI

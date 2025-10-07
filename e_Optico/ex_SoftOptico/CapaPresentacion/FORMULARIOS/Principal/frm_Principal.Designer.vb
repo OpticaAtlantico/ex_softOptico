@@ -165,7 +165,7 @@ Partial Class frm_Principal
         pnlMenu.Controls.Add(btnVenta)
         pnlMenu.Controls.Add(btnInventario)
         pnlMenu.Dock = DockStyle.Left
-        pnlMenu.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        pnlMenu.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         pnlMenu.Location = New Point(0, 50)
         pnlMenu.Name = "pnlMenu"
         pnlMenu.Size = New Size(55, 576)
@@ -176,7 +176,7 @@ Partial Class frm_Principal
         btnAjustes.Dock = DockStyle.Top
         btnAjustes.FlatAppearance.BorderSize = 0
         btnAjustes.FlatStyle = FlatStyle.Flat
-        btnAjustes.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAjustes.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAjustes.ForeColor = Color.WhiteSmoke
         btnAjustes.IconChar = FontAwesome.Sharp.IconChar.Cog
         btnAjustes.IconColor = Color.WhiteSmoke
@@ -196,7 +196,7 @@ Partial Class frm_Principal
         btnAnalisis.Dock = DockStyle.Top
         btnAnalisis.FlatAppearance.BorderSize = 0
         btnAnalisis.FlatStyle = FlatStyle.Flat
-        btnAnalisis.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnAnalisis.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnAnalisis.ForeColor = Color.WhiteSmoke
         btnAnalisis.IconChar = FontAwesome.Sharp.IconChar.ListAlt
         btnAnalisis.IconColor = Color.WhiteSmoke
@@ -216,7 +216,7 @@ Partial Class frm_Principal
         btnReporte.Dock = DockStyle.Top
         btnReporte.FlatAppearance.BorderSize = 0
         btnReporte.FlatStyle = FlatStyle.Flat
-        btnReporte.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnReporte.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnReporte.ForeColor = Color.WhiteSmoke
         btnReporte.IconChar = FontAwesome.Sharp.IconChar.Newspaper
         btnReporte.IconColor = Color.WhiteSmoke
@@ -236,7 +236,7 @@ Partial Class frm_Principal
         btnNomina.Dock = DockStyle.Top
         btnNomina.FlatAppearance.BorderSize = 0
         btnNomina.FlatStyle = FlatStyle.Flat
-        btnNomina.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnNomina.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnNomina.ForeColor = Color.WhiteSmoke
         btnNomina.IconChar = FontAwesome.Sharp.IconChar.ContactBook
         btnNomina.IconColor = Color.WhiteSmoke
@@ -256,7 +256,7 @@ Partial Class frm_Principal
         btnComision.Dock = DockStyle.Top
         btnComision.FlatAppearance.BorderSize = 0
         btnComision.FlatStyle = FlatStyle.Flat
-        btnComision.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnComision.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnComision.ForeColor = Color.WhiteSmoke
         btnComision.IconChar = FontAwesome.Sharp.IconChar.MoneyCheck
         btnComision.IconColor = Color.WhiteSmoke
@@ -276,7 +276,7 @@ Partial Class frm_Principal
         btnEmpleado.Dock = DockStyle.Top
         btnEmpleado.FlatAppearance.BorderSize = 0
         btnEmpleado.FlatStyle = FlatStyle.Flat
-        btnEmpleado.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnEmpleado.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnEmpleado.ForeColor = Color.WhiteSmoke
         btnEmpleado.IconChar = FontAwesome.Sharp.IconChar.Users
         btnEmpleado.IconColor = Color.WhiteSmoke
@@ -296,7 +296,7 @@ Partial Class frm_Principal
         btnProveedor.Dock = DockStyle.Top
         btnProveedor.FlatAppearance.BorderSize = 0
         btnProveedor.FlatStyle = FlatStyle.Flat
-        btnProveedor.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnProveedor.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnProveedor.ForeColor = Color.WhiteSmoke
         btnProveedor.IconChar = FontAwesome.Sharp.IconChar.Handshake
         btnProveedor.IconColor = Color.WhiteSmoke
@@ -316,7 +316,7 @@ Partial Class frm_Principal
         btnCompra.Dock = DockStyle.Top
         btnCompra.FlatAppearance.BorderSize = 0
         btnCompra.FlatStyle = FlatStyle.Flat
-        btnCompra.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCompra.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnCompra.ForeColor = Color.WhiteSmoke
         btnCompra.IconChar = FontAwesome.Sharp.IconChar.ShoppingBag
         btnCompra.IconColor = Color.WhiteSmoke
@@ -336,7 +336,7 @@ Partial Class frm_Principal
         btnVenta.Dock = DockStyle.Top
         btnVenta.FlatAppearance.BorderSize = 0
         btnVenta.FlatStyle = FlatStyle.Flat
-        btnVenta.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnVenta.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnVenta.ForeColor = Color.WhiteSmoke
         btnVenta.IconChar = FontAwesome.Sharp.IconChar.CartShopping
         btnVenta.IconColor = Color.WhiteSmoke
@@ -356,7 +356,7 @@ Partial Class frm_Principal
         btnInventario.Dock = DockStyle.Top
         btnInventario.FlatAppearance.BorderSize = 0
         btnInventario.FlatStyle = FlatStyle.Flat
-        btnInventario.Font = New Font("Microsoft Sans Serif", 6.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnInventario.Font = New Font("Microsoft Sans Serif", 6F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnInventario.ForeColor = Color.WhiteSmoke
         btnInventario.IconChar = FontAwesome.Sharp.IconChar.Truck
         btnInventario.IconColor = Color.WhiteSmoke
@@ -396,7 +396,7 @@ Partial Class frm_Principal
         ' 
         ' frm_Principal
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1370, 626)
         Controls.Add(pnlContenedor)

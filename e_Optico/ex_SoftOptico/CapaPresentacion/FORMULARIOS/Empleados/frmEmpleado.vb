@@ -65,9 +65,14 @@ Public Class frmEmpleado
             .Titulo = "Nuevo Empleado"
             .Subtitulo = "Ingrese los datos del nuevo empleado..."
             .Icono = IconChar.UserGear
-            .ColorFondo = Color.FromArgb(0, 191, 192)
+            .ColorFondo = AppColors._cTool
             .ColorTexto = Color.WhiteSmoke
         End With
+        pnlFoto.ShadowColor = AppColors._cTool
+        pnlDatos1.ShadowColor = AppColors._cTool
+        pnlDatos2.ShadowColor = AppColors._cTool
+        pnlDatos3.ShadowColor = AppColors._cTool
+
         Me.ResumeLayout()
 
     End Sub

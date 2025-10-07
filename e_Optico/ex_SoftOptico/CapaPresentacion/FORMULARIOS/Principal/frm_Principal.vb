@@ -214,6 +214,7 @@ Public Class frm_Principal
             Dim frm As New frmConsultaEmpleados()
             AddHandler frm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
             OpenChildForm(frm)
+            btnSalirFrmHijo.Visible = True
         End If
 
         Me.ResumeLayout()
@@ -241,6 +242,7 @@ Public Class frm_Principal
 
         If resultado.Aceptado Then
             accionSiValido(resultado.Valor)
+            btnSalirFrmHijo.Visible = True
         Else
             MessageBoxUI.Mostrar("Cerrar...",
                              "Saliendo de control de entrada de datos",

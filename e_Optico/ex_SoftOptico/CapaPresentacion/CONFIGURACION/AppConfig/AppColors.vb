@@ -100,4 +100,7 @@
     Public Shared ReadOnly _cSeleccionTexto As Color = Color.DarkSlateGray
     Public Shared ReadOnly _cTextoNormal As Color = Color.Black
     Public Shared ReadOnly _cGridLine As Color = Color.LightBlue
+
+    Public Shared ReadOnly _cTool As Color = Color.FromArgb(57, 103, 208)
+
 End Class
