@@ -1,250 +1,172 @@
-﻿Imports System.Drawing
-Imports System.Windows.Forms
-Imports FontAwesome.Sharp
+﻿Imports FontAwesome.Sharp
 
 Public Class frmPrincipal
     Inherits Form
 
-    ' ===========================================================
-    ' VARIABLES Y CONTROLES BASE
-    ' ===========================================================
-    Private panelEncabezado As Panel
-    Private panelMenuPrincipal As Panel
-    Private panelContenedor As Panel
-    Private drawerPanel As DrawerUI
-
+    Private pnlEncabezado As Panel
+    Private pnlMenu As Panel
+    Private pnlContenedor As Panel
+    Private drawerFlotante As DrawerbasicUI
     Private btnHamburguesa As IconButton
     Private btnMin As IconButton
     Private btnMax As IconButton
-    Private btnCerrar As IconButton
+    Private btnClose As IconButton
 
-    Private drawerVisible As Boolean = False
-    Private botonesMenu As New List(Of IconButton)
-
-    ' ===========================================================
-    ' CONSTRUCTOR
-    ' ===========================================================
     Public Sub New()
-        Me.Text = "Sistema de Óptica - Principal"
-        Me.WindowState = FormWindowState.Maximized
-        Me.MinimumSize = New Size(1000, 600)
+        Me.Text = "Dashboard Principal"
+        Me.Size = New Size(1200, 700)
+        Me.StartPosition = FormStartPosition.CenterScreen
+        Me.FormBorderStyle = FormBorderStyle.None
         Me.BackColor = Color.WhiteSmoke
-        Me.DoubleBuffered = True
 
-        ' Crear estructura
-        CrearEncabezado()
-        CrearPanelMenu()
-        CrearPanelContenedor()
-        CrearDrawer()
-
-        ' Mostrar en orden
-        Controls.Add(panelContenedor)
-        Controls.Add(panelMenuPrincipal)
-        Controls.Add(panelEncabezado)
-        Controls.Add(drawerPanel)
-
-        drawerPanel.BringToFront()
+        InicializarUI()
     End Sub
 
-    ' ===========================================================
-    ' PANEL DE ENCABEZADO
-    ' ===========================================================
-    Private Sub CrearEncabezado()
-        panelEncabezado = New Panel With {
+    Private Sub InicializarUI()
+        ' ENCABEZADO SUPERIOR
+        pnlEncabezado = New Panel() With {
             .Dock = DockStyle.Top,
             .Height = 45,
-            .BackColor = Color.FromArgb(45, 45, 48)
+            .BackColor = Color.FromArgb(33, 37, 41)
         }
+        Me.Controls.Add(pnlEncabezado)
 
-        ' --- Botón Hamburguesa ---
-        btnHamburguesa = New IconButton With {
-            .IconChar = IconChar.Bars,
-            .IconColor = Color.White,
-            .IconSize = 22,
-            .Size = New Size(45, 45),
-            .FlatStyle = FlatStyle.Flat,
-            .Cursor = Cursors.Hand
-        }
-        btnHamburguesa.FlatAppearance.BorderSize = 0
+        btnHamburguesa = CrearBotonEncabezado(IconChar.Bars, Color.White)
+        btnHamburguesa.Location = New Point(10, 5)
         AddHandler btnHamburguesa.Click, AddressOf ToggleDrawer
-        panelEncabezado.Controls.Add(btnHamburguesa)
 
-        ' --- Título ---
-        Dim lblTitulo As New Label With {
-            .Text = "Sistema de Óptica",
-            .ForeColor = Color.White,
-            .Font = New Font("Segoe UI", 12, FontStyle.Bold),
-            .AutoSize = True,
-            .Location = New Point(55, 10)
-        }
-        panelEncabezado.Controls.Add(lblTitulo)
+        btnMin = CrearBotonEncabezado(IconChar.WindowMinimize, Color.White)
+        btnMax = CrearBotonEncabezado(IconChar.WindowMaximize, Color.White)
+        btnClose = CrearBotonEncabezado(IconChar.Times, Color.IndianRed)
 
-        ' --- Botones de ventana ---
-        btnCerrar = CrearBotonVentana(IconChar.Xmark, Color.White)
-        btnMax = CrearBotonVentana(IconChar.Square, Color.White)
-        btnMin = CrearBotonVentana(IconChar.Minus, Color.White)
+        Dim botones = {btnMin, btnMax, btnClose}
+        Dim posX As Integer = Me.Width - 120
+        For Each b In botones
+            b.Location = New Point(posX, 5)
+            posX += 35
+            pnlEncabezado.Controls.Add(b)
+        Next
 
-        btnCerrar.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnMax.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnMin.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        pnlEncabezado.Controls.Add(btnHamburguesa)
 
-        btnCerrar.Location = New Point(Me.Width - 45, 0)
-        btnMax.Location = New Point(Me.Width - 90, 0)
-        btnMin.Location = New Point(Me.Width - 135, 0)
-
-        AddHandler btnCerrar.Click, Sub() Me.Close()
-        AddHandler btnMax.Click, Sub()
-                                     If Me.WindowState = FormWindowState.Maximized Then
-                                         Me.WindowState = FormWindowState.Normal
-                                     Else
-                                         Me.WindowState = FormWindowState.Maximized
-                                     End If
-                                 End Sub
-        AddHandler btnMin.Click, Sub() Me.WindowState = FormWindowState.Minimized
-
-        panelEncabezado.Controls.AddRange({btnCerrar, btnMax, btnMin})
-
-        ' Hover efecto tipo Windows 11
-        AddHandler btnCerrar.MouseEnter, Sub() btnCerrar.BackColor = Color.FromArgb(232, 17, 35)
-        AddHandler btnCerrar.MouseLeave, Sub() btnCerrar.BackColor = Color.Transparent
-
-        AddHandler btnMax.MouseEnter, Sub() btnMax.BackColor = Color.FromArgb(63, 63, 70)
-        AddHandler btnMax.MouseLeave, Sub() btnMax.BackColor = Color.Transparent
-
-        AddHandler btnMin.MouseEnter, Sub() btnMin.BackColor = Color.FromArgb(63, 63, 70)
-        AddHandler btnMin.MouseLeave, Sub() btnMin.BackColor = Color.Transparent
-    End Sub
-
-    Private Function CrearBotonVentana(icon As IconChar, iconColor As Color) As IconButton
-        Dim b = New IconButton With {
-            .IconChar = icon,
-            .IconColor = iconColor,
-            .IconSize = 18,
-            .Dock = DockStyle.None,
-            .FlatStyle = FlatStyle.Flat,
-            .Width = 45,
-            .Height = 45,
-            .Cursor = Cursors.Hand,
-            .BackColor = Color.Transparent
-        }
-        b.FlatAppearance.BorderSize = 0
-        Return b
-    End Function
-
-    ' ===========================================================
-    ' PANEL MENU PRINCIPAL
-    ' ===========================================================
-    Private Sub CrearPanelMenu()
-        panelMenuPrincipal = New Panel With {
+        ' PANEL MENU PRINCIPAL
+        pnlMenu = New Panel() With {
             .Dock = DockStyle.Left,
             .Width = 60,
-            .BackColor = Color.FromArgb(37, 37, 38)
+            .BackColor = Color.FromArgb(52, 58, 64)
         }
+        Me.Controls.Add(pnlMenu)
 
-        Dim menuItems = {
-            ("Empleados", IconChar.Users),
-            ("Compras", IconChar.ShoppingCart),
-            ("Ventas", IconChar.CashRegister),
-            ("Reportes", IconChar.ChartLine),
-            ("Inventario", IconChar.BoxesStacked),
-            ("Clientes", IconChar.UserTie),
-            ("Configuración", IconChar.Gear)
-        }
-
-        For i = 0 To menuItems.Length - 1
-            Dim btn = New IconButton With {
-                .Text = menuItems(i).Item1,
-                .IconChar = menuItems(i).Item2,
-                .IconColor = Color.White,
-                .IconSize = 22,
-                .ForeColor = Color.White,
-                .FlatStyle = FlatStyle.Flat,
-                .Dock = DockStyle.Top,
-                .Height = 55,
-                .TextAlign = ContentAlignment.BottomCenter,
-                .TextImageRelation = TextImageRelation.ImageAboveText,
-                .Tag = menuItems(i).Item1,
-                .Cursor = Cursors.Hand
-            }
-            btn.FlatAppearance.BorderSize = 0
-            panelMenuPrincipal.Controls.Add(btn)
-            botonesMenu.Add(btn)
-
-            AddHandler btn.Click, AddressOf BotonMenuPrincipal_Click
-        Next
-    End Sub
-
-    ' ===========================================================
-    ' PANEL CONTENEDOR
-    ' ===========================================================
-    Private Sub CrearPanelContenedor()
-        panelContenedor = New Panel With {
+        ' PANEL CONTENEDOR
+        pnlContenedor = New Panel() With {
             .Dock = DockStyle.Fill,
             .BackColor = Color.White
         }
-    End Sub
+        Me.Controls.Add(pnlContenedor)
 
-    ' ===========================================================
-    ' DRAWER FLOTANTE
-    ' ===========================================================
-    Private Sub CrearDrawer()
-        drawerPanel = New DrawerUI With {
-            .Visible = False,
-            .Size = New Size(220, 400),
-            .BackColor = Color.White
+        ' DRAWER flotante
+        drawerFlotante = New DrawerbasicUI() With {
+            .Visible = False
         }
-        drawerPanel.Location = New Point(panelMenuPrincipal.Right, panelEncabezado.Bottom)
-        AddHandler drawerPanel.OpcionSeleccionada, AddressOf Drawer_OpcionSeleccionada
-    End Sub
+        Me.Controls.Add(drawerFlotante)
+        drawerFlotante.BringToFront()
 
-    ' ===========================================================
-    ' EVENTOS
-    ' ===========================================================
-    Private Sub ToggleDrawer(sender As Object, e As EventArgs)
-        drawerVisible = Not drawerVisible
-        drawerPanel.Visible = drawerVisible
-        drawerPanel.BringToFront()
-        drawerPanel.Location = New Point(panelMenuPrincipal.Right, panelEncabezado.Bottom)
-    End Sub
+        AddHandler drawerFlotante.OpcionSeleccionada, Sub(form)
+                                                          AbrirFormulario(form)
+                                                      End Sub
 
-    Private Sub BotonMenuPrincipal_Click(sender As Object, e As EventArgs)
-        Dim btn = DirectCast(sender, IconButton)
+        ' BOTONES DEL MENU PRINCIPAL
+        Dim menuBtns = {
+            CrearBotonMenu(IconChar.Users, "Empleados"),
+            CrearBotonMenu(IconChar.ShoppingCart, "Compras"),
+            CrearBotonMenu(IconChar.CashRegister, "Ventas"),
+            CrearBotonMenu(IconChar.ChartLine, "Reportes")
+        }
 
-        ' Resetear colores
-        For Each b In botonesMenu
-            b.BackColor = Color.FromArgb(37, 37, 38)
-            b.IconColor = Color.White
-            b.ForeColor = Color.White
+        Dim y As Integer = 60
+        For Each b In menuBtns
+            b.Location = New Point(0, y)
+            pnlMenu.Controls.Add(b)
+            AddHandler b.Click, AddressOf MostrarDrawer
+            y += 55
         Next
+    End Sub
 
-        ' Resaltar seleccionado
-        btn.BackColor = Color.White
-        btn.IconColor = Color.Black
-        btn.ForeColor = Color.Black
+    Private Function CrearBotonEncabezado(icono As IconChar, color As Color) As IconButton
+        Dim btn = New IconButton() With {
+            .Size = New Size(30, 30),
+            .FlatStyle = FlatStyle.Flat,
+            .IconChar = icono,
+            .IconColor = color,
+            .IconSize = 20,
+            .Cursor = Cursors.Hand
+        }
+        btn.FlatAppearance.BorderSize = 0
+        Return btn
+    End Function
 
-        ' Cargar opciones en el drawer
-        Dim opciones As List(Of String) = Nothing
-        Select Case btn.Text
+    Private Function CrearBotonMenu(icono As IconChar, tagName As String) As IconButton
+        Dim btn = New IconButton() With {
+            .Size = New Size(60, 50),
+            .FlatStyle = FlatStyle.Flat,
+            .IconChar = icono,
+            .IconColor = Color.White,
+            .IconSize = 24,
+            .Tag = tagName,
+            .Cursor = Cursors.Hand
+        }
+        btn.FlatAppearance.BorderSize = 0
+        Return btn
+    End Function
+
+    Private Sub ToggleDrawer(sender As Object, e As EventArgs)
+        drawerFlotante.Visible = Not drawerFlotante.Visible
+        drawerFlotante.Location = New Point(pnlMenu.Right, pnlEncabezado.Bottom)
+        drawerFlotante.Height = Me.Height - pnlEncabezado.Height
+    End Sub
+
+    Private Sub MostrarDrawer(sender As Object, e As EventArgs)
+        Dim btn = DirectCast(sender, IconButton)
+        Dim opcionesPorCategoria As New Dictionary(Of String, List(Of (String, Form)))
+
+        Select Case btn.Tag.ToString()
             Case "Empleados"
-                opciones = New List(Of String) From {"Registrar Empleado", "Consultar Empleados"}
+                opcionesPorCategoria("Gestión de Empleados") = New List(Of (String, Form)) From {
+                    ("Registrar Empleado", New frmEmpleado()),
+                    ("Consultar Empleados", New frmConsultaEmpleados())
+                }
+
             Case "Compras"
-                opciones = New List(Of String) From {"Nueva Compra", "Proveedores"}
+                opcionesPorCategoria("Gestión de Compras") = New List(Of (String, Form)) From {
+                    ("Nueva Compra", New frmCompras()),
+                    ("Proveedores", New frmProveedor())
+                }
+
             Case "Ventas"
-                opciones = New List(Of String) From {"Nueva Venta", "Historial"}
+                opcionesPorCategoria("Gestión de Ventas") = New List(Of (String, Form)) From {
+                    ("Nueva Venta", New frmListarProductos()),
+                    ("Historial", New frmDetallesCompra())
+                }
+
             Case "Reportes"
-                opciones = New List(Of String) From {"Reporte de Ventas", "Inventario"}
+                opcionesPorCategoria("Reportes") = New List(Of (String, Form)) From {
+                    ("Reporte de Ventas", New frmPerfilUsuario()),
+                    ("Inventario", New frmProveedor())
+                }
         End Select
 
-        If opciones IsNot Nothing Then
-            drawerPanel.CargarOpciones(opciones)
-            drawerPanel.Visible = True
-            drawerPanel.Location = New Point(panelMenuPrincipal.Right, panelEncabezado.Bottom)
-            drawerPanel.BringToFront()
-        End If
+        drawerFlotante.CargarOpcionesAcordeon(opcionesPorCategoria)
+        drawerFlotante.Location = New Point(pnlMenu.Right, pnlEncabezado.Bottom)
+        drawerFlotante.Height = Me.Height - pnlEncabezado.Height
+        drawerFlotante.Visible = True
+        drawerFlotante.BringToFront()
     End Sub
 
-    Private Sub Drawer_OpcionSeleccionada(opcion As String)
-        drawerPanel.Visible = False
-        MessageBox.Show("Seleccionaste: " & opcion)
+    Private Sub AbrirFormulario(form As Form)
+        pnlContenedor.Controls.Clear()
+        form.TopLevel = False
+        form.Dock = DockStyle.Fill
+        pnlContenedor.Controls.Add(form)
+        form.Show()
     End Sub
 End Class

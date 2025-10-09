@@ -198,11 +198,11 @@ Public Class frm_Principal
     End Sub
 
     Private Sub SubEditarE_Click(sender As Object, e As EventArgs)
-        PedirDatoEmpleado("Ingrese número de cédula", Sub(valor) enviarDatosEmpleados(valor, 0))
+        PedirDatos("Ingrese número de cédula", Sub(valor) enviarDatosEmpleados(valor, 0))
     End Sub
 
     Private Sub SubEliminarE_Click(sender As Object, e As EventArgs)
-        PedirDatoEmpleado("Ingrese número de cédula", Sub(valor) enviarDatosEmpleados(valor, 1))
+        PedirDatos("Ingrese número de cédula", Sub(valor) enviarDatosEmpleados(valor, 1))
     End Sub
 
     Private Sub SubConsultarE_Click(sender As Object, e As EventArgs)
@@ -223,35 +223,7 @@ Public Class frm_Principal
     Private Sub SubReportesE_Click(sender As Object, e As EventArgs)
         CerrarDrawer()
     End Sub
-    Private Sub PedirDatoEmpleado(titulo As String, accionSiValido As Action(Of String))
-        Me.SuspendLayout()
-        CerrarDrawer()
 
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim resultado = InputBoxUI.Mostrar(
-                                        titulo:=titulo,
-                                        placeholder:="12345678",
-                                        tipoDato:=InputBoxUI.TipoValidacion.Numero,
-                                        icono:=FontAwesome.Sharp.IconChar.UserAlt,
-                                        obligatorio:=True
-                                        )
-        overlay.Close()
-
-        'EfectoBotonInactivo()
-
-        If resultado.Aceptado Then
-            accionSiValido(resultado.Valor)
-            btnSalirFrmHijo.Visible = True
-        Else
-            MessageBoxUI.Mostrar("Cerrar...",
-                             "Saliendo de control de entrada de datos",
-                             MessageBoxUI.TipoMensaje.Advertencia,
-                             MessageBoxUI.TipoBotones.Aceptar)
-        End If
-
-        Me.ResumeLayout()
-    End Sub
 #End Region
 
 #Region "Botones menu Inventario"
@@ -368,124 +340,97 @@ Public Class frm_Principal
 
 #End Region
 
-#Region "Botones menu Proveedor"
+#Region "=== BOTONES MENU PROVEEDOR ==="
 
     Private Sub BotonMenuProveedor()
-        ' Crear las opciones de manera clara, evitando CType de lambdas
-        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler)) From {
+        Tuple.Create("Reportes", IconoDrawer, New EventHandler(AddressOf SubReportesPv_Click)),
+        Tuple.Create("Consultar", IconoDrawer, New EventHandler(AddressOf SubConsultarPv_Click)),
+        Tuple.Create("Eliminar Datos", IconoDrawer, New EventHandler(AddressOf SubEliminarPv_Click)),
+        Tuple.Create("Editar Datos", IconoDrawer, New EventHandler(AddressOf SubEditarPv_Click)),
+        Tuple.Create("Nuevo Registro", IconoDrawer, New EventHandler(AddressOf SubNuevoPv_Click))
+    }
 
-        Dim handlerReporte As New EventHandler(AddressOf SubReportesPv_Click)
-        opciones.Add(Tuple.Create("Reportes", IconChar.ListCheck, handlerReporte))
-
-        Dim handlerConsultar As New EventHandler(AddressOf SubConsultarPv_Click)
-        opciones.Add(Tuple.Create("Consultar", IconChar.ListNumeric, handlerConsultar))
-
-        Dim handlerEliminar As New EventHandler(AddressOf SubEliminarPv_Click)
-        opciones.Add(Tuple.Create("Eliminar Registro", IconChar.TrashArrowUp, handlerEliminar))
-
-        Dim handlerEditar As New EventHandler(AddressOf SubEditarPv_Click)
-        opciones.Add(Tuple.Create("Editar Datos", IconChar.FolderOpen, handlerEditar))
-
-        Dim handlerNuevo As New EventHandler(AddressOf SubNuevoPv_Click)
-        opciones.Add(Tuple.Create("Nuevo Registro", IconChar.Save, handlerNuevo))
-
-        ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
-        'pnlDrawer.Visible = True
-        If pnlDrawer.Width = 0 Then
-            AbrirDrawer()
-        End If
+        If pnlDrawer.Width = 0 Then AbrirDrawer()
+
     End Sub
 
     Private Sub SubNuevoPv_Click(sender As Object, e As EventArgs)
         Me.SuspendLayout()
-        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmProveedor).Any()
-
         CerrarDrawer()
-
-        If Not abierto Then
-            OpenChildForm(New frmProveedor)
-            'EfectoBotonInActivo()
+        If Not Application.OpenForms().OfType(Of frmProveedor).Any() Then
+            MarcarBotonActivo("Empleado", botonActivo)
+            Dim frm As New frmProveedor With {.NombreBoton = "Guardar..."}
+            AddHandler frm.CerrarProveedor, Sub() btnSalirFrmHijo.Visible = False
+            OpenChildForm(frm)
+            btnSalirFrmHijo.Visible = True
         End If
+
         Me.ResumeLayout()
     End Sub
 
     Private Sub SubEditarPv_Click(sender As Object, e As EventArgs)
-        Me.SuspendLayout()
-        CerrarDrawer()
-
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese el Nombre de la Empresa",
-            placeholder:="Ferreteria",
-            tipoDato:=InputBoxUI.TipoValidacion.Texto,
-            icono:=FontAwesome.Sharp.IconChar.UserAlt,
-            obligatorio:=True
-        )
-        overlay.Close()
-        'EfectoBotonInActivo()
-
-        If resultado.Aceptado Then
-            enviarDatosProveedor(resultado.Valor, 0)
-        Else
-            MessageBoxUI.Mostrar("Cerrar...", "Saliendo de control de entrada de datos",
-                                 MessageBoxUI.TipoMensaje.Advertencia,
-                                 MessageBoxUI.TipoBotones.Aceptar)
-        End If
-        Me.ResumeLayout()
+        PedirDatos("Ingrese número de cédula", Sub(valor) enviarDatosProveedor(valor, 0))
     End Sub
 
     Private Sub SubEliminarPv_Click(sender As Object, e As EventArgs)
-        Me.SuspendLayout()
-        CerrarDrawer()
-
-        Dim overlay As New FondoOverlayUI()
-        overlay.Show()
-        Dim resultado = InputBoxUI.Mostrar(
-            titulo:="Ingrese el nombre del proveedor",
-            placeholder:="ferret",
-            tipoDato:=InputBoxUI.TipoValidacion.Texto,
-            icono:=FontAwesome.Sharp.IconChar.UserAlt,
-            obligatorio:=True
-        )
-        overlay.Close()
-        'EfectoBotonInActivo()
-
-        If resultado.Aceptado Then
-            enviarDatosProveedor(resultado.Valor, 1)
-        Else
-            MessageBoxUI.Mostrar("Cerrar...",
-                                 "Saliendo de control de entrada de datos",
-                                 MessageBoxUI.TipoMensaje.Advertencia,
-                                 MessageBoxUI.TipoBotones.Aceptar)
-        End If
-        Me.ResumeLayout()
+        PedirDatos("Ingrese número de cédula", Sub(valor) enviarDatosProveedor(valor, 1))
     End Sub
 
     Private Sub SubConsultarPv_Click(sender As Object, e As EventArgs)
         Me.SuspendLayout()
-        Dim abierto As Boolean = Application.OpenForms().OfType(Of frmConsultaProveedor).Any()
-
         CerrarDrawer()
 
-        If Not abierto Then
-            'EfectoBotonInActivo()
-            Dim consultaProveedorForm As New frmConsultaProveedor()
-            AddHandler consultaProveedorForm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
-            OpenChildForm(consultaProveedorForm)
-
+        If Not Application.OpenForms().OfType(Of frmConsultaProveedor).Any() Then
+            'EfectoBotonInactivo()
+            Dim frm As New frmConsultaProveedor()
+            AddHandler frm.AbrirFormularioHijo, AddressOf Me.SolicitarAbrirFormularioHijo
+            OpenChildForm(frm)
+            btnSalirFrmHijo.Visible = True
         End If
+
         Me.ResumeLayout()
     End Sub
-
 
     Private Sub SubReportesPv_Click(sender As Object, e As EventArgs)
         'MostrarContenido(New PegarControl())
         CerrarDrawer()
     End Sub
 
+
 #End Region
+
+#Region "=== PROCEDIMIENTOS==="
+    Private Sub PedirDatos(titulo As String, accionSiValido As Action(Of String))
+        Me.SuspendLayout()
+        CerrarDrawer()
+
+        Dim overlay As New FondoOverlayUI()
+        overlay.Show()
+        Dim resultado = InputBoxUI.Mostrar(
+                                        titulo:=titulo,
+                                        placeholder:="12345678",
+                                        tipoDato:=InputBoxUI.TipoValidacion.Numero,
+                                        icono:=FontAwesome.Sharp.IconChar.UserAlt,
+                                        obligatorio:=True
+                                        )
+        overlay.Close()
+
+        If resultado.Aceptado Then
+            accionSiValido(resultado.Valor)
+            btnSalirFrmHijo.Visible = True
+        Else
+            MessageBoxUI.Mostrar("Cerrar...",
+                             "Saliendo de control de entrada de datos",
+                             MessageBoxUI.TipoMensaje.Advertencia,
+                             MessageBoxUI.TipoBotones.Aceptar)
+        End If
+
+        Me.ResumeLayout()
+    End Sub
+#End Region
+
 
 #Region "=== BOTONES DEL MENU ==="
     Private Sub Boton_Click(sender As Object, e As EventArgs)

@@ -29,9 +29,6 @@ Partial Class frmProveedor
         pnlContenido = New Panel()
         txtDireccion = New MultilineTextBoxLabelUI()
         TableLayoutPanel1 = New TableLayoutPanel()
-        txtNombreEmpresa = New TextBoxLabelUI()
-        txtRazonSocial = New TextBoxLabelUI()
-        txtCorreo = New TextBoxLabelUI()
         txtTelefono = New MaskedTextBoxLabelUI()
         txtContacto = New MaskedTextBoxLabelUI()
         Panel1 = New Panel()
@@ -40,11 +37,27 @@ Partial Class frmProveedor
         pnlEncabezado = New Panel()
         btnAccion = New CommandButtonUI()
         lblEncabezado = New HeaderUI()
+        TableLayoutPanel2 = New TableLayoutPanel()
+        Panelui1 = New PanelUI()
+        txtNombreEmpresa = New TextOnlyTextBoxLabelUI()
+        txtRazonSocial = New TextOnlyTextBoxLabelUI()
+        txtCorreo = New EmailTextBoxLabelUI()
+        Panel2 = New Panel()
+        TextOnlyTextBoxLabelui3 = New TextOnlyTextBoxLabelUI()
+        TextOnlyTextBoxLabelui4 = New TextOnlyTextBoxLabelUI()
+        Panel3 = New Panel()
+        Panel4 = New Panel()
+        ComboBoxLayoutui1 = New ComboBoxLayoutUI()
+        ComboBoxLayoutui2 = New ComboBoxLayoutUI()
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
         Panel1.SuspendLayout()
         pnlEncabezado.SuspendLayout()
+        TableLayoutPanel2.SuspendLayout()
+        Panel2.SuspendLayout()
+        Panel3.SuspendLayout()
+        Panel4.SuspendLayout()
         SuspendLayout()
         ' 
         ' pnlContenedor
@@ -60,7 +73,7 @@ Partial Class frmProveedor
         ' 
         ' pnlFoter
         ' 
-        pnlFoter.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        pnlFoter.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         pnlFoter.Dock = DockStyle.Bottom
         pnlFoter.Location = New Point(0, 570)
         pnlFoter.Name = "pnlFoter"
@@ -70,8 +83,10 @@ Partial Class frmProveedor
         ' pnlContenido
         ' 
         pnlContenido.AutoScroll = True
-        pnlContenido.Controls.Add(txtDireccion)
         pnlContenido.Controls.Add(TableLayoutPanel1)
+        pnlContenido.Controls.Add(TableLayoutPanel2)
+        pnlContenido.Controls.Add(Panelui1)
+        pnlContenido.Controls.Add(txtDireccion)
         pnlContenido.Dock = DockStyle.Fill
         pnlContenido.Location = New Point(0, 60)
         pnlContenido.Margin = New Padding(3, 30, 3, 3)
@@ -96,15 +111,18 @@ Partial Class frmProveedor
         txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDireccion.LabelColor = Color.DarkSlateGray
         txtDireccion.LabelText = "Domicilio Fiscal:"
-        txtDireccion.Location = New Point(15, 200)
+        txtDireccion.Location = New Point(12, 418)
         txtDireccion.MensajeError = "Este campo es obligatorio."
         txtDireccion.Multilinea = False
         txtDireccion.Name = "txtDireccion"
         txtDireccion.PaddingAll = 10
         txtDireccion.PanelBackColor = Color.White
+        txtDireccion.Placeholder = "Escriba aquí..."
+        txtDireccion.PlaceholderColor = Color.Gray
         txtDireccion.Size = New Size(1238, 86)
         txtDireccion.TabIndex = 7
         txtDireccion.TextColor = Color.Black
+        txtDireccion.TextoString = Nothing
         txtDireccion.TextString = ""
         ' 
         ' TableLayoutPanel1
@@ -113,13 +131,10 @@ Partial Class frmProveedor
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
         TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
-        TableLayoutPanel1.Controls.Add(txtNombreEmpresa, 0, 0)
-        TableLayoutPanel1.Controls.Add(txtRazonSocial, 1, 0)
-        TableLayoutPanel1.Controls.Add(txtCorreo, 2, 0)
         TableLayoutPanel1.Controls.Add(txtTelefono, 1, 1)
         TableLayoutPanel1.Controls.Add(txtContacto, 2, 1)
         TableLayoutPanel1.Controls.Add(Panel1, 0, 1)
-        TableLayoutPanel1.Location = New Point(12, 11)
+        TableLayoutPanel1.Location = New Point(12, 229)
         TableLayoutPanel1.Name = "TableLayoutPanel1"
         TableLayoutPanel1.RowCount = 2
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
@@ -129,93 +144,6 @@ Partial Class frmProveedor
         TableLayoutPanel1.Size = New Size(1250, 183)
         TableLayoutPanel1.TabIndex = 26
         ' 
-        ' txtNombreEmpresa
-        ' 
-        txtNombreEmpresa.BackColor = Color.Transparent
-        txtNombreEmpresa.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtNombreEmpresa.BorderRadius = 8
-        txtNombreEmpresa.BorderSize = 1
-        txtNombreEmpresa.CampoRequerido = True
-        txtNombreEmpresa.CapitalizarTexto = True
-        txtNombreEmpresa.CapitalizarTodasLasPalabras = True
-        txtNombreEmpresa.CaracterContraseña = "*"c
-        txtNombreEmpresa.ColorError = Color.Firebrick
-        txtNombreEmpresa.FontField = New Font("Century Gothic", 12F)
-        txtNombreEmpresa.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtNombreEmpresa.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        txtNombreEmpresa.LabelColor = Color.DarkSlateGray
-        txtNombreEmpresa.LabelText = "Nombre de Empresa:"
-        txtNombreEmpresa.Location = New Point(3, 3)
-        txtNombreEmpresa.MensajeError = "Este campo es obligatorio."
-        txtNombreEmpresa.Name = "txtNombreEmpresa"
-        txtNombreEmpresa.PaddingAll = 10
-        txtNombreEmpresa.PanelBackColor = Color.White
-        txtNombreEmpresa.Size = New Size(407, 80)
-        txtNombreEmpresa.SombraBackColor = Color.LightGray
-        txtNombreEmpresa.TabIndex = 0
-        txtNombreEmpresa.TextColor = Color.Black
-        txtNombreEmpresa.TextoUsuario = ""
-        txtNombreEmpresa.UsarModoContraseña = False
-        txtNombreEmpresa.ValidarComoCorreo = False
-        ' 
-        ' txtRazonSocial
-        ' 
-        txtRazonSocial.BackColor = Color.Transparent
-        txtRazonSocial.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtRazonSocial.BorderRadius = 8
-        txtRazonSocial.BorderSize = 1
-        txtRazonSocial.CampoRequerido = True
-        txtRazonSocial.CapitalizarTexto = True
-        txtRazonSocial.CapitalizarTodasLasPalabras = True
-        txtRazonSocial.CaracterContraseña = "*"c
-        txtRazonSocial.ColorError = Color.Firebrick
-        txtRazonSocial.FontField = New Font("Century Gothic", 12F)
-        txtRazonSocial.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtRazonSocial.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        txtRazonSocial.LabelColor = Color.DarkSlateGray
-        txtRazonSocial.LabelText = "Razón Social:"
-        txtRazonSocial.Location = New Point(419, 3)
-        txtRazonSocial.MensajeError = "Este campo es obligatorio."
-        txtRazonSocial.Name = "txtRazonSocial"
-        txtRazonSocial.PaddingAll = 10
-        txtRazonSocial.PanelBackColor = Color.White
-        txtRazonSocial.Size = New Size(406, 80)
-        txtRazonSocial.SombraBackColor = Color.LightGray
-        txtRazonSocial.TabIndex = 1
-        txtRazonSocial.TextColor = Color.Black
-        txtRazonSocial.TextoUsuario = ""
-        txtRazonSocial.UsarModoContraseña = False
-        txtRazonSocial.ValidarComoCorreo = False
-        ' 
-        ' txtCorreo
-        ' 
-        txtCorreo.BackColor = Color.Transparent
-        txtCorreo.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCorreo.BorderRadius = 8
-        txtCorreo.BorderSize = 1
-        txtCorreo.CampoRequerido = False
-        txtCorreo.CapitalizarTexto = False
-        txtCorreo.CapitalizarTodasLasPalabras = True
-        txtCorreo.CaracterContraseña = "*"c
-        txtCorreo.ColorError = Color.Firebrick
-        txtCorreo.FontField = New Font("Century Gothic", 12F)
-        txtCorreo.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCorreo.IconoDerechoChar = FontAwesome.Sharp.IconChar.EnvelopesBulk
-        txtCorreo.LabelColor = Color.DarkSlateGray
-        txtCorreo.LabelText = "Correo electrónico:"
-        txtCorreo.Location = New Point(835, 3)
-        txtCorreo.MensajeError = "Este campo es obligatorio."
-        txtCorreo.Name = "txtCorreo"
-        txtCorreo.PaddingAll = 10
-        txtCorreo.PanelBackColor = Color.White
-        txtCorreo.Size = New Size(405, 80)
-        txtCorreo.SombraBackColor = Color.LightGray
-        txtCorreo.TabIndex = 2
-        txtCorreo.TextColor = Color.Black
-        txtCorreo.TextoUsuario = ""
-        txtCorreo.UsarModoContraseña = False
-        txtCorreo.ValidarComoCorreo = True
-        ' 
         ' txtTelefono
         ' 
         txtTelefono.BackColor = Color.Transparent
@@ -224,6 +152,7 @@ Partial Class frmProveedor
         txtTelefono.BorderSize = 1
         txtTelefono.CampoRequerido = True
         txtTelefono.ColorError = Color.Firebrick
+        txtTelefono.FocusColor = Color.Orange
         txtTelefono.FontField = New Font("Century Gothic", 12F)
         txtTelefono.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtTelefono.IconoDerechoChar = FontAwesome.Sharp.IconChar.PhoneVolume
@@ -252,6 +181,7 @@ Partial Class frmProveedor
         txtContacto.BorderSize = 1
         txtContacto.CampoRequerido = True
         txtContacto.ColorError = Color.Firebrick
+        txtContacto.FocusColor = Color.Orange
         txtContacto.FontField = New Font("Century Gothic", 12F)
         txtContacto.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtContacto.IconoDerechoChar = FontAwesome.Sharp.IconChar.Close
@@ -290,6 +220,7 @@ Partial Class frmProveedor
         txtRif.BorderSize = 1
         txtRif.CampoRequerido = True
         txtRif.ColorError = Color.Firebrick
+        txtRif.FocusColor = Color.Orange
         txtRif.FontField = New Font("Century Gothic", 12F)
         txtRif.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtRif.IconoDerechoChar = FontAwesome.Sharp.IconChar.ContactBook
@@ -350,7 +281,7 @@ Partial Class frmProveedor
         btnAccion.ColorHover = Color.FromArgb(CByte(255), CByte(179), CByte(0))
         btnAccion.ColorInternoFondo = Color.FromArgb(CByte(255), CByte(193), CByte(7))
         btnAccion.ColorPresionado = Color.FromArgb(CByte(255), CByte(160), CByte(0))
-        btnAccion.ColorTexto = Color.Black
+        btnAccion.ColorTexto = Color.WhiteSmoke
         btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Warning
         btnAccion.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAccion.Icono = FontAwesome.Sharp.IconChar.Warning
@@ -365,8 +296,9 @@ Partial Class frmProveedor
         ' lblEncabezado
         ' 
         lblEncabezado.BackColor = Color.WhiteSmoke
-        lblEncabezado.ColorFondo = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        lblEncabezado.ColorFondo = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         lblEncabezado.ColorTexto = Color.WhiteSmoke
+        lblEncabezado.Dimension = 12
         lblEncabezado.Dock = DockStyle.Top
         lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         lblEncabezado.Icono = FontAwesome.Sharp.IconChar.UserPlus
@@ -378,6 +310,233 @@ Partial Class frmProveedor
         lblEncabezado.TabIndex = 0
         lblEncabezado.Text = "Headerui1"
         lblEncabezado.Titulo = "Título Principal"
+        ' 
+        ' TableLayoutPanel2
+        ' 
+        TableLayoutPanel2.ColumnCount = 3
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.33333F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
+        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 33.3333359F))
+        TableLayoutPanel2.Controls.Add(txtNombreEmpresa, 0, 0)
+        TableLayoutPanel2.Controls.Add(txtRazonSocial, 1, 0)
+        TableLayoutPanel2.Controls.Add(txtCorreo, 2, 0)
+        TableLayoutPanel2.Controls.Add(Panel2, 0, 1)
+        TableLayoutPanel2.Controls.Add(TextOnlyTextBoxLabelui3, 1, 1)
+        TableLayoutPanel2.Controls.Add(TextOnlyTextBoxLabelui4, 2, 1)
+        TableLayoutPanel2.Location = New Point(11, 11)
+        TableLayoutPanel2.Name = "TableLayoutPanel2"
+        TableLayoutPanel2.RowCount = 2
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
+        TableLayoutPanel2.Size = New Size(1250, 183)
+        TableLayoutPanel2.TabIndex = 27
+        ' 
+        ' Panelui1
+        ' 
+        Panelui1.BackColor = Color.Transparent
+        Panelui1.BackColorContenedor = Color.Transparent
+        Panelui1.BorderColor = Color.White
+        Panelui1.BorderRadius = 20
+        Panelui1.BorderSize = 1
+        Panelui1.CardBackColor = Color.White
+        Panelui1.Estilo = PanelUI.EstiloCard.None
+        Panelui1.Location = New Point(8, 7)
+        Panelui1.Name = "Panelui1"
+        Panelui1.ShadowColor = Color.LightGray
+        Panelui1.Size = New Size(1256, 305)
+        Panelui1.TabIndex = 28
+        Panelui1.Texto = ""
+        ' 
+        ' txtNombreEmpresa
+        ' 
+        txtNombreEmpresa.BackColor = Color.Transparent
+        txtNombreEmpresa.CampoRequerido = False
+        txtNombreEmpresa.CapitalizarTexto = False
+        txtNombreEmpresa.CapitalizarTodasLasPalabras = False
+        txtNombreEmpresa.ColorTitulo = Color.DarkSlateGray
+        txtNombreEmpresa.Dock = DockStyle.Fill
+        txtNombreEmpresa.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtNombreEmpresa.IconoDerechoChar = FontAwesome.Sharp.IconChar.ContactBook
+        txtNombreEmpresa.Location = New Point(3, 3)
+        txtNombreEmpresa.MaxCaracteres = 0
+        txtNombreEmpresa.MensajeError = "Este campo es requerido"
+        txtNombreEmpresa.MinCaracteres = 0
+        txtNombreEmpresa.Name = "txtNombreEmpresa"
+        txtNombreEmpresa.PaddingIzquierda = 8
+        txtNombreEmpresa.PaddingIzquierdaIcono = 10
+        txtNombreEmpresa.Placeholder = "Ingrese datos"
+        txtNombreEmpresa.PlaceholderColor = Color.Gray
+        txtNombreEmpresa.Size = New Size(410, 84)
+        txtNombreEmpresa.TabIndex = 0
+        txtNombreEmpresa.TextoLabel = "Nombre de la Empresa:"
+        txtNombreEmpresa.TextString = ""
+        txtNombreEmpresa.ValidarComoCorreo = False
+        ' 
+        ' txtRazonSocial
+        ' 
+        txtRazonSocial.BackColor = Color.Transparent
+        txtRazonSocial.CampoRequerido = False
+        txtRazonSocial.CapitalizarTexto = False
+        txtRazonSocial.CapitalizarTodasLasPalabras = False
+        txtRazonSocial.ColorTitulo = Color.DarkSlateGray
+        txtRazonSocial.Dock = DockStyle.Fill
+        txtRazonSocial.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtRazonSocial.IconoDerechoChar = FontAwesome.Sharp.IconChar.Tag
+        txtRazonSocial.Location = New Point(419, 3)
+        txtRazonSocial.MaxCaracteres = 0
+        txtRazonSocial.MensajeError = "Este campo es requerido"
+        txtRazonSocial.MinCaracteres = 0
+        txtRazonSocial.Name = "txtRazonSocial"
+        txtRazonSocial.PaddingIzquierda = 8
+        txtRazonSocial.PaddingIzquierdaIcono = 10
+        txtRazonSocial.Placeholder = "Ingrese datos"
+        txtRazonSocial.PlaceholderColor = Color.Gray
+        txtRazonSocial.Size = New Size(410, 84)
+        txtRazonSocial.TabIndex = 1
+        txtRazonSocial.TextoLabel = "Razon Social:"
+        txtRazonSocial.TextString = ""
+        txtRazonSocial.ValidarComoCorreo = False
+        ' 
+        ' txtCorreo
+        ' 
+        txtCorreo.BackColor = Color.Transparent
+        txtCorreo.CampoRequerido = False
+        txtCorreo.CapitalizarTexto = False
+        txtCorreo.CapitalizarTodasLasPalabras = False
+        txtCorreo.ColorTitulo = Color.DarkSlateGray
+        txtCorreo.Dock = DockStyle.Fill
+        txtCorreo.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCorreo.IconoDerechoChar = FontAwesome.Sharp.IconChar.EnvelopesBulk
+        txtCorreo.Location = New Point(835, 3)
+        txtCorreo.MaxCaracteres = 0
+        txtCorreo.MensajeError = "Este campo es requerido"
+        txtCorreo.MinCaracteres = 0
+        txtCorreo.Name = "txtCorreo"
+        txtCorreo.PaddingIzquierda = 8
+        txtCorreo.PaddingIzquierdaIcono = 10
+        txtCorreo.Placeholder = "Escriba aquí..."
+        txtCorreo.PlaceholderColor = Color.Gray
+        txtCorreo.Size = New Size(412, 84)
+        txtCorreo.TabIndex = 2
+        txtCorreo.TextoLabel = "Correo electrónico:"
+        txtCorreo.TextString = ""
+        txtCorreo.ValidarComoCorreo = False
+        ' 
+        ' Panel2
+        ' 
+        Panel2.Controls.Add(Panel4)
+        Panel2.Controls.Add(Panel3)
+        Panel2.Dock = DockStyle.Fill
+        Panel2.Location = New Point(3, 93)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(410, 87)
+        Panel2.TabIndex = 3
+        ' 
+        ' TextOnlyTextBoxLabelui3
+        ' 
+        TextOnlyTextBoxLabelui3.BackColor = Color.Transparent
+        TextOnlyTextBoxLabelui3.CampoRequerido = False
+        TextOnlyTextBoxLabelui3.CapitalizarTexto = False
+        TextOnlyTextBoxLabelui3.CapitalizarTodasLasPalabras = False
+        TextOnlyTextBoxLabelui3.ColorTitulo = Color.DarkSlateGray
+        TextOnlyTextBoxLabelui3.Dock = DockStyle.Fill
+        TextOnlyTextBoxLabelui3.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        TextOnlyTextBoxLabelui3.IconoDerechoChar = FontAwesome.Sharp.IconChar.Font
+        TextOnlyTextBoxLabelui3.Location = New Point(419, 93)
+        TextOnlyTextBoxLabelui3.MaxCaracteres = 0
+        TextOnlyTextBoxLabelui3.MensajeError = "Este campo es requerido"
+        TextOnlyTextBoxLabelui3.MinCaracteres = 0
+        TextOnlyTextBoxLabelui3.Name = "TextOnlyTextBoxLabelui3"
+        TextOnlyTextBoxLabelui3.PaddingIzquierda = 8
+        TextOnlyTextBoxLabelui3.PaddingIzquierdaIcono = 10
+        TextOnlyTextBoxLabelui3.Placeholder = "Ingrese datos"
+        TextOnlyTextBoxLabelui3.PlaceholderColor = Color.Gray
+        TextOnlyTextBoxLabelui3.Size = New Size(410, 87)
+        TextOnlyTextBoxLabelui3.TabIndex = 4
+        TextOnlyTextBoxLabelui3.TextoLabel = "Texto:"
+        TextOnlyTextBoxLabelui3.TextString = ""
+        TextOnlyTextBoxLabelui3.ValidarComoCorreo = False
+        ' 
+        ' TextOnlyTextBoxLabelui4
+        ' 
+        TextOnlyTextBoxLabelui4.BackColor = Color.Transparent
+        TextOnlyTextBoxLabelui4.CampoRequerido = False
+        TextOnlyTextBoxLabelui4.CapitalizarTexto = False
+        TextOnlyTextBoxLabelui4.CapitalizarTodasLasPalabras = False
+        TextOnlyTextBoxLabelui4.ColorTitulo = Color.DarkSlateGray
+        TextOnlyTextBoxLabelui4.Dock = DockStyle.Fill
+        TextOnlyTextBoxLabelui4.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        TextOnlyTextBoxLabelui4.IconoDerechoChar = FontAwesome.Sharp.IconChar.Font
+        TextOnlyTextBoxLabelui4.Location = New Point(835, 93)
+        TextOnlyTextBoxLabelui4.MaxCaracteres = 0
+        TextOnlyTextBoxLabelui4.MensajeError = "Este campo es requerido"
+        TextOnlyTextBoxLabelui4.MinCaracteres = 0
+        TextOnlyTextBoxLabelui4.Name = "TextOnlyTextBoxLabelui4"
+        TextOnlyTextBoxLabelui4.PaddingIzquierda = 8
+        TextOnlyTextBoxLabelui4.PaddingIzquierdaIcono = 10
+        TextOnlyTextBoxLabelui4.Placeholder = "Ingrese datos"
+        TextOnlyTextBoxLabelui4.PlaceholderColor = Color.Gray
+        TextOnlyTextBoxLabelui4.Size = New Size(412, 87)
+        TextOnlyTextBoxLabelui4.TabIndex = 5
+        TextOnlyTextBoxLabelui4.TextoLabel = "Texto:"
+        TextOnlyTextBoxLabelui4.TextString = ""
+        TextOnlyTextBoxLabelui4.ValidarComoCorreo = False
+        ' 
+        ' Panel3
+        ' 
+        Panel3.Controls.Add(ComboBoxLayoutui1)
+        Panel3.Dock = DockStyle.Left
+        Panel3.Location = New Point(0, 0)
+        Panel3.Name = "Panel3"
+        Panel3.Size = New Size(89, 87)
+        Panel3.TabIndex = 0
+        ' 
+        ' Panel4
+        ' 
+        Panel4.Controls.Add(ComboBoxLayoutui2)
+        Panel4.Dock = DockStyle.Fill
+        Panel4.Location = New Point(89, 0)
+        Panel4.Name = "Panel4"
+        Panel4.Size = New Size(321, 87)
+        Panel4.TabIndex = 1
+        ' 
+        ' ComboBoxLayoutui1
+        ' 
+        ComboBoxLayoutui1.BackColor = Color.Transparent
+        ComboBoxLayoutui1.CampoRequerido = False
+        ComboBoxLayoutui1.ColorTitulo = Color.DarkSlateGray
+        ComboBoxLayoutui1.Dock = DockStyle.Fill
+        ComboBoxLayoutui1.IndiceSeleccionado = -1
+        ComboBoxLayoutui1.Location = New Point(0, 0)
+        ComboBoxLayoutui1.MensajeError = "Este campo es requerido"
+        ComboBoxLayoutui1.Name = "ComboBoxLayoutui1"
+        ComboBoxLayoutui1.Placeholder = "Selecciones una Opcion..."
+        ComboBoxLayoutui1.PlaceholderColor = Color.Gray
+        ComboBoxLayoutui1.Size = New Size(89, 87)
+        ComboBoxLayoutui1.TabIndex = 0
+        ComboBoxLayoutui1.Texto = ""
+        ComboBoxLayoutui1.TextoLabel = "Texto:"
+        ComboBoxLayoutui1.ValorSeleccionado = Nothing
+        ' 
+        ' ComboBoxLayoutui2
+        ' 
+        ComboBoxLayoutui2.BackColor = Color.Transparent
+        ComboBoxLayoutui2.CampoRequerido = False
+        ComboBoxLayoutui2.ColorTitulo = Color.DarkSlateGray
+        ComboBoxLayoutui2.Dock = DockStyle.Fill
+        ComboBoxLayoutui2.IndiceSeleccionado = -1
+        ComboBoxLayoutui2.Location = New Point(0, 0)
+        ComboBoxLayoutui2.MensajeError = "Este campo es requerido"
+        ComboBoxLayoutui2.Name = "ComboBoxLayoutui2"
+        ComboBoxLayoutui2.Placeholder = "Selecciones una Opcion..."
+        ComboBoxLayoutui2.PlaceholderColor = Color.Gray
+        ComboBoxLayoutui2.Size = New Size(321, 87)
+        ComboBoxLayoutui2.TabIndex = 0
+        ComboBoxLayoutui2.Texto = ""
+        ComboBoxLayoutui2.TextoLabel = "Texto:"
+        ComboBoxLayoutui2.ValorSeleccionado = Nothing
         ' 
         ' frmProveedor
         ' 
@@ -394,6 +553,10 @@ Partial Class frmProveedor
         TableLayoutPanel1.ResumeLayout(False)
         Panel1.ResumeLayout(False)
         pnlEncabezado.ResumeLayout(False)
+        TableLayoutPanel2.ResumeLayout(False)
+        Panel2.ResumeLayout(False)
+        Panel3.ResumeLayout(False)
+        Panel4.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
 
@@ -414,5 +577,17 @@ Partial Class frmProveedor
     Friend WithEvents pnlFoter As Panel
     Friend WithEvents cmbSiglas As ComboBoxLabelUI
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
+    Friend WithEvents Panelui1 As PanelUI
+    Friend WithEvents txtNombreEmpresa As TextOnlyTextBoxLabelUI
+    Friend WithEvents txtRazonSocial As TextOnlyTextBoxLabelUI
+    Friend WithEvents txtCorreo As EmailTextBoxLabelUI
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents TextOnlyTextBoxLabelui3 As TextOnlyTextBoxLabelUI
+    Friend WithEvents TextOnlyTextBoxLabelui4 As TextOnlyTextBoxLabelUI
+    Friend WithEvents Panel4 As Panel
+    Friend WithEvents ComboBoxLayoutui2 As ComboBoxLayoutUI
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents ComboBoxLayoutui1 As ComboBoxLayoutUI
 
 End Class
