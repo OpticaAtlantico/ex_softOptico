@@ -178,9 +178,9 @@ Public Class frmProveedor
         If proveedor IsNot Nothing Then
             ' Asignamos los datos del objeto a los controles
             With Me
-                txtNombreEmpresa.TextoUsuario = proveedor._nombreEmpresa
-                txtRazonSocial.TextoUsuario = proveedor._razonSocial
-                txtCorreo.TextoUsuario = proveedor._correo
+                txtNombreEmpresa.TextString = proveedor._nombreEmpresa
+                txtRazonSocial.TextString = proveedor._razonSocial
+                txtCorreo.TextString = proveedor._correo
                 cmbSiglas.OrbitalCombo.Text = proveedor._sigla
                 txtRif.TextoUsuario = proveedor._rif
                 txtTelefono.TextoUsuario = proveedor._telefono

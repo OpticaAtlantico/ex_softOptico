@@ -568,9 +568,6 @@ Partial Class frmProveedor
     Friend WithEvents pnlContenido As Panel
     Friend WithEvents txtDireccion As MultilineTextBoxLabelUI
     Friend WithEvents txtTelefono As MaskedTextBoxLabelUI
-    Friend WithEvents txtCorreo As TextBoxLabelUI
-    Friend WithEvents txtRazonSocial As TextBoxLabelUI
-    Friend WithEvents txtNombreEmpresa As TextBoxLabelUI
     Friend WithEvents txtRif As MaskedTextBoxLabelUI
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
     Friend WithEvents txtContacto As MaskedTextBoxLabelUI
