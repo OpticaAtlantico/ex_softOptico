@@ -181,10 +181,10 @@ Public Class frmProveedor
                 txtNombreEmpresa.TextString = proveedor._nombreEmpresa
                 txtRazonSocial.TextString = proveedor._razonSocial
                 txtCorreo.TextString = proveedor._correo
-                cmbSiglas.OrbitalCombo.Text = proveedor._sigla
-                txtRif.TextoUsuario = proveedor._rif
-                txtTelefono.TextoUsuario = proveedor._telefono
-                txtContacto.TextoUsuario = proveedor._contacto
+                cmbSiglas.Texto = proveedor._sigla
+                txtRif.TextString = proveedor._rif
+                txtTelefono.TextString = proveedor._telefono
+                txtContacto.TextString = proveedor._contacto
                 txtDireccion.TextString = proveedor._direccion
             End With
         End If
