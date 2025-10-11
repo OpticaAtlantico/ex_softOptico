@@ -23,7 +23,7 @@ Partial Class frmEmpleado
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         pnlContenedor = New Panel()
-        Panel1 = New Panel()
+        pnlFooter = New Panel()
         pnlContenido = New Panel()
         Panel2 = New Panel()
         chkOptometrista = New CheckBoxLabelUI()
@@ -55,7 +55,7 @@ Partial Class frmEmpleado
         pnlFoto = New PanelUI()
         pnlEncabezado = New Panel()
         btnAccion = New CommandButtonUI()
-        Headerui1 = New HeaderUI()
+        lblHeader = New HeaderUI()
         pnlContenedor.SuspendLayout()
         pnlContenido.SuspendLayout()
         Panel2.SuspendLayout()
@@ -68,7 +68,7 @@ Partial Class frmEmpleado
         ' 
         ' pnlContenedor
         ' 
-        pnlContenedor.Controls.Add(Panel1)
+        pnlContenedor.Controls.Add(pnlFooter)
         pnlContenedor.Controls.Add(pnlContenido)
         pnlContenedor.Controls.Add(pnlEncabezado)
         pnlContenedor.Dock = DockStyle.Fill
@@ -77,14 +77,14 @@ Partial Class frmEmpleado
         pnlContenedor.Size = New Size(1304, 661)
         pnlContenedor.TabIndex = 0
         ' 
-        ' Panel1
+        ' pnlFooter
         ' 
-        Panel1.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        Panel1.Dock = DockStyle.Bottom
-        Panel1.Location = New Point(0, 605)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(1304, 56)
-        Panel1.TabIndex = 2
+        pnlFooter.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        pnlFooter.Dock = DockStyle.Bottom
+        pnlFooter.Location = New Point(0, 605)
+        pnlFooter.Name = "pnlFooter"
+        pnlFooter.Size = New Size(1304, 56)
+        pnlFooter.TabIndex = 2
         ' 
         ' pnlContenido
         ' 
@@ -643,7 +643,7 @@ Partial Class frmEmpleado
         ' pnlEncabezado
         ' 
         pnlEncabezado.Controls.Add(btnAccion)
-        pnlEncabezado.Controls.Add(Headerui1)
+        pnlEncabezado.Controls.Add(lblHeader)
         pnlEncabezado.Dock = DockStyle.Top
         pnlEncabezado.Location = New Point(0, 0)
         pnlEncabezado.Name = "pnlEncabezado"
@@ -671,23 +671,22 @@ Partial Class frmEmpleado
         btnAccion.TabIndex = 19
         btnAccion.Texto = "Guardar Datos"
         ' 
-        ' Headerui1
+        ' lblHeader
         ' 
-        Headerui1.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        Headerui1.ColorFondo = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        Headerui1.ColorTexto = Color.WhiteSmoke
-        Headerui1.Dimension = 12
-        Headerui1.Dock = DockStyle.Fill
-        Headerui1.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
-        Headerui1.Icono = FontAwesome.Sharp.IconChar.CircleInfo
-        Headerui1.Location = New Point(0, 0)
-        Headerui1.MostrarSeparador = True
-        Headerui1.Name = "Headerui1"
-        Headerui1.Size = New Size(1304, 60)
-        Headerui1.Subtitulo = "Subtítulo opcional"
-        Headerui1.TabIndex = 0
-        Headerui1.Text = "Headerui1"
-        Headerui1.Titulo = "Título Principal"
+        lblHeader.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        lblHeader.ColorFondo = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        lblHeader.ColorTexto = Color.WhiteSmoke
+        lblHeader.Dimension = 12
+        lblHeader.Dock = DockStyle.Fill
+        lblHeader.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
+        lblHeader.Icono = FontAwesome.Sharp.IconChar.CircleInfo
+        lblHeader.Location = New Point(0, 0)
+        lblHeader.MostrarSeparador = True
+        lblHeader.Name = "lblHeader"
+        lblHeader.Size = New Size(1304, 60)
+        lblHeader.Subtitulo = "Subtítulo opcional"
+        lblHeader.TabIndex = 0
+        lblHeader.Titulo = "Título Principal"
         ' 
         ' frmEmpleado
         ' 
@@ -713,14 +712,14 @@ Partial Class frmEmpleado
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents pnlContenedor As Panel
     Friend WithEvents pnlEncabezado As Panel
-    Friend WithEvents Headerui1 As HeaderUI
+    Friend WithEvents lblHeader As HeaderUI
     Friend WithEvents btnAccion As CommandButtonUI
     Friend WithEvents pnlContenido As Panel
     Friend WithEvents btnEliminarFoto As FontAwesome.Sharp.IconButton
     Friend WithEvents btnGuardarFoto As FontAwesome.Sharp.IconButton
     Friend WithEvents imgFoto As FontAwesome.Sharp.IconPictureBox
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents pnlFooter As Panel
     Friend WithEvents txtCedula As NumericTextBoxLabelUI
     Friend WithEvents txtNombre As TextOnlyTextBoxLabelUI
     Friend WithEvents txtApellido As TextOnlyTextBoxLabelUI

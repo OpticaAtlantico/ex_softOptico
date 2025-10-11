@@ -97,12 +97,12 @@ Partial Class frmProveedor
         txtDireccion.CapitalizarTexto = True
         txtDireccion.CapitalizarTodasLasPalabras = True
         txtDireccion.ColorError = Color.Firebrick
-        txtDireccion.FontField = New Font("Microsoft Sans Serif", 12.0F)
+        txtDireccion.FontField = New Font("Microsoft Sans Serif", 12F)
         txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtDireccion.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
         txtDireccion.LabelColor = Color.DarkSlateGray
         txtDireccion.LabelText = "Domicilio Fiscal:"
-        txtDireccion.Location = New Point(11, 200)
+        txtDireccion.Location = New Point(13, 200)
         txtDireccion.MensajeError = "Este campo es obligatorio."
         txtDireccion.Multilinea = True
         txtDireccion.Name = "txtDireccion"
@@ -131,17 +131,17 @@ Partial Class frmProveedor
         TableLayoutPanel2.Location = New Point(11, 11)
         TableLayoutPanel2.Name = "TableLayoutPanel2"
         TableLayoutPanel2.RowCount = 2
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 90.0F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20.0F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20.0F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 90F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
+        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         TableLayoutPanel2.Size = New Size(1238, 183)
         TableLayoutPanel2.TabIndex = 27
         ' 
         ' txtNombreEmpresa
         ' 
         txtNombreEmpresa.BackColor = Color.Transparent
-        txtNombreEmpresa.CampoRequerido = False
+        txtNombreEmpresa.CampoRequerido = True
         txtNombreEmpresa.CapitalizarTexto = False
         txtNombreEmpresa.CapitalizarTodasLasPalabras = False
         txtNombreEmpresa.ColorTitulo = Color.DarkSlateGray
@@ -338,14 +338,14 @@ Partial Class frmProveedor
         ' 
         Panelui1.BackColor = Color.Transparent
         Panelui1.BackColorContenedor = Color.Transparent
-        Panelui1.BorderColor = Color.WhiteSmoke
+        Panelui1.BorderColor = Color.Silver
         Panelui1.BorderRadius = 20
         Panelui1.BorderSize = 1
         Panelui1.CardBackColor = Color.White
         Panelui1.Estilo = PanelUI.EstiloCard.None
         Panelui1.Location = New Point(8, 7)
         Panelui1.Name = "Panelui1"
-        Panelui1.ShadowColor = SystemColors.ActiveCaption
+        Panelui1.ShadowColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         Panelui1.Size = New Size(1256, 497)
         Panelui1.TabIndex = 28
         Panelui1.Texto = ""
@@ -371,7 +371,7 @@ Partial Class frmProveedor
         btnAccion.ColorPresionado = Color.FromArgb(CByte(255), CByte(160), CByte(0))
         btnAccion.ColorTexto = Color.WhiteSmoke
         btnAccion.EstiloBoton = CommandButtonUI.EstiloBootstrap.Warning
-        btnAccion.Font = New Font("Microsoft Sans Serif", 10.0F, FontStyle.Bold)
+        btnAccion.Font = New Font("Microsoft Sans Serif", 10F, FontStyle.Bold)
         btnAccion.Icono = FontAwesome.Sharp.IconChar.Warning
         btnAccion.Location = New Point(1084, 12)
         btnAccion.Name = "btnAccion"
@@ -388,7 +388,7 @@ Partial Class frmProveedor
         lblEncabezado.ColorTexto = Color.WhiteSmoke
         lblEncabezado.Dimension = 12
         lblEncabezado.Dock = DockStyle.Top
-        lblEncabezado.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
+        lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         lblEncabezado.Icono = FontAwesome.Sharp.IconChar.UserPlus
         lblEncabezado.Location = New Point(0, 0)
         lblEncabezado.MostrarSeparador = True
@@ -401,7 +401,7 @@ Partial Class frmProveedor
         ' 
         ' frmProveedor
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.White
         ClientSize = New Size(1274, 626)

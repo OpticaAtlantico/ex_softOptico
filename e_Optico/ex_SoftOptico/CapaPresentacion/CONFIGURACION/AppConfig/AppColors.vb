@@ -14,7 +14,7 @@
     Public Shared ReadOnly _cFondo As Color = Color.FromArgb(45, 45, 48)
 
     'Color de formulario secundarios
-    Public Shared ReadOnly _cEncabezado As Color = Color.FromArgb(168, 187, 150)
+    Public Shared ReadOnly _cEncabezado As Color = Color.FromArgb(57, 103, 208)
     Public Shared ReadOnly _cEncabezadoTitulo As Color = Color.FromArgb(0, 192, 190)
     Public Shared ReadOnly _cFooter As Color = Color.FromArgb(57, 103, 208)
 
@@ -102,5 +102,10 @@
     Public Shared ReadOnly _cGridLine As Color = Color.LightBlue
 
     Public Shared ReadOnly _cTool As Color = Color.FromArgb(57, 103, 208)
+
+    'Panel colores
+    Public Shared ReadOnly _cBack As Color = _cBlanco
+    Public Shared ReadOnly _cShadow As Color = Color.FromArgb(57, 103, 208)
+    Public Shared ReadOnly _cLinea As Color = Color.Silver
 
 End Class

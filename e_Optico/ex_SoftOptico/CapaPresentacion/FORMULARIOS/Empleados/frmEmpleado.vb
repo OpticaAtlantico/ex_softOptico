@@ -40,7 +40,7 @@ Public Class frmEmpleado
 #Region "EVENTOS DEL FORMULARIO"
     Private Sub frmEmpleado_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Initialize form components or load data if necessary
-        FadeManagerUI.StartFade(Me, 0.05)
+
         Me.SuspendLayout()
 
         If DatosEmpleados IsNot Nothing Then
@@ -51,30 +51,74 @@ Public Class frmEmpleado
         btnAccion.ColorTexto = Color.DarkSlateBlue
         Select Case NombreBoton
             Case "Actualizar..."
-                btnAccion.Texto = "Actualizar..."
+                btnAccion.Texto = "Actualizar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPen
             Case "Eliminar..."
-                btnAccion.Texto = "Eliminar..."
+                btnAccion.Texto = "Eliminar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
             Case Else
-                btnAccion.Texto = "Guardar..."
+                btnAccion.Texto = "Guardar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPlus
         End Select
 
-        With Me.Headerui1
-            .Titulo = "Nuevo Empleado"
-            .Subtitulo = "Ingrese los datos del nuevo empleado..."
-            .Icono = IconChar.UserGear
-            .ColorFondo = AppColors._cTool
-            .ColorTexto = Color.WhiteSmoke
+        With Me.lblHeader
+            .Titulo = btnAccion.Texto & " Empleado"
+            .Subtitulo = "Aministrar los datos del empleado..."
+            .Icono = btnAccion.Icono
+            .ColorFondo = AppColors._cEncabezado
+            .ColorTexto = AppColors._cBlancoOscuro
+            .Dock = DockStyle.Fill
+            .Anchor = AnchorStyles.Top And AnchorStyles.Left
         End With
-        pnlFoto.ShadowColor = AppColors._cTool
-        pnlDatos1.ShadowColor = AppColors._cTool
-        pnlDatos2.ShadowColor = AppColors._cTool
-        pnlDatos3.ShadowColor = AppColors._cTool
+
+        With Me.pnlFoto
+            .BackColorContenedor = AppColors._cBack
+            .BorderColor = AppColors._cLinea
+            .ShadowColor = AppColors._cShadow
+            .BorderRadius = 20
+            .BorderSize = 1
+            .CardBackColor = AppColors._cBlanco
+            .Estilo = PanelUI.EstiloCard.None
+        End With
+
+        With Me.pnlDatos1
+            .BackColorContenedor = AppColors._cBack
+            .BorderColor = AppColors._cLinea
+            .ShadowColor = AppColors._cShadow
+            .BorderRadius = 20
+            .BorderSize = 1
+            .CardBackColor = AppColors._cBlanco
+            .Estilo = PanelUI.EstiloCard.None
+        End With
+
+        With Me.pnlDatos2
+            .BackColorContenedor = AppColors._cBack
+            .BorderColor = AppColors._cLinea
+            .ShadowColor = AppColors._cShadow
+            .BorderRadius = 20
+            .BorderSize = 1
+            .CardBackColor = AppColors._cBlanco
+            .Estilo = PanelUI.EstiloCard.None
+        End With
+
+        With Me.pnlDatos3
+            .BackColorContenedor = AppColors._cBack
+            .BorderColor = AppColors._cLinea
+            .ShadowColor = AppColors._cShadow
+            .BorderRadius = 20
+            .BorderSize = 1
+            .CardBackColor = AppColors._cBlanco
+            .Estilo = PanelUI.EstiloCard.None
+        End With
+
+        With Me.pnlFooter
+            .BackColor = AppColors._cFooter
+            .Dock = DockStyle.Bottom
+            .Height = 50
+        End With
 
         Me.ResumeLayout()
-
+        FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 
     Private Sub btnGuardarFoto_Click(sender As Object, e As EventArgs) Handles btnGuardarFoto.Click
@@ -385,6 +429,8 @@ Public Class frmEmpleado
     Private Sub frmEmpleado_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         RaiseEvent CerrarEmpleado(Me, EventArgs.Empty)
     End Sub
+
+
 
 #End Region
 
