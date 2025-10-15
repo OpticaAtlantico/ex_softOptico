@@ -9,3 +9,4 @@
     Public Property correo As String
     Public Property direccion As String
 End Class
+

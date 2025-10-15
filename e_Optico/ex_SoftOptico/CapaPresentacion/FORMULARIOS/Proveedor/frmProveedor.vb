@@ -37,6 +37,7 @@ Public Class frmProveedor
     Private Sub frmProveedor_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         'CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
+        Me.SuspendLayout()
 
         If DatosProveedor IsNot Nothing Then
             CargarDatos(DatosProveedor)
@@ -63,6 +64,8 @@ Public Class frmProveedor
             .ColorFondo = Color.FromArgb(0, 191, 192)
             .ColorTexto = Color.WhiteSmoke
         End With
+
+        Me.ResumeLayout()
         FadeManagerUI.StartFade(Me, 0.05)
     End Sub
 

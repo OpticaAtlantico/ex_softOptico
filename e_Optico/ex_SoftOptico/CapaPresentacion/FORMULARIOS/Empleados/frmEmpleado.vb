@@ -6,8 +6,8 @@ Imports Microsoft.Data.SqlClient
 Public Class frmEmpleado
     Inherits Form
 
-    Private fadeTimer As New Timer()
-    Private fadeStep As Double = 0.05
+    'Private fadeTimer As New Timer()
+    'Private fadeStep As Double = 0.05
 
     Private rutaImagenSeleccionada As String = ""
     Private llenarCombo As New LlenarComboBox
