@@ -36,7 +36,7 @@ Public Class ServiceProveedor
 
 #Region "Eliminar"
     '=== Eliminar empleado y su foto ===
-    Public Function Eliminar(proveedorId As Integer, rutaFoto As String) As Boolean
+    Public Function Eliminar(proveedorId As Integer) As Boolean
         Try
             ' 1. Eliminar de la base de datos
             Dim eliminado As Boolean = _repo.Remove(proveedorId)

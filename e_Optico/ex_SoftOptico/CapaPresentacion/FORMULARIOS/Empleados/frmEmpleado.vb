@@ -111,6 +111,12 @@ Public Class frmEmpleado
             .Estilo = PanelUI.EstiloCard.None
         End With
 
+        With Me.pnlEncabezado
+            .BackColor = AppColors._cFooter
+            .Dock = DockStyle.Top
+            .Height = 60
+        End With
+
         With Me.pnlFooter
             .BackColor = AppColors._cFooter
             .Dock = DockStyle.Bottom
@@ -354,27 +360,27 @@ Public Class frmEmpleado
             Dim rutaRelativa As String = GuardarImagenEmpleado(rutaImagenSeleccionada, $"e_{cedula}")
 
             resultado.Empleado = New TEmpleados With {
-            .EmpleadoID = id,
-            .Cedula = cedula,
-            .Nombre = nombre,
-            .Apellido = apellido,
-            .Edad = edad,
-            .Nacionalidad = Convert.ToInt32(nacionalidad),
-            .EstadoCivil = Convert.ToInt32(estadoCivil),
-            .Sexo = Convert.ToInt32(sexo),
-            .Telefono = telefono,
-            .Correo = correo,
-            .Direccion = direccion,
-            .FechaNacimiento = fechaNacimiento,
-            .Cargo = Convert.ToInt32(cargo),
-            .Zona = Convert.ToInt32(zona),
-            .Asesor = chkAsesor.Checked.ToString(),
-            .Optometrista = chkOptometrista.Checked.ToString(),
-            .Gerente = chkGerente.Checked.ToString(),
-            .Marketing = chkMarketing.Checked.ToString(),
-            .Estado = 1,
-            .Foto = If(String.IsNullOrWhiteSpace(rutaRelativa), "", rutaRelativa)
-        }
+                                                        .EmpleadoID = id,
+                                                        .Cedula = cedula,
+                                                        .Nombre = nombre,
+                                                        .Apellido = apellido,
+                                                        .Edad = edad,
+                                                        .Nacionalidad = Convert.ToInt32(nacionalidad),
+                                                        .EstadoCivil = Convert.ToInt32(estadoCivil),
+                                                        .Sexo = Convert.ToInt32(sexo),
+                                                        .Telefono = telefono,
+                                                        .Correo = correo,
+                                                        .Direccion = direccion,
+                                                        .FechaNacimiento = fechaNacimiento,
+                                                        .Cargo = Convert.ToInt32(cargo),
+                                                        .Zona = Convert.ToInt32(zona),
+                                                        .Asesor = chkAsesor.Checked.ToString(),
+                                                        .Optometrista = chkOptometrista.Checked.ToString(),
+                                                        .Gerente = chkGerente.Checked.ToString(),
+                                                        .Marketing = chkMarketing.Checked.ToString(),
+                                                        .Estado = 1,
+                                                        .Foto = If(String.IsNullOrWhiteSpace(rutaRelativa), "", rutaRelativa)
+                                                    }
 
             resultado.EsValido = True
         Catch ex As Exception
@@ -429,8 +435,6 @@ Public Class frmEmpleado
     Private Sub frmEmpleado_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         RaiseEvent CerrarEmpleado(Me, EventArgs.Empty)
     End Sub
-
-
 
 #End Region
 

@@ -1,5 +1,6 @@
 ﻿Imports CapaDatos
 Imports CapaEntidad
+Imports CapaNegocio
 Imports FontAwesome.Sharp
 Imports Microsoft.Data.SqlClient
 Imports OfficeOpenXml.Drawing.Slicer.Style
@@ -19,7 +20,6 @@ Public Class frmProveedor
         InitializeComponent()
         FormStylerUI.Apply(Me)
 
-        ' Add any initialization after the InitializeComponent() call.
     End Sub
 
     ' Aplica WS_EX_COMPOSITED para suavizar repintado de todo el formulario
@@ -36,7 +36,7 @@ Public Class frmProveedor
 #Region "EVENTOS DE FORMULARIO"
     Private Sub frmProveedor_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-        'CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
+        CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
         Me.SuspendLayout()
 
         If DatosProveedor IsNot Nothing Then
@@ -58,11 +58,35 @@ Public Class frmProveedor
         End Select
 
         With Me.lblEncabezado
-            .Titulo = "Nuevo Proveedor"
-            .Subtitulo = "Administracion de los datos del proveedor activo..."
-            .Icono = IconChar.UserCheck
-            .ColorFondo = Color.FromArgb(0, 191, 192)
-            .ColorTexto = Color.WhiteSmoke
+            .Titulo = btnAccion.Texto & " Proveedor"
+            .Subtitulo = "Aministrar los datos del proveedor..."
+            .Icono = btnAccion.Icono
+            .ColorFondo = AppColors._cEncabezado
+            .ColorTexto = AppColors._cBlancoOscuro
+            .Dock = DockStyle.Fill
+            .Anchor = AnchorStyles.Top And AnchorStyles.Left
+        End With
+
+        With Me.pnlDatos
+            .BackColorContenedor = AppColors._cBack
+            .BorderColor = AppColors._cLinea
+            .ShadowColor = AppColors._cShadow
+            .BorderRadius = 20
+            .BorderSize = 1
+            .CardBackColor = AppColors._cBlanco
+            .Estilo = PanelUI.EstiloCard.None
+        End With
+
+        With Me.pnlEncabezado
+            .BackColor = AppColors._cFooter
+            .Dock = DockStyle.Top
+            .Height = 60
+        End With
+
+        With Me.pnlFooter
+            .BackColor = AppColors._cFooter
+            .Dock = DockStyle.Bottom
+            .Height = 50
         End With
 
         Me.ResumeLayout()
@@ -104,23 +128,35 @@ Public Class frmProveedor
                     ProcesarProveedor(esNuevo:=False)
                 Else
                     MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                         MensajesUI.OperacionFallida,
-                                         MessageBoxUI.TipoMensaje.Errorr,
+                                         MensajesUI.SinResultados,
+                                         MessageBoxUI.TipoMensaje.Advertencia,
                                          MessageBoxUI.TipoBotones.Aceptar)
                 End If
             Case "Eliminar..."
                 ' Aquí puedes implementar la lógica para eliminar el empleado
-                Dim ProveedorId As Integer = DatosProveedor._proveedorID
-                Dim confirmacion = MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
-                                                        MensajesUI.ConfirmarAccion,
-                                                        MessageBoxUI.TipoMensaje.Advertencia,
-                                                        MessageBoxUI.TipoBotones.AceptarCancelar)
+                Try
+                    Dim id As Integer = Convert.ToInt32(DatosProveedor._proveedorID)
 
-                If confirmacion = DialogResult.Yes Then
-                    'EliminarProveedor(empleadoId)
-                    Me.Close() ' Cierra el formulario después de eliminar
-                    frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal  
-                End If
+                    Dim service As New ServiceProveedor()
+                    Dim ok As Boolean = service.Eliminar(id)
+
+                    If ok Then
+                        Dim toast As New ToastUI("Proveedor eliminado correctamente.", TipoToastUI.Success)
+                        toast.Mostrar()
+                    Else
+                        Dim toast As New ToastUI("No se pudo eliminar el proveedor o su foto.", TipoToastUI.Warning)
+                        toast.Mostrar()
+                    End If
+
+                Catch ex As Exception
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                    MessageBoxUI.TipoMensaje.Errorr,
+                                    MessageBoxUI.TipoBotones.Aceptar)
+                End Try
+
+                Me.Close() ' Cierra el formulario después de eliminar
+                frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal  
 
             Case "Guardar..."
                 ' Aquí puedes implementar la lógica para guardar un nuevo empleado
@@ -138,41 +174,6 @@ Public Class frmProveedor
                                      MessageBoxUI.TipoMensaje.Errorr,
                                      MessageBoxUI.TipoBotones.Aceptar)
         End Select
-    End Sub
-
-    Private Sub LimpiarControles(container As Control)
-        container.SuspendLayout()
-
-        ' Recorre todos los controles dentro del contenedor y limpia sus valores
-
-        For Each ctrl As Control In container.Controls
-            If TypeOf ctrl Is TextBoxLabelUI Then
-                Dim c = CType(ctrl, TextBoxLabelUI)
-                c.TextoUsuario = ""
-
-            ElseIf TypeOf ctrl Is ComboBoxLabelUI Then
-                Dim c = CType(ctrl, ComboBoxLabelUI)
-                c.Limpiar()
-
-            ElseIf TypeOf ctrl Is MaskedTextBoxLabelUI Then
-                Dim c = CType(ctrl, MaskedTextBoxLabelUI)
-                c.TextoUsuario = ""
-
-            ElseIf TypeOf ctrl Is MultilineTextBoxLabelUI Then
-                Dim c = CType(ctrl, MultilineTextBoxLabelUI)
-                c.TextString = ""
-
-            ElseIf TypeOf ctrl Is ToggleSwitchUI Then
-                CType(ctrl, ToggleSwitchUI).Checked = False
-
-            ElseIf ctrl.HasChildren Then
-                ' Llamada recursiva para paneles o groupboxes
-                LimpiarControles(ctrl)
-            End If
-        Next
-
-        container.ResumeLayout()
-        container.PerformLayout()
     End Sub
 
     ' Recibe un objeto TEmpleados y rellena los controles del formulario.
@@ -250,48 +251,37 @@ Public Class frmProveedor
 
         If Not datos.EsValido Then Exit Sub
 
-        Dim repositorio As New Repositorio_Proveedor()
-        Dim exito As Boolean = False
+        Dim service As New ServiceProveedor()
 
         Try
+            Dim exito As Boolean
             If esNuevo Then
-                exito = repositorio.Add(datos.Proveedor)
+                exito = service.Guardar(datos.Proveedor)
             Else
-                exito = repositorio.Edit(datos.Proveedor)
+                exito = service.Actualizar(datos.Proveedor)
             End If
 
-            'exito es para 
             If exito Then
-                Dim mensaje As New ToastUI(If(esNuevo,
-                                           MensajesUI.RegistroExitoso,
-                                           MensajesUI.ActualizacionExitosa),
-                                           TipoToastUI.Success)
+                Dim mensaje As New ToastUI(If(esNuevo, MensajesUI.RegistroExitoso,
+                                                   MensajesUI.ActualizacionExitosa),
+                                                   TipoToastUI.Success)
+                Me.Close()
                 mensaje.Mostrar()
-
-                LimpiarControles(Me)
-
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                    MensajesUI.ErrorInesperado,
-                                    MessageBoxUI.TipoMensaje.Errorr,
-                                    MessageBoxUI.TipoBotones.Aceptar)
+                                 MensajesUI.OperacionFallida,
+                                 MessageBoxUI.TipoMensaje.Errorr,
+                                 MessageBoxUI.TipoBotones.Aceptar)
             End If
+
         Catch ex As Exception
-            If TypeOf ex.InnerException Is SqlException Then
-                Dim sqlEx = CType(ex.InnerException, SqlException)
-                If sqlEx.Number = 2627 Then
-                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
-                                             MensajesUI.RegistroDuplicado,
-                                             MessageBoxUI.TipoMensaje.Errorr,
-                                             MessageBoxUI.TipoBotones.Aceptar)
-                    Exit Sub
-                End If
-            End If
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                MessageBoxUI.TipoMensaje.Errorr,
-                                MessageBoxUI.TipoBotones.Aceptar)
+                             ex.Message,
+                             MessageBoxUI.TipoMensaje.Errorr,
+                             MessageBoxUI.TipoBotones.Aceptar)
+
         End Try
+
     End Sub
 
     Private Sub frmProveedor_Closed(sender As Object, e As EventArgs) Handles Me.Closed

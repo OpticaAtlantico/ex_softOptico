@@ -360,7 +360,7 @@ Public Class frm_Principal
         Me.SuspendLayout()
         CerrarDrawer()
         If Not Application.OpenForms().OfType(Of frmProveedor).Any() Then
-            MarcarBotonActivo("Empleado", botonActivo)
+            MarcarBotonActivo("Proveedor", botonActivo)
             Dim frm As New frmProveedor With {.NombreBoton = "Guardar..."}
             AddHandler frm.CerrarProveedor, Sub() btnSalirFrmHijo.Visible = False
             OpenChildForm(frm)

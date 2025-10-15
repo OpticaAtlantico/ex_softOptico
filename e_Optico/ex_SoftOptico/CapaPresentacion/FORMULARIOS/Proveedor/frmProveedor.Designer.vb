@@ -25,7 +25,7 @@ Partial Class frmProveedor
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         pnlContenedor = New Panel()
-        pnlFoter = New Panel()
+        pnlFooter = New Panel()
         pnlContenido = New Panel()
         txtDireccion = New MultilineTextBoxLabelUI()
         TableLayoutPanel2 = New TableLayoutPanel()
@@ -39,7 +39,7 @@ Partial Class frmProveedor
         cmbSiglas = New ComboBoxLayoutUI()
         txtTelefono = New TextOnlyTextBoxLabelUI()
         txtContacto = New TextOnlyTextBoxLabelUI()
-        Panelui1 = New PanelUI()
+        pnlDatos = New PanelUI()
         pnlEncabezado = New Panel()
         btnAccion = New CommandButtonUI()
         lblEncabezado = New HeaderUI()
@@ -54,7 +54,7 @@ Partial Class frmProveedor
         ' 
         ' pnlContenedor
         ' 
-        pnlContenedor.Controls.Add(pnlFoter)
+        pnlContenedor.Controls.Add(pnlFooter)
         pnlContenedor.Controls.Add(pnlContenido)
         pnlContenedor.Controls.Add(pnlEncabezado)
         pnlContenedor.Dock = DockStyle.Fill
@@ -63,21 +63,21 @@ Partial Class frmProveedor
         pnlContenedor.Size = New Size(1274, 626)
         pnlContenedor.TabIndex = 0
         ' 
-        ' pnlFoter
+        ' pnlFooter
         ' 
-        pnlFoter.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        pnlFoter.Dock = DockStyle.Bottom
-        pnlFoter.Location = New Point(0, 570)
-        pnlFoter.Name = "pnlFoter"
-        pnlFoter.Size = New Size(1274, 56)
-        pnlFoter.TabIndex = 2
+        pnlFooter.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        pnlFooter.Dock = DockStyle.Bottom
+        pnlFooter.Location = New Point(0, 570)
+        pnlFooter.Name = "pnlFooter"
+        pnlFooter.Size = New Size(1274, 56)
+        pnlFooter.TabIndex = 2
         ' 
         ' pnlContenido
         ' 
         pnlContenido.AutoScroll = True
         pnlContenido.Controls.Add(txtDireccion)
         pnlContenido.Controls.Add(TableLayoutPanel2)
-        pnlContenido.Controls.Add(Panelui1)
+        pnlContenido.Controls.Add(pnlDatos)
         pnlContenido.Dock = DockStyle.Fill
         pnlContenido.Location = New Point(0, 60)
         pnlContenido.Margin = New Padding(3, 30, 3, 3)
@@ -95,7 +95,7 @@ Partial Class frmProveedor
         txtDireccion.BorderSize = 1
         txtDireccion.CampoRequerido = True
         txtDireccion.CapitalizarTexto = True
-        txtDireccion.CapitalizarTodasLasPalabras = True
+        txtDireccion.CapitalizarTodasLasPalabras = False
         txtDireccion.ColorError = Color.Firebrick
         txtDireccion.FontField = New Font("Microsoft Sans Serif", 12F)
         txtDireccion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
@@ -142,8 +142,8 @@ Partial Class frmProveedor
         ' 
         txtNombreEmpresa.BackColor = Color.Transparent
         txtNombreEmpresa.CampoRequerido = True
-        txtNombreEmpresa.CapitalizarTexto = False
-        txtNombreEmpresa.CapitalizarTodasLasPalabras = False
+        txtNombreEmpresa.CapitalizarTexto = True
+        txtNombreEmpresa.CapitalizarTodasLasPalabras = True
         txtNombreEmpresa.ColorTitulo = Color.DarkSlateGray
         txtNombreEmpresa.Dock = DockStyle.Fill
         txtNombreEmpresa.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
@@ -166,9 +166,9 @@ Partial Class frmProveedor
         ' txtRazonSocial
         ' 
         txtRazonSocial.BackColor = Color.Transparent
-        txtRazonSocial.CampoRequerido = False
-        txtRazonSocial.CapitalizarTexto = False
-        txtRazonSocial.CapitalizarTodasLasPalabras = False
+        txtRazonSocial.CampoRequerido = True
+        txtRazonSocial.CapitalizarTexto = True
+        txtRazonSocial.CapitalizarTodasLasPalabras = True
         txtRazonSocial.ColorTitulo = Color.DarkSlateGray
         txtRazonSocial.Dock = DockStyle.Fill
         txtRazonSocial.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
@@ -191,7 +191,7 @@ Partial Class frmProveedor
         ' txtCorreo
         ' 
         txtCorreo.BackColor = Color.Transparent
-        txtCorreo.CampoRequerido = False
+        txtCorreo.CampoRequerido = True
         txtCorreo.CapitalizarTexto = False
         txtCorreo.CapitalizarTodasLasPalabras = False
         txtCorreo.ColorTitulo = Color.DarkSlateGray
@@ -235,7 +235,7 @@ Partial Class frmProveedor
         ' txtRif
         ' 
         txtRif.BackColor = Color.Transparent
-        txtRif.CampoRequerido = False
+        txtRif.CampoRequerido = True
         txtRif.CapitalizarTexto = False
         txtRif.CapitalizarTodasLasPalabras = False
         txtRif.ColorTitulo = Color.DarkSlateGray
@@ -269,7 +269,7 @@ Partial Class frmProveedor
         ' cmbSiglas
         ' 
         cmbSiglas.BackColor = Color.Transparent
-        cmbSiglas.CampoRequerido = False
+        cmbSiglas.CampoRequerido = True
         cmbSiglas.ColorTitulo = Color.DarkSlateGray
         cmbSiglas.Dock = DockStyle.Left
         cmbSiglas.IndiceSeleccionado = -1
@@ -287,7 +287,7 @@ Partial Class frmProveedor
         ' txtTelefono
         ' 
         txtTelefono.BackColor = Color.Transparent
-        txtTelefono.CampoRequerido = False
+        txtTelefono.CampoRequerido = True
         txtTelefono.CapitalizarTexto = False
         txtTelefono.CapitalizarTodasLasPalabras = False
         txtTelefono.ColorTitulo = Color.DarkSlateGray
@@ -312,7 +312,7 @@ Partial Class frmProveedor
         ' txtContacto
         ' 
         txtContacto.BackColor = Color.Transparent
-        txtContacto.CampoRequerido = False
+        txtContacto.CampoRequerido = True
         txtContacto.CapitalizarTexto = False
         txtContacto.CapitalizarTodasLasPalabras = False
         txtContacto.ColorTitulo = Color.DarkSlateGray
@@ -334,21 +334,21 @@ Partial Class frmProveedor
         txtContacto.TextString = ""
         txtContacto.ValidarComoCorreo = False
         ' 
-        ' Panelui1
+        ' pnlDatos
         ' 
-        Panelui1.BackColor = Color.Transparent
-        Panelui1.BackColorContenedor = Color.Transparent
-        Panelui1.BorderColor = Color.Silver
-        Panelui1.BorderRadius = 20
-        Panelui1.BorderSize = 1
-        Panelui1.CardBackColor = Color.White
-        Panelui1.Estilo = PanelUI.EstiloCard.None
-        Panelui1.Location = New Point(8, 7)
-        Panelui1.Name = "Panelui1"
-        Panelui1.ShadowColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        Panelui1.Size = New Size(1256, 497)
-        Panelui1.TabIndex = 28
-        Panelui1.Texto = ""
+        pnlDatos.BackColor = Color.Transparent
+        pnlDatos.BackColorContenedor = Color.Transparent
+        pnlDatos.BorderColor = Color.Silver
+        pnlDatos.BorderRadius = 20
+        pnlDatos.BorderSize = 1
+        pnlDatos.CardBackColor = Color.White
+        pnlDatos.Estilo = PanelUI.EstiloCard.None
+        pnlDatos.Location = New Point(8, 7)
+        pnlDatos.Name = "pnlDatos"
+        pnlDatos.ShadowColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        pnlDatos.Size = New Size(1256, 497)
+        pnlDatos.TabIndex = 28
+        pnlDatos.Texto = ""
         ' 
         ' pnlEncabezado
         ' 
@@ -364,7 +364,7 @@ Partial Class frmProveedor
         ' 
         btnAccion.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnAccion.AnimarHover = True
-        btnAccion.BackColor = Color.FromArgb(CByte(0), CByte(192), CByte(192))
+        btnAccion.BackColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         btnAccion.ColorBase = Color.FromArgb(CByte(255), CByte(193), CByte(7))
         btnAccion.ColorHover = Color.FromArgb(CByte(255), CByte(179), CByte(0))
         btnAccion.ColorInternoFondo = Color.FromArgb(CByte(255), CByte(193), CByte(7))
@@ -426,9 +426,9 @@ Partial Class frmProveedor
     Friend WithEvents btnAccion As CommandButtonUI
     Friend WithEvents pnlContenido As Panel
     Friend WithEvents txtDireccion As MultilineTextBoxLabelUI
-    Friend WithEvents pnlFoter As Panel
+    Friend WithEvents pnlFooter As Panel
     Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
-    Friend WithEvents Panelui1 As PanelUI
+    Friend WithEvents pnlDatos As PanelUI
     Friend WithEvents txtNombreEmpresa As TextOnlyTextBoxLabelUI
     Friend WithEvents txtRazonSocial As TextOnlyTextBoxLabelUI
     Friend WithEvents txtCorreo As EmailTextBoxLabelUI
