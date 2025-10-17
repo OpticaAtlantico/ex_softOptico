@@ -11,7 +11,7 @@ Public Class frmProveedor
     Public Property DatosProveedor As VProveedor = Nothing
     Public Property NombreBoton As String = String.Empty
 
-    Public Event CerrarProveedor As EventHandler
+    Public Event CerrarProveedor As Action
 
 #Region "CONSTRUCTOR"
 
@@ -265,6 +265,8 @@ Public Class frmProveedor
                 Dim mensaje As New ToastUI(If(esNuevo, MensajesUI.RegistroExitoso,
                                                    MensajesUI.ActualizacionExitosa),
                                                    TipoToastUI.Success)
+
+                RaiseEvent CerrarProveedor()
                 Me.Close()
                 mensaje.Mostrar()
             Else
@@ -283,11 +285,8 @@ Public Class frmProveedor
         End Try
 
     End Sub
-
-    Private Sub frmProveedor_Closed(sender As Object, e As EventArgs) Handles Me.Closed
-        RaiseEvent CerrarProveedor(Me, EventArgs.Empty)
-    End Sub
-
 #End Region
+
+
 
 End Class

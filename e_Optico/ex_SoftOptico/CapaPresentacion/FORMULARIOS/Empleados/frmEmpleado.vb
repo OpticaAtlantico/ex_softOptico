@@ -14,7 +14,7 @@ Public Class frmEmpleado
     Public Property DatosEmpleados As VEmpleados = Nothing
     Public Property NombreBoton As String = String.Empty
 
-    Public Event CerrarEmpleado As EventHandler
+    Public Event CerrarEmpleado As Action
 
 #Region "CONSTRUCTOR"
 
@@ -50,10 +50,10 @@ Public Class frmEmpleado
         btnAccion.Cursor = Cursors.Hand
         btnAccion.ColorTexto = Color.DarkSlateBlue
         Select Case NombreBoton
-            Case "Actualizar..."
+            Case "Actualizar"
                 btnAccion.Texto = "Actualizar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPen
-            Case "Eliminar..."
+            Case "Eliminar"
                 btnAccion.Texto = "Eliminar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
             Case Else
@@ -207,7 +207,7 @@ Public Class frmEmpleado
 
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
         Select Case btnAccion.Texto
-            Case "Actualizar..."
+            Case "Actualizar"
                 ' Aquí puedes implementar la lógica para actualizar el empleado
                 If DatosEmpleados IsNot Nothing Then
                     ProcesarEmpleado(esNuevo:=False)
@@ -218,7 +218,7 @@ Public Class frmEmpleado
                                          MessageBoxUI.TipoBotones.Aceptar)
                 End If
 
-            Case "Eliminar..."
+            Case "Eliminar"
 
                 Try
                     Dim id As Integer = Convert.ToInt32(DatosEmpleados._empleadoID)
@@ -229,10 +229,15 @@ Public Class frmEmpleado
 
                     If ok Then
                         Dim toast As New ToastUI("Empleado eliminado correctamente.", TipoToastUI.Success)
+
+                        RaiseEvent CerrarEmpleado()
+                        Me.Close()
                         toast.Mostrar()
                     Else
-                        Dim toast As New ToastUI("No se pudo eliminar el empleado o su foto.", TipoToastUI.Warning)
-                        toast.Mostrar()
+                        MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                            (MensajesUI.ErrorInesperado),
+                                            MessageBoxUI.TipoMensaje.Errorr,
+                                            MessageBoxUI.TipoBotones.Aceptar)
                     End If
 
                 Catch ex As Exception
@@ -242,7 +247,7 @@ Public Class frmEmpleado
                                     MessageBoxUI.TipoBotones.Aceptar)
                 End Try
 
-            Case "Guardar..."
+            Case "Guardar"
 
                 ' Aquí puedes implementar la lógica para guardar un nuevo empleado
                 If DatosEmpleados Is Nothing Then
@@ -414,6 +419,7 @@ Public Class frmEmpleado
                 Dim mensaje As New ToastUI(If(esNuevo, MensajesUI.RegistroExitoso,
                                                    MensajesUI.ActualizacionExitosa),
                                                    TipoToastUI.Success)
+                RaiseEvent CerrarEmpleado()
                 Me.Close()
                 mensaje.Mostrar()
             Else
@@ -433,7 +439,7 @@ Public Class frmEmpleado
     End Sub
 
     Private Sub frmEmpleado_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        RaiseEvent CerrarEmpleado(Me, EventArgs.Empty)
+        'RaiseEvent CerrarEmpleado(Me, EventArgs.Empty)
     End Sub
 
 #End Region

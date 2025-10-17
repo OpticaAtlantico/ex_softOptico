@@ -188,7 +188,7 @@ Public Class frm_Principal
         CerrarDrawer()
         If Not Application.OpenForms().OfType(Of frmEmpleado).Any() Then
             MarcarBotonActivo("Empleado", botonActivo)
-            Dim frm As New frmEmpleado With {.NombreBoton = "Guardar..."}
+            Dim frm As New frmEmpleado With {.NombreBoton = "Guardar"}
             AddHandler frm.CerrarEmpleado, Sub() btnSalirFrmHijo.Visible = False
             OpenChildForm(frm)
             btnSalirFrmHijo.Visible = True
@@ -431,7 +431,6 @@ Public Class frm_Principal
     End Sub
 #End Region
 
-
 #Region "=== BOTONES DEL MENU ==="
     Private Sub Boton_Click(sender As Object, e As EventArgs)
         Dim btn As Button = CType(sender, Button)
@@ -585,11 +584,19 @@ Public Class frm_Principal
         btnSalirFrmHijo.Visible = False
     End Sub
     Public Sub Reset(sender As Object, e As EventArgs)
-        currentButton = New Button()
-        Boton_Click(sender, e)
         DisableButton()
         VisualizarDashBoar()
 
+        ' Restaurar visualmente todos los botones
+        For Each btn In botones
+            btn.BackColor = AppColors._cFondo
+            btn.ForeColor = AppColors._cBlancoOscuro
+            If TypeOf btn Is IconButton Then
+                CType(btn, IconButton).IconColor = AppColors._cBlancoOscuro
+            End If
+        Next
+
+        botonActivo = Nothing
     End Sub
 
 #End Region
@@ -610,9 +617,9 @@ Public Class frm_Principal
 
                 Select Case opcion
                     Case 0
-                        texto = "Actualizar..."
+                        texto = "Actualizar"
                     Case 1
-                        texto = "Eliminar..."
+                        texto = "Eliminar"
                 End Select
 
                 formularioHijo.NombreBoton = texto
@@ -620,6 +627,7 @@ Public Class frm_Principal
                 ' 🔹 Aquí conectas el evento de cierre del hijo con la acción del principal
                 AddHandler formularioHijo.CerrarEmpleado, Sub()
                                                               btnSalirFrmHijo.Visible = False
+                                                              Reset(Nothing , Nothing)
                                                           End Sub
 
                 ' 🔹 Abres el hijo
@@ -667,15 +675,16 @@ Public Class frm_Principal
                 formularioHijo.DatosProveedor = Me.ProveedorEncontrado
                 Select Case opcion
                     Case 0
-                        texto = "Actualizar..."
+                        texto = "Actualizar"
                     Case 1
-                        texto = "Eliminar..."
+                        texto = "Eliminar"
                 End Select
                 formularioHijo.NombreBoton = texto
 
                 ' 🔹 Aquí conectas el evento de cierre del hijo con la acción del principal
                 AddHandler formularioHijo.CerrarProveedor, Sub()
                                                                btnSalirFrmHijo.Visible = False
+                                                               Reset(Nothing, Nothing)
                                                            End Sub
 
                 ' 🔹 Abres el hijo
@@ -715,9 +724,9 @@ Public Class frm_Principal
 
                 Select Case opcion
                     Case 0
-                        texto = "Actualizar..."
+                        texto = "Actualizar"
                     Case 1
-                        texto = "Eliminar..."
+                        texto = "Eliminar"
                 End Select
 
                 formularioHijo.NombreBoton = texto
