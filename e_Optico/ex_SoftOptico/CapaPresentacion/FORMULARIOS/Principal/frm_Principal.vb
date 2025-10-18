@@ -185,7 +185,9 @@ Public Class frm_Principal
 
     Private Sub SubNuevoE_Click(sender As Object, e As EventArgs)
         Me.SuspendLayout()
+
         CerrarDrawer()
+
         If Not Application.OpenForms().OfType(Of frmEmpleado).Any() Then
             MarcarBotonActivo("Empleado", botonActivo)
             Dim frm As New frmEmpleado With {.NombreBoton = "Guardar"}

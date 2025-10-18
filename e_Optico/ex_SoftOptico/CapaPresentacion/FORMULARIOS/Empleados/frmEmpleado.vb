@@ -438,10 +438,6 @@ Public Class frmEmpleado
         End Try
     End Sub
 
-    Private Sub frmEmpleado_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        'RaiseEvent CerrarEmpleado(Me, EventArgs.Empty)
-    End Sub
-
 #End Region
 
 End Class

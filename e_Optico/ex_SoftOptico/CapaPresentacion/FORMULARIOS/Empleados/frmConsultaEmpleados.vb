@@ -135,8 +135,9 @@ Public Class frmConsultaEmpleados
 
     Private Sub AgregarEmpleado()
         Dim frm As New frmEmpleado
-        Me.Close()
+        frm.NombreBoton = "Guardar"
         RaiseEvent AbrirFormularioHijo(frm)
+        Me.Close()
     End Sub
 
     Private Sub EditarEmpleado(id As Integer)
@@ -147,10 +148,11 @@ Public Class frmConsultaEmpleados
             If empleadoEncontrado IsNot Nothing Then
                 Dim formularioHijo As New frmEmpleado()
                 formularioHijo.DatosEmpleados = empleadoEncontrado
-                formularioHijo.NombreBoton = "Actualizar..."
+                formularioHijo.NombreBoton = "Actualizar"
 
                 ' En vez de abrir el formulario directamente, disparar evento
                 RaiseEvent AbrirFormularioHijo(formularioHijo)
+                Me.Close()
             Else
                 MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                      MensajesUI.OperacionFallida,

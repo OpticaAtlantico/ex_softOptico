@@ -36,9 +36,9 @@ Public Class frmProveedor
 #Region "EVENTOS DE FORMULARIO"
     Private Sub frmProveedor_Load(sender As Object, e As EventArgs) Handles Me.Load
 
-        CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
         Me.SuspendLayout()
 
+        CargarCombos.CargarComboDesacoplado(cmbSiglas, GetType(Siglas))
         If DatosProveedor IsNot Nothing Then
             CargarDatos(DatosProveedor)
         End If
@@ -46,14 +46,14 @@ Public Class frmProveedor
         btnAccion.Cursor = Cursors.Hand
         btnAccion.ColorTexto = Color.DarkSlateBlue
         Select Case NombreBoton
-            Case "Actualizar..."
-                btnAccion.Texto = "Actualizar..."
+            Case "Actualizar"
+                btnAccion.Texto = "Actualizar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPen
-            Case "Eliminar..."
-                btnAccion.Texto = "Eliminar..."
+            Case "Eliminar"
+                btnAccion.Texto = "Eliminar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserTimes
             Case Else
-                btnAccion.Texto = "Guardar..."
+                btnAccion.Texto = "Guardar"
                 btnAccion.Icono = FontAwesome.Sharp.IconChar.UserPlus
         End Select
 
@@ -122,7 +122,7 @@ Public Class frmProveedor
 #Region "PROCEDIMIENTOS"
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
         Select Case btnAccion.Texto
-            Case "Actualizar..."
+            Case "Actualizar"
                 ' Aquí puedes implementar la lógica para actualizar el empleado
                 If DatosProveedor IsNot Nothing Then
                     ProcesarProveedor(esNuevo:=False)
@@ -132,7 +132,7 @@ Public Class frmProveedor
                                          MessageBoxUI.TipoMensaje.Advertencia,
                                          MessageBoxUI.TipoBotones.Aceptar)
                 End If
-            Case "Eliminar..."
+            Case "Eliminar"
                 ' Aquí puedes implementar la lógica para eliminar el empleado
                 Try
                     Dim id As Integer = Convert.ToInt32(DatosProveedor._proveedorID)
@@ -142,10 +142,15 @@ Public Class frmProveedor
 
                     If ok Then
                         Dim toast As New ToastUI("Proveedor eliminado correctamente.", TipoToastUI.Success)
+
+                        RaiseEvent CerrarProveedor()
+                        Me.Close()
                         toast.Mostrar()
                     Else
-                        Dim toast As New ToastUI("No se pudo eliminar el proveedor o su foto.", TipoToastUI.Warning)
-                        toast.Mostrar()
+                        MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                            (MensajesUI.ErrorInesperado),
+                                            MessageBoxUI.TipoMensaje.Errorr,
+                                            MessageBoxUI.TipoBotones.Aceptar)
                     End If
 
                 Catch ex As Exception
@@ -155,10 +160,8 @@ Public Class frmProveedor
                                     MessageBoxUI.TipoBotones.Aceptar)
                 End Try
 
-                Me.Close() ' Cierra el formulario después de eliminar
-                frm_Principal.btnSalirFrmHijo.Visible = False ' Deshabilita botones de la ventana principal  
+            Case "Guardar"
 
-            Case "Guardar..."
                 ' Aquí puedes implementar la lógica para guardar un nuevo empleado
                 If DatosProveedor Is Nothing Then
                     ProcesarProveedor(esNuevo:=True)
@@ -286,7 +289,5 @@ Public Class frmProveedor
 
     End Sub
 #End Region
-
-
 
 End Class
