@@ -191,7 +191,6 @@ Public Class frm_Principal
         If Not Application.OpenForms().OfType(Of frmEmpleado).Any() Then
             MarcarBotonActivo("Empleado", botonActivo)
             Dim frm As New frmEmpleado With {.NombreBoton = "Guardar"}
-            AddHandler frm.CerrarEmpleado, Sub() btnSalirFrmHijo.Visible = False
             OpenChildForm(frm)
             btnSalirFrmHijo.Visible = True
         End If
@@ -549,6 +548,26 @@ Public Class frm_Principal
         pnlContenedor.Tag = childForm
         childForm.BringToFront()
         childForm.Show()
+
+        ' 🔹 Si el nuevo formulario es frm_Empleado, escucha su evento
+        If TypeOf childForm Is INotificaCierreFrm Then
+            Dim frmNotificador = DirectCast(childForm, INotificaCierreFrm)
+            AddHandler frmNotificador.FormularioFinalizado, AddressOf OnFormularioFinalizado
+        End If
+
+    End Sub
+
+    Private Sub OnFormularioFinalizado(sender As Object, e As EventArgs)
+        ' Llamas a tu procedimiento Reset
+        Reset(Nothing, Nothing)
+
+        ' (Opcional) Si quieres comportamientos distintos según el tipo de formulario:
+        If TypeOf sender Is frmEmpleado Then
+            Console.WriteLine("Empleado actualizado")
+        ElseIf TypeOf sender Is frmProveedor Then
+            Console.WriteLine("Proveedor actualizado")
+        End If
+
     End Sub
 
     Public Sub SolicitarAbrirFormularioHijo(childForm As Form)
@@ -625,12 +644,6 @@ Public Class frm_Principal
                 End Select
 
                 formularioHijo.NombreBoton = texto
-
-                ' 🔹 Aquí conectas el evento de cierre del hijo con la acción del principal
-                AddHandler formularioHijo.CerrarEmpleado, Sub()
-                                                              btnSalirFrmHijo.Visible = False
-                                                              Reset(Nothing , Nothing)
-                                                          End Sub
 
                 ' 🔹 Abres el hijo
                 OpenChildForm(formularioHijo)

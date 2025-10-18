@@ -5,16 +5,17 @@ Imports FontAwesome.Sharp
 Imports Microsoft.Data.SqlClient
 Public Class frmEmpleado
     Inherits Form
+    Implements INotificaCierreFrm
 
-    'Private fadeTimer As New Timer()
-    'Private fadeStep As Double = 0.05
+    'Para noticar al frmPrincipal el evento de cierre del formulario empleado
+    Public Event FormularioFinalizado As EventHandler Implements INotificaCierreFrm.FormularioFinalizado
 
     Private rutaImagenSeleccionada As String = ""
     Private llenarCombo As New LlenarComboBox
     Public Property DatosEmpleados As VEmpleados = Nothing
     Public Property NombreBoton As String = String.Empty
 
-    Public Event CerrarEmpleado As Action
+    'Public Event CerrarEmpleado As Action
 
 #Region "CONSTRUCTOR"
 
@@ -230,7 +231,7 @@ Public Class frmEmpleado
                     If ok Then
                         Dim toast As New ToastUI("Empleado eliminado correctamente.", TipoToastUI.Success)
 
-                        RaiseEvent CerrarEmpleado()
+                        RaiseEvent FormularioFinalizado(Me, EventArgs.Empty)
                         Me.Close()
                         toast.Mostrar()
                     Else
@@ -419,7 +420,8 @@ Public Class frmEmpleado
                 Dim mensaje As New ToastUI(If(esNuevo, MensajesUI.RegistroExitoso,
                                                    MensajesUI.ActualizacionExitosa),
                                                    TipoToastUI.Success)
-                RaiseEvent CerrarEmpleado()
+
+                RaiseEvent FormularioFinalizado(Me, EventArgs.Empty)
                 Me.Close()
                 mensaje.Mostrar()
             Else
