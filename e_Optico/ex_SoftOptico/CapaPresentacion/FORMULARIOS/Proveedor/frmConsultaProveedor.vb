@@ -15,13 +15,20 @@ Public Class frmConsultaProveedor
         With Me.dgvDatosProveedor.lblTitulo
             .Titulo = "Consulta de Proveedor"
             .Subtitulo = "Lista de Proveedores registrados..."
-            .ForeColor = Color.FromArgb(57, 103, 208)
-            .ColorTexto = Color.FromArgb(57, 103, 208)
+            .ForeColor = AppColors._cBlanco
+            .Dimension = AppFonts.SizeLarge
             .Icono = IconChar.Users
         End With
 
         CargarDatosProveedores()
     End Sub
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp As CreateParams = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000  ' WS_EX_COMPOSITED
+            Return cp
+        End Get
+    End Property
 
 #End Region
 
@@ -124,6 +131,7 @@ Public Class frmConsultaProveedor
     End Sub
     Private Sub AgregarProveedor()
         Dim frm As New frmProveedor
+        frm.NombreBoton = "Guardar"
         Me.Close()
         RaiseEvent AbrirFormularioHijo(frm)
     End Sub
@@ -136,7 +144,7 @@ Public Class frmConsultaProveedor
             If proveedorEncontrado IsNot Nothing Then
                 Dim formularioHijo As New frmProveedor()
                 formularioHijo.DatosProveedor = proveedorEncontrado
-                formularioHijo.NombreBoton = "Actualizar..."
+                formularioHijo.NombreBoton = "Actualizar"
 
                 ' En vez de abrir el formulario directamente, disparar evento
                 RaiseEvent AbrirFormularioHijo(formularioHijo)

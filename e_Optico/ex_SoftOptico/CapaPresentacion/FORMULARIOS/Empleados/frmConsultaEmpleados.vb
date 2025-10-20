@@ -136,8 +136,8 @@ Public Class frmConsultaEmpleados
     Private Sub AgregarEmpleado()
         Dim frm As New frmEmpleado
         frm.NombreBoton = "Guardar"
-        RaiseEvent AbrirFormularioHijo(frm)
         Me.Close()
+        RaiseEvent AbrirFormularioHijo(frm)
     End Sub
 
     Private Sub EditarEmpleado(id As Integer)

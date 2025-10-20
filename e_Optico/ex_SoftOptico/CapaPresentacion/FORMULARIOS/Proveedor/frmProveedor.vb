@@ -6,12 +6,14 @@ Imports Microsoft.Data.SqlClient
 Imports OfficeOpenXml.Drawing.Slicer.Style
 
 Public Class frmProveedor
+    Implements INotificaCierreFrm
+
+    'Para noticar al frmPrincipal el evento de cierre del formulario empleado
+    Public Event FormularioFinalizado As EventHandler Implements INotificaCierreFrm.FormularioFinalizado
 
     Private rutaImagenSeleccionada As String = ""
     Public Property DatosProveedor As VProveedor = Nothing
     Public Property NombreBoton As String = String.Empty
-
-    Public Event CerrarProveedor As Action
 
 #Region "CONSTRUCTOR"
 
@@ -143,7 +145,7 @@ Public Class frmProveedor
                     If ok Then
                         Dim toast As New ToastUI("Proveedor eliminado correctamente.", TipoToastUI.Success)
 
-                        RaiseEvent CerrarProveedor()
+                        RaiseEvent FormularioFinalizado(Me, EventArgs.Empty)
                         Me.Close()
                         toast.Mostrar()
                     Else
@@ -269,7 +271,7 @@ Public Class frmProveedor
                                                    MensajesUI.ActualizacionExitosa),
                                                    TipoToastUI.Success)
 
-                RaiseEvent CerrarProveedor()
+                RaiseEvent FormularioFinalizado(Me, EventArgs.Empty)
                 Me.Close()
                 mensaje.Mostrar()
             Else

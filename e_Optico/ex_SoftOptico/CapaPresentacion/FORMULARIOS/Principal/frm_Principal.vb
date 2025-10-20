@@ -363,7 +363,6 @@ Public Class frm_Principal
         If Not Application.OpenForms().OfType(Of frmProveedor).Any() Then
             MarcarBotonActivo("Proveedor", botonActivo)
             Dim frm As New frmProveedor With {.NombreBoton = "Guardar..."}
-            AddHandler frm.CerrarProveedor, Sub() btnSalirFrmHijo.Visible = False
             OpenChildForm(frm)
             btnSalirFrmHijo.Visible = True
         End If
@@ -694,13 +693,8 @@ Public Class frm_Principal
                     Case 1
                         texto = "Eliminar"
                 End Select
-                formularioHijo.NombreBoton = texto
 
-                ' 🔹 Aquí conectas el evento de cierre del hijo con la acción del principal
-                AddHandler formularioHijo.CerrarProveedor, Sub()
-                                                               btnSalirFrmHijo.Visible = False
-                                                               Reset(Nothing, Nothing)
-                                                           End Sub
+                formularioHijo.NombreBoton = texto
 
                 ' 🔹 Abres el hijo
                 OpenChildForm(formularioHijo)
