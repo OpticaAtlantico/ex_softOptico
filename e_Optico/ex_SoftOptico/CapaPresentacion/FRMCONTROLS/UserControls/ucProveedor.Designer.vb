@@ -107,6 +107,7 @@ Partial Class ucProveedor
         txtCedula.BorderSize = 1
         txtCedula.CampoRequerido = True
         txtCedula.ColorError = Color.Firebrick
+        txtCedula.FocusColor = Color.Orange
         txtCedula.FontField = New Font("Century Gothic", 12F)
         txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
@@ -233,7 +234,7 @@ Partial Class ucProveedor
         ' txtFechaNac
         ' 
         txtFechaNac.BackColor = Color.White
-        txtFechaNac.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaNac.BorderColor = Color.LightGray
         txtFechaNac.BorderRadius = 8
         txtFechaNac.BorderSize = 1
         txtFechaNac.CampoRequerido = True
@@ -260,6 +261,7 @@ Partial Class ucProveedor
         MaskedTextBoxLabelui1.BorderSize = 1
         MaskedTextBoxLabelui1.CampoRequerido = True
         MaskedTextBoxLabelui1.ColorError = Color.Firebrick
+        MaskedTextBoxLabelui1.FocusColor = Color.Orange
         MaskedTextBoxLabelui1.FontField = New Font("Century Gothic", 12F)
         MaskedTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         MaskedTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
@@ -374,7 +376,7 @@ Partial Class ucProveedor
         btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
         btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
         btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnSiguiente.ColorTexto = Color.White
+        btnSiguiente.ColorTexto = Color.WhiteSmoke
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.CircleRight
@@ -403,7 +405,7 @@ Partial Class ucProveedor
         btnAnterior.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
         btnAnterior.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
         btnAnterior.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnAnterior.ColorTexto = Color.White
+        btnAnterior.ColorTexto = Color.WhiteSmoke
         btnAnterior.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnAnterior.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAnterior.Icono = FontAwesome.Sharp.IconChar.ArrowAltCircleLeft

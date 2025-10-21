@@ -272,33 +272,21 @@ Public Class frm_Principal
 
 #Region "Boton menu compra"
     Private Sub BotonMenuCompra()
-        ' Crear las opciones de manera clara, evitando CType de lambdas
-        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler))
 
-        Dim handlerReporte As New EventHandler(AddressOf SubReportesC_Click)
-        opciones.Add(Tuple.Create("Reporte", IconChar.ListCheck, handlerReporte))
+        Dim opciones As New List(Of Tuple(Of String, IconChar, EventHandler)) From {
+        Tuple.Create("Reportes", IconoDrawer, New EventHandler(AddressOf SubReportesC_Click)),
+        Tuple.Create("Consultar", IconoDrawer, New EventHandler(AddressOf SubConsultarC_Click)),
+        Tuple.Create("Devolucion", IconoDrawer, New EventHandler(AddressOf SubDevolucionC_Click)),
+        Tuple.Create("Nueva Compra", IconoDrawer, New EventHandler(AddressOf SubNuevoC_Click))
+    }
 
-        Dim handlerDevolucion As New EventHandler(AddressOf SubReportesPv_Click)
-        opciones.Add(Tuple.Create("Devolución a Prove...", IconChar.Refresh, handlerDevolucion))
-
-        Dim handlerConsultar As New EventHandler(AddressOf SubConsultarC_Click)
-        opciones.Add(Tuple.Create("Consultar", IconChar.ListNumeric, handlerConsultar))
-
-        Dim handlerEliminar As New EventHandler(AddressOf SubEliminarC_Click)
-        opciones.Add(Tuple.Create("Borrar Orden", IconChar.TrashArrowUp, handlerEliminar))
-
-        Dim handlerEditar As New EventHandler(AddressOf SubEditarC_Click)
-        opciones.Add(Tuple.Create("Editar Orden", IconChar.FilePen, handlerEditar))
-
-        Dim handlerNuevo As New EventHandler(AddressOf SubNuevoC_Click)
-        opciones.Add(Tuple.Create("Nueva Orden", IconChar.Save, handlerNuevo))
-
-        ' Cargar en Drawer
         drawerControl.CargarOpciones(opciones)
-        'pnlDrawer.Visible = True
-        If pnlDrawer.Width = 0 Then
-            AbrirDrawer()
-        End If
+        If pnlDrawer.Width = 0 Then AbrirDrawer()
+
+    End Sub
+
+    Private Sub SubDevolucionC_Click(sender As Object, e As EventArgs)
+        Throw New NotImplementedException()
     End Sub
 
     Private Sub SubReportesC_Click(sender As Object, e As EventArgs)
@@ -318,14 +306,6 @@ Public Class frm_Principal
             OpenChildForm(consultaCompraForm)
         End If
         Me.ResumeLayout()
-    End Sub
-
-    Private Sub SubEliminarC_Click(sender As Object, e As EventArgs)
-        ActualizarEliminarCompra(1)
-    End Sub
-
-    Private Sub SubEditarC_Click(sender As Object, e As EventArgs)
-        ActualizarEliminarCompra(0)
     End Sub
 
     Private Sub SubNuevoC_Click(sender As Object, e As EventArgs)

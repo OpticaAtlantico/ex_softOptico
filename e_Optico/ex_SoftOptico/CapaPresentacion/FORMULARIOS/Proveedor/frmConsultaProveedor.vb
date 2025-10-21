@@ -1,5 +1,6 @@
 ﻿Imports CapaDatos
 Imports CapaEntidad
+Imports CapaNegocio
 Imports FontAwesome.Sharp
 
 Public Class frmConsultaProveedor
@@ -171,29 +172,36 @@ Public Class frmConsultaProveedor
 
             If confirmar = DialogResult.No Then Exit Sub
 
+            'Instancia el servicio de proveedor
+            Dim service As New ServiceProveedor
+
+            'Buqueda del proveedor con el id 
             Dim repositorio As New Repositorio_Proveedor()
             Dim proveedor As VProveedor = repositorio.GetById(id)
 
-            If proveedor Is Nothing Then
+            If Not proveedor Is Nothing Then
+                'En caso de que se consiga el proveedor realiza esta accion
+                Dim ok As Boolean = service.Eliminar(id)
+
+                If ok Then
+                    MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                         MensajesUI.EliminacionExitosa,
+                                         MessageBoxUI.TipoMensaje.Exito,
+                                         MessageBoxUI.TipoBotones.Aceptar)
+
+                    'Cargar el data grid de proveedor
+                    CargarDatosProveedores()
+                Else
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                         MensajesUI.OperacionFallida,
+                                         MessageBoxUI.TipoMensaje.Errorr,
+                                         MessageBoxUI.TipoBotones.Aceptar)
+                End If
+
+            Else
+                'En caso de que no exieta dispara esta alerta 
                 MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
                                      MensajesUI.SinResultados,
-                                     MessageBoxUI.TipoMensaje.Errorr,
-                                     MessageBoxUI.TipoBotones.Aceptar)
-                Exit Sub
-            End If
-
-            Dim eliminar = repositorio.Remove(id)
-
-            If eliminar Then
-                MessageBoxUI.Mostrar(MensajesUI.TituloExito,
-                                     MensajesUI.EliminacionExitosa,
-                                     MessageBoxUI.TipoMensaje.Exito,
-                                     MessageBoxUI.TipoBotones.Aceptar)
-
-                CargarDatosProveedores()
-            Else
-                MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                     MensajesUI.OperacionFallida,
                                      MessageBoxUI.TipoMensaje.Errorr,
                                      MessageBoxUI.TipoBotones.Aceptar)
             End If

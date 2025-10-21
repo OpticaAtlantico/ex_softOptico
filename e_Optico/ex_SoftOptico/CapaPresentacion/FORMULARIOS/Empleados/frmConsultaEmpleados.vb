@@ -1,5 +1,6 @@
 ﻿Imports CapaDatos
 Imports CapaEntidad
+Imports CapaNegocio
 Imports FontAwesome.Sharp
 
 Public Class frmConsultaEmpleados
@@ -176,19 +177,32 @@ Public Class frmConsultaEmpleados
 
             If confirmar = DialogResult.No Then Exit Sub
 
+            Dim service As New ServiceEmpleado()
+
+            'Asignar los valores iniciales para consultar el empleado por el ID
             Dim repositorio As New Repositorio_Empleados()
+
+            'Busqueda del empleado segun el id
             Dim empleado As VEmpleados = repositorio.GetById(id)
 
-            If empleado Is Nothing Then
-                MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                     MensajesUI.OperacionFallida,
-                                     MessageBoxUI.TipoMensaje.Errorr,
-                                     MessageBoxUI.TipoBotones.Aceptar)
-                Exit Sub
-            End If
+            If Not empleado Is Nothing Then
+                'Procedimiento de eliminacion del empleado
+                Dim ok As Boolean = service.Eliminar(empleado._empleadoID, empleado._foto)
 
-            If EliminarEmpleado(empleado._empleadoID, empleado._foto) Then
-                CargarDatosEmpleados()
+                If ok Then
+                    MessageBoxUI.Mostrar(MensajesUI.TituloExito,
+                                         MensajesUI.EliminacionExitosa,
+                                         MessageBoxUI.TipoMensaje.Exito,
+                                         MessageBoxUI.TipoBotones.Aceptar)
+
+                    CargarDatosEmpleados()
+                Else
+                    MessageBoxUI.Mostrar(MensajesUI.TituloError,
+                                                             MensajesUI.OperacionFallida,
+                                                             MessageBoxUI.TipoMensaje.Errorr,
+                                                             MessageBoxUI.TipoBotones.Aceptar)
+                End If
+
             End If
 
         Catch ex As Exception
