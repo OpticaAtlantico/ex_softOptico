@@ -2,12 +2,12 @@
 
 Public Class frmRegistrarCompras
 
-    Public Property TabPanelRef As TabPanelUI
+    'Public Property TabPanelRef As TabPanelUI
 
     Private Sub frmProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Dim ucProductos As New ucProductos()
-        Dim ucProveedor As New ucProveedor()
+        Dim ucProductos As New cDatosProductos()
+        Dim ucProveedor As New cDatosProveedor()
 
         Dim tab1 As New TabItemOrbitalAdv With {
             .Titulo = "Datos del Proveedor",
@@ -32,7 +32,7 @@ Public Class frmRegistrarCompras
         Me.pnlContenido.Controls.Add(tabPanel)
 
         'Permite avanzar entre pestañas
-        ucProductos.TabPanelRef = tabPanel
+        'ucProductos.TabPanelRef = tabPanel
         ucProveedor.TabPanelRef = tabPanel
 
         tabPanel.SeleccionarPestana(0) 'Selecciona la primera pestaña

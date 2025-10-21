@@ -466,6 +466,8 @@ Public Class frmCompras
         lblOrden.Texto = FormatearConCeros(resultado)
     End Sub
 
+
+
 #End Region
 
 End Class

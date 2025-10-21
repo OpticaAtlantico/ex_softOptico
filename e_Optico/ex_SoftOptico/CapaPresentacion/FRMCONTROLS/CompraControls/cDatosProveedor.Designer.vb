@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class cDatosCompras
+Partial Class cDatosProveedor
     Inherits System.Windows.Forms.UserControl
 
     'UserControl reemplaza a Dispose para limpiar la lista de componentes.
@@ -276,13 +276,14 @@ Partial Class cDatosCompras
         tlpContenido.Size = New Size(1149, 432)
         tlpContenido.TabIndex = 4
         ' 
-        ' cDatosCompras
+        ' cDatosProveedor
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.WhiteSmoke
         Controls.Add(tlpFooter)
         Controls.Add(tlpContenido)
-        Name = "cDatosCompras"
+        Name = "cDatosProveedor"
         Size = New Size(1156, 567)
         TableLayoutPanel4.ResumeLayout(False)
         Panel3.ResumeLayout(False)

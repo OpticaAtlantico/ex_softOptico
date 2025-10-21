@@ -126,7 +126,7 @@ Partial Class frmCompras
         ' 
         lblOrden.BackColor = Color.Transparent
         lblOrden.BloquearColorFondo = True
-        lblOrden.ColorInternoFondo = Color.FromArgb(CByte(208), CByte(233), CByte(242))
+        lblOrden.ColorInternoFondo = Color.FromArgb(CByte(0), CByte(188), CByte(212))
         lblOrden.EstiloLabel = LabelUI.EstiloBootstrap.Info
         lblOrden.Font = New Font("Century Gothic", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblOrden.ForeColor = Color.LightSeaGreen
@@ -147,7 +147,7 @@ Partial Class frmCompras
         btnLimpiarGrid.ColorHover = Color.FromArgb(CByte(229), CByte(57), CByte(53))
         btnLimpiarGrid.ColorInternoFondo = Color.FromArgb(CByte(244), CByte(67), CByte(54))
         btnLimpiarGrid.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
-        btnLimpiarGrid.ColorTexto = Color.White
+        btnLimpiarGrid.ColorTexto = Color.Black
         btnLimpiarGrid.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
         btnLimpiarGrid.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnLimpiarGrid.Icono = FontAwesome.Sharp.IconChar.TrashAlt
@@ -256,7 +256,7 @@ Partial Class frmCompras
         btnAgregarProducto.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
         btnAgregarProducto.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
         btnAgregarProducto.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnAgregarProducto.ColorTexto = Color.White
+        btnAgregarProducto.ColorTexto = Color.WhiteSmoke
         btnAgregarProducto.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnAgregarProducto.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAgregarProducto.Icono = FontAwesome.Sharp.IconChar.PlusSquare
@@ -331,6 +331,7 @@ Partial Class frmCompras
         txtNumeroControl.BorderSize = 1
         txtNumeroControl.CampoRequerido = True
         txtNumeroControl.ColorError = Color.Firebrick
+        txtNumeroControl.FocusColor = Color.Orange
         txtNumeroControl.FontField = New Font("Century Gothic", 12F)
         txtNumeroControl.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNumeroControl.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
@@ -359,6 +360,7 @@ Partial Class frmCompras
         txtNumeroFactura.BorderSize = 1
         txtNumeroFactura.CampoRequerido = True
         txtNumeroFactura.ColorError = Color.Firebrick
+        txtNumeroFactura.FocusColor = Color.Orange
         txtNumeroFactura.FontField = New Font("Century Gothic", 12F)
         txtNumeroFactura.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtNumeroFactura.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
@@ -382,7 +384,7 @@ Partial Class frmCompras
         ' txtFechaEmision
         ' 
         txtFechaEmision.BackColor = Color.Transparent
-        txtFechaEmision.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaEmision.BorderColor = Color.LightGray
         txtFechaEmision.BorderRadius = 8
         txtFechaEmision.BorderSize = 1
         txtFechaEmision.CampoRequerido = True
@@ -444,9 +446,12 @@ Partial Class frmCompras
         txtDomicilio.Name = "txtDomicilio"
         txtDomicilio.PaddingAll = 10
         txtDomicilio.PanelBackColor = Color.White
+        txtDomicilio.Placeholder = "Escriba aquí..."
+        txtDomicilio.PlaceholderColor = Color.Gray
         txtDomicilio.Size = New Size(293, 138)
         txtDomicilio.TabIndex = 5
         txtDomicilio.TextColor = Color.Black
+        txtDomicilio.TextoString = Nothing
         txtDomicilio.TextString = ""
         ' 
         ' txtRifCI
@@ -486,6 +491,7 @@ Partial Class frmCompras
         txtTelefonos.BorderSize = 1
         txtTelefonos.CampoRequerido = True
         txtTelefonos.ColorError = Color.Firebrick
+        txtTelefonos.FocusColor = Color.Orange
         txtTelefonos.FontField = New Font("Century Gothic", 12F)
         txtTelefonos.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtTelefonos.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
@@ -549,9 +555,12 @@ Partial Class frmCompras
         txtObservacion.Name = "txtObservacion"
         txtObservacion.PaddingAll = 10
         txtObservacion.PanelBackColor = Color.White
+        txtObservacion.Placeholder = "Escriba aquí..."
+        txtObservacion.PlaceholderColor = Color.Gray
         txtObservacion.Size = New Size(293, 138)
         txtObservacion.TabIndex = 9
         txtObservacion.TextColor = Color.Black
+        txtObservacion.TextoString = Nothing
         txtObservacion.TextString = ""
         ' 
         ' btnLimpiarCeldas
@@ -563,7 +572,7 @@ Partial Class frmCompras
         btnLimpiarCeldas.ColorHover = Color.FromArgb(CByte(229), CByte(57), CByte(53))
         btnLimpiarCeldas.ColorInternoFondo = Color.FromArgb(CByte(244), CByte(67), CByte(54))
         btnLimpiarCeldas.ColorPresionado = Color.FromArgb(CByte(211), CByte(47), CByte(47))
-        btnLimpiarCeldas.ColorTexto = Color.White
+        btnLimpiarCeldas.ColorTexto = Color.Black
         btnLimpiarCeldas.EstiloBoton = CommandButtonUI.EstiloBootstrap.Danger
         btnLimpiarCeldas.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnLimpiarCeldas.Icono = FontAwesome.Sharp.IconChar.Trash
@@ -583,7 +592,7 @@ Partial Class frmCompras
         btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
         btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
         btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnSiguiente.ColorTexto = Color.White
+        btnSiguiente.ColorTexto = Color.WhiteSmoke
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.ArrowTrendDown
@@ -626,7 +635,7 @@ Partial Class frmCompras
         btnExportarPdf.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
         btnExportarPdf.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
         btnExportarPdf.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
-        btnExportarPdf.ColorTexto = Color.White
+        btnExportarPdf.ColorTexto = Color.WhiteSmoke
         btnExportarPdf.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
         btnExportarPdf.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnExportarPdf.Icono = FontAwesome.Sharp.IconChar.FilePdf
@@ -647,7 +656,7 @@ Partial Class frmCompras
         btnExportarExcel.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
         btnExportarExcel.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
         btnExportarExcel.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
-        btnExportarExcel.ColorTexto = Color.White
+        btnExportarExcel.ColorTexto = Color.WhiteSmoke
         btnExportarExcel.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
         btnExportarExcel.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnExportarExcel.Icono = FontAwesome.Sharp.IconChar.FileExcel
@@ -668,7 +677,7 @@ Partial Class frmCompras
         btnAceptar.ColorHover = Color.FromArgb(CByte(67), CByte(160), CByte(71))
         btnAceptar.ColorInternoFondo = Color.FromArgb(CByte(76), CByte(175), CByte(80))
         btnAceptar.ColorPresionado = Color.FromArgb(CByte(56), CByte(142), CByte(60))
-        btnAceptar.ColorTexto = Color.White
+        btnAceptar.ColorTexto = Color.WhiteSmoke
         btnAceptar.EstiloBoton = CommandButtonUI.EstiloBootstrap.Success
         btnAceptar.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAceptar.Icono = FontAwesome.Sharp.IconChar.Save
@@ -693,6 +702,7 @@ Partial Class frmCompras
         ' 
         lblEncabezado.ColorFondo = Color.LightSkyBlue
         lblEncabezado.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
+        lblEncabezado.Dimension = 12
         lblEncabezado.Dock = DockStyle.Fill
         lblEncabezado.Font = New Font("Segoe UI", 10F, FontStyle.Bold)
         lblEncabezado.Icono = FontAwesome.Sharp.IconChar.CartShopping
