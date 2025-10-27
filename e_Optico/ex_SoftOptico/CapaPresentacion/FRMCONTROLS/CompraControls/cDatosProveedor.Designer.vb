@@ -22,84 +22,36 @@ Partial Class cDatosProveedor
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Label1 = New Label()
-        TableLayoutPanel4 = New TableLayoutPanel()
-        Panel3 = New Panel()
-        btnGenerarCodigo = New FontAwesome.Sharp.IconButton()
         tlpFooter = New TableLayoutPanel()
         Panel5 = New Panel()
         btnSiguiente = New CommandButtonUI()
         CommandButtonui2 = New CommandButtonUI()
         Panel4 = New Panel()
         CommandButtonui1 = New CommandButtonUI()
-        pnlBtnIzquierdo = New Panel()
-        pnlBtnDerecho = New Panel()
-        TableLayoutPanel2 = New TableLayoutPanel()
-        Label2 = New Label()
-        TableLayoutPanel3 = New TableLayoutPanel()
         tlpContenido = New TableLayoutPanel()
         Panelui1 = New PanelUI()
-        TableLayoutPanel4.SuspendLayout()
-        Panel3.SuspendLayout()
+        cmbSucursal = New ComboBoxLayoutUI()
+        txtnControl = New TextOnlyTextBoxLabelUI()
+        txtnFactura = New TextOnlyTextBoxLabelUI()
+        txtFechaEmision = New DatePickerProUI()
+        txtRif = New TextOnlyTextBoxLabelUI()
+        TextOnlyTextBoxLabelui4 = New TextOnlyTextBoxLabelUI()
+        cmbFormaPago = New ComboBoxLayoutUI()
+        txtDomicilio = New MultilineTextBoxLabelUI()
+        Panel1 = New Panel()
+        Panel2 = New Panel()
+        Panel3 = New Panel()
+        cmbProveedor = New ComboBoxLayoutUI()
+        btnCrearProveedor = New FontAwesome.Sharp.IconButton()
+        txtObservacion = New MultilineTextBoxLabelUI()
         tlpFooter.SuspendLayout()
         Panel5.SuspendLayout()
         Panel4.SuspendLayout()
-        TableLayoutPanel2.SuspendLayout()
-        TableLayoutPanel3.SuspendLayout()
         tlpContenido.SuspendLayout()
+        Panel1.SuspendLayout()
+        Panel2.SuspendLayout()
+        Panel3.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' Label1
-        ' 
-        Label1.AutoSize = True
-        Label1.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label1.ForeColor = Color.DarkSlateGray
-        Label1.Location = New Point(3, 0)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(141, 17)
-        Label1.TabIndex = 35
-        Label1.Text = "Requiere Inventario?"
-        ' 
-        ' TableLayoutPanel4
-        ' 
-        TableLayoutPanel4.ColumnCount = 2
-        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 80F))
-        TableLayoutPanel4.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 20F))
-        TableLayoutPanel4.Controls.Add(Panel3, 1, 0)
-        TableLayoutPanel4.Dock = DockStyle.Fill
-        TableLayoutPanel4.Location = New Point(3, 3)
-        TableLayoutPanel4.Name = "TableLayoutPanel4"
-        TableLayoutPanel4.RowCount = 1
-        TableLayoutPanel4.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
-        TableLayoutPanel4.Size = New Size(568, 74)
-        TableLayoutPanel4.TabIndex = 37
-        ' 
-        ' Panel3
-        ' 
-        Panel3.Controls.Add(btnGenerarCodigo)
-        Panel3.Dock = DockStyle.Fill
-        Panel3.Location = New Point(457, 3)
-        Panel3.Name = "Panel3"
-        Panel3.Size = New Size(108, 68)
-        Panel3.TabIndex = 15
-        ' 
-        ' btnGenerarCodigo
-        ' 
-        btnGenerarCodigo.FlatAppearance.BorderSize = 0
-        btnGenerarCodigo.FlatStyle = FlatStyle.Flat
-        btnGenerarCodigo.Font = New Font("Century Gothic", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        btnGenerarCodigo.IconChar = FontAwesome.Sharp.IconChar.Refresh
-        btnGenerarCodigo.IconColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        btnGenerarCodigo.IconFont = FontAwesome.Sharp.IconFont.Auto
-        btnGenerarCodigo.IconSize = 40
-        btnGenerarCodigo.ImageAlign = ContentAlignment.MiddleLeft
-        btnGenerarCodigo.Location = New Point(-7, 22)
-        btnGenerarCodigo.Margin = New Padding(0, 3, 3, 3)
-        btnGenerarCodigo.Name = "btnGenerarCodigo"
-        btnGenerarCodigo.Size = New Size(49, 35)
-        btnGenerarCodigo.TabIndex = 29
-        btnGenerarCodigo.TextAlign = ContentAlignment.MiddleLeft
-        btnGenerarCodigo.UseVisualStyleBackColor = True
         ' 
         ' tlpFooter
         ' 
@@ -199,82 +151,31 @@ Partial Class cDatosProveedor
         CommandButtonui1.Text = "CommandButtonui1"
         CommandButtonui1.Texto = "Siguiente..."
         ' 
-        ' pnlBtnIzquierdo
-        ' 
-        pnlBtnIzquierdo.Dock = DockStyle.Fill
-        pnlBtnIzquierdo.Location = New Point(3, 373)
-        pnlBtnIzquierdo.Name = "pnlBtnIzquierdo"
-        pnlBtnIzquierdo.Size = New Size(568, 56)
-        pnlBtnIzquierdo.TabIndex = 11
-        ' 
-        ' pnlBtnDerecho
-        ' 
-        pnlBtnDerecho.Dock = DockStyle.Fill
-        pnlBtnDerecho.Location = New Point(577, 373)
-        pnlBtnDerecho.Name = "pnlBtnDerecho"
-        pnlBtnDerecho.Size = New Size(569, 56)
-        pnlBtnDerecho.TabIndex = 12
-        ' 
-        ' TableLayoutPanel2
-        ' 
-        TableLayoutPanel2.ColumnCount = 1
-        TableLayoutPanel2.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel2.Controls.Add(Label1, 0, 0)
-        TableLayoutPanel2.Dock = DockStyle.Fill
-        TableLayoutPanel2.Location = New Point(3, 243)
-        TableLayoutPanel2.Name = "TableLayoutPanel2"
-        TableLayoutPanel2.RowCount = 2
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 30F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 70F))
-        TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
-        TableLayoutPanel2.Size = New Size(568, 74)
-        TableLayoutPanel2.TabIndex = 35
-        ' 
-        ' Label2
-        ' 
-        Label2.AutoSize = True
-        Label2.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.ForeColor = Color.DarkSlateGray
-        Label2.Location = New Point(3, 0)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(58, 17)
-        Label2.TabIndex = 36
-        Label2.Text = "Activo?"
-        ' 
-        ' TableLayoutPanel3
-        ' 
-        TableLayoutPanel3.ColumnCount = 1
-        TableLayoutPanel3.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100F))
-        TableLayoutPanel3.Controls.Add(Label2, 0, 0)
-        TableLayoutPanel3.Dock = DockStyle.Fill
-        TableLayoutPanel3.Location = New Point(577, 243)
-        TableLayoutPanel3.Name = "TableLayoutPanel3"
-        TableLayoutPanel3.RowCount = 2
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 30F))
-        TableLayoutPanel3.RowStyles.Add(New RowStyle(SizeType.Percent, 70F))
-        TableLayoutPanel3.Size = New Size(569, 74)
-        TableLayoutPanel3.TabIndex = 36
-        ' 
         ' tlpContenido
         ' 
         tlpContenido.BackColor = Color.White
         tlpContenido.ColumnCount = 2
         tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
-        tlpContenido.Controls.Add(TableLayoutPanel3, 1, 3)
-        tlpContenido.Controls.Add(pnlBtnIzquierdo, 0, 5)
-        tlpContenido.Controls.Add(pnlBtnDerecho, 1, 5)
-        tlpContenido.Controls.Add(TableLayoutPanel2, 0, 3)
-        tlpContenido.Controls.Add(TableLayoutPanel4, 0, 0)
+        tlpContenido.Controls.Add(txtObservacion, 1, 4)
+        tlpContenido.Controls.Add(cmbSucursal, 0, 0)
+        tlpContenido.Controls.Add(txtnControl, 1, 0)
+        tlpContenido.Controls.Add(txtnFactura, 0, 1)
+        tlpContenido.Controls.Add(txtFechaEmision, 1, 1)
+        tlpContenido.Controls.Add(txtRif, 1, 2)
+        tlpContenido.Controls.Add(TextOnlyTextBoxLabelui4, 0, 3)
+        tlpContenido.Controls.Add(cmbFormaPago, 1, 3)
+        tlpContenido.Controls.Add(txtDomicilio, 0, 4)
+        tlpContenido.Controls.Add(Panel1, 0, 2)
         tlpContenido.Location = New Point(11, 13)
         tlpContenido.Name = "tlpContenido"
-        tlpContenido.RowCount = 6
+        tlpContenido.RowCount = 5
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 50F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 50F))
+        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         tlpContenido.Size = New Size(1149, 432)
         tlpContenido.TabIndex = 4
         ' 
@@ -294,6 +195,295 @@ Partial Class cDatosProveedor
         Panelui1.TabIndex = 6
         Panelui1.Texto = ""
         ' 
+        ' cmbSucursal
+        ' 
+        cmbSucursal.BackColor = Color.Transparent
+        cmbSucursal.CampoRequerido = True
+        cmbSucursal.ColorTitulo = Color.DarkSlateGray
+        cmbSucursal.Dock = DockStyle.Fill
+        cmbSucursal.IndiceSeleccionado = -1
+        cmbSucursal.Location = New Point(3, 3)
+        cmbSucursal.MensajeError = "Campo requerido"
+        cmbSucursal.Name = "cmbSucursal"
+        cmbSucursal.Placeholder = "Selecciones la Sucursal"
+        cmbSucursal.PlaceholderColor = Color.Gray
+        cmbSucursal.Size = New Size(568, 74)
+        cmbSucursal.TabIndex = 0
+        cmbSucursal.Texto = ""
+        cmbSucursal.TextoLabel = "Nombre de la Sucursal:"
+        cmbSucursal.ValorSeleccionado = Nothing
+        ' 
+        ' txtnControl
+        ' 
+        txtnControl.BackColor = Color.Transparent
+        txtnControl.CampoRequerido = True
+        txtnControl.CapitalizarTexto = True
+        txtnControl.CapitalizarTodasLasPalabras = True
+        txtnControl.ColorTitulo = Color.DarkSlateGray
+        txtnControl.Dock = DockStyle.Fill
+        txtnControl.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtnControl.IconoDerechoChar = FontAwesome.Sharp.IconChar.Hashtag
+        txtnControl.Location = New Point(577, 3)
+        txtnControl.MaxCaracteres = 0
+        txtnControl.MensajeError = "Campo requerido"
+        txtnControl.MinCaracteres = 0
+        txtnControl.Name = "txtnControl"
+        txtnControl.PaddingIzquierda = 8
+        txtnControl.PaddingIzquierdaIcono = 10
+        txtnControl.Placeholder = "Ingrese el número de control"
+        txtnControl.PlaceholderColor = Color.Gray
+        txtnControl.Size = New Size(569, 74)
+        txtnControl.TabIndex = 1
+        txtnControl.TextoLabel = "Número de Control:"
+        txtnControl.TextString = ""
+        txtnControl.ValidarComoCorreo = False
+        ' 
+        ' txtnFactura
+        ' 
+        txtnFactura.BackColor = Color.Transparent
+        txtnFactura.CampoRequerido = True
+        txtnFactura.CapitalizarTexto = True
+        txtnFactura.CapitalizarTodasLasPalabras = True
+        txtnFactura.ColorTitulo = Color.DarkSlateGray
+        txtnFactura.Dock = DockStyle.Fill
+        txtnFactura.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtnFactura.IconoDerechoChar = FontAwesome.Sharp.IconChar.Hashtag
+        txtnFactura.Location = New Point(3, 83)
+        txtnFactura.MaxCaracteres = 0
+        txtnFactura.MensajeError = "Campo requerido"
+        txtnFactura.MinCaracteres = 0
+        txtnFactura.Name = "txtnFactura"
+        txtnFactura.PaddingIzquierda = 8
+        txtnFactura.PaddingIzquierdaIcono = 10
+        txtnFactura.Placeholder = "Ingrese numero de factura"
+        txtnFactura.PlaceholderColor = Color.Gray
+        txtnFactura.Size = New Size(568, 74)
+        txtnFactura.TabIndex = 2
+        txtnFactura.TextoLabel = "Número de Factura:"
+        txtnFactura.TextString = ""
+        txtnFactura.ValidarComoCorreo = False
+        ' 
+        ' txtFechaEmision
+        ' 
+        txtFechaEmision.BackColor = Color.Transparent
+        txtFechaEmision.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaEmision.BorderRadius = 8
+        txtFechaEmision.BorderSize = 1
+        txtFechaEmision.CampoRequerido = True
+        txtFechaEmision.Dock = DockStyle.Fill
+        txtFechaEmision.FechaSeleccionada = New Date(2025, 10, 27, 8, 17, 44, 418)
+        txtFechaEmision.FontField = New Font("Century Gothic", 12F)
+        txtFechaEmision.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaEmision.IconoDerechoChar = FontAwesome.Sharp.IconChar.None
+        txtFechaEmision.LabelColor = Color.DarkSlateGray
+        txtFechaEmision.LabelText = "Fecha de emisión:"
+        txtFechaEmision.Location = New Point(577, 83)
+        txtFechaEmision.MensajeError = "Campo requerido"
+        txtFechaEmision.Name = "txtFechaEmision"
+        txtFechaEmision.PaddingAll = 10
+        txtFechaEmision.PanelBackColor = Color.White
+        txtFechaEmision.Size = New Size(569, 74)
+        txtFechaEmision.TabIndex = 3
+        txtFechaEmision.TextColor = Color.Black
+        txtFechaEmision.ValorFecha = New Date(2025, 10, 27, 8, 17, 44, 418)
+        ' 
+        ' txtRif
+        ' 
+        txtRif.BackColor = Color.Transparent
+        txtRif.CampoRequerido = False
+        txtRif.CapitalizarTexto = False
+        txtRif.CapitalizarTodasLasPalabras = False
+        txtRif.ColorTitulo = Color.DarkSlateGray
+        txtRif.Dock = DockStyle.Fill
+        txtRif.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtRif.IconoDerechoChar = FontAwesome.Sharp.IconChar.CirclePlus
+        txtRif.Location = New Point(577, 163)
+        txtRif.MaxCaracteres = 0
+        txtRif.MensajeError = "Este campo es requerido"
+        txtRif.MinCaracteres = 0
+        txtRif.Name = "txtRif"
+        txtRif.PaddingIzquierda = 8
+        txtRif.PaddingIzquierdaIcono = 10
+        txtRif.Placeholder = "Ingrese datos"
+        txtRif.PlaceholderColor = Color.Gray
+        txtRif.Size = New Size(569, 74)
+        txtRif.TabIndex = 5
+        txtRif.TextoLabel = "Número de Rif / C.I."
+        txtRif.TextString = ""
+        txtRif.ValidarComoCorreo = False
+        ' 
+        ' TextOnlyTextBoxLabelui4
+        ' 
+        TextOnlyTextBoxLabelui4.BackColor = Color.Transparent
+        TextOnlyTextBoxLabelui4.CampoRequerido = False
+        TextOnlyTextBoxLabelui4.CapitalizarTexto = False
+        TextOnlyTextBoxLabelui4.CapitalizarTodasLasPalabras = False
+        TextOnlyTextBoxLabelui4.ColorTitulo = Color.DarkSlateGray
+        TextOnlyTextBoxLabelui4.Dock = DockStyle.Fill
+        TextOnlyTextBoxLabelui4.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        TextOnlyTextBoxLabelui4.IconoDerechoChar = FontAwesome.Sharp.IconChar.Phone
+        TextOnlyTextBoxLabelui4.Location = New Point(3, 243)
+        TextOnlyTextBoxLabelui4.MaxCaracteres = 0
+        TextOnlyTextBoxLabelui4.MensajeError = "Este campo es requerido"
+        TextOnlyTextBoxLabelui4.MinCaracteres = 0
+        TextOnlyTextBoxLabelui4.Name = "TextOnlyTextBoxLabelui4"
+        TextOnlyTextBoxLabelui4.PaddingIzquierda = 8
+        TextOnlyTextBoxLabelui4.PaddingIzquierdaIcono = 10
+        TextOnlyTextBoxLabelui4.Placeholder = "Ingrese datos"
+        TextOnlyTextBoxLabelui4.PlaceholderColor = Color.Gray
+        TextOnlyTextBoxLabelui4.Size = New Size(568, 74)
+        TextOnlyTextBoxLabelui4.TabIndex = 6
+        TextOnlyTextBoxLabelui4.TextoLabel = "Número de Teléfono:"
+        TextOnlyTextBoxLabelui4.TextString = ""
+        TextOnlyTextBoxLabelui4.ValidarComoCorreo = False
+        ' 
+        ' cmbFormaPago
+        ' 
+        cmbFormaPago.BackColor = Color.Transparent
+        cmbFormaPago.CampoRequerido = False
+        cmbFormaPago.ColorTitulo = Color.DarkSlateGray
+        cmbFormaPago.Dock = DockStyle.Fill
+        cmbFormaPago.IndiceSeleccionado = -1
+        cmbFormaPago.Location = New Point(577, 243)
+        cmbFormaPago.MensajeError = "Este campo es requerido"
+        cmbFormaPago.Name = "cmbFormaPago"
+        cmbFormaPago.Placeholder = "Selecciones una Opcion..."
+        cmbFormaPago.PlaceholderColor = Color.Gray
+        cmbFormaPago.Size = New Size(569, 74)
+        cmbFormaPago.TabIndex = 7
+        cmbFormaPago.Texto = ""
+        cmbFormaPago.TextoLabel = "Forma de Pago:"
+        cmbFormaPago.ValorSeleccionado = Nothing
+        ' 
+        ' txtDomicilio
+        ' 
+        txtDomicilio.AlturaMultilinea = 70
+        txtDomicilio.BackColor = Color.Transparent
+        txtDomicilio.BorderColor = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        txtDomicilio.BorderRadius = 8
+        txtDomicilio.BorderSize = 1
+        txtDomicilio.CampoRequerido = True
+        txtDomicilio.CapitalizarTexto = True
+        txtDomicilio.CapitalizarTodasLasPalabras = False
+        txtDomicilio.ColorError = Color.Firebrick
+        txtDomicilio.Dock = DockStyle.Fill
+        txtDomicilio.FontField = New Font("Century Gothic", 12F)
+        txtDomicilio.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtDomicilio.IconoDerechoChar = FontAwesome.Sharp.IconChar.Building
+        txtDomicilio.LabelColor = Color.DarkSlateGray
+        txtDomicilio.LabelText = "Direción de Domicilio:"
+        txtDomicilio.Location = New Point(3, 323)
+        txtDomicilio.MensajeError = "Este campo es requerido"
+        txtDomicilio.Multilinea = True
+        txtDomicilio.Name = "txtDomicilio"
+        txtDomicilio.PaddingAll = 10
+        txtDomicilio.PanelBackColor = Color.White
+        txtDomicilio.Placeholder = "Introduzca la dirección de la domicilio..."
+        txtDomicilio.PlaceholderColor = Color.Gray
+        txtDomicilio.Size = New Size(568, 106)
+        txtDomicilio.TabIndex = 8
+        txtDomicilio.TextColor = Color.Black
+        txtDomicilio.TextoString = Nothing
+        txtDomicilio.TextString = ""
+        ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(Panel3)
+        Panel1.Controls.Add(Panel2)
+        Panel1.Dock = DockStyle.Fill
+        Panel1.Location = New Point(3, 163)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(568, 74)
+        Panel1.TabIndex = 10
+        ' 
+        ' Panel2
+        ' 
+        Panel2.Controls.Add(cmbProveedor)
+        Panel2.Dock = DockStyle.Left
+        Panel2.Location = New Point(0, 0)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(495, 74)
+        Panel2.TabIndex = 0
+        ' 
+        ' Panel3
+        ' 
+        Panel3.Controls.Add(btnCrearProveedor)
+        Panel3.Dock = DockStyle.Fill
+        Panel3.Location = New Point(495, 0)
+        Panel3.Name = "Panel3"
+        Panel3.Size = New Size(73, 74)
+        Panel3.TabIndex = 1
+        ' 
+        ' cmbProveedor
+        ' 
+        cmbProveedor.BackColor = Color.Transparent
+        cmbProveedor.CampoRequerido = True
+        cmbProveedor.ColorTitulo = Color.DarkSlateGray
+        cmbProveedor.Dock = DockStyle.Fill
+        cmbProveedor.IndiceSeleccionado = -1
+        cmbProveedor.Location = New Point(0, 0)
+        cmbProveedor.MensajeError = "Campo requerido"
+        cmbProveedor.Name = "cmbProveedor"
+        cmbProveedor.Placeholder = "Selecciones una Opcion..."
+        cmbProveedor.PlaceholderColor = Color.Gray
+        cmbProveedor.Size = New Size(495, 74)
+        cmbProveedor.TabIndex = 5
+        cmbProveedor.Texto = ""
+        cmbProveedor.TextoLabel = "Proveedor:"
+        cmbProveedor.ValorSeleccionado = Nothing
+        ' 
+        ' btnCrearProveedor
+        ' 
+        btnCrearProveedor.BackColor = Color.Transparent
+        btnCrearProveedor.Cursor = Cursors.Hand
+        btnCrearProveedor.Dock = DockStyle.Fill
+        btnCrearProveedor.FlatAppearance.BorderColor = Color.White
+        btnCrearProveedor.FlatAppearance.BorderSize = 0
+        btnCrearProveedor.FlatAppearance.MouseDownBackColor = Color.White
+        btnCrearProveedor.FlatAppearance.MouseOverBackColor = Color.White
+        btnCrearProveedor.FlatStyle = FlatStyle.Flat
+        btnCrearProveedor.IconChar = FontAwesome.Sharp.IconChar.PlusSquare
+        btnCrearProveedor.IconColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        btnCrearProveedor.IconFont = FontAwesome.Sharp.IconFont.Regular
+        btnCrearProveedor.IconSize = 45
+        btnCrearProveedor.Location = New Point(0, 0)
+        btnCrearProveedor.Name = "btnCrearProveedor"
+        btnCrearProveedor.Size = New Size(73, 74)
+        btnCrearProveedor.TabIndex = 0
+        btnCrearProveedor.TextImageRelation = TextImageRelation.ImageAboveText
+        btnCrearProveedor.UseVisualStyleBackColor = False
+        ' 
+        ' txtObservacion
+        ' 
+        txtObservacion.AlturaMultilinea = 70
+        txtObservacion.BackColor = Color.Transparent
+        txtObservacion.BorderColor = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        txtObservacion.BorderRadius = 8
+        txtObservacion.BorderSize = 1
+        txtObservacion.CampoRequerido = False
+        txtObservacion.CapitalizarTexto = True
+        txtObservacion.CapitalizarTodasLasPalabras = False
+        txtObservacion.ColorError = Color.Firebrick
+        txtObservacion.Dock = DockStyle.Fill
+        txtObservacion.FontField = New Font("Century Gothic", 12F)
+        txtObservacion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtObservacion.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
+        txtObservacion.LabelColor = Color.DarkSlateGray
+        txtObservacion.LabelText = "Observación:"
+        txtObservacion.Location = New Point(577, 323)
+        txtObservacion.MensajeError = "Este campo es requerido"
+        txtObservacion.Multilinea = True
+        txtObservacion.Name = "txtObservacion"
+        txtObservacion.PaddingAll = 10
+        txtObservacion.PanelBackColor = Color.White
+        txtObservacion.Placeholder = "Observación breve..."
+        txtObservacion.PlaceholderColor = Color.Gray
+        txtObservacion.Size = New Size(569, 106)
+        txtObservacion.TabIndex = 11
+        txtObservacion.TextColor = Color.Black
+        txtObservacion.TextoString = Nothing
+        txtObservacion.TextString = ""
+        ' 
         ' cDatosProveedor
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -304,35 +494,36 @@ Partial Class cDatosProveedor
         Controls.Add(Panelui1)
         Name = "cDatosProveedor"
         Size = New Size(1175, 567)
-        TableLayoutPanel4.ResumeLayout(False)
-        Panel3.ResumeLayout(False)
         tlpFooter.ResumeLayout(False)
         Panel5.ResumeLayout(False)
         Panel4.ResumeLayout(False)
-        TableLayoutPanel2.ResumeLayout(False)
-        TableLayoutPanel2.PerformLayout()
-        TableLayoutPanel3.ResumeLayout(False)
-        TableLayoutPanel3.PerformLayout()
         tlpContenido.ResumeLayout(False)
+        Panel1.ResumeLayout(False)
+        Panel2.ResumeLayout(False)
+        Panel3.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
-
-    Friend WithEvents Label1 As Label
-    Friend WithEvents TableLayoutPanel4 As TableLayoutPanel
-    Friend WithEvents Panel3 As Panel
-    Friend WithEvents btnGenerarCodigo As FontAwesome.Sharp.IconButton
     Friend WithEvents tlpFooter As TableLayoutPanel
     Friend WithEvents Panel5 As Panel
     Friend WithEvents btnSiguiente As CommandButtonUI
     Friend WithEvents CommandButtonui2 As CommandButtonUI
     Friend WithEvents Panel4 As Panel
     Friend WithEvents CommandButtonui1 As CommandButtonUI
-    Friend WithEvents pnlBtnIzquierdo As Panel
-    Friend WithEvents pnlBtnDerecho As Panel
-    Friend WithEvents TableLayoutPanel2 As TableLayoutPanel
-    Friend WithEvents Label2 As Label
-    Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents tlpContenido As TableLayoutPanel
     Friend WithEvents Panelui1 As PanelUI
+    Friend WithEvents cmbSucursal As ComboBoxLayoutUI
+    Friend WithEvents txtnControl As TextOnlyTextBoxLabelUI
+    Friend WithEvents txtnFactura As TextOnlyTextBoxLabelUI
+    Friend WithEvents txtFechaEmision As DatePickerProUI
+    Friend WithEvents txtRif As TextOnlyTextBoxLabelUI
+    Friend WithEvents TextOnlyTextBoxLabelui4 As TextOnlyTextBoxLabelUI
+    Friend WithEvents cmbFormaPago As ComboBoxLayoutUI
+    Friend WithEvents txtDomicilio As MultilineTextBoxLabelUI
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents btnCrearProveedor As FontAwesome.Sharp.IconButton
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents cmbProveedor As ComboBoxLayoutUI
+    Friend WithEvents txtObservacion As MultilineTextBoxLabelUI
 
 End Class
