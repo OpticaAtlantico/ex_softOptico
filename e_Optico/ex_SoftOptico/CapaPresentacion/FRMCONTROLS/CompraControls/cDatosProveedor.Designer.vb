@@ -38,6 +38,7 @@ Partial Class cDatosProveedor
         Label2 = New Label()
         TableLayoutPanel3 = New TableLayoutPanel()
         tlpContenido = New TableLayoutPanel()
+        Panelui1 = New PanelUI()
         TableLayoutPanel4.SuspendLayout()
         Panel3.SuspendLayout()
         tlpFooter.SuspendLayout()
@@ -113,7 +114,7 @@ Partial Class cDatosProveedor
         tlpFooter.Name = "tlpFooter"
         tlpFooter.RowCount = 1
         tlpFooter.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
-        tlpFooter.Size = New Size(1156, 66)
+        tlpFooter.Size = New Size(1175, 66)
         tlpFooter.TabIndex = 5
         ' 
         ' Panel5
@@ -121,9 +122,9 @@ Partial Class cDatosProveedor
         Panel5.Controls.Add(btnSiguiente)
         Panel5.Controls.Add(CommandButtonui2)
         Panel5.Dock = DockStyle.Fill
-        Panel5.Location = New Point(581, 3)
+        Panel5.Location = New Point(590, 3)
         Panel5.Name = "Panel5"
-        Panel5.Size = New Size(572, 60)
+        Panel5.Size = New Size(582, 60)
         Panel5.TabIndex = 15
         ' 
         ' btnSiguiente
@@ -139,7 +140,7 @@ Partial Class cDatosProveedor
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.CircleRight
-        btnSiguiente.Location = New Point(698, 8)
+        btnSiguiente.Location = New Point(708, 8)
         btnSiguiente.Name = "btnSiguiente"
         btnSiguiente.RadioBorde = 8
         btnSiguiente.Size = New Size(200, 44)
@@ -160,7 +161,7 @@ Partial Class cDatosProveedor
         CommandButtonui2.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         CommandButtonui2.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         CommandButtonui2.Icono = FontAwesome.Sharp.IconChar.CircleRight
-        CommandButtonui2.Location = New Point(1044, 8)
+        CommandButtonui2.Location = New Point(1054, 8)
         CommandButtonui2.Name = "CommandButtonui2"
         CommandButtonui2.RadioBorde = 8
         CommandButtonui2.Size = New Size(200, 44)
@@ -174,7 +175,7 @@ Partial Class cDatosProveedor
         Panel4.Dock = DockStyle.Fill
         Panel4.Location = New Point(3, 3)
         Panel4.Name = "Panel4"
-        Panel4.Size = New Size(572, 60)
+        Panel4.Size = New Size(581, 60)
         Panel4.TabIndex = 14
         ' 
         ' CommandButtonui1
@@ -190,7 +191,7 @@ Partial Class cDatosProveedor
         CommandButtonui1.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         CommandButtonui1.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         CommandButtonui1.Icono = FontAwesome.Sharp.IconChar.CircleRight
-        CommandButtonui1.Location = New Point(1044, 8)
+        CommandButtonui1.Location = New Point(1053, 8)
         CommandButtonui1.Name = "CommandButtonui1"
         CommandButtonui1.RadioBorde = 8
         CommandButtonui1.Size = New Size(200, 44)
@@ -256,6 +257,7 @@ Partial Class cDatosProveedor
         ' 
         ' tlpContenido
         ' 
+        tlpContenido.BackColor = Color.White
         tlpContenido.ColumnCount = 2
         tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
         tlpContenido.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 50F))
@@ -264,7 +266,7 @@ Partial Class cDatosProveedor
         tlpContenido.Controls.Add(pnlBtnDerecho, 1, 5)
         tlpContenido.Controls.Add(TableLayoutPanel2, 0, 3)
         tlpContenido.Controls.Add(TableLayoutPanel4, 0, 0)
-        tlpContenido.Location = New Point(4, 4)
+        tlpContenido.Location = New Point(11, 13)
         tlpContenido.Name = "tlpContenido"
         tlpContenido.RowCount = 6
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
@@ -276,6 +278,22 @@ Partial Class cDatosProveedor
         tlpContenido.Size = New Size(1149, 432)
         tlpContenido.TabIndex = 4
         ' 
+        ' Panelui1
+        ' 
+        Panelui1.BackColor = Color.Transparent
+        Panelui1.BackColorContenedor = Color.Transparent
+        Panelui1.BorderColor = Color.FromArgb(CByte(0), CByte(188), CByte(212))
+        Panelui1.BorderRadius = 20
+        Panelui1.BorderSize = 1
+        Panelui1.CardBackColor = Color.White
+        Panelui1.Estilo = PanelUI.EstiloCard.None
+        Panelui1.Location = New Point(4, 7)
+        Panelui1.Name = "Panelui1"
+        Panelui1.ShadowColor = Color.LightGray
+        Panelui1.Size = New Size(1168, 484)
+        Panelui1.TabIndex = 6
+        Panelui1.Texto = ""
+        ' 
         ' cDatosProveedor
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -283,8 +301,9 @@ Partial Class cDatosProveedor
         BackColor = Color.WhiteSmoke
         Controls.Add(tlpFooter)
         Controls.Add(tlpContenido)
+        Controls.Add(Panelui1)
         Name = "cDatosProveedor"
-        Size = New Size(1156, 567)
+        Size = New Size(1175, 567)
         TableLayoutPanel4.ResumeLayout(False)
         Panel3.ResumeLayout(False)
         tlpFooter.ResumeLayout(False)
@@ -314,5 +333,6 @@ Partial Class cDatosProveedor
     Friend WithEvents Label2 As Label
     Friend WithEvents TableLayoutPanel3 As TableLayoutPanel
     Friend WithEvents tlpContenido As TableLayoutPanel
+    Friend WithEvents Panelui1 As PanelUI
 
 End Class
