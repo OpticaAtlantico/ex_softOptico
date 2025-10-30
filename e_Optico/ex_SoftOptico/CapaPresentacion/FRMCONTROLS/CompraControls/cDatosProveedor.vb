@@ -4,16 +4,21 @@ Public Class cDatosProveedor
     Public Property TabPanelRef As TabPanelUI
     Public Sub New()
 
-        ' Esta llamada es exigida por el diseñador.
-        InitializeComponent()
+        Me.InitializeComponent()
+        Me.Dock = DockStyle.Fill
+        Me.AutoSize = False
+        Me.Margin = New Padding(0)
+        Me.Padding = New Padding(0)
+        Me.BackColor = Color.White
 
-        'dgvProveedor.Dock = DockStyle.Fill
-        'dgvProveedor.Inicializar()
+        AddHandler btnSiguiente.Click, Sub()
+                                           AvanzarEntrePestañas()
+                                       End Sub
 
-        '' Inicializar con lista vacía
-        'dgvProveedor.CargarDatos(New List(Of ProductoSeleccionado)())
-
-        'dgvProveedor.BringToFront()
-
+    End Sub
+    Private Sub AvanzarEntrePestañas()
+        If TabPanelRef IsNot Nothing Then
+            TabPanelRef.AvanzarPestaña()
+        End If
     End Sub
 End Class

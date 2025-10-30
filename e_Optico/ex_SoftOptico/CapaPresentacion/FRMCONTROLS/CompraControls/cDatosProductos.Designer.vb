@@ -22,35 +22,39 @@ Partial Class cDatosProductos
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Panelui1 = New PanelUI()
         tlpFooter = New TableLayoutPanel()
         Panel5 = New Panel()
         CommandButtonui3 = New CommandButtonUI()
         btnSiguiente = New CommandButtonUI()
         CommandButtonui2 = New CommandButtonUI()
         Panel4 = New Panel()
-        CommandButtonui1 = New CommandButtonUI()
         btnAnterior = New CommandButtonUI()
+        CommandButtonui1 = New CommandButtonUI()
+        Panel1 = New Panel()
+        PanelTituloui1 = New PanelTituloUI()
+        PanelTituloui2 = New PanelTituloUI()
+        Panel2 = New Panel()
+        Label1 = New Label()
+        Panel3 = New Panel()
+        Panel9 = New Panel()
+        IconButton4 = New FontAwesome.Sharp.IconButton()
+        Panel8 = New Panel()
+        IconButton3 = New FontAwesome.Sharp.IconButton()
+        Panel7 = New Panel()
+        IconButton2 = New FontAwesome.Sharp.IconButton()
+        Panel6 = New Panel()
+        IconButton1 = New FontAwesome.Sharp.IconButton()
+        Label2 = New Label()
         tlpFooter.SuspendLayout()
         Panel5.SuspendLayout()
         Panel4.SuspendLayout()
+        Panel2.SuspendLayout()
+        Panel3.SuspendLayout()
+        Panel9.SuspendLayout()
+        Panel8.SuspendLayout()
+        Panel7.SuspendLayout()
+        Panel6.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' Panelui1
-        ' 
-        Panelui1.BackColor = Color.Transparent
-        Panelui1.BackColorContenedor = Color.Transparent
-        Panelui1.BorderColor = Color.FromArgb(CByte(0), CByte(188), CByte(212))
-        Panelui1.BorderRadius = 20
-        Panelui1.BorderSize = 1
-        Panelui1.CardBackColor = Color.White
-        Panelui1.Estilo = PanelUI.EstiloCard.None
-        Panelui1.Location = New Point(3, 3)
-        Panelui1.Name = "Panelui1"
-        Panelui1.ShadowColor = Color.LightGray
-        Panelui1.Size = New Size(1174, 489)
-        Panelui1.TabIndex = 0
-        Panelui1.Texto = ""
         ' 
         ' tlpFooter
         ' 
@@ -152,6 +156,26 @@ Partial Class cDatosProductos
         Panel4.Size = New Size(584, 60)
         Panel4.TabIndex = 14
         ' 
+        ' btnAnterior
+        ' 
+        btnAnterior.AnimarHover = True
+        btnAnterior.BackColor = Color.Transparent
+        btnAnterior.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnAnterior.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
+        btnAnterior.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        btnAnterior.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
+        btnAnterior.ColorTexto = Color.WhiteSmoke
+        btnAnterior.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
+        btnAnterior.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        btnAnterior.Icono = FontAwesome.Sharp.IconChar.ArrowAltCircleLeft
+        btnAnterior.Location = New Point(8, 8)
+        btnAnterior.Name = "btnAnterior"
+        btnAnterior.RadioBorde = 8
+        btnAnterior.Size = New Size(200, 44)
+        btnAnterior.TabIndex = 3
+        btnAnterior.Text = "CommandButtonui1"
+        btnAnterior.Texto = "Anterior..."
+        ' 
         ' CommandButtonui1
         ' 
         CommandButtonui1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
@@ -173,42 +197,228 @@ Partial Class cDatosProductos
         CommandButtonui1.Text = "CommandButtonui1"
         CommandButtonui1.Texto = "Siguiente..."
         ' 
-        ' btnAnterior
+        ' Panel1
         ' 
-        btnAnterior.AnimarHover = True
-        btnAnterior.BackColor = Color.Transparent
-        btnAnterior.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        btnAnterior.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
-        btnAnterior.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        btnAnterior.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnAnterior.ColorTexto = Color.WhiteSmoke
-        btnAnterior.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        btnAnterior.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        btnAnterior.Icono = FontAwesome.Sharp.IconChar.ArrowAltCircleLeft
-        btnAnterior.Location = New Point(8, 8)
-        btnAnterior.Name = "btnAnterior"
-        btnAnterior.RadioBorde = 8
-        btnAnterior.Size = New Size(200, 44)
-        btnAnterior.TabIndex = 3
-        btnAnterior.Text = "CommandButtonui1"
-        btnAnterior.Texto = "Anterior..."
+        Panel1.BackColor = Color.White
+        Panel1.Location = New Point(9, 58)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(878, 422)
+        Panel1.TabIndex = 7
+        ' 
+        ' PanelTituloui1
+        ' 
+        PanelTituloui1.BackColor = Color.Transparent
+        PanelTituloui1.BackColorContenedor = Color.White
+        PanelTituloui1.BackColorTitulo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        PanelTituloui1.BorderColor = Color.LightGray
+        PanelTituloui1.BorderColorTitulo = Color.White
+        PanelTituloui1.BorderRadius = 20
+        PanelTituloui1.BorderSize = 1
+        PanelTituloui1.CardBackColor = Color.White
+        PanelTituloui1.Estilo = PanelTituloUI.EstiloCard.None
+        PanelTituloui1.Location = New Point(906, 3)
+        PanelTituloui1.Name = "PanelTituloui1"
+        PanelTituloui1.ShadowColor = Color.LightGray
+        PanelTituloui1.Size = New Size(266, 492)
+        PanelTituloui1.TabIndex = 8
+        PanelTituloui1.Texto = ""
+        ' 
+        ' PanelTituloui2
+        ' 
+        PanelTituloui2.BackColor = Color.Transparent
+        PanelTituloui2.BackColorContenedor = Color.White
+        PanelTituloui2.BackColorTitulo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        PanelTituloui2.BorderColor = Color.LightGray
+        PanelTituloui2.BorderColorTitulo = Color.White
+        PanelTituloui2.BorderRadius = 20
+        PanelTituloui2.BorderSize = 1
+        PanelTituloui2.CardBackColor = Color.White
+        PanelTituloui2.Estilo = PanelTituloUI.EstiloCard.None
+        PanelTituloui2.Location = New Point(3, 3)
+        PanelTituloui2.Name = "PanelTituloui2"
+        PanelTituloui2.ShadowColor = Color.LightGray
+        PanelTituloui2.Size = New Size(897, 492)
+        PanelTituloui2.TabIndex = 9
+        PanelTituloui2.Texto = ""
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = Color.FromArgb(CByte(0), CByte(40), CByte(74))
+        Panel2.Controls.Add(Label1)
+        Panel2.Location = New Point(913, 10)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(249, 36)
+        Panel2.TabIndex = 10
+        ' 
+        ' Label1
+        ' 
+        Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
+        Label1.Font = New Font("Segoe UI", 14F, FontStyle.Bold Or FontStyle.Italic)
+        Label1.ForeColor = Color.White
+        Label1.Location = New Point(14, 7)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(222, 20)
+        Label1.TabIndex = 0
+        Label1.Text = "Totales."
+        Label1.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' Panel3
+        ' 
+        Panel3.BackColor = Color.FromArgb(CByte(0), CByte(40), CByte(74))
+        Panel3.Controls.Add(Panel9)
+        Panel3.Controls.Add(Panel8)
+        Panel3.Controls.Add(Panel7)
+        Panel3.Controls.Add(Panel6)
+        Panel3.Controls.Add(Label2)
+        Panel3.Location = New Point(11, 10)
+        Panel3.Name = "Panel3"
+        Panel3.Size = New Size(876, 36)
+        Panel3.TabIndex = 11
+        ' 
+        ' Panel9
+        ' 
+        Panel9.Controls.Add(IconButton4)
+        Panel9.Location = New Point(122, 3)
+        Panel9.Name = "Panel9"
+        Panel9.Size = New Size(30, 30)
+        Panel9.TabIndex = 1
+        ' 
+        ' IconButton4
+        ' 
+        IconButton4.Cursor = Cursors.Hand
+        IconButton4.Dock = DockStyle.Fill
+        IconButton4.FlatAppearance.BorderSize = 0
+        IconButton4.FlatAppearance.MouseDownBackColor = Color.Silver
+        IconButton4.FlatAppearance.MouseOverBackColor = Color.Lavender
+        IconButton4.FlatStyle = FlatStyle.Flat
+        IconButton4.IconChar = FontAwesome.Sharp.IconChar.NodeJs
+        IconButton4.IconColor = Color.White
+        IconButton4.IconFont = FontAwesome.Sharp.IconFont.Auto
+        IconButton4.IconSize = 28
+        IconButton4.Location = New Point(0, 0)
+        IconButton4.Name = "IconButton4"
+        IconButton4.Size = New Size(30, 30)
+        IconButton4.TabIndex = 1
+        IconButton4.TextImageRelation = TextImageRelation.ImageAboveText
+        IconButton4.UseVisualStyleBackColor = True
+        ' 
+        ' Panel8
+        ' 
+        Panel8.Controls.Add(IconButton3)
+        Panel8.Location = New Point(86, 3)
+        Panel8.Name = "Panel8"
+        Panel8.Size = New Size(30, 30)
+        Panel8.TabIndex = 1
+        ' 
+        ' IconButton3
+        ' 
+        IconButton3.Cursor = Cursors.Hand
+        IconButton3.Dock = DockStyle.Fill
+        IconButton3.FlatAppearance.BorderSize = 0
+        IconButton3.FlatAppearance.MouseDownBackColor = Color.Silver
+        IconButton3.FlatAppearance.MouseOverBackColor = Color.Lavender
+        IconButton3.FlatStyle = FlatStyle.Flat
+        IconButton3.IconChar = FontAwesome.Sharp.IconChar.NodeJs
+        IconButton3.IconColor = Color.White
+        IconButton3.IconFont = FontAwesome.Sharp.IconFont.Auto
+        IconButton3.IconSize = 28
+        IconButton3.Location = New Point(0, 0)
+        IconButton3.Name = "IconButton3"
+        IconButton3.Size = New Size(30, 30)
+        IconButton3.TabIndex = 1
+        IconButton3.TextImageRelation = TextImageRelation.ImageAboveText
+        IconButton3.UseVisualStyleBackColor = True
+        ' 
+        ' Panel7
+        ' 
+        Panel7.Controls.Add(IconButton2)
+        Panel7.Location = New Point(50, 3)
+        Panel7.Name = "Panel7"
+        Panel7.Size = New Size(30, 30)
+        Panel7.TabIndex = 1
+        ' 
+        ' IconButton2
+        ' 
+        IconButton2.Cursor = Cursors.Hand
+        IconButton2.Dock = DockStyle.Fill
+        IconButton2.FlatAppearance.BorderSize = 0
+        IconButton2.FlatAppearance.MouseDownBackColor = Color.Silver
+        IconButton2.FlatAppearance.MouseOverBackColor = Color.Lavender
+        IconButton2.FlatStyle = FlatStyle.Flat
+        IconButton2.IconChar = FontAwesome.Sharp.IconChar.NodeJs
+        IconButton2.IconColor = Color.White
+        IconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto
+        IconButton2.IconSize = 28
+        IconButton2.Location = New Point(0, 0)
+        IconButton2.Name = "IconButton2"
+        IconButton2.Size = New Size(30, 30)
+        IconButton2.TabIndex = 1
+        IconButton2.TextImageRelation = TextImageRelation.ImageAboveText
+        IconButton2.UseVisualStyleBackColor = True
+        ' 
+        ' Panel6
+        ' 
+        Panel6.Controls.Add(IconButton1)
+        Panel6.Location = New Point(14, 3)
+        Panel6.Name = "Panel6"
+        Panel6.Size = New Size(30, 30)
+        Panel6.TabIndex = 1
+        ' 
+        ' IconButton1
+        ' 
+        IconButton1.Cursor = Cursors.Hand
+        IconButton1.Dock = DockStyle.Fill
+        IconButton1.FlatAppearance.BorderSize = 0
+        IconButton1.FlatAppearance.MouseDownBackColor = Color.Silver
+        IconButton1.FlatAppearance.MouseOverBackColor = Color.Lavender
+        IconButton1.FlatStyle = FlatStyle.Flat
+        IconButton1.IconChar = FontAwesome.Sharp.IconChar.NodeJs
+        IconButton1.IconColor = Color.White
+        IconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto
+        IconButton1.IconSize = 28
+        IconButton1.Location = New Point(0, 0)
+        IconButton1.Name = "IconButton1"
+        IconButton1.Size = New Size(30, 30)
+        IconButton1.TabIndex = 0
+        IconButton1.TextImageRelation = TextImageRelation.ImageAboveText
+        IconButton1.UseVisualStyleBackColor = True
+        ' 
+        ' Label2
+        ' 
+        Label2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
+        Label2.Font = New Font("Segoe UI", 14F, FontStyle.Bold Or FontStyle.Italic)
+        Label2.ForeColor = Color.White
+        Label2.Location = New Point(14, 7)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(222, 0)
+        Label2.TabIndex = 0
+        Label2.Text = "Totales."
+        Label2.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' cDatosProductos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.White
+        BackColor = Color.WhiteSmoke
+        Controls.Add(Panel3)
+        Controls.Add(Panel2)
+        Controls.Add(Panel1)
+        Controls.Add(PanelTituloui2)
+        Controls.Add(PanelTituloui1)
         Controls.Add(tlpFooter)
-        Controls.Add(Panelui1)
         Name = "cDatosProductos"
         Size = New Size(1180, 564)
         tlpFooter.ResumeLayout(False)
         Panel5.ResumeLayout(False)
         Panel4.ResumeLayout(False)
+        Panel2.ResumeLayout(False)
+        Panel3.ResumeLayout(False)
+        Panel9.ResumeLayout(False)
+        Panel8.ResumeLayout(False)
+        Panel7.ResumeLayout(False)
+        Panel6.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
-
-    Friend WithEvents Panelui1 As PanelUI
     Friend WithEvents tlpFooter As TableLayoutPanel
     Friend WithEvents Panel5 As Panel
     Friend WithEvents CommandButtonui3 As CommandButtonUI
@@ -217,5 +427,20 @@ Partial Class cDatosProductos
     Friend WithEvents Panel4 As Panel
     Friend WithEvents CommandButtonui1 As CommandButtonUI
     Friend WithEvents btnAnterior As CommandButtonUI
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents PanelTituloui1 As PanelTituloUI
+    Friend WithEvents PanelTituloui2 As PanelTituloUI
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Panel7 As Panel
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents Panel9 As Panel
+    Friend WithEvents Panel8 As Panel
+    Friend WithEvents IconButton1 As FontAwesome.Sharp.IconButton
+    Friend WithEvents IconButton4 As FontAwesome.Sharp.IconButton
+    Friend WithEvents IconButton3 As FontAwesome.Sharp.IconButton
+    Friend WithEvents IconButton2 As FontAwesome.Sharp.IconButton
 
 End Class

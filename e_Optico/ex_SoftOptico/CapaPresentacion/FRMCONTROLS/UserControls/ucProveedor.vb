@@ -18,4 +18,5 @@ Public Class ucProveedor
 
     End Sub
 
+
 End Class

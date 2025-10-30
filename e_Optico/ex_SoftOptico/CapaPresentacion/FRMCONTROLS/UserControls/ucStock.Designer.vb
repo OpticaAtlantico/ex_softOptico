@@ -23,6 +23,10 @@ Partial Class ucStock
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         tlpContenido = New TableLayoutPanel()
+        MaskedTextBoxLabelui3 = New MaskedTextBoxLabelUI()
+        MaskedTextBoxLabelui2 = New MaskedTextBoxLabelUI()
+        MaskedTextBoxLabelui1 = New MaskedTextBoxLabelUI()
+        txtCedula = New MaskedTextBoxLabelUI()
         TableLayoutPanel3 = New TableLayoutPanel()
         Panel2 = New Panel()
         optActivoNo = New OptionButtonLabelUI()
@@ -43,10 +47,6 @@ Partial Class ucStock
         Panel4 = New Panel()
         btnAnterior = New CommandButtonUI()
         pnlIzquierdo = New Panel()
-        txtCedula = New MaskedTextBoxLabelUI()
-        MaskedTextBoxLabelui1 = New MaskedTextBoxLabelUI()
-        MaskedTextBoxLabelui2 = New MaskedTextBoxLabelUI()
-        MaskedTextBoxLabelui3 = New MaskedTextBoxLabelUI()
         tlpContenido.SuspendLayout()
         TableLayoutPanel3.SuspendLayout()
         Panel2.SuspendLayout()
@@ -83,6 +83,122 @@ Partial Class ucStock
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 50F))
         tlpContenido.Size = New Size(778, 432)
         tlpContenido.TabIndex = 0
+        ' 
+        ' MaskedTextBoxLabelui3
+        ' 
+        MaskedTextBoxLabelui3.BackColor = Color.Transparent
+        MaskedTextBoxLabelui3.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui3.BorderRadius = 8
+        MaskedTextBoxLabelui3.BorderSize = 1
+        MaskedTextBoxLabelui3.CampoRequerido = True
+        MaskedTextBoxLabelui3.ColorError = Color.Firebrick
+        MaskedTextBoxLabelui3.FocusColor = Color.Orange
+        MaskedTextBoxLabelui3.FontField = New Font("Century Gothic", 12F)
+        MaskedTextBoxLabelui3.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui3.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        MaskedTextBoxLabelui3.LabelColor = Color.DarkSlateGray
+        MaskedTextBoxLabelui3.LabelText = "Precio de % Descuento:"
+        MaskedTextBoxLabelui3.Location = New Point(392, 83)
+        MaskedTextBoxLabelui3.MascaraPersonalizada = ""
+        MaskedTextBoxLabelui3.MaxCaracteres = 8
+        MaskedTextBoxLabelui3.MensajeError = "Este campo es obligatorio."
+        MaskedTextBoxLabelui3.Name = "MaskedTextBoxLabelui3"
+        MaskedTextBoxLabelui3.PaddingAll = 10
+        MaskedTextBoxLabelui3.PanelBackColor = Color.White
+        MaskedTextBoxLabelui3.SelectionStart = 0
+        MaskedTextBoxLabelui3.Size = New Size(380, 74)
+        MaskedTextBoxLabelui3.SombraBackColor = Color.LightGray
+        MaskedTextBoxLabelui3.TabIndex = 40
+        MaskedTextBoxLabelui3.TextColor = Color.Black
+        MaskedTextBoxLabelui3.TextoUsuario = ""
+        MaskedTextBoxLabelui3.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
+        ' 
+        ' MaskedTextBoxLabelui2
+        ' 
+        MaskedTextBoxLabelui2.BackColor = Color.Transparent
+        MaskedTextBoxLabelui2.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui2.BorderRadius = 8
+        MaskedTextBoxLabelui2.BorderSize = 1
+        MaskedTextBoxLabelui2.CampoRequerido = True
+        MaskedTextBoxLabelui2.ColorError = Color.Firebrick
+        MaskedTextBoxLabelui2.FocusColor = Color.Orange
+        MaskedTextBoxLabelui2.FontField = New Font("Century Gothic", 12F)
+        MaskedTextBoxLabelui2.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui2.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        MaskedTextBoxLabelui2.LabelColor = Color.DarkSlateGray
+        MaskedTextBoxLabelui2.LabelText = "Precio de Promosión:"
+        MaskedTextBoxLabelui2.Location = New Point(3, 83)
+        MaskedTextBoxLabelui2.MascaraPersonalizada = ""
+        MaskedTextBoxLabelui2.MaxCaracteres = 8
+        MaskedTextBoxLabelui2.MensajeError = "Este campo es obligatorio."
+        MaskedTextBoxLabelui2.Name = "MaskedTextBoxLabelui2"
+        MaskedTextBoxLabelui2.PaddingAll = 10
+        MaskedTextBoxLabelui2.PanelBackColor = Color.White
+        MaskedTextBoxLabelui2.SelectionStart = 0
+        MaskedTextBoxLabelui2.Size = New Size(380, 74)
+        MaskedTextBoxLabelui2.SombraBackColor = Color.LightGray
+        MaskedTextBoxLabelui2.TabIndex = 39
+        MaskedTextBoxLabelui2.TextColor = Color.Black
+        MaskedTextBoxLabelui2.TextoUsuario = ""
+        MaskedTextBoxLabelui2.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
+        ' 
+        ' MaskedTextBoxLabelui1
+        ' 
+        MaskedTextBoxLabelui1.BackColor = Color.Transparent
+        MaskedTextBoxLabelui1.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui1.BorderRadius = 8
+        MaskedTextBoxLabelui1.BorderSize = 1
+        MaskedTextBoxLabelui1.CampoRequerido = True
+        MaskedTextBoxLabelui1.ColorError = Color.Firebrick
+        MaskedTextBoxLabelui1.FocusColor = Color.Orange
+        MaskedTextBoxLabelui1.FontField = New Font("Century Gothic", 12F)
+        MaskedTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        MaskedTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        MaskedTextBoxLabelui1.LabelColor = Color.DarkSlateGray
+        MaskedTextBoxLabelui1.LabelText = "Precio de Costo:"
+        MaskedTextBoxLabelui1.Location = New Point(392, 3)
+        MaskedTextBoxLabelui1.MascaraPersonalizada = ""
+        MaskedTextBoxLabelui1.MaxCaracteres = 8
+        MaskedTextBoxLabelui1.MensajeError = "Este campo es obligatorio."
+        MaskedTextBoxLabelui1.Name = "MaskedTextBoxLabelui1"
+        MaskedTextBoxLabelui1.PaddingAll = 10
+        MaskedTextBoxLabelui1.PanelBackColor = Color.White
+        MaskedTextBoxLabelui1.SelectionStart = 0
+        MaskedTextBoxLabelui1.Size = New Size(380, 74)
+        MaskedTextBoxLabelui1.SombraBackColor = Color.LightGray
+        MaskedTextBoxLabelui1.TabIndex = 38
+        MaskedTextBoxLabelui1.TextColor = Color.Black
+        MaskedTextBoxLabelui1.TextoUsuario = ""
+        MaskedTextBoxLabelui1.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
+        ' 
+        ' txtCedula
+        ' 
+        txtCedula.BackColor = Color.Transparent
+        txtCedula.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCedula.BorderRadius = 8
+        txtCedula.BorderSize = 1
+        txtCedula.CampoRequerido = True
+        txtCedula.ColorError = Color.Firebrick
+        txtCedula.FocusColor = Color.Orange
+        txtCedula.FontField = New Font("Century Gothic", 12F)
+        txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
+        txtCedula.LabelColor = Color.DarkSlateGray
+        txtCedula.LabelText = "Precio de Venta al Público:"
+        txtCedula.Location = New Point(3, 3)
+        txtCedula.MascaraPersonalizada = ""
+        txtCedula.MaxCaracteres = 8
+        txtCedula.MensajeError = "Este campo es obligatorio."
+        txtCedula.Name = "txtCedula"
+        txtCedula.PaddingAll = 10
+        txtCedula.PanelBackColor = Color.White
+        txtCedula.SelectionStart = 0
+        txtCedula.Size = New Size(380, 74)
+        txtCedula.SombraBackColor = Color.LightGray
+        txtCedula.TabIndex = 37
+        txtCedula.TextColor = Color.Black
+        txtCedula.TextoUsuario = ""
+        txtCedula.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
         ' 
         ' TableLayoutPanel3
         ' 
@@ -304,7 +420,7 @@ Partial Class ucStock
         btnAnterior.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
         btnAnterior.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
         btnAnterior.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnAnterior.ColorTexto = Color.White
+        btnAnterior.ColorTexto = Color.WhiteSmoke
         btnAnterior.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnAnterior.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAnterior.Icono = FontAwesome.Sharp.IconChar.ArrowAltCircleLeft
@@ -325,118 +441,6 @@ Partial Class ucStock
         pnlIzquierdo.Name = "pnlIzquierdo"
         pnlIzquierdo.Size = New Size(285, 453)
         pnlIzquierdo.TabIndex = 3
-        ' 
-        ' txtCedula
-        ' 
-        txtCedula.BackColor = Color.Transparent
-        txtCedula.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCedula.BorderRadius = 8
-        txtCedula.BorderSize = 1
-        txtCedula.CampoRequerido = True
-        txtCedula.ColorError = Color.Firebrick
-        txtCedula.FontField = New Font("Century Gothic", 12F)
-        txtCedula.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtCedula.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        txtCedula.LabelColor = Color.DarkSlateGray
-        txtCedula.LabelText = "Precio de Venta al Público:"
-        txtCedula.Location = New Point(3, 3)
-        txtCedula.MascaraPersonalizada = ""
-        txtCedula.MaxCaracteres = 8
-        txtCedula.MensajeError = "Este campo es obligatorio."
-        txtCedula.Name = "txtCedula"
-        txtCedula.PaddingAll = 10
-        txtCedula.PanelBackColor = Color.White
-        txtCedula.SelectionStart = 0
-        txtCedula.Size = New Size(380, 74)
-        txtCedula.SombraBackColor = Color.LightGray
-        txtCedula.TabIndex = 37
-        txtCedula.TextColor = Color.Black
-        txtCedula.TextoUsuario = ""
-        txtCedula.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
-        ' 
-        ' MaskedTextBoxLabelui1
-        ' 
-        MaskedTextBoxLabelui1.BackColor = Color.Transparent
-        MaskedTextBoxLabelui1.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui1.BorderRadius = 8
-        MaskedTextBoxLabelui1.BorderSize = 1
-        MaskedTextBoxLabelui1.CampoRequerido = True
-        MaskedTextBoxLabelui1.ColorError = Color.Firebrick
-        MaskedTextBoxLabelui1.FontField = New Font("Century Gothic", 12F)
-        MaskedTextBoxLabelui1.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui1.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        MaskedTextBoxLabelui1.LabelColor = Color.DarkSlateGray
-        MaskedTextBoxLabelui1.LabelText = "Precio de Costo:"
-        MaskedTextBoxLabelui1.Location = New Point(392, 3)
-        MaskedTextBoxLabelui1.MascaraPersonalizada = ""
-        MaskedTextBoxLabelui1.MaxCaracteres = 8
-        MaskedTextBoxLabelui1.MensajeError = "Este campo es obligatorio."
-        MaskedTextBoxLabelui1.Name = "MaskedTextBoxLabelui1"
-        MaskedTextBoxLabelui1.PaddingAll = 10
-        MaskedTextBoxLabelui1.PanelBackColor = Color.White
-        MaskedTextBoxLabelui1.SelectionStart = 0
-        MaskedTextBoxLabelui1.Size = New Size(380, 74)
-        MaskedTextBoxLabelui1.SombraBackColor = Color.LightGray
-        MaskedTextBoxLabelui1.TabIndex = 38
-        MaskedTextBoxLabelui1.TextColor = Color.Black
-        MaskedTextBoxLabelui1.TextoUsuario = ""
-        MaskedTextBoxLabelui1.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
-        ' 
-        ' MaskedTextBoxLabelui2
-        ' 
-        MaskedTextBoxLabelui2.BackColor = Color.Transparent
-        MaskedTextBoxLabelui2.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui2.BorderRadius = 8
-        MaskedTextBoxLabelui2.BorderSize = 1
-        MaskedTextBoxLabelui2.CampoRequerido = True
-        MaskedTextBoxLabelui2.ColorError = Color.Firebrick
-        MaskedTextBoxLabelui2.FontField = New Font("Century Gothic", 12F)
-        MaskedTextBoxLabelui2.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui2.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        MaskedTextBoxLabelui2.LabelColor = Color.DarkSlateGray
-        MaskedTextBoxLabelui2.LabelText = "Precio de Promosión:"
-        MaskedTextBoxLabelui2.Location = New Point(3, 83)
-        MaskedTextBoxLabelui2.MascaraPersonalizada = ""
-        MaskedTextBoxLabelui2.MaxCaracteres = 8
-        MaskedTextBoxLabelui2.MensajeError = "Este campo es obligatorio."
-        MaskedTextBoxLabelui2.Name = "MaskedTextBoxLabelui2"
-        MaskedTextBoxLabelui2.PaddingAll = 10
-        MaskedTextBoxLabelui2.PanelBackColor = Color.White
-        MaskedTextBoxLabelui2.SelectionStart = 0
-        MaskedTextBoxLabelui2.Size = New Size(380, 74)
-        MaskedTextBoxLabelui2.SombraBackColor = Color.LightGray
-        MaskedTextBoxLabelui2.TabIndex = 39
-        MaskedTextBoxLabelui2.TextColor = Color.Black
-        MaskedTextBoxLabelui2.TextoUsuario = ""
-        MaskedTextBoxLabelui2.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
-        ' 
-        ' MaskedTextBoxLabelui3
-        ' 
-        MaskedTextBoxLabelui3.BackColor = Color.Transparent
-        MaskedTextBoxLabelui3.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui3.BorderRadius = 8
-        MaskedTextBoxLabelui3.BorderSize = 1
-        MaskedTextBoxLabelui3.CampoRequerido = True
-        MaskedTextBoxLabelui3.ColorError = Color.Firebrick
-        MaskedTextBoxLabelui3.FontField = New Font("Century Gothic", 12F)
-        MaskedTextBoxLabelui3.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        MaskedTextBoxLabelui3.IconoDerechoChar = FontAwesome.Sharp.IconChar.Vcard
-        MaskedTextBoxLabelui3.LabelColor = Color.DarkSlateGray
-        MaskedTextBoxLabelui3.LabelText = "Precio de % Descuento:"
-        MaskedTextBoxLabelui3.Location = New Point(392, 83)
-        MaskedTextBoxLabelui3.MascaraPersonalizada = ""
-        MaskedTextBoxLabelui3.MaxCaracteres = 8
-        MaskedTextBoxLabelui3.MensajeError = "Este campo es obligatorio."
-        MaskedTextBoxLabelui3.Name = "MaskedTextBoxLabelui3"
-        MaskedTextBoxLabelui3.PaddingAll = 10
-        MaskedTextBoxLabelui3.PanelBackColor = Color.White
-        MaskedTextBoxLabelui3.SelectionStart = 0
-        MaskedTextBoxLabelui3.Size = New Size(380, 74)
-        MaskedTextBoxLabelui3.SombraBackColor = Color.LightGray
-        MaskedTextBoxLabelui3.TabIndex = 40
-        MaskedTextBoxLabelui3.TextColor = Color.Black
-        MaskedTextBoxLabelui3.TextoUsuario = ""
-        MaskedTextBoxLabelui3.TipoNumerico = MaskedTextBoxLabelUI.TipoEntradaNumerica.Entero
         ' 
         ' ucStock
         ' 

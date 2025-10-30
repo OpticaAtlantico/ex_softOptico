@@ -441,7 +441,7 @@ Partial Class ucPrecios
         btnSiguiente.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
         btnSiguiente.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
         btnSiguiente.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnSiguiente.ColorTexto = Color.White
+        btnSiguiente.ColorTexto = Color.WhiteSmoke
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.CircleRight
@@ -470,7 +470,7 @@ Partial Class ucPrecios
         btnAnterior.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
         btnAnterior.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
         btnAnterior.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        btnAnterior.ColorTexto = Color.White
+        btnAnterior.ColorTexto = Color.WhiteSmoke
         btnAnterior.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnAnterior.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnAnterior.Icono = FontAwesome.Sharp.IconChar.ArrowAltCircleLeft

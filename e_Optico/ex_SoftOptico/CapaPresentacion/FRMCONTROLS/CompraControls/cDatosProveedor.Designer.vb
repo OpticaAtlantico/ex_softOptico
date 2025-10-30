@@ -44,7 +44,6 @@ Partial Class cDatosProveedor
         Panel2 = New Panel()
         cmbProveedor = New ComboBoxLayoutUI()
         Panelui1 = New PanelUI()
-        CommandButtonui3 = New CommandButtonUI()
         tlpFooter.SuspendLayout()
         Panel5.SuspendLayout()
         Panel4.SuspendLayout()
@@ -72,7 +71,6 @@ Partial Class cDatosProveedor
         ' 
         ' Panel5
         ' 
-        Panel5.Controls.Add(CommandButtonui3)
         Panel5.Controls.Add(btnSiguiente)
         Panel5.Controls.Add(CommandButtonui2)
         Panel5.Dock = DockStyle.Fill
@@ -94,12 +92,11 @@ Partial Class cDatosProveedor
         btnSiguiente.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
         btnSiguiente.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
         btnSiguiente.Icono = FontAwesome.Sharp.IconChar.CircleRight
-        btnSiguiente.Location = New Point(708, 8)
+        btnSiguiente.Location = New Point(367, 8)
         btnSiguiente.Name = "btnSiguiente"
         btnSiguiente.RadioBorde = 8
         btnSiguiente.Size = New Size(200, 44)
-        btnSiguiente.TabIndex = 2
-        btnSiguiente.Text = "CommandButtonui1"
+        btnSiguiente.TabIndex = 3
         btnSiguiente.Texto = "Siguiente..."
         ' 
         ' CommandButtonui2
@@ -177,7 +174,6 @@ Partial Class cDatosProveedor
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 50F))
-        tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
         tlpContenido.Size = New Size(1149, 463)
         tlpContenido.TabIndex = 4
         ' 
@@ -486,27 +482,6 @@ Partial Class cDatosProveedor
         Panelui1.TabIndex = 6
         Panelui1.Texto = ""
         ' 
-        ' CommandButtonui3
-        ' 
-        CommandButtonui3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        CommandButtonui3.AnimarHover = True
-        CommandButtonui3.BackColor = Color.Transparent
-        CommandButtonui3.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        CommandButtonui3.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
-        CommandButtonui3.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        CommandButtonui3.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
-        CommandButtonui3.ColorTexto = Color.WhiteSmoke
-        CommandButtonui3.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
-        CommandButtonui3.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        CommandButtonui3.Icono = FontAwesome.Sharp.IconChar.CircleRight
-        CommandButtonui3.Location = New Point(367, 8)
-        CommandButtonui3.Name = "CommandButtonui3"
-        CommandButtonui3.RadioBorde = 8
-        CommandButtonui3.Size = New Size(200, 44)
-        CommandButtonui3.TabIndex = 3
-        CommandButtonui3.Text = "CommandButtonui1"
-        CommandButtonui3.Texto = "Siguiente..."
-        ' 
         ' cDatosProveedor
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -548,6 +523,5 @@ Partial Class cDatosProveedor
     Friend WithEvents Panel2 As Panel
     Friend WithEvents cmbProveedor As ComboBoxLayoutUI
     Friend WithEvents txtObservacion As MultilineTextBoxLabelUI
-    Friend WithEvents CommandButtonui3 As CommandButtonUI
 
 End Class
