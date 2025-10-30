@@ -29,7 +29,7 @@ Partial Class cDatosProveedor
         Panel4 = New Panel()
         CommandButtonui1 = New CommandButtonUI()
         tlpContenido = New TableLayoutPanel()
-        Panelui1 = New PanelUI()
+        txtObservacion = New MultilineTextBoxLabelUI()
         cmbSucursal = New ComboBoxLayoutUI()
         txtnControl = New TextOnlyTextBoxLabelUI()
         txtnFactura = New TextOnlyTextBoxLabelUI()
@@ -39,18 +39,19 @@ Partial Class cDatosProveedor
         cmbFormaPago = New ComboBoxLayoutUI()
         txtDomicilio = New MultilineTextBoxLabelUI()
         Panel1 = New Panel()
-        Panel2 = New Panel()
         Panel3 = New Panel()
-        cmbProveedor = New ComboBoxLayoutUI()
         btnCrearProveedor = New FontAwesome.Sharp.IconButton()
-        txtObservacion = New MultilineTextBoxLabelUI()
+        Panel2 = New Panel()
+        cmbProveedor = New ComboBoxLayoutUI()
+        Panelui1 = New PanelUI()
+        CommandButtonui3 = New CommandButtonUI()
         tlpFooter.SuspendLayout()
         Panel5.SuspendLayout()
         Panel4.SuspendLayout()
         tlpContenido.SuspendLayout()
         Panel1.SuspendLayout()
-        Panel2.SuspendLayout()
         Panel3.SuspendLayout()
+        Panel2.SuspendLayout()
         SuspendLayout()
         ' 
         ' tlpFooter
@@ -71,6 +72,7 @@ Partial Class cDatosProveedor
         ' 
         ' Panel5
         ' 
+        Panel5.Controls.Add(CommandButtonui3)
         Panel5.Controls.Add(btnSiguiente)
         Panel5.Controls.Add(CommandButtonui2)
         Panel5.Dock = DockStyle.Fill
@@ -176,24 +178,39 @@ Partial Class cDatosProveedor
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 80F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 50F))
         tlpContenido.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
-        tlpContenido.Size = New Size(1149, 432)
+        tlpContenido.Size = New Size(1149, 463)
         tlpContenido.TabIndex = 4
         ' 
-        ' Panelui1
+        ' txtObservacion
         ' 
-        Panelui1.BackColor = Color.Transparent
-        Panelui1.BackColorContenedor = Color.Transparent
-        Panelui1.BorderColor = Color.FromArgb(CByte(0), CByte(188), CByte(212))
-        Panelui1.BorderRadius = 20
-        Panelui1.BorderSize = 1
-        Panelui1.CardBackColor = Color.White
-        Panelui1.Estilo = PanelUI.EstiloCard.None
-        Panelui1.Location = New Point(4, 7)
-        Panelui1.Name = "Panelui1"
-        Panelui1.ShadowColor = Color.LightGray
-        Panelui1.Size = New Size(1168, 484)
-        Panelui1.TabIndex = 6
-        Panelui1.Texto = ""
+        txtObservacion.AlturaMultilinea = 70
+        txtObservacion.BackColor = Color.Transparent
+        txtObservacion.BorderColor = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        txtObservacion.BorderRadius = 8
+        txtObservacion.BorderSize = 1
+        txtObservacion.CampoRequerido = False
+        txtObservacion.CapitalizarTexto = True
+        txtObservacion.CapitalizarTodasLasPalabras = False
+        txtObservacion.ColorError = Color.Firebrick
+        txtObservacion.Dock = DockStyle.Fill
+        txtObservacion.FontField = New Font("Century Gothic", 12F)
+        txtObservacion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtObservacion.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
+        txtObservacion.LabelColor = Color.DarkSlateGray
+        txtObservacion.LabelText = "Observación:"
+        txtObservacion.Location = New Point(577, 323)
+        txtObservacion.MensajeError = "Este campo es requerido"
+        txtObservacion.Multilinea = True
+        txtObservacion.Name = "txtObservacion"
+        txtObservacion.PaddingAll = 10
+        txtObservacion.PanelBackColor = Color.White
+        txtObservacion.Placeholder = "Observación breve..."
+        txtObservacion.PlaceholderColor = Color.Gray
+        txtObservacion.Size = New Size(569, 137)
+        txtObservacion.TabIndex = 11
+        txtObservacion.TextColor = Color.Black
+        txtObservacion.TextoString = Nothing
+        txtObservacion.TextString = ""
         ' 
         ' cmbSucursal
         ' 
@@ -266,12 +283,12 @@ Partial Class cDatosProveedor
         ' txtFechaEmision
         ' 
         txtFechaEmision.BackColor = Color.Transparent
-        txtFechaEmision.BorderColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
+        txtFechaEmision.BorderColor = Color.FromArgb(CByte(76), CByte(175), CByte(80))
         txtFechaEmision.BorderRadius = 8
         txtFechaEmision.BorderSize = 1
         txtFechaEmision.CampoRequerido = True
         txtFechaEmision.Dock = DockStyle.Fill
-        txtFechaEmision.FechaSeleccionada = New Date(2025, 10, 27, 8, 17, 44, 418)
+        txtFechaEmision.FechaSeleccionada = New Date(2025, 10, 27, 0, 0, 0, 0)
         txtFechaEmision.FontField = New Font("Century Gothic", 12F)
         txtFechaEmision.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         txtFechaEmision.IconoDerechoChar = FontAwesome.Sharp.IconChar.None
@@ -285,7 +302,7 @@ Partial Class cDatosProveedor
         txtFechaEmision.Size = New Size(569, 74)
         txtFechaEmision.TabIndex = 3
         txtFechaEmision.TextColor = Color.Black
-        txtFechaEmision.ValorFecha = New Date(2025, 10, 27, 8, 17, 44, 418)
+        txtFechaEmision.ValorFecha = New Date(2025, 10, 27, 0, 0, 0, 0)
         ' 
         ' txtRif
         ' 
@@ -380,7 +397,7 @@ Partial Class cDatosProveedor
         txtDomicilio.PanelBackColor = Color.White
         txtDomicilio.Placeholder = "Introduzca la dirección de la domicilio..."
         txtDomicilio.PlaceholderColor = Color.Gray
-        txtDomicilio.Size = New Size(568, 106)
+        txtDomicilio.Size = New Size(568, 137)
         txtDomicilio.TabIndex = 8
         txtDomicilio.TextColor = Color.Black
         txtDomicilio.TextoString = Nothing
@@ -396,15 +413,6 @@ Partial Class cDatosProveedor
         Panel1.Size = New Size(568, 74)
         Panel1.TabIndex = 10
         ' 
-        ' Panel2
-        ' 
-        Panel2.Controls.Add(cmbProveedor)
-        Panel2.Dock = DockStyle.Left
-        Panel2.Location = New Point(0, 0)
-        Panel2.Name = "Panel2"
-        Panel2.Size = New Size(495, 74)
-        Panel2.TabIndex = 0
-        ' 
         ' Panel3
         ' 
         Panel3.Controls.Add(btnCrearProveedor)
@@ -413,24 +421,6 @@ Partial Class cDatosProveedor
         Panel3.Name = "Panel3"
         Panel3.Size = New Size(73, 74)
         Panel3.TabIndex = 1
-        ' 
-        ' cmbProveedor
-        ' 
-        cmbProveedor.BackColor = Color.Transparent
-        cmbProveedor.CampoRequerido = True
-        cmbProveedor.ColorTitulo = Color.DarkSlateGray
-        cmbProveedor.Dock = DockStyle.Fill
-        cmbProveedor.IndiceSeleccionado = -1
-        cmbProveedor.Location = New Point(0, 0)
-        cmbProveedor.MensajeError = "Campo requerido"
-        cmbProveedor.Name = "cmbProveedor"
-        cmbProveedor.Placeholder = "Selecciones una Opcion..."
-        cmbProveedor.PlaceholderColor = Color.Gray
-        cmbProveedor.Size = New Size(495, 74)
-        cmbProveedor.TabIndex = 5
-        cmbProveedor.Texto = ""
-        cmbProveedor.TextoLabel = "Proveedor:"
-        cmbProveedor.ValorSeleccionado = Nothing
         ' 
         ' btnCrearProveedor
         ' 
@@ -453,36 +443,69 @@ Partial Class cDatosProveedor
         btnCrearProveedor.TextImageRelation = TextImageRelation.ImageAboveText
         btnCrearProveedor.UseVisualStyleBackColor = False
         ' 
-        ' txtObservacion
+        ' Panel2
         ' 
-        txtObservacion.AlturaMultilinea = 70
-        txtObservacion.BackColor = Color.Transparent
-        txtObservacion.BorderColor = Color.FromArgb(CByte(33), CByte(150), CByte(243))
-        txtObservacion.BorderRadius = 8
-        txtObservacion.BorderSize = 1
-        txtObservacion.CampoRequerido = False
-        txtObservacion.CapitalizarTexto = True
-        txtObservacion.CapitalizarTodasLasPalabras = False
-        txtObservacion.ColorError = Color.Firebrick
-        txtObservacion.Dock = DockStyle.Fill
-        txtObservacion.FontField = New Font("Century Gothic", 12F)
-        txtObservacion.IconoColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
-        txtObservacion.IconoDerechoChar = FontAwesome.Sharp.IconChar.CircleInfo
-        txtObservacion.LabelColor = Color.DarkSlateGray
-        txtObservacion.LabelText = "Observación:"
-        txtObservacion.Location = New Point(577, 323)
-        txtObservacion.MensajeError = "Este campo es requerido"
-        txtObservacion.Multilinea = True
-        txtObservacion.Name = "txtObservacion"
-        txtObservacion.PaddingAll = 10
-        txtObservacion.PanelBackColor = Color.White
-        txtObservacion.Placeholder = "Observación breve..."
-        txtObservacion.PlaceholderColor = Color.Gray
-        txtObservacion.Size = New Size(569, 106)
-        txtObservacion.TabIndex = 11
-        txtObservacion.TextColor = Color.Black
-        txtObservacion.TextoString = Nothing
-        txtObservacion.TextString = ""
+        Panel2.Controls.Add(cmbProveedor)
+        Panel2.Dock = DockStyle.Left
+        Panel2.Location = New Point(0, 0)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(495, 74)
+        Panel2.TabIndex = 0
+        ' 
+        ' cmbProveedor
+        ' 
+        cmbProveedor.BackColor = Color.Transparent
+        cmbProveedor.CampoRequerido = True
+        cmbProveedor.ColorTitulo = Color.DarkSlateGray
+        cmbProveedor.Dock = DockStyle.Fill
+        cmbProveedor.IndiceSeleccionado = -1
+        cmbProveedor.Location = New Point(0, 0)
+        cmbProveedor.MensajeError = "Campo requerido"
+        cmbProveedor.Name = "cmbProveedor"
+        cmbProveedor.Placeholder = "Selecciones una Opcion..."
+        cmbProveedor.PlaceholderColor = Color.Gray
+        cmbProveedor.Size = New Size(495, 74)
+        cmbProveedor.TabIndex = 5
+        cmbProveedor.Texto = ""
+        cmbProveedor.TextoLabel = "Proveedor:"
+        cmbProveedor.ValorSeleccionado = Nothing
+        ' 
+        ' Panelui1
+        ' 
+        Panelui1.BackColor = Color.Transparent
+        Panelui1.BackColorContenedor = Color.Transparent
+        Panelui1.BorderColor = Color.FromArgb(CByte(0), CByte(188), CByte(212))
+        Panelui1.BorderRadius = 20
+        Panelui1.BorderSize = 1
+        Panelui1.CardBackColor = Color.White
+        Panelui1.Estilo = PanelUI.EstiloCard.None
+        Panelui1.Location = New Point(4, 7)
+        Panelui1.Name = "Panelui1"
+        Panelui1.ShadowColor = Color.LightGray
+        Panelui1.Size = New Size(1168, 484)
+        Panelui1.TabIndex = 6
+        Panelui1.Texto = ""
+        ' 
+        ' CommandButtonui3
+        ' 
+        CommandButtonui3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        CommandButtonui3.AnimarHover = True
+        CommandButtonui3.BackColor = Color.Transparent
+        CommandButtonui3.ColorBase = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        CommandButtonui3.ColorHover = Color.FromArgb(CByte(30), CByte(136), CByte(229))
+        CommandButtonui3.ColorInternoFondo = Color.FromArgb(CByte(33), CByte(150), CByte(243))
+        CommandButtonui3.ColorPresionado = Color.FromArgb(CByte(25), CByte(118), CByte(210))
+        CommandButtonui3.ColorTexto = Color.WhiteSmoke
+        CommandButtonui3.EstiloBoton = CommandButtonUI.EstiloBootstrap.Primary
+        CommandButtonui3.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        CommandButtonui3.Icono = FontAwesome.Sharp.IconChar.CircleRight
+        CommandButtonui3.Location = New Point(367, 8)
+        CommandButtonui3.Name = "CommandButtonui3"
+        CommandButtonui3.RadioBorde = 8
+        CommandButtonui3.Size = New Size(200, 44)
+        CommandButtonui3.TabIndex = 3
+        CommandButtonui3.Text = "CommandButtonui1"
+        CommandButtonui3.Texto = "Siguiente..."
         ' 
         ' cDatosProveedor
         ' 
@@ -499,8 +522,8 @@ Partial Class cDatosProveedor
         Panel4.ResumeLayout(False)
         tlpContenido.ResumeLayout(False)
         Panel1.ResumeLayout(False)
-        Panel2.ResumeLayout(False)
         Panel3.ResumeLayout(False)
+        Panel2.ResumeLayout(False)
         ResumeLayout(False)
     End Sub
     Friend WithEvents tlpFooter As TableLayoutPanel
@@ -525,5 +548,6 @@ Partial Class cDatosProveedor
     Friend WithEvents Panel2 As Panel
     Friend WithEvents cmbProveedor As ComboBoxLayoutUI
     Friend WithEvents txtObservacion As MultilineTextBoxLabelUI
+    Friend WithEvents CommandButtonui3 As CommandButtonUI
 
 End Class
