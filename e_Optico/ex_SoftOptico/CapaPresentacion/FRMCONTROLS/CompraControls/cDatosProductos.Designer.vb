@@ -397,8 +397,7 @@ Partial Class cDatosProductos
         ' 
         ' cDatosProductos
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
-        AutoScaleMode = AutoScaleMode.Font
+        AutoScaleMode = AutoScaleMode.None
         BackColor = Color.WhiteSmoke
         Controls.Add(Panel3)
         Controls.Add(Panel2)

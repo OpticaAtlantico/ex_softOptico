@@ -25,6 +25,7 @@
     End Sub
 
 
+
     'Public Function Validar() As Boolean
     '    ' Validación básica
     '    Return Not String.IsNullOrWhiteSpace(txtNombre.Text)

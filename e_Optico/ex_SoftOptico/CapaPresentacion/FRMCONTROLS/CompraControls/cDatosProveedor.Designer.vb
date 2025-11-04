@@ -484,8 +484,7 @@ Partial Class cDatosProveedor
         ' 
         ' cDatosProveedor
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
-        AutoScaleMode = AutoScaleMode.Font
+        AutoScaleMode = AutoScaleMode.None
         BackColor = Color.WhiteSmoke
         Controls.Add(tlpFooter)
         Controls.Add(tlpContenido)
