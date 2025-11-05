@@ -21,4 +21,8 @@ Public Class cDatosProveedor
             TabPanelRef.AvanzarPestaña()
         End If
     End Sub
+
+    Private Sub btnSiguiente_Click(sender As Object, e As EventArgs) Handles btnSiguiente.Click
+
+    End Sub
 End Class

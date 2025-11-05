@@ -202,7 +202,7 @@ Partial Class cDatosProductos
         Panel1.BackColor = Color.White
         Panel1.Location = New Point(9, 58)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(878, 422)
+        Panel1.Size = New Size(878, 414)
         Panel1.TabIndex = 7
         ' 
         ' PanelTituloui1
@@ -219,7 +219,7 @@ Partial Class cDatosProductos
         PanelTituloui1.Location = New Point(906, 3)
         PanelTituloui1.Name = "PanelTituloui1"
         PanelTituloui1.ShadowColor = Color.LightGray
-        PanelTituloui1.Size = New Size(266, 492)
+        PanelTituloui1.Size = New Size(266, 480)
         PanelTituloui1.TabIndex = 8
         PanelTituloui1.Texto = ""
         ' 
@@ -237,7 +237,7 @@ Partial Class cDatosProductos
         PanelTituloui2.Location = New Point(3, 3)
         PanelTituloui2.Name = "PanelTituloui2"
         PanelTituloui2.ShadowColor = Color.LightGray
-        PanelTituloui2.Size = New Size(897, 492)
+        PanelTituloui2.Size = New Size(897, 480)
         PanelTituloui2.TabIndex = 9
         PanelTituloui2.Texto = ""
         ' 

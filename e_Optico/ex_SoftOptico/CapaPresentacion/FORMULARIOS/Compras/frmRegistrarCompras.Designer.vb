@@ -24,10 +24,10 @@ Partial Class frmRegistrarCompras
     Private Sub InitializeComponent()
         pnlContenido = New Panel()
         pnlEncabezado = New Panel()
-        lblTitulo = New HeaderUI()
         btnExportarPdf = New CommandButtonUI()
         btnExportarExcel = New CommandButtonUI()
         btnAceptar = New CommandButtonUI()
+        lblTitulo = New HeaderUI()
         pnlEncabezado.SuspendLayout()
         SuspendLayout()
         ' 
@@ -37,7 +37,7 @@ Partial Class frmRegistrarCompras
         pnlContenido.Dock = DockStyle.Fill
         pnlContenido.Location = New Point(0, 57)
         pnlContenido.Name = "pnlContenido"
-        pnlContenido.Size = New Size(1218, 539)
+        pnlContenido.Size = New Size(1218, 554)
         pnlContenido.TabIndex = 4
         ' 
         ' pnlEncabezado
@@ -52,23 +52,6 @@ Partial Class frmRegistrarCompras
         pnlEncabezado.Name = "pnlEncabezado"
         pnlEncabezado.Size = New Size(1218, 57)
         pnlEncabezado.TabIndex = 3
-        ' 
-        ' lblTitulo
-        ' 
-        lblTitulo.ColorFondo = Color.FromArgb(CByte(240), CByte(240), CByte(240))
-        lblTitulo.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
-        lblTitulo.Dimension = 12
-        lblTitulo.Dock = DockStyle.Fill
-        lblTitulo.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
-        lblTitulo.Icono = FontAwesome.Sharp.IconChar.CircleInfo
-        lblTitulo.Location = New Point(0, 0)
-        lblTitulo.MostrarSeparador = True
-        lblTitulo.Name = "lblTitulo"
-        lblTitulo.Size = New Size(1218, 57)
-        lblTitulo.Subtitulo = "Subtítulo opcional"
-        lblTitulo.TabIndex = 0
-        lblTitulo.Text = "Headerui1"
-        lblTitulo.Titulo = "Título Principal"
         ' 
         ' btnExportarPdf
         ' 
@@ -133,11 +116,28 @@ Partial Class frmRegistrarCompras
         btnAceptar.Text = "CommandButtonui1"
         btnAceptar.Texto = "Guardar"
         ' 
+        ' lblTitulo
+        ' 
+        lblTitulo.ColorFondo = Color.FromArgb(CByte(240), CByte(240), CByte(240))
+        lblTitulo.ColorTexto = Color.FromArgb(CByte(45), CByte(45), CByte(45))
+        lblTitulo.Dimension = 12
+        lblTitulo.Dock = DockStyle.Fill
+        lblTitulo.Font = New Font("Century Gothic", 10F, FontStyle.Bold)
+        lblTitulo.Icono = FontAwesome.Sharp.IconChar.CircleInfo
+        lblTitulo.Location = New Point(0, 0)
+        lblTitulo.MostrarSeparador = True
+        lblTitulo.Name = "lblTitulo"
+        lblTitulo.Size = New Size(1218, 57)
+        lblTitulo.Subtitulo = "Subtítulo opcional"
+        lblTitulo.TabIndex = 0
+        lblTitulo.Text = "Headerui1"
+        lblTitulo.Titulo = "Título Principal"
+        ' 
         ' frmRegistrarCompras
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1218, 596)
+        ClientSize = New Size(1218, 611)
         Controls.Add(pnlContenido)
         Controls.Add(pnlEncabezado)
         Name = "frmRegistrarCompras"

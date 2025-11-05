@@ -478,7 +478,7 @@ Partial Class cDatosProveedor
         Panelui1.Location = New Point(4, 7)
         Panelui1.Name = "Panelui1"
         Panelui1.ShadowColor = Color.LightGray
-        Panelui1.Size = New Size(1168, 484)
+        Panelui1.Size = New Size(1168, 480)
         Panelui1.TabIndex = 6
         Panelui1.Texto = ""
         ' 
