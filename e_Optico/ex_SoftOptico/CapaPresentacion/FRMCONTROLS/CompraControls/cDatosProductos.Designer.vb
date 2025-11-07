@@ -45,6 +45,16 @@ Partial Class cDatosProductos
         Panel6 = New Panel()
         IconButton1 = New FontAwesome.Sharp.IconButton()
         Label2 = New Label()
+        Panel10 = New Panel()
+        lblTotalGeneral = New Label()
+        Label4 = New Label()
+        lblIva = New Label()
+        lblTextoIva = New Label()
+        lblBaseImponible = New Label()
+        Label3 = New Label()
+        lblExento = New Label()
+        Label5 = New Label()
+        TableLayoutPanel1 = New TableLayoutPanel()
         tlpFooter.SuspendLayout()
         Panel5.SuspendLayout()
         Panel4.SuspendLayout()
@@ -54,6 +64,8 @@ Partial Class cDatosProductos
         Panel8.SuspendLayout()
         Panel7.SuspendLayout()
         Panel6.SuspendLayout()
+        Panel10.SuspendLayout()
+        TableLayoutPanel1.SuspendLayout()
         SuspendLayout()
         ' 
         ' tlpFooter
@@ -395,10 +407,129 @@ Partial Class cDatosProductos
         Label2.Text = "Totales."
         Label2.TextAlign = ContentAlignment.MiddleLeft
         ' 
+        ' Panel10
+        ' 
+        Panel10.Controls.Add(TableLayoutPanel1)
+        Panel10.Location = New Point(913, 58)
+        Panel10.Name = "Panel10"
+        Panel10.Size = New Size(249, 414)
+        Panel10.TabIndex = 12
+        ' 
+        ' lblTotalGeneral
+        ' 
+        lblTotalGeneral.Font = New Font("Century Gothic", 9.75F, FontStyle.Bold)
+        lblTotalGeneral.Location = New Point(135, 123)
+        lblTotalGeneral.Name = "lblTotalGeneral"
+        lblTotalGeneral.Size = New Size(82, 16)
+        lblTotalGeneral.TabIndex = 2
+        lblTotalGeneral.Text = "0.00"
+        lblTotalGeneral.TextAlign = ContentAlignment.TopRight
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label4.Location = New Point(3, 123)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(98, 17)
+        Label4.TabIndex = 3
+        Label4.Text = "Total General:"
+        Label4.TextAlign = ContentAlignment.TopRight
+        ' 
+        ' lblIva
+        ' 
+        lblIva.Font = New Font("Century Gothic", 9.75F, FontStyle.Bold)
+        lblIva.Location = New Point(135, 82)
+        lblIva.Name = "lblIva"
+        lblIva.Size = New Size(82, 16)
+        lblIva.TabIndex = 4
+        lblIva.Text = "0.00"
+        lblIva.TextAlign = ContentAlignment.TopRight
+        ' 
+        ' lblTextoIva
+        ' 
+        lblTextoIva.AutoSize = True
+        lblTextoIva.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblTextoIva.Location = New Point(3, 82)
+        lblTextoIva.Name = "lblTextoIva"
+        lblTextoIva.RightToLeft = RightToLeft.No
+        lblTextoIva.Size = New Size(70, 17)
+        lblTextoIva.TabIndex = 5
+        lblTextoIva.Text = "IVA (16%):"
+        lblTextoIva.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' lblBaseImponible
+        ' 
+        lblBaseImponible.Font = New Font("Century Gothic", 9.75F, FontStyle.Bold)
+        lblBaseImponible.Location = New Point(135, 41)
+        lblBaseImponible.Name = "lblBaseImponible"
+        lblBaseImponible.Size = New Size(82, 16)
+        lblBaseImponible.TabIndex = 6
+        lblBaseImponible.Text = "0.00"
+        lblBaseImponible.TextAlign = ContentAlignment.TopRight
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label3.Location = New Point(3, 41)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(110, 17)
+        Label3.TabIndex = 7
+        Label3.Text = "Base Imponible:"
+        Label3.TextAlign = ContentAlignment.TopRight
+        ' 
+        ' lblExento
+        ' 
+        lblExento.Font = New Font("Century Gothic", 9.75F, FontStyle.Bold)
+        lblExento.Location = New Point(135, 0)
+        lblExento.Name = "lblExento"
+        lblExento.Size = New Size(82, 16)
+        lblExento.TabIndex = 8
+        lblExento.Text = "0.00"
+        lblExento.TextAlign = ContentAlignment.TopRight
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Font = New Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        Label5.Location = New Point(3, 0)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(90, 17)
+        Label5.TabIndex = 9
+        Label5.Text = "Total Exento:"
+        Label5.TextAlign = ContentAlignment.TopRight
+        ' 
+        ' TableLayoutPanel1
+        ' 
+        TableLayoutPanel1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
+        TableLayoutPanel1.ColumnCount = 2
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 56.78479F))
+        TableLayoutPanel1.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 43.2152138F))
+        TableLayoutPanel1.Controls.Add(Label5, 0, 0)
+        TableLayoutPanel1.Controls.Add(lblTotalGeneral, 1, 3)
+        TableLayoutPanel1.Controls.Add(Label3, 0, 1)
+        TableLayoutPanel1.Controls.Add(lblIva, 1, 2)
+        TableLayoutPanel1.Controls.Add(Label4, 0, 3)
+        TableLayoutPanel1.Controls.Add(lblBaseImponible, 1, 1)
+        TableLayoutPanel1.Controls.Add(lblTextoIva, 0, 2)
+        TableLayoutPanel1.Controls.Add(lblExento, 1, 0)
+        TableLayoutPanel1.Location = New Point(8, 41)
+        TableLayoutPanel1.Name = "TableLayoutPanel1"
+        TableLayoutPanel1.RowCount = 5
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 20F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 20F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 20F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 20F))
+        TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 20F))
+        TableLayoutPanel1.Size = New Size(234, 208)
+        TableLayoutPanel1.TabIndex = 10
+        ' 
         ' cDatosProductos
         ' 
         AutoScaleMode = AutoScaleMode.None
         BackColor = Color.WhiteSmoke
+        Controls.Add(Panel10)
         Controls.Add(Panel3)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
@@ -416,6 +547,9 @@ Partial Class cDatosProductos
         Panel8.ResumeLayout(False)
         Panel7.ResumeLayout(False)
         Panel6.ResumeLayout(False)
+        Panel10.ResumeLayout(False)
+        TableLayoutPanel1.ResumeLayout(False)
+        TableLayoutPanel1.PerformLayout()
         ResumeLayout(False)
     End Sub
     Friend WithEvents tlpFooter As TableLayoutPanel
@@ -441,5 +575,15 @@ Partial Class cDatosProductos
     Friend WithEvents IconButton4 As FontAwesome.Sharp.IconButton
     Friend WithEvents IconButton3 As FontAwesome.Sharp.IconButton
     Friend WithEvents IconButton2 As FontAwesome.Sharp.IconButton
+    Friend WithEvents Panel10 As Panel
+    Friend WithEvents lblTotalGeneral As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents lblIva As Label
+    Friend WithEvents lblTextoIva As Label
+    Friend WithEvents lblBaseImponible As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents lblExento As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
 
 End Class

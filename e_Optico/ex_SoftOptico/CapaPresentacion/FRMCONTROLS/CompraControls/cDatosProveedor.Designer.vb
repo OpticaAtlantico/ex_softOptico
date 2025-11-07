@@ -422,7 +422,6 @@ Partial Class cDatosProveedor
         ' 
         btnCrearProveedor.BackColor = Color.Transparent
         btnCrearProveedor.Cursor = Cursors.Hand
-        btnCrearProveedor.Dock = DockStyle.Fill
         btnCrearProveedor.FlatAppearance.BorderColor = Color.White
         btnCrearProveedor.FlatAppearance.BorderSize = 0
         btnCrearProveedor.FlatAppearance.MouseDownBackColor = Color.White
@@ -431,10 +430,12 @@ Partial Class cDatosProveedor
         btnCrearProveedor.IconChar = FontAwesome.Sharp.IconChar.PlusSquare
         btnCrearProveedor.IconColor = Color.FromArgb(CByte(57), CByte(103), CByte(208))
         btnCrearProveedor.IconFont = FontAwesome.Sharp.IconFont.Regular
-        btnCrearProveedor.IconSize = 45
-        btnCrearProveedor.Location = New Point(0, 0)
+        btnCrearProveedor.IconSize = 50
+        btnCrearProveedor.ImageAlign = ContentAlignment.MiddleRight
+        btnCrearProveedor.Location = New Point(0, 21)
+        btnCrearProveedor.Margin = New Padding(0)
         btnCrearProveedor.Name = "btnCrearProveedor"
-        btnCrearProveedor.Size = New Size(73, 74)
+        btnCrearProveedor.Size = New Size(46, 38)
         btnCrearProveedor.TabIndex = 0
         btnCrearProveedor.TextImageRelation = TextImageRelation.ImageAboveText
         btnCrearProveedor.UseVisualStyleBackColor = False
