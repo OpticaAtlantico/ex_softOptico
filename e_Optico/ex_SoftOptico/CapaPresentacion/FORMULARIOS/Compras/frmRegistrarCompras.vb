@@ -1,24 +1,32 @@
-﻿Imports FontAwesome.Sharp
+﻿Imports CapaEntidad
+Imports CapaNegocio
+Imports FontAwesome.Sharp
 
 Public Class frmRegistrarCompras
 
-    Public Property TabPanelRef As TabPanelUI
+    ' Referencias a los usercontrols (se crean en tiempo de carga)
+    Private cDatosProveedor1 As cDatosProveedor
+    Private cDatosProductos1 As cDatosProductos
 
-    Private Sub frmProductos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private DatosCompra As VCompras = Nothing
+    Private NombreBoton As String = String.Empty
 
-        Dim ucProductos As New cDatosProductos()
-        Dim ucProveedor As New cDatosProveedor()
+    Private Sub frmRegistrarCompras_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Crear instancias de usercontrols
+        cDatosProductos1 = New cDatosProductos()
+        cDatosProveedor1 = New cDatosProveedor()
 
+        ' Construir pestañas
         Dim tab1 As New TabItemOrbitalAdv With {
             .Titulo = "Datos del Proveedor",
             .Icono = IconChar.ExchangeAlt,
-            .Contenido = ucProveedor
+            .Contenido = cDatosProveedor1
         }
 
         Dim tab2 As New TabItemOrbitalAdv With {
             .Titulo = "Datos de los Productos",
             .Icono = IconChar.Boxes,
-            .Contenido = ucProductos
+            .Contenido = cDatosProductos1
         }
 
         Dim tabPanel As New TabPanelUI With {
@@ -29,29 +37,111 @@ Public Class frmRegistrarCompras
         tabPanel.AddTab(tab1)
         tabPanel.AddTab(tab2)
 
+        Me.pnlContenido.Controls.Clear()
         Me.pnlContenido.Controls.Add(tabPanel)
 
-        'Permite avanzar entre pestañas
-        ucProductos.TabPanelRef = tabPanel
-        ucProveedor.TabPanelRef = tabPanel
+        ' Permitir navegación entre pestañas desde los usercontrols
+        cDatosProductos1.TabPanelRef = tabPanel
+        cDatosProveedor1.TabPanelRef = tabPanel
 
-        tabPanel.SeleccionarPestana(0) 'Selecciona la primera pestaña
+        tabPanel.SeleccionarPestana(0)
 
         AddHandler tabPanel.TabChanged, AddressOf TabPanel_TabChanged
+
+        ' Inicializar número de orden
+        ObtenerNumeroOrdenCompra()
     End Sub
 
     Private Sub TabPanel_TabChanged(index As Integer, titulo As String)
+        ' Placeholder: acciones al cambiar de pestaña (si necesitas)
+    End Sub
 
-        Select Case index
-            Case 0 'DatosProductos
+    Private Sub ObtenerNumeroOrdenCompra()
+        Dim OrdenMax As New Repositorio_Compra
+        Dim resultado As Integer = OrdenMax.GetMax()
+        ' En este formulario el diseñador expone lblTitulo (HeaderUI). Uso Subtitulo para mostrar el número.
+        lblTitulo.Subtitulo = resultado.ToString().PadLeft(6, "0"c)
+    End Sub
 
-            Case 1 'DatosProveedor
+    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+        Try
+            ' 1) Recoger info desde los usercontrols
+            Dim provInfo = cDatosProveedor1.GetProveedorInfo() ' Debe devolver DTO con NumeroControl, NumeroFactura, FechaEmision, ProveedorID, etc.
+            Dim detalle = cDatosProductos1.GetDetalleList()   ' Debe devolver List(Of ProductoSeleccionado)
 
+            If detalle Is Nothing OrElse detalle.Count = 0 Then
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo, MensajesUI.GridSinDatos, MessageBoxUI.TipoMensaje.Advertencia, MessageBoxUI.TipoBotones.Aceptar)
+                Return
+            End If
 
+            ' 2) Validaciones mínimas
+            If provInfo Is Nothing OrElse
+               String.IsNullOrWhiteSpace(provInfo.NumeroControl) OrElse
+               String.IsNullOrWhiteSpace(provInfo.NumeroFactura) OrElse
+               Not provInfo.FechaEmision.HasValue OrElse
+               Not provInfo.ProveedorID.HasValue Then
 
-        End Select
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo, MensajesUI.DatosIncompletos, MessageBoxUI.TipoMensaje.Errorr, MessageBoxUI.TipoBotones.Aceptar)
+                Return
+            End If
 
+            ' 3) Construir TCompra (igual que en frmCompras)
+            Dim orden As Integer = 0
+            Integer.TryParse(lblTitulo.Subtitulo, orden)
 
+            Dim compra As New TCompra With {
+                .CompraID = If(IsNothing(DatosCompra), 1, Integer.Parse(DatosCompra._compraID.ToString())),
+                .OrdenCompra = orden,
+                .NumeroControl = provInfo.NumeroControl.Trim(),
+                .NumeroFactura = provInfo.NumeroFactura.Trim(),
+                .FechaCompra = If(provInfo.FechaEmision.HasValue, provInfo.FechaEmision.Value, Date.Now),
+                .EmpleadoID = CInt(Sesion.UsuarioID),
+                .AlicuotaID = 1,
+                .UbicacionDestinoID = If(provInfo.SucursalID.HasValue, provInfo.SucursalID.Value, 1),
+                .ProveedorID = If(provInfo.ProveedorID.HasValue, provInfo.ProveedorID.Value, 0),
+                .TipoPagoID = If(provInfo.TipoPagoID.HasValue, provInfo.TipoPagoID.Value, 1),
+                .Observacion = If(provInfo.Observacion, String.Empty).Trim(),
+                .TotalCompra = 0D,
+                .detalle = detalle
+            }
+
+            ' Calcular total del detalle (ajusta si tus propiedades usan otros nombres)
+            Dim total As Decimal = 0D
+            For Each d As ProductoSeleccionado In compra.Detalle
+                Dim lineaTotal = (d.Precio * d.Cantidad) - d.Descuento
+                total += lineaTotal
+            Next
+            compra.TotalCompra = total
+
+            ' 4) Llamar al servicio para registrar
+            Dim service As New ComprasService()
+            Dim resultado As Integer = service.RegistrarCompra(compra)
+
+            If resultado > 0 And resultado <> -2627 Then
+                MessageBoxUI.Mostrar(MensajesUI.TituloExito, MensajesUI.RegistroExitoso, MessageBoxUI.TipoMensaje.Exito, MessageBoxUI.TipoBotones.Aceptar)
+                ObtenerNumeroOrdenCompra()
+                ' Opcional: limpiar usercontrols después de guardar
+                ' LimpiarUserControls()
+            ElseIf resultado = -2627 Then
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo, MensajesUI.RegistroDuplicado, MessageBoxUI.TipoMensaje.Informacion, MessageBoxUI.TipoBotones.Aceptar)
+            Else
+                MessageBoxUI.Mostrar(MensajesUI.TituloError, MensajesUI.OperacionFallida, MessageBoxUI.TipoMensaje.Errorr, MessageBoxUI.TipoBotones.Aceptar)
+            End If
+
+        Catch ex As Exception
+            MessageBoxUI.Mostrar(MensajesUI.TituloError, String.Format(MensajesUI.ErrorInesperado, ex.Message), MessageBoxUI.TipoMensaje.Errorr, MessageBoxUI.TipoBotones.Aceptar)
+        End Try
+    End Sub
+
+    ' Optional: limpia los usercontrols tras un guardado exitoso
+    Private Sub LimpiarUserControls()
+        Try
+            ' Si tus controles exponen métodos de limpieza, úsalos; aquí limpiamos manualmente si es necesario.
+            ' Ejemplo hipotético:
+            ' cDatosProveedor1.Limpiar()
+            ' cDatosProductos1.Limpiar()
+        Catch
+        End Try
     End Sub
 
 End Class
