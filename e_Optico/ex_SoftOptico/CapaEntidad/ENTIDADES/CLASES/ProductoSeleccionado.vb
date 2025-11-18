@@ -1,4 +1,5 @@
 ﻿Public Class ProductoSeleccionado
+    Public Property ProductoID As Integer
     Public Property Codigo As String
     Public Property Nombre As String
     Public Property Precio As Decimal

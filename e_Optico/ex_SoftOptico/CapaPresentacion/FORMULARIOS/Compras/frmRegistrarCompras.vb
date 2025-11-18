@@ -1,4 +1,5 @@
-﻿Imports CapaEntidad
+﻿Imports CapaDatos
+Imports CapaEntidad
 Imports CapaNegocio
 Imports FontAwesome.Sharp
 
@@ -67,7 +68,7 @@ Public Class frmRegistrarCompras
         Try
             ' 1) Recoger info desde los usercontrols
             Dim provInfo = cDatosProveedor1.GetProveedorInfo() ' Debe devolver DTO con NumeroControl, NumeroFactura, FechaEmision, ProveedorID, etc.
-            Dim detalle = cDatosProductos1.GetDetalleList()   ' Debe devolver List(Of ProductoSeleccionado)
+            Dim detalle As List(Of TDetalleCompra) = cDatosProductos1.GetDetalleList()   ' Ahora devuelve List(Of TDetalleCompra)
 
             If detalle Is Nothing OrElse detalle.Count = 0 Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo, MensajesUI.GridSinDatos, MessageBoxUI.TipoMensaje.Advertencia, MessageBoxUI.TipoBotones.Aceptar)
@@ -102,13 +103,13 @@ Public Class frmRegistrarCompras
                 .TipoPagoID = If(provInfo.TipoPagoID.HasValue, provInfo.TipoPagoID.Value, 1),
                 .Observacion = If(provInfo.Observacion, String.Empty).Trim(),
                 .TotalCompra = 0D,
-                .detalle = detalle
+                .Detalle = detalle
             }
 
-            ' Calcular total del detalle (ajusta si tus propiedades usan otros nombres)
+            ' Calcular total del detalle (usando TDetalleCompra)
             Dim total As Decimal = 0D
-            For Each d As ProductoSeleccionado In compra.Detalle
-                Dim lineaTotal = (d.Precio * d.Cantidad) - d.Descuento
+            For Each d As TDetalleCompra In compra.Detalle
+                Dim lineaTotal = (d.PrecioUnitario * d.Cantidad) - d.Descuento
                 total += lineaTotal
             Next
             compra.TotalCompra = total

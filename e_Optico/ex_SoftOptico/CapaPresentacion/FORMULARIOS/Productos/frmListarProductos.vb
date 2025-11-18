@@ -83,21 +83,30 @@ Public Class frmListarProductos
 
     Private Sub ProductoSeleccionado(producto As DataRow)
         If FormularioDestino IsNot Nothing Then
-            ' Crear objeto limpio
+            ' Obtener id de producto desde las columnas que puedan existir
+            Dim pid As Integer = 0
+            Dim cols = New String() {"_id", "ID", "_productoID", "ProductoID", "_ProductoID", "productoID"}
+            For Each cName In cols
+                If producto.Table.Columns.Contains(cName) Then
+                    Integer.TryParse(producto(cName).ToString(), pid)
+                    Exit For
+                End If
+            Next
 
-            Dim idCategoria As Integer = Convert.ToInt32(producto("_categoriaID"))
+            Dim idCategoria As Integer = 0
+            Integer.TryParse(producto("_categoriaID").ToString(), idCategoria)
             Dim ExG As String = "Ex"
-
             If idCategoria = 2 Then
                 ExG = "G"
             End If
 
             Dim seleccionado As New ProductoSeleccionado With {
-            .Codigo = Convert.ToString(producto("_codigo")),
-            .Nombre = producto("_nombre").ToString(),
-            .Precio = 0,
-            .ExG = ExG
-        }
+                .ProductoID = pid,
+                .Codigo = Convert.ToString(producto("_codigo")),
+                .Nombre = producto("_nombre").ToString(),
+                .Precio = 0D,
+                .ExG = ExG
+            }
 
             FormularioDestino.AgregarProductoAlDetalle(seleccionado)
             FadeManagerUI.ApplyOut(Me, 60)
