@@ -75,7 +75,7 @@ Public Class frmRegistrarCompras
                 Return
             End If
 
-            ' 2) Validaciones mínimas
+            ' 2) Validaciones mínimas proveedor
             If provInfo Is Nothing OrElse
                String.IsNullOrWhiteSpace(provInfo.NumeroControl) OrElse
                String.IsNullOrWhiteSpace(provInfo.NumeroFactura) OrElse
@@ -86,7 +86,24 @@ Public Class frmRegistrarCompras
                 Return
             End If
 
-            ' 3) Construir TCompra (igual que en frmCompras)
+            ' 2b) Validaciones por línea de detalle
+            For i As Integer = 0 To detalle.Count - 1
+                Dim d = detalle(i)
+                If d.ProductoID <= 0 Then
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo, $"Línea {i + 1}: Producto inválido (ProductoID = 0).", MessageBoxUI.TipoMensaje.Advertencia, MessageBoxUI.TipoBotones.Aceptar)
+                    Return
+                End If
+                If d.Cantidad <= 0 Then
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo, $"Línea {i + 1}: La cantidad debe ser mayor que cero.", MessageBoxUI.TipoMensaje.Advertencia, MessageBoxUI.TipoBotones.Aceptar)
+                    Return
+                End If
+                If d.PrecioUnitario < 0D Then
+                    MessageBoxUI.Mostrar(MensajesUI.TituloInfo, $"Línea {i + 1}: Precio unitario inválido.", MessageBoxUI.TipoMensaje.Advertencia, MessageBoxUI.TipoBotones.Aceptar)
+                    Return
+                End If
+            Next
+
+            ' 3) Construir TCompra
             Dim orden As Integer = 0
             Integer.TryParse(lblTitulo.Subtitulo, orden)
 
@@ -106,7 +123,7 @@ Public Class frmRegistrarCompras
                 .Detalle = detalle
             }
 
-            ' Calcular total del detalle (usando TDetalleCompra)
+            ' Calcular total del detalle
             Dim total As Decimal = 0D
             For Each d As TDetalleCompra In compra.Detalle
                 Dim lineaTotal = (d.PrecioUnitario * d.Cantidad) - d.Descuento
@@ -121,8 +138,6 @@ Public Class frmRegistrarCompras
             If resultado > 0 And resultado <> -2627 Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloExito, MensajesUI.RegistroExitoso, MessageBoxUI.TipoMensaje.Exito, MessageBoxUI.TipoBotones.Aceptar)
                 ObtenerNumeroOrdenCompra()
-                ' Opcional: limpiar usercontrols después de guardar
-                ' LimpiarUserControls()
             ElseIf resultado = -2627 Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo, MensajesUI.RegistroDuplicado, MessageBoxUI.TipoMensaje.Informacion, MessageBoxUI.TipoBotones.Aceptar)
             Else

@@ -4,6 +4,6 @@ Module Startup
     Sub Main()
         Application.EnableVisualStyles()
         Application.SetCompatibleTextRenderingDefault(False)
-        Application.Run(New frmRegistrarCompras())
+        Application.Run(New frm_Login())
     End Sub
 End Module
