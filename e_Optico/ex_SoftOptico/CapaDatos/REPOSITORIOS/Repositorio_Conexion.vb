@@ -5,7 +5,8 @@ Public MustInherit Class Repositorio_Conexion
     Private ReadOnly ConnectionString As String
     Public Sub New()
         ' Constructor base para inicializar cualquier recurso común
-        ConnectionString = ConfigurationManager.ConnectionStrings("ConnMyCompany").ConnectionString
+        'ConnectionString = ConfigurationManager.ConnectionStrings("ConnMyCompany").ConnectionString
+        ConnectionString = ConfigurationManager.ConnectionStrings("ConnMyCompany1").ConnectionString
     End Sub
 
     Protected Function ObtenerConexion() As SqlConnection
