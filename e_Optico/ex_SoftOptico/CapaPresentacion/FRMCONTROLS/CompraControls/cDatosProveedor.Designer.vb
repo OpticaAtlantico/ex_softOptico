@@ -303,7 +303,7 @@ Partial Class cDatosProveedor
         ' txtRif
         ' 
         txtRif.BackColor = Color.Transparent
-        txtRif.CampoRequerido = False
+        txtRif.CampoRequerido = True
         txtRif.CapitalizarTexto = False
         txtRif.CapitalizarTodasLasPalabras = False
         txtRif.ColorTitulo = Color.DarkSlateGray
