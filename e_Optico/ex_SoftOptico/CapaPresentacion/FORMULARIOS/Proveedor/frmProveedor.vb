@@ -4,6 +4,7 @@ Imports CapaNegocio
 Imports FontAwesome.Sharp
 Imports Microsoft.Data.SqlClient
 Imports OfficeOpenXml.Drawing.Slicer.Style
+Imports System.Reflection
 
 Public Class frmProveedor
     Implements INotificaCierreFrm
@@ -125,7 +126,9 @@ Public Class frmProveedor
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
         Select Case btnAccion.Texto
             Case "Actualizar"
-                ' Aquí puedes implementar la lógica para actualizar el empleado
+                ' Validación centralizada antes de procesar
+                If Not ValidarControles() Then Exit Sub
+
                 If DatosProveedor IsNot Nothing Then
                     ProcesarProveedor(esNuevo:=False)
                 Else
@@ -135,7 +138,7 @@ Public Class frmProveedor
                                          MessageBoxUI.TipoBotones.Aceptar)
                 End If
             Case "Eliminar"
-                ' Aquí puedes implementar la lógica para eliminar el empleado
+                ' No se requiere validación al eliminar
                 Try
                     Dim id As Integer = Convert.ToInt32(DatosProveedor._proveedorID)
 
@@ -163,8 +166,9 @@ Public Class frmProveedor
                 End Try
 
             Case "Guardar"
+                ' Validación centralizada antes de guardar
+                If Not ValidarControles() Then Exit Sub
 
-                ' Aquí puedes implementar la lógica para guardar un nuevo empleado
                 If DatosProveedor Is Nothing Then
                     ProcesarProveedor(esNuevo:=True)
                 Else
@@ -199,6 +203,37 @@ Public Class frmProveedor
         End If
     End Sub
 
+#End Region
+
+#Region "VALIDACIÓN REUTILIZABLE"
+    Private Function ValidarControles() As Boolean
+        Dim vr = FormValidator.ValidateContainer(Me)
+
+        If Not vr.IsValid Then
+            Try
+                Dim foco = FormValidator.FindFocusableChild(If(vr.FirstInvalid, Me))
+                If foco IsNot Nothing Then
+                    foco.Focus()
+                ElseIf vr.FirstInvalid IsNot Nothing Then
+                    vr.FirstInvalid.Focus()
+                End If
+            Catch
+            End Try
+
+            Try
+                MessageBoxUI.Mostrar(MensajesUI.TituloAdvertencia,
+                                     vr.Message,
+                                     MessageBoxUI.TipoMensaje.Advertencia,
+                                     MessageBoxUI.TipoBotones.Aceptar)
+            Catch
+                MessageBox.Show(vr.Message, MensajesUI.TituloAdvertencia, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End Try
+
+            Return False
+        End If
+
+        Return True
+    End Function
 #End Region
 
 #Region "SQL"
