@@ -353,7 +353,7 @@ Partial Class cDatosProveedor
         ' cmbFormaPago
         ' 
         cmbFormaPago.BackColor = Color.Transparent
-        cmbFormaPago.CampoRequerido = False
+        cmbFormaPago.CampoRequerido = True
         cmbFormaPago.ColorTitulo = Color.DarkSlateGray
         cmbFormaPago.Dock = DockStyle.Fill
         cmbFormaPago.IndiceSeleccionado = -1

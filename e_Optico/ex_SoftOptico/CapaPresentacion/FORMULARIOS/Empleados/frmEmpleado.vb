@@ -3,6 +3,8 @@ Imports CapaEntidad
 Imports CapaNegocio
 Imports FontAwesome.Sharp
 Imports Microsoft.Data.SqlClient
+Imports System.Reflection
+
 Public Class frmEmpleado
     Inherits Form
     Implements INotificaCierreFrm
@@ -209,6 +211,9 @@ Public Class frmEmpleado
     Private Sub bntAccion_Click(sender As Object, e As EventArgs) Handles btnAccion.Click
         Select Case btnAccion.Texto
             Case "Actualizar"
+                ' Validación general de UI: impide ejecutar Obtener/Procesar si hay controles inválidos
+                If Not ValidarControles() Then Exit Sub
+
                 ' Aquí puedes implementar la lógica para actualizar el empleado
                 If DatosEmpleados IsNot Nothing Then
                     ProcesarEmpleado(esNuevo:=False)
@@ -249,6 +254,8 @@ Public Class frmEmpleado
                 End Try
 
             Case "Guardar"
+                ' Validación general de UI: impide ejecutar Obtener/Procesar si hay controles inválidos
+                If Not ValidarControles() Then Exit Sub
 
                 ' Aquí puedes implementar la lógica para guardar un nuevo empleado
                 If DatosEmpleados Is Nothing Then
@@ -331,6 +338,63 @@ Public Class frmEmpleado
 
 #End Region
 
+#Region "VALIDACION REUSABLE"
+    ' Validación genérica similar a la implementada en cDatosProveedor.
+    ' Recorre controles del formulario y:
+    ' - Utiliza IValidable.EsValido() cuando esté implementado.
+    ' - Invoca por reflexión EsValido() si existe.
+    ' - Si el control declara CampoRequerido = True, valida que tenga texto o selección y no sea el placeholder.
+    Private Function ValidarControles() As Boolean
+        Dim vr = FormValidator.ValidateContainer(Me)
+
+        If Not vr.IsValid Then
+            Try
+                Dim foco = FormValidator.FindFocusableChild(If(vr.FirstInvalid, Me))
+                If foco IsNot Nothing Then foco.Focus() Else If vr.FirstInvalid IsNot Nothing Then vr.FirstInvalid.Focus()
+            Catch
+            End Try
+
+            Try
+                MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
+                                     vr.Message,
+                                     MessageBoxUI.TipoMensaje.Advertencia,
+                                     MessageBoxUI.TipoBotones.Aceptar)
+            Catch
+                MessageBox.Show(vr.Message, MensajesUI.TituloInfo, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End Try
+
+            Return False
+        End If
+
+        Return True
+    End Function
+
+    Private Function FindFocusableChild(parent As Control) As Control
+        ' Retorna el primer control enfocable práctico (TextBox, ComboBox, controls con TabStop True, etc.)
+        For Each c As Control In parent.Controls
+            If c.Visible AndAlso c.Enabled Then
+                ' Priorizar textboxes y combos explícitos
+                If TypeOf c Is TextBox OrElse TypeOf c Is ComboBox Then Return c
+                ' si es un control compuesto con propiedad txtCampo o cmbCampo, intentar obtenerlo por reflexión
+                Dim pTxt = c.GetType().GetProperty("txtCampo", BindingFlags.Instance Or BindingFlags.Public Or BindingFlags.NonPublic)
+                If pTxt IsNot Nothing Then
+                    Dim val = pTxt.GetValue(c)
+                    If TypeOf val Is Control Then Return DirectCast(val, Control)
+                End If
+                Dim pCmb = c.GetType().GetProperty("cmbCampo", BindingFlags.Instance Or BindingFlags.Public Or BindingFlags.NonPublic)
+                If pCmb IsNot Nothing Then
+                    Dim val = pCmb.GetValue(c)
+                    If TypeOf val Is Control Then Return DirectCast(val, Control)
+                End If
+                ' Recursividad
+                Dim found = FindFocusableChild(c)
+                If found IsNot Nothing Then Return found
+            End If
+        Next
+        Return Nothing
+    End Function
+#End Region
+
 #Region "SQL"
     Private Function ObtenerDatosEmpleado(Optional ByVal incluirID As Boolean = False) As ResultadoEmpleados
         Dim resultado As New ResultadoEmpleados()
@@ -354,9 +418,9 @@ Public Class frmEmpleado
 
             If {cedula, nombre, apellido, edad, nacionalidad, estadoCivil, sexo, telefono, correo, direccion, cargo}.Any(Function(s) String.IsNullOrWhiteSpace(s)) Then
                 MessageBoxUI.Mostrar(MensajesUI.TituloInfo,
-                                    MensajesUI.DatosIncompletos,
-                                    MessageBoxUI.TipoMensaje.Advertencia,
-                                    MessageBoxUI.TipoBotones.Aceptar)
+                                                MensajesUI.DatosIncompletos,
+                                                MessageBoxUI.TipoMensaje.Advertencia,
+                                                MessageBoxUI.TipoBotones.Aceptar)
 
                 resultado.EsValido = False
                 Return resultado
@@ -366,34 +430,34 @@ Public Class frmEmpleado
             Dim rutaRelativa As String = GuardarImagenEmpleado(rutaImagenSeleccionada, $"e_{cedula}")
 
             resultado.Empleado = New TEmpleados With {
-                                                        .EmpleadoID = id,
-                                                        .Cedula = cedula,
-                                                        .Nombre = nombre,
-                                                        .Apellido = apellido,
-                                                        .Edad = edad,
-                                                        .Nacionalidad = Convert.ToInt32(nacionalidad),
-                                                        .EstadoCivil = Convert.ToInt32(estadoCivil),
-                                                        .Sexo = Convert.ToInt32(sexo),
-                                                        .Telefono = telefono,
-                                                        .Correo = correo,
-                                                        .Direccion = direccion,
-                                                        .FechaNacimiento = fechaNacimiento,
-                                                        .Cargo = Convert.ToInt32(cargo),
-                                                        .Zona = Convert.ToInt32(zona),
-                                                        .Asesor = chkAsesor.Checked.ToString(),
-                                                        .Optometrista = chkOptometrista.Checked.ToString(),
-                                                        .Gerente = chkGerente.Checked.ToString(),
-                                                        .Marketing = chkMarketing.Checked.ToString(),
-                                                        .Estado = 1,
-                                                        .Foto = If(String.IsNullOrWhiteSpace(rutaRelativa), "", rutaRelativa)
-                                                    }
+                                                                    .EmpleadoID = id,
+                                                                    .Cedula = cedula,
+                                                                    .Nombre = nombre,
+                                                                    .Apellido = apellido,
+                                                                    .Edad = edad,
+                                                                    .Nacionalidad = Convert.ToInt32(nacionalidad),
+                                                                    .EstadoCivil = Convert.ToInt32(estadoCivil),
+                                                                    .Sexo = Convert.ToInt32(sexo),
+                                                                    .Telefono = telefono,
+                                                                    .Correo = correo,
+                                                                    .Direccion = direccion,
+                                                                    .FechaNacimiento = fechaNacimiento,
+                                                                    .Cargo = Convert.ToInt32(cargo),
+                                                                    .Zona = Convert.ToInt32(zona),
+                                                                    .Asesor = chkAsesor.Checked.ToString(),
+                                                                    .Optometrista = chkOptometrista.Checked.ToString(),
+                                                                    .Gerente = chkGerente.Checked.ToString(),
+                                                                    .Marketing = chkMarketing.Checked.ToString(),
+                                                                    .Estado = 1,
+                                                                    .Foto = If(String.IsNullOrWhiteSpace(rutaRelativa), "", rutaRelativa)
+                                                                }
 
             resultado.EsValido = True
         Catch ex As Exception
             MessageBoxUI.Mostrar(MensajesUI.TituloError,
-                                 String.Format(MensajesUI.ErrorInesperado, ex.Message),
-                                    MessageBoxUI.TipoMensaje.Errorr,
-                                    MessageBoxUI.TipoBotones.Aceptar)
+                                             String.Format(MensajesUI.ErrorInesperado, ex.Message),
+                                                MessageBoxUI.TipoMensaje.Errorr,
+                                                MessageBoxUI.TipoBotones.Aceptar)
 
             resultado.EsValido = False
         End Try
