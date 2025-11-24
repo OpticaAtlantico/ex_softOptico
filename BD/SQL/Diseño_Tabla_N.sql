@@ -94,6 +94,25 @@ CREATE TABLE TCategorias (
 );
 GO
 
+-- Tabla: TTipoProducto (para clasificar el tipo de productos: "M:Montura, C:Cristal; X:Miselaneos etc. " )
+-- Aqui se puede crear todos los tipos de productos y sus opciones
+CREATE TABLE TTipoProductos (
+    TipoProductoID INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo VARCHAR(1) NOT NULL UNIQUE,
+    Descripcion NVARCHAR(50) NOT NULL UNIQUE,
+    TipoInventario INT NOT NULL,
+    UnidadVenta INT NOT NULL,
+    ConExistencia BIT DEFAULT 1,
+    SinExistenciaVenta BIT DEFAULT 1,
+    RestringirArticulo BIT DEFAULT 1,
+    ImprimirPecio BIT DEFAULT 1,
+    Exento BIT DEFAULT 1,
+    TipoTasa INT,
+
+);
+GO
+
+
 -- Tabla: TSubCategorias (para categorias)
 CREATE TABLE TSubCategorias (
     SubCategoriaID INT IDENTITY(1,1) PRIMARY KEY,
