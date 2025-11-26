@@ -108,7 +108,9 @@ CREATE TABLE TTipoProductos (
     ImprimirPecio BIT DEFAULT 1,
     Exento BIT DEFAULT 1,
     TipoTasa INT,
-
+    FactorMulti BIT DEFAULT 1,
+    FactorMultiValue INT,
+    FactorMultiTipo BIT
 );
 GO
 
