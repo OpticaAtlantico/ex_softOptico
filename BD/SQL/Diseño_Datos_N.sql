@@ -64,12 +64,12 @@ INSERT INTO TUbicaciones (NombreUbicacion, TipoUbicacion, Direccion, Rif, Telefo
 GO
 
 ---DATOAS PARA LA TABLA TCategoria
-INSERT INTO TCategorias (NombreCategoria) VALUES ('Cristales')
-INSERT INTO TCategorias (NombreCategoria) VALUES ('Monturas')
-INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Contactos')
-INSERT INTO TCategorias (NombreCategoria) VALUES ('Lentes de Sol')
-INSERT INTO TCategorias (NombreCategoria) VALUES ('Accesorios')
-INSERT INTO TCategorias (NombreCategoria) VALUES ('Otros')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('','Cristales','','','')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('','Monturas', '','','')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('','Lentes de Contactos', '','','')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('','Lentes de Sol', '','','')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('','Accesorios', '','','')
+INSERT INTO TCategorias (NombreCategoria) VALUES ('','Otros', '','','')
 GO
 
 ---DATOAS PARA LA TABLA TSubCategoria
