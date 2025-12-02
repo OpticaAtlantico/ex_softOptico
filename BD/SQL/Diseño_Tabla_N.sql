@@ -85,17 +85,17 @@ CREATE TABLE TCargoEmpleado (
 );
 GO
 
----- Tabla: TCategorias
----- Propósito: clasificar productos en categorías principales
-CREATE TABLE TCategorias (
-    CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
-    Codigo VARCHAR(15) UNIQUE,
-    NombreCategoria NVARCHAR(50) NOT NULL UNIQUE,
-    TipoProducto1 INT,
-    TipoProducto2 INT,
-    TipoProducto3 INT
-);
-GO
+------ Tabla: TCategorias
+------ Propósito: clasificar productos en categorías principales
+--CREATE TABLE TCategorias (
+--    CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
+--    Codigo VARCHAR(15) UNIQUE,
+--    NombreCategoria NVARCHAR(50) NOT NULL UNIQUE,
+--    TipoProducto1 INT,
+--    TipoProducto2 INT,
+--    TipoProducto3 INT
+--);
+--GO
 
 ---- Tabla: TTipoProductos
 ---- Propósito: definir tipos de producto y sus propiedades (ej. Montura, Cristal)
@@ -105,13 +105,13 @@ CREATE TABLE TTipoProductos (
     Descripcion NVARCHAR(50) NOT NULL UNIQUE,
     TipoInventario INT NOT NULL,
     UnidadVenta INT NOT NULL,
-    ConExistencia BIT DEFAULT 1,
-    SinExistenciaVenta BIT DEFAULT 1,
-    RestringirArticulo BIT DEFAULT 1,
-    ImprimirPrecio BIT DEFAULT 1,
-    Exento BIT DEFAULT 1,
-    TipoTasa INT,
-    FactorMulti BIT DEFAULT 1,
+    ConExistencia BIT DEFAULT 0,
+    SinExistenciaVenta BIT DEFAULT 0,
+    RestringirArticulo BIT DEFAULT 0,
+    ImprimirPrecio BIT DEFAULT 0,
+    ConExento BIT DEFAULT 1,
+    alicuotaId INT,
+    FactorMulti BIT DEFAULT 0,
     FactorMultiValue INT,
     FactorMultiTipo BIT,
     CategoriaID INT NOT NULL,
@@ -119,15 +119,37 @@ CREATE TABLE TTipoProductos (
 );
 GO
 
----- Tabla: TSubCategorias
----- Propósito: subclasificación de `TCategorias` para más granularidad de productos
-CREATE TABLE TSubCategorias (
-    SubCategoriaID INT IDENTITY(1,1) PRIMARY KEY,
-    CategoriaID INT NOT NULL,
-    NombreSubCategoria NVARCHAR(50) NOT NULL,
-    CONSTRAINT FK_TSubCategorias_TCategorias FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
+---- Tabla: TGrupo
+---- Propósito: clasificar productos en categorías principales
+CREATE TABLE TGrupo (
+    GrupoID INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo VARCHAR(15) UNIQUE,
+    Descripcion NVARCHAR(50) NOT NULL UNIQUE,
+    TipoProducto1 INT,
+    TipoProducto2 INT,
+    TipoProducto3 INT
 );
 GO
+
+---- Tabla: TMarca
+---- Propósito: clasificar productos en categorías principales
+CREATE TABLE TMarca (
+    MarcaID INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo VARCHAR(15) UNIQUE,
+    Descripcion NVARCHAR(50) NOT NULL UNIQUE,
+    FactorMulti DECIMAL(5,2)
+);
+GO
+
+------ Tabla: TSubCategorias
+------ Propósito: subclasificación de `TCategorias` para más granularidad de productos
+--CREATE TABLE TSubCategorias (
+--    SubCategoriaID INT IDENTITY(1,1) PRIMARY KEY,
+--    CategoriaID INT NOT NULL,
+--    NombreSubCategoria NVARCHAR(50) NOT NULL,
+--    CONSTRAINT FK_TSubCategorias_TCategorias FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
+--);
+--GO
 
 ---- Tabla: TUbicaciones
 ---- Propósito: almacenes/sucursales/puntos de venta (multi-ubicación)
