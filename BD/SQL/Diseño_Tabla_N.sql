@@ -86,16 +86,12 @@ CREATE TABLE TCargoEmpleado (
 GO
 
 ------ Tabla: TCategorias
------- Propósito: clasificar productos en categorías principales
---CREATE TABLE TCategorias (
---    CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
---    Codigo VARCHAR(15) UNIQUE,
---    NombreCategoria NVARCHAR(50) NOT NULL UNIQUE,
---    TipoProducto1 INT,
---    TipoProducto2 INT,
---    TipoProducto3 INT
---);
---GO
+------ Propósito: clasificar productos en categorías principales ""
+CREATE TABLE TCategorias (
+    CategoriaID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(80) NOT NULL
+);
+GO
 
 ---- Tabla: TTipoProductos
 ---- Propósito: definir tipos de producto y sus propiedades (ej. Montura, Cristal)
@@ -140,16 +136,6 @@ CREATE TABLE TMarca (
     FactorMulti DECIMAL(5,2)
 );
 GO
-
------- Tabla: TSubCategorias
------- Propósito: subclasificación de `TCategorias` para más granularidad de productos
---CREATE TABLE TSubCategorias (
---    SubCategoriaID INT IDENTITY(1,1) PRIMARY KEY,
---    CategoriaID INT NOT NULL,
---    NombreSubCategoria NVARCHAR(50) NOT NULL,
---    CONSTRAINT FK_TSubCategorias_TCategorias FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID)
---);
---GO
 
 ---- Tabla: TUbicaciones
 ---- Propósito: almacenes/sucursales/puntos de venta (multi-ubicación)
@@ -215,21 +201,87 @@ CREATE TABLE TProveedor (
 );
 GO
 
+---- Tabla: TColor
+---- Propósito: Almacena los tipos de colores de las monturas
+CREATE TABLE TColor (
+    ColorID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(30) NOT NULL UNIQUE
+);
+GO
+
+---- Tabla: TMaterial
+---- Propósito: Almacena los tipos de materiales de las monturas
+CREATE TABLE TMaterial (
+    MaterialID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
+---- Tabla: TTipoVision
+---- Propósito: Almacena los tipos de vision de las monturas
+CREATE TABLE TTipoVision (
+    TipoVisionID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion NVARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
 ---- Tabla: TProductos
 ---- Propósito: catálogo maestro de productos (SKU / código y categorías)
 CREATE TABLE TProductos (
     ProductoID INT IDENTITY(1,1) PRIMARY KEY,
     CodigoProducto NVARCHAR(50) NOT NULL UNIQUE,
+    TipoProductoID INT NOT NULL, -- RELACIONADO CON LA TABLA TTipoProducto en TipoProductoID
+    GrupoID INT NOT NULL, --Relacionado con la tabla TGrupo en GrupoID
+    TipoVisionID INT NOT NULL, --Relacionado con la tabla TTipoVision por TipoVisionID
+    MarcaID INT, --Relacionado con la tabla TMarca por TMarcaID
+    Modelo NVARCHAR(50), 
+    ColorID INT, --Relacionado con la tabla TColor por ColorID
+    MaterialID INT NOT NULL, --Relacionado a la tabla TMaterial por el MaterialID
     Descripcion NVARCHAR(255) NULL,
-    CategoriaID INT NOT NULL,
-    SubCategoriaID INT NOT NULL,
-    Material INT NOT NULL,
-    Color INT NOT NULL,
     Foto NVARCHAR(MAX) NULL,
     Activo BIT NOT NULL DEFAULT 1,
     RequiereInventario BIT NOT NULL DEFAULT 1,
-    CONSTRAINT FK_TProductos_TCategorias FOREIGN KEY (CategoriaID) REFERENCES TCategorias(CategoriaID),
-    CONSTRAINT FK_TProductos_TSubCategorias FOREIGN KEY (SubCategoriaID) REFERENCES TSubCategorias(SubCategoriaID)
+    CONSTRAINT FK_TProductos_TTipoProductoID FOREIGN KEY (TipoProductoID) REFERENCES TTipoProductos(TipoProductoID),
+    CONSTRAINT FK_TProductos_TGrupoID FOREIGN KEY (GrupoID) REFERENCES TGrupo(GrupoID),
+    CONSTRAINT FK_TProductos_TTipoVisionID FOREIGN KEY (TipoVisionID) REFERENCES TTipoVision(TipoVisionID),
+    CONSTRAINT FK_TProductos_TMarcaID FOREIGN KEY (MarcaID) REFERENCES TMarca(MarcaID),
+    CONSTRAINT FK_TProductos_TColorID FOREIGN KEY (ColorID) REFERENCES TColor(ColorID),
+    CONSTRAINT FK_TProductos_TMaterialID FOREIGN KEY (MaterialID) REFERENCES TMaterial(MaterialID)
+);
+GO
+
+---- Tabla: TMedidasMonturas
+---- Propósito: Almacena las medidas de las monturas 
+CREATE TABLE TMedidasMonturas  (
+    MedidasMonturasID INT IDENTITY(1,1) PRIMARY KEY,
+    ProductoID INT NOT NULL, --Relacionado con la tabla TProductos por el ProductoID
+    Horizontal DECIMAL(2,2) NULL,
+    Vertical DECIMAL(2,2) NULL,
+    Maxima DECIMAL(2,2) NULL,
+    Puente DECIMAL(2,2) NULL,
+    Observacion NVARCHAR(MAX) NULL,
+    CONSTRAINT FK_TMedidasMonturas_TProductos FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
+);
+GO
+
+---- Tabla: TMedidasCristales
+---- Propósito: Almacena las medidas de los Cristales "Rango de validación para cristales" 
+CREATE TABLE TMedidasCristales  (
+    MedidasCristalesID INT IDENTITY(1,1) PRIMARY KEY,
+    ProductoID INT NOT NULL, --Relacionado con la tabla TProductos por el ProductoID
+    EsferaMax DECIMAL(2,2) NULL,
+    EsferaMin DECIMAL(2,2) NULL,
+    CilindroMax DECIMAL(2,2) NULL,
+    CilindroMin DECIMAL(2,2) NULL,
+    EjeMax DECIMAL(2,2) NULL,
+    EjeMin DECIMAL(2,2) NULL,
+    AdicionMax DECIMAL(2,2) NULL,
+    AdicionMin DECIMAL(2,2) NULL,
+    AlturaMax DECIMAL(2,2) NULL,
+    AlturaMin DECIMAL(2,2) NULL,
+    Diametro DECIMAL(2,2) NULL,
+    Observacion NVARCHAR(MAX) NULL,
+    CONSTRAINT FK_TMedidasCristales_TProductos FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID)
 );
 GO
 
@@ -246,6 +298,17 @@ CREATE TABLE TProductoProveedor (
     CONSTRAINT UQ_TProductoProveedor_ProductoProveedor UNIQUE (ProductoID, ProveedorID),
     CONSTRAINT FK_TProductoProveedor_TProductos FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID),
     CONSTRAINT FK_TProductoProveedor_TProveedor FOREIGN KEY (ProveedorID) REFERENCES TProveedor(ProveedorID)
+);
+GO
+
+---- Tabla: TTipoMoneda
+---- Propósito: Almacena los tipo de monedas en sistema
+CREATE TABLE TTipoMoneda (
+    TipoMonedaID INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo VARCHAR(3) NOT NULL, 
+    Descripcion NVARCHAR(50) NOT NULL,
+    TasaCosto DECIMAL(18,2) NOT NULL,
+    TasaVenta DECIMAL(18,2) NOT NULL    
 );
 GO
 
@@ -314,6 +377,10 @@ GO
 CREATE TABLE TPrecios (
     PrecioID INT IDENTITY(1,1) PRIMARY KEY,
     ProductoID INT NOT NULL,
+    Dolar BIT DEFAULT 1,
+
+
+
     UbicacionID INT NOT NULL,
     PVenta DECIMAL(18,2) NOT NULL DEFAULT 0,
     PCosto DECIMAL(18,2) NOT NULL DEFAULT 0,
