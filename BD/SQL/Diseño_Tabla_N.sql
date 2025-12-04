@@ -16,7 +16,7 @@ GO
 
 ---- Tabla: TMenuOpciones
 ---- Propósito: almacenar controles del menú principal y permitir activar/ocultar botones según permisos
-CREATE TABLE TMenuOpciones (
+CREATE TABLE TMenuOpciones (    
     id INT IDENTITY(1,1) PRIMARY KEY,
     TextoBoton NVARCHAR(50) NOT NULL,
     IconUnicode NVARCHAR(10),
