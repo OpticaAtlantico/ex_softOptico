@@ -378,22 +378,18 @@ CREATE TABLE TPrecios (
     PrecioID INT IDENTITY(1,1) PRIMARY KEY,
     ProductoID INT NOT NULL,
     Dolar BIT DEFAULT 1,
-
-
-
     UbicacionID INT NOT NULL,
-    PVenta DECIMAL(18,2) NOT NULL DEFAULT 0,
-    PCosto DECIMAL(18,2) NOT NULL DEFAULT 0,
-    Promocion DECIMAL(18,2) NOT NULL DEFAULT 0,
-    Descuento DECIMAL(18,2) NOT NULL DEFAULT 0,
+    PrecioVentaDol1 DECIMAL(18,2) NOT NULL DEFAULT 0,
+    PrecioVentaDol2 DECIMAL(18,2) NOT NULL DEFAULT 0,
+    PrecioVentaBol1 DECIMAL(18,2) NOT NULL DEFAULT 0,
+    PrecioVentaBol2 DECIMAL(18,2) NOT NULL DEFAULT 0,
+
+    PrecioUltimoCosto DECIMAL(18,2) NOT NULL DEFAULT 0,
+    FactorMulti DECIMAL(18,2) NULL,
     IvaVentaID INT NOT NULL,
-    IvaCompraID INT NOT NULL,
-    Tipo NVARCHAR(3) NOT NULL DEFAULT 'Ex',
     CONSTRAINT UQ_TPrecios_ProductoUbicacion UNIQUE (ProductoID, UbicacionID),
     CONSTRAINT FK_TPrecios_TProductos FOREIGN KEY (ProductoID) REFERENCES TProductos(ProductoID),
     CONSTRAINT FK_TPrecios_TUbicaciones FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID),
-    CONSTRAINT FK_TPrecios_TAlicuota_VENTA FOREIGN KEY (IvaVentaID) REFERENCES TAlicuota(AlicuotaID),
-    CONSTRAINT FK_TPrecios_TAlicuota_COMPRA FOREIGN KEY (IvaCompraID) REFERENCES TAlicuota(AlicuotaID)
 );
 GO
 
