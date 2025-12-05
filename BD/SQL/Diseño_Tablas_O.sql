@@ -1,6 +1,4 @@
--- Created by GitHub Copilot in SSMS - review carefully before executing
--- Actualizado el dia: 23/11/2025
--- Se incluyo
+-- Actualizado el dia: 04/12/2025
 
 IF NOT EXISTS (
     SELECT * FROM sys.databases 
@@ -294,7 +292,6 @@ CREATE TABLE TLogin (
     CONSTRAINT FK_TLogin_TRol FOREIGN KEY (RolID) REFERENCES TRol(RolID),
     CONSTRAINT FK_TLogin_TUbicaciones FOREIGN KEY (UbicacionID) REFERENCES TUbicaciones(UbicacionID)
 );
-
 
 ---- Tabla: TTipoMoneda
 ---- Propósito: Almacena los tipo de monedas en sistema

@@ -1,6 +1,4 @@
-﻿-- Created by GitHub Copilot in SSMS - review carefully before executing
--- Actualizado el dia: 23/11/2025
--- Se incluyo
+﻿-- Actualizado el dia: 23/11/2025
 
 IF NOT EXISTS (
     SELECT * FROM sys.databases 
