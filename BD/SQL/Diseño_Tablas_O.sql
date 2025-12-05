@@ -17,6 +17,7 @@ GO
 -- SON UTILIZADAS PARA MOSTRAR LAS OPCIONES EN UN COMBOBOX POR EJEMPLO, O SOLO 
 -- MUESTRAN INFORMACION SIN ESTAR RELACIONADAS CON OTRAS, EJEMPLO: TABLA TGenero
 -- Y COMO DATOS ALMACENA "HOMBRE O MASCULINO, MUJER O FEMENINO, NIÑO O NIÑA"
+-- Nota: Son tablas que no alimentadas desde la entrada de datos del sistema si no estandares
 ---------------------------------------------------------------------------
 
 -- TABLA: TAlicuota
@@ -85,12 +86,7 @@ CREATE TABLE TTipoVisionCristal (
     descripcion NVARCHAR(50) NOT NULL UNIQUE
 );
 
--- TABLA: TEstadoOrden
---  Almacena los tipo de estado de las ordenes por ejemplo: (Apartado, Pagado, etc.)
-CREATE TABLE TZona (
-    idZona INT IDENTITY(1,1) PRIMARY KEY,
-    descripcion NVARCHAR(150) NOT NULL
-);
+
 
 ---------------------------------------------------------------------------
 -- TABLAS UNICAS: 
@@ -98,6 +94,7 @@ CREATE TABLE TZona (
 -- DE MAYOR FUERZA POR EJEMPLO: TABLA TRol
 -- Y COMO DATOS ALMACENA "ADMINISTRADOR, GERENTE, VENDEDOR ETC." Y SON LLAMADAS DESDE OTRA TABLA
 -- RELECIONADAS POR EL ID
+-- Nota: Son tablas que son alimentadas desde la entrada de datos del sistema 
 ---------------------------------------------------------------------------
 
 -- TABLA: TCargos
@@ -138,12 +135,30 @@ CREATE TABLE TMarca (
 
 ---------------------------------------------------------------
 
----- Tabla: TUbicaciones
----- Propósito: almacenes/sucursales/puntos de venta (multi-ubicación)
+---- Tabla: TCompania
+---- Propósito: Es el nombre de la empresa "Almacenes Central"
 CREATE TABLE TCompania (
     idCompania INT IDENTITY(1,1) PRIMARY KEY,
     codigo INT NOT NULL UNIQUE,
-    
+    razonSocial NVARCHAR(250) NOT NULL,
+    rif NVARCHAR(50) NULL,
+    nit NVARCHAR(50) NULL,
+    telefono NVARCHAR(120) NULL,
+    fax NVARCHAR(30) NULL,
+    director1 NVARCHAR(250) NULL,
+    director2 NVARCHAR(250) NULL,
+    director3 NVARCHAR(250) NULL,
+    direccion NVARCHAR(MAX) NULL,
+    cierreFiscal NVARCHAR(5) NOT NULL,
+    tipoEmpresa NCHAR(1) NOT NULL, -- "Natural, Jurídico, Gobierno"
+    predeterminada BIT NOT NULL -- "Si, No"
+);
+
+-- TABLA: TEstadoOrden
+--  Almacena los tipo de estado de las ordenes por ejemplo: (Apartado, Pagado, etc.)
+CREATE TABLE TZona (
+    idZona INT IDENTITY(1,1) PRIMARY KEY,
+    descripcion NVARCHAR(150) NOT NULL
 );
 
 
@@ -156,12 +171,22 @@ CREATE TABLE TCompania (
 -- RELECIONADAS POR EL ID CON LAS TABLAS "TEMPLEADOS, TPRODUCTOS"
 ---------------------------------------------------------------------------
 
+-- TABLA: TCiudad
+--  Almacena las diferentes ciudades del la zona
+CREATE TABLE TCiudad (
+    idCiudad INT IDENTITY(1,1) PRIMARY KEY,
+    descripcion NVARCHAR(150) NOT NULL,
+    idZona INT NOT NULL, -- Relacionada con la tabla TZona por el idZona
+    CONSTRAINT FK_TCiudad_TZona FOREIGN KEY (idZona) REFERENCES TZona(idZona)
+);
+
 ---- Tabla: TSucursal
 ---- Propósito: sucursales
 CREATE TABLE TSucursal (
     idSucursal INT IDENTITY(1,1) PRIMARY KEY,
     codigo INT NOT NULL UNIQUE,
     descripcion NVARCHAR(100) NOT NULL,
+    
     tipo NVARCHAR(50) NOT NULL,
     direccion NVARCHAR(255) NOT NULL,
     idZona INT NOT NULL, -- Relacionado con la tabla TZona por idZona
@@ -170,7 +195,9 @@ CREATE TABLE TSucursal (
     email NVARCHAR(50) NOT NULL,
     activa BIT NOT NULL DEFAULT 1,
     fechaRegistro DATETIME DEFAULT GETDATE(),
-    idCompania INT, -- Relacionado con la tabla TCompania por el idCompania
+    idCompania INT NOT NULL, -- Relacionado con la tabla TCompania por el idCompania
+    CONSTRAINT FK_TSucursal_TCompania FOREIGN KEY (idCompania) REFERENCES TCompania(idCompania),
+    CONSTRAINT FK_TSucursal_TZona FOREIGN KEY (idZona) REFERENCES TZona(idZona)
 );
 
 ------ AREA DE PRODUCTO E INVENTARIO -------------
