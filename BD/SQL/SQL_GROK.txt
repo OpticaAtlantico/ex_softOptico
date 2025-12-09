@@ -1,6 +1,6 @@
 -- =============================================
--- BASE DE DATOS OPTIVENDDB - VERSI覰 MULTI-EMPRESA COMPLETA
--- Sistema de Gesti髇 觩tica y Oftalmol骻ica para Ventas de Productos 觩ticos
+-- BASE DE DATOS OPTIVENDDB - VERSI脫N MULTI-EMPRESA COMPLETA
+-- Sistema de Gesti贸n 脫ptica y Oftalmol贸gica para Ventas de Productos 脫pticos
 -- Adaptado para SQL Server 2022, con Robustez y Funcionalidad Total
 -- =============================================
 CREATE DATABASE OptivenDB;
@@ -45,8 +45,8 @@ ALTER TABLE Sucursales ADD CONSTRAINT FK_Sucursales_Empresas FOREIGN KEY (Empres
 GO
 
 -- Datos iniciales
-INSERT INTO Empresas (Codigo, Nombre) VALUES ('EMP001', '觩tica Principal');
-INSERT INTO Sucursales (EmpresaID, Codigo, Nombre, EsPrincipal, Direccion) VALUES (1, 'SP001', 'Sede Principal', 1, 'Direcci髇 Central');
+INSERT INTO Empresas (Codigo, Nombre) VALUES ('EMP001', '脫ptica Principal');
+INSERT INTO Sucursales (EmpresaID, Codigo, Nombre, EsPrincipal, Direccion) VALUES (1, 'SP001', 'Sede Principal', 1, 'Direcci贸n Central');
 GO
 
 -- =============================================
@@ -353,7 +353,7 @@ GO
 ALTER TABLE Productos ADD CONSTRAINT FK_Productos_TiposProducto FOREIGN KEY (TipoProductoID) REFERENCES TiposProducto(TipoProductoID);
 ALTER TABLE Productos ADD CONSTRAINT FK_Productos_Grupos FOREIGN KEY (GrupoID) REFERENCES Grupos(GrupoID);
 ALTER TABLE Productos ADD CONSTRAINT FK_Productos_Marcas FOREIGN KEY (MarcaID) REFERENCES Marcas(MarcaID);
--- FK_Proveedores se a馻de despu閟
+-- FK_Proveedores se a帽ade despu茅s
 GO
 
 CREATE TABLE Lotes (
@@ -454,7 +454,7 @@ GO
 ALTER TABLE Proveedores ADD CONSTRAINT FK_Proveedores_ConceptosEgreso FOREIGN KEY (ConceptoEgresoID) REFERENCES ConceptosEgreso(ConceptoEgresoID);
 GO
 
--- A馻dir FK pendiente en Productos
+-- A帽adir FK pendiente en Productos
 ALTER TABLE Productos ADD CONSTRAINT FK_Productos_Proveedores FOREIGN KEY (ProveedorID) REFERENCES Proveedores(ProveedorID);
 GO
 
@@ -537,7 +537,7 @@ ALTER TABLE DetalleRecepcionMercancia ADD CONSTRAINT FK_DetalleRecepcionMercanci
 ALTER TABLE DetalleRecepcionMercancia ADD CONSTRAINT FK_DetalleRecepcionMercancia_Productos FOREIGN KEY (ProductoID) REFERENCES Productos(ProductoID);
 GO
 
--- Trigger para entrada de inventario al confirmar recepci髇
+-- Trigger para entrada de inventario al confirmar recepci贸n
 CREATE TRIGGER TR_RecepcionMercancia_Confirm
 ON RecepcionMercancia
 AFTER UPDATE
@@ -691,7 +691,7 @@ END;
 GO
 
 -- =============================================
--- TABLAS DE VENTAS Y FACTURACI覰
+-- TABLAS DE VENTAS Y FACTURACI脫N
 -- =============================================
 CREATE TABLE Presupuestos (
     PresupuestoID INT IDENTITY(1,1) PRIMARY KEY,
@@ -1210,7 +1210,7 @@ ALTER TABLE DetalleCierreCaja ADD CONSTRAINT FK_DetalleCierreCaja_CierreCaja FOR
 GO
 
 -- =============================================
--- TABLAS GENERALES Y CONFIGURACI覰
+-- TABLAS GENERALES Y CONFIGURACI脫N
 -- =============================================
 CREATE TABLE ConceptosGasto (
     ConceptoGastoID INT IDENTITY(1,1) PRIMARY KEY,
@@ -1322,13 +1322,13 @@ GO
 ALTER TABLE ConfiguracionGlobal ADD CONSTRAINT FK_ConfiguracionGlobal_Sucursales FOREIGN KEY (SucursalID) REFERENCES Sucursales(SucursalID);
 GO
 
--- Configuraci髇 por defecto
+-- Configuraci贸n por defecto
 INSERT INTO ConfiguracionGlobal (ConfiguracionID, NombreEmpresa, PorcentajeImpuesto, PorcentajeIGTF)
-VALUES (1, 'OPTIVEN - Ventas 觩ticas Profesionales', 16, 3);
+VALUES (1, 'OPTIVEN - Ventas 脫pticas Profesionales', 16, 3);
 GO
 
 -- =============================================
--- 蚇DICES PARA RENDIMIENTO EN VENTAS Y REPORTES
+-- 脥NDICES PARA RENDIMIENTO EN VENTAS Y REPORTES
 -- =============================================
 CREATE INDEX IX_Clientes_Cedula ON Clientes(Cedula);
 CREATE INDEX IX_Clientes_Nombre ON Clientes(Nombre, Apellido);
@@ -1346,7 +1346,7 @@ CREATE INDEX IX_Pagos_Fecha ON Pagos(FechaPago);
 GO
 
 -- =============================================
--- VISTAS PARA REPORTES ESTAD蚐TICOS Y AUDITOR虯S
+-- VISTAS PARA REPORTES ESTAD脥STICOS Y AUDITOR脥AS
 -- =============================================
 CREATE VIEW VW_VentasGenerales AS
 SELECT f.FacturaID, f.NumeroFactura, c.Nombre + ' ' + c.Apellido AS Cliente, e.Nombre + ' ' + e.Apellido AS Vendedor,
@@ -1384,9 +1384,9 @@ INSERT INTO TiposProducto (Codigo, Descripcion, TipoInventario) VALUES
 ('S', 'Lentes de Sol', 'UNIDAD'),
 ('C', 'Cristales', 'PAR'),
 ('L', 'Lentes de Contacto', 'UNIDAD'),
-('Q', 'L韖uidos', 'UNIDAD');
+('Q', 'L铆quidos', 'UNIDAD');
 GO
 
 -- =============================================
--- FIN DEL SCRIPT - isto para Ventas 觩ticas Exitosas!
+-- FIN DEL SCRIPT - 隆Listo para Ventas 脫pticas Exitosas!
 -- =============================================
